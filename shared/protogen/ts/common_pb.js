@@ -2,13 +2,13 @@
 // @generated from file common.proto (syntax proto2)
 /* eslint-disable */
 
-import { fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv2";
+import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
 
 /**
  * Describes the file common.proto.
  */
 export const file_common = /*@__PURE__*/
-  fileDesc("Cgxjb21tb24ucHJvdG8iSwoLVGVzdE1lc3NhZ2USDAoEdGV4dBgBIAIoCRIOCgZudW1iZXIYAiACKAUSDQoFYXJyYXkYAyADKAkSDwoHYm9vbGVhbhgEIAIoCEIXWhVwYW5lbGl1bS9wcm90by1nZW4tZ28");
+  fileDesc("Cgxjb21tb24ucHJvdG8iSwoLVGVzdE1lc3NhZ2USDAoEdGV4dBgBIAIoCRIOCgZudW1iZXIYAiACKAUSDQoFYXJyYXkYAyADKAkSDwoHYm9vbGVhbhgEIAIoCDI3CgtUZXN0U2VydmljZRIoCgpUZXN0TWV0aG9kEgwuVGVzdE1lc3NhZ2UaDC5UZXN0TWVzc2FnZUIXWhVwYW5lbGl1bS9wcm90by1nZW4tZ28");
 
 /**
  * Describes the message TestMessage.
@@ -16,4 +16,10 @@ export const file_common = /*@__PURE__*/
  */
 export const TestMessageSchema = /*@__PURE__*/
   messageDesc(file_common, 0);
+
+/**
+ * @generated from service TestService
+ */
+export const TestService = /*@__PURE__*/
+  serviceDesc(file_common, 0);
 

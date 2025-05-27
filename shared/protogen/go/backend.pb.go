@@ -24,7 +24,7 @@ var File_backend_proto protoreflect.FileDescriptor
 
 const file_backend_proto_rawDesc = "" +
 	"\n" +
-	"\rbackend.protoB\x17Z\x15panelium/proto-gen-go"
+	"\rbackend.proto\x1a\fcommon.protoB\x17Z\x15panelium/proto-gen-go"
 
 var file_backend_proto_goTypes = []any{}
 var file_backend_proto_depIdxs = []int32{
@@ -40,6 +40,7 @@ func file_backend_proto_init() {
 	if File_backend_proto != nil {
 		return
 	}
+	file_common_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

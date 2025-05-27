@@ -3,10 +3,11 @@
 /* eslint-disable */
 
 import { fileDesc } from "@bufbuild/protobuf/codegenv2";
+import { file_common } from "./common_pb";
 
 /**
  * Describes the file backend.proto.
  */
 export const file_backend = /*@__PURE__*/
-  fileDesc("Cg1iYWNrZW5kLnByb3RvQhdaFXBhbmVsaXVtL3Byb3RvLWdlbi1nbw");
+  fileDesc("Cg1iYWNrZW5kLnByb3RvQhdaFXBhbmVsaXVtL3Byb3RvLWdlbi1nbw", [file_common]);
 

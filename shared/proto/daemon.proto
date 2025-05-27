@@ -1,2 +1,3 @@
 option go_package = "panelium/proto-gen-go";
 
+import "common.proto";

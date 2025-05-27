@@ -98,7 +98,10 @@ const file_common_proto_rawDesc = "" +
 	"\x04text\x18\x01 \x02(\tR\x04text\x12\x16\n" +
 	"\x06number\x18\x02 \x02(\x05R\x06number\x12\x14\n" +
 	"\x05array\x18\x03 \x03(\tR\x05array\x12\x18\n" +
-	"\aboolean\x18\x04 \x02(\bR\abooleanB\x17Z\x15panelium/proto-gen-go"
+	"\aboolean\x18\x04 \x02(\bR\aboolean27\n" +
+	"\vTestService\x12(\n" +
+	"\n" +
+	"TestMethod\x12\f.TestMessage\x1a\f.TestMessageB\x17Z\x15panelium/proto-gen-go"
 
 var (
 	file_common_proto_rawDescOnce sync.Once
@@ -117,8 +120,10 @@ var file_common_proto_goTypes = []any{
 	(*TestMessage)(nil), // 0: TestMessage
 }
 var file_common_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
+	0, // 0: TestService.TestMethod:input_type -> TestMessage
+	0, // 1: TestService.TestMethod:output_type -> TestMessage
+	1, // [1:2] is the sub-list for method output_type
+	0, // [0:1] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -137,7 +142,7 @@ func file_common_proto_init() {
 			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_common_proto_goTypes,
 		DependencyIndexes: file_common_proto_depIdxs,

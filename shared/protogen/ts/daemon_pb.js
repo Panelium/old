@@ -3,10 +3,11 @@
 /* eslint-disable */
 
 import { fileDesc } from "@bufbuild/protobuf/codegenv2";
+import { file_common } from "./common_pb";
 
 /**
  * Describes the file daemon.proto.
  */
 export const file_daemon = /*@__PURE__*/
-  fileDesc("CgxkYWVtb24ucHJvdG9CF1oVcGFuZWxpdW0vcHJvdG8tZ2VuLWdv");
+  fileDesc("CgxkYWVtb24ucHJvdG9CF1oVcGFuZWxpdW0vcHJvdG8tZ2VuLWdv", [file_common]);
 

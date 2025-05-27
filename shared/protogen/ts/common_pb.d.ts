@@ -2,7 +2,7 @@
 // @generated from file common.proto (syntax proto2)
 /* eslint-disable */
 
-import type { GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2";
+import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
@@ -40,4 +40,18 @@ export declare type TestMessage = Message<"TestMessage"> & {
  * Use `create(TestMessageSchema)` to create a new message.
  */
 export declare const TestMessageSchema: GenMessage<TestMessage>;
+
+/**
+ * @generated from service TestService
+ */
+export declare const TestService: GenService<{
+  /**
+   * @generated from rpc TestService.TestMethod
+   */
+  testMethod: {
+    methodKind: "unary";
+    input: typeof TestMessageSchema;
+    output: typeof TestMessageSchema;
+  },
+}>;
 

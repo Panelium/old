@@ -6,3 +6,7 @@ message TestMessage {
   repeated string array = 3;
   required bool boolean = 4;
 }
+
+service TestService {
+  rpc TestMethod(TestMessage) returns (TestMessage);
+}
