@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: main.proto
+// source: common.proto
 
 package proto_gen_go
 
@@ -33,7 +33,7 @@ type TestMessage struct {
 
 func (x *TestMessage) Reset() {
 	*x = TestMessage{}
-	mi := &file_main_proto_msgTypes[0]
+	mi := &file_common_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -45,7 +45,7 @@ func (x *TestMessage) String() string {
 func (*TestMessage) ProtoMessage() {}
 
 func (x *TestMessage) ProtoReflect() protoreflect.Message {
-	mi := &file_main_proto_msgTypes[0]
+	mi := &file_common_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -58,7 +58,7 @@ func (x *TestMessage) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TestMessage.ProtoReflect.Descriptor instead.
 func (*TestMessage) Descriptor() ([]byte, []int) {
-	return file_main_proto_rawDescGZIP(), []int{0}
+	return file_common_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *TestMessage) GetText() string {
@@ -89,12 +89,11 @@ func (x *TestMessage) GetBoolean() bool {
 	return false
 }
 
-var File_main_proto protoreflect.FileDescriptor
+var File_common_proto protoreflect.FileDescriptor
 
-const file_main_proto_rawDesc = "" +
+const file_common_proto_rawDesc = "" +
 	"\n" +
-	"\n" +
-	"main.proto\"i\n" +
+	"\fcommon.proto\"i\n" +
 	"\vTestMessage\x12\x12\n" +
 	"\x04text\x18\x01 \x02(\tR\x04text\x12\x16\n" +
 	"\x06number\x18\x02 \x02(\x05R\x06number\x12\x14\n" +
@@ -102,22 +101,22 @@ const file_main_proto_rawDesc = "" +
 	"\aboolean\x18\x04 \x02(\bR\abooleanB\x17Z\x15panelium/proto-gen-go"
 
 var (
-	file_main_proto_rawDescOnce sync.Once
-	file_main_proto_rawDescData []byte
+	file_common_proto_rawDescOnce sync.Once
+	file_common_proto_rawDescData []byte
 )
 
-func file_main_proto_rawDescGZIP() []byte {
-	file_main_proto_rawDescOnce.Do(func() {
-		file_main_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_main_proto_rawDesc), len(file_main_proto_rawDesc)))
+func file_common_proto_rawDescGZIP() []byte {
+	file_common_proto_rawDescOnce.Do(func() {
+		file_common_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_common_proto_rawDesc), len(file_common_proto_rawDesc)))
 	})
-	return file_main_proto_rawDescData
+	return file_common_proto_rawDescData
 }
 
-var file_main_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_main_proto_goTypes = []any{
+var file_common_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_common_proto_goTypes = []any{
 	(*TestMessage)(nil), // 0: TestMessage
 }
-var file_main_proto_depIdxs = []int32{
+var file_common_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
 	0, // [0:0] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -125,26 +124,26 @@ var file_main_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_main_proto_init() }
-func file_main_proto_init() {
-	if File_main_proto != nil {
+func init() { file_common_proto_init() }
+func file_common_proto_init() {
+	if File_common_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_main_proto_rawDesc), len(file_main_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_common_proto_rawDesc), len(file_common_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_main_proto_goTypes,
-		DependencyIndexes: file_main_proto_depIdxs,
-		MessageInfos:      file_main_proto_msgTypes,
+		GoTypes:           file_common_proto_goTypes,
+		DependencyIndexes: file_common_proto_depIdxs,
+		MessageInfos:      file_common_proto_msgTypes,
 	}.Build()
-	File_main_proto = out.File
-	file_main_proto_goTypes = nil
-	file_main_proto_depIdxs = nil
+	File_common_proto = out.File
+	file_common_proto_goTypes = nil
+	file_common_proto_depIdxs = nil
 }

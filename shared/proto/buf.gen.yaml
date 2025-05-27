@@ -4,6 +4,10 @@ plugins:
     out: ../protogen/go
     opt:
       - paths=source_relative
+  - remote: buf.build/connectrpc/go:v1.18.1
+    out: ../protogen/go
+    opt:
+      - paths=source_relative
   - remote: buf.build/bufbuild/es:v2.5.0
     out: ../protogen/ts
 inputs:
