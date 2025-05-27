@@ -1,12 +1,4 @@
 {
   "workspace": ["./apps/*", "./shared/protogen/*"],
-  "tasks": {
-    "dev:dashboard": "cd ./apps/dashboard && deno task dev",
-    "dev:backend": "cd ./apps/backend && air",
-    "dev:daemon": "cd ./apps/daemon && air",
-
-    "gen": "deno task generate",
-    "generate": "cd ./shared/proto && buf generate"
-  },
   "nodeModulesDir": "auto"
 }
