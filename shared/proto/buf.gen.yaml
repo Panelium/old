@@ -8,6 +8,8 @@ plugins:
     out: ../protogen/go
     opt:
       - paths=source_relative
+  - local: protoc-gen-connect-openapi
+    out: ../protogen/openapi
   - remote: buf.build/bufbuild/es:v2.5.0
     out: ../protogen/ts
 inputs:

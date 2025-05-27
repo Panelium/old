@@ -1,0 +1,1 @@
+go install github.com/sudorandom/protoc-gen-connect-openapi@main
