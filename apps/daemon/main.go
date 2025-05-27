@@ -1,8 +1,6 @@
 package main
 
-import (
-	proto_gen_go "panelium/proto-gen-go"
-)
+import proto_gen_go "panelium/proto-gen-go"
 
 func main() {
 	test := proto_gen_go.TestMessage{}
