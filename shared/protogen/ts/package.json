@@ -1,0 +1,7 @@
+{
+  "name": "proto-gen-ts",
+  "type": "module",
+  "dependencies": {
+    "@bufbuild/protobuf": "^2.5.0"
+  }
+}

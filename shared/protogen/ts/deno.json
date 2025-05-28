@@ -1,7 +1,0 @@
-{
-  "name": "@panelium/proto-gen-ts",
-  "exports": "./main_pb.js",
-  "imports": {
-    "@bufbuild/protobuf": "npm:@bufbuild/protobuf@^2.5.0"
-  }
-}

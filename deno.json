@@ -1,4 +1,0 @@
-{
-  "workspace": ["./apps/*", "./shared/protogen/*"],
-  "nodeModulesDir": "auto"
-}

@@ -17,8 +17,13 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "allowImportingTsExtensions": true,
+    "paths": {
+      "@/*": ["./*"],
+      "@proto/*": ["../../shared/protogen/ts/*"],
+    }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "../../shared/protogen/ts/**/*.ts"],
   "exclude": ["node_modules"]
 }

@@ -1,5 +1,5 @@
 dev-dashboard:
-	cd ./apps/dashboard && deno task dev
+	npm run dev -w dashboard
 
 dev-backend:
 	cd ./apps/backend && air
