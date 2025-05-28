@@ -4,4 +4,5 @@ use (
 	./apps/backend
 	./apps/daemon
 	./shared/protogen/go
+	./shared/common/go
 )
