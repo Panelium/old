@@ -19,7 +19,6 @@ func (s *DaemonServer) TestMethod(
 ) (*connect.Response[proto_gen_go.TestMessage], error) {
 	log.Println("Request headers: ", req.Header())
 	res := connect.NewResponse(req.Msg)
-	res.Header().Set("Greet-Version", "v1")
 	return res, nil
 }
 
