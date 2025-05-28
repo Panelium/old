@@ -1,21 +1,35 @@
 package main
 
-import proto_gen_go "panelium/proto-gen-go"
+import (
+	"connectrpc.com/connect"
+	"context"
+	"golang.org/x/net/http2"
+	"golang.org/x/net/http2/h2c"
+	"log"
+	"net/http"
+	proto_gen_go "panelium/proto-gen-go"
+	"panelium/proto-gen-go/proto_gen_goconnect"
+)
+
+type DaemonServer struct{}
+
+func (s *DaemonServer) TestMethod(
+	ctx context.Context,
+	req *connect.Request[proto_gen_go.TestMessage],
+) (*connect.Response[proto_gen_go.TestMessage], error) {
+	log.Println("Request headers: ", req.Header())
+	res := connect.NewResponse(req.Msg)
+	res.Header().Set("Greet-Version", "v1")
+	return res, nil
+}
 
 func main() {
-	test := proto_gen_go.TestMessage{}
-
-	text := "Hello, World!"
-	test.Text = &text
-
-	number := int32(42)
-	test.Number = &number
-
-	array := []string{"item1", "item2", "item3"}
-	test.Array = array
-
-	boolean := true
-	test.Boolean = &boolean
-
-	println(test.String())
+	server := &DaemonServer{}
+	mux := http.NewServeMux()
+	path, handler := proto_gen_goconnect.NewTestServiceHandler(server)
+	mux.Handle(path, handler)
+	http.ListenAndServe(
+		"localhost:8080",
+		h2c.NewHandler(mux, &http2.Server{}),
+	)
 }
