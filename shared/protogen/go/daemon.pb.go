@@ -160,11 +160,13 @@ const file_daemon_proto_rawDesc = "" +
 	"\x16SERVER_STATUS_STOPPING\x10\x03\x12\x19\n" +
 	"\x15SERVER_STATUS_STOPPED\x10\x04\x12\x18\n" +
 	"\x14SERVER_STATUS_KILLED\x10\x05\x12\x19\n" +
-	"\x15SERVER_STATUS_ERRORED\x10\x062\xec\x01\n" +
+	"\x15SERVER_STATUS_ERRORED\x10\x062\xca\x02\n" +
 	"\rServerService\x12-\n" +
 	"\aConsole\x12\x0e.SimpleMessage\x1a\x0e.SimpleMessage(\x010\x01\x12$\n" +
 	"\n" +
-	"RunCommand\x12\x0e.SimpleMessage\x1a\x06.Empty\x12\"\n" +
+	"RunCommand\x12\x0e.SimpleMessage\x1a\x06.Empty\x12.\n" +
+	"\bTerminal\x12\x0e.SimpleMessage\x1a\x0e.SimpleMessage(\x010\x01\x12,\n" +
+	"\x12RunTerminalCommand\x12\x0e.SimpleMessage\x1a\x06.Empty\x12\"\n" +
 	"\tGetStatus\x12\x06.Empty\x1a\r.ServerStatus\x12\x17\n" +
 	"\x05Start\x12\x06.Empty\x1a\x06.Empty\x12\x19\n" +
 	"\aRestart\x12\x06.Empty\x1a\x06.Empty\x12\x16\n" +
@@ -192,26 +194,30 @@ var file_daemon_proto_goTypes = []any{
 	(*Empty)(nil),         // 3: Empty
 }
 var file_daemon_proto_depIdxs = []int32{
-	0, // 0: ServerStatus.status:type_name -> ServerStatusType
-	2, // 1: ServerService.Console:input_type -> SimpleMessage
-	2, // 2: ServerService.RunCommand:input_type -> SimpleMessage
-	3, // 3: ServerService.GetStatus:input_type -> Empty
-	3, // 4: ServerService.Start:input_type -> Empty
-	3, // 5: ServerService.Restart:input_type -> Empty
-	3, // 6: ServerService.Stop:input_type -> Empty
-	3, // 7: ServerService.Kill:input_type -> Empty
-	2, // 8: ServerService.Console:output_type -> SimpleMessage
-	3, // 9: ServerService.RunCommand:output_type -> Empty
-	1, // 10: ServerService.GetStatus:output_type -> ServerStatus
-	3, // 11: ServerService.Start:output_type -> Empty
-	3, // 12: ServerService.Restart:output_type -> Empty
-	3, // 13: ServerService.Stop:output_type -> Empty
-	3, // 14: ServerService.Kill:output_type -> Empty
-	8, // [8:15] is the sub-list for method output_type
-	1, // [1:8] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	0,  // 0: ServerStatus.status:type_name -> ServerStatusType
+	2,  // 1: ServerService.Console:input_type -> SimpleMessage
+	2,  // 2: ServerService.RunCommand:input_type -> SimpleMessage
+	2,  // 3: ServerService.Terminal:input_type -> SimpleMessage
+	2,  // 4: ServerService.RunTerminalCommand:input_type -> SimpleMessage
+	3,  // 5: ServerService.GetStatus:input_type -> Empty
+	3,  // 6: ServerService.Start:input_type -> Empty
+	3,  // 7: ServerService.Restart:input_type -> Empty
+	3,  // 8: ServerService.Stop:input_type -> Empty
+	3,  // 9: ServerService.Kill:input_type -> Empty
+	2,  // 10: ServerService.Console:output_type -> SimpleMessage
+	3,  // 11: ServerService.RunCommand:output_type -> Empty
+	2,  // 12: ServerService.Terminal:output_type -> SimpleMessage
+	3,  // 13: ServerService.RunTerminalCommand:output_type -> Empty
+	1,  // 14: ServerService.GetStatus:output_type -> ServerStatus
+	3,  // 15: ServerService.Start:output_type -> Empty
+	3,  // 16: ServerService.Restart:output_type -> Empty
+	3,  // 17: ServerService.Stop:output_type -> Empty
+	3,  // 18: ServerService.Kill:output_type -> Empty
+	10, // [10:19] is the sub-list for method output_type
+	1,  // [1:10] is the sub-list for method input_type
+	1,  // [1:1] is the sub-list for extension type_name
+	1,  // [1:1] is the sub-list for extension extendee
+	0,  // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_daemon_proto_init() }

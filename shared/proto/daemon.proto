@@ -3,9 +3,13 @@ option go_package = "panelium/proto-gen-go";
 import "common.proto";
 
 service ServerService {
-  // Console
+  // Console (process)
   rpc Console(stream SimpleMessage) returns (stream SimpleMessage);
   rpc RunCommand(SimpleMessage) returns (Empty);
+
+  // Terminal (system)
+  rpc Terminal(stream SimpleMessage) returns (stream SimpleMessage);
+  rpc RunTerminalCommand(SimpleMessage) returns (Empty);
 
   // Server Info
   rpc GetStatus(Empty) returns (ServerStatus);

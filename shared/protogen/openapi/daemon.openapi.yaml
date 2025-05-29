@@ -37,6 +37,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Empty'
+  /ServerService/Terminal: {}
+  /ServerService/RunTerminalCommand:
+    post:
+      tags:
+        - ServerService
+      summary: RunTerminalCommand
+      operationId: ServerService.RunTerminalCommand
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimpleMessage'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
   /ServerService/GetStatus:
     post:
       tags:

@@ -38,6 +38,11 @@ const (
 	// ServerServiceRunCommandProcedure is the fully-qualified name of the ServerService's RunCommand
 	// RPC.
 	ServerServiceRunCommandProcedure = "/ServerService/RunCommand"
+	// ServerServiceTerminalProcedure is the fully-qualified name of the ServerService's Terminal RPC.
+	ServerServiceTerminalProcedure = "/ServerService/Terminal"
+	// ServerServiceRunTerminalCommandProcedure is the fully-qualified name of the ServerService's
+	// RunTerminalCommand RPC.
+	ServerServiceRunTerminalCommandProcedure = "/ServerService/RunTerminalCommand"
 	// ServerServiceGetStatusProcedure is the fully-qualified name of the ServerService's GetStatus RPC.
 	ServerServiceGetStatusProcedure = "/ServerService/GetStatus"
 	// ServerServiceStartProcedure is the fully-qualified name of the ServerService's Start RPC.
@@ -52,9 +57,12 @@ const (
 
 // ServerServiceClient is a client for the ServerService service.
 type ServerServiceClient interface {
-	// Console
+	// Console (process)
 	Console(context.Context) *connect.BidiStreamForClient[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]
 	RunCommand(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.Empty], error)
+	// Terminal (system)
+	Terminal(context.Context) *connect.BidiStreamForClient[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]
+	RunTerminalCommand(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.Empty], error)
 	// Server Info
 	GetStatus(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.ServerStatus], error)
 	// Power Actions
@@ -85,6 +93,18 @@ func NewServerServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 			httpClient,
 			baseURL+ServerServiceRunCommandProcedure,
 			connect.WithSchema(serverServiceMethods.ByName("RunCommand")),
+			connect.WithClientOptions(opts...),
+		),
+		terminal: connect.NewClient[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage](
+			httpClient,
+			baseURL+ServerServiceTerminalProcedure,
+			connect.WithSchema(serverServiceMethods.ByName("Terminal")),
+			connect.WithClientOptions(opts...),
+		),
+		runTerminalCommand: connect.NewClient[proto_gen_go.SimpleMessage, proto_gen_go.Empty](
+			httpClient,
+			baseURL+ServerServiceRunTerminalCommandProcedure,
+			connect.WithSchema(serverServiceMethods.ByName("RunTerminalCommand")),
 			connect.WithClientOptions(opts...),
 		),
 		getStatus: connect.NewClient[proto_gen_go.Empty, proto_gen_go.ServerStatus](
@@ -122,13 +142,15 @@ func NewServerServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 
 // serverServiceClient implements ServerServiceClient.
 type serverServiceClient struct {
-	console    *connect.Client[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]
-	runCommand *connect.Client[proto_gen_go.SimpleMessage, proto_gen_go.Empty]
-	getStatus  *connect.Client[proto_gen_go.Empty, proto_gen_go.ServerStatus]
-	start      *connect.Client[proto_gen_go.Empty, proto_gen_go.Empty]
-	restart    *connect.Client[proto_gen_go.Empty, proto_gen_go.Empty]
-	stop       *connect.Client[proto_gen_go.Empty, proto_gen_go.Empty]
-	kill       *connect.Client[proto_gen_go.Empty, proto_gen_go.Empty]
+	console            *connect.Client[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]
+	runCommand         *connect.Client[proto_gen_go.SimpleMessage, proto_gen_go.Empty]
+	terminal           *connect.Client[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]
+	runTerminalCommand *connect.Client[proto_gen_go.SimpleMessage, proto_gen_go.Empty]
+	getStatus          *connect.Client[proto_gen_go.Empty, proto_gen_go.ServerStatus]
+	start              *connect.Client[proto_gen_go.Empty, proto_gen_go.Empty]
+	restart            *connect.Client[proto_gen_go.Empty, proto_gen_go.Empty]
+	stop               *connect.Client[proto_gen_go.Empty, proto_gen_go.Empty]
+	kill               *connect.Client[proto_gen_go.Empty, proto_gen_go.Empty]
 }
 
 // Console calls ServerService.Console.
@@ -139,6 +161,16 @@ func (c *serverServiceClient) Console(ctx context.Context) *connect.BidiStreamFo
 // RunCommand calls ServerService.RunCommand.
 func (c *serverServiceClient) RunCommand(ctx context.Context, req *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.Empty], error) {
 	return c.runCommand.CallUnary(ctx, req)
+}
+
+// Terminal calls ServerService.Terminal.
+func (c *serverServiceClient) Terminal(ctx context.Context) *connect.BidiStreamForClient[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage] {
+	return c.terminal.CallBidiStream(ctx)
+}
+
+// RunTerminalCommand calls ServerService.RunTerminalCommand.
+func (c *serverServiceClient) RunTerminalCommand(ctx context.Context, req *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.Empty], error) {
+	return c.runTerminalCommand.CallUnary(ctx, req)
 }
 
 // GetStatus calls ServerService.GetStatus.
@@ -168,9 +200,12 @@ func (c *serverServiceClient) Kill(ctx context.Context, req *connect.Request[pro
 
 // ServerServiceHandler is an implementation of the ServerService service.
 type ServerServiceHandler interface {
-	// Console
+	// Console (process)
 	Console(context.Context, *connect.BidiStream[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]) error
 	RunCommand(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.Empty], error)
+	// Terminal (system)
+	Terminal(context.Context, *connect.BidiStream[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]) error
+	RunTerminalCommand(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.Empty], error)
 	// Server Info
 	GetStatus(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.ServerStatus], error)
 	// Power Actions
@@ -197,6 +232,18 @@ func NewServerServiceHandler(svc ServerServiceHandler, opts ...connect.HandlerOp
 		ServerServiceRunCommandProcedure,
 		svc.RunCommand,
 		connect.WithSchema(serverServiceMethods.ByName("RunCommand")),
+		connect.WithHandlerOptions(opts...),
+	)
+	serverServiceTerminalHandler := connect.NewBidiStreamHandler(
+		ServerServiceTerminalProcedure,
+		svc.Terminal,
+		connect.WithSchema(serverServiceMethods.ByName("Terminal")),
+		connect.WithHandlerOptions(opts...),
+	)
+	serverServiceRunTerminalCommandHandler := connect.NewUnaryHandler(
+		ServerServiceRunTerminalCommandProcedure,
+		svc.RunTerminalCommand,
+		connect.WithSchema(serverServiceMethods.ByName("RunTerminalCommand")),
 		connect.WithHandlerOptions(opts...),
 	)
 	serverServiceGetStatusHandler := connect.NewUnaryHandler(
@@ -235,6 +282,10 @@ func NewServerServiceHandler(svc ServerServiceHandler, opts ...connect.HandlerOp
 			serverServiceConsoleHandler.ServeHTTP(w, r)
 		case ServerServiceRunCommandProcedure:
 			serverServiceRunCommandHandler.ServeHTTP(w, r)
+		case ServerServiceTerminalProcedure:
+			serverServiceTerminalHandler.ServeHTTP(w, r)
+		case ServerServiceRunTerminalCommandProcedure:
+			serverServiceRunTerminalCommandHandler.ServeHTTP(w, r)
 		case ServerServiceGetStatusProcedure:
 			serverServiceGetStatusHandler.ServeHTTP(w, r)
 		case ServerServiceStartProcedure:
@@ -260,6 +311,14 @@ func (UnimplementedServerServiceHandler) Console(context.Context, *connect.BidiS
 
 func (UnimplementedServerServiceHandler) RunCommand(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.Empty], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("ServerService.RunCommand is not implemented"))
+}
+
+func (UnimplementedServerServiceHandler) Terminal(context.Context, *connect.BidiStream[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]) error {
+	return connect.NewError(connect.CodeUnimplemented, errors.New("ServerService.Terminal is not implemented"))
+}
+
+func (UnimplementedServerServiceHandler) RunTerminalCommand(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.Empty], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("ServerService.RunTerminalCommand is not implemented"))
 }
 
 func (UnimplementedServerServiceHandler) GetStatus(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.ServerStatus], error) {

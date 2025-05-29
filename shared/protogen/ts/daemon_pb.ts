@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file daemon.proto.
  */
 export const file_daemon: GenFile = /*@__PURE__*/
-  fileDesc("CgxkYWVtb24ucHJvdG8iSQoMU2VydmVyU3RhdHVzEiEKBnN0YXR1cxgBIAIoDjIRLlNlcnZlclN0YXR1c1R5cGUSFgoOdGltZXN0YW1wU3RhcnQYAiABKAQq1AEKEFNlcnZlclN0YXR1c1R5cGUSHQoZU0VSVkVSX1NUQVRVU19VTlNQRUNJRklFRBAAEhoKFlNFUlZFUl9TVEFUVVNfU1RBUlRJTkcQARIZChVTRVJWRVJfU1RBVFVTX1JVTk5JTkcQAhIaChZTRVJWRVJfU1RBVFVTX1NUT1BQSU5HEAMSGQoVU0VSVkVSX1NUQVRVU19TVE9QUEVEEAQSGAoUU0VSVkVSX1NUQVRVU19LSUxMRUQQBRIZChVTRVJWRVJfU1RBVFVTX0VSUk9SRUQQBjLsAQoNU2VydmVyU2VydmljZRItCgdDb25zb2xlEg4uU2ltcGxlTWVzc2FnZRoOLlNpbXBsZU1lc3NhZ2UoATABEiQKClJ1bkNvbW1hbmQSDi5TaW1wbGVNZXNzYWdlGgYuRW1wdHkSIgoJR2V0U3RhdHVzEgYuRW1wdHkaDS5TZXJ2ZXJTdGF0dXMSFwoFU3RhcnQSBi5FbXB0eRoGLkVtcHR5EhkKB1Jlc3RhcnQSBi5FbXB0eRoGLkVtcHR5EhYKBFN0b3ASBi5FbXB0eRoGLkVtcHR5EhYKBEtpbGwSBi5FbXB0eRoGLkVtcHR5QhdaFXBhbmVsaXVtL3Byb3RvLWdlbi1nbw", [file_common]);
+  fileDesc("CgxkYWVtb24ucHJvdG8iSQoMU2VydmVyU3RhdHVzEiEKBnN0YXR1cxgBIAIoDjIRLlNlcnZlclN0YXR1c1R5cGUSFgoOdGltZXN0YW1wU3RhcnQYAiABKAQq1AEKEFNlcnZlclN0YXR1c1R5cGUSHQoZU0VSVkVSX1NUQVRVU19VTlNQRUNJRklFRBAAEhoKFlNFUlZFUl9TVEFUVVNfU1RBUlRJTkcQARIZChVTRVJWRVJfU1RBVFVTX1JVTk5JTkcQAhIaChZTRVJWRVJfU1RBVFVTX1NUT1BQSU5HEAMSGQoVU0VSVkVSX1NUQVRVU19TVE9QUEVEEAQSGAoUU0VSVkVSX1NUQVRVU19LSUxMRUQQBRIZChVTRVJWRVJfU1RBVFVTX0VSUk9SRUQQBjLKAgoNU2VydmVyU2VydmljZRItCgdDb25zb2xlEg4uU2ltcGxlTWVzc2FnZRoOLlNpbXBsZU1lc3NhZ2UoATABEiQKClJ1bkNvbW1hbmQSDi5TaW1wbGVNZXNzYWdlGgYuRW1wdHkSLgoIVGVybWluYWwSDi5TaW1wbGVNZXNzYWdlGg4uU2ltcGxlTWVzc2FnZSgBMAESLAoSUnVuVGVybWluYWxDb21tYW5kEg4uU2ltcGxlTWVzc2FnZRoGLkVtcHR5EiIKCUdldFN0YXR1cxIGLkVtcHR5Gg0uU2VydmVyU3RhdHVzEhcKBVN0YXJ0EgYuRW1wdHkaBi5FbXB0eRIZCgdSZXN0YXJ0EgYuRW1wdHkaBi5FbXB0eRIWCgRTdG9wEgYuRW1wdHkaBi5FbXB0eRIWCgRLaWxsEgYuRW1wdHkaBi5FbXB0eUIXWhVwYW5lbGl1bS9wcm90by1nZW4tZ28", [file_common]);
 
 /**
  * Server Info
@@ -89,7 +89,7 @@ export const ServerStatusTypeSchema: GenEnum<ServerStatusType> = /*@__PURE__*/
  */
 export const ServerService: GenService<{
   /**
-   * Console
+   * Console (process)
    *
    * @generated from rpc ServerService.Console
    */
@@ -102,6 +102,24 @@ export const ServerService: GenService<{
    * @generated from rpc ServerService.RunCommand
    */
   runCommand: {
+    methodKind: "unary";
+    input: typeof SimpleMessageSchema;
+    output: typeof EmptySchema;
+  },
+  /**
+   * Terminal (system)
+   *
+   * @generated from rpc ServerService.Terminal
+   */
+  terminal: {
+    methodKind: "bidi_streaming";
+    input: typeof SimpleMessageSchema;
+    output: typeof SimpleMessageSchema;
+  },
+  /**
+   * @generated from rpc ServerService.RunTerminalCommand
+   */
+  runTerminalCommand: {
     methodKind: "unary";
     input: typeof SimpleMessageSchema;
     output: typeof EmptySchema;
