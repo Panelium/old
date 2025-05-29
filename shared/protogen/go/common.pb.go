@@ -21,30 +21,26 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type TestMessage struct {
+type Empty struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Text          *string                `protobuf:"bytes,1,req,name=text" json:"text,omitempty"`
-	Number        *int32                 `protobuf:"varint,2,req,name=number" json:"number,omitempty"`
-	Array         []string               `protobuf:"bytes,3,rep,name=array" json:"array,omitempty"`
-	Boolean       *bool                  `protobuf:"varint,4,req,name=boolean" json:"boolean,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *TestMessage) Reset() {
-	*x = TestMessage{}
+func (x *Empty) Reset() {
+	*x = Empty{}
 	mi := &file_common_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *TestMessage) String() string {
+func (x *Empty) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TestMessage) ProtoMessage() {}
+func (*Empty) ProtoMessage() {}
 
-func (x *TestMessage) ProtoReflect() protoreflect.Message {
+func (x *Empty) ProtoReflect() protoreflect.Message {
 	mi := &file_common_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -56,52 +52,63 @@ func (x *TestMessage) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TestMessage.ProtoReflect.Descriptor instead.
-func (*TestMessage) Descriptor() ([]byte, []int) {
+// Deprecated: Use Empty.ProtoReflect.Descriptor instead.
+func (*Empty) Descriptor() ([]byte, []int) {
 	return file_common_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *TestMessage) GetText() string {
+type SimpleMessage struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Text          *string                `protobuf:"bytes,1,req,name=text" json:"text,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SimpleMessage) Reset() {
+	*x = SimpleMessage{}
+	mi := &file_common_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SimpleMessage) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SimpleMessage) ProtoMessage() {}
+
+func (x *SimpleMessage) ProtoReflect() protoreflect.Message {
+	mi := &file_common_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SimpleMessage.ProtoReflect.Descriptor instead.
+func (*SimpleMessage) Descriptor() ([]byte, []int) {
+	return file_common_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *SimpleMessage) GetText() string {
 	if x != nil && x.Text != nil {
 		return *x.Text
 	}
 	return ""
 }
 
-func (x *TestMessage) GetNumber() int32 {
-	if x != nil && x.Number != nil {
-		return *x.Number
-	}
-	return 0
-}
-
-func (x *TestMessage) GetArray() []string {
-	if x != nil {
-		return x.Array
-	}
-	return nil
-}
-
-func (x *TestMessage) GetBoolean() bool {
-	if x != nil && x.Boolean != nil {
-		return *x.Boolean
-	}
-	return false
-}
-
 var File_common_proto protoreflect.FileDescriptor
 
 const file_common_proto_rawDesc = "" +
 	"\n" +
-	"\fcommon.proto\"i\n" +
-	"\vTestMessage\x12\x12\n" +
-	"\x04text\x18\x01 \x02(\tR\x04text\x12\x16\n" +
-	"\x06number\x18\x02 \x02(\x05R\x06number\x12\x14\n" +
-	"\x05array\x18\x03 \x03(\tR\x05array\x12\x18\n" +
-	"\aboolean\x18\x04 \x02(\bR\aboolean27\n" +
-	"\vTestService\x12(\n" +
-	"\n" +
-	"TestMethod\x12\f.TestMessage\x1a\f.TestMessageB\x17Z\x15panelium/proto-gen-go"
+	"\fcommon.proto\"\a\n" +
+	"\x05Empty\"#\n" +
+	"\rSimpleMessage\x12\x12\n" +
+	"\x04text\x18\x01 \x02(\tR\x04textB\x17Z\x15panelium/proto-gen-go"
 
 var (
 	file_common_proto_rawDescOnce sync.Once
@@ -115,15 +122,14 @@ func file_common_proto_rawDescGZIP() []byte {
 	return file_common_proto_rawDescData
 }
 
-var file_common_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_common_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_common_proto_goTypes = []any{
-	(*TestMessage)(nil), // 0: TestMessage
+	(*Empty)(nil),         // 0: Empty
+	(*SimpleMessage)(nil), // 1: SimpleMessage
 }
 var file_common_proto_depIdxs = []int32{
-	0, // 0: TestService.TestMethod:input_type -> TestMessage
-	0, // 1: TestService.TestMethod:output_type -> TestMessage
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
+	0, // [0:0] is the sub-list for method output_type
+	0, // [0:0] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -140,9 +146,9 @@ func file_common_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_common_proto_rawDesc), len(file_common_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   2,
 			NumExtensions: 0,
-			NumServices:   1,
+			NumServices:   0,
 		},
 		GoTypes:           file_common_proto_goTypes,
 		DependencyIndexes: file_common_proto_depIdxs,

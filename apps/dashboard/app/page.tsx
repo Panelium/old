@@ -2,26 +2,26 @@
 
 import React from "react";
 import {Button} from "@/components/ui/button.tsx";
-import {TestService} from "@proto/common_pb.ts";
-import {createClient} from "@connectrpc/connect";
-import {createConnectTransport} from "@connectrpc/connect-web";
+// import {TestService} from "@proto/common_pb.ts";
+// import {createClient} from "@connectrpc/connect";
+// import {createConnectTransport} from "@connectrpc/connect-web";
 
 export default function Home() {
-    const client = createClient(
-        TestService,
-        createConnectTransport({
-            baseUrl: "http://localhost:8080",
-        }),
-    );
+    // const client = createClient(
+    //     TestService,
+    //     createConnectTransport({
+    //         baseUrl: "http://localhost:8080",
+    //     }),
+    // );
 
     async function handleTestMethod() {
-        const response = await client.testMethod({
-            text: "Hello from the dashboard app!",
-            number: 42,
-            boolean: true,
-            array: ["item1", "item2", "item3"],
-        });
-        console.log("Response from testMethod:", response);
+        // const response = await client.testMethod({
+        //     text: "Hello from the dashboard app!",
+        //     number: 42,
+        //     boolean: true,
+        //     array: ["item1", "item2", "item3"],
+        // });
+        // console.log("Response from testMethod:", response);
     }
 
     return (

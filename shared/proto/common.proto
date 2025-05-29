@@ -1,12 +1,7 @@
 option go_package = "panelium/proto-gen-go";
 
-message TestMessage {
-  required string text = 1;
-  required int32 number = 2;
-  repeated string array = 3;
-  required bool boolean = 4;
-}
+message Empty {}
 
-service TestService {
-  rpc TestMethod(TestMessage) returns (TestMessage);
+message SimpleMessage {
+  required string text = 1;
 }

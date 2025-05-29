@@ -10,6 +10,7 @@ import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
+	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -20,19 +21,197 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type ServerStatusType int32
+
+const (
+	ServerStatusType_SERVER_STATUS_UNSPECIFIED ServerStatusType = 0
+	ServerStatusType_SERVER_STATUS_STARTING    ServerStatusType = 1
+	ServerStatusType_SERVER_STATUS_RUNNING     ServerStatusType = 2
+	ServerStatusType_SERVER_STATUS_STOPPING    ServerStatusType = 3
+	ServerStatusType_SERVER_STATUS_STOPPED     ServerStatusType = 4
+	ServerStatusType_SERVER_STATUS_KILLED      ServerStatusType = 5
+	ServerStatusType_SERVER_STATUS_ERRORED     ServerStatusType = 6
+)
+
+// Enum value maps for ServerStatusType.
+var (
+	ServerStatusType_name = map[int32]string{
+		0: "SERVER_STATUS_UNSPECIFIED",
+		1: "SERVER_STATUS_STARTING",
+		2: "SERVER_STATUS_RUNNING",
+		3: "SERVER_STATUS_STOPPING",
+		4: "SERVER_STATUS_STOPPED",
+		5: "SERVER_STATUS_KILLED",
+		6: "SERVER_STATUS_ERRORED",
+	}
+	ServerStatusType_value = map[string]int32{
+		"SERVER_STATUS_UNSPECIFIED": 0,
+		"SERVER_STATUS_STARTING":    1,
+		"SERVER_STATUS_RUNNING":     2,
+		"SERVER_STATUS_STOPPING":    3,
+		"SERVER_STATUS_STOPPED":     4,
+		"SERVER_STATUS_KILLED":      5,
+		"SERVER_STATUS_ERRORED":     6,
+	}
+)
+
+func (x ServerStatusType) Enum() *ServerStatusType {
+	p := new(ServerStatusType)
+	*p = x
+	return p
+}
+
+func (x ServerStatusType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ServerStatusType) Descriptor() protoreflect.EnumDescriptor {
+	return file_daemon_proto_enumTypes[0].Descriptor()
+}
+
+func (ServerStatusType) Type() protoreflect.EnumType {
+	return &file_daemon_proto_enumTypes[0]
+}
+
+func (x ServerStatusType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Do not use.
+func (x *ServerStatusType) UnmarshalJSON(b []byte) error {
+	num, err := protoimpl.X.UnmarshalJSONEnum(x.Descriptor(), b)
+	if err != nil {
+		return err
+	}
+	*x = ServerStatusType(num)
+	return nil
+}
+
+// Deprecated: Use ServerStatusType.Descriptor instead.
+func (ServerStatusType) EnumDescriptor() ([]byte, []int) {
+	return file_daemon_proto_rawDescGZIP(), []int{0}
+}
+
+// Server Info
+type ServerStatus struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Status         *ServerStatusType      `protobuf:"varint,1,req,name=status,enum=ServerStatusType" json:"status,omitempty"`
+	TimestampStart *uint64                `protobuf:"varint,2,opt,name=timestampStart" json:"timestampStart,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *ServerStatus) Reset() {
+	*x = ServerStatus{}
+	mi := &file_daemon_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ServerStatus) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ServerStatus) ProtoMessage() {}
+
+func (x *ServerStatus) ProtoReflect() protoreflect.Message {
+	mi := &file_daemon_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ServerStatus.ProtoReflect.Descriptor instead.
+func (*ServerStatus) Descriptor() ([]byte, []int) {
+	return file_daemon_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *ServerStatus) GetStatus() ServerStatusType {
+	if x != nil && x.Status != nil {
+		return *x.Status
+	}
+	return ServerStatusType_SERVER_STATUS_UNSPECIFIED
+}
+
+func (x *ServerStatus) GetTimestampStart() uint64 {
+	if x != nil && x.TimestampStart != nil {
+		return *x.TimestampStart
+	}
+	return 0
+}
+
 var File_daemon_proto protoreflect.FileDescriptor
 
 const file_daemon_proto_rawDesc = "" +
 	"\n" +
-	"\fdaemon.proto\x1a\fcommon.protoB\x17Z\x15panelium/proto-gen-go"
+	"\fdaemon.proto\x1a\fcommon.proto\"a\n" +
+	"\fServerStatus\x12)\n" +
+	"\x06status\x18\x01 \x02(\x0e2\x11.ServerStatusTypeR\x06status\x12&\n" +
+	"\x0etimestampStart\x18\x02 \x01(\x04R\x0etimestampStart*\xd4\x01\n" +
+	"\x10ServerStatusType\x12\x1d\n" +
+	"\x19SERVER_STATUS_UNSPECIFIED\x10\x00\x12\x1a\n" +
+	"\x16SERVER_STATUS_STARTING\x10\x01\x12\x19\n" +
+	"\x15SERVER_STATUS_RUNNING\x10\x02\x12\x1a\n" +
+	"\x16SERVER_STATUS_STOPPING\x10\x03\x12\x19\n" +
+	"\x15SERVER_STATUS_STOPPED\x10\x04\x12\x18\n" +
+	"\x14SERVER_STATUS_KILLED\x10\x05\x12\x19\n" +
+	"\x15SERVER_STATUS_ERRORED\x10\x062\xec\x01\n" +
+	"\rServerService\x12-\n" +
+	"\aConsole\x12\x0e.SimpleMessage\x1a\x0e.SimpleMessage(\x010\x01\x12$\n" +
+	"\n" +
+	"RunCommand\x12\x0e.SimpleMessage\x1a\x06.Empty\x12\"\n" +
+	"\tGetStatus\x12\x06.Empty\x1a\r.ServerStatus\x12\x17\n" +
+	"\x05Start\x12\x06.Empty\x1a\x06.Empty\x12\x19\n" +
+	"\aRestart\x12\x06.Empty\x1a\x06.Empty\x12\x16\n" +
+	"\x04Stop\x12\x06.Empty\x1a\x06.Empty\x12\x16\n" +
+	"\x04Kill\x12\x06.Empty\x1a\x06.EmptyB\x17Z\x15panelium/proto-gen-go"
 
-var file_daemon_proto_goTypes = []any{}
+var (
+	file_daemon_proto_rawDescOnce sync.Once
+	file_daemon_proto_rawDescData []byte
+)
+
+func file_daemon_proto_rawDescGZIP() []byte {
+	file_daemon_proto_rawDescOnce.Do(func() {
+		file_daemon_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_daemon_proto_rawDesc), len(file_daemon_proto_rawDesc)))
+	})
+	return file_daemon_proto_rawDescData
+}
+
+var file_daemon_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_daemon_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_daemon_proto_goTypes = []any{
+	(ServerStatusType)(0), // 0: ServerStatusType
+	(*ServerStatus)(nil),  // 1: ServerStatus
+	(*SimpleMessage)(nil), // 2: SimpleMessage
+	(*Empty)(nil),         // 3: Empty
+}
 var file_daemon_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0, // 0: ServerStatus.status:type_name -> ServerStatusType
+	2, // 1: ServerService.Console:input_type -> SimpleMessage
+	2, // 2: ServerService.RunCommand:input_type -> SimpleMessage
+	3, // 3: ServerService.GetStatus:input_type -> Empty
+	3, // 4: ServerService.Start:input_type -> Empty
+	3, // 5: ServerService.Restart:input_type -> Empty
+	3, // 6: ServerService.Stop:input_type -> Empty
+	3, // 7: ServerService.Kill:input_type -> Empty
+	2, // 8: ServerService.Console:output_type -> SimpleMessage
+	3, // 9: ServerService.RunCommand:output_type -> Empty
+	1, // 10: ServerService.GetStatus:output_type -> ServerStatus
+	3, // 11: ServerService.Start:output_type -> Empty
+	3, // 12: ServerService.Restart:output_type -> Empty
+	3, // 13: ServerService.Stop:output_type -> Empty
+	3, // 14: ServerService.Kill:output_type -> Empty
+	8, // [8:15] is the sub-list for method output_type
+	1, // [1:8] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_daemon_proto_init() }
@@ -46,13 +225,15 @@ func file_daemon_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_daemon_proto_rawDesc), len(file_daemon_proto_rawDesc)),
-			NumEnums:      0,
-			NumMessages:   0,
+			NumEnums:      1,
+			NumMessages:   1,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_daemon_proto_goTypes,
 		DependencyIndexes: file_daemon_proto_depIdxs,
+		EnumInfos:         file_daemon_proto_enumTypes,
+		MessageInfos:      file_daemon_proto_msgTypes,
 	}.Build()
 	File_daemon_proto = out.File
 	file_daemon_proto_goTypes = nil

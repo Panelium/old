@@ -2,13 +2,154 @@
 // @generated from file daemon.proto (syntax proto2)
 /* eslint-disable */
 
-import type { GenFile } from "@bufbuild/protobuf/codegenv2";
-import { fileDesc } from "@bufbuild/protobuf/codegenv2";
+import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
+import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { EmptySchema, SimpleMessageSchema } from "./common_pb.ts";
 import { file_common } from "./common_pb.ts";
+import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file daemon.proto.
  */
 export const file_daemon: GenFile = /*@__PURE__*/
-  fileDesc("CgxkYWVtb24ucHJvdG9CF1oVcGFuZWxpdW0vcHJvdG8tZ2VuLWdv", [file_common]);
+  fileDesc("CgxkYWVtb24ucHJvdG8iSQoMU2VydmVyU3RhdHVzEiEKBnN0YXR1cxgBIAIoDjIRLlNlcnZlclN0YXR1c1R5cGUSFgoOdGltZXN0YW1wU3RhcnQYAiABKAQq1AEKEFNlcnZlclN0YXR1c1R5cGUSHQoZU0VSVkVSX1NUQVRVU19VTlNQRUNJRklFRBAAEhoKFlNFUlZFUl9TVEFUVVNfU1RBUlRJTkcQARIZChVTRVJWRVJfU1RBVFVTX1JVTk5JTkcQAhIaChZTRVJWRVJfU1RBVFVTX1NUT1BQSU5HEAMSGQoVU0VSVkVSX1NUQVRVU19TVE9QUEVEEAQSGAoUU0VSVkVSX1NUQVRVU19LSUxMRUQQBRIZChVTRVJWRVJfU1RBVFVTX0VSUk9SRUQQBjLsAQoNU2VydmVyU2VydmljZRItCgdDb25zb2xlEg4uU2ltcGxlTWVzc2FnZRoOLlNpbXBsZU1lc3NhZ2UoATABEiQKClJ1bkNvbW1hbmQSDi5TaW1wbGVNZXNzYWdlGgYuRW1wdHkSIgoJR2V0U3RhdHVzEgYuRW1wdHkaDS5TZXJ2ZXJTdGF0dXMSFwoFU3RhcnQSBi5FbXB0eRoGLkVtcHR5EhkKB1Jlc3RhcnQSBi5FbXB0eRoGLkVtcHR5EhYKBFN0b3ASBi5FbXB0eRoGLkVtcHR5EhYKBEtpbGwSBi5FbXB0eRoGLkVtcHR5QhdaFXBhbmVsaXVtL3Byb3RvLWdlbi1nbw", [file_common]);
+
+/**
+ * Server Info
+ *
+ * @generated from message ServerStatus
+ */
+export type ServerStatus = Message<"ServerStatus"> & {
+  /**
+   * @generated from field: required ServerStatusType status = 1;
+   */
+  status: ServerStatusType;
+
+  /**
+   * @generated from field: optional uint64 timestampStart = 2;
+   */
+  timestampStart: bigint;
+};
+
+/**
+ * Describes the message ServerStatus.
+ * Use `create(ServerStatusSchema)` to create a new message.
+ */
+export const ServerStatusSchema: GenMessage<ServerStatus> = /*@__PURE__*/
+  messageDesc(file_daemon, 0);
+
+/**
+ * @generated from enum ServerStatusType
+ */
+export enum ServerStatusType {
+  /**
+   * @generated from enum value: SERVER_STATUS_UNSPECIFIED = 0;
+   */
+  SERVER_STATUS_UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: SERVER_STATUS_STARTING = 1;
+   */
+  SERVER_STATUS_STARTING = 1,
+
+  /**
+   * @generated from enum value: SERVER_STATUS_RUNNING = 2;
+   */
+  SERVER_STATUS_RUNNING = 2,
+
+  /**
+   * @generated from enum value: SERVER_STATUS_STOPPING = 3;
+   */
+  SERVER_STATUS_STOPPING = 3,
+
+  /**
+   * @generated from enum value: SERVER_STATUS_STOPPED = 4;
+   */
+  SERVER_STATUS_STOPPED = 4,
+
+  /**
+   * @generated from enum value: SERVER_STATUS_KILLED = 5;
+   */
+  SERVER_STATUS_KILLED = 5,
+
+  /**
+   * @generated from enum value: SERVER_STATUS_ERRORED = 6;
+   */
+  SERVER_STATUS_ERRORED = 6,
+}
+
+/**
+ * Describes the enum ServerStatusType.
+ */
+export const ServerStatusTypeSchema: GenEnum<ServerStatusType> = /*@__PURE__*/
+  enumDesc(file_daemon, 0);
+
+/**
+ * @generated from service ServerService
+ */
+export const ServerService: GenService<{
+  /**
+   * Console
+   *
+   * @generated from rpc ServerService.Console
+   */
+  console: {
+    methodKind: "bidi_streaming";
+    input: typeof SimpleMessageSchema;
+    output: typeof SimpleMessageSchema;
+  },
+  /**
+   * @generated from rpc ServerService.RunCommand
+   */
+  runCommand: {
+    methodKind: "unary";
+    input: typeof SimpleMessageSchema;
+    output: typeof EmptySchema;
+  },
+  /**
+   * Server Info
+   *
+   * @generated from rpc ServerService.GetStatus
+   */
+  getStatus: {
+    methodKind: "unary";
+    input: typeof EmptySchema;
+    output: typeof ServerStatusSchema;
+  },
+  /**
+   * Power Actions
+   *
+   * @generated from rpc ServerService.Start
+   */
+  start: {
+    methodKind: "unary";
+    input: typeof EmptySchema;
+    output: typeof EmptySchema;
+  },
+  /**
+   * @generated from rpc ServerService.Restart
+   */
+  restart: {
+    methodKind: "unary";
+    input: typeof EmptySchema;
+    output: typeof EmptySchema;
+  },
+  /**
+   * @generated from rpc ServerService.Stop
+   */
+  stop: {
+    methodKind: "unary";
+    input: typeof EmptySchema;
+    output: typeof EmptySchema;
+  },
+  /**
+   * @generated from rpc ServerService.Kill
+   */
+  kill: {
+    methodKind: "unary";
+    input: typeof EmptySchema;
+    output: typeof EmptySchema;
+  },
+}> = /*@__PURE__*/
+  serviceDesc(file_daemon, 0);
 

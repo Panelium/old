@@ -3,43 +3,65 @@ package main
 import (
 	"connectrpc.com/connect"
 	"context"
+	"crypto/tls"
+	"golang.org/x/net/http2"
 	"log"
+	"math/rand"
+	"net"
 	"net/http"
 	proto_gen_go "panelium/proto-gen-go"
 	"panelium/proto-gen-go/proto_gen_goconnect"
+	"strconv"
 )
 
 func main() {
-	test := proto_gen_go.TestMessage{}
+	message := proto_gen_go.SimpleMessage{}
+	messageText := "somecommand"
+	message.Text = &messageText
 
-	text := "Hello, World!"
-	test.Text = &text
-
-	number := int32(42)
-	test.Number = &number
-
-	array := []string{"item1", "item2", "item3"}
-	test.Array = array
-
-	boolean := true
-	test.Boolean = &boolean
-
-	log.Println("req: " + test.String())
-
-	client := proto_gen_goconnect.NewTestServiceClient(
-		http.DefaultClient,
+	client := proto_gen_goconnect.NewServerServiceClient(
+		&http.Client{
+			Transport: &http2.Transport{
+				AllowHTTP: true,
+				DialTLS: func(network, addr string, cfg *tls.Config) (net.Conn, error) {
+					return net.Dial(network, addr)
+				},
+			},
+		},
 		"http://localhost:8080",
 		//connect.WithGRPC(),
 		//connect.WithGRPCWeb(),
 		//connect.WithProtoJSON(),
 	)
-	res, err := client.TestMethod(
+	_, err := client.RunCommand(
 		context.Background(),
-		connect.NewRequest(&test),
+		connect.NewRequest(&message),
 	)
 	if err != nil {
 		log.Println(err)
 		return
 	}
-	log.Println("res: " + res.Msg.String())
+	log.Println("ok")
+
+	stream := client.Console(
+		context.Background(),
+	)
+
+	for i := 0; i < 10; i++ {
+		message := proto_gen_go.SimpleMessage{}
+		messageText := "message " + strconv.Itoa(rand.Intn(100))
+		message.Text = &messageText
+
+		if err := stream.Send(&message); err != nil {
+			log.Println("Error sending message:", err)
+			return
+		}
+
+		response, err := stream.Receive()
+		if err != nil {
+			log.Println("Error receiving response:", err)
+			return
+		}
+		log.Printf("Received response: %s\n", *response.Text)
+	}
 }

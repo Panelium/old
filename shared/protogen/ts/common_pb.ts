@@ -2,60 +2,43 @@
 // @generated from file common.proto (syntax proto2)
 /* eslint-disable */
 
-import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
-import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2";
+import { fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv2";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file common.proto.
  */
 export const file_common: GenFile = /*@__PURE__*/
-  fileDesc("Cgxjb21tb24ucHJvdG8iSwoLVGVzdE1lc3NhZ2USDAoEdGV4dBgBIAIoCRIOCgZudW1iZXIYAiACKAUSDQoFYXJyYXkYAyADKAkSDwoHYm9vbGVhbhgEIAIoCDI3CgtUZXN0U2VydmljZRIoCgpUZXN0TWV0aG9kEgwuVGVzdE1lc3NhZ2UaDC5UZXN0TWVzc2FnZUIXWhVwYW5lbGl1bS9wcm90by1nZW4tZ28");
+  fileDesc("Cgxjb21tb24ucHJvdG8iBwoFRW1wdHkiHQoNU2ltcGxlTWVzc2FnZRIMCgR0ZXh0GAEgAigJQhdaFXBhbmVsaXVtL3Byb3RvLWdlbi1nbw");
 
 /**
- * @generated from message TestMessage
+ * @generated from message Empty
  */
-export type TestMessage = Message<"TestMessage"> & {
+export type Empty = Message<"Empty"> & {
+};
+
+/**
+ * Describes the message Empty.
+ * Use `create(EmptySchema)` to create a new message.
+ */
+export const EmptySchema: GenMessage<Empty> = /*@__PURE__*/
+  messageDesc(file_common, 0);
+
+/**
+ * @generated from message SimpleMessage
+ */
+export type SimpleMessage = Message<"SimpleMessage"> & {
   /**
    * @generated from field: required string text = 1;
    */
   text: string;
-
-  /**
-   * @generated from field: required int32 number = 2;
-   */
-  number: number;
-
-  /**
-   * @generated from field: repeated string array = 3;
-   */
-  array: string[];
-
-  /**
-   * @generated from field: required bool boolean = 4;
-   */
-  boolean: boolean;
 };
 
 /**
- * Describes the message TestMessage.
- * Use `create(TestMessageSchema)` to create a new message.
+ * Describes the message SimpleMessage.
+ * Use `create(SimpleMessageSchema)` to create a new message.
  */
-export const TestMessageSchema: GenMessage<TestMessage> = /*@__PURE__*/
-  messageDesc(file_common, 0);
-
-/**
- * @generated from service TestService
- */
-export const TestService: GenService<{
-  /**
-   * @generated from rpc TestService.TestMethod
-   */
-  testMethod: {
-    methodKind: "unary";
-    input: typeof TestMessageSchema;
-    output: typeof TestMessageSchema;
-  },
-}> = /*@__PURE__*/
-  serviceDesc(file_common, 0);
+export const SimpleMessageSchema: GenMessage<SimpleMessage> = /*@__PURE__*/
+  messageDesc(file_common, 1);
 
