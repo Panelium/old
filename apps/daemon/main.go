@@ -70,10 +70,8 @@ func main() {
 	path, handler := proto_gen_goconnect.NewServerServiceHandler(serverServiceHandler)
 	corsHandler := withCORS(handler)
 	mux.Handle(path, corsHandler)
-	go http.ListenAndServe(
-		"localhost:8080",
+	http.ListenAndServe(
+		"localhost:9090",
 		h2c.NewHandler(mux, &http2.Server{}),
 	)
-
-	select {}
 }
