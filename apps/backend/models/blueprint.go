@@ -6,20 +6,20 @@ import (
 )
 
 type Blueprint struct {
-	gorm.Model          `json:"-"`
-	FormatVersion       uint           `gorm:"not null" json:"format_version"`  // Version of the blueprint format, used for compatibility checks
-	BID                 string         `gorm:"uniqueIndex;not null" json:"bid"` // Unique identifier for the blueprint
-	UpdateURL           string         `json:"update_url"`                      // Nullable if not imported from a URL, auto update not possible
-	Name                string         `gorm:"not null" json:"name"`
-	Description         string         `gorm:"not null" json:"description"`
-	Version             uint           `gorm:"not null" json:"version"`
-	DockerImages        datatypes.JSON `gorm:"type:json;not null" json:"docker_images"` // JSON array of Docker images that can be used with this blueprint
-	BlockedFiles        datatypes.JSON `gorm:"type:json;not null" json:"blocked_files"` // JSON array of files that the user is not allowed to access or modify
-	StartCommand        string         `gorm:"not null" json:"start_command"`
-	StopCommand         string         `gorm:"not null" json:"stop_command"`
-	InstallScriptBase64 string         `gorm:"not null" json:"install_script_base64"` // Base64 encoded installation script
-	InstallImage        string         `gorm:"not null" json:"install_image"`         // Docker image used for installation, can be different from the runtime images
-	InstallInterpreter  string         `gorm:"not null" json:"install_interpreter"`   // Interpreter used for the installation script (e.g., bash, sh, python)
+	gorm.Model             `json:"-"`
+	FormatVersion          uint           `gorm:"not null" json:"format_version"`  // Version of the blueprint format, used for compatibility checks
+	BID                    string         `gorm:"uniqueIndex;not null" json:"bid"` // Unique identifier for the blueprint
+	UpdateURL              string         `json:"update_url"`                      // Nullable if not imported from a URL, auto update not possible
+	Name                   string         `gorm:"not null" json:"name"`
+	Description            string         `gorm:"not null" json:"description"`
+	Version                uint           `gorm:"not null" json:"version"`
+	DockerImages           datatypes.JSON `gorm:"type:json;not null" json:"docker_images"` // JSON array of Docker images that can be used with this blueprint
+	BlockedFiles           datatypes.JSON `gorm:"type:json;not null" json:"blocked_files"` // JSON array of files that the user is not allowed to access or modify
+	StartCommand           string         `gorm:"not null" json:"start_command"`
+	StopCommand            string         `gorm:"not null" json:"stop_command"`
+	SetupScriptBase64      string         `gorm:"not null" json:"setup_script_base64"`      // Base64 encoded setup script
+	SetupDockerImage       string         `gorm:"not null" json:"setup_docker_image"`       // Docker image used for server setup, can be different from the runtime images
+	SetupScriptInterpreter string         `gorm:"not null" json:"setup_script_interpreter"` // Interpreter used for the setup script (e.g., bash, sh, python)
 }
 
 /*
@@ -53,9 +53,9 @@ papermc.bp
 	"start_command": "java -Xms128M -Xmx{{$env::SERVER_MEMORY}}M -jar {{$env::SERVER_BINARY}}",
 	//"stop_command": "{{$code::sigint}}",
 	"stop_command": "stop",
-	"install_script_base64": "<base64_encoded_install_script>",
-	"install_image": "ghcr.io/panelium/base:alpine",
-	"install_interpreter": "bash"
+	"setup_script_base64": "<base64_encoded_setup_script>",
+	"setup_docker_image": "ghcr.io/panelium/base:alpine",
+	"setup_interpreter": "bash"
 }
 */
 
@@ -143,19 +143,19 @@ blueprint-v1.schema.json
 			"type": "string",
 			"description": "Command to stop the server, can use stop codes like {{$code::sigint}} for graceful shutdown"
 		},
-		"install_script_base64": {
+		"setup_script_base64": {
 			"type": "string",
 			"format": "base64",
-			"description": "Base64 encoded installation script that will be executed during server setup"
+			"description": "Base64 encoded setup script that will be executed during server setup"
 		},
-		"install_image": {
+		"setup_docker_image": {
 			"type": "string",
 			"format": "uri",
-			"description": "Docker image used for installation, can be different from the runtime images"
+			"description": "Docker image used for server setup, can be different from the runtime images"
 		},
-		"install_interpreter": {
+		"setup_interpreter": {
 			"type": "string",
-			"description": "Interpreter used for the installation script (e.g., bash, sh, python)"
+			"description": "Interpreter used for the setup script (e.g., bash, sh, python)"
 		}
 	},
 	"required": [
@@ -168,9 +168,9 @@ blueprint-v1.schema.json
 		"blocked_files",
 		"start_command",
 		"stop_command",
-		"install_script_base64",
-		"install_image",
-		"install_interpreter"
+		"setup_script_base64",
+		"setup_docker_image",
+		"setup_interpreter"
 	],
 	"additionalProperties": false
 }
