@@ -40,7 +40,9 @@ export default function App() {
     return <Outlet/>;
 }
 
-export function ErrorBoundary({error}: ErrorBoundaryProps) {
+export function ErrorBoundary(error: ErrorBoundaryProps) {
+    // the type of the error prop might not be right
+
     let message = "Oops!";
     let details = "An unexpected error occurred.";
     let stack: string | undefined;
