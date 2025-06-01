@@ -9,12 +9,19 @@ import (
 	"math/rand"
 	"net"
 	"net/http"
+	"os"
+	"panelium/common/id"
 	proto_gen_go "panelium/proto-gen-go"
 	"panelium/proto-gen-go/proto_gen_goconnect"
 	"strconv"
 )
 
 func main() {
+	if len(os.Args) > 1 && os.Args[1] == "idGen" {
+		idGen()
+		return
+	}
+
 	message := proto_gen_go.SimpleMessage{}
 	messageText := "somecommand"
 	message.Text = &messageText
@@ -64,4 +71,12 @@ func main() {
 		}
 		log.Printf("Received response: %s\n", *response.Text)
 	}
+}
+
+func idGen() {
+	s, err := id.New()
+	if err != nil {
+		log.Fatalf("Failed to generate ID: %v", err)
+	}
+	log.Printf("Generated ID: %s\n", s)
 }
