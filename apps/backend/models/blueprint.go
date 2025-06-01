@@ -16,6 +16,7 @@ type Blueprint struct {
 	Version                uint           `gorm:"not null" json:"version"`
 	DockerImages           datatypes.JSON `gorm:"type:json;not null" json:"docker_images"` // JSON array of Docker images that can be used with this blueprint
 	BlockedFiles           datatypes.JSON `gorm:"type:json;not null" json:"blocked_files"` // JSON array of files that the user is not allowed to access or modify
+	ServerBinary           string         `json:"server_binary"`                           // Path to the server binary inside the Docker image, e.g., server.jar, server.exe, etc.
 	StartCommand           string         `gorm:"not null" json:"start_command"`
 	StopCommand            string         `gorm:"not null" json:"stop_command"`
 	SetupScriptBase64      string         `gorm:"not null" json:"setup_script_base64"`      // Base64 encoded setup script
