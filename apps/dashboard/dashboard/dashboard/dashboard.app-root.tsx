@@ -1,11 +1,6 @@
 import {BrowserRouter} from 'react-router-dom';
 import {createRoot,} from 'react-dom/client';
-import {AcmeApolloProvider} from './apollo-provider.js';
-import {DashboardWeb} from "./dashboard-web.js";
-
-if (import.meta.hot) {
-    import.meta.hot.accept();
-}
+import {Dashboard} from "./dashboard.js";
 
 /**
  * comment this in for server-side rendering (ssr) and comment
@@ -14,9 +9,13 @@ if (import.meta.hot) {
 // hydrateRoot(
 //   document.getElementById("root") as HTMLElement,
 //   <BrowserRouter>
-//     <DashboardWeb />
+//     <Dashboard />
 //   </BrowserRouter>
 // );
+
+if (import.meta.hot) {
+    import.meta.hot.accept();
+}
 
 /**
  * mounting for client side rendering.
@@ -26,8 +25,6 @@ const root = createRoot(container!);
 
 root.render(
     <BrowserRouter>
-        <AcmeApolloProvider>
-            <DashboardWeb/>
-        </AcmeApolloProvider>
+        <Dashboard/>
     </BrowserRouter>
 );

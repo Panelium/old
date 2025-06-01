@@ -39,8 +39,7 @@
   **/
   "teambit.generator/generator": {
     "envs": [
-      "bitdev.react/react-env",
-      "bitdev.node/node-env"
+      "bitdev.react/react-env"
     ]
   },
   /**
@@ -49,20 +48,6 @@
   "teambit.dependencies/dependency-resolver": {
     "policy": {
       "dependencies": {
-        "@acme/acme.testing.mock-provider": "^2.0.0",
-        "@acme/design.acme-theme": "^3.0.0",
-        "@acme/design.content.card": "^2.0.0",
-        "@apollo/server": "^4.10.0",
-        "@apollo/subgraph": "^2.7.1",
-        "@bitdesign/sparks.content.logo": "^0.0.7",
-        "@bitdesign/sparks.layout.flex": "^0.0.4",
-        "@bitdesign/sparks.layout.header": "^0.0.8",
-        "@bitdesign/sparks.navigation.link": "^0.0.5",
-        "@bitdesign/sparks.typography.heading": "^0.0.4",
-        "@bitdesign/sparks.typography.text": "^0.0.4",
-        "@bitdev/node.node-env": "^3.0.0",
-        "@bitdev/node.node-server": "^1.0.4",
-        "@bitdev/platforms.platform": "^2.1.1",
         "@bitdev/react.app-types.vite-react": "^2.1.2",
         "@bitdev/react.react-env": "^3.0.0",
         "@vitejs/plugin-react": "^4.3.1",
@@ -76,6 +61,5 @@
   },
   "teambit.workspace/workspace-config-files": {
     "enableWorkspaceConfigWrite": true
-  },
-  "panelium.dashboard/dashboard": {}
+  }
 }

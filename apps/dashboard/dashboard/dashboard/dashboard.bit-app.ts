@@ -4,7 +4,7 @@ export default ViteReact.from({
     /**
      * name of your app.
      */
-    name: 'dashboard-web',
+    name: 'dashboard',
 
     /**
      * determine whether to use ssr mode or not.

@@ -1,6 +1,6 @@
 import ReactDOMServer from "react-dom/server";
 import {StaticRouter} from "react-router-dom/server.js";
-import {DashboardWeb} from "./dashboard-web.js";
+import {Dashboard} from "./dashboard.js";
 
 interface IRenderProps {
     path: string;
@@ -9,7 +9,7 @@ interface IRenderProps {
 export const render = async ({path}: IRenderProps) => {
     return ReactDOMServer.renderToString(
         <StaticRouter location={path}>
-            <DashboardWeb/>
+            <Dashboard/>
         </StaticRouter>
     );
 };
