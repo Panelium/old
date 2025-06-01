@@ -12,6 +12,7 @@ type Blueprint struct {
 	UpdateURL              string         `json:"update_url"`                      // Nullable if not imported from a URL, auto update not possible
 	Name                   string         `gorm:"not null" json:"name"`
 	Description            string         `gorm:"not null" json:"description"`
+	Flags                  datatypes.JSON `gorm:"type:json;not null" json:"flags"` // JSON array of flags that modify the behavior of the blueprint, e.g., eula accept needed for start, server config ui, plugin manager, modpack installer, etc.
 	Version                uint           `gorm:"not null" json:"version"`
 	DockerImages           datatypes.JSON `gorm:"type:json;not null" json:"docker_images"` // JSON array of Docker images that can be used with this blueprint
 	BlockedFiles           datatypes.JSON `gorm:"type:json;not null" json:"blocked_files"` // JSON array of files that the user is not allowed to access or modify
@@ -32,6 +33,11 @@ papermc.bp
 	"update_url": "https://blueprints.ndmh.xyz/blueprints/minecraft/java/papermc.bp",
 	"name": "PaperMC",
 	"description": "The most widely used, high performance Minecraft server that aims to fix gameplay and mechanics inconsistencies",
+	"flags": [
+		"eula:minecraft",
+		"server_config:minecraft",
+		"plugin_manager:minecraft,papermc"
+	],
 	"version": 1,
 	"docker_images": [
 		{
