@@ -1,0 +1,24 @@
+---
+description: 'A React Hook for fetching the corporate announcements.'
+labels: ['hook', 'react', 'announcements']
+---
+
+A React Hook for fetching the corporate announcements. Returns a list of [Announcements](/) instance.
+
+## Get started
+
+Use the hook to fetch announcements in your components:
+
+```tsx
+import { useAnnouncements } from '@panelium/dashboard.hooks.use-announcements';
+
+export function MyComponent() {
+  const announcements = useAnnouncements();
+  return (<> found {announcements.length} announcements</>);
+}
+```
+
+## Testing
+
+Upon testing, the component will return a set of mock announcement data. 
+

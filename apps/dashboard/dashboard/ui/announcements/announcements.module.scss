@@ -1,0 +1,8 @@
+// the bit react environment supports scss, less and CSS in JS out of the box.
+// learn more: https://bit.dev/docs/design/styling
+.announcement {
+  max-width: 1280px;
+  margin: auto;
+  padding: var(--spacing-triple);
+  gap: var(--spacing-double);
+}

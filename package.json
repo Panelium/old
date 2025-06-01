@@ -1,5 +1,6 @@
 {
   "workspaces": [
-    "apps/dashboard", "shared/protogen/ts", "shared/common/ts"
+    "shared/protogen/ts",
+    "shared/common/ts"
   ]
 }
