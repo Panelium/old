@@ -6,6 +6,7 @@ type Server struct {
 	gorm.Model
 	SID           string        `gorm:"uniqueIndex;not null" json:"sid"`
 	Name          string        `gorm:"not null" json:"name"`
+	Description   string        `gorm:"not null" json:"description"`
 	OwnerID       uint          `gorm:"index;not null" json:"owner_id"`
 	Owner         User          `json:"owner"`
 	NodeID        uint          `gorm:"index;not null" json:"node_id"`
