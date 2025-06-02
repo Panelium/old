@@ -1,9 +1,7 @@
 import {isRouteErrorResponse, Links, type LinksFunction, Meta, Outlet, Scripts, ScrollRestoration,} from "react-router";
 
 import "./app.css";
-import type {
-    ErrorBoundaryProps
-} from "../../../../../.cache/deno/npm/registry.npmjs.org/next/15.3.2/dist/client/components/error-boundary";
+import type {Route} from "../.react-router/types/app/+types/root";
 
 export const links: LinksFunction = () => [
     {rel: "preconnect", href: "https://fonts.googleapis.com"},
@@ -40,7 +38,7 @@ export default function App() {
     return <Outlet/>;
 }
 
-export function ErrorBoundary(error: ErrorBoundaryProps) {
+export function ErrorBoundary(error: Route.ErrorBoundaryProps) {
     // the type of the error prop might not be right
 
     let message = "Oops!";
