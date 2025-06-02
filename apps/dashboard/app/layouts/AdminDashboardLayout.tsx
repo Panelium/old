@@ -5,7 +5,7 @@ import {Button} from '~/components/ui/button';
 import {
     LayoutGrid,
     Moon,
-    PanelLeftIcon,
+    ChevronLeft,
     Puzzle,
     Server as ServerIcon,
     Settings,
@@ -15,7 +15,7 @@ import {
     Users
 } from 'lucide-react';
 import {cn} from '~/lib/utils';
-import {useTheme} from "next-themes";
+import {useTheme} from "~/components/theme-provider";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -36,7 +36,26 @@ function MobileSidebarTrigger() {
             onClick={toggleSidebar}
             aria-label="Toggle navigation menu"
         >
-            <PanelLeftIcon className="h-6 w-6"/>
+            <ChevronLeft className="h-6 w-6"/>
+        </Button>
+    );
+}
+
+// Desktop Sidebar Toggle Component
+function DesktopSidebarToggle() {
+    const {toggleSidebar, state} = useSidebar();
+    return (
+        <Button
+            variant="ghost"
+            size="icon"
+            className="hidden md:flex"
+            onClick={toggleSidebar}
+            aria-label="Toggle sidebar"
+        >
+            <ChevronLeft className={cn(
+                "h-5 w-5 transition-transform",
+                state === "collapsed" && "rotate-180"
+            )}/>
         </Button>
     );
 }
@@ -52,9 +71,7 @@ function ThemeToggle() {
             onClick={() => setTheme(theme === "light" ? "dark" : "light")}
             aria-label="Toggle theme"
         >
-            <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"/>
-            <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"/>
-            <span className="sr-only">Toggle theme</span>
+            {theme === 'light' ? <Moon className="h-5 w-5"/> : <Sun className="h-5 w-5"/>}
         </Button>
     );
 }
@@ -74,7 +91,7 @@ export default function AdminDashboardLayout() {
     return (
         <SidebarProvider defaultOpen={true}>
             <div className="flex min-h-screen w-full bg-muted/40">
-                <Sidebar className="hidden border-r bg-background md:block">
+                <Sidebar className="hidden border-r dark:border-slate-700 border-slate-200 bg-background md:block">
                     <div className="flex h-full max-h-screen flex-col gap-2">
                         <div className="flex h-16 items-center border-b px-4 lg:px-6 shrink-0">
                             <NavLink to="/admin/overview" className="flex items-center gap-2 font-semibold">
@@ -108,6 +125,7 @@ export default function AdminDashboardLayout() {
                     <header
                         className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background px-4 sm:px-6">
                         <MobileSidebarTrigger/>
+                        <DesktopSidebarToggle/>
                         <div className="flex-1">
                             {/* Breadcrumbs or dynamic page title can go here */}
                         </div>

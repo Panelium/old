@@ -1,4 +1,5 @@
 import {isRouteErrorResponse, Links, type LinksFunction, Meta, Outlet, Scripts, ScrollRestoration,} from "react-router";
+import { ThemeProvider } from "./components/theme-provider";
 
 import "./app.css";
 import type {Route} from "../.react-router/types/app/+types/root";
@@ -26,7 +27,9 @@ export function Layout({children}: { children: React.ReactNode }) {
             <Links/>
         </head>
         <body>
-        {children}
+            <ThemeProvider defaultTheme="system" storageKey="ui-theme">
+                {children}
+            </ThemeProvider>
         <ScrollRestoration/>
         <Scripts/>
         </body>
