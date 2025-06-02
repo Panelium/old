@@ -7,7 +7,7 @@ import {ScrollArea} from '~/components/ui/scroll-area';
 import {Avatar, AvatarFallback, AvatarImage} from '~/components/ui/avatar';
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from '~/components/ui/dropdown-menu';
 import {Sidebar, SidebarProvider, useSidebar} from '~/components/ui/sidebar';
-import { useTheme } from '~/components/theme-provider';
+import {useTheme} from '~/components/theme-provider';
 
 const navigationItems = [
     {
@@ -15,16 +15,16 @@ const navigationItems = [
         icon: LayoutGrid,
         href: '/',
     },
-    {
-        title: 'Analytics',
-        icon: BarChart,
-        href: '/analytics',
-    },
-    {
-        title: 'Settings',
-        icon: Settings,
-        href: '/settings',
-    },
+    // {
+    //     title: 'Analytics',
+    //     icon: BarChart,
+    //     href: '/analytics',
+    // },
+    // {
+    //     title: 'Settings',
+    //     icon: Settings,
+    //     href: '/settings',
+    // },
 ];
 
 // Mobile Sidebar Trigger Component
@@ -64,7 +64,7 @@ function DesktopSidebarToggle() {
 
 export default function UserDashboardLayout() {
     const location = useLocation();
-    const { theme, setTheme } = useTheme();
+    const {theme, setTheme} = useTheme();
 
     // Toggle theme
     const toggleTheme = () => {
@@ -74,10 +74,12 @@ export default function UserDashboardLayout() {
     return (
         <SidebarProvider defaultOpen={true}>
             <div className="flex min-h-screen w-full bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-50">
-                <Sidebar className="hidden border-r dark:border-slate-700 border-slate-200 bg-white dark:bg-slate-800 md:block">
+                <Sidebar
+                    className="hidden border-r dark:border-slate-700 border-slate-200 bg-white dark:bg-slate-800 md:block">
                     <div className="flex h-full max-h-screen flex-col">
                         {/* Logo */}
-                        <div className="flex h-16 items-center gap-2 border-b border-slate-200 dark:border-slate-700 px-6 no-select">
+                        <div
+                            className="flex h-16 items-center gap-2 border-b border-slate-200 dark:border-slate-700 px-6 no-select">
                             <div className="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-600">
                                 <Server className="h-5 w-5 text-white"/>
                             </div>
@@ -122,7 +124,8 @@ export default function UserDashboardLayout() {
                                         </Avatar>
                                         <div className="flex flex-col items-start text-sm">
                                             <span className="font-medium">John Doe</span>
-                                            <span className="text-xs text-slate-500 dark:text-slate-400">john@example.com</span>
+                                            <span
+                                                className="text-xs text-slate-500 dark:text-slate-400">john@example.com</span>
                                         </div>
                                     </Button>
                                 </DropdownMenuTrigger>
