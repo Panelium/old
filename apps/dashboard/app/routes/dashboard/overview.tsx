@@ -88,7 +88,7 @@ export default function DashboardOverviewPage() {
     return (
         <div className="container py-6 px-4 mx-auto max-w-7xl">
             {/* Header with welcome message */}
-            <div className="mb-6">
+            <div className="mb-6 no-select">
                 <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-50">Dashboard Overview</h1>
                 <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
                     Welcome back! Here's what's happening with your servers.
@@ -97,7 +97,7 @@ export default function DashboardOverviewPage() {
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                <Card className="shadow-sm hover:shadow-md transition-shadow border-slate-200 dark:border-slate-700">
+                <Card className="shadow-sm hover:shadow-md transition-shadow border-slate-200 dark:border-slate-700 no-select">
                     <CardHeader className="pb-2">
                         <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400">
                             Player Activity
@@ -124,7 +124,7 @@ export default function DashboardOverviewPage() {
                     </CardContent>
                 </Card>
 
-                <Card className="shadow-sm hover:shadow-md transition-shadow border-slate-200 dark:border-slate-700">
+                <Card className="shadow-sm hover:shadow-md transition-shadow border-slate-200 dark:border-slate-700 no-select">
                     <CardHeader className="pb-2">
                         <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400">
                             CPU Usage
@@ -148,7 +148,7 @@ export default function DashboardOverviewPage() {
                     </CardContent>
                 </Card>
 
-                <Card className="shadow-sm hover:shadow-md transition-shadow border-slate-200 dark:border-slate-700">
+                <Card className="shadow-sm hover:shadow-md transition-shadow border-slate-200 dark:border-slate-700 no-select">
                     <CardHeader className="pb-2">
                         <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400">
                             Memory Usage
@@ -175,7 +175,7 @@ export default function DashboardOverviewPage() {
             </div>
 
             <div className="space-y-4">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between no-select">
                     <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50">Servers</h2>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -183,10 +183,11 @@ export default function DashboardOverviewPage() {
                         <ServerCard
                             key={server.id}
                             server={server}
+                            className="no-select"
                         />
                     ))}
                     <Card
-                        className="flex flex-col items-center justify-center p-6 border-dashed border-2 border-slate-200 dark:border-slate-700 bg-transparent hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors">
+                        className="flex flex-col items-center justify-center p-6 border-dashed border-2 border-slate-200 dark:border-slate-700 bg-transparent hover:bg-slate-50 dark:hover:bg-slate-800/20 transition-colors no-select">
                         <div className="rounded-full bg-slate-100 dark:bg-slate-800 p-3 mb-3">
                             <Plus className="h-6 w-6 text-slate-500 dark:text-slate-400"/>
                         </div>
@@ -200,5 +201,4 @@ export default function DashboardOverviewPage() {
         </div>
     );
 }
-
 

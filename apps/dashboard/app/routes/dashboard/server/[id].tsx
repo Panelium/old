@@ -132,7 +132,7 @@ export default function ServerDetailsPage() {
         <div className="p-6 bg-slate-50 dark:bg-slate-900 min-h-full">
             <div className="max-w-7xl mx-auto space-y-8">
                 {/* Server header */}
-                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between no-select">
                     <div className="flex items-center gap-3">
                         <Button variant="outline" size="icon"
                                 className="rounded-lg shadow-sm bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
@@ -180,7 +180,7 @@ export default function ServerDetailsPage() {
                 <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
                     {/* CPU Usage Card */}
                     <Card
-                        className="border-slate-200/40 dark:border-slate-700/30 bg-white dark:bg-slate-800 shadow-sm hover:shadow transition-shadow rounded-xl">
+                        className="border-slate-200/40 dark:border-slate-700/30 bg-white dark:bg-slate-800 shadow-sm hover:shadow transition-shadow rounded-xl no-select">
                         <CardHeader className="pb-2">
                             <CardTitle
                                 className="text-sm font-medium text-slate-500 dark:text-slate-400 flex items-center">
@@ -210,7 +210,7 @@ export default function ServerDetailsPage() {
 
                     {/* Memory Usage Card */}
                     <Card
-                        className="border-slate-200/40 dark:border-slate-700/30 bg-white dark:bg-slate-800 shadow-sm hover:shadow transition-shadow rounded-xl">
+                        className="border-slate-200/40 dark:border-slate-700/30 bg-white dark:bg-slate-800 shadow-sm hover:shadow transition-shadow rounded-xl no-select">
                         <CardHeader className="pb-2">
                             <CardTitle
                                 className="text-sm font-medium text-slate-500 dark:text-slate-400 flex items-center">
@@ -244,7 +244,7 @@ export default function ServerDetailsPage() {
 
                     {/* Disk Usage Card */}
                     <Card
-                        className="border-slate-200/40 dark:border-slate-700/30 bg-white dark:bg-slate-800 shadow-sm hover:shadow transition-shadow rounded-xl">
+                        className="border-slate-200/40 dark:border-slate-700/30 bg-white dark:bg-slate-800 shadow-sm hover:shadow transition-shadow rounded-xl no-select">
                         <CardHeader className="pb-2">
                             <CardTitle
                                 className="text-sm font-medium text-slate-500 dark:text-slate-400 flex items-center">
@@ -278,7 +278,7 @@ export default function ServerDetailsPage() {
 
                     {/* Connection Card */}
                     <Card
-                        className="border-slate-200/40 dark:border-slate-700/30 bg-white dark:bg-slate-800 shadow-sm hover:shadow transition-shadow rounded-xl">
+                        className="border-slate-200/40 dark:border-slate-700/30 bg-white dark:bg-slate-800 shadow-sm hover:shadow transition-shadow rounded-xl no-select">
                         <CardHeader className="pb-2">
                             <CardTitle
                                 className="text-sm font-medium text-slate-500 dark:text-slate-400 flex items-center">
@@ -322,7 +322,7 @@ export default function ServerDetailsPage() {
                     className="border-slate-200/60 dark:border-slate-700/40 bg-white dark:bg-slate-800 shadow-sm overflow-hidden rounded-xl py-0">
                     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                         <TabsList
-                            className="grid grid-cols-4 rounded-none border-b border-slate-200 dark:border-slate-700 bg-transparent p-0 h-12">
+                            className="grid grid-cols-4 rounded-none border-b border-slate-200 dark:border-slate-700 bg-transparent p-0 h-12 no-select">
                             <TabsTrigger
                                 value="console"
                                 className="relative rounded-none data-[state=active]:bg-transparent data-[state=active]:text-indigo-600 dark:data-[state=active]:text-indigo-400 data-[state=active]:shadow-none h-12 border-transparent border-0"
@@ -367,7 +367,7 @@ export default function ServerDetailsPage() {
 
                         <TabsContent value="console" className="m-0 px-6 pb-4">
                             <div className="flex flex-col h-full">
-                                <div className="flex items-center justify-between mb-4">
+                                <div className="flex items-center justify-between mb-4 no-select">
                                     <div>
                                         <h3 className="text-lg font-medium text-slate-900 dark:text-slate-50">Server
                                             Console</h3>
@@ -379,34 +379,67 @@ export default function ServerDetailsPage() {
                                 <div
                                     className="relative flex-1 border border-slate-200/40 dark:border-slate-700/30 rounded-lg overflow-hidden bg-slate-950">
                                     <ScrollArea
-                                        className="h-[352px] w-full text-emerald-400 p-4 font-mono text-sm">
-                                        <div className="pb-1 text-xs text-slate-500">--- Server started
-                                            on {new Date().toLocaleString()} ---
-                                        </div>
-                                        {server.console.map((line, i) => {
-                                            // Apply styling based on content type
-                                            const isError = line.content.toLowerCase().includes('error') || line.content.toLowerCase().includes('exception');
-                                            const isWarning = line.content.toLowerCase().includes('warn');
-                                            const isInfo = line.content.toLowerCase().includes('info');
+                                        className="h-[352px] w-full text-emerald-400 p-4 font-mono text-sm"
+                                        style={{
+                                            userSelect: 'none',
+                                            WebkitTouchCallout: 'none'
+                                        }}
+                                        onFocus={(e) => {
+                                            const element = e.currentTarget;
+                                            element.style.userSelect = 'text';
+                                        }}
+                                        onBlur={(e) => {
+                                            const element = e.currentTarget;
+                                            element.style.userSelect = 'none';
+                                        }}
+                                        tabIndex={0} // Make the ScrollArea focusable
+                                    >
+                                        <div
+                                            className="console-content"
+                                            onKeyDown={(e) => {
+                                                // Prevent Ctrl+A selection in the console
+                                                if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
+                                                    e.preventDefault();
+                                                }
+                                            }}
+                                            onSelectCapture={(e) => {
+                                                // Check if the selection was triggered by Ctrl+A
+                                                if (document.getSelection()?.toString() === document.querySelector('.console-content')?.textContent) {
+                                                    // If entire content is selected, it's likely Ctrl+A
+                                                    e.preventDefault();
+                                                    // Clear selection
+                                                    window.getSelection()?.removeAllRanges();
+                                                }
+                                            }}
+                                        >
+                                            <div className="pb-1 text-xs text-slate-500 no-select">--- Server started
+                                                on {new Date().toLocaleString()} ---
+                                            </div>
+                                            {server.console.map((line, i) => {
+                                                // Apply styling based on content type
+                                                const isError = line.content.toLowerCase().includes('error') || line.content.toLowerCase().includes('exception');
+                                                const isWarning = line.content.toLowerCase().includes('warn');
+                                                const isInfo = line.content.toLowerCase().includes('info');
 
-                                            return (
-                                                <div
-                                                    key={i}
-                                                    className={cn(
-                                                        'pb-1',
-                                                        isError && 'text-red-400',
-                                                        isWarning && 'text-amber-400',
-                                                        isInfo && 'text-blue-400'
-                                                    )}
-                                                >
-                                                    <span className="text-slate-500">[{line.time}]</span> {line.content}
-                                                </div>
-                                            );
-                                        })}
+                                                return (
+                                                    <div
+                                                        key={i}
+                                                        className={cn(
+                                                            'pb-1',
+                                                            isError && 'text-red-400',
+                                                            isWarning && 'text-amber-400',
+                                                            isInfo && 'text-blue-400'
+                                                        )}
+                                                    >
+                                                        <span className="text-slate-500">[{line.time}]</span> {line.content}
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
                                     </ScrollArea>
 
                                     <form onSubmit={handleCommandSubmit}
-                                          className="absolute bottom-0 left-0 right-0 border-t border-slate-700/50 bg-slate-950 px-4 py-2">
+                                          className="absolute bottom-0 left-0 right-0 border-t border-slate-700/50 bg-slate-950 px-4 py-2 no-select">
                                         <div className="flex items-center">
                                             <span className="text-slate-500 mr-2">$</span>
                                             <input
@@ -427,7 +460,7 @@ export default function ServerDetailsPage() {
                                     </form>
                                 </div>
 
-                                <div className="mt-2 text-xs text-slate-500 dark:text-slate-400">
+                                <div className="mt-2 text-xs text-slate-500 dark:text-slate-400 no-select">
                                     <span className="font-semibold">Tip:</span> Type{' '}
                                     <code
                                         className="px-1 py-0.5 bg-slate-100 dark:bg-slate-800 rounded text-indigo-700 dark:text-indigo-400">help</code> to
@@ -437,16 +470,20 @@ export default function ServerDetailsPage() {
                         </TabsContent>
 
                         <TabsContent value="files" className="m-0 p-6 py-4">
-                            <FileManager serverId={serverId!}/>
+                            <div className="no-select">
+                                <FileManager serverId={serverId!}/>
+                            </div>
                         </TabsContent>
 
                         <TabsContent value="activity" className="m-0 p-6 py-4">
-                            <ActivityLog activities={[]}/>
+                            <div className="no-select">
+                                <ActivityLog activities={[]}/>
+                            </div>
                         </TabsContent>
 
                         <TabsContent value="settings" className="m-0 px-6 pb-4">
-                            <div className="space-y-6">
-                                <div>
+                            <div className="space-y-6 no-select">
+                                <div className="no-select">
                                     <h3 className="text-lg font-medium text-slate-900 dark:text-slate-50">Server
                                         Settings</h3>
                                     <p className="text-sm text-slate-500 dark:text-slate-400">Configure your server
@@ -455,7 +492,7 @@ export default function ServerDetailsPage() {
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <Card
-                                        className="border-slate-200/60 dark:border-slate-700/40 bg-white dark:bg-slate-800 shadow-sm rounded-xl py-0">
+                                        className="border-slate-200/60 dark:border-slate-700/40 bg-white dark:bg-slate-800 shadow-sm rounded-xl py-0 no-select">
                                         <CardHeader className="p-4">
                                             <CardTitle className="text-base text-slate-900 dark:text-slate-50">General
                                                 Settings</CardTitle>
@@ -521,7 +558,7 @@ export default function ServerDetailsPage() {
                                     </Card>
 
                                     <Card
-                                        className="border-slate-200/60 dark:border-slate-700/40 bg-white dark:bg-slate-800 shadow-sm rounded-xl py-0">
+                                        className="border-slate-200/60 dark:border-slate-700/40 bg-white dark:bg-slate-800 shadow-sm rounded-xl py-0 no-select">
                                         <CardHeader className="p-4">
                                             <CardTitle className="text-base text-slate-900 dark:text-slate-50">Network
                                                 Settings</CardTitle>

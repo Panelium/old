@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {cn} from "~/lib/utils";
 import {cva} from "class-variance-authority";
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {FolderOpen, Play, Settings, Square, Terminal, Users} from 'lucide-react';
 
 interface ServerCardProps {
@@ -74,13 +74,9 @@ export function ServerCard({server, className}: ServerCardProps) {
         return `${Math.round(mb)} MB`;
     };
 
-    // Handle navigation to server page
-    const handleServerClick = (e: React.MouseEvent) => {
-        navigate(`/server/${server.id}`);
-    };
-
     // Handle specific action button clicks
     const handleActionClick = (e: React.MouseEvent, action: string) => {
+        e.preventDefault(); // Prevent the link navigation
         e.stopPropagation(); // Prevent triggering the card's onClick
 
         switch (action) {
@@ -102,17 +98,17 @@ export function ServerCard({server, className}: ServerCardProps) {
     };
 
     return (
-        <div
+        <Link
+            to={`/server/${server.id}`}
             className={cn(
                 "group relative overflow-hidden rounded-lg border bg-white shadow-sm border-slate-200 dark:border-slate-700",
                 "hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-900/50",
                 "dark:bg-slate-900 dark:border-slate-800",
-                "flex h-full cursor-pointer",
+                "flex h-full",
                 className
             )}
             onMouseEnter={() => setActionsOpen(true)}
             onMouseLeave={() => setActionsOpen(false)}
-            onClick={handleServerClick}
         >
             {/* Main content */}
             <div
@@ -228,6 +224,7 @@ export function ServerCard({server, className}: ServerCardProps) {
                     minWidth: actionsOpen ? '60px' : '0',
                     transition: 'width 0.2s ease-in-out, min-width 0.2s ease-in-out, background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, padding 0.2s ease-in-out'
                 }}
+                onClick={(e) => e.preventDefault()}
             >
                 {/* Action buttons with visibility toggling */}
                 <div className={cn(
@@ -296,6 +293,6 @@ export function ServerCard({server, className}: ServerCardProps) {
                     </button>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 }
