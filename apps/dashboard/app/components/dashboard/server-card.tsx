@@ -239,7 +239,7 @@ export function ServerCard({server, className}: ServerCardProps) {
                             "transition-all duration-200",
                             actionsOpen ? "scale-100" : "scale-75"
                         )}
-                        style={{transitionDelay: actionsOpen ? "50ms" : "0ms"}}
+                        style={{transitionDelay: actionsOpen ? "25ms" : "0ms"}}
                         title={server.status === 'Online' ? 'Stop Server' : 'Start Server'}
                         onClick={(e) => handleActionClick(e, 'power')}
                     >
@@ -257,7 +257,7 @@ export function ServerCard({server, className}: ServerCardProps) {
                             "transition-all duration-200",
                             actionsOpen ? "scale-100" : "scale-75"
                         )}
-                        style={{transitionDelay: actionsOpen ? "100ms" : "0ms"}}
+                        style={{transitionDelay: actionsOpen ? "25ms" : "0ms"}}
                         title="Open Console"
                         onClick={(e) => handleActionClick(e, 'console')}
                     >
@@ -271,7 +271,7 @@ export function ServerCard({server, className}: ServerCardProps) {
                             "transition-all duration-200",
                             actionsOpen ? "scale-100" : "scale-75"
                         )}
-                        style={{transitionDelay: actionsOpen ? "150ms" : "0ms"}}
+                        style={{transitionDelay: actionsOpen ? "25ms" : "0ms"}}
                         title="File Manager"
                         onClick={(e) => handleActionClick(e, 'files')}
                     >
@@ -285,7 +285,7 @@ export function ServerCard({server, className}: ServerCardProps) {
                             "transition-all duration-200",
                             actionsOpen ? "scale-100" : "scale-75"
                         )}
-                        style={{transitionDelay: actionsOpen ? "200ms" : "0ms"}}
+                        style={{transitionDelay: actionsOpen ? "25ms" : "0ms"}}
                         title="Server Settings"
                         onClick={(e) => handleActionClick(e, 'settings')}
                     >
