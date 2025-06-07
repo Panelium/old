@@ -48,6 +48,12 @@ export default function LoginPage() {
         navigate("/", {replace: true});
     }
 
+    function showSignUpError() {
+        form.setError("root", {
+            message: "Authentication is not implemented yet. Please use the bypass button.",
+        });
+    }
+
     return (
         <div className="flex min-h-screen items-center justify-center px-4 py-12 w-sm">
             <Card className="w-full max-w-sm">
@@ -132,8 +138,8 @@ export default function LoginPage() {
                     <p className="text-sm text-center text-muted-foreground no-select">
                         Don't have an account?{" "}
                         <a
-                            href="/auth/signup"
                             className="text-primary underline-offset-4 hover:underline"
+                            onClick={showSignUpError}
                         >
                             Sign up
                         </a>
