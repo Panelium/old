@@ -1,7 +1,7 @@
 import React from 'react';
 import {Card, CardContent, CardHeader, CardTitle} from '~/components/ui/card';
-import {ResourceGauge} from '~/components/dashboard/resource-gauge';
-import {ServerCard} from '~/components/dashboard/server-card';
+import {ResourceGauge} from '~/components/dashboard/ResourceGauge';
+import {ServerCard} from '~/components/dashboard/ServerCard';
 import {Plus, Users} from 'lucide-react';
 
 // Mock data for demonstration
@@ -97,7 +97,8 @@ export default function DashboardOverviewPage() {
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                <Card className="shadow-sm hover:shadow-md transition-shadow border-slate-200 dark:border-slate-700 no-select">
+                <Card
+                    className="shadow-sm hover:shadow-md transition-shadow border-slate-200 dark:border-slate-700 no-select">
                     <CardHeader className="pb-2">
                         <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400">
                             Player Activity
@@ -124,7 +125,8 @@ export default function DashboardOverviewPage() {
                     </CardContent>
                 </Card>
 
-                <Card className="shadow-sm hover:shadow-md transition-shadow border-slate-200 dark:border-slate-700 no-select">
+                <Card
+                    className="shadow-sm hover:shadow-md transition-shadow border-slate-200 dark:border-slate-700 no-select">
                     <CardHeader className="pb-2">
                         <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400">
                             CPU Usage
@@ -148,7 +150,8 @@ export default function DashboardOverviewPage() {
                     </CardContent>
                 </Card>
 
-                <Card className="shadow-sm hover:shadow-md transition-shadow border-slate-200 dark:border-slate-700 no-select">
+                <Card
+                    className="shadow-sm hover:shadow-md transition-shadow border-slate-200 dark:border-slate-700 no-select">
                     <CardHeader className="pb-2">
                         <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400">
                             Memory Usage

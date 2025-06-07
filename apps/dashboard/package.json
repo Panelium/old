@@ -68,9 +68,9 @@
     "@types/node": "^20",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
+    "@typescript/native-preview": "^7.0.0-dev.20250607.1",
     "tailwindcss": "^4.1.8",
     "tw-animate-css": "^1.3.4",
-    "typescript": "^5.8.3",
     "vite": "^6.3.3",
     "vite-tsconfig-paths": "^5.1.4"
   }

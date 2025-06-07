@@ -1,13 +1,14 @@
 import React from 'react';
 import {Link, Outlet, useLocation} from 'react-router-dom';
 import {cn} from '~/lib/utils';
-import {BarChart, ChevronLeft, LayoutGrid, LogOut, Moon, PanelLeftIcon, Server, Settings, Sun} from 'lucide-react';
+import {ChevronLeft, LayoutGrid, LogOut, Moon, PanelLeftIcon, Server, Sun} from 'lucide-react';
 import {Button} from '~/components/ui/button';
 import {ScrollArea} from '~/components/ui/scroll-area';
 import {Avatar, AvatarFallback, AvatarImage} from '~/components/ui/avatar';
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from '~/components/ui/dropdown-menu';
 import {Sidebar, SidebarProvider, useSidebar} from '~/components/ui/sidebar';
-import {useTheme} from '~/components/theme-provider';
+import {useTheme} from '~/providers/ThemeProvider';
+import {useLogout} from "~/providers/SessionProvider";
 
 const navigationItems = [
     {
@@ -65,11 +66,16 @@ function DesktopSidebarToggle() {
 export default function UserDashboardLayout() {
     const location = useLocation();
     const {theme, setTheme} = useTheme();
+    const performLogout = useLogout();
 
     // Toggle theme
     const toggleTheme = () => {
         setTheme(theme === 'light' ? 'dark' : 'light');
     };
+
+    async function handleLogout() {
+        await performLogout();
+    }
 
     return (
         <SidebarProvider defaultOpen={true}>
@@ -131,8 +137,14 @@ export default function UserDashboardLayout() {
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end" className="w-56 no-select">
                                     <DropdownMenuItem className="text-red-500 focus:text-red-500">
-                                        <LogOut className="mr-2 h-4 w-4"/>
-                                        <span>Logout</span>
+                                        <Button
+                                            variant="ghost"
+                                            className="w-full justify-start"
+                                            onClick={handleLogout}
+                                        >
+                                            <LogOut className="mr-2 h-4 w-4"/>
+                                            <span>Logout</span>
+                                        </Button>
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
@@ -150,7 +162,8 @@ export default function UserDashboardLayout() {
                             <DesktopSidebarToggle/>
                             {/* Additional header content can go here */}
                         </div>
-                        <Button variant="ghost" size="icon" onClick={toggleTheme} className="no-select">
+                        <Button variant="ghost" size="icon" onClick={toggleTheme} className="no-select"
+                                aria-label="Toggle theme">
                             {theme === 'light' ? <Moon className="h-5 w-5"/> : <Sun className="h-5 w-5"/>}
                         </Button>
                     </header>

@@ -19,11 +19,10 @@ import {
     Server as ServerIcon,
     Settings,
     Terminal,
-    X,
 } from 'lucide-react';
 import {cn} from '~/lib/utils';
-import {FileManager} from '~/components/dashboard/file-manager';
-import {ActivityLog} from '~/components/dashboard/activity-log';
+import {FileManager} from '~/components/dashboard/FileManager';
+import {ActivityLog} from '~/components/dashboard/ActivityLog';
 
 // Placeholder data - would normally come from an API
 const server = {
@@ -431,7 +430,8 @@ export default function ServerDetailsPage() {
                                                             isInfo && 'text-blue-400'
                                                         )}
                                                     >
-                                                        <span className="text-slate-500">[{line.time}]</span> {line.content}
+                                                        <span
+                                                            className="text-slate-500">[{line.time}]</span> {line.content}
                                                     </div>
                                                 );
                                             })}

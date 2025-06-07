@@ -3,9 +3,9 @@ import {NavLink, Outlet} from 'react-router-dom';
 import {Sidebar, SidebarProvider, useSidebar} from '~/components/ui/sidebar';
 import {Button} from '~/components/ui/button';
 import {
+    ChevronLeft,
     LayoutGrid,
     Moon,
-    ChevronLeft,
     Puzzle,
     Server as ServerIcon,
     Settings,
@@ -15,7 +15,7 @@ import {
     Users
 } from 'lucide-react';
 import {cn} from '~/lib/utils';
-import {useTheme} from "~/components/theme-provider";
+import {useTheme} from "~/providers/ThemeProvider";
 import {
     DropdownMenu,
     DropdownMenuContent,
