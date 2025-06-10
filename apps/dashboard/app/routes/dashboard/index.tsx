@@ -185,7 +185,7 @@ export default function DashboardOverviewPage() {
                     {mockServers.map((server) => (
                         <ServerCard
                             key={server.id}
-                            server={server}
+                            server={(server as any)}
                             className="no-select"
                         />
                     ))}
