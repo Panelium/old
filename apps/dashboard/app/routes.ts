@@ -21,7 +21,6 @@ export default [
         layout("layouts/UserDashboardLayout.tsx", [
             index("routes/dashboard/index.tsx"),
             route("server/*", "routes/dashboard/server/[id].tsx"),
-            route("settings", "routes/dashboard/settings.tsx"),
             ...userModuleRoutes,
         ]),
 
