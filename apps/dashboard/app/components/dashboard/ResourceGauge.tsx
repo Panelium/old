@@ -2,7 +2,7 @@ import React from 'react';
 import {motion} from 'framer-motion';
 import {cn} from '~/lib/utils';
 
-interface ResourceGaugeProps {
+export interface ResourceGaugeProps {
     value: number;
     maxValue: number;
     label?: string;
