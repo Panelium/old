@@ -1,4 +1,4 @@
-import {isRouteErrorResponse, Links, type LinksFunction, Meta, Outlet, Scripts, ScrollRestoration,} from "react-router";
+import {isRouteErrorResponse, Links, Meta, Outlet, Scripts, ScrollRestoration,} from "react-router";
 import ThemeProvider from "~/providers/ThemeProvider";
 import SessionProvider from "~/providers/SessionProvider";
 
@@ -13,7 +13,7 @@ export const meta: Route.MetaFunction = () => {
         {name: "theme-color", content: "#ffffff"},
     ];
 };
-export const links: LinksFunction = () => [];
+export const links: Route.LinksFunction = () => [];
 
 export function Layout({children}: { children: React.ReactNode }) {
     return (
