@@ -3,7 +3,7 @@ import {cn} from "~/lib/utils";
 import {cva} from "class-variance-authority";
 import {Link, useNavigate} from 'react-router-dom';
 import {FolderOpen, Play, Settings, Square, Terminal, Users} from 'lucide-react';
-import {Server} from "~/routes/dashboard/ServerCardGrid";
+import type {Server} from "~/routes/dashboard/ServerCardGrid";
 
 interface ServerCardProps {
     server: Server;
