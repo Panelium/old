@@ -1,28 +1,15 @@
 import React, {useState} from 'react';
 import {cn} from "~/lib/utils";
-import {cva} from "class-variance-authority";
 import {Link, useNavigate} from 'react-router-dom';
 import {FolderOpen, Play, Settings, Square, Terminal, Users} from 'lucide-react';
 import type {Server} from "~/routes/dashboard/ServerCardGrid";
+import StatusBadge from "~/components/dashboard/StatusBadge";
+import {ServerStatusType} from "proto-gen-ts/daemon_pb";
 
 interface ServerCardProps {
     server: Server;
     className?: string;
 }
-
-const statusVariants = cva("inline-flex items-center gap-1.5 px-2 py-0.5 text-xs font-medium rounded-full", {
-    variants: {
-        status: {
-            Online: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900/50",
-            Offline: "bg-slate-100 text-slate-700 dark:bg-slate-900/30 dark:text-slate-400 border border-slate-200 dark:border-slate-800/50",
-            Starting: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border border-amber-200 dark:border-amber-900/50 animate-pulse",
-            Stopping: "bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400 border border-rose-200 dark:border-rose-900/50 animate-pulse",
-        },
-    },
-    defaultVariants: {
-        status: "Offline",
-    },
-});
 
 const ResourceBar = ({value, max, className}: { value: number, max: number, className?: string }) => {
     const percentage = Math.min((value / max) * 100, 100);
@@ -105,16 +92,7 @@ export function ServerCard({server, className}: ServerCardProps) {
                     "absolute top-3 transition-all duration-200 ease-in-out",
                     actionsOpen ? "right-[calc(60px+0.75rem)]" : "right-3"
                 )}>
-                    <div className={statusVariants({status: server.status})}>
-                        <span className={cn(
-                            "inline-block h-2 w-2 rounded-full",
-                            server.status === "Online" && "bg-emerald-500",
-                            server.status === "Offline" && "bg-slate-500",
-                            server.status === "Starting" && "bg-amber-500",
-                            server.status === "Stopping" && "bg-rose-500",
-                        )}/>
-                        {server.status}
-                    </div>
+                    <StatusBadge status={server.status}/>
                 </div>
 
                 {/* Server icon and name */}
@@ -223,10 +201,10 @@ export function ServerCard({server, className}: ServerCardProps) {
                             actionsOpen ? "scale-100" : "scale-75"
                         )}
                         style={{transitionDelay: actionsOpen ? "25ms" : "0ms"}}
-                        title={server.status === 'Online' ? 'Stop Server' : 'Start Server'}
+                        title={server.status === ServerStatusType.SERVER_STATUS_ONLINE ? 'Stop Server' : 'Start Server'}
                         onClick={(e) => handleActionClick(e, 'power')}
                     >
-                        {server.status === 'Online' ? (
+                        {server.status === ServerStatusType.SERVER_STATUS_ONLINE ? (
                             <Square className="w-5 h-5"/>
                         ) : (
                             <Play className="w-5 h-5"/>

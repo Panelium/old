@@ -3,13 +3,14 @@ import {Users} from 'lucide-react';
 import ServerCardGrid, {type Server} from './ServerCardGrid';
 import type {OverviewCardProps} from './OverviewCard';
 import OverviewCardGrid from './OverviewCardGrid';
+import {ServerStatusType} from 'proto-gen-ts/daemon_pb';
 
 // Mock data for demonstration
 const mockServers: Server[] = [
     {
         id: '1',
         name: 'Minecraft SMP',
-        status: 'Online',
+        status: ServerStatusType.SERVER_STATUS_ONLINE,
         description: 'Survival multiplayer server',
         cpuUsage: 45,
         memoryUsage: {
@@ -27,7 +28,7 @@ const mockServers: Server[] = [
     {
         id: '2',
         name: 'Web Server',
-        status: 'Online',
+        status: ServerStatusType.SERVER_STATUS_STARTING,
         description: 'NGINX web server',
         cpuUsage: 12,
         memoryUsage: {
@@ -41,7 +42,7 @@ const mockServers: Server[] = [
     {
         id: '3',
         name: 'Terraria Adventure',
-        status: 'Offline',
+        status: ServerStatusType.SERVER_STATUS_OFFLINE,
         description: 'Terraria modded adventure server',
         cpuUsage: 0,
         memoryUsage: {
@@ -56,12 +57,48 @@ const mockServers: Server[] = [
         ip: '192.168.1.3',
         port: 7777,
     },
+    {
+        id: '4',
+        name: 'Rust Survival',
+        status: ServerStatusType.SERVER_STATUS_STOPPING,
+        description: 'Rust survival server',
+        cpuUsage: 30,
+        memoryUsage: {
+            used: 1024 * 1024,
+            total: 2048 * 1024,
+        },
+        game: 'Rust',
+        players: {
+            online: 5,
+            max: 100,
+        },
+        ip: '192.168.1.23',
+        port: 28015,
+    },
+    {
+        id: '5',
+        name: 'ARK: Survival Evolved',
+        status: ServerStatusType.SERVER_STATUS_UNKNOWN,
+        description: 'ARK survival server',
+        cpuUsage: 60,
+        memoryUsage: {
+            used: 3072 * 1024,
+            total: 8192 * 1024,
+        },
+        game: 'ARK',
+        players: {
+            online: 20,
+            max: 70,
+        },
+        ip: '192.168.1.13',
+        port: 7778,
+    },
 ];
 
 export default function DashboardOverviewPage() {
     // Calculate actual stats from server data
     const totalServers = mockServers.length;
-    const onlineServers = mockServers.filter(s => s.status === 'Online').length;
+    const onlineServers = mockServers.filter(s => s.status === ServerStatusType.SERVER_STATUS_ONLINE).length;
 
     // Calculate total players across all servers
     const totalPlayers = mockServers.reduce((acc, server) => {
@@ -72,7 +109,7 @@ export default function DashboardOverviewPage() {
     }, 0);
 
     // Calculate average CPU usage from online servers
-    const onlineServersArray = mockServers.filter(s => s.status === 'Online');
+    const onlineServersArray = mockServers.filter(s => s.status === ServerStatusType.SERVER_STATUS_ONLINE);
     const avgCpuUsage = onlineServersArray.length
         ? Math.round(onlineServersArray.reduce((acc, server) => acc + server.cpuUsage, 0) / onlineServersArray.length)
         : 0;

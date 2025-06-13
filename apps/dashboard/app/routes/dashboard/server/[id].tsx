@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {Link, useParams, useSearchParams} from 'react-router-dom';
 import {Card, CardContent, CardHeader, CardTitle} from '~/components/ui/card';
 import {Button} from '~/components/ui/button';
-import {Badge} from '~/components/ui/badge';
 import {Tabs, TabsContent, TabsList, TabsTrigger} from '~/components/ui/tabs';
 import {ScrollArea} from '~/components/ui/scroll-area';
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '~/components/ui/select';
@@ -23,12 +22,14 @@ import {
 import {cn} from '~/lib/utils';
 import {FileManager} from '~/components/dashboard/FileManager';
 import {ActivityLog} from '~/components/dashboard/ActivityLog';
+import StatusBadge from "~/components/dashboard/StatusBadge";
+import {ServerStatusType} from 'proto-gen-ts/daemon_pb';
 
 // Placeholder data - would normally come from an API
 const server = {
     id: '1',
     name: 'My Awesome Server 1',
-    status: 'Online',
+    status: ServerStatusType.SERVER_STATUS_ONLINE,
     node: 'Node Alpha',
     cpuUsage: 25,
     memoryUsage: {
@@ -95,38 +96,6 @@ export default function ServerDetailsPage() {
         setCommand('');
     };
 
-    // Get status badge styling
-    const getStatusBadge = (status: string) => {
-        switch (status) {
-            case 'Online':
-                return (
-                    <Badge variant="outline"
-                           className="bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-400 dark:border-emerald-900/30">
-                        <span className="mr-1 h-1.5 w-1.5 rounded-full bg-emerald-500 inline-block"></span>
-                        Online
-                    </Badge>
-                );
-            case 'Offline':
-                return (
-                    <Badge variant="outline"
-                           className="bg-slate-50 text-slate-700 border-slate-200 dark:bg-slate-900/20 dark:text-slate-400 dark:border-slate-900/30">
-                        <span className="mr-1 h-1.5 w-1.5 rounded-full bg-slate-400 inline-block"></span>
-                        Offline
-                    </Badge>
-                );
-            case 'Starting':
-                return (
-                    <Badge variant="outline"
-                           className="bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-900/30">
-                        <span className="mr-1 h-1.5 w-1.5 rounded-full bg-amber-500 animate-pulse inline-block"></span>
-                        Starting
-                    </Badge>
-                );
-            default:
-                return <Badge variant="outline">{status}</Badge>;
-        }
-    };
-
     return (
         <div className="p-6 bg-slate-50 dark:bg-slate-900 min-h-full">
             <div className="max-w-7xl mx-auto space-y-8">
@@ -143,7 +112,7 @@ export default function ServerDetailsPage() {
                         <div>
                             <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-50">{server.name}</h1>
                             <div className="flex items-center gap-3 mt-1">
-                                {getStatusBadge(server.status)}
+                                <StatusBadge status={server.status}/>
                                 <div className="flex items-center text-sm text-slate-500 dark:text-slate-400">
                                     <ServerIcon className="h-3.5 w-3.5 mr-1.5"/>
                                     {server.game}

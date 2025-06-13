@@ -2,11 +2,12 @@ import {ServerCard} from "~/components/dashboard/ServerCard";
 import {Card} from "~/components/ui/card";
 import {Plus} from "lucide-react";
 import React from "react";
+import {ServerStatusType} from "proto-gen-ts/daemon_pb";
 
 export interface Server {
     id: string;
     name: string;
-    status: 'Online' | 'Offline' | 'Starting' | 'Stopping';
+    status: ServerStatusType;
     description?: string;
     icon?: string;
     cpuUsage: number;
