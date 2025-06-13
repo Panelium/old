@@ -16,10 +16,7 @@ service ServerService {
   rpc GetStatus(Empty) returns (ServerStatus);
 
   // Power Actions
-  rpc Start(Empty) returns (Empty);
-  rpc Restart(Empty) returns (Empty);
-  rpc Stop(Empty) returns (Empty);
-  rpc Kill(Empty) returns (Empty);
+  rpc PowerAction(SimpleMessage) returns (Empty);
 }
 
 // Server Info
@@ -44,4 +41,13 @@ enum ServerOfflineReason {
   SERVER_OFFLINE_REASON_STOPPED = 2;
   SERVER_OFFLINE_REASON_KILLED = 3;
   SERVER_OFFLINE_REASON_ERROR = 4;
+}
+
+// Power Actions
+enum PowerAction {
+  POWER_ACTION_UNSPECIFIED = 0; // Default value, should not be used
+  POWER_ACTION_START = 1;
+  POWER_ACTION_RESTART = 2;
+  POWER_ACTION_STOP = 3;
+  POWER_ACTION_KILL = 4;
 }

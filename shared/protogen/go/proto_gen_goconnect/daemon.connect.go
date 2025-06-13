@@ -45,14 +45,9 @@ const (
 	ServerServiceRunTerminalCommandProcedure = "/ServerService/RunTerminalCommand"
 	// ServerServiceGetStatusProcedure is the fully-qualified name of the ServerService's GetStatus RPC.
 	ServerServiceGetStatusProcedure = "/ServerService/GetStatus"
-	// ServerServiceStartProcedure is the fully-qualified name of the ServerService's Start RPC.
-	ServerServiceStartProcedure = "/ServerService/Start"
-	// ServerServiceRestartProcedure is the fully-qualified name of the ServerService's Restart RPC.
-	ServerServiceRestartProcedure = "/ServerService/Restart"
-	// ServerServiceStopProcedure is the fully-qualified name of the ServerService's Stop RPC.
-	ServerServiceStopProcedure = "/ServerService/Stop"
-	// ServerServiceKillProcedure is the fully-qualified name of the ServerService's Kill RPC.
-	ServerServiceKillProcedure = "/ServerService/Kill"
+	// ServerServicePowerActionProcedure is the fully-qualified name of the ServerService's PowerAction
+	// RPC.
+	ServerServicePowerActionProcedure = "/ServerService/PowerAction"
 )
 
 // ServerServiceClient is a client for the ServerService service.
@@ -66,10 +61,7 @@ type ServerServiceClient interface {
 	// Server Info
 	GetStatus(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.ServerStatus], error)
 	// Power Actions
-	Start(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.Empty], error)
-	Restart(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.Empty], error)
-	Stop(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.Empty], error)
-	Kill(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.Empty], error)
+	PowerAction(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.Empty], error)
 }
 
 // NewServerServiceClient constructs a client for the ServerService service. By default, it uses the
@@ -113,28 +105,10 @@ func NewServerServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 			connect.WithSchema(serverServiceMethods.ByName("GetStatus")),
 			connect.WithClientOptions(opts...),
 		),
-		start: connect.NewClient[proto_gen_go.Empty, proto_gen_go.Empty](
+		powerAction: connect.NewClient[proto_gen_go.SimpleMessage, proto_gen_go.Empty](
 			httpClient,
-			baseURL+ServerServiceStartProcedure,
-			connect.WithSchema(serverServiceMethods.ByName("Start")),
-			connect.WithClientOptions(opts...),
-		),
-		restart: connect.NewClient[proto_gen_go.Empty, proto_gen_go.Empty](
-			httpClient,
-			baseURL+ServerServiceRestartProcedure,
-			connect.WithSchema(serverServiceMethods.ByName("Restart")),
-			connect.WithClientOptions(opts...),
-		),
-		stop: connect.NewClient[proto_gen_go.Empty, proto_gen_go.Empty](
-			httpClient,
-			baseURL+ServerServiceStopProcedure,
-			connect.WithSchema(serverServiceMethods.ByName("Stop")),
-			connect.WithClientOptions(opts...),
-		),
-		kill: connect.NewClient[proto_gen_go.Empty, proto_gen_go.Empty](
-			httpClient,
-			baseURL+ServerServiceKillProcedure,
-			connect.WithSchema(serverServiceMethods.ByName("Kill")),
+			baseURL+ServerServicePowerActionProcedure,
+			connect.WithSchema(serverServiceMethods.ByName("PowerAction")),
 			connect.WithClientOptions(opts...),
 		),
 	}
@@ -147,10 +121,7 @@ type serverServiceClient struct {
 	terminal           *connect.Client[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]
 	runTerminalCommand *connect.Client[proto_gen_go.SimpleMessage, proto_gen_go.Empty]
 	getStatus          *connect.Client[proto_gen_go.Empty, proto_gen_go.ServerStatus]
-	start              *connect.Client[proto_gen_go.Empty, proto_gen_go.Empty]
-	restart            *connect.Client[proto_gen_go.Empty, proto_gen_go.Empty]
-	stop               *connect.Client[proto_gen_go.Empty, proto_gen_go.Empty]
-	kill               *connect.Client[proto_gen_go.Empty, proto_gen_go.Empty]
+	powerAction        *connect.Client[proto_gen_go.SimpleMessage, proto_gen_go.Empty]
 }
 
 // Console calls ServerService.Console.
@@ -178,24 +149,9 @@ func (c *serverServiceClient) GetStatus(ctx context.Context, req *connect.Reques
 	return c.getStatus.CallUnary(ctx, req)
 }
 
-// Start calls ServerService.Start.
-func (c *serverServiceClient) Start(ctx context.Context, req *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.Empty], error) {
-	return c.start.CallUnary(ctx, req)
-}
-
-// Restart calls ServerService.Restart.
-func (c *serverServiceClient) Restart(ctx context.Context, req *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.Empty], error) {
-	return c.restart.CallUnary(ctx, req)
-}
-
-// Stop calls ServerService.Stop.
-func (c *serverServiceClient) Stop(ctx context.Context, req *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.Empty], error) {
-	return c.stop.CallUnary(ctx, req)
-}
-
-// Kill calls ServerService.Kill.
-func (c *serverServiceClient) Kill(ctx context.Context, req *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.Empty], error) {
-	return c.kill.CallUnary(ctx, req)
+// PowerAction calls ServerService.PowerAction.
+func (c *serverServiceClient) PowerAction(ctx context.Context, req *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.Empty], error) {
+	return c.powerAction.CallUnary(ctx, req)
 }
 
 // ServerServiceHandler is an implementation of the ServerService service.
@@ -209,10 +165,7 @@ type ServerServiceHandler interface {
 	// Server Info
 	GetStatus(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.ServerStatus], error)
 	// Power Actions
-	Start(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.Empty], error)
-	Restart(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.Empty], error)
-	Stop(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.Empty], error)
-	Kill(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.Empty], error)
+	PowerAction(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.Empty], error)
 }
 
 // NewServerServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -252,28 +205,10 @@ func NewServerServiceHandler(svc ServerServiceHandler, opts ...connect.HandlerOp
 		connect.WithSchema(serverServiceMethods.ByName("GetStatus")),
 		connect.WithHandlerOptions(opts...),
 	)
-	serverServiceStartHandler := connect.NewUnaryHandler(
-		ServerServiceStartProcedure,
-		svc.Start,
-		connect.WithSchema(serverServiceMethods.ByName("Start")),
-		connect.WithHandlerOptions(opts...),
-	)
-	serverServiceRestartHandler := connect.NewUnaryHandler(
-		ServerServiceRestartProcedure,
-		svc.Restart,
-		connect.WithSchema(serverServiceMethods.ByName("Restart")),
-		connect.WithHandlerOptions(opts...),
-	)
-	serverServiceStopHandler := connect.NewUnaryHandler(
-		ServerServiceStopProcedure,
-		svc.Stop,
-		connect.WithSchema(serverServiceMethods.ByName("Stop")),
-		connect.WithHandlerOptions(opts...),
-	)
-	serverServiceKillHandler := connect.NewUnaryHandler(
-		ServerServiceKillProcedure,
-		svc.Kill,
-		connect.WithSchema(serverServiceMethods.ByName("Kill")),
+	serverServicePowerActionHandler := connect.NewUnaryHandler(
+		ServerServicePowerActionProcedure,
+		svc.PowerAction,
+		connect.WithSchema(serverServiceMethods.ByName("PowerAction")),
 		connect.WithHandlerOptions(opts...),
 	)
 	return "/ServerService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -288,14 +223,8 @@ func NewServerServiceHandler(svc ServerServiceHandler, opts ...connect.HandlerOp
 			serverServiceRunTerminalCommandHandler.ServeHTTP(w, r)
 		case ServerServiceGetStatusProcedure:
 			serverServiceGetStatusHandler.ServeHTTP(w, r)
-		case ServerServiceStartProcedure:
-			serverServiceStartHandler.ServeHTTP(w, r)
-		case ServerServiceRestartProcedure:
-			serverServiceRestartHandler.ServeHTTP(w, r)
-		case ServerServiceStopProcedure:
-			serverServiceStopHandler.ServeHTTP(w, r)
-		case ServerServiceKillProcedure:
-			serverServiceKillHandler.ServeHTTP(w, r)
+		case ServerServicePowerActionProcedure:
+			serverServicePowerActionHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -325,18 +254,6 @@ func (UnimplementedServerServiceHandler) GetStatus(context.Context, *connect.Req
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("ServerService.GetStatus is not implemented"))
 }
 
-func (UnimplementedServerServiceHandler) Start(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.Empty], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("ServerService.Start is not implemented"))
-}
-
-func (UnimplementedServerServiceHandler) Restart(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.Empty], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("ServerService.Restart is not implemented"))
-}
-
-func (UnimplementedServerServiceHandler) Stop(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.Empty], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("ServerService.Stop is not implemented"))
-}
-
-func (UnimplementedServerServiceHandler) Kill(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.Empty], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("ServerService.Kill is not implemented"))
+func (UnimplementedServerServiceHandler) PowerAction(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.Empty], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("ServerService.PowerAction is not implemented"))
 }

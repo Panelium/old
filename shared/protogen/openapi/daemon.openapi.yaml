@@ -109,13 +109,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServerStatus'
-  /ServerService/Start:
+  /ServerService/PowerAction:
     post:
       tags:
         - ServerService
-      summary: Start
+      summary: PowerAction
       description: Power Actions
-      operationId: ServerService.Start
+      operationId: ServerService.PowerAction
       parameters:
         - name: Connect-Protocol-Version
           in: header
@@ -130,112 +130,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Empty'
-        required: true
-      responses:
-        default:
-          description: Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/connect.error'
-        "200":
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Empty'
-  /ServerService/Restart:
-    post:
-      tags:
-        - ServerService
-      summary: Restart
-      operationId: ServerService.Restart
-      parameters:
-        - name: Connect-Protocol-Version
-          in: header
-          required: true
-          schema:
-            $ref: '#/components/schemas/connect-protocol-version'
-        - name: Connect-Timeout-Ms
-          in: header
-          schema:
-            $ref: '#/components/schemas/connect-timeout-header'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Empty'
-        required: true
-      responses:
-        default:
-          description: Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/connect.error'
-        "200":
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Empty'
-  /ServerService/Stop:
-    post:
-      tags:
-        - ServerService
-      summary: Stop
-      operationId: ServerService.Stop
-      parameters:
-        - name: Connect-Protocol-Version
-          in: header
-          required: true
-          schema:
-            $ref: '#/components/schemas/connect-protocol-version'
-        - name: Connect-Timeout-Ms
-          in: header
-          schema:
-            $ref: '#/components/schemas/connect-timeout-header'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Empty'
-        required: true
-      responses:
-        default:
-          description: Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/connect.error'
-        "200":
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Empty'
-  /ServerService/Kill:
-    post:
-      tags:
-        - ServerService
-      summary: Kill
-      operationId: ServerService.Kill
-      parameters:
-        - name: Connect-Protocol-Version
-          in: header
-          required: true
-          schema:
-            $ref: '#/components/schemas/connect-protocol-version'
-        - name: Connect-Timeout-Ms
-          in: header
-          schema:
-            $ref: '#/components/schemas/connect-timeout-header'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Empty'
+              $ref: '#/components/schemas/SimpleMessage'
         required: true
       responses:
         default:
@@ -252,6 +147,16 @@ paths:
                 $ref: '#/components/schemas/Empty'
 components:
   schemas:
+    PowerAction:
+      type: string
+      title: PowerAction
+      enum:
+        - POWER_ACTION_UNSPECIFIED
+        - POWER_ACTION_START
+        - POWER_ACTION_RESTART
+        - POWER_ACTION_STOP
+        - POWER_ACTION_KILL
+      description: Power Actions
     ServerOfflineReason:
       type: string
       title: ServerOfflineReason

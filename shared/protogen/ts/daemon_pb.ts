@@ -14,7 +14,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file daemon.proto.
  */
 export const file_daemon: GenFile = /*@__PURE__*/
-  fileDesc("CgxkYWVtb24ucHJvdG8ixAEKDFNlcnZlclN0YXR1cxIhCgZzdGF0dXMYASACKA4yES5TZXJ2ZXJTdGF0dXNUeXBlEjIKDnRpbWVzdGFtcFN0YXJ0GAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIwCgx0aW1lc3RhbXBFbmQYAyABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEisKDW9mZmxpbmVSZWFzb24YBCABKA4yFC5TZXJ2ZXJPZmZsaW5lUmVhc29uKpoBChBTZXJ2ZXJTdGF0dXNUeXBlEhkKFVNFUlZFUl9TVEFUVVNfVU5LTk9XThAAEhoKFlNFUlZFUl9TVEFUVVNfU1RBUlRJTkcQARIYChRTRVJWRVJfU1RBVFVTX09OTElORRACEhoKFlNFUlZFUl9TVEFUVVNfU1RPUFBJTkcQAxIZChVTRVJWRVJfU1RBVFVTX09GRkxJTkUQBCrBAQoTU2VydmVyT2ZmbGluZVJlYXNvbhIhCh1TRVJWRVJfT0ZGTElORV9SRUFTT05fVU5LTk9XThAAEiEKHVNFUlZFUl9PRkZMSU5FX1JFQVNPTl9DUkVBVEVEEAESIQodU0VSVkVSX09GRkxJTkVfUkVBU09OX1NUT1BQRUQQAhIgChxTRVJWRVJfT0ZGTElORV9SRUFTT05fS0lMTEVEEAMSHwobU0VSVkVSX09GRkxJTkVfUkVBU09OX0VSUk9SEAQyygIKDVNlcnZlclNlcnZpY2USLQoHQ29uc29sZRIOLlNpbXBsZU1lc3NhZ2UaDi5TaW1wbGVNZXNzYWdlKAEwARIkCgpSdW5Db21tYW5kEg4uU2ltcGxlTWVzc2FnZRoGLkVtcHR5Ei4KCFRlcm1pbmFsEg4uU2ltcGxlTWVzc2FnZRoOLlNpbXBsZU1lc3NhZ2UoATABEiwKElJ1blRlcm1pbmFsQ29tbWFuZBIOLlNpbXBsZU1lc3NhZ2UaBi5FbXB0eRIiCglHZXRTdGF0dXMSBi5FbXB0eRoNLlNlcnZlclN0YXR1cxIXCgVTdGFydBIGLkVtcHR5GgYuRW1wdHkSGQoHUmVzdGFydBIGLkVtcHR5GgYuRW1wdHkSFgoEU3RvcBIGLkVtcHR5GgYuRW1wdHkSFgoES2lsbBIGLkVtcHR5GgYuRW1wdHlCF1oVcGFuZWxpdW0vcHJvdG8tZ2VuLWdv", [file_common, file_google_protobuf_timestamp]);
+  fileDesc("CgxkYWVtb24ucHJvdG8ixAEKDFNlcnZlclN0YXR1cxIhCgZzdGF0dXMYASACKA4yES5TZXJ2ZXJTdGF0dXNUeXBlEjIKDnRpbWVzdGFtcFN0YXJ0GAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIwCgx0aW1lc3RhbXBFbmQYAyABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEisKDW9mZmxpbmVSZWFzb24YBCABKA4yFC5TZXJ2ZXJPZmZsaW5lUmVhc29uKpoBChBTZXJ2ZXJTdGF0dXNUeXBlEhkKFVNFUlZFUl9TVEFUVVNfVU5LTk9XThAAEhoKFlNFUlZFUl9TVEFUVVNfU1RBUlRJTkcQARIYChRTRVJWRVJfU1RBVFVTX09OTElORRACEhoKFlNFUlZFUl9TVEFUVVNfU1RPUFBJTkcQAxIZChVTRVJWRVJfU1RBVFVTX09GRkxJTkUQBCrBAQoTU2VydmVyT2ZmbGluZVJlYXNvbhIhCh1TRVJWRVJfT0ZGTElORV9SRUFTT05fVU5LTk9XThAAEiEKHVNFUlZFUl9PRkZMSU5FX1JFQVNPTl9DUkVBVEVEEAESIQodU0VSVkVSX09GRkxJTkVfUkVBU09OX1NUT1BQRUQQAhIgChxTRVJWRVJfT0ZGTElORV9SRUFTT05fS0lMTEVEEAMSHwobU0VSVkVSX09GRkxJTkVfUkVBU09OX0VSUk9SEAQqiwEKC1Bvd2VyQWN0aW9uEhwKGFBPV0VSX0FDVElPTl9VTlNQRUNJRklFRBAAEhYKElBPV0VSX0FDVElPTl9TVEFSVBABEhgKFFBPV0VSX0FDVElPTl9SRVNUQVJUEAISFQoRUE9XRVJfQUNUSU9OX1NUT1AQAxIVChFQT1dFUl9BQ1RJT05fS0lMTBAEMo0CCg1TZXJ2ZXJTZXJ2aWNlEi0KB0NvbnNvbGUSDi5TaW1wbGVNZXNzYWdlGg4uU2ltcGxlTWVzc2FnZSgBMAESJAoKUnVuQ29tbWFuZBIOLlNpbXBsZU1lc3NhZ2UaBi5FbXB0eRIuCghUZXJtaW5hbBIOLlNpbXBsZU1lc3NhZ2UaDi5TaW1wbGVNZXNzYWdlKAEwARIsChJSdW5UZXJtaW5hbENvbW1hbmQSDi5TaW1wbGVNZXNzYWdlGgYuRW1wdHkSIgoJR2V0U3RhdHVzEgYuRW1wdHkaDS5TZXJ2ZXJTdGF0dXMSJQoLUG93ZXJBY3Rpb24SDi5TaW1wbGVNZXNzYWdlGgYuRW1wdHlCF1oVcGFuZWxpdW0vcHJvdG8tZ2VuLWdv", [file_common, file_google_protobuf_timestamp]);
 
 /**
  * Server Info
@@ -123,6 +123,46 @@ export const ServerOfflineReasonSchema: GenEnum<ServerOfflineReason> = /*@__PURE
   enumDesc(file_daemon, 1);
 
 /**
+ * Power Actions
+ *
+ * @generated from enum PowerAction
+ */
+export enum PowerAction {
+  /**
+   * Default value, should not be used
+   *
+   * @generated from enum value: POWER_ACTION_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: POWER_ACTION_START = 1;
+   */
+  START = 1,
+
+  /**
+   * @generated from enum value: POWER_ACTION_RESTART = 2;
+   */
+  RESTART = 2,
+
+  /**
+   * @generated from enum value: POWER_ACTION_STOP = 3;
+   */
+  STOP = 3,
+
+  /**
+   * @generated from enum value: POWER_ACTION_KILL = 4;
+   */
+  KILL = 4,
+}
+
+/**
+ * Describes the enum PowerAction.
+ */
+export const PowerActionSchema: GenEnum<PowerAction> = /*@__PURE__*/
+  enumDesc(file_daemon, 2);
+
+/**
  * @generated from service ServerService
  */
 export const ServerService: GenService<{
@@ -175,35 +215,11 @@ export const ServerService: GenService<{
   /**
    * Power Actions
    *
-   * @generated from rpc ServerService.Start
+   * @generated from rpc ServerService.PowerAction
    */
-  start: {
+  powerAction: {
     methodKind: "unary";
-    input: typeof EmptySchema;
-    output: typeof EmptySchema;
-  },
-  /**
-   * @generated from rpc ServerService.Restart
-   */
-  restart: {
-    methodKind: "unary";
-    input: typeof EmptySchema;
-    output: typeof EmptySchema;
-  },
-  /**
-   * @generated from rpc ServerService.Stop
-   */
-  stop: {
-    methodKind: "unary";
-    input: typeof EmptySchema;
-    output: typeof EmptySchema;
-  },
-  /**
-   * @generated from rpc ServerService.Kill
-   */
-  kill: {
-    methodKind: "unary";
-    input: typeof EmptySchema;
+    input: typeof SimpleMessageSchema;
     output: typeof EmptySchema;
   },
 }> = /*@__PURE__*/
