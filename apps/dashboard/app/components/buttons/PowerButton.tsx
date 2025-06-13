@@ -21,11 +21,23 @@ const PowerActionTextMap: Record<PowerAction, string> = {
 export interface PowerButtonProps {
     action: PowerAction;
     onClick?: () => void;
-    danger?: boolean;
 }
 
-export default function PowerButton({action, onClick, danger}: PowerButtonProps) {
+const PowerActionButtonStyleMap: Record<PowerAction, string> = {
+    [PowerAction.UNSPECIFIED]: "",
+    [PowerAction.START]: "",
+    [PowerAction.RESTART]: "",
+    [PowerAction.STOP]: "text-rose-700 dark:text-rose-300 hover:bg-rose-100 dark:hover:bg-rose-900/20 hover:text-rose-700 border-rose-200 dark:border-rose-900/20",
+    [PowerAction.KILL]: "text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/20 hover:text-red-700 border-red-200 dark:border-red-900/20",
+}
+
+export default function PowerButton({action, onClick}: PowerButtonProps) {
     return (
-        <IconButton icon={PowerActionIconMap[action]} text={PowerActionTextMap[action]}/>
+        <IconButton
+            icon={PowerActionIconMap[action]}
+            text={PowerActionTextMap[action]}
+            onClick={onClick}
+            className={PowerActionButtonStyleMap[action]}
+        />
     );
 }
