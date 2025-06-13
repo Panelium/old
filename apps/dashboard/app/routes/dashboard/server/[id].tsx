@@ -6,24 +6,14 @@ import {Tabs, TabsContent, TabsList, TabsTrigger} from '~/components/ui/tabs';
 import {ScrollArea} from '~/components/ui/scroll-area';
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '~/components/ui/select';
 import {Input} from '~/components/ui/input';
-import {
-    Activity,
-    ArrowLeft,
-    Clock,
-    Cpu,
-    Database,
-    HardDrive,
-    Power,
-    RefreshCw,
-    Server as ServerIcon,
-    Settings,
-    Terminal,
-} from 'lucide-react';
+import {Activity, ArrowLeft, Cpu, Database, HardDrive, Power, RefreshCw, Settings, Terminal,} from 'lucide-react';
 import {cn} from '~/lib/utils';
 import {FileManager} from '~/components/dashboard/FileManager';
 import {ActivityLog} from '~/components/dashboard/ActivityLog';
 import StatusBadge from "~/components/dashboard/StatusBadge";
 import {ServerStatusType} from 'proto-gen-ts/daemon_pb';
+import DurationText from "~/components/texts/DurationText";
+import SoftwareText from "~/components/texts/SoftwareText";
 
 // Placeholder data - would normally come from an API
 const server = {
@@ -113,14 +103,8 @@ export default function ServerDetailsPage() {
                             <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-50">{server.name}</h1>
                             <div className="flex items-center gap-3 mt-1">
                                 <StatusBadge status={server.status}/>
-                                <div className="flex items-center text-sm text-slate-500 dark:text-slate-400">
-                                    <ServerIcon className="h-3.5 w-3.5 mr-1.5"/>
-                                    {server.game}
-                                </div>
-                                <div className="flex items-center text-sm text-slate-500 dark:text-slate-400">
-                                    <Clock className="h-3.5 w-3.5 mr-1.5"/>
-                                    {server.uptime}
-                                </div>
+                                <SoftwareText software={"Minecraft"}/> {/* TODO: CHANGE ME */}
+                                <DurationText startDate={new Date(1747096311000)}/> {/* TODO: CHANGE ME */}
                             </div>
                         </div>
                     </div>
