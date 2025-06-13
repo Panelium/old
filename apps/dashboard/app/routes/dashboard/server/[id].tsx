@@ -19,7 +19,7 @@ import SoftwareText from "~/components/texts/SoftwareText";
 const server = {
     id: '1',
     name: 'My Awesome Server 1',
-    status: ServerStatusType.SERVER_STATUS_ONLINE,
+    status: ServerStatusType.ONLINE,
     node: 'Node Alpha',
     cpuUsage: 25,
     memoryUsage: {

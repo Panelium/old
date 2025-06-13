@@ -201,10 +201,10 @@ export function ServerCard({server, className}: ServerCardProps) {
                             actionsOpen ? "scale-100" : "scale-75"
                         )}
                         style={{transitionDelay: actionsOpen ? "25ms" : "0ms"}}
-                        title={server.status === ServerStatusType.SERVER_STATUS_ONLINE ? 'Stop Server' : 'Start Server'}
+                        title={server.status === ServerStatusType.ONLINE ? 'Stop Server' : 'Start Server'}
                         onClick={(e) => handleActionClick(e, 'power')}
                     >
-                        {server.status === ServerStatusType.SERVER_STATUS_ONLINE ? (
+                        {server.status === ServerStatusType.ONLINE ? (
                             <Square className="w-5 h-5"/>
                         ) : (
                             <Play className="w-5 h-5"/>

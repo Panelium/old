@@ -170,11 +170,11 @@ components:
       type: string
       title: ServerStatusType
       enum:
-        - SERVER_STATUS_UNKNOWN
-        - SERVER_STATUS_STARTING
-        - SERVER_STATUS_ONLINE
-        - SERVER_STATUS_STOPPING
-        - SERVER_STATUS_OFFLINE
+        - SERVER_STATUS_TYPE_UNKNOWN
+        - SERVER_STATUS_TYPE_STARTING
+        - SERVER_STATUS_TYPE_ONLINE
+        - SERVER_STATUS_TYPE_STOPPING
+        - SERVER_STATUS_TYPE_OFFLINE
     Empty:
       type: object
       title: Empty

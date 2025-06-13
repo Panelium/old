@@ -25,28 +25,28 @@ const (
 type ServerStatusType int32
 
 const (
-	ServerStatusType_SERVER_STATUS_UNKNOWN  ServerStatusType = 0
-	ServerStatusType_SERVER_STATUS_STARTING ServerStatusType = 1
-	ServerStatusType_SERVER_STATUS_ONLINE   ServerStatusType = 2
-	ServerStatusType_SERVER_STATUS_STOPPING ServerStatusType = 3
-	ServerStatusType_SERVER_STATUS_OFFLINE  ServerStatusType = 4
+	ServerStatusType_SERVER_STATUS_TYPE_UNKNOWN  ServerStatusType = 0
+	ServerStatusType_SERVER_STATUS_TYPE_STARTING ServerStatusType = 1
+	ServerStatusType_SERVER_STATUS_TYPE_ONLINE   ServerStatusType = 2
+	ServerStatusType_SERVER_STATUS_TYPE_STOPPING ServerStatusType = 3
+	ServerStatusType_SERVER_STATUS_TYPE_OFFLINE  ServerStatusType = 4
 )
 
 // Enum value maps for ServerStatusType.
 var (
 	ServerStatusType_name = map[int32]string{
-		0: "SERVER_STATUS_UNKNOWN",
-		1: "SERVER_STATUS_STARTING",
-		2: "SERVER_STATUS_ONLINE",
-		3: "SERVER_STATUS_STOPPING",
-		4: "SERVER_STATUS_OFFLINE",
+		0: "SERVER_STATUS_TYPE_UNKNOWN",
+		1: "SERVER_STATUS_TYPE_STARTING",
+		2: "SERVER_STATUS_TYPE_ONLINE",
+		3: "SERVER_STATUS_TYPE_STOPPING",
+		4: "SERVER_STATUS_TYPE_OFFLINE",
 	}
 	ServerStatusType_value = map[string]int32{
-		"SERVER_STATUS_UNKNOWN":  0,
-		"SERVER_STATUS_STARTING": 1,
-		"SERVER_STATUS_ONLINE":   2,
-		"SERVER_STATUS_STOPPING": 3,
-		"SERVER_STATUS_OFFLINE":  4,
+		"SERVER_STATUS_TYPE_UNKNOWN":  0,
+		"SERVER_STATUS_TYPE_STARTING": 1,
+		"SERVER_STATUS_TYPE_ONLINE":   2,
+		"SERVER_STATUS_TYPE_STOPPING": 3,
+		"SERVER_STATUS_TYPE_OFFLINE":  4,
 	}
 )
 
@@ -263,7 +263,7 @@ func (x *ServerStatus) GetStatus() ServerStatusType {
 	if x != nil && x.Status != nil {
 		return *x.Status
 	}
-	return ServerStatusType_SERVER_STATUS_UNKNOWN
+	return ServerStatusType_SERVER_STATUS_TYPE_UNKNOWN
 }
 
 func (x *ServerStatus) GetTimestampStart() *timestamppb.Timestamp {
@@ -296,13 +296,13 @@ const file_daemon_proto_rawDesc = "" +
 	"\x06status\x18\x01 \x02(\x0e2\x11.ServerStatusTypeR\x06status\x12B\n" +
 	"\x0etimestampStart\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x0etimestampStart\x12>\n" +
 	"\ftimestampEnd\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\ftimestampEnd\x12:\n" +
-	"\rofflineReason\x18\x04 \x01(\x0e2\x14.ServerOfflineReasonR\rofflineReason*\x9a\x01\n" +
-	"\x10ServerStatusType\x12\x19\n" +
-	"\x15SERVER_STATUS_UNKNOWN\x10\x00\x12\x1a\n" +
-	"\x16SERVER_STATUS_STARTING\x10\x01\x12\x18\n" +
-	"\x14SERVER_STATUS_ONLINE\x10\x02\x12\x1a\n" +
-	"\x16SERVER_STATUS_STOPPING\x10\x03\x12\x19\n" +
-	"\x15SERVER_STATUS_OFFLINE\x10\x04*\xc1\x01\n" +
+	"\rofflineReason\x18\x04 \x01(\x0e2\x14.ServerOfflineReasonR\rofflineReason*\xb3\x01\n" +
+	"\x10ServerStatusType\x12\x1e\n" +
+	"\x1aSERVER_STATUS_TYPE_UNKNOWN\x10\x00\x12\x1f\n" +
+	"\x1bSERVER_STATUS_TYPE_STARTING\x10\x01\x12\x1d\n" +
+	"\x19SERVER_STATUS_TYPE_ONLINE\x10\x02\x12\x1f\n" +
+	"\x1bSERVER_STATUS_TYPE_STOPPING\x10\x03\x12\x1e\n" +
+	"\x1aSERVER_STATUS_TYPE_OFFLINE\x10\x04*\xc1\x01\n" +
 	"\x13ServerOfflineReason\x12!\n" +
 	"\x1dSERVER_OFFLINE_REASON_UNKNOWN\x10\x00\x12!\n" +
 	"\x1dSERVER_OFFLINE_REASON_CREATED\x10\x01\x12!\n" +

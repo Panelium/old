@@ -10,7 +10,7 @@ const mockServers: Server[] = [
     {
         id: '1',
         name: 'Minecraft SMP',
-        status: ServerStatusType.SERVER_STATUS_ONLINE,
+        status: ServerStatusType.ONLINE,
         description: 'Survival multiplayer server',
         cpuUsage: 45,
         memoryUsage: {
@@ -28,7 +28,7 @@ const mockServers: Server[] = [
     {
         id: '2',
         name: 'Web Server',
-        status: ServerStatusType.SERVER_STATUS_STARTING,
+        status: ServerStatusType.STARTING,
         description: 'NGINX web server',
         cpuUsage: 12,
         memoryUsage: {
@@ -42,7 +42,7 @@ const mockServers: Server[] = [
     {
         id: '3',
         name: 'Terraria Adventure',
-        status: ServerStatusType.SERVER_STATUS_OFFLINE,
+        status: ServerStatusType.OFFLINE,
         description: 'Terraria modded adventure server',
         cpuUsage: 0,
         memoryUsage: {
@@ -60,7 +60,7 @@ const mockServers: Server[] = [
     {
         id: '4',
         name: 'Rust Survival',
-        status: ServerStatusType.SERVER_STATUS_STOPPING,
+        status: ServerStatusType.STOPPING,
         description: 'Rust survival server',
         cpuUsage: 30,
         memoryUsage: {
@@ -78,7 +78,7 @@ const mockServers: Server[] = [
     {
         id: '5',
         name: 'ARK: Survival Evolved',
-        status: ServerStatusType.SERVER_STATUS_UNKNOWN,
+        status: ServerStatusType.UNKNOWN,
         description: 'ARK survival server',
         cpuUsage: 60,
         memoryUsage: {
@@ -98,7 +98,7 @@ const mockServers: Server[] = [
 export default function DashboardOverviewPage() {
     // Calculate actual stats from server data
     const totalServers = mockServers.length;
-    const onlineServers = mockServers.filter(s => s.status === ServerStatusType.SERVER_STATUS_ONLINE).length;
+    const onlineServers = mockServers.filter(s => s.status === ServerStatusType.ONLINE).length;
 
     // Calculate total players across all servers
     const totalPlayers = mockServers.reduce((acc, server) => {
@@ -109,7 +109,7 @@ export default function DashboardOverviewPage() {
     }, 0);
 
     // Calculate average CPU usage from online servers
-    const onlineServersArray = mockServers.filter(s => s.status === ServerStatusType.SERVER_STATUS_ONLINE);
+    const onlineServersArray = mockServers.filter(s => s.status === ServerStatusType.ONLINE);
     const avgCpuUsage = onlineServersArray.length
         ? Math.round(onlineServersArray.reduce((acc, server) => acc + server.cpuUsage, 0) / onlineServersArray.length)
         : 0;
