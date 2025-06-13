@@ -1,6 +1,7 @@
 option go_package = "panelium/proto-gen-go";
 
 import "common.proto";
+import "google/protobuf/timestamp.proto";
 
 service ServerService {
   // Console (process)
@@ -24,15 +25,23 @@ service ServerService {
 // Server Info
 message ServerStatus {
   required ServerStatusType status = 1;
-  optional uint64 timestampStart = 2;
+  optional google.protobuf.Timestamp timestampStart = 2;
+  optional google.protobuf.Timestamp timestampEnd = 3;
+  optional ServerOfflineReason offlineReason = 4;
 }
 
 enum ServerStatusType {
-  SERVER_STATUS_UNSPECIFIED = 0;
+  SERVER_STATUS_UNKNOWN = 0;
   SERVER_STATUS_STARTING = 1;
-  SERVER_STATUS_RUNNING = 2;
+  SERVER_STATUS_ONLINE = 2;
   SERVER_STATUS_STOPPING = 3;
-  SERVER_STATUS_STOPPED = 4;
-  SERVER_STATUS_KILLED = 5;
-  SERVER_STATUS_ERRORED = 6;
+  SERVER_STATUS_OFFLINE = 4;
+}
+
+enum ServerOfflineReason {
+  SERVER_OFFLINE_REASON_UNKNOWN = 0;
+  SERVER_OFFLINE_REASON_CREATED = 1;
+  SERVER_OFFLINE_REASON_STOPPED = 2;
+  SERVER_OFFLINE_REASON_KILLED = 3;
+  SERVER_OFFLINE_REASON_ERROR = 4;
 }

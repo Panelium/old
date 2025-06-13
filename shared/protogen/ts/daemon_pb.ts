@@ -6,13 +6,15 @@ import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobu
 import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
 import type { EmptySchema, SimpleMessageSchema } from "./common_pb.ts";
 import { file_common } from "./common_pb.ts";
+import type { Timestamp } from "@bufbuild/protobuf/wkt";
+import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file daemon.proto.
  */
 export const file_daemon: GenFile = /*@__PURE__*/
-  fileDesc("CgxkYWVtb24ucHJvdG8iSQoMU2VydmVyU3RhdHVzEiEKBnN0YXR1cxgBIAIoDjIRLlNlcnZlclN0YXR1c1R5cGUSFgoOdGltZXN0YW1wU3RhcnQYAiABKAQq1AEKEFNlcnZlclN0YXR1c1R5cGUSHQoZU0VSVkVSX1NUQVRVU19VTlNQRUNJRklFRBAAEhoKFlNFUlZFUl9TVEFUVVNfU1RBUlRJTkcQARIZChVTRVJWRVJfU1RBVFVTX1JVTk5JTkcQAhIaChZTRVJWRVJfU1RBVFVTX1NUT1BQSU5HEAMSGQoVU0VSVkVSX1NUQVRVU19TVE9QUEVEEAQSGAoUU0VSVkVSX1NUQVRVU19LSUxMRUQQBRIZChVTRVJWRVJfU1RBVFVTX0VSUk9SRUQQBjLKAgoNU2VydmVyU2VydmljZRItCgdDb25zb2xlEg4uU2ltcGxlTWVzc2FnZRoOLlNpbXBsZU1lc3NhZ2UoATABEiQKClJ1bkNvbW1hbmQSDi5TaW1wbGVNZXNzYWdlGgYuRW1wdHkSLgoIVGVybWluYWwSDi5TaW1wbGVNZXNzYWdlGg4uU2ltcGxlTWVzc2FnZSgBMAESLAoSUnVuVGVybWluYWxDb21tYW5kEg4uU2ltcGxlTWVzc2FnZRoGLkVtcHR5EiIKCUdldFN0YXR1cxIGLkVtcHR5Gg0uU2VydmVyU3RhdHVzEhcKBVN0YXJ0EgYuRW1wdHkaBi5FbXB0eRIZCgdSZXN0YXJ0EgYuRW1wdHkaBi5FbXB0eRIWCgRTdG9wEgYuRW1wdHkaBi5FbXB0eRIWCgRLaWxsEgYuRW1wdHkaBi5FbXB0eUIXWhVwYW5lbGl1bS9wcm90by1nZW4tZ28", [file_common]);
+  fileDesc("CgxkYWVtb24ucHJvdG8ixAEKDFNlcnZlclN0YXR1cxIhCgZzdGF0dXMYASACKA4yES5TZXJ2ZXJTdGF0dXNUeXBlEjIKDnRpbWVzdGFtcFN0YXJ0GAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIwCgx0aW1lc3RhbXBFbmQYAyABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEisKDW9mZmxpbmVSZWFzb24YBCABKA4yFC5TZXJ2ZXJPZmZsaW5lUmVhc29uKpoBChBTZXJ2ZXJTdGF0dXNUeXBlEhkKFVNFUlZFUl9TVEFUVVNfVU5LTk9XThAAEhoKFlNFUlZFUl9TVEFUVVNfU1RBUlRJTkcQARIYChRTRVJWRVJfU1RBVFVTX09OTElORRACEhoKFlNFUlZFUl9TVEFUVVNfU1RPUFBJTkcQAxIZChVTRVJWRVJfU1RBVFVTX09GRkxJTkUQBCrBAQoTU2VydmVyT2ZmbGluZVJlYXNvbhIhCh1TRVJWRVJfT0ZGTElORV9SRUFTT05fVU5LTk9XThAAEiEKHVNFUlZFUl9PRkZMSU5FX1JFQVNPTl9DUkVBVEVEEAESIQodU0VSVkVSX09GRkxJTkVfUkVBU09OX1NUT1BQRUQQAhIgChxTRVJWRVJfT0ZGTElORV9SRUFTT05fS0lMTEVEEAMSHwobU0VSVkVSX09GRkxJTkVfUkVBU09OX0VSUk9SEAQyygIKDVNlcnZlclNlcnZpY2USLQoHQ29uc29sZRIOLlNpbXBsZU1lc3NhZ2UaDi5TaW1wbGVNZXNzYWdlKAEwARIkCgpSdW5Db21tYW5kEg4uU2ltcGxlTWVzc2FnZRoGLkVtcHR5Ei4KCFRlcm1pbmFsEg4uU2ltcGxlTWVzc2FnZRoOLlNpbXBsZU1lc3NhZ2UoATABEiwKElJ1blRlcm1pbmFsQ29tbWFuZBIOLlNpbXBsZU1lc3NhZ2UaBi5FbXB0eRIiCglHZXRTdGF0dXMSBi5FbXB0eRoNLlNlcnZlclN0YXR1cxIXCgVTdGFydBIGLkVtcHR5GgYuRW1wdHkSGQoHUmVzdGFydBIGLkVtcHR5GgYuRW1wdHkSFgoEU3RvcBIGLkVtcHR5GgYuRW1wdHkSFgoES2lsbBIGLkVtcHR5GgYuRW1wdHlCF1oVcGFuZWxpdW0vcHJvdG8tZ2VuLWdv", [file_common, file_google_protobuf_timestamp]);
 
 /**
  * Server Info
@@ -26,9 +28,19 @@ export type ServerStatus = Message<"ServerStatus"> & {
   status: ServerStatusType;
 
   /**
-   * @generated from field: optional uint64 timestampStart = 2;
+   * @generated from field: optional google.protobuf.Timestamp timestampStart = 2;
    */
-  timestampStart: bigint;
+  timestampStart?: Timestamp;
+
+  /**
+   * @generated from field: optional google.protobuf.Timestamp timestampEnd = 3;
+   */
+  timestampEnd?: Timestamp;
+
+  /**
+   * @generated from field: optional ServerOfflineReason offlineReason = 4;
+   */
+  offlineReason: ServerOfflineReason;
 };
 
 /**
@@ -43,9 +55,9 @@ export const ServerStatusSchema: GenMessage<ServerStatus> = /*@__PURE__*/
  */
 export enum ServerStatusType {
   /**
-   * @generated from enum value: SERVER_STATUS_UNSPECIFIED = 0;
+   * @generated from enum value: SERVER_STATUS_UNKNOWN = 0;
    */
-  SERVER_STATUS_UNSPECIFIED = 0,
+  SERVER_STATUS_UNKNOWN = 0,
 
   /**
    * @generated from enum value: SERVER_STATUS_STARTING = 1;
@@ -53,9 +65,9 @@ export enum ServerStatusType {
   SERVER_STATUS_STARTING = 1,
 
   /**
-   * @generated from enum value: SERVER_STATUS_RUNNING = 2;
+   * @generated from enum value: SERVER_STATUS_ONLINE = 2;
    */
-  SERVER_STATUS_RUNNING = 2,
+  SERVER_STATUS_ONLINE = 2,
 
   /**
    * @generated from enum value: SERVER_STATUS_STOPPING = 3;
@@ -63,19 +75,9 @@ export enum ServerStatusType {
   SERVER_STATUS_STOPPING = 3,
 
   /**
-   * @generated from enum value: SERVER_STATUS_STOPPED = 4;
+   * @generated from enum value: SERVER_STATUS_OFFLINE = 4;
    */
-  SERVER_STATUS_STOPPED = 4,
-
-  /**
-   * @generated from enum value: SERVER_STATUS_KILLED = 5;
-   */
-  SERVER_STATUS_KILLED = 5,
-
-  /**
-   * @generated from enum value: SERVER_STATUS_ERRORED = 6;
-   */
-  SERVER_STATUS_ERRORED = 6,
+  SERVER_STATUS_OFFLINE = 4,
 }
 
 /**
@@ -83,6 +85,42 @@ export enum ServerStatusType {
  */
 export const ServerStatusTypeSchema: GenEnum<ServerStatusType> = /*@__PURE__*/
   enumDesc(file_daemon, 0);
+
+/**
+ * @generated from enum ServerOfflineReason
+ */
+export enum ServerOfflineReason {
+  /**
+   * @generated from enum value: SERVER_OFFLINE_REASON_UNKNOWN = 0;
+   */
+  UNKNOWN = 0,
+
+  /**
+   * @generated from enum value: SERVER_OFFLINE_REASON_CREATED = 1;
+   */
+  CREATED = 1,
+
+  /**
+   * @generated from enum value: SERVER_OFFLINE_REASON_STOPPED = 2;
+   */
+  STOPPED = 2,
+
+  /**
+   * @generated from enum value: SERVER_OFFLINE_REASON_KILLED = 3;
+   */
+  KILLED = 3,
+
+  /**
+   * @generated from enum value: SERVER_OFFLINE_REASON_ERROR = 4;
+   */
+  ERROR = 4,
+}
+
+/**
+ * Describes the enum ServerOfflineReason.
+ */
+export const ServerOfflineReasonSchema: GenEnum<ServerOfflineReason> = /*@__PURE__*/
+  enumDesc(file_daemon, 1);
 
 /**
  * @generated from service ServerService

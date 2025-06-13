@@ -9,6 +9,7 @@ package proto_gen_go
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -24,34 +25,28 @@ const (
 type ServerStatusType int32
 
 const (
-	ServerStatusType_SERVER_STATUS_UNSPECIFIED ServerStatusType = 0
-	ServerStatusType_SERVER_STATUS_STARTING    ServerStatusType = 1
-	ServerStatusType_SERVER_STATUS_RUNNING     ServerStatusType = 2
-	ServerStatusType_SERVER_STATUS_STOPPING    ServerStatusType = 3
-	ServerStatusType_SERVER_STATUS_STOPPED     ServerStatusType = 4
-	ServerStatusType_SERVER_STATUS_KILLED      ServerStatusType = 5
-	ServerStatusType_SERVER_STATUS_ERRORED     ServerStatusType = 6
+	ServerStatusType_SERVER_STATUS_UNKNOWN  ServerStatusType = 0
+	ServerStatusType_SERVER_STATUS_STARTING ServerStatusType = 1
+	ServerStatusType_SERVER_STATUS_ONLINE   ServerStatusType = 2
+	ServerStatusType_SERVER_STATUS_STOPPING ServerStatusType = 3
+	ServerStatusType_SERVER_STATUS_OFFLINE  ServerStatusType = 4
 )
 
 // Enum value maps for ServerStatusType.
 var (
 	ServerStatusType_name = map[int32]string{
-		0: "SERVER_STATUS_UNSPECIFIED",
+		0: "SERVER_STATUS_UNKNOWN",
 		1: "SERVER_STATUS_STARTING",
-		2: "SERVER_STATUS_RUNNING",
+		2: "SERVER_STATUS_ONLINE",
 		3: "SERVER_STATUS_STOPPING",
-		4: "SERVER_STATUS_STOPPED",
-		5: "SERVER_STATUS_KILLED",
-		6: "SERVER_STATUS_ERRORED",
+		4: "SERVER_STATUS_OFFLINE",
 	}
 	ServerStatusType_value = map[string]int32{
-		"SERVER_STATUS_UNSPECIFIED": 0,
-		"SERVER_STATUS_STARTING":    1,
-		"SERVER_STATUS_RUNNING":     2,
-		"SERVER_STATUS_STOPPING":    3,
-		"SERVER_STATUS_STOPPED":     4,
-		"SERVER_STATUS_KILLED":      5,
-		"SERVER_STATUS_ERRORED":     6,
+		"SERVER_STATUS_UNKNOWN":  0,
+		"SERVER_STATUS_STARTING": 1,
+		"SERVER_STATUS_ONLINE":   2,
+		"SERVER_STATUS_STOPPING": 3,
+		"SERVER_STATUS_OFFLINE":  4,
 	}
 )
 
@@ -92,11 +87,78 @@ func (ServerStatusType) EnumDescriptor() ([]byte, []int) {
 	return file_daemon_proto_rawDescGZIP(), []int{0}
 }
 
+type ServerOfflineReason int32
+
+const (
+	ServerOfflineReason_SERVER_OFFLINE_REASON_UNKNOWN ServerOfflineReason = 0
+	ServerOfflineReason_SERVER_OFFLINE_REASON_CREATED ServerOfflineReason = 1
+	ServerOfflineReason_SERVER_OFFLINE_REASON_STOPPED ServerOfflineReason = 2
+	ServerOfflineReason_SERVER_OFFLINE_REASON_KILLED  ServerOfflineReason = 3
+	ServerOfflineReason_SERVER_OFFLINE_REASON_ERROR   ServerOfflineReason = 4
+)
+
+// Enum value maps for ServerOfflineReason.
+var (
+	ServerOfflineReason_name = map[int32]string{
+		0: "SERVER_OFFLINE_REASON_UNKNOWN",
+		1: "SERVER_OFFLINE_REASON_CREATED",
+		2: "SERVER_OFFLINE_REASON_STOPPED",
+		3: "SERVER_OFFLINE_REASON_KILLED",
+		4: "SERVER_OFFLINE_REASON_ERROR",
+	}
+	ServerOfflineReason_value = map[string]int32{
+		"SERVER_OFFLINE_REASON_UNKNOWN": 0,
+		"SERVER_OFFLINE_REASON_CREATED": 1,
+		"SERVER_OFFLINE_REASON_STOPPED": 2,
+		"SERVER_OFFLINE_REASON_KILLED":  3,
+		"SERVER_OFFLINE_REASON_ERROR":   4,
+	}
+)
+
+func (x ServerOfflineReason) Enum() *ServerOfflineReason {
+	p := new(ServerOfflineReason)
+	*p = x
+	return p
+}
+
+func (x ServerOfflineReason) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ServerOfflineReason) Descriptor() protoreflect.EnumDescriptor {
+	return file_daemon_proto_enumTypes[1].Descriptor()
+}
+
+func (ServerOfflineReason) Type() protoreflect.EnumType {
+	return &file_daemon_proto_enumTypes[1]
+}
+
+func (x ServerOfflineReason) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Do not use.
+func (x *ServerOfflineReason) UnmarshalJSON(b []byte) error {
+	num, err := protoimpl.X.UnmarshalJSONEnum(x.Descriptor(), b)
+	if err != nil {
+		return err
+	}
+	*x = ServerOfflineReason(num)
+	return nil
+}
+
+// Deprecated: Use ServerOfflineReason.Descriptor instead.
+func (ServerOfflineReason) EnumDescriptor() ([]byte, []int) {
+	return file_daemon_proto_rawDescGZIP(), []int{1}
+}
+
 // Server Info
 type ServerStatus struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	Status         *ServerStatusType      `protobuf:"varint,1,req,name=status,enum=ServerStatusType" json:"status,omitempty"`
-	TimestampStart *uint64                `protobuf:"varint,2,opt,name=timestampStart" json:"timestampStart,omitempty"`
+	TimestampStart *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=timestampStart" json:"timestampStart,omitempty"`
+	TimestampEnd   *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=timestampEnd" json:"timestampEnd,omitempty"`
+	OfflineReason  *ServerOfflineReason   `protobuf:"varint,4,opt,name=offlineReason,enum=ServerOfflineReason" json:"offlineReason,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -135,32 +197,52 @@ func (x *ServerStatus) GetStatus() ServerStatusType {
 	if x != nil && x.Status != nil {
 		return *x.Status
 	}
-	return ServerStatusType_SERVER_STATUS_UNSPECIFIED
+	return ServerStatusType_SERVER_STATUS_UNKNOWN
 }
 
-func (x *ServerStatus) GetTimestampStart() uint64 {
-	if x != nil && x.TimestampStart != nil {
-		return *x.TimestampStart
+func (x *ServerStatus) GetTimestampStart() *timestamppb.Timestamp {
+	if x != nil {
+		return x.TimestampStart
 	}
-	return 0
+	return nil
+}
+
+func (x *ServerStatus) GetTimestampEnd() *timestamppb.Timestamp {
+	if x != nil {
+		return x.TimestampEnd
+	}
+	return nil
+}
+
+func (x *ServerStatus) GetOfflineReason() ServerOfflineReason {
+	if x != nil && x.OfflineReason != nil {
+		return *x.OfflineReason
+	}
+	return ServerOfflineReason_SERVER_OFFLINE_REASON_UNKNOWN
 }
 
 var File_daemon_proto protoreflect.FileDescriptor
 
 const file_daemon_proto_rawDesc = "" +
 	"\n" +
-	"\fdaemon.proto\x1a\fcommon.proto\"a\n" +
+	"\fdaemon.proto\x1a\fcommon.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf9\x01\n" +
 	"\fServerStatus\x12)\n" +
-	"\x06status\x18\x01 \x02(\x0e2\x11.ServerStatusTypeR\x06status\x12&\n" +
-	"\x0etimestampStart\x18\x02 \x01(\x04R\x0etimestampStart*\xd4\x01\n" +
-	"\x10ServerStatusType\x12\x1d\n" +
-	"\x19SERVER_STATUS_UNSPECIFIED\x10\x00\x12\x1a\n" +
-	"\x16SERVER_STATUS_STARTING\x10\x01\x12\x19\n" +
-	"\x15SERVER_STATUS_RUNNING\x10\x02\x12\x1a\n" +
+	"\x06status\x18\x01 \x02(\x0e2\x11.ServerStatusTypeR\x06status\x12B\n" +
+	"\x0etimestampStart\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\x0etimestampStart\x12>\n" +
+	"\ftimestampEnd\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\ftimestampEnd\x12:\n" +
+	"\rofflineReason\x18\x04 \x01(\x0e2\x14.ServerOfflineReasonR\rofflineReason*\x9a\x01\n" +
+	"\x10ServerStatusType\x12\x19\n" +
+	"\x15SERVER_STATUS_UNKNOWN\x10\x00\x12\x1a\n" +
+	"\x16SERVER_STATUS_STARTING\x10\x01\x12\x18\n" +
+	"\x14SERVER_STATUS_ONLINE\x10\x02\x12\x1a\n" +
 	"\x16SERVER_STATUS_STOPPING\x10\x03\x12\x19\n" +
-	"\x15SERVER_STATUS_STOPPED\x10\x04\x12\x18\n" +
-	"\x14SERVER_STATUS_KILLED\x10\x05\x12\x19\n" +
-	"\x15SERVER_STATUS_ERRORED\x10\x062\xca\x02\n" +
+	"\x15SERVER_STATUS_OFFLINE\x10\x04*\xc1\x01\n" +
+	"\x13ServerOfflineReason\x12!\n" +
+	"\x1dSERVER_OFFLINE_REASON_UNKNOWN\x10\x00\x12!\n" +
+	"\x1dSERVER_OFFLINE_REASON_CREATED\x10\x01\x12!\n" +
+	"\x1dSERVER_OFFLINE_REASON_STOPPED\x10\x02\x12 \n" +
+	"\x1cSERVER_OFFLINE_REASON_KILLED\x10\x03\x12\x1f\n" +
+	"\x1bSERVER_OFFLINE_REASON_ERROR\x10\x042\xca\x02\n" +
 	"\rServerService\x12-\n" +
 	"\aConsole\x12\x0e.SimpleMessage\x1a\x0e.SimpleMessage(\x010\x01\x12$\n" +
 	"\n" +
@@ -185,39 +267,44 @@ func file_daemon_proto_rawDescGZIP() []byte {
 	return file_daemon_proto_rawDescData
 }
 
-var file_daemon_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_daemon_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_daemon_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_daemon_proto_goTypes = []any{
-	(ServerStatusType)(0), // 0: ServerStatusType
-	(*ServerStatus)(nil),  // 1: ServerStatus
-	(*SimpleMessage)(nil), // 2: SimpleMessage
-	(*Empty)(nil),         // 3: Empty
+	(ServerStatusType)(0),         // 0: ServerStatusType
+	(ServerOfflineReason)(0),      // 1: ServerOfflineReason
+	(*ServerStatus)(nil),          // 2: ServerStatus
+	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
+	(*SimpleMessage)(nil),         // 4: SimpleMessage
+	(*Empty)(nil),                 // 5: Empty
 }
 var file_daemon_proto_depIdxs = []int32{
 	0,  // 0: ServerStatus.status:type_name -> ServerStatusType
-	2,  // 1: ServerService.Console:input_type -> SimpleMessage
-	2,  // 2: ServerService.RunCommand:input_type -> SimpleMessage
-	2,  // 3: ServerService.Terminal:input_type -> SimpleMessage
-	2,  // 4: ServerService.RunTerminalCommand:input_type -> SimpleMessage
-	3,  // 5: ServerService.GetStatus:input_type -> Empty
-	3,  // 6: ServerService.Start:input_type -> Empty
-	3,  // 7: ServerService.Restart:input_type -> Empty
-	3,  // 8: ServerService.Stop:input_type -> Empty
-	3,  // 9: ServerService.Kill:input_type -> Empty
-	2,  // 10: ServerService.Console:output_type -> SimpleMessage
-	3,  // 11: ServerService.RunCommand:output_type -> Empty
-	2,  // 12: ServerService.Terminal:output_type -> SimpleMessage
-	3,  // 13: ServerService.RunTerminalCommand:output_type -> Empty
-	1,  // 14: ServerService.GetStatus:output_type -> ServerStatus
-	3,  // 15: ServerService.Start:output_type -> Empty
-	3,  // 16: ServerService.Restart:output_type -> Empty
-	3,  // 17: ServerService.Stop:output_type -> Empty
-	3,  // 18: ServerService.Kill:output_type -> Empty
-	10, // [10:19] is the sub-list for method output_type
-	1,  // [1:10] is the sub-list for method input_type
-	1,  // [1:1] is the sub-list for extension type_name
-	1,  // [1:1] is the sub-list for extension extendee
-	0,  // [0:1] is the sub-list for field type_name
+	3,  // 1: ServerStatus.timestampStart:type_name -> google.protobuf.Timestamp
+	3,  // 2: ServerStatus.timestampEnd:type_name -> google.protobuf.Timestamp
+	1,  // 3: ServerStatus.offlineReason:type_name -> ServerOfflineReason
+	4,  // 4: ServerService.Console:input_type -> SimpleMessage
+	4,  // 5: ServerService.RunCommand:input_type -> SimpleMessage
+	4,  // 6: ServerService.Terminal:input_type -> SimpleMessage
+	4,  // 7: ServerService.RunTerminalCommand:input_type -> SimpleMessage
+	5,  // 8: ServerService.GetStatus:input_type -> Empty
+	5,  // 9: ServerService.Start:input_type -> Empty
+	5,  // 10: ServerService.Restart:input_type -> Empty
+	5,  // 11: ServerService.Stop:input_type -> Empty
+	5,  // 12: ServerService.Kill:input_type -> Empty
+	4,  // 13: ServerService.Console:output_type -> SimpleMessage
+	5,  // 14: ServerService.RunCommand:output_type -> Empty
+	4,  // 15: ServerService.Terminal:output_type -> SimpleMessage
+	5,  // 16: ServerService.RunTerminalCommand:output_type -> Empty
+	2,  // 17: ServerService.GetStatus:output_type -> ServerStatus
+	5,  // 18: ServerService.Start:output_type -> Empty
+	5,  // 19: ServerService.Restart:output_type -> Empty
+	5,  // 20: ServerService.Stop:output_type -> Empty
+	5,  // 21: ServerService.Kill:output_type -> Empty
+	13, // [13:22] is the sub-list for method output_type
+	4,  // [4:13] is the sub-list for method input_type
+	4,  // [4:4] is the sub-list for extension type_name
+	4,  // [4:4] is the sub-list for extension extendee
+	0,  // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_daemon_proto_init() }
@@ -231,7 +318,7 @@ func file_daemon_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_daemon_proto_rawDesc), len(file_daemon_proto_rawDesc)),
-			NumEnums:      1,
+			NumEnums:      2,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   1,
