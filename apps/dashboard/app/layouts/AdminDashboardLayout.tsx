@@ -2,18 +2,7 @@ import React from 'react';
 import {NavLink, Outlet} from 'react-router-dom';
 import {Sidebar, SidebarProvider, useSidebar} from '~/components/ui/sidebar';
 import {Button} from '~/components/ui/button';
-import {
-    ChevronLeft,
-    LayoutGrid,
-    Moon,
-    Puzzle,
-    Server as ServerIcon,
-    Settings,
-    ShieldCheck,
-    Sun,
-    UserCircle,
-    Users
-} from 'lucide-react';
+import {ChevronLeft, LayoutGrid, Moon, Sun, UserCircle} from 'lucide-react';
 import {cn} from '~/lib/utils';
 import {useTheme} from "~/providers/ThemeProvider";
 import {
@@ -79,13 +68,6 @@ function ThemeToggle() {
 export default function AdminDashboardLayout() {
     const navigation = [
         {name: 'Overview', href: '/admin', icon: LayoutGrid},
-        {name: 'Users', href: '/admin/users', icon: Users},
-        {name: 'Servers', href: '/admin/servers', icon: ServerIcon},
-        {name: 'Nodes', href: '/admin/nodes', icon: ServerIcon},
-        {name: 'Blueprints', href: '/admin/blueprints', icon: Puzzle},
-        {name: 'System Settings', href: '/admin/system-settings', icon: Settings},
-        {name: 'Modules', href: '/admin/modules', icon: Puzzle},
-        {name: 'Security', href: '/admin/security', icon: ShieldCheck},
     ];
 
     return (
