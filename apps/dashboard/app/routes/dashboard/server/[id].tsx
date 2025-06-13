@@ -6,14 +6,15 @@ import {Tabs, TabsContent, TabsList, TabsTrigger} from '~/components/ui/tabs';
 import {ScrollArea} from '~/components/ui/scroll-area';
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '~/components/ui/select';
 import {Input} from '~/components/ui/input';
-import {Activity, ArrowLeft, Cpu, Database, HardDrive, Power, RefreshCw, Settings, Terminal,} from 'lucide-react';
+import {Activity, ArrowLeft, Cpu, Database, HardDrive, Settings, Terminal,} from 'lucide-react';
 import {cn} from '~/lib/utils';
 import {FileManager} from '~/components/dashboard/FileManager';
 import {ActivityLog} from '~/components/dashboard/ActivityLog';
 import StatusBadge from "~/components/dashboard/StatusBadge";
-import {ServerStatusType} from 'proto-gen-ts/daemon_pb';
+import {PowerAction, ServerStatusType} from 'proto-gen-ts/daemon_pb';
 import DurationText from "~/components/texts/DurationText";
 import SoftwareText from "~/components/texts/SoftwareText";
+import PowerButton from "~/components/buttons/PowerButton";
 
 // Placeholder data - would normally come from an API
 const server = {
@@ -109,22 +110,9 @@ export default function ServerDetailsPage() {
                         </div>
                     </div>
                     <div className="flex gap-2">
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            className="shadow-sm bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700"
-                        >
-                            <RefreshCw className="mr-2 h-4 w-4"/>
-                            Restart
-                        </Button>
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            className="shadow-sm bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-700"
-                        >
-                            <Power className="mr-2 h-4 w-4"/>
-                            Stop
-                        </Button>
+                        <PowerButton action={PowerAction.RESTART}/>
+                        <PowerButton action={PowerAction.STOP}/>
+                        <PowerButton action={PowerAction.KILL}/>
                     </div>
                 </div>
 
