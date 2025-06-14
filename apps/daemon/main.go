@@ -9,7 +9,7 @@ import (
 	"golang.org/x/net/http2/h2c"
 	"log"
 	"net/http"
-	"panelium/daemon/src/global"
+	"panelium/daemon/global"
 	proto_gen_go "panelium/proto-gen-go"
 	"panelium/proto-gen-go/proto_gen_goconnect"
 )
