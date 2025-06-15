@@ -7,8 +7,8 @@ import (
 )
 
 func (s *AuthServiceHandler) VerifyMFA(
-	context.Context,
-	*connect.Request[proto_gen_go.VerifyMFARequest],
+	ctx context.Context,
+	req *connect.Request[proto_gen_go.VerifyMFARequest],
 ) (*connect.Response[proto_gen_go.VerifyMFAResponse], error) {
 	return nil, nil
 }

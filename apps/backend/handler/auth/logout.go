@@ -7,8 +7,8 @@ import (
 )
 
 func (s *AuthServiceHandler) Logout(
-	context.Context,
-	*connect.Request[proto_gen_go.LogoutRequest],
+	ctx context.Context,
+	req *connect.Request[proto_gen_go.LogoutRequest],
 ) (*connect.Response[proto_gen_go.LogoutResponse], error) {
 	return nil, nil
 }

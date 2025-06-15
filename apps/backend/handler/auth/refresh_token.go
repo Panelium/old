@@ -7,8 +7,8 @@ import (
 )
 
 func (s *AuthServiceHandler) RefreshToken(
-	context.Context,
-	*connect.Request[proto_gen_go.RefreshTokenRequest],
+	ctx context.Context,
+	req *connect.Request[proto_gen_go.RefreshTokenRequest],
 ) (*connect.Response[proto_gen_go.RefreshTokenResponse], error) {
 	return nil, nil
 }
