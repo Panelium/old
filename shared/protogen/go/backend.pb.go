@@ -24,7 +24,7 @@ var File_backend_proto protoreflect.FileDescriptor
 
 const file_backend_proto_rawDesc = "" +
 	"\n" +
-	"\rbackend.proto\x1a\fcommon.protoB\x17Z\x15panelium/proto-gen-go"
+	"\rbackend.proto\x12\abackend\x1a\fcommon.protoB\x17Z\x15panelium/proto-gen-gob\x06proto3"
 
 var file_backend_proto_goTypes = []any{}
 var file_backend_proto_depIdxs = []int32{

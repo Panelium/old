@@ -1,13 +1,14 @@
 openapi: 3.1.0
-info: {}
+info:
+  title: common
 paths: {}
 components:
   schemas:
-    Empty:
+    common.Empty:
       type: object
       title: Empty
       additionalProperties: false
-    SimpleMessage:
+    common.SimpleMessage:
       type: object
       properties:
         text:

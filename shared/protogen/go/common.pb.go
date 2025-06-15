@@ -59,7 +59,7 @@ func (*Empty) Descriptor() ([]byte, []int) {
 
 type SimpleMessage struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Text          *string                `protobuf:"bytes,1,req,name=text" json:"text,omitempty"`
+	Text          string                 `protobuf:"bytes,1,opt,name=text,proto3" json:"text,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -95,8 +95,8 @@ func (*SimpleMessage) Descriptor() ([]byte, []int) {
 }
 
 func (x *SimpleMessage) GetText() string {
-	if x != nil && x.Text != nil {
-		return *x.Text
+	if x != nil {
+		return x.Text
 	}
 	return ""
 }
@@ -105,10 +105,10 @@ var File_common_proto protoreflect.FileDescriptor
 
 const file_common_proto_rawDesc = "" +
 	"\n" +
-	"\fcommon.proto\"\a\n" +
+	"\fcommon.proto\x12\x06common\"\a\n" +
 	"\x05Empty\"#\n" +
 	"\rSimpleMessage\x12\x12\n" +
-	"\x04text\x18\x01 \x02(\tR\x04textB\x17Z\x15panelium/proto-gen-go"
+	"\x04text\x18\x01 \x01(\tR\x04textB\x17Z\x15panelium/proto-gen-gob\x06proto3"
 
 var (
 	file_common_proto_rawDescOnce sync.Once
@@ -124,8 +124,8 @@ func file_common_proto_rawDescGZIP() []byte {
 
 var file_common_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_common_proto_goTypes = []any{
-	(*Empty)(nil),         // 0: Empty
-	(*SimpleMessage)(nil), // 1: SimpleMessage
+	(*Empty)(nil),         // 0: common.Empty
+	(*SimpleMessage)(nil), // 1: common.SimpleMessage
 }
 var file_common_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type

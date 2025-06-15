@@ -1,3 +1,6 @@
+syntax = "proto3";
+
+package daemon;
 option go_package = "panelium/proto-gen-go";
 
 import "common.proto";
@@ -5,23 +8,23 @@ import "google/protobuf/timestamp.proto";
 
 service ServerService {
   // Console (process)
-  rpc Console(stream SimpleMessage) returns (stream SimpleMessage);
-  rpc RunCommand(SimpleMessage) returns (Empty);
+  rpc Console(stream common.SimpleMessage) returns (stream common.SimpleMessage);
+  rpc RunCommand(common.SimpleMessage) returns (common.Empty);
 
   // Terminal (system)
-  rpc Terminal(stream SimpleMessage) returns (stream SimpleMessage);
-  rpc RunTerminalCommand(SimpleMessage) returns (Empty);
+  rpc Terminal(stream common.SimpleMessage) returns (stream common.SimpleMessage);
+  rpc RunTerminalCommand(common.SimpleMessage) returns (common.Empty);
 
   // Server Info
-  rpc GetStatus(Empty) returns (ServerStatus);
+  rpc GetStatus(common.Empty) returns (ServerStatus);
 
   // Power Actions
-  rpc PowerAction(SimpleMessage) returns (Empty);
+  rpc PowerAction(common.SimpleMessage) returns (common.Empty);
 }
 
 // Server Info
 message ServerStatus {
-  required ServerStatusType status = 1;
+  ServerStatusType status = 1;
   optional google.protobuf.Timestamp timestampStart = 2;
   optional google.protobuf.Timestamp timestampEnd = 3;
   optional ServerOfflineReason offlineReason = 4;
