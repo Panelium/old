@@ -32,4 +32,4 @@ func (s *AuthServiceHandler) Login(
 	return nil, nil
 }
 
-// TODO: decide how to store pepper and implement it
+// TODO: decide how to store pepper and implement it (at least 112 bits based on NIST recommendations - salt should be at least 128 bits)
