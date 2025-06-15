@@ -2,7 +2,7 @@ package model
 
 import "gorm.io/gorm"
 
-type Allocation struct {
+type NodeAllocation struct {
 	gorm.Model
 	NodeID   uint   `gorm:"index,not null" json:"node_id"`
 	Node     Node   `json:"node"`
