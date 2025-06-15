@@ -48,11 +48,11 @@ func (s *ServerServiceHandler) Console(
 			return err
 		}
 
-		log.Printf("received: %s\n", *msg.Text)
+		log.Printf("received: %s\n", msg.Text)
 
-		response := &proto_gen_go.SimpleMessage{}
-		responseText := "echo: " + *msg.Text
-		response.Text = &responseText
+		response := &proto_gen_go.SimpleMessage{
+			Text: "echo: " + msg.Text,
+		}
 		if err := stream.Send(response); err != nil {
 			return err
 		}

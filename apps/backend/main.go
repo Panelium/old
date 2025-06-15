@@ -22,9 +22,9 @@ func main() {
 		return
 	}
 
-	message := proto_gen_go.SimpleMessage{}
-	messageText := "somecommand"
-	message.Text = &messageText
+	message := proto_gen_go.SimpleMessage{
+		Text: "somecommand",
+	}
 
 	client := proto_gen_goconnect.NewServerServiceClient(
 		&http.Client{
@@ -55,9 +55,9 @@ func main() {
 	)
 
 	for i := 0; i < 10; i++ {
-		message := proto_gen_go.SimpleMessage{}
-		messageText := "message " + strconv.Itoa(rand.Intn(100))
-		message.Text = &messageText
+		message := proto_gen_go.SimpleMessage{
+			Text: "message " + strconv.Itoa(rand.Intn(100)),
+		}
 
 		if err := stream.Send(&message); err != nil {
 			log.Println("Error sending message:", err)
@@ -69,7 +69,7 @@ func main() {
 			log.Println("Error receiving response:", err)
 			return
 		}
-		log.Printf("Received response: %s\n", *response.Text)
+		log.Printf("Received response: %s\n", response.Text)
 	}
 }
 
