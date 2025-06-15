@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+	"panelium/backend/global"
 	"panelium/backend/handler"
 	"panelium/common/id"
 )
@@ -13,11 +14,17 @@ func main() {
 		return
 	}
 
-	err := handler.Handle("localhost:9090")
+	err := global.Init()
 	if err != nil {
+		log.Fatalf("Failed to initialize global settings: %v", err)
 		return
 	}
 
+	err = handler.Handle("localhost:9090")
+	if err != nil {
+		log.Fatalf("Failed to start handler: %v", err)
+		return
+	}
 }
 
 func idGen() {
