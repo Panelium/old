@@ -8,6 +8,7 @@ import "common.proto";
 service AuthService {
   rpc Login(LoginRequest) returns (LoginResponse) {}
   rpc VerifyMFA(VerifyMFARequest) returns (VerifyMFAResponse) {}
+
   rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse) {}
 
   rpc Logout(LogoutRequest) returns (LogoutResponse) {}
