@@ -1,6 +1,337 @@
 openapi: 3.1.0
 info:
   title: backend
-paths: {}
-components: {}
+paths:
+  /backend.AuthService/Login:
+    post:
+      tags:
+        - backend.AuthService
+      summary: Login
+      operationId: backend.AuthService.Login
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend.LoginRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.LoginResponse'
+  /backend.AuthService/VerifyMFA:
+    post:
+      tags:
+        - backend.AuthService
+      summary: VerifyMFA
+      operationId: backend.AuthService.VerifyMFA
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend.VerifyMFARequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.VerifyMFAResponse'
+  /backend.AuthService/RefreshToken:
+    post:
+      tags:
+        - backend.AuthService
+      summary: RefreshToken
+      operationId: backend.AuthService.RefreshToken
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend.RefreshTokenRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.RefreshTokenResponse'
+  /backend.AuthService/Logout:
+    post:
+      tags:
+        - backend.AuthService
+      summary: Logout
+      operationId: backend.AuthService.Logout
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend.LogoutRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.LogoutResponse'
+components:
+  schemas:
+    backend.MFAType:
+      type: string
+      title: MFAType
+      enum:
+        - MFA_TYPE_UNSPECIFIED
+        - MFA_TYPE_TOTP
+        - MFA_TYPE_SMS
+        - MFA_TYPE_EMAIL
+    backend.LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          title: username
+        password:
+          type: string
+          title: password
+      title: LoginRequest
+      additionalProperties: false
+    backend.LoginResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          title: access_token
+          description: cookie, only if mfa not required and auth success
+          nullable: true
+        refreshToken:
+          type: string
+          title: refresh_token
+          description: cookie, only if mfa not required and auth success
+          nullable: true
+        requiresMfa:
+          type: boolean
+          title: requires_mfa
+        mfaSessionToken:
+          type: string
+          title: mfa_session_token
+          description: cookie, only if mfa required and auth success
+          nullable: true
+        mfaType:
+          title: mfa_type
+          description: type of MFA required
+          nullable: true
+          $ref: '#/components/schemas/backend.MFAType'
+      title: LoginResponse
+      additionalProperties: false
+    backend.LogoutRequest:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          title: access_token
+          description: cookie
+          nullable: true
+      title: LogoutRequest
+      additionalProperties: false
+    backend.LogoutResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: LogoutResponse
+      additionalProperties: false
+    backend.RefreshTokenRequest:
+      type: object
+      properties:
+        refreshToken:
+          type: string
+          title: refresh_token
+          description: cookie
+          nullable: true
+      title: RefreshTokenRequest
+      additionalProperties: false
+    backend.RefreshTokenResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          title: access_token
+          description: cookie, only if refresh token valid
+          nullable: true
+        refreshToken:
+          type: string
+          title: refresh_token
+          description: cookie, only if refresh token valid
+          nullable: true
+      title: RefreshTokenResponse
+      additionalProperties: false
+      description: 'note: if refresh token reuse - revoke all user tokens'
+    backend.VerifyMFARequest:
+      type: object
+      properties:
+        mfaSessionToken:
+          type: string
+          title: mfa_session_token
+          description: cookie
+          nullable: true
+        mfaCode:
+          type: string
+          title: mfa_code
+      title: VerifyMFARequest
+      additionalProperties: false
+    backend.VerifyMFAResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          title: access_token
+          description: cookie, only if auth and MFA success and no additional MFA required
+          nullable: true
+        refreshToken:
+          type: string
+          title: refresh_token
+          description: cookie, only if auth and MFA success and no additional MFA required
+          nullable: true
+        requiresAdditionalMfa:
+          type: boolean
+          title: requires_additional_mfa
+        mfaSessionToken:
+          type: string
+          title: mfa_session_token
+          description: cookie, only if additional MFA required
+          nullable: true
+        mfaType:
+          title: mfa_type
+          nullable: true
+          $ref: '#/components/schemas/backend.MFAType'
+      title: VerifyMFAResponse
+      additionalProperties: false
+    connect-protocol-version:
+      type: number
+      title: Connect-Protocol-Version
+      enum:
+        - 1
+      description: Define the version of the Connect protocol
+      const: 1
+    connect-timeout-header:
+      type: number
+      title: Connect-Timeout-Ms
+      description: Define the timeout, in ms
+    connect.error:
+      type: object
+      properties:
+        code:
+          type: string
+          examples:
+            - not_found
+          enum:
+            - canceled
+            - unknown
+            - invalid_argument
+            - deadline_exceeded
+            - not_found
+            - already_exists
+            - permission_denied
+            - resource_exhausted
+            - failed_precondition
+            - aborted
+            - out_of_range
+            - unimplemented
+            - internal
+            - unavailable
+            - data_loss
+            - unauthenticated
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        detail:
+          $ref: '#/components/schemas/google.protobuf.Any'
+      title: Connect Error
+      additionalProperties: true
+      description: 'Error type returned by Connect: https://connectrpc.com/docs/go/errors/#http-representation'
+    google.protobuf.Any:
+      type: object
+      properties:
+        type:
+          type: string
+        value:
+          type: string
+          format: binary
+        debug:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
 security: []
+tags:
+  - name: backend.AuthService

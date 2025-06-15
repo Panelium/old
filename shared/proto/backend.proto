@@ -4,3 +4,61 @@ package backend;
 option go_package = "panelium/proto-gen-go";
 
 import "common.proto";
+
+service AuthService {
+  rpc Login(LoginRequest) returns (LoginResponse) {}
+  rpc VerifyMFA(VerifyMFARequest) returns (VerifyMFAResponse) {}
+  rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse) {}
+
+  rpc Logout(LogoutRequest) returns (LogoutResponse) {}
+}
+
+enum MFAType {
+  MFA_TYPE_UNSPECIFIED = 0;
+  MFA_TYPE_TOTP = 1;
+  MFA_TYPE_SMS = 2;
+  MFA_TYPE_EMAIL = 3;
+}
+
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  optional string access_token = 1; // cookie, only if mfa not required and auth success
+  optional string refresh_token = 2; // cookie, only if mfa not required and auth success
+  bool requires_mfa = 3;
+  optional string mfa_session_token = 4; // cookie, only if mfa required and auth success
+  optional MFAType mfa_type = 5; // type of MFA required
+}
+
+message VerifyMFARequest {
+  optional string mfa_session_token = 1; // cookie
+  string mfa_code = 2;
+}
+
+message VerifyMFAResponse {
+  optional string access_token = 1; // cookie, only if auth and MFA success and no additional MFA required
+  optional string refresh_token = 2; // cookie, only if auth and MFA success and no additional MFA required
+  bool requires_additional_mfa = 3;
+  optional string mfa_session_token = 5; // cookie, only if additional MFA required
+  optional MFAType mfa_type = 4;
+}
+
+message RefreshTokenRequest {
+  optional string refresh_token = 1; // cookie
+}
+
+message RefreshTokenResponse {// note: if refresh token reuse - revoke all user tokens
+  optional string access_token = 1; // cookie, only if refresh token valid
+  optional string refresh_token = 2; // cookie, only if refresh token valid
+}
+
+message LogoutRequest {
+  optional string access_token = 1; // cookie
+}
+
+message LogoutResponse {
+  bool success = 1;
+}

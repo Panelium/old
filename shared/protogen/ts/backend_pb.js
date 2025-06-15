@@ -3,10 +3,80 @@
 // @generated from file backend.proto (package backend, syntax proto3)
 /* eslint-disable */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.file_backend = void 0;
+exports.AuthService = exports.MFATypeSchema = exports.MFAType = exports.LogoutResponseSchema = exports.LogoutRequestSchema = exports.RefreshTokenResponseSchema = exports.RefreshTokenRequestSchema = exports.VerifyMFAResponseSchema = exports.VerifyMFARequestSchema = exports.LoginResponseSchema = exports.LoginRequestSchema = exports.file_backend = void 0;
 var codegenv2_1 = require("@bufbuild/protobuf/codegenv2");
 var common_pb_ts_1 = require("./common_pb.ts");
 /**
  * Describes the file backend.proto.
  */
-exports.file_backend = (0, codegenv2_1.fileDesc)("Cg1iYWNrZW5kLnByb3RvEgdiYWNrZW5kQhdaFXBhbmVsaXVtL3Byb3RvLWdlbi1nb2IGcHJvdG8z", [common_pb_ts_1.file_common]);
+exports.file_backend = (0, codegenv2_1.fileDesc)("Cg1iYWNrZW5kLnByb3RvEgdiYWNrZW5kIjIKDExvZ2luUmVxdWVzdBIQCgh1c2VybmFtZRgBIAEoCRIQCghwYXNzd29yZBgCIAEoCSLrAQoNTG9naW5SZXNwb25zZRIZCgxhY2Nlc3NfdG9rZW4YASABKAlIAIgBARIaCg1yZWZyZXNoX3Rva2VuGAIgASgJSAGIAQESFAoMcmVxdWlyZXNfbWZhGAMgASgIEh4KEW1mYV9zZXNzaW9uX3Rva2VuGAQgASgJSAKIAQESJwoIbWZhX3R5cGUYBSABKA4yEC5iYWNrZW5kLk1GQVR5cGVIA4gBAUIPCg1fYWNjZXNzX3Rva2VuQhAKDl9yZWZyZXNoX3Rva2VuQhQKEl9tZmFfc2Vzc2lvbl90b2tlbkILCglfbWZhX3R5cGUiWgoQVmVyaWZ5TUZBUmVxdWVzdBIeChFtZmFfc2Vzc2lvbl90b2tlbhgBIAEoCUgAiAEBEhAKCG1mYV9jb2RlGAIgASgJQhQKEl9tZmFfc2Vzc2lvbl90b2tlbiL6AQoRVmVyaWZ5TUZBUmVzcG9uc2USGQoMYWNjZXNzX3Rva2VuGAEgASgJSACIAQESGgoNcmVmcmVzaF90b2tlbhgCIAEoCUgBiAEBEh8KF3JlcXVpcmVzX2FkZGl0aW9uYWxfbWZhGAMgASgIEh4KEW1mYV9zZXNzaW9uX3Rva2VuGAUgASgJSAKIAQESJwoIbWZhX3R5cGUYBCABKA4yEC5iYWNrZW5kLk1GQVR5cGVIA4gBAUIPCg1fYWNjZXNzX3Rva2VuQhAKDl9yZWZyZXNoX3Rva2VuQhQKEl9tZmFfc2Vzc2lvbl90b2tlbkILCglfbWZhX3R5cGUiQwoTUmVmcmVzaFRva2VuUmVxdWVzdBIaCg1yZWZyZXNoX3Rva2VuGAEgASgJSACIAQFCEAoOX3JlZnJlc2hfdG9rZW4icAoUUmVmcmVzaFRva2VuUmVzcG9uc2USGQoMYWNjZXNzX3Rva2VuGAEgASgJSACIAQESGgoNcmVmcmVzaF90b2tlbhgCIAEoCUgBiAEBQg8KDV9hY2Nlc3NfdG9rZW5CEAoOX3JlZnJlc2hfdG9rZW4iOwoNTG9nb3V0UmVxdWVzdBIZCgxhY2Nlc3NfdG9rZW4YASABKAlIAIgBAUIPCg1fYWNjZXNzX3Rva2VuIiEKDkxvZ291dFJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgqXAoHTUZBVHlwZRIYChRNRkFfVFlQRV9VTlNQRUNJRklFRBAAEhEKDU1GQV9UWVBFX1RPVFAQARIQCgxNRkFfVFlQRV9TTVMQAhISCg5NRkFfVFlQRV9FTUFJTBADMpkCCgtBdXRoU2VydmljZRI4CgVMb2dpbhIVLmJhY2tlbmQuTG9naW5SZXF1ZXN0GhYuYmFja2VuZC5Mb2dpblJlc3BvbnNlIgASRAoJVmVyaWZ5TUZBEhkuYmFja2VuZC5WZXJpZnlNRkFSZXF1ZXN0GhouYmFja2VuZC5WZXJpZnlNRkFSZXNwb25zZSIAEk0KDFJlZnJlc2hUb2tlbhIcLmJhY2tlbmQuUmVmcmVzaFRva2VuUmVxdWVzdBodLmJhY2tlbmQuUmVmcmVzaFRva2VuUmVzcG9uc2UiABI7CgZMb2dvdXQSFi5iYWNrZW5kLkxvZ291dFJlcXVlc3QaFy5iYWNrZW5kLkxvZ291dFJlc3BvbnNlIgBCF1oVcGFuZWxpdW0vcHJvdG8tZ2VuLWdvYgZwcm90bzM", [common_pb_ts_1.file_common]);
+/**
+ * Describes the message backend.LoginRequest.
+ * Use `create(LoginRequestSchema)` to create a new message.
+ */
+exports.LoginRequestSchema = (0, codegenv2_1.messageDesc)(exports.file_backend, 0);
+/**
+ * Describes the message backend.LoginResponse.
+ * Use `create(LoginResponseSchema)` to create a new message.
+ */
+exports.LoginResponseSchema = (0, codegenv2_1.messageDesc)(exports.file_backend, 1);
+/**
+ * Describes the message backend.VerifyMFARequest.
+ * Use `create(VerifyMFARequestSchema)` to create a new message.
+ */
+exports.VerifyMFARequestSchema = (0, codegenv2_1.messageDesc)(exports.file_backend, 2);
+/**
+ * Describes the message backend.VerifyMFAResponse.
+ * Use `create(VerifyMFAResponseSchema)` to create a new message.
+ */
+exports.VerifyMFAResponseSchema = (0, codegenv2_1.messageDesc)(exports.file_backend, 3);
+/**
+ * Describes the message backend.RefreshTokenRequest.
+ * Use `create(RefreshTokenRequestSchema)` to create a new message.
+ */
+exports.RefreshTokenRequestSchema = (0, codegenv2_1.messageDesc)(exports.file_backend, 4);
+/**
+ * Describes the message backend.RefreshTokenResponse.
+ * Use `create(RefreshTokenResponseSchema)` to create a new message.
+ */
+exports.RefreshTokenResponseSchema = (0, codegenv2_1.messageDesc)(exports.file_backend, 5);
+/**
+ * Describes the message backend.LogoutRequest.
+ * Use `create(LogoutRequestSchema)` to create a new message.
+ */
+exports.LogoutRequestSchema = (0, codegenv2_1.messageDesc)(exports.file_backend, 6);
+/**
+ * Describes the message backend.LogoutResponse.
+ * Use `create(LogoutResponseSchema)` to create a new message.
+ */
+exports.LogoutResponseSchema = (0, codegenv2_1.messageDesc)(exports.file_backend, 7);
+/**
+ * @generated from enum backend.MFAType
+ */
+var MFAType;
+(function (MFAType) {
+    /**
+     * @generated from enum value: MFA_TYPE_UNSPECIFIED = 0;
+     */
+    MFAType[MFAType["MFA_TYPE_UNSPECIFIED"] = 0] = "MFA_TYPE_UNSPECIFIED";
+    /**
+     * @generated from enum value: MFA_TYPE_TOTP = 1;
+     */
+    MFAType[MFAType["MFA_TYPE_TOTP"] = 1] = "MFA_TYPE_TOTP";
+    /**
+     * @generated from enum value: MFA_TYPE_SMS = 2;
+     */
+    MFAType[MFAType["MFA_TYPE_SMS"] = 2] = "MFA_TYPE_SMS";
+    /**
+     * @generated from enum value: MFA_TYPE_EMAIL = 3;
+     */
+    MFAType[MFAType["MFA_TYPE_EMAIL"] = 3] = "MFA_TYPE_EMAIL";
+})(MFAType || (exports.MFAType = MFAType = {}));
+/**
+ * Describes the enum backend.MFAType.
+ */
+exports.MFATypeSchema = (0, codegenv2_1.enumDesc)(exports.file_backend, 0);
+/**
+ * @generated from service backend.AuthService
+ */
+exports.AuthService = (0, codegenv2_1.serviceDesc)(exports.file_backend, 0);
