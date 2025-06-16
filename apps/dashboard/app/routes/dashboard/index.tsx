@@ -6,7 +6,8 @@ import OverviewCardGrid from "./OverviewCardGrid";
 import type { OverviewCardProps } from "./OverviewCard";
 import ServerCardGrid, { type Server } from "./ServerCardGrid";
 
-// Mock data for demonstration
+import useDashboard from "./useDashboard";
+
 const mockServers: Server[] = [
   {
     id: "1",
@@ -97,61 +98,22 @@ const mockServers: Server[] = [
 ];
 
 export default function DashboardOverviewPage() {
-  // Calculate actual stats from server data
-  const totalServers = mockServers.length;
-  const onlineServers = mockServers.filter(
-    (s) => s.status === ServerStatusType.ONLINE
-  ).length;
-
-  // Calculate total players across all servers
-  const totalPlayers = mockServers.reduce((acc, server) => {
-    return acc + (server.players?.online || 0);
-  }, 0);
-  const maxPlayers = mockServers.reduce((acc, server) => {
-    return acc + (server.players?.max || 0);
-  }, 0);
-
-  // Calculate average CPU usage from online servers
-  const onlineServersArray = mockServers.filter(
-    (s) => s.status === ServerStatusType.ONLINE
-  );
-  const avgCpuUsage = onlineServersArray.length
-    ? Math.round(
-        onlineServersArray.reduce((acc, server) => acc + server.cpuUsage, 0) /
-          onlineServersArray.length
-      )
-    : 0;
-
-  // Calculate total memory usage
-  const totalMemoryUsed = mockServers.reduce(
-    (acc, server) => acc + server.memoryUsage.used,
-    0
-  );
-  const totalMemoryAllocated = mockServers.reduce(
-    (acc, server) => acc + server.memoryUsage.total,
-    0
-  );
-
-  // Convert bytes to GB for display
-  const usedMemoryGB = (totalMemoryUsed / (1024 * 1024 * 1024)).toFixed(1);
-  const totalMemoryGB = (totalMemoryAllocated / (1024 * 1024 * 1024)).toFixed(
-    1
-  );
+  const dashboardData = useDashboard({ mockServers });
 
   const overviewCardsData: OverviewCardProps[] = [
     {
       title: "Player Activity",
       content: {
-        title: totalPlayers.toString(),
-        subtitle: `across ${onlineServers} online servers`,
+        title: dashboardData.totalPlayers.toString(),
+        subtitle: `across ${dashboardData.onlineServers} online servers`,
         icon: Users,
       },
-      footer: `${totalPlayers}/${maxPlayers} total capacity`,
+      footer: `${dashboardData.totalPlayers}/${dashboardData.maxPlayers} total capacity`,
     },
     {
       title: "CPU Usage",
       gauge: {
-        value: avgCpuUsage,
+        value: dashboardData.avgCpuUsage,
         maxValue: 100,
         size: "sm",
         unit: "%",
@@ -159,11 +121,11 @@ export default function DashboardOverviewPage() {
         subtitle: "Avg across 2 servers",
       },
       footer: `Peak: ${Math.max(
-        ...onlineServersArray.map((s) => s.cpuUsage),
+        ...dashboardData.onlineServersArray.map((s) => s.cpuUsage),
         0
       )}% on ${
-        onlineServersArray.length > 0
-          ? onlineServersArray.reduce((max, server) =>
+        dashboardData.onlineServersArray.length > 0
+          ? dashboardData.onlineServersArray.reduce((max, server) =>
               server.cpuUsage > max.cpuUsage ? server : max
             ).name
           : "N/A"
@@ -172,8 +134,8 @@ export default function DashboardOverviewPage() {
     {
       title: "Memory Usage",
       gauge: {
-        value: parseFloat(usedMemoryGB),
-        maxValue: parseFloat(totalMemoryGB),
+        value: parseFloat(dashboardData.usedMemoryGB),
+        maxValue: parseFloat(dashboardData.totalMemoryGB),
         size: "sm",
         unit: "GB",
         label: "Used",
