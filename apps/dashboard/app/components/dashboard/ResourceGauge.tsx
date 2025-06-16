@@ -5,6 +5,7 @@ import { cn } from "~/lib/utils";
 export interface ResourceGaugeProps {
   value: number;
   maxValue: number;
+  subtitle?: string;
   label?: string;
   unit?: string;
   size?: "sm" | "md" | "lg";
