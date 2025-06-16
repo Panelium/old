@@ -1,10 +1,9 @@
 import React from "react";
 import { Users } from "lucide-react";
-import { ServerStatusType } from "proto-gen-ts/daemon_pb";
 
 import OverviewCardGrid from "./OverviewCardGrid";
 import type { OverviewCardProps } from "./OverviewCard";
-import ServerCardGrid, { type Server } from "./ServerCardGrid";
+import ServerCardGrid from "./ServerCardGrid";
 
 import useDashboard from "./useDashboard";
 
