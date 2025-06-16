@@ -15,5 +15,6 @@ plugins:
     opt:
       - target=ts
       - import_extension=ts
+      - js_import_style=module
 inputs:
   - directory: .
