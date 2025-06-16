@@ -30,7 +30,7 @@ interface OverviewCardWithContent extends BaseOverviewCard {
 
 interface OverviewCardWithGauge extends BaseOverviewCard {
   content?: never;
-  gauge: ResourceGaugeProps;
+  gauge: Omit<ResourceGaugeProps, "className">;
 }
 
 export type OverviewCardProps = OverviewCardWithContent | OverviewCardWithGauge;
