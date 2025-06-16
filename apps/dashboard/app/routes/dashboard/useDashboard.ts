@@ -1,4 +1,4 @@
-import { type Server } from "./ServerCardGrid";
+import { type Server } from "~/components/dashboard/ServerCardGrid";
 import { ServerStatusType } from "proto-gen-ts/daemon_pb";
 
 interface UseDashboard {

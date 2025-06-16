@@ -1,9 +1,9 @@
 import React from "react";
 import { Users } from "lucide-react";
 
-import OverviewCardGrid from "./OverviewCardGrid";
-import type { OverviewCardProps } from "./OverviewCard";
-import ServerCardGrid from "./ServerCardGrid";
+import OverviewCardGrid from "~/components/dashboard/OverviewCardGrid";
+import type { OverviewCardProps } from "~/components/dashboard/OverviewCard";
+import ServerCardGrid from "~/components/dashboard/ServerCardGrid";
 
 import useDashboard from "./useDashboard";
 
