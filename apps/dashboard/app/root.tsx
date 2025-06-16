@@ -11,24 +11,15 @@ import {
 import ThemeProvider from "~/providers/ThemeProvider";
 import SessionProvider from "~/providers/SessionProvider";
 
-import type { Route } from "../.react-router/types/app/+types/root";
+import { meta } from "./lib/root-meta";
+import { links } from "./lib/root-links";
 
-export const meta: Route.MetaFunction = () => {
-  return [
-    { title: "Panelium" },
-    { name: "description", content: "E" },
-    { name: "viewport", content: "width=device-width, initial-scale=1" },
-    { name: "theme-color", content: "#ffffff" },
-  ];
-};
-export const links: Route.LinksFunction = () => [];
+export { meta, links };
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
       </head>
