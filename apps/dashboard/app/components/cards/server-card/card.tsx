@@ -1,6 +1,4 @@
 import React from "react";
-import { cn, formatMemory } from "~/lib/utils";
-import { Link, useNavigate } from "react-router-dom";
 import {
   FolderOpen,
   Play,
@@ -10,12 +8,21 @@ import {
   Users,
   type LucideIcon,
 } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { ServerStatusType } from "proto-gen-ts/daemon_pb";
+import { cn, formatMemory } from "~/lib/utils";
+
 import type { Server } from ".";
+
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "~/components/ui/card";
 import ServerBar from "~/components/bars/ServerBar";
 import StatusBadge from "~/components/dashboard/StatusBadge";
-import { ServerStatusType } from "proto-gen-ts/daemon_pb";
-import { Card, CardContent, CardFooter, CardHeader } from "../../ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 
 interface ServerCardProps {
   server: Server;

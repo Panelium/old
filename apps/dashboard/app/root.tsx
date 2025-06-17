@@ -2,11 +2,11 @@ import "./app.css";
 import React from "react";
 import { Meta, Links, Outlet, Scripts, ScrollRestoration } from "react-router";
 
-import ThemeProvider from "~/providers/ThemeProvider";
-import SessionProvider from "~/providers/SessionProvider";
-
 import { meta } from "~/lib/root-meta";
 import { links } from "~/lib/root-links";
+
+import ThemeProvider from "~/providers/ThemeProvider";
+import SessionProvider from "~/providers/SessionProvider";
 import { ErrorBoundary } from "~/components/ui/ErrorBoundary";
 
 export { meta, links, ErrorBoundary };

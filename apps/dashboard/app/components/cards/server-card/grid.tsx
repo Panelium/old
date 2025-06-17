@@ -1,9 +1,11 @@
-import ServerCard from "~/components/cards/server-card/Card";
-import { Card } from "~/components/ui/card";
-import { Plus } from "lucide-react";
 import React from "react";
+import { Plus } from "lucide-react";
 import { cn } from "~/lib/utils";
+
 import type { Server } from ".";
+
+import { Card } from "~/components/ui/card";
+import ServerCard from "~/components/cards/server-card/Card";
 
 const AddServerCard: React.FC = () => {
   return (
