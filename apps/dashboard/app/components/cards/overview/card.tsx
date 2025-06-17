@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import { ResourceGauge, type ResourceGaugeProps } from "./ResourceGauge";
+import { ResourceGauge, type ResourceGaugeProps } from "../ResourceGauge";
 import { type LucideIcon } from "lucide-react";
 
 interface OverviewCardContent {
@@ -30,7 +30,7 @@ interface OverviewCardWithGauge extends BaseOverviewCard {
   gauge: Omit<ResourceGaugeProps, "className">;
 }
 
-export type OverviewCardProps = OverviewCardWithContent | OverviewCardWithGauge;
+type OverviewCardProps = OverviewCardWithContent | OverviewCardWithGauge;
 
 const GaugeCard: React.FC<ResourceGaugeProps> = (gauge) => {
   return (
@@ -111,3 +111,4 @@ const OverviewCard: React.FC<OverviewCardProps> = ({
 };
 
 export default OverviewCard;
+export type { OverviewCardProps };

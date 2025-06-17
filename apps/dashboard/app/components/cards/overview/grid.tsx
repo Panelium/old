@@ -1,6 +1,6 @@
 import React from "react";
-import type { OverviewCardProps } from "./OverviewCard";
-import OverviewCard from "./OverviewCard";
+import type { OverviewCardProps } from "./card";
+import OverviewCard from "./card";
 
 export default function OverviewCardGrid({
   cards,
