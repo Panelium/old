@@ -1,17 +1,24 @@
 import React from "react";
 import { cn } from "~/lib/utils";
-import type { Server } from "../cards/server-card";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
-const EntityAvatar: React.FC<{
-  src?: string;
-  alt?: string;
+interface EntityAvatarProps {
   title: string;
   subTitle: string;
-  className: string;
-}> = ({ src, alt, title, subTitle, className }) => {
+  src?: string;
+  alt?: string;
+  className?: string;
+}
+
+const EntityAvatar: React.FC<EntityAvatarProps> = ({
+  src,
+  alt,
+  title,
+  subTitle,
+  className,
+}) => {
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center text-left gap-3">
       <Avatar>
         <AvatarImage
           src={src}
