@@ -10,11 +10,11 @@ import {
   Users,
   type LucideIcon,
 } from "lucide-react";
-import type { Server } from "~/components/dashboard/ServerCardGrid";
+import type { Server } from "~/components/cards/server-card/ServerCardGrid";
 import StatusBadge from "~/components/dashboard/StatusBadge";
 import { ServerStatusType } from "proto-gen-ts/daemon_pb";
-import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Card, CardContent, CardFooter, CardHeader } from "../../ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 
 interface BarProps {
   value: number;

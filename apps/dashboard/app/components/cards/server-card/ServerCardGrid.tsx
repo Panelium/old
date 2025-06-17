@@ -1,4 +1,4 @@
-import { ServerCard } from "~/components/dashboard/ServerCard";
+import { ServerCard } from "~/components/cards/server-card/ServerCard";
 import { Card } from "~/components/ui/card";
 import { Plus } from "lucide-react";
 import React from "react";
