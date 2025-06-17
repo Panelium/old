@@ -9,7 +9,7 @@ import {
   Terminal,
   Users,
 } from "lucide-react";
-import type { Server } from "~/routes/dashboard/ServerCardGrid";
+import type { Server } from "~/components/dashboard/ServerCardGrid";
 import StatusBadge from "~/components/dashboard/StatusBadge";
 import { ServerStatusType } from "proto-gen-ts/daemon_pb";
 
