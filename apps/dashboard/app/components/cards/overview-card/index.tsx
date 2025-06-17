@@ -1,5 +1,5 @@
-import OverviewCardGrid from "./grid";
-import type { OverviewCardProps } from "./card";
+import OverviewCardGrid from "./Grid";
+import type { OverviewCardProps } from "./Card";
 
 export default OverviewCardGrid;
 export type { OverviewCardProps };

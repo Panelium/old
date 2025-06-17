@@ -1,6 +1,6 @@
 import type { ServerStatusType } from "proto-gen-ts/daemon_pb";
 
-import ServerCardGrid from "./grid";
+import ServerCardGrid from "./Grid";
 
 interface Server {
   id: string;

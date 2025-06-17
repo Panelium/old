@@ -1,6 +1,6 @@
 import React from "react";
-import type { OverviewCardProps } from "./card";
-import OverviewCard from "./card";
+import type { OverviewCardProps } from "./Card";
+import OverviewCard from "./Card";
 
 const OverviewCardGrid: React.FC<{ cards: OverviewCardProps[] }> = ({
   cards,
