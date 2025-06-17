@@ -6,7 +6,7 @@ import (
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
 	"net/http"
-	"panelium/backend/handler/auth"
+	"panelium/backend/internal/handler/auth"
 	"panelium/proto-gen-go/proto_gen_goconnect"
 )
 

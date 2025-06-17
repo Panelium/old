@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 	"os"
-	"panelium/backend/global"
-	"panelium/backend/handler"
+	"panelium/backend/internal/global"
+	"panelium/backend/internal/handler"
 	"panelium/common/id"
 )
 

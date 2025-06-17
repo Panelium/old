@@ -3,9 +3,9 @@ package auth
 import (
 	"connectrpc.com/connect"
 	"context"
-	"panelium/backend/global"
 	"panelium/backend/internal/errors"
-	"panelium/backend/model"
+	"panelium/backend/internal/global"
+	"panelium/backend/internal/model"
 	proto_gen_go "panelium/proto-gen-go"
 )
 
