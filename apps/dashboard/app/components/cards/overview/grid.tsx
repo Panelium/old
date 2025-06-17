@@ -2,11 +2,9 @@ import React from "react";
 import type { OverviewCardProps } from "./card";
 import OverviewCard from "./card";
 
-export default function OverviewCardGrid({
+const OverviewCardGrid: React.FC<{ cards: OverviewCardProps[] }> = ({
   cards,
-}: {
-  cards: OverviewCardProps[];
-}) {
+}) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
       {cards.map((props, idx) => (
@@ -14,4 +12,6 @@ export default function OverviewCardGrid({
       ))}
     </div>
   );
-}
+};
+
+export default OverviewCardGrid;
