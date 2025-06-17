@@ -13,23 +13,29 @@ import type { Server } from "~/components/dashboard/ServerCardGrid";
 import StatusBadge from "~/components/dashboard/StatusBadge";
 import { ServerStatusType } from "proto-gen-ts/daemon_pb";
 
+interface BarProps {
+  value: number;
+  max: number;
+  className?: string;
+}
+
+interface ResourceBarProps {
+  server: Server;
+  title: string;
+  value: number;
+  uiValue?: string;
+  max: number;
+  className?: string;
+}
+
 interface ServerCardProps {
   server: Server;
   className?: string;
 }
 
-const ResourceBar = ({
-  value,
-  max,
-  className,
-}: {
-  value: number;
-  max: number;
-  className?: string;
-}) => {
+const Bar: React.FC<BarProps> = ({ value, max, className }) => {
   const percentage = Math.min((value / max) * 100, 100);
 
-  // Determine color based on percentage
   const getBarColor = () => {
     if (percentage > 90) return "bg-rose-500";
     if (percentage > 75) return "bg-amber-500";
@@ -47,6 +53,22 @@ const ResourceBar = ({
         className={cn("h-full rounded-full", getBarColor())}
         style={{ width: `${percentage}%` }}
       />
+    </div>
+  );
+};
+
+const ResourceBar: React.FC<ResourceBarProps> = (props) => {
+  return (
+    <div className="space-y-1">
+      <div className="flex items-center justify-between text-xs">
+        <span className="text-slate-600 dark:text-slate-400">
+          {props.title}
+        </span>
+        <span className="font-medium text-slate-700 dark:text-slate-300">
+          {props.uiValue}
+        </span>
+      </div>
+      <Bar value={props.value} max={props.max} />
     </div>
   );
 };
@@ -156,30 +178,23 @@ export function ServerCard({ server, className }: ServerCardProps) {
         )}
 
         {/* Resource usage */}
-        <div className="mt-auto space-y-3">
-          <div className="space-y-1">
-            <div className="flex items-center justify-between text-xs">
-              <span className="text-slate-600 dark:text-slate-400">CPU</span>
-              <span className="font-medium text-slate-700 dark:text-slate-300">
-                {server.cpuUsage}%
-              </span>
-            </div>
-            <ResourceBar value={server.cpuUsage} max={100} />
-          </div>
-
-          <div className="space-y-1">
-            <div className="flex items-center justify-between text-xs">
-              <span className="text-slate-600 dark:text-slate-400">Memory</span>
-              <span className="font-medium text-slate-700 dark:text-slate-300">
-                {formatMemory(server.memoryUsage.used)} /{" "}
-                {formatMemory(server.memoryUsage.total)}
-              </span>
-            </div>
-            <ResourceBar
-              value={server.memoryUsage.used}
-              max={server.memoryUsage.total}
-            />
-          </div>
+        <div className="space-y-3">
+          <ResourceBar
+            server={server}
+            title="CPU"
+            uiValue={`${server.cpuUsage.toFixed(1)}%`}
+            value={server.cpuUsage}
+            max={100}
+          />
+          <ResourceBar
+            server={server}
+            title="Memory"
+            uiValue={`${formatMemory(server.memoryUsage.used)} / ${formatMemory(
+              server.memoryUsage.total
+            )}`}
+            value={server.memoryUsage.used}
+            max={server.memoryUsage.total}
+          />
         </div>
 
         {/* Players and IP info */}
