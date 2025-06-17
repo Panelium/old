@@ -21,8 +21,8 @@ import {
   CardHeader,
 } from "~/components/ui/card";
 import ServerBar from "~/components/bars/ServerBar";
+import EntityAvatar from "~/components/avatars/EntityAvatar";
 import StatusBadge from "~/components/dashboard/StatusBadge";
-import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 
 interface ServerCardProps {
   server: Server;
@@ -73,30 +73,8 @@ const ServerCardButton: React.FC<ServerCardLinkProps> = ({
 const ServerCardHeader: React.FC<{ server: Server }> = ({ server }) => {
   return (
     <CardHeader className="gap-3">
-      <div className="flex items-start gap-3">
-        <Avatar>
-          <AvatarImage
-            src={server.icon}
-            alt={server.name}
-            className="h-full w-full object-cover"
-          />
-          <AvatarFallback>{server.name.charAt(0).toUpperCase()}</AvatarFallback>
-        </Avatar>
-        <div className="flex flex-col flex-1">
-          <h3
-            className={cn(
-              "font-medium",
-              "text-slate-900 dark:text-slate-100",
-              "group-hover:text-indigo-600 dark:group-hover:text-indigo-400",
-              serverCardTransition
-            )}
-          >
-            {server.name}
-          </h3>
-          <p className="text-xs text-slate-500 dark:text-slate-400">
-            {server.game ? server.game : server.name || " "}
-          </p>
-        </div>
+      <div className="flex items-start justify-between gap-3">
+        <EntityAvatar server={server} className={serverCardTransition} />
         <StatusBadge status={server.status} />
       </div>
       <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-2">
