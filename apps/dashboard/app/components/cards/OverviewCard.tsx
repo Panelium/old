@@ -6,10 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import {
-  ResourceGauge,
-  type ResourceGaugeProps,
-} from "~/components/dashboard/ResourceGauge";
+import { ResourceGauge, type ResourceGaugeProps } from "./ResourceGauge";
 import { type LucideIcon } from "lucide-react";
 
 interface OverviewCardContent {
