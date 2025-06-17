@@ -1,7 +1,7 @@
 package main
 
 import (
-	"panelium/daemon/global"
+	"panelium/daemon/internal/global"
 )
 
 func main() {
