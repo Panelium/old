@@ -74,7 +74,13 @@ const ServerCardHeader: React.FC<{ server: Server }> = ({ server }) => {
   return (
     <CardHeader className="gap-3">
       <div className="flex items-start justify-between gap-3">
-        <EntityAvatar server={server} className={serverCardTransition} />
+        <EntityAvatar
+          src={server.icon}
+          alt={server.name}
+          title={server.name}
+          subTitle={server.game ? server.game : server.name || " "}
+          className={serverCardTransition}
+        />
         <StatusBadge status={server.status} />
       </div>
       <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-2">

@@ -3,19 +3,22 @@ import { cn } from "~/lib/utils";
 import type { Server } from "../cards/server-card";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
-const EntityAvatar: React.FC<{ server: Server; className: string }> = ({
-  server,
-  className,
-}) => {
+const EntityAvatar: React.FC<{
+  src?: string;
+  alt?: string;
+  title: string;
+  subTitle: string;
+  className: string;
+}> = ({ src, alt, title, subTitle, className }) => {
   return (
     <div className="flex items-center gap-3">
       <Avatar>
         <AvatarImage
-          src={server.icon}
-          alt={server.name}
+          src={src}
+          alt={alt}
           className="h-full w-full object-cover"
         />
-        <AvatarFallback>{server.name.charAt(0).toUpperCase()}</AvatarFallback>
+        <AvatarFallback>{title.charAt(0).toUpperCase()}</AvatarFallback>
       </Avatar>
       <div className="flex flex-col flex-1">
         <h3
@@ -26,11 +29,9 @@ const EntityAvatar: React.FC<{ server: Server; className: string }> = ({
             className
           )}
         >
-          {server.name}
+          {title}
         </h3>
-        <p className="text-xs text-slate-500 dark:text-slate-400">
-          {server.game ? server.game : server.name || " "}
-        </p>
+        <p className="text-xs text-slate-500 dark:text-slate-400">{subTitle}</p>
       </div>
     </div>
   );
