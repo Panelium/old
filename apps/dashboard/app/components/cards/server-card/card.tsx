@@ -10,7 +10,7 @@ import {
   Users,
   type LucideIcon,
 } from "lucide-react";
-import type { Server } from "~/components/cards/server-card/ServerCardGrid";
+import type { Server } from ".";
 import StatusBadge from "~/components/dashboard/StatusBadge";
 import { ServerStatusType } from "proto-gen-ts/daemon_pb";
 import { Card, CardContent, CardFooter, CardHeader } from "../../ui/card";

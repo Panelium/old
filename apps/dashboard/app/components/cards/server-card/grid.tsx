@@ -1,29 +1,9 @@
-import { ServerCard } from "~/components/cards/server-card/ServerCard";
+import { ServerCard } from "~/components/cards/server-card/card";
 import { Card } from "~/components/ui/card";
 import { Plus } from "lucide-react";
 import React from "react";
-import { ServerStatusType } from "proto-gen-ts/daemon_pb";
 import { cn } from "~/lib/utils";
-
-export interface Server {
-  id: string;
-  name: string;
-  status: ServerStatusType;
-  description?: string;
-  icon?: string;
-  cpuUsage: number;
-  memoryUsage: {
-    used: number;
-    total: number;
-  };
-  game?: string;
-  players?: {
-    online: number;
-    max: number;
-  };
-  ip?: string;
-  port?: number;
-}
+import type { Server } from ".";
 
 const AddServerCard: React.FC = () => {
   return (
