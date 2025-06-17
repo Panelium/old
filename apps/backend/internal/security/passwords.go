@@ -1,17 +1,39 @@
 package security
 
-func HashPassword(password string, salt string, pepper string) (string, error) {
-	return "", nil
+import (
+	"crypto/rand"
+	"encoding/hex"
+	"golang.org/x/crypto/argon2"
+)
+
+// hashPasswordInternal is a helper function that hashes the password using Argon2 provided salt and pepper.
+func hashPasswordInternal(password string, salt string, pepper string) string {
+	pepperedPassword := password + pepper
+	passwordHashData := argon2.IDKey([]byte(pepperedPassword), []byte(salt), 1, 64*1024, 4, 32)
+	passwordHash := hex.EncodeToString(passwordHashData)
+	return passwordHash
 }
 
-func VerifyPassword(hashedPassword string, password string, salt string, pepper string) (bool, error) {
-	return false, nil
+// HashPassword is used for hashing passwords before storing them in the database and generating a salt.
+// returns the password hash and the generated salt
+// pepper is retrieved from app config
+func HashPassword(password string, pepper string) (passwordHash string, salt string) {
+	salt = GenerateRandomString()
+	passwordHash = hashPasswordInternal(password, salt, pepper)
+	return passwordHash, salt
 }
 
-func GenerateSalt() (string, error) {
-	return "", nil
+// VerifyPassword is used to verify password user input against the stored hash
+// only the password is user input
+// salt and passwordHash is retrieved from the database
+// pepper is retrieved from app config
+func VerifyPassword(password string, salt string, pepper string, passwordHash string) bool {
+	passwordHashNew := hashPasswordInternal(password, salt, pepper)
+	return passwordHashNew == passwordHash
 }
 
-func GeneratePepper() (string, error) {
-	return "", nil
+// GenerateRandomString is used for generating the salt and pepper
+func GenerateRandomString() string {
+	str := rand.Text()
+	return str
 }

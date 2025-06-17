@@ -5,12 +5,17 @@ import (
 	"os"
 	"panelium/backend/internal/global"
 	"panelium/backend/internal/handler"
+	"panelium/backend/internal/security"
 	"panelium/common/id"
 )
 
 func main() {
 	if len(os.Args) > 1 && os.Args[1] == "idGen" {
 		idGen()
+		return
+	}
+	if len(os.Args) > 1 && os.Args[1] == "passwordHashTest" {
+		passwordHashTest()
 		return
 	}
 
@@ -33,4 +38,17 @@ func idGen() {
 		log.Fatalf("Failed to generate ID: %v", err)
 	}
 	log.Printf("Generated ID: %s\n", s)
+}
+
+func passwordHashTest() {
+	pass := "test1234"
+	pepper := security.GenerateRandomString()
+	hashed, salt := security.HashPassword(pass, pepper)
+	log.Printf("Hashed password: %s, Salt: %s\n", hashed, salt)
+	verified := security.VerifyPassword(pass, salt, pepper, hashed)
+	if verified {
+		log.Println("Password verification successful")
+	} else {
+		log.Println("Password verification failed")
+	}
 }
