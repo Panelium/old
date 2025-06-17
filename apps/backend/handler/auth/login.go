@@ -3,8 +3,8 @@ package auth
 import (
 	"connectrpc.com/connect"
 	"context"
-	"errors"
 	"panelium/backend/global"
+	"panelium/backend/internal/errors"
 	"panelium/backend/model"
 	proto_gen_go "panelium/proto-gen-go"
 )
@@ -13,12 +13,9 @@ func (s *AuthServiceHandler) Login(
 	ctx context.Context,
 	req *connect.Request[proto_gen_go.LoginRequest],
 ) (*connect.Response[proto_gen_go.LoginResponse], error) {
-	result := global.DB.Find(&model.User{}, "username = ? OR email = ?", req.Msg.Username, req.Msg.Username)
+	result := global.DB.First(&model.User{}, "username = ? OR email = ?", req.Msg.Username, req.Msg.Username)
 	if result.RowsAffected == 0 {
-		return nil, connect.NewError(connect.CodeNotFound, errors.New("user not found")) // TODO: move errors to a package
-	}
-	if result.RowsAffected > 1 {
-		return nil, connect.NewError(connect.CodeInternal, errors.New("multiple users found with the same username or email"))
+		return nil, connect.NewError(connect.CodeNotFound, errors.UserNotFound)
 	}
 	user := &model.User{}
 	if err := result.Scan(user); err.Error != nil {
