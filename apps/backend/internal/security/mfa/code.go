@@ -5,10 +5,14 @@ import (
 	"math/big"
 )
 
-var mfaCodeCharset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-var mfaCodeLength = 8
+const mfaCodeCharset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-func generateMFACode() (string, error) {
+// TODO: maybe config?
+const DefaultMFACodeLength = 8
+const DefaultRecoveryCodeLength = 8
+const DefaultRecoveryCodesCount = 10
+
+func GenerateMFACode(mfaCodeLength int) (string, error) {
 	code := make([]byte, mfaCodeLength)
 
 	for i := range code {
@@ -22,14 +26,16 @@ func generateMFACode() (string, error) {
 	return string(code), nil
 }
 
-func SendSMS(phoneNumber string, code string) error {
-	// Placeholder for SMS sending logic
-	// This function should integrate with an SMS gateway to send the code
-	return nil
-}
+func GenerateRecoveryCodes(recoveryCodeLength int, recoveryCodesCount int) ([]string, error) {
+	codes := make([]string, recoveryCodesCount)
 
-func SendEmail(email string, code string) error {
-	// Placeholder for email sending logic
-	// This function should integrate with an email service to send the code
-	return nil
+	for i := 0; i < recoveryCodesCount; i++ {
+		code, err := GenerateMFACode(recoveryCodeLength)
+		if err != nil {
+			return nil, err
+		}
+		codes[i] = code
+	}
+
+	return codes, nil
 }
