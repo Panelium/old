@@ -8,7 +8,8 @@ import (
 )
 
 var DB *gorm.DB
-var Pepper string = "s0m3R4nd0mP3pp3r" // TODO!: move this to a config
+var Pepper string = "s0m3R4nd0mP3pp3r"     // TODO!: move this to a config
+var JWTSecret string = "0th3rR4nd0mS3cr3t" // TODO!: move this to a config
 
 func Init() error {
 	var err error
