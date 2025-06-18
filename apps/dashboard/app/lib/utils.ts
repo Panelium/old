@@ -12,3 +12,8 @@ export const formatMemory = (bytes: number) => {
   }
   return `${Math.round(mb)} MB`;
 };
+
+export const formatDisk = (bytes: number): string => {
+  const gb = bytes / 1024 / 1024;
+  return `${gb.toFixed(1)} GB`;
+};
