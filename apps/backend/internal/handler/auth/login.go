@@ -6,6 +6,7 @@ import (
 	"panelium/backend/internal/errors"
 	"panelium/backend/internal/global"
 	"panelium/backend/internal/model"
+	"panelium/backend/internal/security"
 	proto_gen_go "panelium/proto-gen-go"
 )
 
@@ -22,11 +23,27 @@ func (s *AuthServiceHandler) Login(
 		return nil, connect.NewError(connect.CodeInternal, err.Error)
 	}
 
-	// TODO: check password with salt and pepper against the hash
-	// TODO: check if user needs 2fa
+	passwordValid := security.VerifyPassword(req.Msg.Password, user.PasswordSalt, global.Pepper, user.PasswordHash)
+	if !passwordValid {
+		return nil, connect.NewError(connect.CodeUnauthenticated, errors.InvalidCredentials)
+	}
+
+	if user.MFANeeded {
+		//TODO: handle MFA
+		//TODO: generate MFA session token
+
+		res := connect.NewResponse(&proto_gen_go.LoginResponse{
+			RequiresMfa: true,
+		})
+
+		return res, nil
+	}
+
 	// TODO: generate JWT auth+refresh tokens
 
-	return nil, nil
-}
+	res := connect.NewResponse(&proto_gen_go.LoginResponse{
+		RequiresMfa: false,
+	})
 
-// TODO: decide how to store pepper and implement it (at least 112 bits based on NIST recommendations - salt should be at least 128 bits)
+	return res, nil
+}
