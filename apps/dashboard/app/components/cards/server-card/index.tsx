@@ -13,6 +13,10 @@ interface Server {
     used: number;
     total: number;
   };
+  diskUsage: {
+    used: number;
+    total: number;
+  };
   game?: string;
   players?: {
     online: number;
@@ -20,6 +24,7 @@ interface Server {
   };
   ip?: string;
   port?: number;
+  location?: string;
 }
 
 export default ServerCardGrid;
