@@ -10,45 +10,31 @@ import { type LucideIcon } from "lucide-react";
 import { ResourceGauge, type ResourceGaugeProps } from "../ResourceGauge";
 import OverviewBar from "~/components/bars/OverviewBar";
 
-interface OverviewCardContent {
+type GaugeProps = Omit<ResourceGaugeProps, "className">;
+
+interface OverviewProps {
   title: string;
   subtitle?: string;
   icon?: LucideIcon;
 }
 
-interface BaseOverviewCard {
+interface BarProps {
+  title: string;
+  value: number;
+  max: number;
+  uiValue?: string;
+}
+
+interface OverviewCardProps {
   title: string;
   footer?: string;
   icon?: LucideIcon;
+  children?: React.ReactNode;
+  footerChildren?: React.ReactNode;
+  content?: OverviewProps;
+  gauge?: GaugeProps;
+  bar?: BarProps;
 }
-
-interface OverviewCardWithContent extends BaseOverviewCard {
-  content: OverviewCardContent;
-  gauge?: never;
-  bar?: never;
-}
-
-interface OverviewCardWithGauge extends BaseOverviewCard {
-  content?: never;
-  gauge: Omit<ResourceGaugeProps, "className">;
-  bar?: never;
-}
-
-interface OverviewCardWithBar extends BaseOverviewCard {
-  content?: never;
-  gauge?: never;
-  bar: {
-    title: string;
-    value: number;
-    max: number;
-    uiValue?: string;
-  };
-}
-
-type OverviewCardProps =
-  | OverviewCardWithContent
-  | OverviewCardWithGauge
-  | OverviewCardWithBar;
 
 const GaugeCard: React.FC<ResourceGaugeProps> = (gauge) => {
   return (
@@ -77,7 +63,7 @@ const GaugeCard: React.FC<ResourceGaugeProps> = (gauge) => {
   );
 };
 
-const ContentCard: React.FC<OverviewCardContent> = (content) => {
+const ContentCard: React.FC<OverviewProps> = (content) => {
   return (
     <div className="flex flex-col">
       {content?.title && (
@@ -92,7 +78,7 @@ const ContentCard: React.FC<OverviewCardContent> = (content) => {
   );
 };
 
-const CardIcon: React.FC<OverviewCardContent> = (content) => {
+const CardIcon: React.FC<OverviewProps> = (content) => {
   if (!content.icon) return null;
   return (
     <div className="h-12 w-12 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center ml-4">
@@ -101,7 +87,7 @@ const CardIcon: React.FC<OverviewCardContent> = (content) => {
   );
 };
 
-const CardBar: React.FC<OverviewCardWithBar> = ({ bar }) => {
+const CardBar: React.FC<BarProps> = (bar) => {
   return (
     <OverviewBar
       title={bar.title}
@@ -119,6 +105,8 @@ const OverviewCard: React.FC<OverviewCardProps> = ({
   bar,
   footer,
   icon,
+  children = null,
+  footerChildren = null,
 }) => {
   const IconComponent = icon ? icon : () => null;
 
@@ -134,12 +122,16 @@ const OverviewCard: React.FC<OverviewCardProps> = ({
         {gauge && !content && <GaugeCard {...gauge} />}
         {!gauge && content && <ContentCard {...content} />}
         {!gauge && content?.icon && <CardIcon {...content} />}
-
-        {bar && <CardBar bar={bar} title={title} />}
+        {bar && <CardBar {...bar} />}
+        {!gauge && !content && !bar && children}
       </CardContent>
       <CardFooter className="border-t border-slate-200 dark:border-slate-700">
-        <span className="text-xs text-slate-500 dark:text-slate-400 h-3">
-          {footer ? footer : ""}
+        <span className="flex-1 text-xs text-slate-500 dark:text-slate-400 h-3">
+          {footer && !footerChildren}
+          {!footer && footerChildren}
+          {footer &&
+            footerChildren &&
+            "Paste either footer or footerChildren, not both."}
         </span>
       </CardFooter>
     </Card>
