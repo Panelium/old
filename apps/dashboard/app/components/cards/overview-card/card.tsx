@@ -8,6 +8,7 @@ import {
 } from "~/components/ui/card";
 import { type LucideIcon } from "lucide-react";
 import { ResourceGauge, type ResourceGaugeProps } from "../ResourceGauge";
+import OverviewBar from "~/components/bars/OverviewBar";
 
 interface OverviewCardContent {
   title: string;
@@ -43,7 +44,10 @@ interface OverviewCardWithBar extends BaseOverviewCard {
   };
 }
 
-type OverviewCardProps = OverviewCardWithContent | OverviewCardWithGauge;
+type OverviewCardProps =
+  | OverviewCardWithContent
+  | OverviewCardWithGauge
+  | OverviewCardWithBar;
 
 const GaugeCard: React.FC<ResourceGaugeProps> = (gauge) => {
   return (
@@ -96,10 +100,22 @@ const CardIcon: React.FC<OverviewCardContent> = (content) => {
   );
 };
 
+const CardBar: React.FC<OverviewCardWithBar> = ({ bar }) => {
+  return (
+    <OverviewBar
+      title={bar.title}
+      value={bar.value}
+      max={bar.max}
+      uiValue={bar.uiValue}
+    />
+  );
+};
+
 const OverviewCard: React.FC<OverviewCardProps> = ({
   title,
   content,
   gauge,
+  bar,
   footer,
 }) => {
   return (
@@ -113,6 +129,8 @@ const OverviewCard: React.FC<OverviewCardProps> = ({
         {gauge && !content && <GaugeCard {...gauge} />}
         {!gauge && content && <ContentCard {...content} />}
         {!gauge && content?.icon && <CardIcon {...content} />}
+
+        {bar && <CardBar bar={bar} title={title} />}
       </CardContent>
       <CardFooter className="border-t border-slate-200 dark:border-slate-700">
         <span className="text-xs text-slate-500 dark:text-slate-400 h-3">

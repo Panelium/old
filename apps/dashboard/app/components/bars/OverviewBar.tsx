@@ -9,7 +9,7 @@ interface OverviewBarProps {
   max: number;
 }
 
-const ServerBar: React.FC<OverviewBarProps> = ({
+const OverviewBar: React.FC<OverviewBarProps> = ({
   title,
   uiValue,
   value,
@@ -18,16 +18,18 @@ const ServerBar: React.FC<OverviewBarProps> = ({
   const percentage = getPercentage(value, max);
 
   return (
-    <div className="space-y-1">
+    <div className="space-y-3 w-full">
       <div className="flex items-center justify-between text-xs">
-        <span className="text-slate-600 dark:text-slate-400">{title}</span>
-        <span className="font-medium text-slate-700 dark:text-slate-300">
+        <span className="text-2xl font-bold text-slate-900 dark:text-white">
+          {title}
+        </span>
+        <span className="font-normal text-slate-500 dark:text-slate-400">
           {uiValue}
         </span>
       </div>
-      <Bar percentage={percentage} size="lg" />
+      <Bar percentage={percentage} size="md" />
     </div>
   );
 };
 
-export default ServerBar;
+export default OverviewBar;
