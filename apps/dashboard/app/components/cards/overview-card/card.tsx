@@ -23,11 +23,24 @@ interface BaseOverviewCard {
 interface OverviewCardWithContent extends BaseOverviewCard {
   content: OverviewCardContent;
   gauge?: never;
+  bar?: never;
 }
 
 interface OverviewCardWithGauge extends BaseOverviewCard {
   content?: never;
   gauge: Omit<ResourceGaugeProps, "className">;
+  bar?: never;
+}
+
+interface OverviewCardWithBar extends BaseOverviewCard {
+  content?: never;
+  gauge?: never;
+  bar: {
+    title: string;
+    value: number;
+    max: number;
+    uiValue?: string;
+  };
 }
 
 type OverviewCardProps = OverviewCardWithContent | OverviewCardWithGauge;
