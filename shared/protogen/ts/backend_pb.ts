@@ -4,6 +4,7 @@
 
 import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
 import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { EmptySchema } from "./common_pb.ts";
 import { file_common } from "./common_pb.ts";
 import type { Message } from "@bufbuild/protobuf";
 
@@ -11,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file backend.proto.
  */
 export const file_backend: GenFile = /*@__PURE__*/
-  fileDesc("Cg1iYWNrZW5kLnByb3RvEgdiYWNrZW5kIjIKDExvZ2luUmVxdWVzdBIQCgh1c2VybmFtZRgBIAEoCRIQCghwYXNzd29yZBgCIAEoCSLrAQoNTG9naW5SZXNwb25zZRIZCgxhY2Nlc3NfdG9rZW4YASABKAlIAIgBARIaCg1yZWZyZXNoX3Rva2VuGAIgASgJSAGIAQESFAoMcmVxdWlyZXNfbWZhGAMgASgIEh4KEW1mYV9zZXNzaW9uX3Rva2VuGAQgASgJSAKIAQESJwoIbWZhX3R5cGUYBSABKA4yEC5iYWNrZW5kLk1GQVR5cGVIA4gBAUIPCg1fYWNjZXNzX3Rva2VuQhAKDl9yZWZyZXNoX3Rva2VuQhQKEl9tZmFfc2Vzc2lvbl90b2tlbkILCglfbWZhX3R5cGUiWgoQVmVyaWZ5TUZBUmVxdWVzdBIeChFtZmFfc2Vzc2lvbl90b2tlbhgBIAEoCUgAiAEBEhAKCG1mYV9jb2RlGAIgASgJQhQKEl9tZmFfc2Vzc2lvbl90b2tlbiL6AQoRVmVyaWZ5TUZBUmVzcG9uc2USGQoMYWNjZXNzX3Rva2VuGAEgASgJSACIAQESGgoNcmVmcmVzaF90b2tlbhgCIAEoCUgBiAEBEh8KF3JlcXVpcmVzX2FkZGl0aW9uYWxfbWZhGAMgASgIEh4KEW1mYV9zZXNzaW9uX3Rva2VuGAUgASgJSAKIAQESJwoIbWZhX3R5cGUYBCABKA4yEC5iYWNrZW5kLk1GQVR5cGVIA4gBAUIPCg1fYWNjZXNzX3Rva2VuQhAKDl9yZWZyZXNoX3Rva2VuQhQKEl9tZmFfc2Vzc2lvbl90b2tlbkILCglfbWZhX3R5cGUiQwoTUmVmcmVzaFRva2VuUmVxdWVzdBIaCg1yZWZyZXNoX3Rva2VuGAEgASgJSACIAQFCEAoOX3JlZnJlc2hfdG9rZW4icAoUUmVmcmVzaFRva2VuUmVzcG9uc2USGQoMYWNjZXNzX3Rva2VuGAEgASgJSACIAQESGgoNcmVmcmVzaF90b2tlbhgCIAEoCUgBiAEBQg8KDV9hY2Nlc3NfdG9rZW5CEAoOX3JlZnJlc2hfdG9rZW4iOwoNTG9nb3V0UmVxdWVzdBIZCgxhY2Nlc3NfdG9rZW4YASABKAlIAIgBAUIPCg1fYWNjZXNzX3Rva2VuIiEKDkxvZ291dFJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgqXAoHTUZBVHlwZRIYChRNRkFfVFlQRV9VTlNQRUNJRklFRBAAEhEKDU1GQV9UWVBFX1RPVFAQARIQCgxNRkFfVFlQRV9TTVMQAhISCg5NRkFfVFlQRV9FTUFJTBADMpkCCgtBdXRoU2VydmljZRI4CgVMb2dpbhIVLmJhY2tlbmQuTG9naW5SZXF1ZXN0GhYuYmFja2VuZC5Mb2dpblJlc3BvbnNlIgASRAoJVmVyaWZ5TUZBEhkuYmFja2VuZC5WZXJpZnlNRkFSZXF1ZXN0GhouYmFja2VuZC5WZXJpZnlNRkFSZXNwb25zZSIAEk0KDFJlZnJlc2hUb2tlbhIcLmJhY2tlbmQuUmVmcmVzaFRva2VuUmVxdWVzdBodLmJhY2tlbmQuUmVmcmVzaFRva2VuUmVzcG9uc2UiABI7CgZMb2dvdXQSFi5iYWNrZW5kLkxvZ291dFJlcXVlc3QaFy5iYWNrZW5kLkxvZ291dFJlc3BvbnNlIgBCF1oVcGFuZWxpdW0vcHJvdG8tZ2VuLWdvYgZwcm90bzM", [file_common]);
+  fileDesc("Cg1iYWNrZW5kLnByb3RvEgdiYWNrZW5kIjIKDExvZ2luUmVxdWVzdBIQCgh1c2VybmFtZRgBIAEoCRIQCghwYXNzd29yZBgCIAEoCSLjAQoNTG9naW5SZXNwb25zZRIZCgxhY2Nlc3NfdG9rZW4YASABKAlIAIgBARIaCg1yZWZyZXNoX3Rva2VuGAIgASgJSAGIAQESFAoMcmVxdWlyZXNfbWZhGAMgASgIEh4KEW1mYV9zZXNzaW9uX3Rva2VuGAQgASgJSAKIAQESLAoSbWZhX3R5cGVfYXZhaWxhYmxlGAUgAygOMhAuYmFja2VuZC5NRkFUeXBlQg8KDV9hY2Nlc3NfdG9rZW5CEAoOX3JlZnJlc2hfdG9rZW5CFAoSX21mYV9zZXNzaW9uX3Rva2VuInEKFVJlcXVlc3RNRkFDb2RlUmVxdWVzdBIeChFtZmFfc2Vzc2lvbl90b2tlbhgBIAEoCUgAiAEBEiIKCG1mYV90eXBlGAIgASgOMhAuYmFja2VuZC5NRkFUeXBlQhQKEl9tZmFfc2Vzc2lvbl90b2tlbiJaChBWZXJpZnlNRkFSZXF1ZXN0Eh4KEW1mYV9zZXNzaW9uX3Rva2VuGAEgASgJSACIAQESEAoIbWZhX2NvZGUYAiABKAlCFAoSX21mYV9zZXNzaW9uX3Rva2VuIvMBChFWZXJpZnlNRkFSZXNwb25zZRIZCgxhY2Nlc3NfdG9rZW4YASABKAlIAIgBARIaCg1yZWZyZXNoX3Rva2VuGAIgASgJSAGIAQESHwoXcmVxdWlyZXNfYWRkaXRpb25hbF9tZmEYAyABKAgSHgoRbWZhX3Nlc3Npb25fdG9rZW4YBSABKAlIAogBARItChNtZmFfdHlwZXNfYXZhaWxhYmxlGAQgAygOMhAuYmFja2VuZC5NRkFUeXBlQg8KDV9hY2Nlc3NfdG9rZW5CEAoOX3JlZnJlc2hfdG9rZW5CFAoSX21mYV9zZXNzaW9uX3Rva2VuIkMKE1JlZnJlc2hUb2tlblJlcXVlc3QSGgoNcmVmcmVzaF90b2tlbhgBIAEoCUgAiAEBQhAKDl9yZWZyZXNoX3Rva2VuInAKFFJlZnJlc2hUb2tlblJlc3BvbnNlEhkKDGFjY2Vzc190b2tlbhgBIAEoCUgAiAEBEhoKDXJlZnJlc2hfdG9rZW4YAiABKAlIAYgBAUIPCg1fYWNjZXNzX3Rva2VuQhAKDl9yZWZyZXNoX3Rva2VuIjsKDUxvZ291dFJlcXVlc3QSGQoMYWNjZXNzX3Rva2VuGAEgASgJSACIAQFCDwoNX2FjY2Vzc190b2tlbiIhCg5Mb2dvdXRSZXNwb25zZRIPCgdzdWNjZXNzGAEgASgIKlwKB01GQVR5cGUSGAoUTUZBX1RZUEVfVU5TUEVDSUZJRUQQABIRCg1NRkFfVFlQRV9UT1RQEAESEAoMTUZBX1RZUEVfU01TEAISEgoOTUZBX1RZUEVfRU1BSUwQAzLcAgoLQXV0aFNlcnZpY2USOAoFTG9naW4SFS5iYWNrZW5kLkxvZ2luUmVxdWVzdBoWLmJhY2tlbmQuTG9naW5SZXNwb25zZSIAEkEKDlJlcXVlc3RNRkFDb2RlEh4uYmFja2VuZC5SZXF1ZXN0TUZBQ29kZVJlcXVlc3QaDS5jb21tb24uRW1wdHkiABJECglWZXJpZnlNRkESGS5iYWNrZW5kLlZlcmlmeU1GQVJlcXVlc3QaGi5iYWNrZW5kLlZlcmlmeU1GQVJlc3BvbnNlIgASTQoMUmVmcmVzaFRva2VuEhwuYmFja2VuZC5SZWZyZXNoVG9rZW5SZXF1ZXN0Gh0uYmFja2VuZC5SZWZyZXNoVG9rZW5SZXNwb25zZSIAEjsKBkxvZ291dBIWLmJhY2tlbmQuTG9nb3V0UmVxdWVzdBoXLmJhY2tlbmQuTG9nb3V0UmVzcG9uc2UiAEIXWhVwYW5lbGl1bS9wcm90by1nZW4tZ29iBnByb3RvMw", [file_common]);
 
 /**
  * @generated from message backend.LoginRequest
@@ -66,11 +67,11 @@ export type LoginResponse = Message<"backend.LoginResponse"> & {
   mfaSessionToken?: string;
 
   /**
-   * type of MFA required
+   * (optional) types of MFA available for the user
    *
-   * @generated from field: optional backend.MFAType mfa_type = 5;
+   * @generated from field: repeated backend.MFAType mfa_type_available = 5;
    */
-  mfaType?: MFAType;
+  mfaTypeAvailable: MFAType[];
 };
 
 /**
@@ -79,6 +80,34 @@ export type LoginResponse = Message<"backend.LoginResponse"> & {
  */
 export const LoginResponseSchema: GenMessage<LoginResponse> = /*@__PURE__*/
   messageDesc(file_backend, 1);
+
+/**
+ * only for MFA types that require the backend to send a code (e.g. SMS, Email)
+ *
+ * @generated from message backend.RequestMFACodeRequest
+ */
+export type RequestMFACodeRequest = Message<"backend.RequestMFACodeRequest"> & {
+  /**
+   * cookie
+   *
+   * @generated from field: optional string mfa_session_token = 1;
+   */
+  mfaSessionToken?: string;
+
+  /**
+   * type of MFA to use
+   *
+   * @generated from field: backend.MFAType mfa_type = 2;
+   */
+  mfaType: MFAType;
+};
+
+/**
+ * Describes the message backend.RequestMFACodeRequest.
+ * Use `create(RequestMFACodeRequestSchema)` to create a new message.
+ */
+export const RequestMFACodeRequestSchema: GenMessage<RequestMFACodeRequest> = /*@__PURE__*/
+  messageDesc(file_backend, 2);
 
 /**
  * @generated from message backend.VerifyMFARequest
@@ -102,7 +131,7 @@ export type VerifyMFARequest = Message<"backend.VerifyMFARequest"> & {
  * Use `create(VerifyMFARequestSchema)` to create a new message.
  */
 export const VerifyMFARequestSchema: GenMessage<VerifyMFARequest> = /*@__PURE__*/
-  messageDesc(file_backend, 2);
+  messageDesc(file_backend, 3);
 
 /**
  * @generated from message backend.VerifyMFAResponse
@@ -135,9 +164,9 @@ export type VerifyMFAResponse = Message<"backend.VerifyMFAResponse"> & {
   mfaSessionToken?: string;
 
   /**
-   * @generated from field: optional backend.MFAType mfa_type = 4;
+   * @generated from field: repeated backend.MFAType mfa_types_available = 4;
    */
-  mfaType?: MFAType;
+  mfaTypesAvailable: MFAType[];
 };
 
 /**
@@ -145,7 +174,7 @@ export type VerifyMFAResponse = Message<"backend.VerifyMFAResponse"> & {
  * Use `create(VerifyMFAResponseSchema)` to create a new message.
  */
 export const VerifyMFAResponseSchema: GenMessage<VerifyMFAResponse> = /*@__PURE__*/
-  messageDesc(file_backend, 3);
+  messageDesc(file_backend, 4);
 
 /**
  * @generated from message backend.RefreshTokenRequest
@@ -164,7 +193,7 @@ export type RefreshTokenRequest = Message<"backend.RefreshTokenRequest"> & {
  * Use `create(RefreshTokenRequestSchema)` to create a new message.
  */
 export const RefreshTokenRequestSchema: GenMessage<RefreshTokenRequest> = /*@__PURE__*/
-  messageDesc(file_backend, 4);
+  messageDesc(file_backend, 5);
 
 /**
  * note: if refresh token reuse - revoke all user tokens
@@ -192,7 +221,7 @@ export type RefreshTokenResponse = Message<"backend.RefreshTokenResponse"> & {
  * Use `create(RefreshTokenResponseSchema)` to create a new message.
  */
 export const RefreshTokenResponseSchema: GenMessage<RefreshTokenResponse> = /*@__PURE__*/
-  messageDesc(file_backend, 5);
+  messageDesc(file_backend, 6);
 
 /**
  * @generated from message backend.LogoutRequest
@@ -211,7 +240,7 @@ export type LogoutRequest = Message<"backend.LogoutRequest"> & {
  * Use `create(LogoutRequestSchema)` to create a new message.
  */
 export const LogoutRequestSchema: GenMessage<LogoutRequest> = /*@__PURE__*/
-  messageDesc(file_backend, 6);
+  messageDesc(file_backend, 7);
 
 /**
  * @generated from message backend.LogoutResponse
@@ -228,7 +257,7 @@ export type LogoutResponse = Message<"backend.LogoutResponse"> & {
  * Use `create(LogoutResponseSchema)` to create a new message.
  */
 export const LogoutResponseSchema: GenMessage<LogoutResponse> = /*@__PURE__*/
-  messageDesc(file_backend, 7);
+  messageDesc(file_backend, 8);
 
 /**
  * @generated from enum backend.MFAType
@@ -272,6 +301,14 @@ export const AuthService: GenService<{
     methodKind: "unary";
     input: typeof LoginRequestSchema;
     output: typeof LoginResponseSchema;
+  },
+  /**
+   * @generated from rpc backend.AuthService.RequestMFACode
+   */
+  requestMFACode: {
+    methodKind: "unary";
+    input: typeof RequestMFACodeRequestSchema;
+    output: typeof EmptySchema;
   },
   /**
    * @generated from rpc backend.AuthService.VerifyMFA

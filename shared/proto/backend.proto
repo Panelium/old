@@ -7,6 +7,7 @@ import "common.proto";
 
 service AuthService {
   rpc Login(LoginRequest) returns (LoginResponse) {}
+  rpc RequestMFACode(RequestMFACodeRequest) returns (common.Empty) {}
   rpc VerifyMFA(VerifyMFARequest) returns (VerifyMFAResponse) {}
 
   rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse) {}
@@ -31,7 +32,12 @@ message LoginResponse {
   optional string refresh_token = 2; // cookie, only if mfa not required and auth success
   bool requires_mfa = 3;
   optional string mfa_session_token = 4; // cookie, only if mfa required and auth success
-  optional MFAType mfa_type = 5; // type of MFA required
+  repeated MFAType mfa_type_available = 5; // (optional) types of MFA available for the user
+}
+
+message RequestMFACodeRequest {// only for MFA types that require the backend to send a code (e.g. SMS, Email)
+  optional string mfa_session_token = 1; // cookie
+  MFAType mfa_type = 2; // type of MFA to use
 }
 
 message VerifyMFARequest {
@@ -44,7 +50,7 @@ message VerifyMFAResponse {
   optional string refresh_token = 2; // cookie, only if auth and MFA success and no additional MFA required
   bool requires_additional_mfa = 3;
   optional string mfa_session_token = 5; // cookie, only if additional MFA required
-  optional MFAType mfa_type = 4;
+  repeated MFAType mfa_types_available = 4;
 }
 
 message RefreshTokenRequest {

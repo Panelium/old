@@ -37,6 +37,41 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/backend.LoginResponse'
+  /backend.AuthService/RequestMFACode:
+    post:
+      tags:
+        - backend.AuthService
+      summary: RequestMFACode
+      operationId: backend.AuthService.RequestMFACode
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend.RequestMFACodeRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/common.Empty'
   /backend.AuthService/VerifyMFA:
     post:
       tags:
@@ -184,11 +219,12 @@ components:
           title: mfa_session_token
           description: cookie, only if mfa required and auth success
           nullable: true
-        mfaType:
-          title: mfa_type
-          description: type of MFA required
-          nullable: true
-          $ref: '#/components/schemas/backend.MFAType'
+        mfaTypeAvailable:
+          type: array
+          items:
+            $ref: '#/components/schemas/backend.MFAType'
+          title: mfa_type_available
+          description: (optional) types of MFA available for the user
       title: LoginResponse
       additionalProperties: false
     backend.LogoutRequest:
@@ -235,6 +271,21 @@ components:
       title: RefreshTokenResponse
       additionalProperties: false
       description: 'note: if refresh token reuse - revoke all user tokens'
+    backend.RequestMFACodeRequest:
+      type: object
+      properties:
+        mfaSessionToken:
+          type: string
+          title: mfa_session_token
+          description: cookie
+          nullable: true
+        mfaType:
+          title: mfa_type
+          description: type of MFA to use
+          $ref: '#/components/schemas/backend.MFAType'
+      title: RequestMFACodeRequest
+      additionalProperties: false
+      description: only for MFA types that require the backend to send a code (e.g. SMS, Email)
     backend.VerifyMFARequest:
       type: object
       properties:
@@ -269,11 +320,16 @@ components:
           title: mfa_session_token
           description: cookie, only if additional MFA required
           nullable: true
-        mfaType:
-          title: mfa_type
-          nullable: true
-          $ref: '#/components/schemas/backend.MFAType'
+        mfaTypesAvailable:
+          type: array
+          items:
+            $ref: '#/components/schemas/backend.MFAType'
+          title: mfa_types_available
       title: VerifyMFAResponse
+      additionalProperties: false
+    common.Empty:
+      type: object
+      title: Empty
       additionalProperties: false
     connect-protocol-version:
       type: number

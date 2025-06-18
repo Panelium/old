@@ -126,14 +126,14 @@ func (x *LoginRequest) GetPassword() string {
 }
 
 type LoginResponse struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	AccessToken     *string                `protobuf:"bytes,1,opt,name=access_token,json=accessToken,proto3,oneof" json:"access_token,omitempty"`    // cookie, only if mfa not required and auth success
-	RefreshToken    *string                `protobuf:"bytes,2,opt,name=refresh_token,json=refreshToken,proto3,oneof" json:"refresh_token,omitempty"` // cookie, only if mfa not required and auth success
-	RequiresMfa     bool                   `protobuf:"varint,3,opt,name=requires_mfa,json=requiresMfa,proto3" json:"requires_mfa,omitempty"`
-	MfaSessionToken *string                `protobuf:"bytes,4,opt,name=mfa_session_token,json=mfaSessionToken,proto3,oneof" json:"mfa_session_token,omitempty"` // cookie, only if mfa required and auth success
-	MfaType         *MFAType               `protobuf:"varint,5,opt,name=mfa_type,json=mfaType,proto3,enum=backend.MFAType,oneof" json:"mfa_type,omitempty"`     // type of MFA required
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	AccessToken      *string                `protobuf:"bytes,1,opt,name=access_token,json=accessToken,proto3,oneof" json:"access_token,omitempty"`    // cookie, only if mfa not required and auth success
+	RefreshToken     *string                `protobuf:"bytes,2,opt,name=refresh_token,json=refreshToken,proto3,oneof" json:"refresh_token,omitempty"` // cookie, only if mfa not required and auth success
+	RequiresMfa      bool                   `protobuf:"varint,3,opt,name=requires_mfa,json=requiresMfa,proto3" json:"requires_mfa,omitempty"`
+	MfaSessionToken  *string                `protobuf:"bytes,4,opt,name=mfa_session_token,json=mfaSessionToken,proto3,oneof" json:"mfa_session_token,omitempty"`                           // cookie, only if mfa required and auth success
+	MfaTypeAvailable []MFAType              `protobuf:"varint,5,rep,packed,name=mfa_type_available,json=mfaTypeAvailable,proto3,enum=backend.MFAType" json:"mfa_type_available,omitempty"` // (optional) types of MFA available for the user
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *LoginResponse) Reset() {
@@ -194,9 +194,61 @@ func (x *LoginResponse) GetMfaSessionToken() string {
 	return ""
 }
 
-func (x *LoginResponse) GetMfaType() MFAType {
-	if x != nil && x.MfaType != nil {
-		return *x.MfaType
+func (x *LoginResponse) GetMfaTypeAvailable() []MFAType {
+	if x != nil {
+		return x.MfaTypeAvailable
+	}
+	return nil
+}
+
+type RequestMFACodeRequest struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	MfaSessionToken *string                `protobuf:"bytes,1,opt,name=mfa_session_token,json=mfaSessionToken,proto3,oneof" json:"mfa_session_token,omitempty"` // cookie
+	MfaType         MFAType                `protobuf:"varint,2,opt,name=mfa_type,json=mfaType,proto3,enum=backend.MFAType" json:"mfa_type,omitempty"`           // type of MFA to use
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *RequestMFACodeRequest) Reset() {
+	*x = RequestMFACodeRequest{}
+	mi := &file_backend_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RequestMFACodeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RequestMFACodeRequest) ProtoMessage() {}
+
+func (x *RequestMFACodeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RequestMFACodeRequest.ProtoReflect.Descriptor instead.
+func (*RequestMFACodeRequest) Descriptor() ([]byte, []int) {
+	return file_backend_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *RequestMFACodeRequest) GetMfaSessionToken() string {
+	if x != nil && x.MfaSessionToken != nil {
+		return *x.MfaSessionToken
+	}
+	return ""
+}
+
+func (x *RequestMFACodeRequest) GetMfaType() MFAType {
+	if x != nil {
+		return x.MfaType
 	}
 	return MFAType_MFA_TYPE_UNSPECIFIED
 }
@@ -211,7 +263,7 @@ type VerifyMFARequest struct {
 
 func (x *VerifyMFARequest) Reset() {
 	*x = VerifyMFARequest{}
-	mi := &file_backend_proto_msgTypes[2]
+	mi := &file_backend_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -223,7 +275,7 @@ func (x *VerifyMFARequest) String() string {
 func (*VerifyMFARequest) ProtoMessage() {}
 
 func (x *VerifyMFARequest) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_proto_msgTypes[2]
+	mi := &file_backend_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -236,7 +288,7 @@ func (x *VerifyMFARequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VerifyMFARequest.ProtoReflect.Descriptor instead.
 func (*VerifyMFARequest) Descriptor() ([]byte, []int) {
-	return file_backend_proto_rawDescGZIP(), []int{2}
+	return file_backend_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *VerifyMFARequest) GetMfaSessionToken() string {
@@ -259,14 +311,14 @@ type VerifyMFAResponse struct {
 	RefreshToken          *string                `protobuf:"bytes,2,opt,name=refresh_token,json=refreshToken,proto3,oneof" json:"refresh_token,omitempty"` // cookie, only if auth and MFA success and no additional MFA required
 	RequiresAdditionalMfa bool                   `protobuf:"varint,3,opt,name=requires_additional_mfa,json=requiresAdditionalMfa,proto3" json:"requires_additional_mfa,omitempty"`
 	MfaSessionToken       *string                `protobuf:"bytes,5,opt,name=mfa_session_token,json=mfaSessionToken,proto3,oneof" json:"mfa_session_token,omitempty"` // cookie, only if additional MFA required
-	MfaType               *MFAType               `protobuf:"varint,4,opt,name=mfa_type,json=mfaType,proto3,enum=backend.MFAType,oneof" json:"mfa_type,omitempty"`
+	MfaTypesAvailable     []MFAType              `protobuf:"varint,4,rep,packed,name=mfa_types_available,json=mfaTypesAvailable,proto3,enum=backend.MFAType" json:"mfa_types_available,omitempty"`
 	unknownFields         protoimpl.UnknownFields
 	sizeCache             protoimpl.SizeCache
 }
 
 func (x *VerifyMFAResponse) Reset() {
 	*x = VerifyMFAResponse{}
-	mi := &file_backend_proto_msgTypes[3]
+	mi := &file_backend_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -278,7 +330,7 @@ func (x *VerifyMFAResponse) String() string {
 func (*VerifyMFAResponse) ProtoMessage() {}
 
 func (x *VerifyMFAResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_proto_msgTypes[3]
+	mi := &file_backend_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -291,7 +343,7 @@ func (x *VerifyMFAResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VerifyMFAResponse.ProtoReflect.Descriptor instead.
 func (*VerifyMFAResponse) Descriptor() ([]byte, []int) {
-	return file_backend_proto_rawDescGZIP(), []int{3}
+	return file_backend_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *VerifyMFAResponse) GetAccessToken() string {
@@ -322,11 +374,11 @@ func (x *VerifyMFAResponse) GetMfaSessionToken() string {
 	return ""
 }
 
-func (x *VerifyMFAResponse) GetMfaType() MFAType {
-	if x != nil && x.MfaType != nil {
-		return *x.MfaType
+func (x *VerifyMFAResponse) GetMfaTypesAvailable() []MFAType {
+	if x != nil {
+		return x.MfaTypesAvailable
 	}
-	return MFAType_MFA_TYPE_UNSPECIFIED
+	return nil
 }
 
 type RefreshTokenRequest struct {
@@ -338,7 +390,7 @@ type RefreshTokenRequest struct {
 
 func (x *RefreshTokenRequest) Reset() {
 	*x = RefreshTokenRequest{}
-	mi := &file_backend_proto_msgTypes[4]
+	mi := &file_backend_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -350,7 +402,7 @@ func (x *RefreshTokenRequest) String() string {
 func (*RefreshTokenRequest) ProtoMessage() {}
 
 func (x *RefreshTokenRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_proto_msgTypes[4]
+	mi := &file_backend_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -363,7 +415,7 @@ func (x *RefreshTokenRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RefreshTokenRequest.ProtoReflect.Descriptor instead.
 func (*RefreshTokenRequest) Descriptor() ([]byte, []int) {
-	return file_backend_proto_rawDescGZIP(), []int{4}
+	return file_backend_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *RefreshTokenRequest) GetRefreshToken() string {
@@ -383,7 +435,7 @@ type RefreshTokenResponse struct {
 
 func (x *RefreshTokenResponse) Reset() {
 	*x = RefreshTokenResponse{}
-	mi := &file_backend_proto_msgTypes[5]
+	mi := &file_backend_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -395,7 +447,7 @@ func (x *RefreshTokenResponse) String() string {
 func (*RefreshTokenResponse) ProtoMessage() {}
 
 func (x *RefreshTokenResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_proto_msgTypes[5]
+	mi := &file_backend_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -408,7 +460,7 @@ func (x *RefreshTokenResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RefreshTokenResponse.ProtoReflect.Descriptor instead.
 func (*RefreshTokenResponse) Descriptor() ([]byte, []int) {
-	return file_backend_proto_rawDescGZIP(), []int{5}
+	return file_backend_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *RefreshTokenResponse) GetAccessToken() string {
@@ -434,7 +486,7 @@ type LogoutRequest struct {
 
 func (x *LogoutRequest) Reset() {
 	*x = LogoutRequest{}
-	mi := &file_backend_proto_msgTypes[6]
+	mi := &file_backend_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -446,7 +498,7 @@ func (x *LogoutRequest) String() string {
 func (*LogoutRequest) ProtoMessage() {}
 
 func (x *LogoutRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_proto_msgTypes[6]
+	mi := &file_backend_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -459,7 +511,7 @@ func (x *LogoutRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LogoutRequest.ProtoReflect.Descriptor instead.
 func (*LogoutRequest) Descriptor() ([]byte, []int) {
-	return file_backend_proto_rawDescGZIP(), []int{6}
+	return file_backend_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *LogoutRequest) GetAccessToken() string {
@@ -478,7 +530,7 @@ type LogoutResponse struct {
 
 func (x *LogoutResponse) Reset() {
 	*x = LogoutResponse{}
-	mi := &file_backend_proto_msgTypes[7]
+	mi := &file_backend_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -490,7 +542,7 @@ func (x *LogoutResponse) String() string {
 func (*LogoutResponse) ProtoMessage() {}
 
 func (x *LogoutResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_proto_msgTypes[7]
+	mi := &file_backend_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -503,7 +555,7 @@ func (x *LogoutResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LogoutResponse.ProtoReflect.Descriptor instead.
 func (*LogoutResponse) Descriptor() ([]byte, []int) {
-	return file_backend_proto_rawDescGZIP(), []int{7}
+	return file_backend_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *LogoutResponse) GetSuccess() bool {
@@ -520,31 +572,33 @@ const file_backend_proto_rawDesc = "" +
 	"\rbackend.proto\x12\abackend\x1a\fcommon.proto\"F\n" +
 	"\fLoginRequest\x12\x1a\n" +
 	"\busername\x18\x01 \x01(\tR\busername\x12\x1a\n" +
-	"\bpassword\x18\x02 \x01(\tR\bpassword\"\xad\x02\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\"\xae\x02\n" +
 	"\rLoginResponse\x12&\n" +
 	"\faccess_token\x18\x01 \x01(\tH\x00R\vaccessToken\x88\x01\x01\x12(\n" +
 	"\rrefresh_token\x18\x02 \x01(\tH\x01R\frefreshToken\x88\x01\x01\x12!\n" +
 	"\frequires_mfa\x18\x03 \x01(\bR\vrequiresMfa\x12/\n" +
-	"\x11mfa_session_token\x18\x04 \x01(\tH\x02R\x0fmfaSessionToken\x88\x01\x01\x120\n" +
-	"\bmfa_type\x18\x05 \x01(\x0e2\x10.backend.MFATypeH\x03R\amfaType\x88\x01\x01B\x0f\n" +
+	"\x11mfa_session_token\x18\x04 \x01(\tH\x02R\x0fmfaSessionToken\x88\x01\x01\x12>\n" +
+	"\x12mfa_type_available\x18\x05 \x03(\x0e2\x10.backend.MFATypeR\x10mfaTypeAvailableB\x0f\n" +
 	"\r_access_tokenB\x10\n" +
 	"\x0e_refresh_tokenB\x14\n" +
-	"\x12_mfa_session_tokenB\v\n" +
-	"\t_mfa_type\"t\n" +
+	"\x12_mfa_session_token\"\x8b\x01\n" +
+	"\x15RequestMFACodeRequest\x12/\n" +
+	"\x11mfa_session_token\x18\x01 \x01(\tH\x00R\x0fmfaSessionToken\x88\x01\x01\x12+\n" +
+	"\bmfa_type\x18\x02 \x01(\x0e2\x10.backend.MFATypeR\amfaTypeB\x14\n" +
+	"\x12_mfa_session_token\"t\n" +
 	"\x10VerifyMFARequest\x12/\n" +
 	"\x11mfa_session_token\x18\x01 \x01(\tH\x00R\x0fmfaSessionToken\x88\x01\x01\x12\x19\n" +
 	"\bmfa_code\x18\x02 \x01(\tR\amfaCodeB\x14\n" +
-	"\x12_mfa_session_token\"\xc6\x02\n" +
+	"\x12_mfa_session_token\"\xc9\x02\n" +
 	"\x11VerifyMFAResponse\x12&\n" +
 	"\faccess_token\x18\x01 \x01(\tH\x00R\vaccessToken\x88\x01\x01\x12(\n" +
 	"\rrefresh_token\x18\x02 \x01(\tH\x01R\frefreshToken\x88\x01\x01\x126\n" +
 	"\x17requires_additional_mfa\x18\x03 \x01(\bR\x15requiresAdditionalMfa\x12/\n" +
-	"\x11mfa_session_token\x18\x05 \x01(\tH\x02R\x0fmfaSessionToken\x88\x01\x01\x120\n" +
-	"\bmfa_type\x18\x04 \x01(\x0e2\x10.backend.MFATypeH\x03R\amfaType\x88\x01\x01B\x0f\n" +
+	"\x11mfa_session_token\x18\x05 \x01(\tH\x02R\x0fmfaSessionToken\x88\x01\x01\x12@\n" +
+	"\x13mfa_types_available\x18\x04 \x03(\x0e2\x10.backend.MFATypeR\x11mfaTypesAvailableB\x0f\n" +
 	"\r_access_tokenB\x10\n" +
 	"\x0e_refresh_tokenB\x14\n" +
-	"\x12_mfa_session_tokenB\v\n" +
-	"\t_mfa_type\"Q\n" +
+	"\x12_mfa_session_token\"Q\n" +
 	"\x13RefreshTokenRequest\x12(\n" +
 	"\rrefresh_token\x18\x01 \x01(\tH\x00R\frefreshToken\x88\x01\x01B\x10\n" +
 	"\x0e_refresh_token\"\x8b\x01\n" +
@@ -562,9 +616,10 @@ const file_backend_proto_rawDesc = "" +
 	"\x14MFA_TYPE_UNSPECIFIED\x10\x00\x12\x11\n" +
 	"\rMFA_TYPE_TOTP\x10\x01\x12\x10\n" +
 	"\fMFA_TYPE_SMS\x10\x02\x12\x12\n" +
-	"\x0eMFA_TYPE_EMAIL\x10\x032\x99\x02\n" +
+	"\x0eMFA_TYPE_EMAIL\x10\x032\xdc\x02\n" +
 	"\vAuthService\x128\n" +
-	"\x05Login\x12\x15.backend.LoginRequest\x1a\x16.backend.LoginResponse\"\x00\x12D\n" +
+	"\x05Login\x12\x15.backend.LoginRequest\x1a\x16.backend.LoginResponse\"\x00\x12A\n" +
+	"\x0eRequestMFACode\x12\x1e.backend.RequestMFACodeRequest\x1a\r.common.Empty\"\x00\x12D\n" +
 	"\tVerifyMFA\x12\x19.backend.VerifyMFARequest\x1a\x1a.backend.VerifyMFAResponse\"\x00\x12M\n" +
 	"\fRefreshToken\x12\x1c.backend.RefreshTokenRequest\x1a\x1d.backend.RefreshTokenResponse\"\x00\x12;\n" +
 	"\x06Logout\x12\x16.backend.LogoutRequest\x1a\x17.backend.LogoutResponse\"\x00B\x17Z\x15panelium/proto-gen-gob\x06proto3"
@@ -582,34 +637,39 @@ func file_backend_proto_rawDescGZIP() []byte {
 }
 
 var file_backend_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_backend_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_backend_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_backend_proto_goTypes = []any{
-	(MFAType)(0),                 // 0: backend.MFAType
-	(*LoginRequest)(nil),         // 1: backend.LoginRequest
-	(*LoginResponse)(nil),        // 2: backend.LoginResponse
-	(*VerifyMFARequest)(nil),     // 3: backend.VerifyMFARequest
-	(*VerifyMFAResponse)(nil),    // 4: backend.VerifyMFAResponse
-	(*RefreshTokenRequest)(nil),  // 5: backend.RefreshTokenRequest
-	(*RefreshTokenResponse)(nil), // 6: backend.RefreshTokenResponse
-	(*LogoutRequest)(nil),        // 7: backend.LogoutRequest
-	(*LogoutResponse)(nil),       // 8: backend.LogoutResponse
+	(MFAType)(0),                  // 0: backend.MFAType
+	(*LoginRequest)(nil),          // 1: backend.LoginRequest
+	(*LoginResponse)(nil),         // 2: backend.LoginResponse
+	(*RequestMFACodeRequest)(nil), // 3: backend.RequestMFACodeRequest
+	(*VerifyMFARequest)(nil),      // 4: backend.VerifyMFARequest
+	(*VerifyMFAResponse)(nil),     // 5: backend.VerifyMFAResponse
+	(*RefreshTokenRequest)(nil),   // 6: backend.RefreshTokenRequest
+	(*RefreshTokenResponse)(nil),  // 7: backend.RefreshTokenResponse
+	(*LogoutRequest)(nil),         // 8: backend.LogoutRequest
+	(*LogoutResponse)(nil),        // 9: backend.LogoutResponse
+	(*Empty)(nil),                 // 10: common.Empty
 }
 var file_backend_proto_depIdxs = []int32{
-	0, // 0: backend.LoginResponse.mfa_type:type_name -> backend.MFAType
-	0, // 1: backend.VerifyMFAResponse.mfa_type:type_name -> backend.MFAType
-	1, // 2: backend.AuthService.Login:input_type -> backend.LoginRequest
-	3, // 3: backend.AuthService.VerifyMFA:input_type -> backend.VerifyMFARequest
-	5, // 4: backend.AuthService.RefreshToken:input_type -> backend.RefreshTokenRequest
-	7, // 5: backend.AuthService.Logout:input_type -> backend.LogoutRequest
-	2, // 6: backend.AuthService.Login:output_type -> backend.LoginResponse
-	4, // 7: backend.AuthService.VerifyMFA:output_type -> backend.VerifyMFAResponse
-	6, // 8: backend.AuthService.RefreshToken:output_type -> backend.RefreshTokenResponse
-	8, // 9: backend.AuthService.Logout:output_type -> backend.LogoutResponse
-	6, // [6:10] is the sub-list for method output_type
-	2, // [2:6] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	0,  // 0: backend.LoginResponse.mfa_type_available:type_name -> backend.MFAType
+	0,  // 1: backend.RequestMFACodeRequest.mfa_type:type_name -> backend.MFAType
+	0,  // 2: backend.VerifyMFAResponse.mfa_types_available:type_name -> backend.MFAType
+	1,  // 3: backend.AuthService.Login:input_type -> backend.LoginRequest
+	3,  // 4: backend.AuthService.RequestMFACode:input_type -> backend.RequestMFACodeRequest
+	4,  // 5: backend.AuthService.VerifyMFA:input_type -> backend.VerifyMFARequest
+	6,  // 6: backend.AuthService.RefreshToken:input_type -> backend.RefreshTokenRequest
+	8,  // 7: backend.AuthService.Logout:input_type -> backend.LogoutRequest
+	2,  // 8: backend.AuthService.Login:output_type -> backend.LoginResponse
+	10, // 9: backend.AuthService.RequestMFACode:output_type -> common.Empty
+	5,  // 10: backend.AuthService.VerifyMFA:output_type -> backend.VerifyMFAResponse
+	7,  // 11: backend.AuthService.RefreshToken:output_type -> backend.RefreshTokenResponse
+	9,  // 12: backend.AuthService.Logout:output_type -> backend.LogoutResponse
+	8,  // [8:13] is the sub-list for method output_type
+	3,  // [3:8] is the sub-list for method input_type
+	3,  // [3:3] is the sub-list for extension type_name
+	3,  // [3:3] is the sub-list for extension extendee
+	0,  // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_backend_proto_init() }
@@ -624,13 +684,14 @@ func file_backend_proto_init() {
 	file_backend_proto_msgTypes[4].OneofWrappers = []any{}
 	file_backend_proto_msgTypes[5].OneofWrappers = []any{}
 	file_backend_proto_msgTypes[6].OneofWrappers = []any{}
+	file_backend_proto_msgTypes[7].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_backend_proto_rawDesc), len(file_backend_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   8,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
