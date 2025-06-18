@@ -9,14 +9,14 @@ interface BarProps {
 
 const Bar: React.FC<BarProps> = ({
   percentage,
-  barColor,
+  barColor = "bg-emerald-500",
   className,
   size = "md",
 }) => {
   const sizeClasses = {
     sm: "h-1",
     md: "h-1.5",
-    lg: "h-3",
+    lg: "h-2.5",
   };
 
   return (
