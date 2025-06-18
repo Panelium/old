@@ -2,7 +2,7 @@ import { cn } from "~/lib/utils";
 
 interface BarProps {
   percentage: number;
-  barColor: string;
+  barColor?: string;
   size: "sm" | "md" | "lg";
   className?: string;
 }
