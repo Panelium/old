@@ -7,7 +7,10 @@ import (
 	"panelium/backend/internal/global"
 	"panelium/backend/internal/model"
 	"panelium/backend/internal/security"
+	"panelium/backend/internal/security/session"
+	"panelium/common/jwt"
 	proto_gen_go "panelium/proto-gen-go"
+	"time"
 )
 
 func (s *AuthServiceHandler) Login(
@@ -39,10 +42,30 @@ func (s *AuthServiceHandler) Login(
 		return res, nil
 	}
 
-	// TODO: generate JWT auth+refresh tokens
+	sessionId, refreshToken, err := session.CreateSession(user.UID)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, errors.SessionCreationFailed)
+	}
+
+	claims := jwt.Claims{
+		IssuedAt:   time.Now().Unix(),
+		NotBefore:  nil,
+		Expiration: time.Now().Add(time.Minute * 5).Unix(), // TODO: this needs more thought, perhaps config?
+		Subject:    &user.UID,
+		Audience:   sessionId,
+		Issuer:     "backend", // TODO: we might want to make this shorter
+		TokenType:  "access",  // TODO: we might want to make this shorter
+		ID:         nil,
+	}
+	accessToken, err := jwt.CreateJWT(claims, global.JWTSecret)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, errors.TokenCreationFailed)
+	}
 
 	res := connect.NewResponse(&proto_gen_go.LoginResponse{
-		RequiresMfa: false,
+		RequiresMfa:  false,
+		RefreshToken: &refreshToken, // TODO: this needs to be turned into a cookie
+		AccessToken:  &accessToken,  // TODO: this needs to be turned into a cookie
 	})
 
 	return res, nil
