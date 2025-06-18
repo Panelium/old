@@ -19,6 +19,7 @@ interface OverviewCardContent {
 interface BaseOverviewCard {
   title: string;
   footer?: string;
+  icon?: LucideIcon;
 }
 
 interface OverviewCardWithContent extends BaseOverviewCard {
@@ -117,10 +118,14 @@ const OverviewCard: React.FC<OverviewCardProps> = ({
   gauge,
   bar,
   footer,
+  icon,
 }) => {
+  const IconComponent = icon ? icon : () => null;
+
   return (
     <Card className="shadow-sm hover:shadow-md transition-shadow border-slate-200 dark:border-slate-700 no-select">
-      <CardHeader className="pb-2">
+      <CardHeader className="flex flex-row pb-2 items-center gap-2">
+        <IconComponent className="h-4 w-4 text-indigo-500" />
         <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400">
           {title}
         </CardTitle>
