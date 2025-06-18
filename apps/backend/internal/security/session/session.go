@@ -21,7 +21,7 @@ func CreateSession(uid string) (sessionId string, refreshToken string, err error
 		Audience:   sessionId,
 		Issuer:     "backend", // TODO: we might want to make this shorter
 		TokenType:  "refresh", // TODO: we might want to make this shorter
-		ID:         nil,       // TODO: might want to do this differently
+		ID:         nil,       // TODO: might want one?
 	}
 
 	refreshToken, err = jwt.CreateJWT(claims, global.JWTSecret)
