@@ -17,3 +17,6 @@ export const formatDisk = (bytes: number): string => {
   const gb = bytes / 1024 / 1024;
   return `${gb.toFixed(1)} GB`;
 };
+
+export const getPercentage = (value: number, max: number) =>
+  Math.min((value / max) * 100, 100);
