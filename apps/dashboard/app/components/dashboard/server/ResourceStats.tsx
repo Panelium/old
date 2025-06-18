@@ -1,119 +1,38 @@
 import React from "react";
-import { Cpu, Database, HardDrive } from "lucide-react";
-import { cn, formatDisk, formatMemory } from "~/lib/utils";
+import { Cpu, Database, HardDrive, Server as ServerIcon } from "lucide-react";
 
 import { Button } from "~/components/ui/button";
 import type { Server } from "~/components/cards/server-card";
+import OverviewCard from "~/components/cards/overview-card/Card";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 
 const ResourceStats: React.FC<{ server: Server }> = ({ server }) => {
+  const CPU_USAGE = {
+    title: "25%",
+    value: 30,
+    max: 60,
+    uiValue: "Core limit 100%",
+  };
+
+  const MEMORY_USAGE = {
+    title: "1.5 GB",
+    value: 1.5,
+    max: 4,
+    uiValue: "Used 1.5 GB of 4 GB",
+  };
+
+  const DISK_USAGE = {
+    title: "3.2 GB",
+    value: 3.2,
+    max: 8,
+    uiValue: "Used 3.2 GB of 8 GB",
+  };
+
   return (
     <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-      <Card className="border-slate-200/40 dark:border-slate-700/30 bg-white dark:bg-slate-800 shadow-sm hover:shadow transition-shadow rounded-xl no-select">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400 flex items-center">
-            <Cpu className="mr-2 h-4 w-4 text-indigo-500" />
-            CPU Usage
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-between">
-            <div className="text-2xl font-bold text-slate-900 dark:text-slate-50">
-              {server.cpuUsage}%
-            </div>
-            <div className="text-xs text-slate-500 dark:text-slate-400">
-              Core Limit: 100%
-            </div>
-          </div>
-          <div className="mt-3 h-1.5 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
-            <div
-              className={cn(
-                "h-full rounded-full",
-                server.cpuUsage > 90
-                  ? "bg-red-500"
-                  : server.cpuUsage > 75
-                  ? "bg-amber-500"
-                  : "bg-emerald-500"
-              )}
-              style={{ width: `${server.cpuUsage}%` }}
-            />
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Memory Usage Card */}
-      <Card className="border-slate-200/40 dark:border-slate-700/30 bg-white dark:bg-slate-800 shadow-sm hover:shadow transition-shadow rounded-xl no-select">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400 flex items-center">
-            <HardDrive className="mr-2 h-4 w-4 text-indigo-500" />
-            Memory Usage
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-between">
-            <div className="text-2xl font-bold text-slate-900 dark:text-slate-50">
-              {formatMemory(server.memoryUsage.used)}
-            </div>
-            <div className="text-xs text-slate-500 dark:text-slate-400">
-              of {formatMemory(server.memoryUsage.total)}
-            </div>
-          </div>
-          <div className="mt-3 h-1.5 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
-            <div
-              className={cn(
-                "h-full rounded-full",
-                server.memoryUsage.used / server.memoryUsage.total > 0.9
-                  ? "bg-red-500"
-                  : server.memoryUsage.used / server.memoryUsage.total > 0.75
-                  ? "bg-amber-500"
-                  : "bg-emerald-500"
-              )}
-              style={{
-                width: `${
-                  (server.memoryUsage.used / server.memoryUsage.total) * 100
-                }%`,
-              }}
-            />
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Disk Usage Card */}
-      <Card className="border-slate-200/40 dark:border-slate-700/30 bg-white dark:bg-slate-800 shadow-sm hover:shadow transition-shadow rounded-xl no-select">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400 flex items-center">
-            <HardDrive className="mr-2 h-4 w-4 text-indigo-500" />
-            Disk Usage
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-between">
-            <div className="text-2xl font-bold text-slate-900 dark:text-slate-50">
-              {formatDisk(server.diskUsage.used)}
-            </div>
-            <div className="text-xs text-slate-500 dark:text-slate-400">
-              of {formatDisk(server.diskUsage.total)}
-            </div>
-          </div>
-          <div className="mt-3 h-1.5 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
-            <div
-              className={cn(
-                "h-full rounded-full",
-                server.diskUsage.used / server.diskUsage.total > 0.9
-                  ? "bg-red-500"
-                  : server.diskUsage.used / server.diskUsage.total > 0.75
-                  ? "bg-amber-500"
-                  : "bg-emerald-500"
-              )}
-              style={{
-                width: `${
-                  (server.diskUsage.used / server.diskUsage.total) * 100
-                }%`,
-              }}
-            />
-          </div>
-        </CardContent>
-      </Card>
+      <OverviewCard bar={CPU_USAGE} title="CPU Usage" icon={Cpu} />
+      <OverviewCard bar={MEMORY_USAGE} title="Memory Usage" icon={HardDrive} />
+      <OverviewCard bar={DISK_USAGE} title="Disk Usage" icon={ServerIcon} />
 
       {/* Connection Card */}
       <Card className="border-slate-200/40 dark:border-slate-700/30 bg-white dark:bg-slate-800 shadow-sm hover:shadow transition-shadow rounded-xl no-select">
