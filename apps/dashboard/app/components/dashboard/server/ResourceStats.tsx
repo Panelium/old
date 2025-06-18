@@ -4,7 +4,6 @@ import { Cpu, Database, HardDrive, Server as ServerIcon } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import type { Server } from "~/components/cards/server-card";
 import OverviewCard from "~/components/cards/overview-card/Card";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 
 const ResourceStats: React.FC<{ server: Server }> = ({ server }) => {
   const CPU_USAGE = {
@@ -28,58 +27,59 @@ const ResourceStats: React.FC<{ server: Server }> = ({ server }) => {
     uiValue: "Used 3.2 GB of 8 GB",
   };
 
+  const ConnectionMainComponent = () => {
+    return (
+      <div className="flex flex-1 flex-col space-y-2">
+        <div className="flex items-center justify-between">
+          <span className="text-xs text-slate-500 dark:text-slate-400">
+            IP Address
+          </span>
+          <span className="text-xs font-medium text-slate-900 dark:text-slate-50">
+            {server.ip}
+          </span>
+        </div>
+        <div className="flex items-center justify-between">
+          <span className="text-xs text-slate-500 dark:text-slate-400">
+            Port
+          </span>
+          <span className="text-xs font-medium text-slate-900 dark:text-slate-50">
+            {server.port}
+          </span>
+        </div>
+        <div className="flex items-center justify-between">
+          <span className="text-xs text-slate-500 dark:text-slate-400">
+            Location
+          </span>
+          <span className="text-xs font-medium text-slate-900 dark:text-slate-50">
+            {server.location}
+          </span>
+        </div>
+      </div>
+    );
+  };
+
+  const ConnectionFooterComponent = () => {
+    return (
+      <Button
+        variant="outline"
+        size="sm"
+        className="flex-1 w-full h-7 text-xs border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700"
+      >
+        Copy Details
+      </Button>
+    );
+  };
   return (
     <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
       <OverviewCard bar={CPU_USAGE} title="CPU Usage" icon={Cpu} />
       <OverviewCard bar={MEMORY_USAGE} title="Memory Usage" icon={HardDrive} />
       <OverviewCard bar={DISK_USAGE} title="Disk Usage" icon={ServerIcon} />
-
-      {/* Connection Card */}
-      <Card className="border-slate-200/40 dark:border-slate-700/30 bg-white dark:bg-slate-800 shadow-sm hover:shadow transition-shadow rounded-xl no-select">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400 flex items-center">
-            <Database className="mr-2 h-4 w-4 text-indigo-500" />
-            Connection
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-slate-500 dark:text-slate-400">
-                IP Address
-              </span>
-              <span className="text-xs font-medium text-slate-900 dark:text-slate-50">
-                {server.ip}
-              </span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-slate-500 dark:text-slate-400">
-                Port
-              </span>
-              <span className="text-xs font-medium text-slate-900 dark:text-slate-50">
-                {server.port}
-              </span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-slate-500 dark:text-slate-400">
-                Location
-              </span>
-              <span className="text-xs font-medium text-slate-900 dark:text-slate-50">
-                {server.location}
-              </span>
-            </div>
-            <div className="mt-2 pt-2 border-t border-slate-200 dark:border-slate-700">
-              <Button
-                variant="outline"
-                size="sm"
-                className="w-full h-7 text-xs border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700"
-              >
-                Copy Details
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <OverviewCard
+        title="Connection"
+        icon={Database}
+        children={<ConnectionMainComponent />}
+        footerChildren={<ConnectionFooterComponent />}
+      />
     </div>
   );
 };
