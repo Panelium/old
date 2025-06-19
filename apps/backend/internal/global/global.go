@@ -32,6 +32,8 @@ func Init() error {
 		&model.ServerUser{},
 		&model.User{},
 		&model.UserMFA{},
+		&model.UserMFASession{},
+		&model.UserSession{},
 	)
 	if err != nil {
 		return err
