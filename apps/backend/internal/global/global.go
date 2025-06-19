@@ -4,7 +4,7 @@ import (
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
-	model2 "panelium/backend/internal/model"
+	"panelium/backend/internal/model"
 )
 
 var DB *gorm.DB
@@ -23,15 +23,15 @@ func Init() error {
 	}
 
 	err = DB.AutoMigrate(
-		&model2.AccessTokenBlacklist{},
-		&model2.Blueprint{},
-		&model2.Location{},
-		&model2.Node{},
-		&model2.NodeAllocation{},
-		&model2.Server{},
-		&model2.ServerUser{},
-		&model2.User{},
-		&model2.UserMFA{},
+		&model.AccessTokenBlacklist{},
+		&model.Blueprint{},
+		&model.Location{},
+		&model.Node{},
+		&model.NodeAllocation{},
+		&model.Server{},
+		&model.ServerUser{},
+		&model.User{},
+		&model.UserMFA{},
 	)
 	if err != nil {
 		return err
