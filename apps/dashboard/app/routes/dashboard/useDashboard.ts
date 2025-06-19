@@ -27,6 +27,10 @@ const useDashboard = (): UseDashboard => {
         used: 2048 * 1024,
         total: 4096 * 1024,
       },
+      diskUsage: {
+        used: 500 * 1024 * 1024,
+        total: 2000 * 1024 * 1024,
+      },
       game: "Minecraft",
       players: {
         online: 12,
@@ -45,6 +49,10 @@ const useDashboard = (): UseDashboard => {
         used: 512 * 1024,
         total: 1024 * 1024,
       },
+      diskUsage: {
+        used: 500 * 1024 * 1024,
+        total: 2000 * 1024 * 1024,
+      },
       game: "Nginx",
       ip: "192.168.1.6",
       port: 80,
@@ -58,6 +66,10 @@ const useDashboard = (): UseDashboard => {
       memoryUsage: {
         used: 0,
         total: 2048 * 1024,
+      },
+      diskUsage: {
+        used: 500 * 1024 * 1024,
+        total: 2000 * 1024 * 1024,
       },
       game: "Terraria",
       players: {
@@ -77,6 +89,10 @@ const useDashboard = (): UseDashboard => {
         used: 1024 * 1024,
         total: 2048 * 1024,
       },
+      diskUsage: {
+        used: 500 * 1024 * 1024,
+        total: 2000 * 1024 * 1024,
+      },
       game: "Rust",
       players: {
         online: 5,
@@ -94,6 +110,10 @@ const useDashboard = (): UseDashboard => {
       memoryUsage: {
         used: 3072 * 1024,
         total: 8192 * 1024,
+      },
+      diskUsage: {
+        used: 500 * 1024 * 1024,
+        total: 2000 * 1024 * 1024,
       },
       game: "ARK",
       players: {
