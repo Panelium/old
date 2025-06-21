@@ -17,7 +17,7 @@ interface Server {
     used: number;
     total: number;
   };
-  game?: string;
+  game: string;
   players?: {
     online: number;
     max: number;

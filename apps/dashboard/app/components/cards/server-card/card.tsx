@@ -78,7 +78,7 @@ const ServerCardHeader: React.FC<{ server: Server }> = ({ server }) => {
           src={server.icon}
           alt={server.name}
           title={server.name}
-          subTitle={server.game ? server.game : server.name || " "}
+          subTitle={server.game}
           className={serverCardTransition}
         />
         <StatusBadge status={server.status} />
@@ -95,15 +95,17 @@ const ServerCardContent: React.FC<{ server: Server }> = ({ server }) => {
     <CardContent className="space-y-3">
       <ServerBar
         title="CPU"
-        uiValue={`${server.cpuUsage.toFixed(1)}%`}
+        uiValue={server.cpuUsage.toFixed(1) + "%"}
         value={server.cpuUsage}
         max={100}
       />
       <ServerBar
         title="Memory"
-        uiValue={`${formatMemory(server.memoryUsage.used)} / ${formatMemory(
-          server.memoryUsage.total
-        )}`}
+        uiValue={
+          formatMemory(server.memoryUsage.used) +
+          " / " +
+          formatMemory(server.memoryUsage.total)
+        }
         value={server.memoryUsage.used}
         max={server.memoryUsage.total}
       />
@@ -126,7 +128,9 @@ const ServerCardFooter: React.FC<{ server: Server }> = ({ server }) => {
           {server.players && (
             <>
               <Users className="h-4 w-4 text-slate-500 dark:text-slate-400" />
-              <span>{server.players.online} / {server.players.max} Players</span>
+              <span>
+                {server.players.online} / {server.players.max} Players
+              </span>
             </>
           )}
         </div>
