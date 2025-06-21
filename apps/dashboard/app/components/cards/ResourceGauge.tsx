@@ -22,17 +22,14 @@ export function ResourceGauge({
   showValue = true,
   className,
 }: ResourceGaugeProps) {
-  // Calculate percentage
   const percentage = Math.min((value / maxValue) * 100, 100);
 
-  // Determine colors based on usage percentage
   const getColor = () => {
     if (percentage > 90) return "text-red-500";
     if (percentage > 75) return "text-amber-500";
     return "text-emerald-500";
   };
 
-  // Determine size
   const getSize = () => {
     switch (size) {
       case "sm":
@@ -44,7 +41,6 @@ export function ResourceGauge({
     }
   };
 
-  // Thickness of the gauge
   const getThickness = () => {
     switch (size) {
       case "sm":
@@ -56,7 +52,6 @@ export function ResourceGauge({
     }
   };
 
-  // Font size for the value
   const getFontSize = () => {
     switch (size) {
       case "sm":
