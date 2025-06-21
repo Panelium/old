@@ -19,4 +19,18 @@ export const formatDisk = (bytes: number): string => {
 };
 
 export const getPercentage = (value: number, max: number) =>
-  Math.min((value / max) * 100, 100);
+  clampNumber((value / max) * 100, {min: 0, max: 100});
+
+export const clampNumber = (
+  n: number,
+  { min, max }: { min?: number; max?: number }
+) => {
+  let c = n;
+  if (max) {
+    c = Math.min(c, max);
+  }
+  if (min) {
+    c = Math.max(c, min);
+  }
+  return c;
+};
