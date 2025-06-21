@@ -6,7 +6,7 @@ interface Server {
   id: string;
   name: string;
   status: ServerStatusType;
-  description?: string;
+  description: string;
   icon?: string;
   cpuUsage: number;
   memoryUsage: {

@@ -84,7 +84,7 @@ const ServerCardHeader: React.FC<{ server: Server }> = ({ server }) => {
         <StatusBadge status={server.status} />
       </div>
       <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-2">
-        {server.description ? server.description : " "}
+        {server.description}
       </p>
     </CardHeader>
   );
