@@ -115,17 +115,18 @@ const ServerCardFooter: React.FC<{ server: Server }> = ({ server }) => {
   return (
     <CardFooter>
       <div className="flex flex-1 items-center justify-between text-xs text-slate-600 dark:text-slate-400">
-        <div className="font-mono">
-          {`${server.ip ? server.ip : "N/A"}:${
-            server.port ? server.port : "N/A"
-          }`}
-        </div>
+        {server.ip && (
+          <div className="font-mono">
+            {server.ip}
+            {server.port && ":" + server.port}
+          </div>
+        )}
 
         <div className="flex flex-row gap-1">
           {server.players && (
             <>
               <Users className="h-4 w-4 text-slate-500 dark:text-slate-400" />
-              <span>{`${server.players.online} / ${server.players.max} Players`}</span>
+              <span>{server.players.online} / {server.players.max} Players</span>
             </>
           )}
         </div>

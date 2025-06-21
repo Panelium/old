@@ -23,7 +23,7 @@ interface Server {
     max: number;
   };
   ip?: string;
-  port?: number;
+  port?: number; //TODO: ip and port will be merged into networkAllocation
   location?: string;
 }
 
