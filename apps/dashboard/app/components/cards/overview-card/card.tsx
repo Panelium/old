@@ -25,16 +25,18 @@ interface BarProps {
   uiValue?: string;
 }
 
-interface OverviewCardProps {
+interface OverviewCardBaseProps {
   title: string;
-  footer?: string;
   icon?: LucideIcon;
   children?: React.ReactNode;
-  footerChildren?: React.ReactNode;
   content?: OverviewProps;
   gauge?: GaugeProps;
   bar?: BarProps;
 }
+
+type OverviewCardProps =
+  | (OverviewCardBaseProps & { footer: string; footerChildren?: never })
+  | (OverviewCardBaseProps & { footer?: never; footerChildren: React.ReactNode });
 
 const GaugeCard: React.FC<ResourceGaugeProps> = (gauge) => {
   return (
@@ -127,11 +129,7 @@ const OverviewCard: React.FC<OverviewCardProps> = ({
       </CardContent>
       <CardFooter className="border-t border-slate-200 dark:border-slate-700">
         <span className="flex-1 text-xs text-slate-500 dark:text-slate-400 h-3">
-          {footer && !footerChildren}
-          {!footer && footerChildren}
-          {footer &&
-            footerChildren &&
-            "Paste either footer or footerChildren, not both."}
+          {footer || footerChildren}
         </span>
       </CardFooter>
     </Card>
