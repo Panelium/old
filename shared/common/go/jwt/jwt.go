@@ -13,7 +13,7 @@ type Claims struct {
 	Audience   string  `json:"aud"`           // Session ID
 	Issuer     string  `json:"iss"`           // Issuer (backend/daemon)
 	TokenType  string  `json:"typ"`           // Token type (e.g., "access", "refresh", "mfa")
-	ID         *string `json:"jti,omitempty"` // JWT ID - unique identifier for the token (optional as not all tokens need it)
+	JTI        *string `json:"jti,omitempty"` // JWT ID - unique identifier for the token (optional as not all tokens need it)
 }
 
 func CreateJWT(claims Claims, secret string) (string, error) {
@@ -30,8 +30,8 @@ func CreateJWT(claims Claims, secret string) (string, error) {
 	if claims.Subject != nil {
 		mapClaims["sub"] = *claims.Subject
 	}
-	if claims.ID != nil {
-		mapClaims["jti"] = *claims.ID
+	if claims.JTI != nil {
+		mapClaims["jti"] = *claims.JTI
 	}
 
 	// TODO: this needs to be reviewed
@@ -80,7 +80,7 @@ func VerifyJWT(token string, secret string) (*Claims, error) {
 	}
 	if jti, ok := mapClaims["jti"]; ok {
 		jtiStr := jti.(string)
-		claims.ID = &jtiStr
+		claims.JTI = &jtiStr
 	}
 
 	return claims, nil
