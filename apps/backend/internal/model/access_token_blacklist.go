@@ -7,6 +7,6 @@ import (
 
 type AccessTokenBlacklist struct {
 	gorm.Model
-	TokenHash  string    `gorm:"uniqueIndex;not null" json:"token_hash"`
-	Expiration time.Time `gorm:"not null" json:"expiration"`
+	JTI        string    `gorm:"uniqueIndex;not null" json:"-"`
+	Expiration time.Time `gorm:"not null" json:"expiration"` // current JWT expiration
 }
