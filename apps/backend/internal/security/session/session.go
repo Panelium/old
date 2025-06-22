@@ -12,6 +12,7 @@ import (
 
 func CreateSession(uid string) (sessionId string, refreshToken string, err error) {
 	sessionId = rand.Text() // TODO: do the math to ensure this is sufficient enough not to run into collisions
+	jti := rand.Text()      // TODO: generate this differently probably- maybe use a UUID?
 
 	claims := jwt.Claims{
 		IssuedAt:   time.Now().Unix(),
@@ -21,7 +22,7 @@ func CreateSession(uid string) (sessionId string, refreshToken string, err error
 		Audience:   sessionId,
 		Issuer:     "backend", // TODO: we might want to make this shorter
 		TokenType:  "refresh", // TODO: we might want to make this shorter
-		ID:         nil,       // TODO: might want one?
+		JTI:        &jti,
 	}
 
 	refreshToken, err = jwt.CreateJWT(claims, global.JWTSecret)
@@ -30,9 +31,9 @@ func CreateSession(uid string) (sessionId string, refreshToken string, err error
 	}
 
 	result := global.DB.Model(model.UserSession{}).Create(&model.UserSession{
-		SessionID:    sessionId,
-		UserID:       uid,
-		RefreshToken: refreshToken,
+		SessionID:  sessionId,
+		UserID:     uid,
+		RefreshJTI: jti,
 	})
 
 	if result.Error != nil {
