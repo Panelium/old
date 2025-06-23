@@ -27,6 +27,9 @@ message LoginRequest {
   string password = 2;
 }
 
+//we need to somehow let the frontend know when the access token expires so it can refresh it
+//or maybe we can just send an error and let the frontend handle it ¯\_(ツ)_/¯
+
 message LoginResponse {
   optional string access_token = 1; // cookie, only if mfa not required and auth success
   optional string refresh_token = 2; // cookie, only if mfa not required and auth success
