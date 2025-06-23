@@ -1,18 +1,24 @@
 package session
 
 import (
-	"crypto/rand"
-	goErrors "github.com/pkg/errors"
+	stdErrors "errors"
 	"panelium/backend/internal/errors"
 	"panelium/backend/internal/global"
 	"panelium/backend/internal/model"
+	"panelium/common/id"
 	"panelium/common/jwt"
 	"time"
 )
 
 func CreateSession(uid string) (sessionId string, refreshToken string, err error) {
-	sessionId = rand.Text() // TODO: do the math to ensure this is sufficient enough not to run into collisions
-	jti := rand.Text()      // TODO: generate this differently probably- maybe use a UUID?
+	sessionId, err = id.New()
+	if err != nil {
+		return "", "", stdErrors.Join(err, errors.SessionCreationFailed)
+	}
+	jti, err := id.New()
+	if err != nil {
+		return "", "", stdErrors.Join(err, errors.SessionCreationFailed)
+	}
 
 	claims := jwt.Claims{
 		IssuedAt:   time.Now().Unix(),
@@ -27,7 +33,7 @@ func CreateSession(uid string) (sessionId string, refreshToken string, err error
 
 	refreshToken, err = jwt.CreateJWT(claims, global.JWTSecret)
 	if err != nil {
-		return "", "", goErrors.Wrap(err, "failed to create JWT for session") // TODO: move error message to errors package
+		return "", "", stdErrors.Join(err, errors.SessionCreationFailed)
 	}
 
 	result := global.DB.Model(model.UserSession{}).Create(&model.UserSession{
@@ -37,7 +43,7 @@ func CreateSession(uid string) (sessionId string, refreshToken string, err error
 	})
 
 	if result.Error != nil {
-		return "", "", goErrors.Wrap(result.Error, "failed to create user session") // TODO: move error message to errors package
+		return "", "", stdErrors.Join(result.Error, errors.SessionCreationFailed)
 	}
 	if result.RowsAffected == 0 {
 		return "", "", errors.SessionCreationFailed
