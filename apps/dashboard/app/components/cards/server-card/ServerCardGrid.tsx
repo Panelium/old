@@ -2,10 +2,10 @@ import React from "react";
 import { Plus } from "lucide-react";
 import { cn } from "~/lib/utils";
 
-import type { Server } from ".";
+import type { Server } from "./ServerCard";
 
 import { Card } from "~/components/ui/card";
-import ServerCard from "~/components/cards/server-card/Card";
+import ServerCard from "~/components/cards/server-card/ServerCard";
 
 const AddServerCard: React.FC = () => {
   return (

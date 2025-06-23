@@ -1,18 +1,16 @@
 import React from "react";
 import {
   FolderOpen,
+  type LucideIcon,
   Play,
   Settings,
   Square,
   Terminal,
   Users,
-  type LucideIcon,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { ServerStatusType } from "proto-gen-ts/daemon_pb";
 import { cn, formatMemory } from "~/lib/utils";
-
-import type { Server } from ".";
 
 import {
   Card,
@@ -23,6 +21,32 @@ import {
 import ServerBar from "~/components/bars/ServerBar";
 import EntityAvatar from "~/components/avatars/EntityAvatar";
 import StatusBadge from "~/components/dashboard/StatusBadge";
+
+//temp until moved to proto
+export interface Server {
+  id: string;
+  name: string;
+  status: ServerStatusType;
+  description: string;
+  icon?: string;
+  cpuUsage: number;
+  memoryUsage: {
+    used: number;
+    total: number;
+  };
+  diskUsage: {
+    used: number;
+    total: number;
+  };
+  game: string;
+  players?: {
+    online: number;
+    max: number;
+  };
+  ip?: string;
+  port?: number; //TODO: ip and port will be merged into networkAllocation
+  location?: string;
+}
 
 interface ServerCardProps {
   server: Server;

@@ -2,9 +2,9 @@ import React from "react";
 import { Users } from "lucide-react";
 import useDashboard from "./useDashboard";
 
-import ServerCardGrid from "~/components/cards/server-card/";
-import OverviewCardGrid from "~/components/cards/overview-card";
-import type { OverviewCardProps } from "~/components/cards/overview-card/Card";
+import ServerCardGrid from "~/components/cards/server-card/ServerCardGrid";
+import OverviewCardGrid from "~/components/cards/overview-card/OverviewCardGrid";
+import type { OverviewCardProps } from "~/components/cards/overview-card/OverviewCard";
 
 export default function DashboardOverviewPage() {
   const dashboardData = useDashboard();
@@ -50,6 +50,7 @@ export default function DashboardOverviewPage() {
         label: "Used",
         subtitle: `of 0.0 GB allocated`,
       },
+      footer: "",
     },
   ];
 
