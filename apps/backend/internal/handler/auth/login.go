@@ -55,7 +55,7 @@ func (s *AuthServiceHandler) Login(
 		Audience:   sessionId,
 		Issuer:     "backend", // TODO: we might want to make this shorter
 		TokenType:  "access",  // TODO: we might want to make this shorter
-		JTI:        nil,       // TODO: add a JTI
+		JTI:        nil,       // TODO: add a JTI + update db
 	}
 	accessToken, err := jwt.CreateJWT(claims, global.JWTSecret)
 	if err != nil {
