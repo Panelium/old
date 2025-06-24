@@ -3,14 +3,13 @@ package auth
 import (
 	"connectrpc.com/connect"
 	"context"
-	"panelium/backend/internal/errors"
+	"panelium/backend/internal/config"
 	"panelium/backend/internal/global"
 	"panelium/backend/internal/model"
 	"panelium/backend/internal/security"
 	"panelium/backend/internal/security/session"
-	"panelium/common/jwt"
+	"panelium/common/errors"
 	proto_gen_go "panelium/proto-gen-go"
-	"time"
 )
 
 func (s *AuthServiceHandler) Login(
@@ -26,7 +25,7 @@ func (s *AuthServiceHandler) Login(
 		return nil, connect.NewError(connect.CodeInternal, err.Error)
 	}
 
-	passwordValid := security.VerifyPassword(req.Msg.Password, user.PasswordSalt, global.Pepper, user.PasswordHash)
+	passwordValid := security.VerifyPassword(req.Msg.Password, user.PasswordSalt, config.Pepper, user.PasswordHash)
 	if !passwordValid {
 		return nil, connect.NewError(connect.CodeUnauthenticated, errors.InvalidCredentials)
 	}
@@ -42,24 +41,9 @@ func (s *AuthServiceHandler) Login(
 		return res, nil
 	}
 
-	sessionId, refreshToken, err := session.CreateSession(user.UID)
+	_, refreshToken, accessToken, err := session.CreateSession(user.UID)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, errors.SessionCreationFailed)
-	}
-
-	claims := jwt.Claims{
-		IssuedAt:   time.Now().Unix(),
-		NotBefore:  nil,
-		Expiration: time.Now().Add(time.Minute * 5).Unix(), // TODO: this needs more thought, perhaps config?
-		Subject:    &user.UID,
-		Audience:   sessionId,
-		Issuer:     "backend", // TODO: we might want to make this shorter
-		TokenType:  "access",  // TODO: we might want to make this shorter
-		JTI:        nil,       // TODO: add a JTI + update db
-	}
-	accessToken, err := jwt.CreateJWT(claims, global.JWTSecret)
-	if err != nil {
-		return nil, connect.NewError(connect.CodeInternal, errors.TokenCreationFailed)
 	}
 
 	res := connect.NewResponse(&proto_gen_go.LoginResponse{
