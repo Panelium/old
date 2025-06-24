@@ -20,7 +20,6 @@ func Init() error {
 	}
 
 	err = DB.AutoMigrate(
-		&model.AccessTokenBlacklist{},
 		&model.Blueprint{},
 		&model.Location{},
 		&model.Node{},
