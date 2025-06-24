@@ -7,3 +7,4 @@ const JWTSecret string = "0th3rR4nd0mS3cr3t" // needs to be changed to actual RS
 
 const AccessTokenDuration = 5 * time.Minute // 5 minutes
 const RefreshTokenDuration = 24 * time.Hour // 24 hours
+const MFATokenDuration = 15 * time.Minute   // 15 minutes
