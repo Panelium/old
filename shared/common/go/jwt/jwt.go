@@ -1,19 +1,35 @@
 package jwt
 
 import (
+	stdErrors "errors"
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/pkg/errors"
+	"panelium/common/errors"
+)
+
+type TokenType string
+
+const (
+	AccessTokenType  TokenType = "access"
+	RefreshTokenType TokenType = "refresh"
+	MFATokenType     TokenType = "mfa"
+)
+
+type Issuer string
+
+const (
+	BackendIssuer Issuer = "backend"
+	DaemonIssuer  Issuer = "daemon"
 )
 
 type Claims struct {
-	IssuedAt   int64   `json:"iat"`           // Issued at time
-	NotBefore  *int64  `json:"nbf,omitempty"` // Not before time (optional as not all tokens need it)
-	Expiration int64   `json:"exp"`           // Expiration time
-	Subject    *string `json:"sub,omitempty"` // User ID (optional as MFA session tokens should not include this)
-	Audience   string  `json:"aud"`           // Session ID
-	Issuer     string  `json:"iss"`           // Issuer (backend/daemon)
-	TokenType  string  `json:"typ"`           // Token type (e.g., "access", "refresh", "mfa")
-	JTI        *string `json:"jti,omitempty"` // JWT ID - unique identifier for the token (optional as not all tokens need it)
+	IssuedAt   int64     `json:"iat"`           // Issued at time
+	NotBefore  *int64    `json:"nbf,omitempty"` // Not before time (optional as not all tokens need it)
+	Expiration int64     `json:"exp"`           // Expiration time
+	Subject    *string   `json:"sub,omitempty"` // User ID (optional as MFA session tokens should not include this)
+	Audience   string    `json:"aud"`           // Session ID
+	Issuer     Issuer    `json:"iss"`           // Issuer (backend/daemon)
+	TokenType  TokenType `json:"typ"`           // Token type (e.g., "access", "refresh", "mfa")
+	JTI        string    `json:"jti"`           // JWT ID - unique identifier for the token
 }
 
 func CreateJWT(claims Claims, secret string) (string, error) {
@@ -23,6 +39,7 @@ func CreateJWT(claims Claims, secret string) (string, error) {
 		"aud": claims.Audience,
 		"iss": claims.Issuer,
 		"typ": claims.TokenType,
+		"jti": claims.JTI,
 	}
 	if claims.NotBefore != nil {
 		mapClaims["nbf"] = *claims.NotBefore
@@ -30,11 +47,7 @@ func CreateJWT(claims Claims, secret string) (string, error) {
 	if claims.Subject != nil {
 		mapClaims["sub"] = *claims.Subject
 	}
-	if claims.JTI != nil {
-		mapClaims["jti"] = *claims.JTI
-	}
 
-	// TODO: this needs to be reviewed
 	token := jwt.NewWithClaims(jwt.SigningMethodRS256, mapClaims)
 	signedToken, err := token.SignedString([]byte(secret))
 	if err != nil {
@@ -45,12 +58,26 @@ func CreateJWT(claims Claims, secret string) (string, error) {
 }
 
 func VerifyJWT(token string, secret string) (*Claims, error) {
+	// ensure JTI is not in blacklist(s)
+	// check if not before nbf or iat
+	// check if not after exp
+	// check if audience is valid
+	// check if issuer is valid
+	// check if token type is valid
+	// check if token is signed with the correct algorithm
+	// check if token is signed with the correct secret
+
 	mapClaims := jwt.MapClaims{}
+
+	//parser := jwt.NewParser()
+	//jwt.WithValidMethods([]string{jwt.SigningMethodRS256.Name})(parser)
+	//jwt.WithIssuer(string(BackendIssuer))(parser)
+	//jwt.WithIssuedAt()
 
 	// TODO: this needs to be reviewed, I have no clue what any of this does nor whether it is correct
 	parsedToken, err := jwt.ParseWithClaims(token, &mapClaims, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodRSA); !ok {
-			return nil, errors.Wrap(jwt.ErrSignatureInvalid, "unexpected signing method")
+			return nil, stdErrors.Join(jwt.ErrSignatureInvalid, errors.InvalidCredentials)
 		}
 		return []byte(secret), nil
 	})
@@ -60,15 +87,16 @@ func VerifyJWT(token string, secret string) (*Claims, error) {
 	}
 
 	if !parsedToken.Valid {
-		return nil, errors.New("invalid token")
+		return nil, errors.InvalidCredentials
 	}
 
 	claims := &Claims{
 		IssuedAt:   int64(mapClaims["iat"].(float64)),
 		Expiration: int64(mapClaims["exp"].(float64)),
 		Audience:   mapClaims["aud"].(string),
-		Issuer:     mapClaims["iss"].(string),
-		TokenType:  mapClaims["typ"].(string),
+		Issuer:     mapClaims["iss"].(Issuer),
+		TokenType:  mapClaims["typ"].(TokenType),
+		JTI:        mapClaims["jti"].(string),
 	}
 	if nbf, ok := mapClaims["nbf"]; ok {
 		nbfInt := int64(nbf.(float64))
@@ -77,10 +105,6 @@ func VerifyJWT(token string, secret string) (*Claims, error) {
 	if sub, ok := mapClaims["sub"]; ok {
 		subStr := sub.(string)
 		claims.Subject = &subStr
-	}
-	if jti, ok := mapClaims["jti"]; ok {
-		jtiStr := jti.(string)
-		claims.JTI = &jtiStr
 	}
 
 	return claims, nil
