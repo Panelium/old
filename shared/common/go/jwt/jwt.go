@@ -58,7 +58,7 @@ func CreateJWT(claims Claims, secret string) (string, error) {
 }
 
 func VerifyJWT(token string, secret string) (*Claims, error) {
-	// ensure JTI is not in blacklist(s)
+	// check JTI against database to prevent replay attacks (if not exist, delete session - logout)
 	// check if not before nbf or iat
 	// check if not after exp
 	// check if audience is valid
