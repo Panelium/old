@@ -69,10 +69,7 @@ func VerifyJWT(token string, secret string) (*Claims, error) {
 
 	mapClaims := jwt.MapClaims{}
 
-	//parser := jwt.NewParser()
-	//jwt.WithValidMethods([]string{jwt.SigningMethodRS256.Name})(parser)
-	//jwt.WithIssuer(string(BackendIssuer))(parser)
-	//jwt.WithIssuedAt()
+	// https://pkg.go.dev/github.com/golang-jwt/jwt/v5#example-Parse-Hmac
 
 	// TODO: this needs to be reviewed, I have no clue what any of this does nor whether it is correct
 	parsedToken, err := jwt.ParseWithClaims(token, &mapClaims, func(token *jwt.Token) (interface{}, error) {
