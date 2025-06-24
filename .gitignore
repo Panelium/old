@@ -5,3 +5,4 @@
 !/.idea/modules.xml
 !/.idea/compiler.xml
 !/.idea/Panelium.iml
+*.db*
