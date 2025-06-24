@@ -9,9 +9,6 @@ import (
 
 var DB *gorm.DB
 
-const Pepper string = "s0m3R4nd0mP3pp3r"     // TODO!: move this to a config
-const JWTSecret string = "0th3rR4nd0mS3cr3t" // TODO!: move this to a config
-
 func Init() error {
 	var err error
 	// TODO: sqlite is temporary, change in the future
