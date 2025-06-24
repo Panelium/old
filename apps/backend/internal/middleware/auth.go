@@ -1,0 +1,18 @@
+package middleware
+
+import (
+	"connectrpc.com/authn"
+	"context"
+	"net/http"
+)
+
+func Authentication(_ context.Context, req *http.Request) (any, error) {
+	accessTokenCookie, err := req.Cookie("access_jwt")
+	if err != nil {
+		return nil, authn.Errorf("no access token")
+	}
+
+	//do stuff, verify jwt, etc
+
+	return accessTokenCookie.Value, nil
+}

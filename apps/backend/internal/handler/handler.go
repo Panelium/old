@@ -1,23 +1,25 @@
 package handler
 
 import (
+	"connectrpc.com/authn"
 	connectcors "connectrpc.com/cors"
 	"github.com/rs/cors"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
 	"net/http"
 	"panelium/backend/internal/handler/auth"
+	middleware "panelium/backend/internal/middleware"
 	"panelium/proto-gen-go/proto_gen_goconnect"
 )
 
 func withCORS(h http.Handler) http.Handler {
-	middleware := cors.New(cors.Options{
+	corsMiddleware := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"}, // Change to specific origins in production
 		AllowedMethods: connectcors.AllowedMethods(),
 		AllowedHeaders: connectcors.AllowedHeaders(),
 		ExposedHeaders: connectcors.ExposedHeaders(),
 	})
-	return middleware.Handler(h)
+	return corsMiddleware.Handler(h)
 }
 
 func Handle(host string) error {
@@ -25,7 +27,10 @@ func Handle(host string) error {
 
 	mux.Handle(proto_gen_goconnect.NewAuthServiceHandler(&auth.AuthServiceHandler{}))
 
-	handler := h2c.NewHandler(mux, &http2.Server{})
+	authMiddleware := authn.NewMiddleware(middleware.Authentication)
+	authedMux := authMiddleware.Wrap(mux)
+
+	handler := h2c.NewHandler(authedMux, &http2.Server{})
 	corsHandler := withCORS(handler)
 	err := http.ListenAndServe(
 		host,

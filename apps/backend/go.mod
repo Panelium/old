@@ -3,9 +3,9 @@ module panelium/backend
 go 1.24
 
 require (
+	connectrpc.com/authn v0.2.0
 	connectrpc.com/connect v1.18.1
 	connectrpc.com/cors v0.1.0
-	github.com/pkg/errors v0.9.1
 	github.com/pquerna/otp v1.5.0
 	github.com/rs/cors v1.11.1
 	golang.org/x/crypto v0.38.0
