@@ -25,7 +25,7 @@ func (s *AuthServiceHandler) Login(
 		return nil, connect.NewError(connect.CodeInternal, err.Error)
 	}
 
-	passwordValid := security.VerifyPassword(req.Msg.Password, user.PasswordSalt, config.SecretsInstance.Pepper, user.PasswordHash)
+	passwordValid := security.VerifyPassword(req.Msg.Password, user.PasswordSalt, config.SecretsInstance.GetPepper(), user.PasswordHash)
 	if !passwordValid {
 		return nil, connect.NewError(connect.CodeUnauthenticated, errors.InvalidCredentials)
 	}

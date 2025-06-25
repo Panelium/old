@@ -207,12 +207,12 @@ func (c *Config) GetMFATokenDuration() time.Duration {
 }
 
 type Secrets struct {
-	Pepper string `json:"pepper"`
+	pepper string `json:"pepper"`
 }
 
 func newSecrets() *Secrets {
 	return &Secrets{
-		Pepper: rand.Text(),
+		pepper: rand.Text(),
 	}
 }
 
@@ -240,8 +240,8 @@ func loadSecrets() (*Secrets, error) {
 }
 
 func (s *Secrets) Migrate() error {
-	if s.Pepper == "" {
-		s.Pepper = rand.Text()
+	if s.pepper == "" {
+		s.pepper = rand.Text()
 	}
 
 	if err := s.Save(); err != nil {
@@ -261,6 +261,10 @@ func (s *Secrets) Save() error {
 	encoder := json.NewEncoder(file)
 	encoder.SetIndent("", "  ")
 	return encoder.Encode(s)
+}
+
+func (s *Secrets) GetPepper() string {
+	return s.pepper
 }
 
 func loadJWTPrivateKey() (*rsa.PrivateKey, error) {
