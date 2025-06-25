@@ -12,6 +12,8 @@ import (
 	"time"
 )
 
+// TODO: should make this thread safe with a mutex
+
 const basePath = "/etc/panelium"
 
 // File names
