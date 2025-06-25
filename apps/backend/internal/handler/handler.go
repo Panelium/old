@@ -8,7 +8,7 @@ import (
 	"golang.org/x/net/http2/h2c"
 	"net/http"
 	"panelium/backend/internal/handler/auth"
-	middleware "panelium/backend/internal/middleware"
+	"panelium/backend/internal/middleware"
 	"panelium/proto-gen-go/proto_gen_goconnect"
 )
 
