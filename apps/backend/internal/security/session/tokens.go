@@ -8,15 +8,15 @@ import (
 )
 
 func CreateRefreshToken(issuedAt time.Time, sessionId string, uid string) (token string, JTI string, expiration time.Time, err error) {
-	return CreateToken(issuedAt, config.RefreshTokenDuration, jwt.BackendIssuer, jwt.RefreshTokenType, sessionId, &uid)
+	return CreateToken(issuedAt, config.ConfigInstance.GetRefreshTokenDuration(), jwt.BackendIssuer, jwt.RefreshTokenType, sessionId, &uid)
 }
 
 func CreateAccessToken(issuedAt time.Time, sessionId string, uid string) (token string, JTI string, expiration time.Time, err error) {
-	return CreateToken(issuedAt, config.AccessTokenDuration, jwt.BackendIssuer, jwt.AccessTokenType, sessionId, &uid)
+	return CreateToken(issuedAt, config.ConfigInstance.GetAccessTokenDuration(), jwt.BackendIssuer, jwt.AccessTokenType, sessionId, &uid)
 }
 
 func CreateMFAToken(issuedAt time.Time, sessionId string) (token string, JTI string, expiration time.Time, err error) {
-	return CreateToken(issuedAt, config.MFATokenDuration, jwt.BackendIssuer, jwt.MFATokenType, sessionId, nil)
+	return CreateToken(issuedAt, config.ConfigInstance.GetMFATokenDuration(), jwt.BackendIssuer, jwt.MFATokenType, sessionId, nil)
 }
 
 func CreateToken(issuedAt time.Time, duration time.Duration, issuer jwt.Issuer, tokenType jwt.TokenType, sessionId string, uid *string) (token string, JTI string, expiration time.Time, err error) {
@@ -37,7 +37,7 @@ func CreateToken(issuedAt time.Time, duration time.Duration, issuer jwt.Issuer, 
 		JTI:        JTI,
 	}
 
-	token, err = jwt.CreateJWT(tokenClaims, config.JWTSecret)
+	token, err = jwt.CreateJWT(tokenClaims, config.JWTPrivateKeyInstance)
 	if err != nil {
 		return "", "", time.Time{}, err
 	}

@@ -1,6 +1,7 @@
 package jwt
 
 import (
+	"crypto/rsa"
 	stdErrors "errors"
 	"github.com/golang-jwt/jwt/v5"
 	"panelium/common/errors"
@@ -32,7 +33,7 @@ type Claims struct {
 	JTI        string    `json:"jti"`           // JWT ID - unique identifier for the token
 }
 
-func CreateJWT(claims Claims, secret string) (string, error) {
+func CreateJWT(claims Claims, key *rsa.PrivateKey) (string, error) {
 	mapClaims := jwt.MapClaims{
 		"iat": claims.IssuedAt,
 		"exp": claims.Expiration,
@@ -49,7 +50,7 @@ func CreateJWT(claims Claims, secret string) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodRS256, mapClaims)
-	signedToken, err := token.SignedString([]byte(secret))
+	signedToken, err := token.SignedString(key)
 	if err != nil {
 		return "", err
 	}
@@ -57,7 +58,7 @@ func CreateJWT(claims Claims, secret string) (string, error) {
 	return signedToken, nil
 }
 
-func VerifyJWT(token string, secret string) (*Claims, error) {
+func VerifyJWT(token string, key *rsa.PublicKey) (*Claims, error) {
 	// check JTI against database to prevent replay attacks (if not exist, delete session - logout)
 	// check if not before nbf or iat
 	// check if not after exp
@@ -76,7 +77,7 @@ func VerifyJWT(token string, secret string) (*Claims, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodRSA); !ok {
 			return nil, stdErrors.Join(jwt.ErrSignatureInvalid, errors.InvalidCredentials)
 		}
-		return []byte(secret), nil
+		return key, nil
 	})
 
 	if err != nil {

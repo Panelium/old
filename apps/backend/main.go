@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+	"panelium/backend/internal/config"
 	"panelium/backend/internal/global"
 	"panelium/backend/internal/handler"
 	"panelium/backend/internal/security"
@@ -19,7 +20,12 @@ func main() {
 		return
 	}
 
-	err := global.Init()
+	err := config.Init()
+	if err != nil {
+		log.Fatalf("Failed to initialize configuration: %v", err)
+		return
+	}
+	err = global.Init()
 	if err != nil {
 		log.Fatalf("Failed to initialize global settings: %v", err)
 		return
