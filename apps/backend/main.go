@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 	"panelium/backend/internal/config"
-	"panelium/backend/internal/global"
+	"panelium/backend/internal/db"
 	"panelium/backend/internal/handler"
 	"panelium/backend/internal/security"
 	"panelium/common/id"
@@ -25,9 +25,10 @@ func main() {
 		log.Fatalf("Failed to initialize configuration: %v", err)
 		return
 	}
-	err = global.Init()
+
+	err = db.Init()
 	if err != nil {
-		log.Fatalf("Failed to initialize global settings: %v", err)
+		log.Fatalf("Failed to initialize database: %v", err)
 		return
 	}
 

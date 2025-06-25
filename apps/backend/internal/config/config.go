@@ -14,7 +14,7 @@ import (
 
 // TODO: should make this thread safe with a mutex
 
-const basePath = "/etc/panelium"
+const BasePath = "/etc/panelium"
 
 // File names
 const gitignoreFileName = ".gitignore"
@@ -22,13 +22,15 @@ const configFileName = "config.json"
 const secretsFileName = "secrets.json"
 const jwtPrivateKeyFileName = "jwt_private_key.pem"
 const jwtPublicKeyFileName = "jwt_public_key.pem"
+const DatabaseFileName = "panelium.db"
 
 // File Locations
-const gitignoreLocation = basePath + "/" + gitignoreFileName
-const configLocation = basePath + "/" + configFileName
-const secretsLocation = basePath + "/" + secretsFileName
-const jwtPrivateKeyLocation = basePath + "/" + jwtPrivateKeyFileName
-const jwtPublicKeyLocation = basePath + "/" + jwtPublicKeyFileName
+const gitignoreLocation = BasePath + "/" + gitignoreFileName
+const configLocation = BasePath + "/" + configFileName
+const secretsLocation = BasePath + "/" + secretsFileName
+const jwtPrivateKeyLocation = BasePath + "/" + jwtPrivateKeyFileName
+const jwtPublicKeyLocation = BasePath + "/" + jwtPublicKeyFileName
+const DatabaseLocation = BasePath + "/" + DatabaseFileName
 
 var gitignoreContent = fmt.Sprintf("%s\n%s\n%s\n", secretsFileName, jwtPrivateKeyFileName, jwtPublicKeyFileName)
 
@@ -39,7 +41,7 @@ var SecretsInstance *Secrets
 var JWTPrivateKeyInstance *rsa.PrivateKey
 
 func Init() error {
-	if err := os.MkdirAll(basePath, 0755); err != nil {
+	if err := os.MkdirAll(BasePath, 0755); err != nil {
 		return err
 	}
 

@@ -2,7 +2,7 @@ package session
 
 import (
 	stdErrors "errors"
-	"panelium/backend/internal/global"
+	"panelium/backend/internal/db"
 	"panelium/backend/internal/model"
 	"panelium/common/errors"
 	"panelium/common/id"
@@ -28,7 +28,7 @@ func CreateSession(uid string) (sessionId string, refreshToken string, accessTok
 		return "", "", "", stdErrors.Join(err, errors.SessionCreationFailed)
 	}
 
-	result := global.DB.Model(model.UserSession{}).Create(&model.UserSession{
+	result := db.Instance().Model(model.UserSession{}).Create(&model.UserSession{
 		SessionID:  sessionId,
 		UserID:     uid,
 		AccessJTI:  accessJTI,
@@ -48,7 +48,7 @@ func CreateSession(uid string) (sessionId string, refreshToken string, accessTok
 
 func RefreshSession(sessionId string) (refreshToken string, accessToken string, err error) {
 	// TODO: need to review this, might have to change the logic
-	result := global.DB.Model(model.UserSession{}).Where("session_id = ?", sessionId).First(&model.UserSession{})
+	result := db.Instance().Model(model.UserSession{}).Where("session_id = ?", sessionId).First(&model.UserSession{})
 	if result.Error != nil {
 		return "", "", stdErrors.Join(result.Error, errors.SessionNotFound)
 	}
@@ -73,7 +73,7 @@ func RefreshSession(sessionId string) (refreshToken string, accessToken string, 
 		return "", "", stdErrors.Join(err, errors.SessionCreationFailed)
 	}
 
-	result = global.DB.Model(model.UserSession{}).Where("session_id = ?", sessionId).Updates(&model.UserSession{
+	result = db.Instance().Model(model.UserSession{}).Where("session_id = ?", sessionId).Updates(&model.UserSession{
 		AccessJTI:  accessJTI,
 		RefreshJTI: refreshJTI,
 		Expiration: refreshExpiration,
@@ -89,7 +89,7 @@ func RefreshSession(sessionId string) (refreshToken string, accessToken string, 
 }
 
 func DeleteSession(sessionId string) error {
-	result := global.DB.Model(model.UserSession{}).Where("session_id = ?", sessionId).Delete(&model.UserSession{})
+	result := db.Instance().Model(model.UserSession{}).Where("session_id = ?", sessionId).Delete(&model.UserSession{})
 	if result.Error != nil {
 		return result.Error
 	}

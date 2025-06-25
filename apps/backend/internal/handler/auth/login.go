@@ -4,7 +4,7 @@ import (
 	"connectrpc.com/connect"
 	"context"
 	"panelium/backend/internal/config"
-	"panelium/backend/internal/global"
+	"panelium/backend/internal/db"
 	"panelium/backend/internal/model"
 	"panelium/backend/internal/security"
 	"panelium/backend/internal/security/session"
@@ -16,7 +16,7 @@ func (s *AuthServiceHandler) Login(
 	ctx context.Context,
 	req *connect.Request[proto_gen_go.LoginRequest],
 ) (*connect.Response[proto_gen_go.LoginResponse], error) {
-	result := global.DB.First(&model.User{}, "username = ? OR email = ?", req.Msg.Username, req.Msg.Username)
+	result := db.Instance().First(&model.User{}, "username = ? OR email = ?", req.Msg.Username, req.Msg.Username)
 	if result.RowsAffected == 0 {
 		return nil, connect.NewError(connect.CodeNotFound, errors.UserNotFound)
 	}
