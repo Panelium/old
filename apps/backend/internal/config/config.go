@@ -122,6 +122,10 @@ const DefaultAccessTokenDuration = 5 * time.Minute // 5 minutes
 const DefaultRefreshTokenDuration = 24 * time.Hour // 24 hours
 const DefaultMFATokenDuration = 15 * time.Minute   // 15 minutes
 
+const DefaultMFACodeLength = 8
+const DefaultRecoveryCodeLength = 8
+const DefaultRecoveryCodesCount = 10
+
 type Config struct {
 	// Durations of tokens in seconds
 	JWTDurations struct {
@@ -129,6 +133,11 @@ type Config struct {
 		Refresh uint `json:"refresh"`
 		MFA     uint `json:"mfa"`
 	} `json:"jwt_durations"`
+	MFA struct {
+		CodeLength         int `json:"code_length"`          // Length of the standard MFA codes (sms, email, etc.)
+		RecoveryCodeLength int `json:"recovery_code_length"` // Length of the recovery codes
+		RecoveryCodesCount int `json:"recovery_codes_count"` // Number of recovery codes
+	} `json:"mfa"`
 }
 
 func newConfig() *Config {
@@ -141,6 +150,15 @@ func newConfig() *Config {
 			Access:  uint(DefaultAccessTokenDuration.Seconds()),
 			Refresh: uint(DefaultRefreshTokenDuration.Seconds()),
 			MFA:     uint(DefaultMFATokenDuration.Seconds()),
+		},
+		MFA: struct {
+			CodeLength         int `json:"code_length"`
+			RecoveryCodeLength int `json:"recovery_code_length"`
+			RecoveryCodesCount int `json:"recovery_codes_count"`
+		}{
+			CodeLength:         DefaultMFACodeLength,
+			RecoveryCodeLength: DefaultRecoveryCodeLength,
+			RecoveryCodesCount: DefaultRecoveryCodesCount,
 		},
 	}
 }
@@ -177,6 +195,16 @@ func (c *Config) Migrate() error {
 	}
 	if c.JWTDurations.MFA == 0 {
 		c.JWTDurations.MFA = uint(DefaultMFATokenDuration.Seconds())
+	}
+
+	if c.MFA.CodeLength == 0 {
+		c.MFA.CodeLength = DefaultMFACodeLength
+	}
+	if c.MFA.RecoveryCodeLength == 0 {
+		c.MFA.RecoveryCodeLength = DefaultRecoveryCodeLength
+	}
+	if c.MFA.RecoveryCodesCount == 0 {
+		c.MFA.RecoveryCodesCount = DefaultRecoveryCodesCount
 	}
 
 	if err := c.Save(); err != nil {

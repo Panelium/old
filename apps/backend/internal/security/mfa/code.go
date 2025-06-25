@@ -3,17 +3,13 @@ package mfa
 import (
 	"crypto/rand"
 	"math/big"
+	"panelium/backend/internal/config"
 )
 
 const mfaCodeCharset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-// TODO: maybe config?
-const DefaultMFACodeLength = 8
-const DefaultRecoveryCodeLength = 8
-const DefaultRecoveryCodesCount = 10
-
-func GenerateMFACode(mfaCodeLength int) (string, error) {
-	code := make([]byte, mfaCodeLength)
+func generateCode(length int) (string, error) {
+	code := make([]byte, length)
 
 	for i := range code {
 		index, err := rand.Int(rand.Reader, big.NewInt(int64(len(mfaCodeCharset))))
@@ -26,11 +22,28 @@ func GenerateMFACode(mfaCodeLength int) (string, error) {
 	return string(code), nil
 }
 
-func GenerateRecoveryCodes(recoveryCodeLength int, recoveryCodesCount int) ([]string, error) {
-	codes := make([]string, recoveryCodesCount)
+func GenerateMFACode() (string, error) {
+	code, err := generateCode(config.ConfigInstance.MFA.CodeLength)
+	if err != nil {
+		return "", err
+	}
+	return code, nil
+}
 
-	for i := 0; i < recoveryCodesCount; i++ {
-		code, err := GenerateMFACode(recoveryCodeLength)
+func generateRecoveryCode() (string, error) {
+	code, err := generateCode(config.ConfigInstance.MFA.RecoveryCodeLength)
+	if err != nil {
+		return "", err
+	}
+	return code, nil
+}
+
+func GenerateRecoveryCodes() ([]string, error) {
+	count := config.ConfigInstance.MFA.RecoveryCodesCount
+	codes := make([]string, count)
+
+	for i := 0; i < count; i++ {
+		code, err := generateRecoveryCode()
 		if err != nil {
 			return nil, err
 		}
