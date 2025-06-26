@@ -14,7 +14,7 @@ import (
 
 var AuthenticationMiddleware = authn.NewMiddleware(authentication)
 
-var errorInvalidCredentials = connect.NewError(401, errors.InvalidCredentials)
+var errorInvalidCredentials = connect.NewError(connect.CodeUnauthenticated, errors.InvalidCredentials)
 
 type SessionInfo struct {
 	SessionID string
@@ -34,7 +34,7 @@ func authentication(_ context.Context, req *http.Request) (any, error) {
 
 	result := db.Instance().Model(&model.UserSession{}).First(&model.UserSession{}, "session_id = ? AND user_id = ?", claims.Audience, *claims.Subject)
 	if result.Error != nil || result.RowsAffected == 0 {
-		return nil, connect.NewError(connect.CodeInternal, errors.SessionNotFound)
+		return nil, connect.NewError(connect.CodeUnauthenticated, errors.SessionNotFound)
 	}
 	session := &model.UserSession{}
 	if err := result.Scan(session); err.Error != nil {
@@ -44,7 +44,7 @@ func authentication(_ context.Context, req *http.Request) (any, error) {
 	if session.AccessJTI != claims.JTI {
 		// possible replay attack - delete the session to log out the user
 		db.Instance().Model(&model.UserSession{}).Where("session_id = ?", claims.Audience).Delete(&model.UserSession{})
-		return nil, connect.NewError(connect.CodeUnauthenticated, errors.InvalidCredentials)
+		return nil, errorInvalidCredentials
 	}
 
 	return SessionInfo{
