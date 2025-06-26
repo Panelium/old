@@ -2,6 +2,41 @@ openapi: 3.1.0
 info:
   title: backend
 paths:
+  /backend.AuthService/Register:
+    post:
+      tags:
+        - backend.AuthService
+      summary: Register
+      operationId: backend.AuthService.Register
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend.RegisterRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.RegisterResponse'
   /backend.AuthService/Login:
     post:
       tags:
@@ -271,6 +306,35 @@ components:
       title: RefreshTokenResponse
       additionalProperties: false
       description: 'note: if refresh token reuse - revoke all user tokens'
+    backend.RegisterRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          title: email
+        username:
+          type: string
+          title: username
+        password:
+          type: string
+          title: password
+      title: RegisterRequest
+      additionalProperties: false
+    backend.RegisterResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          title: access_token
+          description: cookie, only if register success
+          nullable: true
+        refreshToken:
+          type: string
+          title: refresh_token
+          description: cookie, only if register success
+          nullable: true
+      title: RegisterResponse
+      additionalProperties: false
     backend.RequestMFACodeRequest:
       type: object
       properties:

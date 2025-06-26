@@ -73,6 +73,118 @@ func (MFAType) EnumDescriptor() ([]byte, []int) {
 	return file_backend_proto_rawDescGZIP(), []int{0}
 }
 
+type RegisterRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Email         string                 `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	Username      string                 `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`
+	Password      string                 `protobuf:"bytes,3,opt,name=password,proto3" json:"password,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RegisterRequest) Reset() {
+	*x = RegisterRequest{}
+	mi := &file_backend_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RegisterRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RegisterRequest) ProtoMessage() {}
+
+func (x *RegisterRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RegisterRequest.ProtoReflect.Descriptor instead.
+func (*RegisterRequest) Descriptor() ([]byte, []int) {
+	return file_backend_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *RegisterRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *RegisterRequest) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *RegisterRequest) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+type RegisterResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AccessToken   *string                `protobuf:"bytes,1,opt,name=access_token,json=accessToken,proto3,oneof" json:"access_token,omitempty"`    // cookie, only if register success
+	RefreshToken  *string                `protobuf:"bytes,2,opt,name=refresh_token,json=refreshToken,proto3,oneof" json:"refresh_token,omitempty"` // cookie, only if register success
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RegisterResponse) Reset() {
+	*x = RegisterResponse{}
+	mi := &file_backend_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RegisterResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RegisterResponse) ProtoMessage() {}
+
+func (x *RegisterResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RegisterResponse.ProtoReflect.Descriptor instead.
+func (*RegisterResponse) Descriptor() ([]byte, []int) {
+	return file_backend_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *RegisterResponse) GetAccessToken() string {
+	if x != nil && x.AccessToken != nil {
+		return *x.AccessToken
+	}
+	return ""
+}
+
+func (x *RegisterResponse) GetRefreshToken() string {
+	if x != nil && x.RefreshToken != nil {
+		return *x.RefreshToken
+	}
+	return ""
+}
+
 type LoginRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
@@ -83,7 +195,7 @@ type LoginRequest struct {
 
 func (x *LoginRequest) Reset() {
 	*x = LoginRequest{}
-	mi := &file_backend_proto_msgTypes[0]
+	mi := &file_backend_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -95,7 +207,7 @@ func (x *LoginRequest) String() string {
 func (*LoginRequest) ProtoMessage() {}
 
 func (x *LoginRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_proto_msgTypes[0]
+	mi := &file_backend_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -108,7 +220,7 @@ func (x *LoginRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LoginRequest.ProtoReflect.Descriptor instead.
 func (*LoginRequest) Descriptor() ([]byte, []int) {
-	return file_backend_proto_rawDescGZIP(), []int{0}
+	return file_backend_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *LoginRequest) GetUsername() string {
@@ -138,7 +250,7 @@ type LoginResponse struct {
 
 func (x *LoginResponse) Reset() {
 	*x = LoginResponse{}
-	mi := &file_backend_proto_msgTypes[1]
+	mi := &file_backend_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -150,7 +262,7 @@ func (x *LoginResponse) String() string {
 func (*LoginResponse) ProtoMessage() {}
 
 func (x *LoginResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_proto_msgTypes[1]
+	mi := &file_backend_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -163,7 +275,7 @@ func (x *LoginResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LoginResponse.ProtoReflect.Descriptor instead.
 func (*LoginResponse) Descriptor() ([]byte, []int) {
-	return file_backend_proto_rawDescGZIP(), []int{1}
+	return file_backend_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *LoginResponse) GetAccessToken() string {
@@ -211,7 +323,7 @@ type RequestMFACodeRequest struct {
 
 func (x *RequestMFACodeRequest) Reset() {
 	*x = RequestMFACodeRequest{}
-	mi := &file_backend_proto_msgTypes[2]
+	mi := &file_backend_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -223,7 +335,7 @@ func (x *RequestMFACodeRequest) String() string {
 func (*RequestMFACodeRequest) ProtoMessage() {}
 
 func (x *RequestMFACodeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_proto_msgTypes[2]
+	mi := &file_backend_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -236,7 +348,7 @@ func (x *RequestMFACodeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RequestMFACodeRequest.ProtoReflect.Descriptor instead.
 func (*RequestMFACodeRequest) Descriptor() ([]byte, []int) {
-	return file_backend_proto_rawDescGZIP(), []int{2}
+	return file_backend_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *RequestMFACodeRequest) GetMfaSessionToken() string {
@@ -263,7 +375,7 @@ type VerifyMFARequest struct {
 
 func (x *VerifyMFARequest) Reset() {
 	*x = VerifyMFARequest{}
-	mi := &file_backend_proto_msgTypes[3]
+	mi := &file_backend_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -275,7 +387,7 @@ func (x *VerifyMFARequest) String() string {
 func (*VerifyMFARequest) ProtoMessage() {}
 
 func (x *VerifyMFARequest) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_proto_msgTypes[3]
+	mi := &file_backend_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -288,7 +400,7 @@ func (x *VerifyMFARequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VerifyMFARequest.ProtoReflect.Descriptor instead.
 func (*VerifyMFARequest) Descriptor() ([]byte, []int) {
-	return file_backend_proto_rawDescGZIP(), []int{3}
+	return file_backend_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *VerifyMFARequest) GetMfaSessionToken() string {
@@ -318,7 +430,7 @@ type VerifyMFAResponse struct {
 
 func (x *VerifyMFAResponse) Reset() {
 	*x = VerifyMFAResponse{}
-	mi := &file_backend_proto_msgTypes[4]
+	mi := &file_backend_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -330,7 +442,7 @@ func (x *VerifyMFAResponse) String() string {
 func (*VerifyMFAResponse) ProtoMessage() {}
 
 func (x *VerifyMFAResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_proto_msgTypes[4]
+	mi := &file_backend_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -343,7 +455,7 @@ func (x *VerifyMFAResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use VerifyMFAResponse.ProtoReflect.Descriptor instead.
 func (*VerifyMFAResponse) Descriptor() ([]byte, []int) {
-	return file_backend_proto_rawDescGZIP(), []int{4}
+	return file_backend_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *VerifyMFAResponse) GetAccessToken() string {
@@ -390,7 +502,7 @@ type RefreshTokenRequest struct {
 
 func (x *RefreshTokenRequest) Reset() {
 	*x = RefreshTokenRequest{}
-	mi := &file_backend_proto_msgTypes[5]
+	mi := &file_backend_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -402,7 +514,7 @@ func (x *RefreshTokenRequest) String() string {
 func (*RefreshTokenRequest) ProtoMessage() {}
 
 func (x *RefreshTokenRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_proto_msgTypes[5]
+	mi := &file_backend_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -415,7 +527,7 @@ func (x *RefreshTokenRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RefreshTokenRequest.ProtoReflect.Descriptor instead.
 func (*RefreshTokenRequest) Descriptor() ([]byte, []int) {
-	return file_backend_proto_rawDescGZIP(), []int{5}
+	return file_backend_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *RefreshTokenRequest) GetRefreshToken() string {
@@ -435,7 +547,7 @@ type RefreshTokenResponse struct {
 
 func (x *RefreshTokenResponse) Reset() {
 	*x = RefreshTokenResponse{}
-	mi := &file_backend_proto_msgTypes[6]
+	mi := &file_backend_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -447,7 +559,7 @@ func (x *RefreshTokenResponse) String() string {
 func (*RefreshTokenResponse) ProtoMessage() {}
 
 func (x *RefreshTokenResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_proto_msgTypes[6]
+	mi := &file_backend_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -460,7 +572,7 @@ func (x *RefreshTokenResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RefreshTokenResponse.ProtoReflect.Descriptor instead.
 func (*RefreshTokenResponse) Descriptor() ([]byte, []int) {
-	return file_backend_proto_rawDescGZIP(), []int{6}
+	return file_backend_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *RefreshTokenResponse) GetAccessToken() string {
@@ -486,7 +598,7 @@ type LogoutRequest struct {
 
 func (x *LogoutRequest) Reset() {
 	*x = LogoutRequest{}
-	mi := &file_backend_proto_msgTypes[7]
+	mi := &file_backend_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -498,7 +610,7 @@ func (x *LogoutRequest) String() string {
 func (*LogoutRequest) ProtoMessage() {}
 
 func (x *LogoutRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_proto_msgTypes[7]
+	mi := &file_backend_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -511,7 +623,7 @@ func (x *LogoutRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LogoutRequest.ProtoReflect.Descriptor instead.
 func (*LogoutRequest) Descriptor() ([]byte, []int) {
-	return file_backend_proto_rawDescGZIP(), []int{7}
+	return file_backend_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *LogoutRequest) GetAccessToken() string {
@@ -530,7 +642,7 @@ type LogoutResponse struct {
 
 func (x *LogoutResponse) Reset() {
 	*x = LogoutResponse{}
-	mi := &file_backend_proto_msgTypes[8]
+	mi := &file_backend_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -542,7 +654,7 @@ func (x *LogoutResponse) String() string {
 func (*LogoutResponse) ProtoMessage() {}
 
 func (x *LogoutResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_proto_msgTypes[8]
+	mi := &file_backend_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -555,7 +667,7 @@ func (x *LogoutResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LogoutResponse.ProtoReflect.Descriptor instead.
 func (*LogoutResponse) Descriptor() ([]byte, []int) {
-	return file_backend_proto_rawDescGZIP(), []int{8}
+	return file_backend_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *LogoutResponse) GetSuccess() bool {
@@ -569,7 +681,16 @@ var File_backend_proto protoreflect.FileDescriptor
 
 const file_backend_proto_rawDesc = "" +
 	"\n" +
-	"\rbackend.proto\x12\abackend\x1a\fcommon.proto\"F\n" +
+	"\rbackend.proto\x12\abackend\x1a\fcommon.proto\"_\n" +
+	"\x0fRegisterRequest\x12\x14\n" +
+	"\x05email\x18\x01 \x01(\tR\x05email\x12\x1a\n" +
+	"\busername\x18\x02 \x01(\tR\busername\x12\x1a\n" +
+	"\bpassword\x18\x03 \x01(\tR\bpassword\"\x87\x01\n" +
+	"\x10RegisterResponse\x12&\n" +
+	"\faccess_token\x18\x01 \x01(\tH\x00R\vaccessToken\x88\x01\x01\x12(\n" +
+	"\rrefresh_token\x18\x02 \x01(\tH\x01R\frefreshToken\x88\x01\x01B\x0f\n" +
+	"\r_access_tokenB\x10\n" +
+	"\x0e_refresh_token\"F\n" +
 	"\fLoginRequest\x12\x1a\n" +
 	"\busername\x18\x01 \x01(\tR\busername\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\"\xae\x02\n" +
@@ -616,8 +737,9 @@ const file_backend_proto_rawDesc = "" +
 	"\x14MFA_TYPE_UNSPECIFIED\x10\x00\x12\x11\n" +
 	"\rMFA_TYPE_TOTP\x10\x01\x12\x10\n" +
 	"\fMFA_TYPE_SMS\x10\x02\x12\x12\n" +
-	"\x0eMFA_TYPE_EMAIL\x10\x032\xdc\x02\n" +
-	"\vAuthService\x128\n" +
+	"\x0eMFA_TYPE_EMAIL\x10\x032\x9f\x03\n" +
+	"\vAuthService\x12A\n" +
+	"\bRegister\x12\x18.backend.RegisterRequest\x1a\x19.backend.RegisterResponse\"\x00\x128\n" +
 	"\x05Login\x12\x15.backend.LoginRequest\x1a\x16.backend.LoginResponse\"\x00\x12A\n" +
 	"\x0eRequestMFACode\x12\x1e.backend.RequestMFACodeRequest\x1a\r.common.Empty\"\x00\x12D\n" +
 	"\tVerifyMFA\x12\x19.backend.VerifyMFARequest\x1a\x1a.backend.VerifyMFAResponse\"\x00\x12M\n" +
@@ -637,36 +759,40 @@ func file_backend_proto_rawDescGZIP() []byte {
 }
 
 var file_backend_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_backend_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_backend_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_backend_proto_goTypes = []any{
 	(MFAType)(0),                  // 0: backend.MFAType
-	(*LoginRequest)(nil),          // 1: backend.LoginRequest
-	(*LoginResponse)(nil),         // 2: backend.LoginResponse
-	(*RequestMFACodeRequest)(nil), // 3: backend.RequestMFACodeRequest
-	(*VerifyMFARequest)(nil),      // 4: backend.VerifyMFARequest
-	(*VerifyMFAResponse)(nil),     // 5: backend.VerifyMFAResponse
-	(*RefreshTokenRequest)(nil),   // 6: backend.RefreshTokenRequest
-	(*RefreshTokenResponse)(nil),  // 7: backend.RefreshTokenResponse
-	(*LogoutRequest)(nil),         // 8: backend.LogoutRequest
-	(*LogoutResponse)(nil),        // 9: backend.LogoutResponse
-	(*Empty)(nil),                 // 10: common.Empty
+	(*RegisterRequest)(nil),       // 1: backend.RegisterRequest
+	(*RegisterResponse)(nil),      // 2: backend.RegisterResponse
+	(*LoginRequest)(nil),          // 3: backend.LoginRequest
+	(*LoginResponse)(nil),         // 4: backend.LoginResponse
+	(*RequestMFACodeRequest)(nil), // 5: backend.RequestMFACodeRequest
+	(*VerifyMFARequest)(nil),      // 6: backend.VerifyMFARequest
+	(*VerifyMFAResponse)(nil),     // 7: backend.VerifyMFAResponse
+	(*RefreshTokenRequest)(nil),   // 8: backend.RefreshTokenRequest
+	(*RefreshTokenResponse)(nil),  // 9: backend.RefreshTokenResponse
+	(*LogoutRequest)(nil),         // 10: backend.LogoutRequest
+	(*LogoutResponse)(nil),        // 11: backend.LogoutResponse
+	(*Empty)(nil),                 // 12: common.Empty
 }
 var file_backend_proto_depIdxs = []int32{
 	0,  // 0: backend.LoginResponse.mfa_type_available:type_name -> backend.MFAType
 	0,  // 1: backend.RequestMFACodeRequest.mfa_type:type_name -> backend.MFAType
 	0,  // 2: backend.VerifyMFAResponse.mfa_types_available:type_name -> backend.MFAType
-	1,  // 3: backend.AuthService.Login:input_type -> backend.LoginRequest
-	3,  // 4: backend.AuthService.RequestMFACode:input_type -> backend.RequestMFACodeRequest
-	4,  // 5: backend.AuthService.VerifyMFA:input_type -> backend.VerifyMFARequest
-	6,  // 6: backend.AuthService.RefreshToken:input_type -> backend.RefreshTokenRequest
-	8,  // 7: backend.AuthService.Logout:input_type -> backend.LogoutRequest
-	2,  // 8: backend.AuthService.Login:output_type -> backend.LoginResponse
-	10, // 9: backend.AuthService.RequestMFACode:output_type -> common.Empty
-	5,  // 10: backend.AuthService.VerifyMFA:output_type -> backend.VerifyMFAResponse
-	7,  // 11: backend.AuthService.RefreshToken:output_type -> backend.RefreshTokenResponse
-	9,  // 12: backend.AuthService.Logout:output_type -> backend.LogoutResponse
-	8,  // [8:13] is the sub-list for method output_type
-	3,  // [3:8] is the sub-list for method input_type
+	1,  // 3: backend.AuthService.Register:input_type -> backend.RegisterRequest
+	3,  // 4: backend.AuthService.Login:input_type -> backend.LoginRequest
+	5,  // 5: backend.AuthService.RequestMFACode:input_type -> backend.RequestMFACodeRequest
+	6,  // 6: backend.AuthService.VerifyMFA:input_type -> backend.VerifyMFARequest
+	8,  // 7: backend.AuthService.RefreshToken:input_type -> backend.RefreshTokenRequest
+	10, // 8: backend.AuthService.Logout:input_type -> backend.LogoutRequest
+	2,  // 9: backend.AuthService.Register:output_type -> backend.RegisterResponse
+	4,  // 10: backend.AuthService.Login:output_type -> backend.LoginResponse
+	12, // 11: backend.AuthService.RequestMFACode:output_type -> common.Empty
+	7,  // 12: backend.AuthService.VerifyMFA:output_type -> backend.VerifyMFAResponse
+	9,  // 13: backend.AuthService.RefreshToken:output_type -> backend.RefreshTokenResponse
+	11, // 14: backend.AuthService.Logout:output_type -> backend.LogoutResponse
+	9,  // [9:15] is the sub-list for method output_type
+	3,  // [3:9] is the sub-list for method input_type
 	3,  // [3:3] is the sub-list for extension type_name
 	3,  // [3:3] is the sub-list for extension extendee
 	0,  // [0:3] is the sub-list for field type_name
@@ -679,19 +805,20 @@ func file_backend_proto_init() {
 	}
 	file_common_proto_init()
 	file_backend_proto_msgTypes[1].OneofWrappers = []any{}
-	file_backend_proto_msgTypes[2].OneofWrappers = []any{}
 	file_backend_proto_msgTypes[3].OneofWrappers = []any{}
 	file_backend_proto_msgTypes[4].OneofWrappers = []any{}
 	file_backend_proto_msgTypes[5].OneofWrappers = []any{}
 	file_backend_proto_msgTypes[6].OneofWrappers = []any{}
 	file_backend_proto_msgTypes[7].OneofWrappers = []any{}
+	file_backend_proto_msgTypes[8].OneofWrappers = []any{}
+	file_backend_proto_msgTypes[9].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_backend_proto_rawDesc), len(file_backend_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   9,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

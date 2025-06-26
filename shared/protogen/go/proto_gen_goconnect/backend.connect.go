@@ -33,6 +33,8 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
+	// AuthServiceRegisterProcedure is the fully-qualified name of the AuthService's Register RPC.
+	AuthServiceRegisterProcedure = "/backend.AuthService/Register"
 	// AuthServiceLoginProcedure is the fully-qualified name of the AuthService's Login RPC.
 	AuthServiceLoginProcedure = "/backend.AuthService/Login"
 	// AuthServiceRequestMFACodeProcedure is the fully-qualified name of the AuthService's
@@ -49,6 +51,7 @@ const (
 
 // AuthServiceClient is a client for the backend.AuthService service.
 type AuthServiceClient interface {
+	Register(context.Context, *connect.Request[proto_gen_go.RegisterRequest]) (*connect.Response[proto_gen_go.RegisterResponse], error)
 	Login(context.Context, *connect.Request[proto_gen_go.LoginRequest]) (*connect.Response[proto_gen_go.LoginResponse], error)
 	RequestMFACode(context.Context, *connect.Request[proto_gen_go.RequestMFACodeRequest]) (*connect.Response[proto_gen_go.Empty], error)
 	VerifyMFA(context.Context, *connect.Request[proto_gen_go.VerifyMFARequest]) (*connect.Response[proto_gen_go.VerifyMFAResponse], error)
@@ -67,6 +70,12 @@ func NewAuthServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 	baseURL = strings.TrimRight(baseURL, "/")
 	authServiceMethods := proto_gen_go.File_backend_proto.Services().ByName("AuthService").Methods()
 	return &authServiceClient{
+		register: connect.NewClient[proto_gen_go.RegisterRequest, proto_gen_go.RegisterResponse](
+			httpClient,
+			baseURL+AuthServiceRegisterProcedure,
+			connect.WithSchema(authServiceMethods.ByName("Register")),
+			connect.WithClientOptions(opts...),
+		),
 		login: connect.NewClient[proto_gen_go.LoginRequest, proto_gen_go.LoginResponse](
 			httpClient,
 			baseURL+AuthServiceLoginProcedure,
@@ -102,11 +111,17 @@ func NewAuthServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 
 // authServiceClient implements AuthServiceClient.
 type authServiceClient struct {
+	register       *connect.Client[proto_gen_go.RegisterRequest, proto_gen_go.RegisterResponse]
 	login          *connect.Client[proto_gen_go.LoginRequest, proto_gen_go.LoginResponse]
 	requestMFACode *connect.Client[proto_gen_go.RequestMFACodeRequest, proto_gen_go.Empty]
 	verifyMFA      *connect.Client[proto_gen_go.VerifyMFARequest, proto_gen_go.VerifyMFAResponse]
 	refreshToken   *connect.Client[proto_gen_go.RefreshTokenRequest, proto_gen_go.RefreshTokenResponse]
 	logout         *connect.Client[proto_gen_go.LogoutRequest, proto_gen_go.LogoutResponse]
+}
+
+// Register calls backend.AuthService.Register.
+func (c *authServiceClient) Register(ctx context.Context, req *connect.Request[proto_gen_go.RegisterRequest]) (*connect.Response[proto_gen_go.RegisterResponse], error) {
+	return c.register.CallUnary(ctx, req)
 }
 
 // Login calls backend.AuthService.Login.
@@ -136,6 +151,7 @@ func (c *authServiceClient) Logout(ctx context.Context, req *connect.Request[pro
 
 // AuthServiceHandler is an implementation of the backend.AuthService service.
 type AuthServiceHandler interface {
+	Register(context.Context, *connect.Request[proto_gen_go.RegisterRequest]) (*connect.Response[proto_gen_go.RegisterResponse], error)
 	Login(context.Context, *connect.Request[proto_gen_go.LoginRequest]) (*connect.Response[proto_gen_go.LoginResponse], error)
 	RequestMFACode(context.Context, *connect.Request[proto_gen_go.RequestMFACodeRequest]) (*connect.Response[proto_gen_go.Empty], error)
 	VerifyMFA(context.Context, *connect.Request[proto_gen_go.VerifyMFARequest]) (*connect.Response[proto_gen_go.VerifyMFAResponse], error)
@@ -150,6 +166,12 @@ type AuthServiceHandler interface {
 // and JSON codecs. They also support gzip compression.
 func NewAuthServiceHandler(svc AuthServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
 	authServiceMethods := proto_gen_go.File_backend_proto.Services().ByName("AuthService").Methods()
+	authServiceRegisterHandler := connect.NewUnaryHandler(
+		AuthServiceRegisterProcedure,
+		svc.Register,
+		connect.WithSchema(authServiceMethods.ByName("Register")),
+		connect.WithHandlerOptions(opts...),
+	)
 	authServiceLoginHandler := connect.NewUnaryHandler(
 		AuthServiceLoginProcedure,
 		svc.Login,
@@ -182,6 +204,8 @@ func NewAuthServiceHandler(svc AuthServiceHandler, opts ...connect.HandlerOption
 	)
 	return "/backend.AuthService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
+		case AuthServiceRegisterProcedure:
+			authServiceRegisterHandler.ServeHTTP(w, r)
 		case AuthServiceLoginProcedure:
 			authServiceLoginHandler.ServeHTTP(w, r)
 		case AuthServiceRequestMFACodeProcedure:
@@ -200,6 +224,10 @@ func NewAuthServiceHandler(svc AuthServiceHandler, opts ...connect.HandlerOption
 
 // UnimplementedAuthServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedAuthServiceHandler struct{}
+
+func (UnimplementedAuthServiceHandler) Register(context.Context, *connect.Request[proto_gen_go.RegisterRequest]) (*connect.Response[proto_gen_go.RegisterResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.AuthService.Register is not implemented"))
+}
 
 func (UnimplementedAuthServiceHandler) Login(context.Context, *connect.Request[proto_gen_go.LoginRequest]) (*connect.Response[proto_gen_go.LoginResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.AuthService.Login is not implemented"))
