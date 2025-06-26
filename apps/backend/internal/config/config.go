@@ -9,10 +9,9 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"sync"
 	"time"
 )
-
-// TODO: should make this thread safe with a mutex
 
 const BasePath = "/etc/panelium"
 
@@ -126,7 +125,9 @@ const DefaultMFACodeLength = 8
 const DefaultRecoveryCodeLength = 8
 const DefaultRecoveryCodesCount = 10
 
+// Config values should never be accessed or modified directly as that could lead to race conditions.
 type Config struct {
+	lock sync.RWMutex
 	// Durations of tokens in seconds
 	JWTDurations struct {
 		Access  uint `json:"access"`
@@ -142,6 +143,7 @@ type Config struct {
 
 func newConfig() *Config {
 	return &Config{
+		lock: sync.RWMutex{},
 		JWTDurations: struct {
 			Access  uint `json:"access"`
 			Refresh uint `json:"refresh"`
@@ -187,6 +189,8 @@ func loadConfig() (*Config, error) {
 }
 
 func (c *Config) Migrate() error {
+	c.lock.Lock()
+
 	if c.JWTDurations.Access == 0 {
 		c.JWTDurations.Access = uint(DefaultAccessTokenDuration.Seconds())
 	}
@@ -207,6 +211,8 @@ func (c *Config) Migrate() error {
 		c.MFA.RecoveryCodesCount = DefaultRecoveryCodesCount
 	}
 
+	c.lock.Unlock()
+
 	if err := c.Save(); err != nil {
 		return err
 	}
@@ -215,36 +221,54 @@ func (c *Config) Migrate() error {
 }
 
 func (c *Config) Save() error {
-	file, err := os.Create(configLocation)
+	c.lock.Lock()
+	data, err := json.MarshalIndent(c, "", "  ")
+	c.lock.Unlock()
+
 	if err != nil {
 		return err
 	}
-	defer file.Close()
 
-	encoder := json.NewEncoder(file)
-	encoder.SetIndent("", "  ")
-	return encoder.Encode(c)
+	return os.WriteFile(configLocation, data, 0644)
 }
 
 func (c *Config) GetAccessTokenDuration() time.Duration {
-	return time.Duration(c.JWTDurations.Access) * time.Second
+	c.lock.RLock()
+	defer c.lock.RUnlock()
+
+	val := time.Duration(c.JWTDurations.Access) * time.Second
+
+	return val
 }
 
 func (c *Config) GetRefreshTokenDuration() time.Duration {
-	return time.Duration(c.JWTDurations.Refresh) * time.Second
+	c.lock.RLock()
+	defer c.lock.RUnlock()
+
+	val := time.Duration(c.JWTDurations.Refresh) * time.Second
+
+	return val
 }
 
 func (c *Config) GetMFATokenDuration() time.Duration {
-	return time.Duration(c.JWTDurations.MFA) * time.Second
+	c.lock.RLock()
+	defer c.lock.RUnlock()
+
+	val := time.Duration(c.JWTDurations.MFA) * time.Second
+
+	return val
 }
 
+// Secrets values should never be accessed or modified directly as that could lead to race conditions.
 type Secrets struct {
-	pepper string `json:"pepper"`
+	lock   sync.RWMutex
+	Pepper string `json:"pepper"`
 }
 
 func newSecrets() *Secrets {
 	return &Secrets{
-		pepper: rand.Text(),
+		lock:   sync.RWMutex{},
+		Pepper: rand.Text(),
 	}
 }
 
@@ -272,9 +296,13 @@ func loadSecrets() (*Secrets, error) {
 }
 
 func (s *Secrets) Migrate() error {
-	if s.pepper == "" {
-		s.pepper = rand.Text()
+	s.lock.Lock()
+
+	if s.Pepper == "" {
+		s.Pepper = rand.Text()
 	}
+
+	s.lock.Unlock()
 
 	if err := s.Save(); err != nil {
 		return err
@@ -284,19 +312,24 @@ func (s *Secrets) Migrate() error {
 }
 
 func (s *Secrets) Save() error {
-	file, err := os.Create(secretsLocation)
+	s.lock.Lock()
+	data, err := json.MarshalIndent(s, "", "  ")
+	s.lock.Unlock()
+
 	if err != nil {
 		return err
 	}
-	defer file.Close()
 
-	encoder := json.NewEncoder(file)
-	encoder.SetIndent("", "  ")
-	return encoder.Encode(s)
+	return os.WriteFile(secretsLocation, data, 0600)
 }
 
 func (s *Secrets) GetPepper() string {
-	return s.pepper
+	s.lock.RLock()
+	defer s.lock.RUnlock()
+
+	val := s.Pepper
+
+	return val
 }
 
 func loadJWTPrivateKey() (*rsa.PrivateKey, error) {
