@@ -5,6 +5,7 @@ import (
 	stdErrors "errors"
 	"github.com/golang-jwt/jwt/v5"
 	"panelium/common/errors"
+	"time"
 )
 
 type TokenType string
@@ -58,24 +59,14 @@ func CreateJWT(claims Claims, key *rsa.PrivateKey) (string, error) {
 	return signedToken, nil
 }
 
-func VerifyJWT(token string, key *rsa.PublicKey) (*Claims, error) {
-	// check JTI against database to prevent replay attacks (if not exist, delete session - logout)
-	// check if not before nbf or iat
-	// check if not after exp
-	// check if audience is valid
-	// check if issuer is valid
-	// check if token type is valid
-	// check if token is signed with the correct algorithm
-	// check if token is signed with the correct secret
+func VerifyJWT(token string, key *rsa.PublicKey, expectedIssuer Issuer, expectedTokenType TokenType) (*Claims, error) {
+	parser := jwt.NewParser(jwt.WithIssuedAt(), jwt.WithIssuer(string(expectedIssuer)), jwt.WithExpirationRequired(), jwt.WithValidMethods([]string{jwt.SigningMethodRS256.Alg()}))
 
 	mapClaims := jwt.MapClaims{}
 
-	// https://pkg.go.dev/github.com/golang-jwt/jwt/v5#example-Parse-Hmac
-
-	// TODO: this needs to be reviewed, I have no clue what any of this does nor whether it is correct
-	parsedToken, err := jwt.ParseWithClaims(token, &mapClaims, func(token *jwt.Token) (interface{}, error) {
+	parsedToken, err := parser.ParseWithClaims(token, &mapClaims, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodRSA); !ok {
-			return nil, stdErrors.Join(jwt.ErrSignatureInvalid, errors.InvalidCredentials)
+			return nil, errors.InvalidCredentials
 		}
 		return key, nil
 	})
@@ -103,6 +94,38 @@ func VerifyJWT(token string, key *rsa.PublicKey) (*Claims, error) {
 	if sub, ok := mapClaims["sub"]; ok {
 		subStr := sub.(string)
 		claims.Subject = &subStr
+	}
+
+	if claims.Issuer != expectedIssuer {
+		return nil, errors.InvalidCredentials
+	}
+
+	if claims.TokenType != expectedTokenType {
+		return nil, errors.InvalidCredentials
+	}
+
+	if claims.Audience == "" {
+		return nil, errors.InvalidCredentials
+	}
+
+	if (claims.Subject == nil || *claims.Subject == "") && expectedTokenType != MFATokenType {
+		return nil, errors.InvalidCredentials
+	}
+
+	if claims.IssuedAt <= 0 || claims.Expiration <= 0 || claims.Expiration <= claims.IssuedAt {
+		return nil, errors.InvalidCredentials
+	}
+
+	if claims.NotBefore != nil && time.Now().Unix() < *claims.NotBefore {
+		return nil, stdErrors.New("token not valid yet (nbf)") //TODO - refactor
+	}
+
+	if time.Now().Unix() < claims.IssuedAt {
+		return nil, stdErrors.New("token issued in the future (iat)") //TODO - refactor
+	}
+
+	if time.Now().Unix() > claims.Expiration {
+		return nil, stdErrors.New("token expired (exp)") //TODO - refactor
 	}
 
 	return claims, nil
