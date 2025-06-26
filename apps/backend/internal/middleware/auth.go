@@ -6,7 +6,9 @@ import (
 	"net/http"
 )
 
-func Authentication(_ context.Context, req *http.Request) (any, error) {
+var AuthenticationMiddleware = authn.NewMiddleware(authentication)
+
+func authentication(_ context.Context, req *http.Request) (any, error) {
 	accessTokenCookie, err := req.Cookie("access_jwt")
 	if err != nil {
 		return nil, authn.Errorf("no access token")

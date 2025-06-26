@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"connectrpc.com/authn"
 	connectcors "connectrpc.com/cors"
 	"github.com/rs/cors"
 	"golang.org/x/net/http2"
@@ -24,13 +23,15 @@ func withCORS(h http.Handler) http.Handler {
 
 func Handle(host string) error {
 	mux := http.NewServeMux()
-
 	mux.Handle(proto_gen_goconnect.NewAuthServiceHandler(&auth.AuthServiceHandler{}))
 
-	authMiddleware := authn.NewMiddleware(middleware.Authentication)
-	authedMux := authMiddleware.Wrap(mux)
+	muxWithAuth := http.NewServeMux()
+	// todo
 
-	handler := h2c.NewHandler(authedMux, &http2.Server{})
+	authedHandler := middleware.AuthenticationMiddleware.Wrap(muxWithAuth)
+	mux.Handle("/", authedHandler)
+
+	handler := h2c.NewHandler(mux, &http2.Server{})
 	corsHandler := withCORS(handler)
 	err := http.ListenAndServe(
 		host,
