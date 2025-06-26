@@ -6,6 +6,8 @@ option go_package = "panelium/proto-gen-go";
 import "common.proto";
 
 service AuthService {
+  rpc Register(RegisterRequest) returns (RegisterResponse) {}
+
   rpc Login(LoginRequest) returns (LoginResponse) {}
   rpc RequestMFACode(RequestMFACodeRequest) returns (common.Empty) {}
   rpc VerifyMFA(VerifyMFARequest) returns (VerifyMFAResponse) {}
@@ -20,6 +22,17 @@ enum MFAType {
   MFA_TYPE_TOTP = 1;
   MFA_TYPE_SMS = 2;
   MFA_TYPE_EMAIL = 3;
+}
+
+message RegisterRequest {
+  string email = 1;
+  string username = 2;
+  string password = 3;
+}
+
+message RegisterResponse {
+  optional string access_token = 1; // cookie, only if register success
+  optional string refresh_token = 2; // cookie, only if register success
 }
 
 message LoginRequest {
