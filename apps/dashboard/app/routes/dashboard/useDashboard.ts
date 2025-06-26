@@ -1,5 +1,5 @@
 import { ServerStatusType } from "proto-gen-ts/daemon_pb";
-import { type Server } from "~/components/cards/server-card/";
+import { type Server } from "~/components/cards/server-card/ServerCard";
 
 interface UseDashboard {
   mockServers: Server[];

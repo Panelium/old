@@ -18,16 +18,16 @@ const ServerBar: React.FC<ResourceBarProps> = ({
   const percentage = getPercentage(value, max);
 
   const getBarColor = (percentage: number) => {
-    if (percentage > 90) return "bg-rose-500";
-    if (percentage > 75) return "bg-amber-500";
-    return "bg-emerald-500";
+    if (percentage > 90) return "bg-chart-1";
+    if (percentage > 75) return "bg-chart-5";
+    return "bg-chart-2";
   };
 
   return (
     <div className="space-y-1">
       <div className="flex items-center justify-between text-xs">
-        <span className="text-slate-600 dark:text-slate-400">{title}</span>
-        <span className="font-medium text-slate-700 dark:text-slate-300">
+        <span className="text-card-muted-foreground">{title}</span>
+        <span className="font-medium text-card-muted-foreground">
           {uiValue}
         </span>
       </div>

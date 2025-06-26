@@ -25,9 +25,9 @@ export function ResourceGauge({
   const percentage = Math.min((value / maxValue) * 100, 100);
 
   const getColor = () => {
-    if (percentage > 90) return "text-red-500";
-    if (percentage > 75) return "text-amber-500";
-    return "text-emerald-500";
+    if (percentage > 90) return "text-chart-1";
+    if (percentage > 75) return "text-chart-5";
+    return "text-chart-2";
   };
 
   const getSize = () => {
@@ -85,7 +85,7 @@ export function ResourceGauge({
           fill="none"
           stroke="currentColor"
           strokeWidth={getThickness()}
-          className="text-slate-200 dark:text-slate-800"
+          className="text-chart-background"
         />
 
         {/* Foreground circle with animation */}
@@ -113,7 +113,7 @@ export function ResourceGauge({
             {unit}
           </span>
           {label && (
-            <span className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+            <span className="text-xs text-card-foreground mt-1">
               {label}
             </span>
           )}

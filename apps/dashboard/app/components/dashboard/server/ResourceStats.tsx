@@ -2,8 +2,8 @@ import React from "react";
 import { Cpu, Database, HardDrive, Server as ServerIcon } from "lucide-react";
 
 import { Button } from "~/components/ui/button";
-import type { Server } from "~/components/cards/server-card";
-import OverviewCard from "~/components/cards/overview-card/Card";
+import type { Server } from "~/components/cards/server-card/ServerCard";
+import OverviewCard from "~/components/cards/overview-card/OverviewCard";
 
 const ResourceStats: React.FC<{ server: Server }> = ({ server }) => {
   const CPU_USAGE = {

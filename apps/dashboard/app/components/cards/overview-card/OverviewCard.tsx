@@ -9,6 +9,7 @@ import {
 import { type LucideIcon } from "lucide-react";
 import { ResourceGauge, type ResourceGaugeProps } from "../ResourceGauge";
 import OverviewBar from "~/components/bars/OverviewBar";
+import { cn } from "~/lib/utils";
 
 type GaugeProps = Omit<ResourceGaugeProps, "className">;
 
@@ -38,6 +39,8 @@ type OverviewCardProps =
   | (OverviewCardBaseProps & { footer: string; footerChildren?: never })
   | (OverviewCardBaseProps & { footer?: never; footerChildren: React.ReactNode });
 
+const overviewCardTransition = "transition-all duration-300 ease-in-out truncate";
+
 const GaugeCard: React.FC<ResourceGaugeProps> = (gauge) => {
   return (
     <>
@@ -55,7 +58,7 @@ const GaugeCard: React.FC<ResourceGaugeProps> = (gauge) => {
             {gauge.unit}
           </span>
           {gauge.subtitle && (
-            <span className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+            <span className="text-xs card-foreground mt-1">
               {gauge.subtitle}
             </span>
           )}
@@ -72,7 +75,7 @@ const ContentCard: React.FC<OverviewProps> = (content) => {
         <span className="text-3xl font-bold">{content.title}</span>
       )}
       {content?.subtitle && (
-        <span className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+        <span className="text-xs card-foreground mt-1">
           {content.subtitle}
         </span>
       )}
@@ -83,8 +86,8 @@ const ContentCard: React.FC<OverviewProps> = (content) => {
 const CardIcon: React.FC<OverviewProps> = (content) => {
   if (!content.icon) return null;
   return (
-    <div className="h-12 w-12 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center ml-4">
-      <content.icon className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+    <div className="h-12 w-12 rounded-full bg-tag-green-background/60 flex items-center justify-center ml-4">
+      <content.icon className="h-6 w-6 text-tag-green" />
     </div>
   );
 };
@@ -113,22 +116,22 @@ const OverviewCard: React.FC<OverviewCardProps> = ({
   const IconComponent = icon ? icon : () => null;
 
   return (
-    <Card className="shadow-sm hover:shadow-md transition-shadow border-slate-200 dark:border-slate-700 no-select">
+    <Card className={cn("shadow-sm hover:shadow-md transition-shadow border-border no-select", overviewCardTransition)}>
       <CardHeader className="flex flex-row pb-2 items-center gap-2">
         <IconComponent className="h-4 w-4 text-indigo-500" />
-        <CardTitle className="text-sm font-medium text-slate-500 dark:text-slate-400">
+        <CardTitle className="text-sm font-medium text-card-foreground">
           {title}
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex h-full flex-row items-center justify-between flex-grow h-full gap-2">
+      <CardContent className="flex h-full flex-row items-center justify-between flex-grow gap-2">
         {gauge && !content && <GaugeCard {...gauge} />}
         {!gauge && content && <ContentCard {...content} />}
         {!gauge && content?.icon && <CardIcon {...content} />}
         {bar && <CardBar {...bar} />}
         {!gauge && !content && !bar && children}
       </CardContent>
-      <CardFooter className="border-t border-slate-200 dark:border-slate-700">
-        <span className="flex-1 text-xs text-slate-500 dark:text-slate-400 h-3">
+      <CardFooter className="border-t border-border">
+        <span className="flex-1 text-xs text-card-foreground h-3">
           {footer || footerChildren}
         </span>
       </CardFooter>

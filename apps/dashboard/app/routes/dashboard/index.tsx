@@ -57,10 +57,10 @@ export default function DashboardOverviewPage() {
   return (
     <div className="container py-6 px-4 mx-auto max-w-7xl">
       <div className="mb-6 no-select">
-        <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-50">
+        <h1 className="text-3xl font-bold text-foreground">
           Dashboard Overview
         </h1>
-        <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
+        <p className="text-sm text-muted-foreground">
           Welcome back! Here's what's happening with your servers.
         </p>
       </div>

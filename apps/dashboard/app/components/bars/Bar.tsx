@@ -24,7 +24,7 @@ const Bar: React.FC<BarProps> = ({
       className={cn(
         sizeClasses[size],
         "w-full overflow-hidden rounded-full",
-        "bg-slate-200 dark:bg-slate-800",
+        "bg-chart-background",
         className
       )}
     >

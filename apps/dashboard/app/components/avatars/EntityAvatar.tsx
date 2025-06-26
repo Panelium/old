@@ -31,14 +31,14 @@ const EntityAvatar: React.FC<EntityAvatarProps> = ({
         <h3
           className={cn(
             "font-medium",
-            "text-slate-900 dark:text-slate-100",
+            "text-foreground",
             "group-hover:text-indigo-600 dark:group-hover:text-indigo-400",
             className
           )}
         >
           {title}
         </h3>
-        <p className="text-xs text-slate-500 dark:text-slate-400">{subTitle}</p>
+        <p className="text-xs text-faded-foreground">{subTitle}</p>
       </div>
     </div>
   );

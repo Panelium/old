@@ -218,7 +218,7 @@ export function FileManager({serverId, title = 'File Manager', className}: FileM
         <Card className={cn("shadow-sm py-0", className)}>
             <CardContent className="p-0">
                 {/* File Manager Header */}
-                <div className="border-b border-slate-200 dark:border-slate-700 p-4">
+                <div className="border-b border-border p-4">
                     <div className="flex items-center justify-between gap-4 mb-3">
                         <h3 className="text-lg font-medium">{title}</h3>
                         <div className="flex items-center gap-2">
@@ -251,7 +251,6 @@ export function FileManager({serverId, title = 'File Manager', className}: FileM
                                 <BreadcrumbItem>
                                     <BreadcrumbLink
                                         onClick={() => setCurrentPath([])}
-                                        className="cursor-pointer"
                                     >
                                         home
                                     </BreadcrumbLink>
@@ -262,7 +261,6 @@ export function FileManager({serverId, title = 'File Manager', className}: FileM
                                         <BreadcrumbItem>
                                             <BreadcrumbLink
                                                 onClick={() => setCurrentPath(currentPath.slice(0, index + 1))}
-                                                className="cursor-pointer"
                                             >
                                                 {folder}
                                             </BreadcrumbLink>
@@ -344,7 +342,6 @@ export function FileManager({serverId, title = 'File Manager', className}: FileM
                                         />
                                     </TableHead>
                                     <TableHead
-                                        className="cursor-pointer"
                                         onClick={() => handleSortChange('name')}
                                     >
                                         <div className="flex items-center">
@@ -360,7 +357,6 @@ export function FileManager({serverId, title = 'File Manager', className}: FileM
                                         </div>
                                     </TableHead>
                                     <TableHead
-                                        className="cursor-pointer"
                                         onClick={() => handleSortChange('size')}
                                     >
                                         <div className="flex items-center">
@@ -376,7 +372,6 @@ export function FileManager({serverId, title = 'File Manager', className}: FileM
                                         </div>
                                     </TableHead>
                                     <TableHead
-                                        className="cursor-pointer"
                                         onClick={() => handleSortChange('modified')}
                                     >
                                         <div className="flex items-center">
@@ -509,7 +504,7 @@ export function FileManager({serverId, title = 'File Manager', className}: FileM
                                         <ContextMenuTrigger asChild>
                                             <div
                                                 className={cn(
-                                                    "flex flex-col items-center justify-center p-4 rounded-lg border border-slate-200 dark:border-slate-700 transition-all",
+                                                    "flex flex-col items-center justify-center p-4 rounded-lg border border-border transition-all",
                                                     selectedFiles.includes(file.name) && "bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-600",
                                                     file.type === 'folder' ? "hover:bg-slate-50 dark:hover:bg-slate-800/60" : "hover:border-slate-300 dark:hover:border-slate-600",
                                                     "cursor-pointer"
@@ -599,7 +594,7 @@ export function FileManager({serverId, title = 'File Manager', className}: FileM
                                 value={newFileContent}
                                 onChange={(e) => setNewFileContent(e.target.value)}
                                 placeholder="Enter file content"
-                                className="w-full min-h-[200px] rounded-md border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500"
+                                className="w-full min-h-[200px] rounded-md border border-border bg-white dark:bg-slate-800 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500"
                             />
                         </div>
                     </div>

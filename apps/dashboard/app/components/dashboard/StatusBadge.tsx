@@ -6,20 +6,20 @@ const PULSE_STYLE = "animate-pulse";
 
 const BASE_BADGE_STYLE = "inline-flex items-center gap-1.5 px-2 py-0.5 text-xs font-medium rounded-full";
 const BadgeStyleMap: Record<ServerStatusType, string> = {
-    [ServerStatusType.UNKNOWN]: cn(BASE_BADGE_STYLE, `bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-400 border-gray-300 dark:border-gray-800/80`),
-    [ServerStatusType.ONLINE]: cn(BASE_BADGE_STYLE, `bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900/50`),
-    [ServerStatusType.STARTING]: cn(BASE_BADGE_STYLE, `bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200 dark:border-amber-900/50`),
-    [ServerStatusType.OFFLINE]: cn(BASE_BADGE_STYLE, `bg-slate-100 text-slate-700 dark:bg-slate-900/30 dark:text-slate-400 border-slate-300 dark:border-slate-800/80`),
-    [ServerStatusType.STOPPING]: cn(BASE_BADGE_STYLE, `bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400 border-rose-200 dark:border-rose-900/50`),
+    [ServerStatusType.UNKNOWN]: cn(BASE_BADGE_STYLE,  `bg-tag-gray-background/30   text-tag-gray   border-tag-gray-border/80`),
+    [ServerStatusType.ONLINE]: cn(BASE_BADGE_STYLE,   `bg-tag-green-background/30  text-tag-green  border-tag-green-border/50`),
+    [ServerStatusType.STARTING]: cn(BASE_BADGE_STYLE, `bg-tag-yellow-background/30 text-tag-yellow border-tag-yellow-border/50`),
+    [ServerStatusType.OFFLINE]: cn(BASE_BADGE_STYLE,  `bg-tag-gray-background/30   text-tag-gray   border-tag-gray-border/80`),
+    [ServerStatusType.STOPPING]: cn(BASE_BADGE_STYLE, `bg-tag-red-background/30    text-tag-red    border-tag-red-border/50`),
 }
 
 const BASE_BADGE_DOT_STYLE = "mr-1 h-1.5 w-1.5 rounded-full inline-block";
 const BadgeDotStyleMap: Record<ServerStatusType, string> = {
-    [ServerStatusType.UNKNOWN]: cn(BASE_BADGE_DOT_STYLE, `bg-gray-500 dark:bg-gray-400`),
-    [ServerStatusType.ONLINE]: cn(BASE_BADGE_DOT_STYLE, `bg-emerald-500 dark:bg-emerald-400`, PULSE_STYLE),
-    [ServerStatusType.STARTING]: cn(BASE_BADGE_DOT_STYLE, `bg-amber-500 dark:bg-amber-400`, PULSE_STYLE),
-    [ServerStatusType.OFFLINE]: cn(BASE_BADGE_DOT_STYLE, `bg-slate-500 dark:bg-slate-400`),
-    [ServerStatusType.STOPPING]: cn(BASE_BADGE_DOT_STYLE, `bg-rose-500 dark:bg-rose-400`, PULSE_STYLE),
+    [ServerStatusType.UNKNOWN]: cn(BASE_BADGE_DOT_STYLE,  `bg-tag-gray`),
+    [ServerStatusType.ONLINE]: cn(BASE_BADGE_DOT_STYLE,   `bg-tag-green`, PULSE_STYLE),
+    [ServerStatusType.STARTING]: cn(BASE_BADGE_DOT_STYLE, `bg-tag-yellow`, PULSE_STYLE),
+    [ServerStatusType.OFFLINE]: cn(BASE_BADGE_DOT_STYLE,  `bg-tag-gray`),
+    [ServerStatusType.STOPPING]: cn(BASE_BADGE_DOT_STYLE, `bg-tag-red`, PULSE_STYLE),
 }
 
 const ServerStatusTypeNames: Record<ServerStatusType, string> = {
