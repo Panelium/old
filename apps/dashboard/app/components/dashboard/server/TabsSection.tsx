@@ -23,7 +23,7 @@ const TabsSection: React.FC = () => {
         setCommand,
     } = useServer();
     return (
-        <Card className="border-border bg-card shadow-sm overflow-hidden rounded-xl py-0">
+        <Card className="border-border bg-server-card shadow-sm overflow-hidden rounded-xl py-0">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                 <TabsList
                     className="grid grid-cols-4 rounded-none border-b border-border bg-transparent p-0 h-12 no-select">

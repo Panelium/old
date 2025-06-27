@@ -13,7 +13,7 @@ const AddServerCard: React.FC = () => {
             className={cn(
                 "flex flex-col items-center justify-center no-select",
                 "border-border bg-server-card/50 hover:border-border-hover/50 hover:bg-server-card",
-                "transition-all cursor-pointer",
+                "transition-all cursor-pointer backdrop-blur-[3px]",
             )}
         >
             <div className="rounded-full bg-tag-gray-background p-3 mb-3">
