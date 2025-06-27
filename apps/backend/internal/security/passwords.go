@@ -4,11 +4,12 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"golang.org/x/crypto/argon2"
+	"panelium/backend/internal/config"
 )
 
 // hashPasswordInternal is a helper function that hashes the password using Argon2 provided salt and pepper.
-func hashPasswordInternal(password string, salt string, pepper string) string {
-	pepperedPassword := password + pepper
+func hashPasswordInternal(password string, salt string) string {
+	pepperedPassword := password + config.SecretsInstance.GetPepper()
 	passwordHashData := argon2.IDKey([]byte(pepperedPassword), []byte(salt), 1, 64*1024, 4, 32)
 	passwordHash := hex.EncodeToString(passwordHashData)
 	return passwordHash
@@ -17,9 +18,9 @@ func hashPasswordInternal(password string, salt string, pepper string) string {
 // HashPassword is used for hashing passwords before storing them in the database and generating a salt.
 // returns the password hash and the generated salt
 // pepper is retrieved from app config
-func HashPassword(password string, pepper string) (passwordHash string, salt string) {
+func HashPassword(password string) (passwordHash string, salt string) {
 	salt = GenerateRandomString()
-	passwordHash = hashPasswordInternal(password, salt, pepper)
+	passwordHash = hashPasswordInternal(password, salt)
 	return passwordHash, salt
 }
 
@@ -27,8 +28,8 @@ func HashPassword(password string, pepper string) (passwordHash string, salt str
 // only the password is user input
 // salt and passwordHash is retrieved from the database
 // pepper is retrieved from app config
-func VerifyPassword(password string, salt string, pepper string, passwordHash string) bool {
-	passwordHashNew := hashPasswordInternal(password, salt, pepper)
+func VerifyPassword(password string, salt string, passwordHash string) bool {
+	passwordHashNew := hashPasswordInternal(password, salt)
 	return passwordHashNew == passwordHash
 }
 
