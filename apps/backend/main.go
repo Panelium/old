@@ -5,24 +5,31 @@ import (
 	"os"
 	"panelium/backend/internal/config"
 	"panelium/backend/internal/db"
+	"panelium/backend/internal/global"
 	"panelium/backend/internal/handler"
 	"panelium/backend/internal/security"
 	"panelium/common/id"
 )
 
 func main() {
+	err := global.InitValidator()
+	if err != nil {
+		fmt.Printf("Failed to initialize validator: %v", err)
+		return
+	}
+
+	err = config.Init()
+	if err != nil {
+		fmt.Printf("Failed to initialize configuration: %v", err)
+		return
+	}
+
 	if len(os.Args) > 1 && os.Args[1] == "idGen" {
 		idGen()
 		return
 	}
 	if len(os.Args) > 1 && os.Args[1] == "passwordHashTest" {
 		passwordHashTest()
-		return
-	}
-
-	err := config.Init()
-	if err != nil {
-		fmt.Printf("Failed to initialize configuration: %v", err)
 		return
 	}
 
@@ -60,10 +67,9 @@ func idGen() {
 
 func passwordHashTest() {
 	pass := "test1234"
-	pepper := security.GenerateRandomString()
-	hashed, salt := security.HashPassword(pass, pepper)
+	hashed, salt := security.HashPassword(pass)
 	fmt.Printf("Hashed password: %s, Salt: %s\n", hashed, salt)
-	verified := security.VerifyPassword(pass, salt, pepper, hashed)
+	verified := security.VerifyPassword(pass, salt, hashed)
 	if verified {
 		fmt.Printf("Password verification successful")
 	} else {

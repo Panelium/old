@@ -3,7 +3,6 @@ package auth
 import (
 	"connectrpc.com/connect"
 	"context"
-	"panelium/backend/internal/config"
 	"panelium/backend/internal/db"
 	"panelium/backend/internal/model"
 	"panelium/backend/internal/security"
@@ -16,16 +15,16 @@ func (s *AuthServiceHandler) Login(
 	ctx context.Context,
 	req *connect.Request[proto_gen_go.LoginRequest],
 ) (*connect.Response[proto_gen_go.LoginResponse], error) {
-	result := db.Instance().First(&model.User{}, "username = ? OR email = ?", req.Msg.Username, req.Msg.Username)
-	if result.RowsAffected == 0 {
+	tx := db.Instance().First(&model.User{}, "username = ? OR email = ?", req.Msg.Username, req.Msg.Username)
+	if tx.RowsAffected == 0 {
 		return nil, connect.NewError(connect.CodeNotFound, errors.UserNotFound)
 	}
 	user := &model.User{}
-	if err := result.Scan(user); err.Error != nil {
+	if err := tx.Scan(user); err.Error != nil {
 		return nil, connect.NewError(connect.CodeInternal, err.Error)
 	}
 
-	passwordValid := security.VerifyPassword(req.Msg.Password, user.PasswordSalt, config.SecretsInstance.GetPepper(), user.PasswordHash)
+	passwordValid := security.VerifyPassword(req.Msg.Password, user.PasswordSalt, user.PasswordHash)
 	if !passwordValid {
 		return nil, connect.NewError(connect.CodeUnauthenticated, errors.InvalidCredentials)
 	}

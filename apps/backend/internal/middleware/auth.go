@@ -32,12 +32,12 @@ func authentication(_ context.Context, req *http.Request) (any, error) {
 		return nil, errorInvalidCredentials
 	}
 
-	result := db.Instance().Model(&model.UserSession{}).First(&model.UserSession{}, "session_id = ? AND user_id = ?", claims.Audience, *claims.Subject)
-	if result.Error != nil || result.RowsAffected == 0 {
+	tx := db.Instance().Model(&model.UserSession{}).First(&model.UserSession{}, "session_id = ? AND user_id = ?", claims.Audience, *claims.Subject)
+	if tx.Error != nil || tx.RowsAffected == 0 {
 		return nil, connect.NewError(connect.CodeUnauthenticated, errors.SessionNotFound)
 	}
 	session := &model.UserSession{}
-	if err := result.Scan(session); err.Error != nil {
+	if err := tx.Scan(session); err.Error != nil {
 		return nil, connect.NewError(connect.CodeInternal, err.Error)
 	}
 
