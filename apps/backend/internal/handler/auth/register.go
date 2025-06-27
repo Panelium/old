@@ -3,6 +3,14 @@ package auth
 import (
 	"connectrpc.com/connect"
 	"context"
+	"errors"
+	"gorm.io/gorm"
+	"panelium/backend/internal/db"
+	"panelium/backend/internal/global"
+	"panelium/backend/internal/model"
+	"panelium/backend/internal/security"
+	"panelium/backend/internal/security/session"
+	"panelium/common/id"
 	proto_gen_go "panelium/proto-gen-go"
 )
 
@@ -10,5 +18,58 @@ func (s *AuthServiceHandler) Register(
 	ctx context.Context,
 	req *connect.Request[proto_gen_go.RegisterRequest],
 ) (*connect.Response[proto_gen_go.RegisterResponse], error) {
-	return nil, nil
+	err := global.ValidatorInstance().Var(req.Msg.Email, "required,email")
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("email is missing or invalid"))
+	}
+
+	err = global.ValidatorInstance().Var(req.Msg.Username, "required,username")
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("username is missing or invalid"))
+	}
+
+	err = global.ValidatorInstance().Var(req.Msg.Password, "required,password")
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("password is missing, invalid or does not meet requirements"))
+	}
+
+	tx := db.Instance().Where("email = ? OR username = ?", req.Msg.Email, req.Msg.Username).First(&model.User{})
+	if tx.Error == nil {
+		return nil, connect.NewError(connect.CodeAlreadyExists, errors.New("email or username already exists"))
+	}
+	if tx.Error != nil && !errors.Is(tx.Error, gorm.ErrRecordNotFound) {
+		return nil, connect.NewError(connect.CodeInternal, errors.New("database error"))
+	}
+
+	uid, err := id.New()
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, errors.New("failed to create user"))
+	}
+
+	passwordHash, passwordSalt := security.HashPassword(req.Msg.Password)
+
+	user := &model.User{
+		UID:          uid,
+		Username:     req.Msg.Username,
+		Email:        req.Msg.Email,
+		PasswordHash: passwordHash,
+		PasswordSalt: passwordSalt,
+		MFANeeded:    false, // TODO: handle MFA in the future
+	}
+
+	if err := db.Instance().Create(user).Error; err != nil {
+		return nil, connect.NewError(connect.CodeInternal, errors.New("failed to create user"))
+	}
+
+	_, refreshToken, accessToken, err := session.CreateSession(uid)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, errors.New("failed to create session"))
+	}
+
+	res := connect.NewResponse(&proto_gen_go.RegisterResponse{
+		RefreshToken: &refreshToken, // TODO: this needs to be turned into a cookie
+		AccessToken:  &accessToken,  // TODO: this needs to be turned into a cookie
+	})
+
+	return res, nil
 }
