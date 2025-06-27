@@ -104,7 +104,7 @@ const SidebarDropdownMenu: React.FC = () => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56 no-select">
-          <DropdownMenuItem className="text-red-500 focus:text-red-500">
+          <DropdownMenuItem className="bg-transparent focus:bg-transparent text-red-500 focus:text-red-500">
             <Button
               variant="ghost"
               className="w-full justify-start"
