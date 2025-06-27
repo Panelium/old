@@ -39,14 +39,14 @@
 
     --color-accent: var(--accent);
     --color-accent-foreground: var(--accent-foreground);
-    
+
     --color-destructive: var(--destructive);
 
     --color-border: var(--border);
     --color-border-hover: var(--border-hover);
 
     --color-input: var(--input);
-    
+
     --color-ring: var(--ring);
 
     --color-chart-background: var(--chart-background);
@@ -119,7 +119,7 @@
 :root {
     --radius: 0.625rem;
     --radius-hovered: 0.1rem;
-    
+
     --background: var(--color-gray-200);
     --foreground: var(--color-slate-950);
     --topbar: var(--color-gray-100);
@@ -173,6 +173,7 @@
     --tag-gray: var(--color-slate-700);
     --tag-gray-background: var(--color-slate-300);
 }
+
 /*
 .old-dark {
     --background: oklch(0.141 0.005 285.823);
@@ -316,6 +317,10 @@
 }
 
 @keyframes example {
-  from {background-position: 0% 0%;}
-  to {background-position: 100% 0%;}
+    from {
+        background-position: 0% 0%;
+    }
+    to {
+        background-position: 100% 0%;
+    }
 }
