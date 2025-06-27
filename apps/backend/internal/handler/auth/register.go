@@ -28,10 +28,12 @@ func (s *AuthServiceHandler) Register(
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("username is missing or invalid"))
 	}
 
-	err = global.ValidatorInstance().Var(req.Msg.Password, "required,password")
+	err = global.ValidatorInstance().Var(req.Msg.Password, "required,min=16,max=384") // TODO: potentially make the password requirements configurable
 	if err != nil {
-		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("password is missing, invalid or does not meet requirements"))
+		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("password is missing or invalid"))
 	}
+
+	// TODO: password blacklist? (rockyou or something)
 
 	tx := db.Instance().Where("email = ? OR username = ?", req.Msg.Email, req.Msg.Username).First(&model.User{})
 	if tx.Error == nil {
