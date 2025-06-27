@@ -65,16 +65,14 @@
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
 
-    --color-avatar: var(--avatar);
-    --color-avatar-background: var(--avatar-background);
+    --color-tag-purple: var(--tag-purple);
+    --color-tag-purple-background: var(--tag-purple-background);
 
     --color-tag-green: var(--tag-green);
     --color-tag-green-background: var(--tag-green-background);
-    --color-tag-green-border: var(--tag-green-border);
 
-    --color-tag-yellow: var(--tag-yellow);
-    --color-tag-yellow-background: var(--tag-yellow-background);
-    --color-tag-yellow-border: var(--tag-yellow-border);
+    --color-tag-orange: var(--tag-orange);
+    --color-tag-orange-background: var(--tag-orange-background);
 
     --color-tag-red: var(--tag-red);
     --color-tag-red-background: var(--tag-red-background);
@@ -82,7 +80,6 @@
 
     --color-tag-gray: var(--tag-gray);
     --color-tag-gray-background: var(--tag-gray-background);
-    --color-tag-gray-border: var(--tag-gray-border);
 }
 
 /*.old-light {
@@ -134,9 +131,9 @@
     --server-card-foreground: var(--card-foreground);
     --popover: var(--background);
     --popover-foreground: var(--foreground);
-    --primary: #000;
+    --primary: var(--color-tag-purple);
     --primary-foreground: #FFF;
-    --secondary: #000;
+    --secondary: var(--color-tag-green);
     --secondary-foreground: #FFF;
     --muted: var(--color-slate-300);
     --muted-foreground: var(--color-gray-800);
@@ -161,24 +158,20 @@
     --sidebar-accent-foreground: #FFF;
     --sidebar-border: var(--border);
     --sidebar-ring: #000;
-    --avatar: var(--color-indigo-600);
-    --avatar-background: var(--color-indigo-300);
+    --tag-purple: var(--color-indigo-600);
+    --tag-purple-background: var(--color-indigo-300);
 
     --tag-green: var(--color-emerald-900);
     --tag-green-background: var(--color-emerald-400);
-    --tag-green-border: var(--color-emerald-400);
 
-    --tag-yellow: var(--color-amber-900);
-    --tag-yellow-background: var(--color-amber-400);
-    --tag-yellow-border: var(--color-amber-400);
+    --tag-orange: var(--color-amber-900);
+    --tag-orange-background: var(--color-amber-400);
 
     --tag-red: var(--color-rose-900);
     --tag-red-background: var(--color-rose-400);
-    --tag-red-border: var(--color-rose-400);
 
     --tag-gray: var(--color-slate-700);
     --tag-gray-background: var(--color-slate-300);
-    --tag-gray-border: var(--color-slate-300);
 }
 /*
 .old-dark {
@@ -225,9 +218,9 @@
     --card-muted-foreground: #a5b1be;
     --server-card: #1e293983;
     --server-card-foreground: var(--card-foreground);
-    --popover: var(--background);
+    --popover: var(--card);
     --popover-foreground: var(--foreground);
-    --primary: var(--tag-red);
+    --primary: var(--tag-purple);
     --primary-foreground: #FFF;
     --secondary: var(--tag-green);
     --secondary-foreground: #FFF;
@@ -256,24 +249,20 @@
     --sidebar-accent-foreground: #FFF;
     --sidebar-border: var(--border);
     --sidebar-ring: #000;
-    --avatar: var(--color-indigo-400);
-    --avatar-background: var(--color-indigo-900);
+    --tag-purple: var(--color-indigo-400);
+    --tag-purple-background: var(--color-indigo-900);
 
     --tag-green: var(--color-emerald-400);
     --tag-green-background: var(--color-emerald-900);
-    --tag-green-border: var(--color-emerald-900);
 
-    --tag-yellow: var(--color-amber-400);
-    --tag-yellow-background: var(--color-amber-900);
-    --tag-yellow-border: var(--color-amber-900);
+    --tag-orange: var(--color-amber-400);
+    --tag-orange-background: var(--color-amber-900);
 
     --tag-red: var(--color-rose-400);
     --tag-red-background: var(--color-rose-900);
-    --tag-red-border: var(--color-rose-900);
 
     --tag-gray: var(--color-slate-300);
     --tag-gray-background: var(--color-slate-700);
-    --tag-gray-border: var(--color-slate-700);
 }
 
 @layer base {

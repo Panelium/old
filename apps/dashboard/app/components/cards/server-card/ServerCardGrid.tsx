@@ -16,7 +16,7 @@ const AddServerCard: React.FC = () => {
         "transition-all cursor-pointer",
       )}
     >
-      <div className="rounded-full bg-tag-gray-border p-3 mb-3">
+      <div className="rounded-full bg-tag-gray-background p-3 mb-3">
         <Plus className="h-6 w-6 text-tag-gray"/>
       </div>
       <h3 className="text-lg font-medium text-foreground">

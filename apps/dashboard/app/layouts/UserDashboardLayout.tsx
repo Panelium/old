@@ -41,8 +41,8 @@ const SidebarHeader: React.FC = () => {
         "border-b border-sidebar-border"
       )}
     >
-      <div className="bg-avatar text-transparent h-12 min-w-2 m-0"></div>
-      <img src="public/logo/full-logo.svg" className="dark:filter-[invert()] mr-4 ml-2"/>
+      <div className="bg-tag-purple text-transparent h-12 min-w-2 m-0"></div>
+      <img src="/public/logo/full-logo.svg" className="dark:filter-[invert()] mr-4 ml-2"/>
     </div>
   );
 };
