@@ -309,12 +309,12 @@ components:
     backend.RegisterRequest:
       type: object
       properties:
-        email:
-          type: string
-          title: email
         username:
           type: string
           title: username
+        email:
+          type: string
+          title: email
         password:
           type: string
           title: password

@@ -75,8 +75,8 @@ func (MFAType) EnumDescriptor() ([]byte, []int) {
 
 type RegisterRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Email         string                 `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
-	Username      string                 `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`
+	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
+	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
 	Password      string                 `protobuf:"bytes,3,opt,name=password,proto3" json:"password,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -112,16 +112,16 @@ func (*RegisterRequest) Descriptor() ([]byte, []int) {
 	return file_backend_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *RegisterRequest) GetEmail() string {
+func (x *RegisterRequest) GetUsername() string {
 	if x != nil {
-		return x.Email
+		return x.Username
 	}
 	return ""
 }
 
-func (x *RegisterRequest) GetUsername() string {
+func (x *RegisterRequest) GetEmail() string {
 	if x != nil {
-		return x.Username
+		return x.Email
 	}
 	return ""
 }
@@ -682,9 +682,9 @@ var File_backend_proto protoreflect.FileDescriptor
 const file_backend_proto_rawDesc = "" +
 	"\n" +
 	"\rbackend.proto\x12\abackend\x1a\fcommon.proto\"_\n" +
-	"\x0fRegisterRequest\x12\x14\n" +
-	"\x05email\x18\x01 \x01(\tR\x05email\x12\x1a\n" +
-	"\busername\x18\x02 \x01(\tR\busername\x12\x1a\n" +
+	"\x0fRegisterRequest\x12\x1a\n" +
+	"\busername\x18\x01 \x01(\tR\busername\x12\x14\n" +
+	"\x05email\x18\x02 \x01(\tR\x05email\x12\x1a\n" +
 	"\bpassword\x18\x03 \x01(\tR\bpassword\"\x87\x01\n" +
 	"\x10RegisterResponse\x12&\n" +
 	"\faccess_token\x18\x01 \x01(\tH\x00R\vaccessToken\x88\x01\x01\x12(\n" +
