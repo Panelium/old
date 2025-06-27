@@ -37,14 +37,12 @@ const SidebarHeader: React.FC = () => {
   return (
     <div
       className={cn(
-        "flex items-center gap-2 p-6 h-16 no-select",
-        "border-b border-slate-200 dark:border-slate-700"
+        "flex items-center gap-0 p-6 pl-4 h-16 no-select",
+        "border-b border-sidebar-border"
       )}
     >
-      <div className="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-600">
-        <Server className="h-5 w-5 text-white" />
-      </div>
-      <span className="text-lg font-semibold">Panelium</span>
+      <div className="bg-tag-purple text-transparent h-12 min-w-2 m-0"></div>
+      <img src="/public/logo/full-logo.svg" className="dark:filter-[invert()] mr-4 ml-2"/>
     </div>
   );
 };
@@ -89,23 +87,24 @@ const SidebarNavigation: React.FC = () => {
 const SidebarDropdownMenu: React.FC = () => {
   const performLogout = useLogout();
   return (
-    <div className="border-t border-slate-200 dark:border-slate-700 p-4">
+    <div className="border-t border-sidebar-border p-4">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
-            className="w-full justify-start p-2 h-14 no-select"
+            className="group/button w-full justify-start p-2 h-14 no-select"
           >
             <EntityAvatar
               src=""
               alt="Avatar"
               title="John Doe"
               subTitle="john@example.com"
+              group="/button"
             />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56 no-select">
-          <DropdownMenuItem className="text-red-500 focus:text-red-500">
+          <DropdownMenuItem className="bg-transparent focus:bg-transparent text-red-500 focus:text-red-500">
             <Button
               variant="ghost"
               className="w-full justify-start"
@@ -136,7 +135,7 @@ const SidebarTrigger: React.FC = () => {
       <Button {...buttonProps} className="md:hidden no-select">
         <PanelLeftIcon className="h-6 w-6" />
       </Button>
-      <Button {...buttonProps} className=" hidden md:flex no-select">
+      <Button {...buttonProps} className="hidden md:flex no-select">
         <ChevronLeft
           className={cn("h-5 w-5", state === "collapsed" && "rotate-180")}
         />
@@ -157,8 +156,7 @@ const TopBar: React.FC = () => {
       className={cn(
         "sticky top-0 z-30 no-select",
         "flex items-center justify-between h-16 px-6 shadow-sm",
-        "border-b border-slate-200 bg-white",
-        "dark:border-slate-700 dark:bg-slate-800"
+        "border-b border-border bg-topbar text-topbar-foreground"
       )}
     >
       <SidebarTrigger />
@@ -180,15 +178,13 @@ const UserDashboardLayout: React.FC = () => {
       <div
         className={cn(
           "flex min-h-screen w-full",
-          "bg-slate-50 text-slate-900",
-          "dark:bg-slate-900 dark:text-slate-50"
+          "bg-background text-foreground"
         )}
       >
         <Sidebar
           className={cn(
             "flex flex-col h-full max-h-screen border-r",
-            "border-slate-200 b-white",
-            "dark:border-slate-700 dark:bg-slate-800"
+            "border-sidebar-border b-white"
           )}
         >
           <SidebarHeader />

@@ -13,7 +13,7 @@ export default function AuthLayout() {
     }, [authenticated, navigate]);
 
     return (
-        <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100 dark:bg-gray-900">
+        <div className="flex min-h-screen flex-col items-center justify-center bg-chart-background">
             <Outlet/>
         </div>
     );

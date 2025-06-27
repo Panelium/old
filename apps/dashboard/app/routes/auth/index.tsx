@@ -55,7 +55,8 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="flex min-h-screen items-center justify-center px-4 py-12 w-sm">
+        <div className="flex flex-col gap-10 items-center">
+        <div className="flex items-center justify-center px-4 py-12 w-sm">
             <Card className="w-full max-w-sm">
                 <CardHeader>
                     <CardTitle className="text-2xl text-center no-select">
@@ -155,6 +156,7 @@ export default function LoginPage() {
                     </Button>
                 </CardFooter>
             </Card>
+        </div>
         </div>
     );
 }

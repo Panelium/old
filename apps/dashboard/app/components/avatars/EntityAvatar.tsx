@@ -8,6 +8,7 @@ interface EntityAvatarProps {
   src?: string;
   alt?: string;
   className?: string;
+  group?: string;
 }
 
 const EntityAvatar: React.FC<EntityAvatarProps> = ({
@@ -16,6 +17,7 @@ const EntityAvatar: React.FC<EntityAvatarProps> = ({
   title,
   subTitle,
   className,
+  group = "",
 }) => {
   return (
     <div className="flex items-center text-left gap-3">
@@ -31,14 +33,14 @@ const EntityAvatar: React.FC<EntityAvatarProps> = ({
         <h3
           className={cn(
             "font-medium",
-            "text-slate-900 dark:text-slate-100",
-            "group-hover:text-indigo-600 dark:group-hover:text-indigo-400",
+            "text-foreground",
+            "group-hover" + group + ":text-indigo-600 dark:group-hover" + group + ":text-indigo-400",
             className
           )}
         >
           {title}
         </h3>
-        <p className="text-xs text-slate-500 dark:text-slate-400">{subTitle}</p>
+        <p className="text-xs text-faded-foreground">{subTitle}</p>
       </div>
     </div>
   );

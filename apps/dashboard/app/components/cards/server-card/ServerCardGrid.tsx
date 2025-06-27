@@ -12,18 +12,17 @@ const AddServerCard: React.FC = () => {
     <Card
       className={cn(
         "flex flex-col items-center justify-center no-select",
-        "border-slate-200 bg-transparent hover:bg-slate-50",
-        "dark:border-slate-700 dark:hover:bg-slate-800/20",
-        "transition-colors"
+        "border-border bg-server-card/50 hover:border-border-hover/50 hover:bg-server-card",
+        "transition-all cursor-pointer",
       )}
     >
-      <div className="rounded-full bg-slate-100 dark:bg-slate-800 p-3 mb-3">
-        <Plus className="h-6 w-6 text-slate-500 dark:text-slate-400" />
+      <div className="rounded-full bg-tag-gray-background p-3 mb-3">
+        <Plus className="h-6 w-6 text-tag-gray"/>
       </div>
-      <h3 className="text-lg font-medium text-slate-900 dark:text-slate-100">
+      <h3 className="text-lg font-medium text-foreground">
         New Server
       </h3>
-      <p className="text-sm text-center text-slate-500 dark:text-slate-400 mt-1 mb-4">
+      <p className="text-sm text-center text-server-card-foreground mt-1 mb-4">
         Deploy a new server with your preferred configuration
       </p>
     </Card>
@@ -32,7 +31,7 @@ const AddServerCard: React.FC = () => {
 export default function ServerCardGrid({ servers }: { servers: Server[] }) {
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-xl font-bold text-slate-900 dark:text-slate-50 no-select">
+      <h2 className="text-xl font-bold text-foreground no-select">
         Servers
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">

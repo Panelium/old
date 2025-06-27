@@ -2,8 +2,8 @@ import React from "react";
 import { Cpu, Database, HardDrive, Server as ServerIcon } from "lucide-react";
 
 import { Button } from "~/components/ui/button";
-import type { Server } from "~/components/cards/server-card";
-import OverviewCard from "~/components/cards/overview-card/Card";
+import type { Server } from "~/components/cards/server-card/ServerCard";
+import OverviewCard from "~/components/cards/overview-card/OverviewCard";
 
 const ResourceStats: React.FC<{ server: Server }> = ({ server }) => {
   const CPU_USAGE = {
@@ -61,9 +61,9 @@ const ResourceStats: React.FC<{ server: Server }> = ({ server }) => {
   const ConnectionFooterComponent = () => {
     return (
       <Button
-        variant="outline"
+        variant="default"
         size="sm"
-        className="flex-1 w-full h-7 text-xs border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700"
+        className="flex-1 w-full h-7 text-xs text-primary-foreground border-border bg-primary hover:bg-primary"
       >
         Copy Details
       </Button>

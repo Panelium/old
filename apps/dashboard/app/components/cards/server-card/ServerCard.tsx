@@ -83,6 +83,7 @@ const ServerCardButton: React.FC<ServerCardLinkProps> = ({
         "bg-amber-100 text-amber-700 hover:bg-amber-200",
         "dark:bg-amber-900/30 dark:text-amber-400 dark:hover:bg-amber-800/50",
         "scale-20 group-hover:scale-100",
+        "cursor-pointer",
         serverCardTransition,
         className
       )}
@@ -107,7 +108,7 @@ const ServerCardHeader: React.FC<{ server: Server }> = ({ server }) => {
         />
         <StatusBadge status={server.status} />
       </div>
-      <p className="text-sm text-slate-600 dark:text-slate-300 line-clamp-2">
+      <p className="text-sm text-server-card-foreground line-clamp-2">
         {server.description}
       </p>
     </CardHeader>
@@ -140,7 +141,7 @@ const ServerCardContent: React.FC<{ server: Server }> = ({ server }) => {
 const ServerCardFooter: React.FC<{ server: Server }> = ({ server }) => {
   return (
     <CardFooter>
-      <div className="flex flex-1 items-center justify-between text-xs text-slate-600 dark:text-slate-400">
+      <div className="flex flex-1 items-center justify-between text-xs text-card-muted-foreground">
         {server.ip && (
           <div className="font-mono">
             {server.ip}
@@ -151,7 +152,7 @@ const ServerCardFooter: React.FC<{ server: Server }> = ({ server }) => {
         <div className="flex flex-row gap-1">
           {server.players && (
             <>
-              <Users className="h-4 w-4 text-slate-500 dark:text-slate-400" />
+              <Users className="h-4 w-4 text-card-muted-foreground" />
               <span>
                 {server.players.online} / {server.players.max} Players
               </span>
@@ -244,8 +245,7 @@ const ServerCard: React.FC<ServerCardProps> = ({ server, className }) => {
       <Card
         className={cn(
           "relative flex flex-row overflow-hidden shadow-sm",
-          "bg-white border-slate-200 hover:border-indigo-200 hover:shadow-md",
-          "dark:bg-slate-900 dark:border-slate-700 dark:hover:border-indigo-800/80",
+          "bg-server-card border-border hover:border-border-hover hover:shadow-md",
           serverCardTransition,
           className
         )}

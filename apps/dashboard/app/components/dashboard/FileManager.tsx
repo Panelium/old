@@ -218,7 +218,7 @@ export function FileManager({serverId, title = 'File Manager', className}: FileM
         <Card className={cn("shadow-sm py-0", className)}>
             <CardContent className="p-0">
                 {/* File Manager Header */}
-                <div className="border-b border-slate-200 dark:border-slate-700 p-4">
+                <div className="border-b border-border p-4">
                     <div className="flex items-center justify-between gap-4 mb-3">
                         <h3 className="text-lg font-medium">{title}</h3>
                         <div className="flex items-center gap-2">
@@ -251,7 +251,6 @@ export function FileManager({serverId, title = 'File Manager', className}: FileM
                                 <BreadcrumbItem>
                                     <BreadcrumbLink
                                         onClick={() => setCurrentPath([])}
-                                        className="cursor-pointer"
                                     >
                                         home
                                     </BreadcrumbLink>
@@ -262,7 +261,6 @@ export function FileManager({serverId, title = 'File Manager', className}: FileM
                                         <BreadcrumbItem>
                                             <BreadcrumbLink
                                                 onClick={() => setCurrentPath(currentPath.slice(0, index + 1))}
-                                                className="cursor-pointer"
                                             >
                                                 {folder}
                                             </BreadcrumbLink>
@@ -344,7 +342,6 @@ export function FileManager({serverId, title = 'File Manager', className}: FileM
                                         />
                                     </TableHead>
                                     <TableHead
-                                        className="cursor-pointer"
                                         onClick={() => handleSortChange('name')}
                                     >
                                         <div className="flex items-center">
@@ -360,7 +357,6 @@ export function FileManager({serverId, title = 'File Manager', className}: FileM
                                         </div>
                                     </TableHead>
                                     <TableHead
-                                        className="cursor-pointer"
                                         onClick={() => handleSortChange('size')}
                                     >
                                         <div className="flex items-center">
@@ -376,7 +372,6 @@ export function FileManager({serverId, title = 'File Manager', className}: FileM
                                         </div>
                                     </TableHead>
                                     <TableHead
-                                        className="cursor-pointer"
                                         onClick={() => handleSortChange('modified')}
                                     >
                                         <div className="flex items-center">
@@ -402,8 +397,8 @@ export function FileManager({serverId, title = 'File Manager', className}: FileM
                                                 <TableRow
                                                     className={cn(
                                                         "cursor-pointer transition-colors",
-                                                        selectedFiles.includes(file.name) && "bg-slate-100 dark:bg-slate-800",
-                                                        file.type === 'folder' && "hover:bg-slate-50 dark:hover:bg-slate-800/60"
+                                                        selectedFiles.includes(file.name) && "bg-card",
+                                                        file.type === 'folder' && "bg-card"
                                                     )}
                                                     onClick={() => file.type === 'folder' ? navigateToFolder(file.name) : toggleFileSelection(file.name)}
                                                     onDoubleClick={() => file.type !== 'folder' && console.log(`Opening file: ${file.name}`)}
@@ -488,7 +483,7 @@ export function FileManager({serverId, title = 'File Manager', className}: FileM
                                     <TableRow>
                                         <TableCell colSpan={5} className="h-32 text-center">
                                             <div className="flex flex-col items-center justify-center">
-                                                <div className="rounded-full bg-slate-100 dark:bg-slate-800 p-3 mb-3">
+                                                <div className="rounded-full bg-card p-3 mb-3">
                                                     <File className="h-6 w-6 text-slate-400"/>
                                                 </div>
                                                 <p className="text-sm text-slate-500 dark:text-slate-400">No files
@@ -509,8 +504,8 @@ export function FileManager({serverId, title = 'File Manager', className}: FileM
                                         <ContextMenuTrigger asChild>
                                             <div
                                                 className={cn(
-                                                    "flex flex-col items-center justify-center p-4 rounded-lg border border-slate-200 dark:border-slate-700 transition-all",
-                                                    selectedFiles.includes(file.name) && "bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-600",
+                                                    "flex flex-col items-center justify-center p-4 rounded-lg border border-border transition-all",
+                                                    selectedFiles.includes(file.name) && "bg-card border-border",
                                                     file.type === 'folder' ? "hover:bg-slate-50 dark:hover:bg-slate-800/60" : "hover:border-slate-300 dark:hover:border-slate-600",
                                                     "cursor-pointer"
                                                 )}
@@ -569,7 +564,7 @@ export function FileManager({serverId, title = 'File Manager', className}: FileM
 
             {/* New File Dialog */}
             <Dialog open={showNewFileDialog} onOpenChange={setShowNewFileDialog}>
-                <DialogContent>
+                <DialogContent className="bg-card">
                     <DialogHeader>
                         <DialogTitle>Create New File</DialogTitle>
                         <DialogDescription>
@@ -599,7 +594,7 @@ export function FileManager({serverId, title = 'File Manager', className}: FileM
                                 value={newFileContent}
                                 onChange={(e) => setNewFileContent(e.target.value)}
                                 placeholder="Enter file content"
-                                className="w-full min-h-[200px] rounded-md border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800 px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500"
+                                className="w-full min-h-[200px] rounded-md border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500"
                             />
                         </div>
                     </div>

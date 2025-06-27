@@ -8,7 +8,7 @@ export default function ServerDetailsPage() {
   const { server } = useServer();
 
   return (
-    <div className="p-6 bg-slate-50 dark:bg-slate-900 min-h-full">
+    <div className="p-6 bg-background min-h-full">
       <div className="max-w-7xl mx-auto space-y-8">
         <ServerHeader server={server} />
         <ResourceStats server={server} />

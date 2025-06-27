@@ -18,7 +18,7 @@ const ServerHeader: React.FC<{ server: Server }> = ({ server }) => {
         <Button
           variant="outline"
           size="icon"
-          className="rounded-lg shadow-sm bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
+          className="rounded-lg shadow-sm bg-white dark:bg-slate-800 border-border"
           asChild
         >
           <Link to="/">

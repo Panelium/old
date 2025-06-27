@@ -29,12 +29,12 @@ const TabsSection: React.FC = () => {
     setCommand,
   } = useServer();
   return (
-    <Card className="border-slate-200/60 dark:border-slate-700/40 bg-white dark:bg-slate-800 shadow-sm overflow-hidden rounded-xl py-0">
+    <Card className="border-border bg-card shadow-sm overflow-hidden rounded-xl py-0">
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid grid-cols-4 rounded-none border-b border-slate-200 dark:border-slate-700 bg-transparent p-0 h-12 no-select">
+        <TabsList className="grid grid-cols-4 rounded-none border-b border-border bg-transparent p-0 h-12 no-select">
           <TabsTrigger
             value="console"
-            className="relative rounded-none data-[state=active]:bg-transparent data-[state=active]:text-indigo-600 dark:data-[state=active]:text-indigo-400 data-[state=active]:shadow-none h-12 border-transparent border-0"
+            className="relative rounded-none data-[state=active]:bg-tag-purple/5 data-[state=active]:text-tag-purple data-[state=active]:shadow-none h-12 border-transparent border-0"
           >
             <Terminal className="mr-2 h-4 w-4" />
             Console
@@ -45,7 +45,7 @@ const TabsSection: React.FC = () => {
           </TabsTrigger>
           <TabsTrigger
             value="files"
-            className="relative rounded-none data-[state=active]:bg-transparent data-[state=active]:text-indigo-600 dark:data-[state=active]:text-indigo-400 data-[state=active]:shadow-none h-12 border-transparent border-0"
+            className="relative rounded-none data-[state=active]:bg-tag-purple/5 data-[state=active]:text-tag-purple data-[state=active]:shadow-none h-12 border-transparent border-0"
           >
             <HardDrive className="mr-2 h-4 w-4" />
             Files
@@ -56,7 +56,7 @@ const TabsSection: React.FC = () => {
           </TabsTrigger>
           <TabsTrigger
             value="activity"
-            className="relative rounded-none data-[state=active]:bg-transparent data-[state=active]:text-indigo-600 dark:data-[state=active]:text-indigo-400 data-[state=active]:shadow-none h-12 border-transparent border-0"
+            className="relative rounded-none data-[state=active]:bg-tag-purple/5 data-[state=active]:text-tag-purple data-[state=active]:shadow-none h-12 border-transparent border-0"
           >
             <Activity className="mr-2 h-4 w-4" />
             Activity
@@ -67,7 +67,7 @@ const TabsSection: React.FC = () => {
           </TabsTrigger>
           <TabsTrigger
             value="settings"
-            className="relative rounded-none data-[state=active]:bg-transparent data-[state=active]:text-indigo-600 dark:data-[state=active]:text-indigo-400 data-[state=active]:shadow-none h-12 border-transparent border-0"
+            className="relative rounded-none data-[state=active]:bg-tag-purple/5 data-[state=active]:text-tag-purple data-[state=active]:shadow-none h-12 border-transparent border-0"
           >
             <Settings className="mr-2 h-4 w-4" />
             Settings
@@ -209,57 +209,54 @@ const TabsSection: React.FC = () => {
         <TabsContent value="settings" className="m-0 px-6 pb-4">
           <div className="space-y-6 no-select">
             <div className="no-select">
-              <h3 className="text-lg font-medium text-slate-900 dark:text-slate-50">
+              <h3 className="text-lg font-medium text-foreground">
                 Server Settings
               </h3>
-              <p className="text-sm text-slate-500 dark:text-slate-400">
+              <p className="text-sm text-card-muted-foreground">
                 Configure your server properties and behavior
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card className="border-slate-200/60 dark:border-slate-700/40 bg-white dark:bg-slate-800 shadow-sm rounded-xl py-0 no-select">
+              <Card className="border-border bg-card shadow-sm rounded-xl py-0 no-select">
                 <CardHeader className="p-4">
-                  <CardTitle className="text-base text-slate-900 dark:text-slate-50">
+                  <CardTitle className="text-base text-foreground">
                     General Settings
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-4 pt-0 space-y-4">
                   <div className="grid gap-2">
-                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                    <label className="text-sm font-medium text-card-foreground">
                       Server Name
                     </label>
                     <Input
                       type="text"
                       defaultValue={server.name}
-                      className="border-slate-200/60 dark:border-slate-700/40 focus-visible:ring-indigo-500/70"
+                      className="border-border focus-visible:ring-indigo-500/70"
                     />
                   </div>
 
                   <div className="grid gap-2">
-                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                    <label className="text-sm font-medium text-card-foreground">
                       Memory Limit
                     </label>
                     <Select defaultValue="2 GB">
-                      <SelectTrigger className="w-full border-slate-200/60 dark:border-slate-700/40 focus-visible:ring-indigo-500/70">
+                      <SelectTrigger className="w-full border-border focus-visible:ring-indigo-500/70">
                         <SelectValue placeholder="Select memory limit" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem
                           value="2 GB"
-                          className="!bg-white dark:!bg-slate-800"
                         >
                           2 GB
                         </SelectItem>
                         <SelectItem
                           value="4 GB"
-                          className="!bg-white dark:!bg-slate-800"
                         >
                           4 GB
                         </SelectItem>
                         <SelectItem
                           value="8 GB"
-                          className="!bg-white dark:!bg-slate-800"
                         >
                           8 GB
                         </SelectItem>
@@ -268,29 +265,26 @@ const TabsSection: React.FC = () => {
                   </div>
 
                   <div className="grid gap-2">
-                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                    <label className="text-sm font-medium text-card-foreground">
                       CPU Limit
                     </label>
                     <Select defaultValue="1 Core">
-                      <SelectTrigger className="w-full border-slate-200/60 dark:border-slate-700/40 focus-visible:ring-indigo-500/70">
+                      <SelectTrigger className="w-full border-border focus-visible:ring-indigo-500/70">
                         <SelectValue placeholder="Select CPU limit" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem
                           value="1 Core"
-                          className="!bg-white dark:!bg-slate-800"
                         >
                           1 Core
                         </SelectItem>
                         <SelectItem
                           value="2 Cores"
-                          className="!bg-white dark:!bg-slate-800"
                         >
                           2 Cores
                         </SelectItem>
                         <SelectItem
                           value="4 Cores"
-                          className="!bg-white dark:!bg-slate-800"
                         >
                           4 Cores
                         </SelectItem>
@@ -300,21 +294,21 @@ const TabsSection: React.FC = () => {
                 </CardContent>
               </Card>
 
-              <Card className="border-slate-200/60 dark:border-slate-700/40 bg-white dark:bg-slate-800 shadow-sm rounded-xl py-0 no-select">
+              <Card className="border-border bg-card shadow-sm rounded-xl py-0 no-select">
                 <CardHeader className="p-4">
-                  <CardTitle className="text-base text-slate-900 dark:text-slate-50">
+                  <CardTitle className="text-base text-foreground">
                     Network Settings
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-4 pt-0 space-y-4">
                   <div className="grid gap-2">
-                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                    <label className="text-sm font-medium text-card-foreground">
                       Server Port
                     </label>
                     <Input
                       type="text"
                       defaultValue={server.port}
-                      className="border-slate-200/60 dark:border-slate-700/40 focus-visible:ring-indigo-500/70"
+                      className="border-border focus-visible:ring-indigo-500/70"
                     />
                   </div>
 
@@ -325,7 +319,7 @@ const TabsSection: React.FC = () => {
                     <Input
                       type="text"
                       defaultValue={server.ip}
-                      className="bg-slate-50 dark:bg-slate-700 text-slate-500 dark:text-slate-400 cursor-not-allowed border-slate-200/40 dark:border-slate-700/30"
+                      className="bg-white/5 text-muted-foreground cursor-not-allowed"
                       readOnly
                     />
                   </div>
@@ -335,25 +329,22 @@ const TabsSection: React.FC = () => {
                       Location
                     </label>
                     <Select defaultValue={server.location}>
-                      <SelectTrigger className="w-full border-slate-200/60 dark:border-slate-700/40 focus-visible:ring-indigo-500/70">
+                      <SelectTrigger className="w-full border-border focus-visible:ring-indigo-500/70">
                         <SelectValue placeholder="Select location" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem
                           value="US East"
-                          className="!bg-white dark:!bg-slate-800"
                         >
                           US East
                         </SelectItem>
                         <SelectItem
                           value="US West"
-                          className="!bg-white dark:!bg-slate-800"
                         >
                           US West
                         </SelectItem>
                         <SelectItem
                           value="EU Central"
-                          className="!bg-white dark:!bg-slate-800"
                         >
                           EU Central
                         </SelectItem>
