@@ -37,14 +37,12 @@ const SidebarHeader: React.FC = () => {
   return (
     <div
       className={cn(
-        "flex items-center gap-2 p-6 h-16 no-select",
+        "flex items-center gap-0 p-6 pl-4 h-16 no-select",
         "border-b border-sidebar-border"
       )}
     >
-      <div className="flex h-8 w-8 items-center justify-center rounded-md bg-indigo-600">
-        <Server className="h-5 w-5 text-white" />
-      </div>
-      <span className="text-lg font-semibold">Panelium</span>
+      <div className="bg-avatar text-transparent h-12 min-w-2 m-0"></div>
+      <img src="public/logo/full-logo.svg" className="dark:filter-[invert()] mr-4 ml-2"/>
     </div>
   );
 };
@@ -94,13 +92,14 @@ const SidebarDropdownMenu: React.FC = () => {
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
-            className="w-full justify-start p-2 h-14 no-select"
+            className="group/button w-full justify-start p-2 h-14 no-select"
           >
             <EntityAvatar
               src=""
               alt="Avatar"
               title="John Doe"
               subTitle="john@example.com"
+              group="/button"
             />
           </Button>
         </DropdownMenuTrigger>

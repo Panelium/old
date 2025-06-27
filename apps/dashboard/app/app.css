@@ -227,9 +227,9 @@
     --server-card-foreground: var(--card-foreground);
     --popover: var(--background);
     --popover-foreground: var(--foreground);
-    --primary: #000;
+    --primary: var(--tag-red);
     --primary-foreground: #FFF;
-    --secondary: #000;
+    --secondary: var(--tag-green);
     --secondary-foreground: #FFF;
     --muted: var(--color-gray-900);
     --muted-foreground: var(--color-gray-300);
@@ -240,7 +240,7 @@
     --border-hover: #ffffff6e;
     --input: #000;
     --ring: #000;
-    --chart-background: var(--color-slate-950);
+    --chart-background: var(--sidebar);
     --chart-1: var(--color-rose-400);
     --chart-2: var(--color-emerald-400);
     --chart-3: var(--color-emerald-900);
@@ -324,4 +324,9 @@
         -ms-user-select: none;
         user-select: none;
     }
+}
+
+@keyframes example {
+  from {background-position: 0% 0%;}
+  to {background-position: 100% 0%;}
 }
