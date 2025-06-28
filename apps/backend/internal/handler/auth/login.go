@@ -15,13 +15,10 @@ func (s *AuthServiceHandler) Login(
 	ctx context.Context,
 	req *connect.Request[proto_gen_go.LoginRequest],
 ) (*connect.Response[proto_gen_go.LoginResponse], error) {
-	tx := db.Instance().First(&model.User{}, "username = ? OR email = ?", req.Msg.Username, req.Msg.Username)
+	user := &model.User{}
+	tx := db.Instance().First(user, "username = ? OR email = ?", req.Msg.Username, req.Msg.Username)
 	if tx.RowsAffected == 0 {
 		return nil, connect.NewError(connect.CodeNotFound, errors.UserNotFound)
-	}
-	user := &model.User{}
-	if err := tx.Scan(user); err.Error != nil {
-		return nil, connect.NewError(connect.CodeInternal, err.Error)
 	}
 
 	passwordValid := security.VerifyPassword(req.Msg.Password, user.PasswordSalt, user.PasswordHash)

@@ -48,7 +48,8 @@ func CreateSession(uid string) (sessionId string, refreshToken string, accessTok
 
 func RefreshSession(sessionId string) (refreshToken string, accessToken string, err error) {
 	// TODO: need to review this, might have to change the logic
-	tx := db.Instance().Model(model.UserSession{}).Where("session_id = ?", sessionId).First(&model.UserSession{})
+	session := &model.UserSession{}
+	tx := db.Instance().Model(model.UserSession{}).First(session, "session_id = ?", sessionId)
 	if tx.Error != nil {
 		return "", "", stdErrors.Join(tx.Error, errors.SessionNotFound)
 	}
@@ -56,10 +57,6 @@ func RefreshSession(sessionId string) (refreshToken string, accessToken string, 
 		return "", "", errors.SessionNotFound
 	}
 
-	session := &model.UserSession{}
-	if err := tx.Scan(session); err.Error != nil {
-		return "", "", stdErrors.Join(err.Error, errors.SessionNotFound)
-	}
 	uid := session.UserID
 
 	timeNow := time.Now()
