@@ -1,8 +1,6 @@
 package handler
 
 import (
-	connectcors "connectrpc.com/cors"
-	"github.com/rs/cors"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
 	"net/http"
@@ -11,28 +9,14 @@ import (
 	"panelium/proto-gen-go/proto_gen_goconnect"
 )
 
-func withCORS(h http.Handler) http.Handler {
-	corsMiddleware := cors.New(cors.Options{
-		AllowedOrigins: []string{"*"}, // Change to specific origins in production
-		AllowedMethods: connectcors.AllowedMethods(),
-		AllowedHeaders: connectcors.AllowedHeaders(),
-		ExposedHeaders: connectcors.ExposedHeaders(),
-	})
-	return corsMiddleware.Handler(h)
-}
-
 func Handle(host string) error {
 	mux := http.NewServeMux()
 	mux.Handle(proto_gen_goconnect.NewAuthServiceHandler(&auth.AuthServiceHandler{}))
 
-	muxWithAuth := http.NewServeMux()
-	// todo
-
-	authedHandler := middleware.AuthenticationMiddleware.Wrap(muxWithAuth)
-	mux.Handle("/", authedHandler)
-
-	handler := h2c.NewHandler(mux, &http2.Server{})
-	corsHandler := withCORS(handler)
+	authMiddlewareHandler := middleware.AuthenticationMiddleware.Wrap(mux)
+	tokensMiddlewareHandler := middleware.TokensMiddleware.Wrap(authMiddlewareHandler)
+	handler := h2c.NewHandler(tokensMiddlewareHandler, &http2.Server{})
+	corsHandler := middleware.WithCORS(handler)
 	err := http.ListenAndServe(
 		host,
 		corsHandler,
