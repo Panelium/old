@@ -17,7 +17,7 @@ const (
 	MFATokenType           TokenType = "mfa"
 )
 
-type Issuer string
+type Issuer string // TODO: this might be changed to a url
 
 const (
 	BackendIssuer Issuer = "backend"
