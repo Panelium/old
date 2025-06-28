@@ -17,7 +17,7 @@ func (s *AuthServiceHandler) Login(
 ) (*connect.Response[proto_gen_go.LoginResponse], error) {
 	user := &model.User{}
 	tx := db.Instance().First(user, "username = ? OR email = ?", req.Msg.Username, req.Msg.Username)
-	if tx.RowsAffected == 0 {
+	if tx.RowsAffected == 0 || tx.Error != nil {
 		return nil, connect.NewError(connect.CodeNotFound, errors.UserNotFound)
 	}
 

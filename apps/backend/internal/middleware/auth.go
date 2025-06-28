@@ -21,8 +21,6 @@ var allowedProceduresAuth = []string{
 
 var AuthenticationMiddleware = authn.NewMiddleware(authentication)
 
-var errorInvalidCredentials = connect.NewError(connect.CodeUnauthenticated, errors.InvalidCredentials)
-
 type SessionInfo struct {
 	SessionID string
 	UserID    string
@@ -40,17 +38,17 @@ func authentication(ctx context.Context, req *http.Request) (any, error) {
 
 	tokens := ctx.Value("panelium_tokens").(Tokens)
 	if tokens == nil || len(tokens) == 0 {
-		return nil, errorInvalidCredentials
+		return nil, errors.ConnectInvalidCredentials
 	}
 
 	accessToken, ok := tokens["access_jwt"]
 	if ok != true {
-		return nil, errorInvalidCredentials
+		return nil, errors.ConnectInvalidCredentials
 	}
 
 	claims, err := jwt.VerifyJWT(accessToken, &config.JWTPrivateKeyInstance.PublicKey, jwt.BackendIssuer, jwt.AccessTokenType)
 	if err != nil {
-		return nil, errorInvalidCredentials
+		return nil, errors.ConnectInvalidCredentials
 	}
 
 	session := &model.UserSession{}
@@ -62,7 +60,7 @@ func authentication(ctx context.Context, req *http.Request) (any, error) {
 	if session.AccessJTI != claims.JTI {
 		// possible replay attack - delete the session to log out the user
 		db.Instance().Model(&model.UserSession{}).Where("session_id = ?", claims.Audience).Delete(&model.UserSession{})
-		return nil, errorInvalidCredentials
+		return nil, errors.ConnectInvalidCredentials
 	}
 
 	return SessionInfo{

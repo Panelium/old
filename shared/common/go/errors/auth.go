@@ -1,6 +1,11 @@
 package errors
 
-import "errors"
+import (
+	"connectrpc.com/connect"
+	"errors"
+)
+
+var ConnectInvalidCredentials = connect.NewError(connect.CodeUnauthenticated, InvalidCredentials)
 
 var UserNotFound = errors.New("user not found")
 var InvalidCredentials = errors.New("invalid credentials")
