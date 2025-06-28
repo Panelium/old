@@ -3,6 +3,13 @@ package auth
 import (
 	"connectrpc.com/connect"
 	"context"
+	"panelium/backend/internal/config"
+	"panelium/backend/internal/db"
+	"panelium/backend/internal/middleware"
+	"panelium/backend/internal/model"
+	"panelium/backend/internal/security/session"
+	"panelium/common/errors"
+	"panelium/common/jwt"
 	proto_gen_go "panelium/proto-gen-go"
 )
 
@@ -10,5 +17,44 @@ func (s *AuthServiceHandler) RefreshToken(
 	ctx context.Context,
 	req *connect.Request[proto_gen_go.RefreshTokenRequest],
 ) (*connect.Response[proto_gen_go.RefreshTokenResponse], error) {
+	tokens := ctx.Value("panelium_tokens").(middleware.Tokens)
+	if tokens == nil || len(tokens) == 0 {
+		return nil, errors.ConnectInvalidCredentials
+	}
+
+	refreshToken, ok := tokens["refresh_jwt"]
+	if ok != true {
+		return nil, errors.ConnectInvalidCredentials
+	}
+
+	claims, err := jwt.VerifyJWT(refreshToken, &config.JWTPrivateKeyInstance.PublicKey, jwt.BackendIssuer, jwt.RefreshTokenType)
+	if err != nil {
+		return nil, errors.ConnectInvalidCredentials
+	}
+
+	userSession := &model.UserSession{}
+	tx := db.Instance().Model(&model.UserSession{}).First(userSession, "session_id = ? AND user_id = ?", claims.Audience, *claims.Subject)
+	if tx.Error != nil || tx.RowsAffected == 0 {
+		return nil, connect.NewError(connect.CodeUnauthenticated, errors.SessionNotFound)
+	}
+
+	if userSession.RefreshJTI != claims.JTI {
+		// possible replay attack - delete the session to log out the user
+		db.Instance().Model(&model.UserSession{}).Where("session_id = ?", claims.Audience).Delete(&model.UserSession{})
+		return nil, errors.ConnectInvalidCredentials
+	}
+
+	newRefreshToken, newAccessToken, err := session.RefreshSession(userSession.SessionID) // RefreshSession will also update the session in the database
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, errors.SessionCreationFailed)
+	}
+
+	noop(newRefreshToken, newAccessToken) // TODO: remove this, just so go doesn't complain about unused variables
+
+	/* TODO: COOKIES
+	refresh_jwt: newRefreshToken,
+	access_jwt: newAccessToken,
+	*/
+
 	return nil, nil
 }

@@ -11,12 +11,11 @@ import (
 	"panelium/backend/internal/model"
 	"panelium/common/errors"
 	"panelium/common/jwt"
-	"panelium/proto-gen-go/proto_gen_goconnect"
 	"slices"
 )
 
 var allowedProceduresAuth = []string{
-	proto_gen_goconnect.AuthServiceRefreshTokenProcedure,
+	// list of procedures that require authentication (access token)
 }
 
 var AuthenticationMiddleware = authn.NewMiddleware(authentication)
@@ -51,13 +50,13 @@ func authentication(ctx context.Context, req *http.Request) (any, error) {
 		return nil, errors.ConnectInvalidCredentials
 	}
 
-	session := &model.UserSession{}
-	tx := db.Instance().Model(&model.UserSession{}).First(session, "session_id = ? AND user_id = ?", claims.Audience, *claims.Subject)
+	userSession := &model.UserSession{}
+	tx := db.Instance().Model(&model.UserSession{}).First(userSession, "session_id = ? AND user_id = ?", claims.Audience, *claims.Subject)
 	if tx.Error != nil || tx.RowsAffected == 0 {
 		return nil, connect.NewError(connect.CodeUnauthenticated, errors.SessionNotFound)
 	}
 
-	if session.AccessJTI != claims.JTI {
+	if userSession.AccessJTI != claims.JTI {
 		// possible replay attack - delete the session to log out the user
 		db.Instance().Model(&model.UserSession{}).Where("session_id = ?", claims.Audience).Delete(&model.UserSession{})
 		return nil, errors.ConnectInvalidCredentials
