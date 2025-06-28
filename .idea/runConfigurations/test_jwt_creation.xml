@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="test jwt creation" type="GoApplicationRunConfiguration" factoryName="Go Application">
+    <module name="backend" />
+    <working_directory value="$PROJECT_DIR$/apps/backend" />
+    <parameters value="jwtTest" />
+    <kind value="FILE" />
+    <package value="panelium/backend" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$/apps/backend/main.go" />
+    <output_directory value="$PROJECT_DIR$/apps/backend/tmp" />
+    <method v="2" />
+  </configuration>
+</component>

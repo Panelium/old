@@ -9,6 +9,8 @@ import (
 	"panelium/backend/internal/handler"
 	"panelium/backend/internal/security"
 	"panelium/common/id"
+	"panelium/common/jwt"
+	"time"
 )
 
 func main() {
@@ -30,6 +32,10 @@ func main() {
 	}
 	if len(os.Args) > 1 && os.Args[1] == "passwordHashTest" {
 		passwordHashTest()
+		return
+	}
+	if len(os.Args) > 1 && os.Args[1] == "jwtTest" {
+		jwtTest()
 		return
 	}
 
@@ -79,4 +85,33 @@ func passwordHashTest() {
 	} else {
 		fmt.Printf("Password verification failed")
 	}
+}
+
+func jwtTest() {
+	sessionId, err := id.New()
+	if err != nil {
+		fmt.Printf("Failed to generate session ID: %v", err)
+		return
+	}
+
+	jti, err := id.New()
+	if err != nil {
+		fmt.Printf("Failed to generate JTI: %v", err)
+		return
+	}
+
+	claims := &jwt.Claims{
+		IssuedAt:   time.Now().Unix(),
+		Expiration: time.Now().Add(time.Hour).Unix(),
+		Audience:   sessionId,
+		Issuer:     jwt.BackendIssuer,
+		TokenType:  jwt.MFATokenType,
+		JTI:        jti,
+	}
+	token, err := jwt.CreateJWT(*claims, config.JWTPrivateKeyInstance)
+	if err != nil {
+		fmt.Printf("Failed to create JWT: %v", err)
+		return
+	}
+	fmt.Printf("Generated JWT: %s\n", token)
 }
