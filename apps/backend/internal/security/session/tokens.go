@@ -15,6 +15,10 @@ func CreateAccessToken(issuedAt time.Time, sessionId string, uid string) (token 
 	return CreateToken(issuedAt, config.ConfigInstance.GetAccessTokenDuration(), jwt.BackendIssuer, jwt.AccessTokenType, sessionId, &uid)
 }
 
+func CreatePasswordResetToken(issuedAt time.Time, sessionId string) (token string, JTI string, expiration time.Time, err error) {
+	return CreateToken(issuedAt, config.ConfigInstance.GetPasswordResetTokenDuration(), jwt.BackendIssuer, jwt.PasswordResetTokenType, sessionId, nil)
+}
+
 func CreateMFAToken(issuedAt time.Time, sessionId string) (token string, JTI string, expiration time.Time, err error) {
 	return CreateToken(issuedAt, config.ConfigInstance.GetMFATokenDuration(), jwt.BackendIssuer, jwt.MFATokenType, sessionId, nil)
 }

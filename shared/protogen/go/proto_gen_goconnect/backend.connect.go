@@ -37,6 +37,27 @@ const (
 	AuthServiceRegisterProcedure = "/backend.AuthService/Register"
 	// AuthServiceLoginProcedure is the fully-qualified name of the AuthService's Login RPC.
 	AuthServiceLoginProcedure = "/backend.AuthService/Login"
+	// AuthServiceChangePasswordProcedure is the fully-qualified name of the AuthService's
+	// ChangePassword RPC.
+	AuthServiceChangePasswordProcedure = "/backend.AuthService/ChangePassword"
+	// AuthServiceChangePasswordRequestMFACodeProcedure is the fully-qualified name of the AuthService's
+	// ChangePasswordRequestMFACode RPC.
+	AuthServiceChangePasswordRequestMFACodeProcedure = "/backend.AuthService/ChangePasswordRequestMFACode"
+	// AuthServiceChangePasswordVerifyMFAProcedure is the fully-qualified name of the AuthService's
+	// ChangePasswordVerifyMFA RPC.
+	AuthServiceChangePasswordVerifyMFAProcedure = "/backend.AuthService/ChangePasswordVerifyMFA"
+	// AuthServiceRequestPasswordResetProcedure is the fully-qualified name of the AuthService's
+	// RequestPasswordReset RPC.
+	AuthServiceRequestPasswordResetProcedure = "/backend.AuthService/RequestPasswordReset"
+	// AuthServiceResetPasswordProcedure is the fully-qualified name of the AuthService's ResetPassword
+	// RPC.
+	AuthServiceResetPasswordProcedure = "/backend.AuthService/ResetPassword"
+	// AuthServiceResetPasswordRequestMFACodeProcedure is the fully-qualified name of the AuthService's
+	// ResetPasswordRequestMFACode RPC.
+	AuthServiceResetPasswordRequestMFACodeProcedure = "/backend.AuthService/ResetPasswordRequestMFACode"
+	// AuthServiceResetPasswordVerifyMFAProcedure is the fully-qualified name of the AuthService's
+	// ResetPasswordVerifyMFA RPC.
+	AuthServiceResetPasswordVerifyMFAProcedure = "/backend.AuthService/ResetPasswordVerifyMFA"
 	// AuthServiceRequestMFACodeProcedure is the fully-qualified name of the AuthService's
 	// RequestMFACode RPC.
 	AuthServiceRequestMFACodeProcedure = "/backend.AuthService/RequestMFACode"
@@ -53,6 +74,13 @@ const (
 type AuthServiceClient interface {
 	Register(context.Context, *connect.Request[proto_gen_go.RegisterRequest]) (*connect.Response[proto_gen_go.RegisterResponse], error)
 	Login(context.Context, *connect.Request[proto_gen_go.LoginRequest]) (*connect.Response[proto_gen_go.LoginResponse], error)
+	ChangePassword(context.Context, *connect.Request[proto_gen_go.ChangePasswordRequest]) (*connect.Response[proto_gen_go.ChangePasswordResponse], error)
+	ChangePasswordRequestMFACode(context.Context, *connect.Request[proto_gen_go.RequestMFACodeRequest]) (*connect.Response[proto_gen_go.RequestMFACodeResponse], error)
+	ChangePasswordVerifyMFA(context.Context, *connect.Request[proto_gen_go.VerifyMFARequest]) (*connect.Response[proto_gen_go.VerifyMFAResponse], error)
+	RequestPasswordReset(context.Context, *connect.Request[proto_gen_go.RequestPasswordResetRequest]) (*connect.Response[proto_gen_go.RequestPasswordResetResponse], error)
+	ResetPassword(context.Context, *connect.Request[proto_gen_go.ResetPasswordRequest]) (*connect.Response[proto_gen_go.ResetPasswordResponse], error)
+	ResetPasswordRequestMFACode(context.Context, *connect.Request[proto_gen_go.RequestMFACodeRequest]) (*connect.Response[proto_gen_go.RequestMFACodeResponse], error)
+	ResetPasswordVerifyMFA(context.Context, *connect.Request[proto_gen_go.VerifyMFARequest]) (*connect.Response[proto_gen_go.VerifyMFAResponse], error)
 	RequestMFACode(context.Context, *connect.Request[proto_gen_go.RequestMFACodeRequest]) (*connect.Response[proto_gen_go.RequestMFACodeResponse], error)
 	VerifyMFA(context.Context, *connect.Request[proto_gen_go.VerifyMFARequest]) (*connect.Response[proto_gen_go.VerifyMFAResponse], error)
 	RefreshToken(context.Context, *connect.Request[proto_gen_go.RefreshTokenRequest]) (*connect.Response[proto_gen_go.RefreshTokenResponse], error)
@@ -80,6 +108,48 @@ func NewAuthServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 			httpClient,
 			baseURL+AuthServiceLoginProcedure,
 			connect.WithSchema(authServiceMethods.ByName("Login")),
+			connect.WithClientOptions(opts...),
+		),
+		changePassword: connect.NewClient[proto_gen_go.ChangePasswordRequest, proto_gen_go.ChangePasswordResponse](
+			httpClient,
+			baseURL+AuthServiceChangePasswordProcedure,
+			connect.WithSchema(authServiceMethods.ByName("ChangePassword")),
+			connect.WithClientOptions(opts...),
+		),
+		changePasswordRequestMFACode: connect.NewClient[proto_gen_go.RequestMFACodeRequest, proto_gen_go.RequestMFACodeResponse](
+			httpClient,
+			baseURL+AuthServiceChangePasswordRequestMFACodeProcedure,
+			connect.WithSchema(authServiceMethods.ByName("ChangePasswordRequestMFACode")),
+			connect.WithClientOptions(opts...),
+		),
+		changePasswordVerifyMFA: connect.NewClient[proto_gen_go.VerifyMFARequest, proto_gen_go.VerifyMFAResponse](
+			httpClient,
+			baseURL+AuthServiceChangePasswordVerifyMFAProcedure,
+			connect.WithSchema(authServiceMethods.ByName("ChangePasswordVerifyMFA")),
+			connect.WithClientOptions(opts...),
+		),
+		requestPasswordReset: connect.NewClient[proto_gen_go.RequestPasswordResetRequest, proto_gen_go.RequestPasswordResetResponse](
+			httpClient,
+			baseURL+AuthServiceRequestPasswordResetProcedure,
+			connect.WithSchema(authServiceMethods.ByName("RequestPasswordReset")),
+			connect.WithClientOptions(opts...),
+		),
+		resetPassword: connect.NewClient[proto_gen_go.ResetPasswordRequest, proto_gen_go.ResetPasswordResponse](
+			httpClient,
+			baseURL+AuthServiceResetPasswordProcedure,
+			connect.WithSchema(authServiceMethods.ByName("ResetPassword")),
+			connect.WithClientOptions(opts...),
+		),
+		resetPasswordRequestMFACode: connect.NewClient[proto_gen_go.RequestMFACodeRequest, proto_gen_go.RequestMFACodeResponse](
+			httpClient,
+			baseURL+AuthServiceResetPasswordRequestMFACodeProcedure,
+			connect.WithSchema(authServiceMethods.ByName("ResetPasswordRequestMFACode")),
+			connect.WithClientOptions(opts...),
+		),
+		resetPasswordVerifyMFA: connect.NewClient[proto_gen_go.VerifyMFARequest, proto_gen_go.VerifyMFAResponse](
+			httpClient,
+			baseURL+AuthServiceResetPasswordVerifyMFAProcedure,
+			connect.WithSchema(authServiceMethods.ByName("ResetPasswordVerifyMFA")),
 			connect.WithClientOptions(opts...),
 		),
 		requestMFACode: connect.NewClient[proto_gen_go.RequestMFACodeRequest, proto_gen_go.RequestMFACodeResponse](
@@ -111,12 +181,19 @@ func NewAuthServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 
 // authServiceClient implements AuthServiceClient.
 type authServiceClient struct {
-	register       *connect.Client[proto_gen_go.RegisterRequest, proto_gen_go.RegisterResponse]
-	login          *connect.Client[proto_gen_go.LoginRequest, proto_gen_go.LoginResponse]
-	requestMFACode *connect.Client[proto_gen_go.RequestMFACodeRequest, proto_gen_go.RequestMFACodeResponse]
-	verifyMFA      *connect.Client[proto_gen_go.VerifyMFARequest, proto_gen_go.VerifyMFAResponse]
-	refreshToken   *connect.Client[proto_gen_go.RefreshTokenRequest, proto_gen_go.RefreshTokenResponse]
-	logout         *connect.Client[proto_gen_go.LogoutRequest, proto_gen_go.LogoutResponse]
+	register                     *connect.Client[proto_gen_go.RegisterRequest, proto_gen_go.RegisterResponse]
+	login                        *connect.Client[proto_gen_go.LoginRequest, proto_gen_go.LoginResponse]
+	changePassword               *connect.Client[proto_gen_go.ChangePasswordRequest, proto_gen_go.ChangePasswordResponse]
+	changePasswordRequestMFACode *connect.Client[proto_gen_go.RequestMFACodeRequest, proto_gen_go.RequestMFACodeResponse]
+	changePasswordVerifyMFA      *connect.Client[proto_gen_go.VerifyMFARequest, proto_gen_go.VerifyMFAResponse]
+	requestPasswordReset         *connect.Client[proto_gen_go.RequestPasswordResetRequest, proto_gen_go.RequestPasswordResetResponse]
+	resetPassword                *connect.Client[proto_gen_go.ResetPasswordRequest, proto_gen_go.ResetPasswordResponse]
+	resetPasswordRequestMFACode  *connect.Client[proto_gen_go.RequestMFACodeRequest, proto_gen_go.RequestMFACodeResponse]
+	resetPasswordVerifyMFA       *connect.Client[proto_gen_go.VerifyMFARequest, proto_gen_go.VerifyMFAResponse]
+	requestMFACode               *connect.Client[proto_gen_go.RequestMFACodeRequest, proto_gen_go.RequestMFACodeResponse]
+	verifyMFA                    *connect.Client[proto_gen_go.VerifyMFARequest, proto_gen_go.VerifyMFAResponse]
+	refreshToken                 *connect.Client[proto_gen_go.RefreshTokenRequest, proto_gen_go.RefreshTokenResponse]
+	logout                       *connect.Client[proto_gen_go.LogoutRequest, proto_gen_go.LogoutResponse]
 }
 
 // Register calls backend.AuthService.Register.
@@ -127,6 +204,41 @@ func (c *authServiceClient) Register(ctx context.Context, req *connect.Request[p
 // Login calls backend.AuthService.Login.
 func (c *authServiceClient) Login(ctx context.Context, req *connect.Request[proto_gen_go.LoginRequest]) (*connect.Response[proto_gen_go.LoginResponse], error) {
 	return c.login.CallUnary(ctx, req)
+}
+
+// ChangePassword calls backend.AuthService.ChangePassword.
+func (c *authServiceClient) ChangePassword(ctx context.Context, req *connect.Request[proto_gen_go.ChangePasswordRequest]) (*connect.Response[proto_gen_go.ChangePasswordResponse], error) {
+	return c.changePassword.CallUnary(ctx, req)
+}
+
+// ChangePasswordRequestMFACode calls backend.AuthService.ChangePasswordRequestMFACode.
+func (c *authServiceClient) ChangePasswordRequestMFACode(ctx context.Context, req *connect.Request[proto_gen_go.RequestMFACodeRequest]) (*connect.Response[proto_gen_go.RequestMFACodeResponse], error) {
+	return c.changePasswordRequestMFACode.CallUnary(ctx, req)
+}
+
+// ChangePasswordVerifyMFA calls backend.AuthService.ChangePasswordVerifyMFA.
+func (c *authServiceClient) ChangePasswordVerifyMFA(ctx context.Context, req *connect.Request[proto_gen_go.VerifyMFARequest]) (*connect.Response[proto_gen_go.VerifyMFAResponse], error) {
+	return c.changePasswordVerifyMFA.CallUnary(ctx, req)
+}
+
+// RequestPasswordReset calls backend.AuthService.RequestPasswordReset.
+func (c *authServiceClient) RequestPasswordReset(ctx context.Context, req *connect.Request[proto_gen_go.RequestPasswordResetRequest]) (*connect.Response[proto_gen_go.RequestPasswordResetResponse], error) {
+	return c.requestPasswordReset.CallUnary(ctx, req)
+}
+
+// ResetPassword calls backend.AuthService.ResetPassword.
+func (c *authServiceClient) ResetPassword(ctx context.Context, req *connect.Request[proto_gen_go.ResetPasswordRequest]) (*connect.Response[proto_gen_go.ResetPasswordResponse], error) {
+	return c.resetPassword.CallUnary(ctx, req)
+}
+
+// ResetPasswordRequestMFACode calls backend.AuthService.ResetPasswordRequestMFACode.
+func (c *authServiceClient) ResetPasswordRequestMFACode(ctx context.Context, req *connect.Request[proto_gen_go.RequestMFACodeRequest]) (*connect.Response[proto_gen_go.RequestMFACodeResponse], error) {
+	return c.resetPasswordRequestMFACode.CallUnary(ctx, req)
+}
+
+// ResetPasswordVerifyMFA calls backend.AuthService.ResetPasswordVerifyMFA.
+func (c *authServiceClient) ResetPasswordVerifyMFA(ctx context.Context, req *connect.Request[proto_gen_go.VerifyMFARequest]) (*connect.Response[proto_gen_go.VerifyMFAResponse], error) {
+	return c.resetPasswordVerifyMFA.CallUnary(ctx, req)
 }
 
 // RequestMFACode calls backend.AuthService.RequestMFACode.
@@ -153,6 +265,13 @@ func (c *authServiceClient) Logout(ctx context.Context, req *connect.Request[pro
 type AuthServiceHandler interface {
 	Register(context.Context, *connect.Request[proto_gen_go.RegisterRequest]) (*connect.Response[proto_gen_go.RegisterResponse], error)
 	Login(context.Context, *connect.Request[proto_gen_go.LoginRequest]) (*connect.Response[proto_gen_go.LoginResponse], error)
+	ChangePassword(context.Context, *connect.Request[proto_gen_go.ChangePasswordRequest]) (*connect.Response[proto_gen_go.ChangePasswordResponse], error)
+	ChangePasswordRequestMFACode(context.Context, *connect.Request[proto_gen_go.RequestMFACodeRequest]) (*connect.Response[proto_gen_go.RequestMFACodeResponse], error)
+	ChangePasswordVerifyMFA(context.Context, *connect.Request[proto_gen_go.VerifyMFARequest]) (*connect.Response[proto_gen_go.VerifyMFAResponse], error)
+	RequestPasswordReset(context.Context, *connect.Request[proto_gen_go.RequestPasswordResetRequest]) (*connect.Response[proto_gen_go.RequestPasswordResetResponse], error)
+	ResetPassword(context.Context, *connect.Request[proto_gen_go.ResetPasswordRequest]) (*connect.Response[proto_gen_go.ResetPasswordResponse], error)
+	ResetPasswordRequestMFACode(context.Context, *connect.Request[proto_gen_go.RequestMFACodeRequest]) (*connect.Response[proto_gen_go.RequestMFACodeResponse], error)
+	ResetPasswordVerifyMFA(context.Context, *connect.Request[proto_gen_go.VerifyMFARequest]) (*connect.Response[proto_gen_go.VerifyMFAResponse], error)
 	RequestMFACode(context.Context, *connect.Request[proto_gen_go.RequestMFACodeRequest]) (*connect.Response[proto_gen_go.RequestMFACodeResponse], error)
 	VerifyMFA(context.Context, *connect.Request[proto_gen_go.VerifyMFARequest]) (*connect.Response[proto_gen_go.VerifyMFAResponse], error)
 	RefreshToken(context.Context, *connect.Request[proto_gen_go.RefreshTokenRequest]) (*connect.Response[proto_gen_go.RefreshTokenResponse], error)
@@ -176,6 +295,48 @@ func NewAuthServiceHandler(svc AuthServiceHandler, opts ...connect.HandlerOption
 		AuthServiceLoginProcedure,
 		svc.Login,
 		connect.WithSchema(authServiceMethods.ByName("Login")),
+		connect.WithHandlerOptions(opts...),
+	)
+	authServiceChangePasswordHandler := connect.NewUnaryHandler(
+		AuthServiceChangePasswordProcedure,
+		svc.ChangePassword,
+		connect.WithSchema(authServiceMethods.ByName("ChangePassword")),
+		connect.WithHandlerOptions(opts...),
+	)
+	authServiceChangePasswordRequestMFACodeHandler := connect.NewUnaryHandler(
+		AuthServiceChangePasswordRequestMFACodeProcedure,
+		svc.ChangePasswordRequestMFACode,
+		connect.WithSchema(authServiceMethods.ByName("ChangePasswordRequestMFACode")),
+		connect.WithHandlerOptions(opts...),
+	)
+	authServiceChangePasswordVerifyMFAHandler := connect.NewUnaryHandler(
+		AuthServiceChangePasswordVerifyMFAProcedure,
+		svc.ChangePasswordVerifyMFA,
+		connect.WithSchema(authServiceMethods.ByName("ChangePasswordVerifyMFA")),
+		connect.WithHandlerOptions(opts...),
+	)
+	authServiceRequestPasswordResetHandler := connect.NewUnaryHandler(
+		AuthServiceRequestPasswordResetProcedure,
+		svc.RequestPasswordReset,
+		connect.WithSchema(authServiceMethods.ByName("RequestPasswordReset")),
+		connect.WithHandlerOptions(opts...),
+	)
+	authServiceResetPasswordHandler := connect.NewUnaryHandler(
+		AuthServiceResetPasswordProcedure,
+		svc.ResetPassword,
+		connect.WithSchema(authServiceMethods.ByName("ResetPassword")),
+		connect.WithHandlerOptions(opts...),
+	)
+	authServiceResetPasswordRequestMFACodeHandler := connect.NewUnaryHandler(
+		AuthServiceResetPasswordRequestMFACodeProcedure,
+		svc.ResetPasswordRequestMFACode,
+		connect.WithSchema(authServiceMethods.ByName("ResetPasswordRequestMFACode")),
+		connect.WithHandlerOptions(opts...),
+	)
+	authServiceResetPasswordVerifyMFAHandler := connect.NewUnaryHandler(
+		AuthServiceResetPasswordVerifyMFAProcedure,
+		svc.ResetPasswordVerifyMFA,
+		connect.WithSchema(authServiceMethods.ByName("ResetPasswordVerifyMFA")),
 		connect.WithHandlerOptions(opts...),
 	)
 	authServiceRequestMFACodeHandler := connect.NewUnaryHandler(
@@ -208,6 +369,20 @@ func NewAuthServiceHandler(svc AuthServiceHandler, opts ...connect.HandlerOption
 			authServiceRegisterHandler.ServeHTTP(w, r)
 		case AuthServiceLoginProcedure:
 			authServiceLoginHandler.ServeHTTP(w, r)
+		case AuthServiceChangePasswordProcedure:
+			authServiceChangePasswordHandler.ServeHTTP(w, r)
+		case AuthServiceChangePasswordRequestMFACodeProcedure:
+			authServiceChangePasswordRequestMFACodeHandler.ServeHTTP(w, r)
+		case AuthServiceChangePasswordVerifyMFAProcedure:
+			authServiceChangePasswordVerifyMFAHandler.ServeHTTP(w, r)
+		case AuthServiceRequestPasswordResetProcedure:
+			authServiceRequestPasswordResetHandler.ServeHTTP(w, r)
+		case AuthServiceResetPasswordProcedure:
+			authServiceResetPasswordHandler.ServeHTTP(w, r)
+		case AuthServiceResetPasswordRequestMFACodeProcedure:
+			authServiceResetPasswordRequestMFACodeHandler.ServeHTTP(w, r)
+		case AuthServiceResetPasswordVerifyMFAProcedure:
+			authServiceResetPasswordVerifyMFAHandler.ServeHTTP(w, r)
 		case AuthServiceRequestMFACodeProcedure:
 			authServiceRequestMFACodeHandler.ServeHTTP(w, r)
 		case AuthServiceVerifyMFAProcedure:
@@ -231,6 +406,34 @@ func (UnimplementedAuthServiceHandler) Register(context.Context, *connect.Reques
 
 func (UnimplementedAuthServiceHandler) Login(context.Context, *connect.Request[proto_gen_go.LoginRequest]) (*connect.Response[proto_gen_go.LoginResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.AuthService.Login is not implemented"))
+}
+
+func (UnimplementedAuthServiceHandler) ChangePassword(context.Context, *connect.Request[proto_gen_go.ChangePasswordRequest]) (*connect.Response[proto_gen_go.ChangePasswordResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.AuthService.ChangePassword is not implemented"))
+}
+
+func (UnimplementedAuthServiceHandler) ChangePasswordRequestMFACode(context.Context, *connect.Request[proto_gen_go.RequestMFACodeRequest]) (*connect.Response[proto_gen_go.RequestMFACodeResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.AuthService.ChangePasswordRequestMFACode is not implemented"))
+}
+
+func (UnimplementedAuthServiceHandler) ChangePasswordVerifyMFA(context.Context, *connect.Request[proto_gen_go.VerifyMFARequest]) (*connect.Response[proto_gen_go.VerifyMFAResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.AuthService.ChangePasswordVerifyMFA is not implemented"))
+}
+
+func (UnimplementedAuthServiceHandler) RequestPasswordReset(context.Context, *connect.Request[proto_gen_go.RequestPasswordResetRequest]) (*connect.Response[proto_gen_go.RequestPasswordResetResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.AuthService.RequestPasswordReset is not implemented"))
+}
+
+func (UnimplementedAuthServiceHandler) ResetPassword(context.Context, *connect.Request[proto_gen_go.ResetPasswordRequest]) (*connect.Response[proto_gen_go.ResetPasswordResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.AuthService.ResetPassword is not implemented"))
+}
+
+func (UnimplementedAuthServiceHandler) ResetPasswordRequestMFACode(context.Context, *connect.Request[proto_gen_go.RequestMFACodeRequest]) (*connect.Response[proto_gen_go.RequestMFACodeResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.AuthService.ResetPasswordRequestMFACode is not implemented"))
+}
+
+func (UnimplementedAuthServiceHandler) ResetPasswordVerifyMFA(context.Context, *connect.Request[proto_gen_go.VerifyMFARequest]) (*connect.Response[proto_gen_go.VerifyMFAResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.AuthService.ResetPasswordVerifyMFA is not implemented"))
 }
 
 func (UnimplementedAuthServiceHandler) RequestMFACode(context.Context, *connect.Request[proto_gen_go.RequestMFACodeRequest]) (*connect.Response[proto_gen_go.RequestMFACodeResponse], error) {

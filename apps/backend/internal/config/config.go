@@ -117,9 +117,10 @@ func Init() error {
 }
 
 // Default Config Values
-const DefaultAccessTokenDuration = 5 * time.Minute // 5 minutes
-const DefaultRefreshTokenDuration = 24 * time.Hour // 24 hours
-const DefaultMFATokenDuration = 15 * time.Minute   // 15 minutes
+const DefaultAccessTokenDuration = 5 * time.Minute         // 5 minutes
+const DefaultRefreshTokenDuration = 24 * time.Hour         // 24 hours
+const DefaultPasswordResetTokenDuration = 15 * time.Minute // 15 minutes
+const DefaultMFATokenDuration = 15 * time.Minute           // 15 minutes
 
 const DefaultMFACodeLength = 8
 const DefaultRecoveryCodeLength = 8
@@ -130,9 +131,10 @@ type Config struct {
 	lock sync.RWMutex
 	// Durations of tokens in seconds
 	JWTDurations struct {
-		Access  uint `json:"access"`
-		Refresh uint `json:"refresh"`
-		MFA     uint `json:"mfa"`
+		Access        uint `json:"access"`
+		Refresh       uint `json:"refresh"`
+		PasswordReset uint `json:"password_reset"`
+		MFA           uint `json:"mfa"`
 	} `json:"jwt_durations"`
 	MFA struct {
 		CodeLength         int `json:"code_length"`          // Length of the standard MFA codes (sms, email, etc.)
@@ -145,13 +147,15 @@ func newConfig() *Config {
 	return &Config{
 		lock: sync.RWMutex{},
 		JWTDurations: struct {
-			Access  uint `json:"access"`
-			Refresh uint `json:"refresh"`
-			MFA     uint `json:"mfa"`
+			Access        uint `json:"access"`
+			Refresh       uint `json:"refresh"`
+			PasswordReset uint `json:"password_reset"`
+			MFA           uint `json:"mfa"`
 		}{
-			Access:  uint(DefaultAccessTokenDuration.Seconds()),
-			Refresh: uint(DefaultRefreshTokenDuration.Seconds()),
-			MFA:     uint(DefaultMFATokenDuration.Seconds()),
+			Access:        uint(DefaultAccessTokenDuration.Seconds()),
+			Refresh:       uint(DefaultRefreshTokenDuration.Seconds()),
+			PasswordReset: uint(DefaultPasswordResetTokenDuration.Seconds()),
+			MFA:           uint(DefaultMFATokenDuration.Seconds()),
 		},
 		MFA: struct {
 			CodeLength         int `json:"code_length"`
@@ -196,6 +200,9 @@ func (c *Config) Migrate() error {
 	}
 	if c.JWTDurations.Refresh == 0 {
 		c.JWTDurations.Refresh = uint(DefaultRefreshTokenDuration.Seconds())
+	}
+	if c.JWTDurations.PasswordReset == 0 {
+		c.JWTDurations.PasswordReset = uint(DefaultPasswordResetTokenDuration.Seconds())
 	}
 	if c.JWTDurations.MFA == 0 {
 		c.JWTDurations.MFA = uint(DefaultMFATokenDuration.Seconds())
@@ -246,6 +253,15 @@ func (c *Config) GetRefreshTokenDuration() time.Duration {
 	defer c.lock.RUnlock()
 
 	val := time.Duration(c.JWTDurations.Refresh) * time.Second
+
+	return val
+}
+
+func (c *Config) GetPasswordResetTokenDuration() time.Duration {
+	c.lock.RLock()
+	defer c.lock.RUnlock()
+
+	val := time.Duration(c.JWTDurations.PasswordReset) * time.Second
 
 	return val
 }

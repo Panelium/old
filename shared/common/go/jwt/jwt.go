@@ -11,9 +11,10 @@ import (
 type TokenType string
 
 const (
-	AccessTokenType  TokenType = "access"
-	RefreshTokenType TokenType = "refresh"
-	MFATokenType     TokenType = "mfa"
+	AccessTokenType        TokenType = "access"
+	RefreshTokenType       TokenType = "refresh"
+	PasswordResetTokenType TokenType = "reset"
+	MFATokenType           TokenType = "mfa"
 )
 
 type Issuer string
