@@ -9,6 +9,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"panelium/common/random"
 	"sync"
 	"time"
 )
@@ -57,7 +58,10 @@ func Init() error {
 		}
 	}
 	if _, err := os.Stat(secretsLocation); os.IsNotExist(err) {
-		secrets := newSecrets()
+		secrets, err := newSecrets()
+		if err != nil {
+			return err
+		}
 		if err := secrets.Save(); err != nil {
 			return err
 		}
@@ -283,18 +287,26 @@ type Secrets struct {
 	Pepper string `json:"pepper"`
 }
 
-func newSecrets() *Secrets {
+func newSecrets() (*Secrets, error) {
+	pepper, err := random.GenerateSecureRandomString()
+	if err != nil {
+		return nil, errors.New("failed to generate pepper: " + err.Error())
+	}
+
 	return &Secrets{
 		lock:   sync.RWMutex{},
-		Pepper: rand.Text(),
-	}
+		Pepper: pepper,
+	}, nil
 }
 
 func loadSecrets() (*Secrets, error) {
 	file, err := os.Open(secretsLocation)
 	if err != nil {
 		if os.IsNotExist(err) {
-			secrets := newSecrets()
+			secrets, err := newSecrets()
+			if err != nil {
+				return nil, err
+			}
 			if err := secrets.Save(); err != nil {
 				return nil, err
 			}
@@ -317,7 +329,12 @@ func (s *Secrets) Migrate() error {
 	s.lock.Lock()
 
 	if s.Pepper == "" {
-		s.Pepper = rand.Text()
+		pepper, err := random.GenerateSecureRandomString()
+		if err != nil {
+			s.lock.Unlock()
+			return errors.New("failed to generate pepper: " + err.Error())
+		}
+		s.Pepper = pepper
 	}
 
 	s.lock.Unlock()

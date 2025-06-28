@@ -1,11 +1,10 @@
 package security
 
 import (
-	"crypto/rand"
-	"encoding/base32"
 	"encoding/hex"
 	"golang.org/x/crypto/argon2"
 	"panelium/backend/internal/config"
+	"panelium/common/random"
 )
 
 // hashPasswordInternal is a helper function that hashes the password using Argon2 provided salt and pepper.
@@ -20,7 +19,7 @@ func hashPasswordInternal(password string, salt string) string {
 // returns the password hash and the generated salt
 // pepper is retrieved from app config
 func HashPassword(password string) (passwordHash string, salt string, err error) {
-	salt, err = GenerateSecureRandomString()
+	salt, err = random.GenerateSecureRandomString()
 	if err != nil {
 		return "", "", err
 	}
@@ -35,15 +34,4 @@ func HashPassword(password string) (passwordHash string, salt string, err error)
 func VerifyPassword(password string, salt string, passwordHash string) bool {
 	passwordHashNew := hashPasswordInternal(password, salt)
 	return passwordHashNew == passwordHash
-}
-
-// GenerateSecureRandomString is used for generating the salt and pepper
-func GenerateSecureRandomString() (string, error) {
-	bytes := make([]byte, 32) // 32 bytes = 256 bits - TODO: maybe make this configurable
-	_, err := rand.Read(bytes)
-	if err != nil {
-		return "", err
-	}
-	str := base32.StdEncoding.EncodeToString(bytes)
-	return str, nil
 }
