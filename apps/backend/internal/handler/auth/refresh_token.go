@@ -17,8 +17,9 @@ func (s *AuthServiceHandler) RefreshToken(
 	ctx context.Context,
 	req *connect.Request[proto_gen_go.RefreshTokenRequest],
 ) (*connect.Response[proto_gen_go.RefreshTokenResponse], error) {
-	tokens := ctx.Value("panelium_tokens").(middleware.Tokens)
-	if tokens == nil || len(tokens) == 0 {
+	tokensData := ctx.Value("panelium_tokens")
+	tokens, ok := tokensData.(middleware.Tokens)
+	if !ok || tokens == nil || len(tokens) == 0 {
 		return nil, errors.ConnectInvalidCredentials
 	}
 
@@ -39,8 +40,11 @@ func (s *AuthServiceHandler) RefreshToken(
 	}
 
 	if userSession.RefreshJTI != claims.JTI {
-		// possible replay attack - delete the session to log out the user
-		db.Instance().Model(&model.UserSession{}).Where("session_id = ?", claims.Audience).Delete(&model.UserSession{})
+		err := session.DeleteSession(userSession.SessionID)
+		if err != nil {
+			// TODO: log this error
+			return nil, errors.ConnectInvalidCredentials
+		}
 		return nil, errors.ConnectInvalidCredentials
 	}
 
@@ -49,6 +53,10 @@ func (s *AuthServiceHandler) RefreshToken(
 		return nil, connect.NewError(connect.CodeInternal, errors.SessionCreationFailed)
 	}
 
+	res := connect.NewResponse(&proto_gen_go.RefreshTokenResponse{
+		Success: true,
+	})
+
 	noop(newRefreshToken, newAccessToken) // TODO: remove this, just so go doesn't complain about unused variables
 
 	/* TODO: COOKIES
@@ -56,5 +64,5 @@ func (s *AuthServiceHandler) RefreshToken(
 	access_jwt: newAccessToken,
 	*/
 
-	return nil, nil
+	return res, nil
 }
