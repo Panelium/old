@@ -10,7 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file common.proto.
  */
 export const file_common: GenFile = /*@__PURE__*/
-  fileDesc("Cgxjb21tb24ucHJvdG8SBmNvbW1vbiIHCgVFbXB0eSIdCg1TaW1wbGVNZXNzYWdlEgwKBHRleHQYASABKAlCF1oVcGFuZWxpdW0vcHJvdG8tZ2VuLWdvYgZwcm90bzM");
+  fileDesc("Cgxjb21tb24ucHJvdG8SBmNvbW1vbiIHCgVFbXB0eSIdCg1TaW1wbGVNZXNzYWdlEgwKBHRleHQYASABKAkiIQoOU3VjY2Vzc01lc3NhZ2USDwoHc3VjY2VzcxgBIAEoCEIXWhVwYW5lbGl1bS9wcm90by1nZW4tZ29iBnByb3RvMw");
 
 /**
  * @generated from message common.Empty
@@ -41,4 +41,21 @@ export type SimpleMessage = Message<"common.SimpleMessage"> & {
  */
 export const SimpleMessageSchema: GenMessage<SimpleMessage> = /*@__PURE__*/
   messageDesc(file_common, 1);
+
+/**
+ * @generated from message common.SuccessMessage
+ */
+export type SuccessMessage = Message<"common.SuccessMessage"> & {
+  /**
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+};
+
+/**
+ * Describes the message common.SuccessMessage.
+ * Use `create(SuccessMessageSchema)` to create a new message.
+ */
+export const SuccessMessageSchema: GenMessage<SuccessMessage> = /*@__PURE__*/
+  messageDesc(file_common, 2);
 

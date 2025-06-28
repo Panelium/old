@@ -16,4 +16,12 @@ components:
           title: text
       title: SimpleMessage
       additionalProperties: false
+    common.SuccessMessage:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: SuccessMessage
+      additionalProperties: false
 security: []

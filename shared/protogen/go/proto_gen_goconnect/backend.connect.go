@@ -53,7 +53,7 @@ const (
 type AuthServiceClient interface {
 	Register(context.Context, *connect.Request[proto_gen_go.RegisterRequest]) (*connect.Response[proto_gen_go.RegisterResponse], error)
 	Login(context.Context, *connect.Request[proto_gen_go.LoginRequest]) (*connect.Response[proto_gen_go.LoginResponse], error)
-	RequestMFACode(context.Context, *connect.Request[proto_gen_go.RequestMFACodeRequest]) (*connect.Response[proto_gen_go.Empty], error)
+	RequestMFACode(context.Context, *connect.Request[proto_gen_go.RequestMFACodeRequest]) (*connect.Response[proto_gen_go.RequestMFACodeResponse], error)
 	VerifyMFA(context.Context, *connect.Request[proto_gen_go.VerifyMFARequest]) (*connect.Response[proto_gen_go.VerifyMFAResponse], error)
 	RefreshToken(context.Context, *connect.Request[proto_gen_go.RefreshTokenRequest]) (*connect.Response[proto_gen_go.RefreshTokenResponse], error)
 	Logout(context.Context, *connect.Request[proto_gen_go.LogoutRequest]) (*connect.Response[proto_gen_go.LogoutResponse], error)
@@ -82,7 +82,7 @@ func NewAuthServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 			connect.WithSchema(authServiceMethods.ByName("Login")),
 			connect.WithClientOptions(opts...),
 		),
-		requestMFACode: connect.NewClient[proto_gen_go.RequestMFACodeRequest, proto_gen_go.Empty](
+		requestMFACode: connect.NewClient[proto_gen_go.RequestMFACodeRequest, proto_gen_go.RequestMFACodeResponse](
 			httpClient,
 			baseURL+AuthServiceRequestMFACodeProcedure,
 			connect.WithSchema(authServiceMethods.ByName("RequestMFACode")),
@@ -113,7 +113,7 @@ func NewAuthServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 type authServiceClient struct {
 	register       *connect.Client[proto_gen_go.RegisterRequest, proto_gen_go.RegisterResponse]
 	login          *connect.Client[proto_gen_go.LoginRequest, proto_gen_go.LoginResponse]
-	requestMFACode *connect.Client[proto_gen_go.RequestMFACodeRequest, proto_gen_go.Empty]
+	requestMFACode *connect.Client[proto_gen_go.RequestMFACodeRequest, proto_gen_go.RequestMFACodeResponse]
 	verifyMFA      *connect.Client[proto_gen_go.VerifyMFARequest, proto_gen_go.VerifyMFAResponse]
 	refreshToken   *connect.Client[proto_gen_go.RefreshTokenRequest, proto_gen_go.RefreshTokenResponse]
 	logout         *connect.Client[proto_gen_go.LogoutRequest, proto_gen_go.LogoutResponse]
@@ -130,7 +130,7 @@ func (c *authServiceClient) Login(ctx context.Context, req *connect.Request[prot
 }
 
 // RequestMFACode calls backend.AuthService.RequestMFACode.
-func (c *authServiceClient) RequestMFACode(ctx context.Context, req *connect.Request[proto_gen_go.RequestMFACodeRequest]) (*connect.Response[proto_gen_go.Empty], error) {
+func (c *authServiceClient) RequestMFACode(ctx context.Context, req *connect.Request[proto_gen_go.RequestMFACodeRequest]) (*connect.Response[proto_gen_go.RequestMFACodeResponse], error) {
 	return c.requestMFACode.CallUnary(ctx, req)
 }
 
@@ -153,7 +153,7 @@ func (c *authServiceClient) Logout(ctx context.Context, req *connect.Request[pro
 type AuthServiceHandler interface {
 	Register(context.Context, *connect.Request[proto_gen_go.RegisterRequest]) (*connect.Response[proto_gen_go.RegisterResponse], error)
 	Login(context.Context, *connect.Request[proto_gen_go.LoginRequest]) (*connect.Response[proto_gen_go.LoginResponse], error)
-	RequestMFACode(context.Context, *connect.Request[proto_gen_go.RequestMFACodeRequest]) (*connect.Response[proto_gen_go.Empty], error)
+	RequestMFACode(context.Context, *connect.Request[proto_gen_go.RequestMFACodeRequest]) (*connect.Response[proto_gen_go.RequestMFACodeResponse], error)
 	VerifyMFA(context.Context, *connect.Request[proto_gen_go.VerifyMFARequest]) (*connect.Response[proto_gen_go.VerifyMFAResponse], error)
 	RefreshToken(context.Context, *connect.Request[proto_gen_go.RefreshTokenRequest]) (*connect.Response[proto_gen_go.RefreshTokenResponse], error)
 	Logout(context.Context, *connect.Request[proto_gen_go.LogoutRequest]) (*connect.Response[proto_gen_go.LogoutResponse], error)
@@ -233,7 +233,7 @@ func (UnimplementedAuthServiceHandler) Login(context.Context, *connect.Request[p
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.AuthService.Login is not implemented"))
 }
 
-func (UnimplementedAuthServiceHandler) RequestMFACode(context.Context, *connect.Request[proto_gen_go.RequestMFACodeRequest]) (*connect.Response[proto_gen_go.Empty], error) {
+func (UnimplementedAuthServiceHandler) RequestMFACode(context.Context, *connect.Request[proto_gen_go.RequestMFACodeRequest]) (*connect.Response[proto_gen_go.RequestMFACodeResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.AuthService.RequestMFACode is not implemented"))
 }
 

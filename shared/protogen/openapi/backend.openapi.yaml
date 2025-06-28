@@ -106,7 +106,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/common.Empty'
+                $ref: '#/components/schemas/backend.RequestMFACodeResponse'
   /backend.AuthService/VerifyMFA:
     post:
       tags:
@@ -319,18 +319,23 @@ components:
     backend.RequestMFACodeRequest:
       type: object
       properties:
-        mfaSessionToken:
-          type: string
-          title: mfa_session_token
-          description: cookie
-          nullable: true
         mfaType:
           title: mfa_type
-          description: type of MFA to use
+          description: |-
+            REQUEST COOKIES
+            mfa_jwt type of MFA to use
           $ref: '#/components/schemas/backend.MFAType'
       title: RequestMFACodeRequest
       additionalProperties: false
       description: only for MFA types that require the backend to send a code (e.g. SMS, Email)
+    backend.RequestMFACodeResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: RequestMFACodeResponse
+      additionalProperties: false
     backend.VerifyMFARequest:
       type: object
       properties:
@@ -362,10 +367,6 @@ components:
             $ref: '#/components/schemas/backend.MFAType'
           title: mfa_types_available
       title: VerifyMFAResponse
-      additionalProperties: false
-    common.Empty:
-      type: object
-      title: Empty
       additionalProperties: false
     connect-protocol-version:
       type: number
