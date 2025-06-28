@@ -48,7 +48,10 @@ func (s *AuthServiceHandler) Register(
 		return nil, connect.NewError(connect.CodeInternal, errors.New("failed to create user"))
 	}
 
-	passwordHash, passwordSalt := security.HashPassword(req.Msg.Password)
+	passwordHash, passwordSalt, err := security.HashPassword(req.Msg.Password)
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, errors.New("failed to create user"))
+	}
 
 	user := &model.User{
 		UID:          uid,
@@ -69,9 +72,15 @@ func (s *AuthServiceHandler) Register(
 	}
 
 	res := connect.NewResponse(&proto_gen_go.RegisterResponse{
-		RefreshToken: &refreshToken, // TODO: this needs to be turned into a cookie
-		AccessToken:  &accessToken,  // TODO: this needs to be turned into a cookie
+		Success: true,
 	})
+
+	noop(refreshToken, accessToken) // TODO: remove this, just so go doesn't complain about unused variables
+
+	/* TODO: COOKIES
+	refresh_jwt: refreshToken,
+	access_jwt: accessToken,
+	*/
 
 	return res, nil
 }

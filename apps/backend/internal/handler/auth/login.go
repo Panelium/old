@@ -43,10 +43,16 @@ func (s *AuthServiceHandler) Login(
 	}
 
 	res := connect.NewResponse(&proto_gen_go.LoginResponse{
-		RequiresMfa:  false,
-		RefreshToken: &refreshToken, // TODO: this needs to be turned into a cookie
-		AccessToken:  &accessToken,  // TODO: this needs to be turned into a cookie
+		Success:     true,
+		RequiresMfa: false,
 	})
+
+	noop(refreshToken, accessToken) // TODO: remove this, just so go doesn't complain about unused variables
+
+	/* TODO: COOKIES
+	refresh_jwt: refreshToken,
+	access_jwt: accessToken,
+	*/
 
 	return res, nil
 }

@@ -9,6 +9,6 @@ import (
 func (s *AuthServiceHandler) RequestMFACode(
 	ctx context.Context,
 	req *connect.Request[proto_gen_go.RequestMFACodeRequest],
-) (*connect.Response[proto_gen_go.Empty], error) {
+) (*connect.Response[proto_gen_go.RequestMFACodeResponse], error) {
 	return nil, nil
 }

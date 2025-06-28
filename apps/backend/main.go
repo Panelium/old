@@ -67,7 +67,11 @@ func idGen() {
 
 func passwordHashTest() {
 	pass := "test1234"
-	hashed, salt := security.HashPassword(pass)
+	hashed, salt, err := security.HashPassword(pass)
+	if err != nil {
+		fmt.Printf("Failed to hash password: %v", err)
+		return
+	}
 	fmt.Printf("Hashed password: %s, Salt: %s\n", hashed, salt)
 	verified := security.VerifyPassword(pass, salt, hashed)
 	if verified {
