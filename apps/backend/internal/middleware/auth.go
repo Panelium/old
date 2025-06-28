@@ -9,13 +9,15 @@ import (
 	"panelium/backend/internal/config"
 	"panelium/backend/internal/db"
 	"panelium/backend/internal/model"
+	"panelium/backend/internal/security/session"
 	"panelium/common/errors"
 	"panelium/common/jwt"
+	"panelium/proto-gen-go/proto_gen_goconnect"
 	"slices"
 )
 
 var allowedProceduresAuth = []string{
-	// list of procedures that require authentication (access token)
+	proto_gen_goconnect.AuthServiceLogoutProcedure,
 }
 
 var AuthenticationMiddleware = authn.NewMiddleware(authentication)
@@ -35,8 +37,9 @@ func authentication(ctx context.Context, req *http.Request) (any, error) {
 		return nil, nil
 	}
 
-	tokens := ctx.Value("panelium_tokens").(Tokens)
-	if tokens == nil || len(tokens) == 0 {
+	tokensData := ctx.Value("panelium_tokens")
+	tokens, ok := tokensData.(Tokens)
+	if !ok || tokens == nil || len(tokens) == 0 {
 		return nil, errors.ConnectInvalidCredentials
 	}
 
@@ -57,8 +60,12 @@ func authentication(ctx context.Context, req *http.Request) (any, error) {
 	}
 
 	if userSession.AccessJTI != claims.JTI {
-		// possible replay attack - delete the session to log out the user
-		db.Instance().Model(&model.UserSession{}).Where("session_id = ?", claims.Audience).Delete(&model.UserSession{})
+		// possible replay attack - delete the session to log out the users
+		err := session.DeleteSession(userSession.SessionID)
+		if err != nil {
+			// TODO: log this error
+			return nil, errors.ConnectInvalidCredentials
+		}
 		return nil, errors.ConnectInvalidCredentials
 	}
 
