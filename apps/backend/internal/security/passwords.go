@@ -2,6 +2,7 @@ package security
 
 import (
 	"crypto/rand"
+	"encoding/base32"
 	"encoding/hex"
 	"golang.org/x/crypto/argon2"
 	"panelium/backend/internal/config"
@@ -18,10 +19,13 @@ func hashPasswordInternal(password string, salt string) string {
 // HashPassword is used for hashing passwords before storing them in the database and generating a salt.
 // returns the password hash and the generated salt
 // pepper is retrieved from app config
-func HashPassword(password string) (passwordHash string, salt string) {
-	salt = GenerateRandomString()
+func HashPassword(password string) (passwordHash string, salt string, err error) {
+	salt, err = GenerateSecureRandomString()
+	if err != nil {
+		return "", "", err
+	}
 	passwordHash = hashPasswordInternal(password, salt)
-	return passwordHash, salt
+	return passwordHash, salt, nil
 }
 
 // VerifyPassword is used to verify password user input against the stored hash
@@ -33,8 +37,13 @@ func VerifyPassword(password string, salt string, passwordHash string) bool {
 	return passwordHashNew == passwordHash
 }
 
-// GenerateRandomString is used for generating the salt and pepper
-func GenerateRandomString() string {
-	str := rand.Text()
-	return str
+// GenerateSecureRandomString is used for generating the salt and pepper
+func GenerateSecureRandomString() (string, error) {
+	bytes := make([]byte, 32) // 32 bytes = 256 bits - TODO: maybe make this configurable
+	_, err := rand.Read(bytes)
+	if err != nil {
+		return "", err
+	}
+	str := base32.StdEncoding.EncodeToString(bytes)
+	return str, nil
 }
