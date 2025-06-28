@@ -9,7 +9,7 @@ service AuthService {
   rpc Register(RegisterRequest) returns (RegisterResponse) {}
 
   rpc Login(LoginRequest) returns (LoginResponse) {}
-  rpc RequestMFACode(RequestMFACodeRequest) returns (common.Empty) {}
+  rpc RequestMFACode(RequestMFACodeRequest) returns (RequestMFACodeResponse) {}
   rpc VerifyMFA(VerifyMFARequest) returns (VerifyMFAResponse) {}
 
   rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse) {}
@@ -31,8 +31,11 @@ message RegisterRequest {
 }
 
 message RegisterResponse {
-  optional string access_token = 1; // cookie, only if register success
-  optional string refresh_token = 2; // cookie, only if register success
+  /* COOKIES
+  access_jwt (if register success)
+  refresh_jwt (if register success)
+  */
+  bool success = 1;
 }
 
 message LoginRequest {
@@ -40,46 +43,64 @@ message LoginRequest {
   string password = 2;
 }
 
-//we need to somehow let the frontend know when the access token expires so it can refresh it
-//or maybe we can just send an error and let the frontend handle it ¯\_(ツ)_/¯
-
 message LoginResponse {
-  optional string access_token = 1; // cookie, only if mfa not required and auth success
-  optional string refresh_token = 2; // cookie, only if mfa not required and auth success
-  bool requires_mfa = 3;
-  optional string mfa_session_token = 4; // cookie, only if mfa required and auth success
-  repeated MFAType mfa_type_available = 5; // (optional) types of MFA available for the user
+  /* COOKIES
+  access_jwt (if auth success and mfa not required)
+  refresh_jwt (if auth success and mfa not required)
+  mfa_jwt (if auth success and mfa required)
+  */
+  bool success = 1;
+  bool requires_mfa = 2;
+  repeated MFAType mfa_types_available = 3; // (optional) types of MFA available for the user
 }
 
 message RequestMFACodeRequest {// only for MFA types that require the backend to send a code (e.g. SMS, Email)
-  optional string mfa_session_token = 1; // cookie
+  /* REQUEST COOKIES
+  mfa_jwt
+  */
   MFAType mfa_type = 2; // type of MFA to use
 }
 
+message RequestMFACodeResponse {
+  bool success = 1;
+}
+
 message VerifyMFARequest {
-  optional string mfa_session_token = 1; // cookie
-  string mfa_code = 2;
+  /* REQUEST COOKIES
+  mfa_jwt
+  */
+  string mfa_code = 1;
 }
 
 message VerifyMFAResponse {
-  optional string access_token = 1; // cookie, only if auth and MFA success and no additional MFA required
-  optional string refresh_token = 2; // cookie, only if auth and MFA success and no additional MFA required
-  bool requires_additional_mfa = 3;
-  optional string mfa_session_token = 5; // cookie, only if additional MFA required
-  repeated MFAType mfa_types_available = 4;
+  /* COOKIES
+  access_jwt (if auth and MFA success and no additional MFA required)
+  refresh_jwt (if auth and MFA success and no additional MFA required)
+  mfa_jwt (if auth and MFA success but additional MFA required)
+  */
+  bool success = 1;
+  bool requires_additional_mfa = 2;
+  repeated MFAType mfa_types_available = 3;
 }
 
 message RefreshTokenRequest {
-  optional string refresh_token = 1; // cookie
+  /* REQUEST COOKIES
+  refresh_jwt
+  */
 }
 
 message RefreshTokenResponse {// note: if refresh token reuse - revoke all user tokens
-  optional string access_token = 1; // cookie, only if refresh token valid
-  optional string refresh_token = 2; // cookie, only if refresh token valid
+  /* COOKIES
+  access_jwt (if refresh token valid)
+  refresh_jwt (if refresh token valid)
+   */
+  bool success = 1;
 }
 
 message LogoutRequest {
-  optional string access_token = 1; // cookie
+  /* REQUEST COOKIES
+  access_jwt
+   */
 }
 
 message LogoutResponse {

@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file backend.proto.
  */
 export const file_backend: GenFile = /*@__PURE__*/
-  fileDesc("Cg1iYWNrZW5kLnByb3RvEgdiYWNrZW5kIkQKD1JlZ2lzdGVyUmVxdWVzdBIQCgh1c2VybmFtZRgBIAEoCRINCgVlbWFpbBgCIAEoCRIQCghwYXNzd29yZBgDIAEoCSJsChBSZWdpc3RlclJlc3BvbnNlEhkKDGFjY2Vzc190b2tlbhgBIAEoCUgAiAEBEhoKDXJlZnJlc2hfdG9rZW4YAiABKAlIAYgBAUIPCg1fYWNjZXNzX3Rva2VuQhAKDl9yZWZyZXNoX3Rva2VuIjIKDExvZ2luUmVxdWVzdBIQCgh1c2VybmFtZRgBIAEoCRIQCghwYXNzd29yZBgCIAEoCSLjAQoNTG9naW5SZXNwb25zZRIZCgxhY2Nlc3NfdG9rZW4YASABKAlIAIgBARIaCg1yZWZyZXNoX3Rva2VuGAIgASgJSAGIAQESFAoMcmVxdWlyZXNfbWZhGAMgASgIEh4KEW1mYV9zZXNzaW9uX3Rva2VuGAQgASgJSAKIAQESLAoSbWZhX3R5cGVfYXZhaWxhYmxlGAUgAygOMhAuYmFja2VuZC5NRkFUeXBlQg8KDV9hY2Nlc3NfdG9rZW5CEAoOX3JlZnJlc2hfdG9rZW5CFAoSX21mYV9zZXNzaW9uX3Rva2VuInEKFVJlcXVlc3RNRkFDb2RlUmVxdWVzdBIeChFtZmFfc2Vzc2lvbl90b2tlbhgBIAEoCUgAiAEBEiIKCG1mYV90eXBlGAIgASgOMhAuYmFja2VuZC5NRkFUeXBlQhQKEl9tZmFfc2Vzc2lvbl90b2tlbiJaChBWZXJpZnlNRkFSZXF1ZXN0Eh4KEW1mYV9zZXNzaW9uX3Rva2VuGAEgASgJSACIAQESEAoIbWZhX2NvZGUYAiABKAlCFAoSX21mYV9zZXNzaW9uX3Rva2VuIvMBChFWZXJpZnlNRkFSZXNwb25zZRIZCgxhY2Nlc3NfdG9rZW4YASABKAlIAIgBARIaCg1yZWZyZXNoX3Rva2VuGAIgASgJSAGIAQESHwoXcmVxdWlyZXNfYWRkaXRpb25hbF9tZmEYAyABKAgSHgoRbWZhX3Nlc3Npb25fdG9rZW4YBSABKAlIAogBARItChNtZmFfdHlwZXNfYXZhaWxhYmxlGAQgAygOMhAuYmFja2VuZC5NRkFUeXBlQg8KDV9hY2Nlc3NfdG9rZW5CEAoOX3JlZnJlc2hfdG9rZW5CFAoSX21mYV9zZXNzaW9uX3Rva2VuIkMKE1JlZnJlc2hUb2tlblJlcXVlc3QSGgoNcmVmcmVzaF90b2tlbhgBIAEoCUgAiAEBQhAKDl9yZWZyZXNoX3Rva2VuInAKFFJlZnJlc2hUb2tlblJlc3BvbnNlEhkKDGFjY2Vzc190b2tlbhgBIAEoCUgAiAEBEhoKDXJlZnJlc2hfdG9rZW4YAiABKAlIAYgBAUIPCg1fYWNjZXNzX3Rva2VuQhAKDl9yZWZyZXNoX3Rva2VuIjsKDUxvZ291dFJlcXVlc3QSGQoMYWNjZXNzX3Rva2VuGAEgASgJSACIAQFCDwoNX2FjY2Vzc190b2tlbiIhCg5Mb2dvdXRSZXNwb25zZRIPCgdzdWNjZXNzGAEgASgIKlwKB01GQVR5cGUSGAoUTUZBX1RZUEVfVU5TUEVDSUZJRUQQABIRCg1NRkFfVFlQRV9UT1RQEAESEAoMTUZBX1RZUEVfU01TEAISEgoOTUZBX1RZUEVfRU1BSUwQAzKfAwoLQXV0aFNlcnZpY2USQQoIUmVnaXN0ZXISGC5iYWNrZW5kLlJlZ2lzdGVyUmVxdWVzdBoZLmJhY2tlbmQuUmVnaXN0ZXJSZXNwb25zZSIAEjgKBUxvZ2luEhUuYmFja2VuZC5Mb2dpblJlcXVlc3QaFi5iYWNrZW5kLkxvZ2luUmVzcG9uc2UiABJBCg5SZXF1ZXN0TUZBQ29kZRIeLmJhY2tlbmQuUmVxdWVzdE1GQUNvZGVSZXF1ZXN0Gg0uY29tbW9uLkVtcHR5IgASRAoJVmVyaWZ5TUZBEhkuYmFja2VuZC5WZXJpZnlNRkFSZXF1ZXN0GhouYmFja2VuZC5WZXJpZnlNRkFSZXNwb25zZSIAEk0KDFJlZnJlc2hUb2tlbhIcLmJhY2tlbmQuUmVmcmVzaFRva2VuUmVxdWVzdBodLmJhY2tlbmQuUmVmcmVzaFRva2VuUmVzcG9uc2UiABI7CgZMb2dvdXQSFi5iYWNrZW5kLkxvZ291dFJlcXVlc3QaFy5iYWNrZW5kLkxvZ291dFJlc3BvbnNlIgBCF1oVcGFuZWxpdW0vcHJvdG8tZ2VuLWdvYgZwcm90bzM", [file_common]);
+  fileDesc("Cg1iYWNrZW5kLnByb3RvEgdiYWNrZW5kIkQKD1JlZ2lzdGVyUmVxdWVzdBIQCgh1c2VybmFtZRgBIAEoCRINCgVlbWFpbBgCIAEoCRIQCghwYXNzd29yZBgDIAEoCSIjChBSZWdpc3RlclJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgiMgoMTG9naW5SZXF1ZXN0EhAKCHVzZXJuYW1lGAEgASgJEhAKCHBhc3N3b3JkGAIgASgJImUKDUxvZ2luUmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCBIUCgxyZXF1aXJlc19tZmEYAiABKAgSLQoTbWZhX3R5cGVzX2F2YWlsYWJsZRgDIAMoDjIQLmJhY2tlbmQuTUZBVHlwZSJxChVSZXF1ZXN0TUZBQ29kZVJlcXVlc3QSHgoRbWZhX3Nlc3Npb25fdG9rZW4YASABKAlIAIgBARIiCghtZmFfdHlwZRgCIAEoDjIQLmJhY2tlbmQuTUZBVHlwZUIUChJfbWZhX3Nlc3Npb25fdG9rZW4iJAoQVmVyaWZ5TUZBUmVxdWVzdBIQCghtZmFfY29kZRgBIAEoCSJ0ChFWZXJpZnlNRkFSZXNwb25zZRIPCgdzdWNjZXNzGAEgASgIEh8KF3JlcXVpcmVzX2FkZGl0aW9uYWxfbWZhGAIgASgIEi0KE21mYV90eXBlc19hdmFpbGFibGUYAyADKA4yEC5iYWNrZW5kLk1GQVR5cGUiFQoTUmVmcmVzaFRva2VuUmVxdWVzdCInChRSZWZyZXNoVG9rZW5SZXNwb25zZRIPCgdzdWNjZXNzGAEgASgIIg8KDUxvZ291dFJlcXVlc3QiIQoOTG9nb3V0UmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCCpcCgdNRkFUeXBlEhgKFE1GQV9UWVBFX1VOU1BFQ0lGSUVEEAASEQoNTUZBX1RZUEVfVE9UUBABEhAKDE1GQV9UWVBFX1NNUxACEhIKDk1GQV9UWVBFX0VNQUlMEAMynwMKC0F1dGhTZXJ2aWNlEkEKCFJlZ2lzdGVyEhguYmFja2VuZC5SZWdpc3RlclJlcXVlc3QaGS5iYWNrZW5kLlJlZ2lzdGVyUmVzcG9uc2UiABI4CgVMb2dpbhIVLmJhY2tlbmQuTG9naW5SZXF1ZXN0GhYuYmFja2VuZC5Mb2dpblJlc3BvbnNlIgASQQoOUmVxdWVzdE1GQUNvZGUSHi5iYWNrZW5kLlJlcXVlc3RNRkFDb2RlUmVxdWVzdBoNLmNvbW1vbi5FbXB0eSIAEkQKCVZlcmlmeU1GQRIZLmJhY2tlbmQuVmVyaWZ5TUZBUmVxdWVzdBoaLmJhY2tlbmQuVmVyaWZ5TUZBUmVzcG9uc2UiABJNCgxSZWZyZXNoVG9rZW4SHC5iYWNrZW5kLlJlZnJlc2hUb2tlblJlcXVlc3QaHS5iYWNrZW5kLlJlZnJlc2hUb2tlblJlc3BvbnNlIgASOwoGTG9nb3V0EhYuYmFja2VuZC5Mb2dvdXRSZXF1ZXN0GhcuYmFja2VuZC5Mb2dvdXRSZXNwb25zZSIAQhdaFXBhbmVsaXVtL3Byb3RvLWdlbi1nb2IGcHJvdG8z", [file_common]);
 
 /**
  * @generated from message backend.RegisterRequest
@@ -46,18 +46,13 @@ export const RegisterRequestSchema: GenMessage<RegisterRequest> = /*@__PURE__*/
  */
 export type RegisterResponse = Message<"backend.RegisterResponse"> & {
   /**
-   * cookie, only if register success
+   * COOKIES
+   * access_jwt (if register success)
+   * refresh_jwt (if register success)
    *
-   * @generated from field: optional string access_token = 1;
+   * @generated from field: bool success = 1;
    */
-  accessToken?: string;
-
-  /**
-   * cookie, only if register success
-   *
-   * @generated from field: optional string refresh_token = 2;
-   */
-  refreshToken?: string;
+  success: boolean;
 };
 
 /**
@@ -94,37 +89,26 @@ export const LoginRequestSchema: GenMessage<LoginRequest> = /*@__PURE__*/
  */
 export type LoginResponse = Message<"backend.LoginResponse"> & {
   /**
-   * cookie, only if mfa not required and auth success
+   * COOKIES
+   * access_jwt (if auth success and mfa not required)
+   * refresh_jwt (if auth success and mfa not required)
+   * mfa_jwt (if auth success and mfa required)
    *
-   * @generated from field: optional string access_token = 1;
+   * @generated from field: bool success = 1;
    */
-  accessToken?: string;
+  success: boolean;
 
   /**
-   * cookie, only if mfa not required and auth success
-   *
-   * @generated from field: optional string refresh_token = 2;
-   */
-  refreshToken?: string;
-
-  /**
-   * @generated from field: bool requires_mfa = 3;
+   * @generated from field: bool requires_mfa = 2;
    */
   requiresMfa: boolean;
 
   /**
-   * cookie, only if mfa required and auth success
-   *
-   * @generated from field: optional string mfa_session_token = 4;
-   */
-  mfaSessionToken?: string;
-
-  /**
    * (optional) types of MFA available for the user
    *
-   * @generated from field: repeated backend.MFAType mfa_type_available = 5;
+   * @generated from field: repeated backend.MFAType mfa_types_available = 3;
    */
-  mfaTypeAvailable: MFAType[];
+  mfaTypesAvailable: MFAType[];
 };
 
 /**
@@ -167,14 +151,10 @@ export const RequestMFACodeRequestSchema: GenMessage<RequestMFACodeRequest> = /*
  */
 export type VerifyMFARequest = Message<"backend.VerifyMFARequest"> & {
   /**
-   * cookie
+   * REQUEST COOKIES
+   * mfa_jwt
    *
-   * @generated from field: optional string mfa_session_token = 1;
-   */
-  mfaSessionToken?: string;
-
-  /**
-   * @generated from field: string mfa_code = 2;
+   * @generated from field: string mfa_code = 1;
    */
   mfaCode: string;
 };
@@ -191,33 +171,22 @@ export const VerifyMFARequestSchema: GenMessage<VerifyMFARequest> = /*@__PURE__*
  */
 export type VerifyMFAResponse = Message<"backend.VerifyMFAResponse"> & {
   /**
-   * cookie, only if auth and MFA success and no additional MFA required
+   * COOKIES
+   * access_jwt (if auth and MFA success and no additional MFA required)
+   * refresh_jwt (if auth and MFA success and no additional MFA required)
+   * mfa_jwt (if auth and MFA success but additional MFA required)
    *
-   * @generated from field: optional string access_token = 1;
+   * @generated from field: bool success = 1;
    */
-  accessToken?: string;
+  success: boolean;
 
   /**
-   * cookie, only if auth and MFA success and no additional MFA required
-   *
-   * @generated from field: optional string refresh_token = 2;
-   */
-  refreshToken?: string;
-
-  /**
-   * @generated from field: bool requires_additional_mfa = 3;
+   * @generated from field: bool requires_additional_mfa = 2;
    */
   requiresAdditionalMfa: boolean;
 
   /**
-   * cookie, only if additional MFA required
-   *
-   * @generated from field: optional string mfa_session_token = 5;
-   */
-  mfaSessionToken?: string;
-
-  /**
-   * @generated from field: repeated backend.MFAType mfa_types_available = 4;
+   * @generated from field: repeated backend.MFAType mfa_types_available = 3;
    */
   mfaTypesAvailable: MFAType[];
 };
@@ -230,15 +199,12 @@ export const VerifyMFAResponseSchema: GenMessage<VerifyMFAResponse> = /*@__PURE_
   messageDesc(file_backend, 6);
 
 /**
+ * REQUEST COOKIES
+ * refresh_jwt
+ *
  * @generated from message backend.RefreshTokenRequest
  */
 export type RefreshTokenRequest = Message<"backend.RefreshTokenRequest"> & {
-  /**
-   * cookie
-   *
-   * @generated from field: optional string refresh_token = 1;
-   */
-  refreshToken?: string;
 };
 
 /**
@@ -255,18 +221,13 @@ export const RefreshTokenRequestSchema: GenMessage<RefreshTokenRequest> = /*@__P
  */
 export type RefreshTokenResponse = Message<"backend.RefreshTokenResponse"> & {
   /**
-   * cookie, only if refresh token valid
+   * COOKIES
+   * access_jwt (if refresh token valid)
+   * refresh_jwt (if refresh token valid)
    *
-   * @generated from field: optional string access_token = 1;
+   * @generated from field: bool success = 1;
    */
-  accessToken?: string;
-
-  /**
-   * cookie, only if refresh token valid
-   *
-   * @generated from field: optional string refresh_token = 2;
-   */
-  refreshToken?: string;
+  success: boolean;
 };
 
 /**
@@ -277,15 +238,12 @@ export const RefreshTokenResponseSchema: GenMessage<RefreshTokenResponse> = /*@_
   messageDesc(file_backend, 8);
 
 /**
+ * REQUEST COOKIES
+ * access_jwt
+ *
  * @generated from message backend.LogoutRequest
  */
 export type LogoutRequest = Message<"backend.LogoutRequest"> & {
-  /**
-   * cookie
-   *
-   * @generated from field: optional string access_token = 1;
-   */
-  accessToken?: string;
 };
 
 /**

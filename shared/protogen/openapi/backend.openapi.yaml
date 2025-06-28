@@ -236,42 +236,32 @@ components:
     backend.LoginResponse:
       type: object
       properties:
-        accessToken:
-          type: string
-          title: access_token
-          description: cookie, only if mfa not required and auth success
-          nullable: true
-        refreshToken:
-          type: string
-          title: refresh_token
-          description: cookie, only if mfa not required and auth success
-          nullable: true
+        success:
+          type: boolean
+          title: success
+          description: |-
+            COOKIES
+            access_jwt (if auth success and mfa not required)
+            refresh_jwt (if auth success and mfa not required)
+            mfa_jwt (if auth success and mfa required)
         requiresMfa:
           type: boolean
           title: requires_mfa
-        mfaSessionToken:
-          type: string
-          title: mfa_session_token
-          description: cookie, only if mfa required and auth success
-          nullable: true
-        mfaTypeAvailable:
+        mfaTypesAvailable:
           type: array
           items:
             $ref: '#/components/schemas/backend.MFAType'
-          title: mfa_type_available
+          title: mfa_types_available
           description: (optional) types of MFA available for the user
       title: LoginResponse
       additionalProperties: false
     backend.LogoutRequest:
       type: object
-      properties:
-        accessToken:
-          type: string
-          title: access_token
-          description: cookie
-          nullable: true
       title: LogoutRequest
       additionalProperties: false
+      description: |-
+        REQUEST COOKIES
+        access_jwt
     backend.LogoutResponse:
       type: object
       properties:
@@ -282,27 +272,21 @@ components:
       additionalProperties: false
     backend.RefreshTokenRequest:
       type: object
-      properties:
-        refreshToken:
-          type: string
-          title: refresh_token
-          description: cookie
-          nullable: true
       title: RefreshTokenRequest
       additionalProperties: false
+      description: |-
+        REQUEST COOKIES
+        refresh_jwt
     backend.RefreshTokenResponse:
       type: object
       properties:
-        accessToken:
-          type: string
-          title: access_token
-          description: cookie, only if refresh token valid
-          nullable: true
-        refreshToken:
-          type: string
-          title: refresh_token
-          description: cookie, only if refresh token valid
-          nullable: true
+        success:
+          type: boolean
+          title: success
+          description: |-
+            COOKIES
+            access_jwt (if refresh token valid)
+            refresh_jwt (if refresh token valid)
       title: RefreshTokenResponse
       additionalProperties: false
       description: 'note: if refresh token reuse - revoke all user tokens'
@@ -323,16 +307,13 @@ components:
     backend.RegisterResponse:
       type: object
       properties:
-        accessToken:
-          type: string
-          title: access_token
-          description: cookie, only if register success
-          nullable: true
-        refreshToken:
-          type: string
-          title: refresh_token
-          description: cookie, only if register success
-          nullable: true
+        success:
+          type: boolean
+          title: success
+          description: |-
+            COOKIES
+            access_jwt (if register success)
+            refresh_jwt (if register success)
       title: RegisterResponse
       additionalProperties: false
     backend.RequestMFACodeRequest:
@@ -353,37 +334,28 @@ components:
     backend.VerifyMFARequest:
       type: object
       properties:
-        mfaSessionToken:
-          type: string
-          title: mfa_session_token
-          description: cookie
-          nullable: true
         mfaCode:
           type: string
           title: mfa_code
+          description: |-
+            REQUEST COOKIES
+            mfa_jwt
       title: VerifyMFARequest
       additionalProperties: false
     backend.VerifyMFAResponse:
       type: object
       properties:
-        accessToken:
-          type: string
-          title: access_token
-          description: cookie, only if auth and MFA success and no additional MFA required
-          nullable: true
-        refreshToken:
-          type: string
-          title: refresh_token
-          description: cookie, only if auth and MFA success and no additional MFA required
-          nullable: true
+        success:
+          type: boolean
+          title: success
+          description: |-
+            COOKIES
+            access_jwt (if auth and MFA success and no additional MFA required)
+            refresh_jwt (if auth and MFA success and no additional MFA required)
+            mfa_jwt (if auth and MFA success but additional MFA required)
         requiresAdditionalMfa:
           type: boolean
           title: requires_additional_mfa
-        mfaSessionToken:
-          type: string
-          title: mfa_session_token
-          description: cookie, only if additional MFA required
-          nullable: true
         mfaTypesAvailable:
           type: array
           items:
