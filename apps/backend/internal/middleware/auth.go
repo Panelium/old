@@ -69,4 +69,5 @@ func authentication(ctx context.Context, req *http.Request) (any, error) {
 		SessionID: claims.Audience,
 		UserID:    *claims.Subject,
 	}, nil
+	// we can get this data by calling authn.GetInfo(ctx)
 }
