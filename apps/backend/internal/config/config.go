@@ -259,6 +259,8 @@ func (c *Config) GetMFATokenDuration() time.Duration {
 	return val
 }
 
+// TODO: Secrets should be stored in HSM when possible, or at least encrypted with the encryption key being in HSM or similar secure storage.
+
 // Secrets values should never be accessed or modified directly as that could lead to race conditions.
 type Secrets struct {
 	lock   sync.RWMutex
