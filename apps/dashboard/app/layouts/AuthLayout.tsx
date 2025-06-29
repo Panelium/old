@@ -13,8 +13,11 @@ export default function AuthLayout() {
     }, [authenticated, navigate]);
 
     return (
-        <div className="flex min-h-screen flex-col items-center justify-center bg-chart-background">
+        <>
+        <div className="background-gradient"/>
+        <div className="flex min-h-screen flex-col items-center justify-center background">
             <Outlet/>
         </div>
+        </>
     );
 }

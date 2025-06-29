@@ -15,7 +15,7 @@ export function Layout({children}: { children: React.ReactNode }) {
     return (
         <html lang="en">
         <head>
-            <link rel="icon" type="image/svg" href="/public/favicon.svg"/>
+            <link rel="icon" type="image/svg" href="/favicon.svg"/>
             <Meta/>
             <Links/>
         </head>

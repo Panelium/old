@@ -29,7 +29,7 @@ const SidebarHeader: React.FC = () => {
             )}
         >
             <div className="bg-tag-purple text-transparent h-12 min-w-2 m-0"></div>
-            <img src="/public/logo/full-logo.svg" className="dark:filter-[invert()] mr-4 ml-2"/>
+            <img src="/logo/full-logo.svg" className="dark:filter-[invert()] mr-4 ml-2"/>
         </div>
     );
 };
@@ -84,9 +84,8 @@ const SidebarDropdownMenu: React.FC = () => {
                         <EntityAvatar
                             src=""
                             alt="Avatar"
-                            title="John Doe"
-                            subTitle="john@example.com"
-                            group="/button"
+                            title="Freddy Fazbear"
+                            subTitle="freddy.fazbear@freddys.pizza"
                         />
                     </Button>
                 </DropdownMenuTrigger>
@@ -162,10 +161,11 @@ const TopBar: React.FC = () => {
 const UserDashboardLayout: React.FC = () => {
     return (
         <SidebarProvider defaultOpen={true}>
+            <div className="background-gradient"/>
             <div
                 className={cn(
                     "flex min-h-screen w-full",
-                    "bg-background text-foreground"
+                    "background text-foreground"
                 )}
             >
                 <Sidebar

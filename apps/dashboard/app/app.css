@@ -13,6 +13,7 @@
     --radius-h-xl: calc(var(--radius-hovered) + 4px);
 
     --color-background: var(--background);
+    --color-background-darkest: var(--background-darkest);
     --color-foreground: var(--foreground);
 
     --color-card: var(--card);
@@ -121,6 +122,7 @@
     --radius-hovered: 0.1rem;
 
     --background: var(--color-gray-200);
+    --background-darkest: var(--color-gray-400);
     --foreground: var(--color-slate-950);
     --topbar: var(--color-gray-100);
     --topbar-foreground: var(--foreground);
@@ -172,6 +174,8 @@
 
     --tag-gray: var(--color-slate-700);
     --tag-gray-background: var(--color-slate-300);
+
+    --background-detail: 255, 255, 255;
 }
 
 /*
@@ -211,6 +215,7 @@
 
 .dark {
     --background: var(--color-gray-900);
+    --background-darkest: var(--color-gray-950);
     --foreground: var(--color-slate-50);
     --topbar: var(--color-gray-800);
     --topbar-foreground: var(--foreground);
@@ -264,6 +269,8 @@
 
     --tag-gray: var(--color-slate-300);
     --tag-gray-background: var(--color-slate-700);
+
+    --background-detail: 30, 41, 57;
 }
 
 @layer base {
@@ -316,11 +323,46 @@
     }
 }
 
-@keyframes example {
+@keyframes background-grid {
     from {
-        background-position: 0% 0%;
+        background-position: 0px 0px;
     }
     to {
-        background-position: 100% 0%;
+        background-position: 160px 80px;
     }
+}
+
+.bg-server-card {
+    backdrop-filter: blur(4px);
+}
+
+.background {
+    position: relative;
+    background-color: transparent;
+    background-image: radial-gradient(circle, rgba(var(--background-detail), 0.25) 8%, transparent 12.5%), 
+                      linear-gradient(0deg, transparent 48%, rgba(var(--background-detail), 0.25) 49%, rgba(var(--background-detail), 0.25) 51%, transparent 52%),
+                      linear-gradient(90deg, transparent 48%, rgba(var(--background-detail), 0.25) 49%, rgba(var(--background-detail), 0.25) 51%, transparent 52%),
+                      linear-gradient(0deg, rgba(var(--background-detail), 0.15) 1%, transparent 2%, transparent 98%, rgba(var(--background-detail), 0.15) 99%),
+                      linear-gradient(90deg, rgba(var(--background-detail), 0.15) 1%, transparent 2%, transparent 98%, rgba(var(--background-detail), 0.15) 99%);
+    background-size: 80px 80px;
+
+    height: 100%;
+    width: 100%;
+
+    animation-timing-function: linear;
+    animation-name: background-grid;
+    animation-duration: 13s;
+    animation-iteration-count: infinite;
+}
+
+.background-gradient {
+    position: fixed;
+    top:0;
+    left:0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--color-sidebar);
+    background: linear-gradient(0deg, var(--color-background-darkest) 0%, var(--color-background) 100%);
 }

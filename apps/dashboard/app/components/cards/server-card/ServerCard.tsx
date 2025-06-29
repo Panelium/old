@@ -228,7 +228,7 @@ const ServerCard: React.FC<ServerCardProps> = ({server, className}) => {
     };
 
     return (
-        <Link to={`/server/${server.id}`} className="group ">
+        <Link to={`/server/${server.id}`} className="group">
             <Card
                 className={cn(
                     "relative flex flex-row overflow-hidden shadow-sm",
