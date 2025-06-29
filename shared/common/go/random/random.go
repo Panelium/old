@@ -2,16 +2,20 @@ package random
 
 import (
 	"crypto/rand"
-	"encoding/base32"
 )
 
-// GenerateSecureRandomString is used for generating the salt and pepper
+const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
+// GenerateSecureRandomString is a copy of the Go standard library's crypto/rand.Text function, but with a 36 character alphabet and at least 256 bits of randomness
 func GenerateSecureRandomString() (string, error) {
-	bytes := make([]byte, 32) // 32 bytes = 256 bits - TODO: maybe make this configurable
-	_, err := rand.Read(bytes)
+	// ⌈log₃₆ 2²⁵⁶⌉ = 50 chars
+	src := make([]byte, 50)
+	_, err := rand.Read(src)
 	if err != nil {
 		return "", err
 	}
-	str := base32.StdEncoding.EncodeToString(bytes)
-	return str, nil
+	for i := range src {
+		src[i] = alphabet[src[i]%36]
+	}
+	return string(src), nil
 }
