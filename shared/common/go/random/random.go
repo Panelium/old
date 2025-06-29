@@ -6,7 +6,7 @@ import (
 
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-// GenerateSecureRandomString is a copy of the Go standard library's crypto/rand.Text function, but with a 36 character alphabet and at least 256 bits of randomness
+// GenerateSecureRandomString is a copy of the Go standard library's crypto/rand.Text function, but with a 36 character alphabet and at least 256 bits of entropy.
 func GenerateSecureRandomString() (string, error) {
 	// ⌈log₃₆ 2²⁵⁶⌉ = 50 chars
 	src := make([]byte, 50)
