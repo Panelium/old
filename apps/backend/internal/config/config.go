@@ -288,7 +288,7 @@ type Secrets struct {
 }
 
 func newSecrets() (*Secrets, error) {
-	pepper, err := random.GenerateSecureRandomString()
+	pepper, err := random.GeneratePepper()
 	if err != nil {
 		return nil, errors.New("failed to generate pepper: " + err.Error())
 	}
@@ -329,7 +329,7 @@ func (s *Secrets) Migrate() error {
 	s.lock.Lock()
 
 	if s.Pepper == "" {
-		pepper, err := random.GenerateSecureRandomString()
+		pepper, err := random.GeneratePepper()
 		if err != nil {
 			s.lock.Unlock()
 			return errors.New("failed to generate pepper: " + err.Error())

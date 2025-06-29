@@ -19,7 +19,7 @@ func hashPasswordInternal(password string, salt string) string {
 // returns the password hash and the generated salt
 // pepper is retrieved from app config
 func HashPassword(password string) (passwordHash string, salt string, err error) {
-	salt, err = random.GenerateSecureRandomString()
+	salt, err = random.GenerateSalt()
 	if err != nil {
 		return "", "", err
 	}
