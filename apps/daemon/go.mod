@@ -2,13 +2,7 @@ module panelium/daemon
 
 go 1.24
 
-require (
-	connectrpc.com/connect v1.18.1
-	connectrpc.com/cors v0.1.0
-	github.com/docker/docker v28.2.1+incompatible
-	github.com/rs/cors v1.11.1
-	golang.org/x/net v0.40.0
-)
+require github.com/docker/docker v28.2.1+incompatible
 
 require (
 	github.com/Microsoft/go-winio v0.4.14 // indirect
@@ -36,8 +30,6 @@ require (
 	go.opentelemetry.io/otel/metric v1.36.0 // indirect
 	go.opentelemetry.io/otel/trace v1.36.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
-	golang.org/x/text v0.25.0 // indirect
 	golang.org/x/time v0.11.0 // indirect
-	google.golang.org/protobuf v1.36.6 // indirect
 	gotest.tools/v3 v3.5.2 // indirect
 )
