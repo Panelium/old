@@ -1,4 +1,4 @@
-import {ServerStatusType} from "proto-gen-ts/daemon_pb";
+import {ServerStatusType} from "proto-gen-ts/daemon_Server_pb";
 import {type Server} from "~/components/cards/server-card/ServerCard";
 
 interface UseDashboard {

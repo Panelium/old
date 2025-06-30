@@ -1,7 +1,7 @@
 import React from "react";
 import {FolderOpen, type LucideIcon, Play, Settings, Square, Terminal, Users,} from "lucide-react";
 import {Link, useNavigate} from "react-router-dom";
-import {ServerStatusType} from "proto-gen-ts/daemon_pb";
+import {ServerStatusType} from "proto-gen-ts/daemon_Server_pb";
 import {cn, formatMemory} from "~/lib/utils";
 
 import {Card, CardContent, CardFooter, CardHeader,} from "~/components/ui/card";

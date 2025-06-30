@@ -2,7 +2,7 @@ import React from "react";
 import {Link} from "react-router";
 import {ArrowLeft} from "lucide-react";
 
-import {PowerAction} from "proto-gen-ts/daemon_pb";
+import {PowerAction} from "proto-gen-ts/daemon_Server_pb";
 
 import StatusBadge from "../StatusBadge";
 import {Button} from "~/components/ui/button";

@@ -1,4 +1,4 @@
-import {ServerStatusType} from "proto-gen-ts/daemon_pb";
+import {ServerStatusType} from "proto-gen-ts/daemon_Server_pb";
 import {useEffect, useState} from "react";
 import {useSearchParams} from "react-router";
 
