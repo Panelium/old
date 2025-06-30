@@ -80,20 +80,45 @@ func VerifyJWT(token string, key *rsa.PublicKey, expectedIssuer Issuer, expected
 		return nil, errors.InvalidCredentials
 	}
 
-	claims := &Claims{
-		IssuedAt:   int64(mapClaims["iat"].(float64)),
-		Expiration: int64(mapClaims["exp"].(float64)),
-		Audience:   mapClaims["aud"].(string),
-		Issuer:     mapClaims["iss"].(Issuer),
-		TokenType:  mapClaims["typ"].(TokenType),
-		JTI:        mapClaims["jti"].(string),
+	issuedAt, ok := mapClaims["iat"].(float64)
+	if !ok {
+		return nil, stdErrors.New("invalid or missing 'iat' claim")
 	}
-	if nbf, ok := mapClaims["nbf"]; ok {
-		nbfInt := int64(nbf.(float64))
+	expiration, ok := mapClaims["exp"].(float64)
+	if !ok {
+		return nil, stdErrors.New("invalid or missing 'exp' claim")
+	}
+	audience, ok := mapClaims["aud"].(string)
+	if !ok {
+		return nil, stdErrors.New("invalid or missing 'aud' claim")
+	}
+	issuer, ok := mapClaims["iss"].(string)
+	if !ok {
+		return nil, stdErrors.New("invalid or missing 'iss' claim")
+	}
+	tokenType, ok := mapClaims["typ"].(string)
+	if !ok {
+		return nil, stdErrors.New("invalid or missing 'typ' claim")
+	}
+	jti, ok := mapClaims["jti"].(string)
+	if !ok {
+		return nil, stdErrors.New("invalid or missing 'jti' claim")
+	}
+
+	claims := &Claims{
+		IssuedAt:   int64(issuedAt),
+		Expiration: int64(expiration),
+		Audience:   audience,
+		Issuer:     Issuer(issuer),
+		TokenType:  TokenType(tokenType),
+		JTI:        jti,
+	}
+	if nbf, ok := mapClaims["nbf"].(float64); ok {
+		nbfInt := int64(nbf)
 		claims.NotBefore = &nbfInt
 	}
-	if sub, ok := mapClaims["sub"]; ok {
-		subStr := sub.(string)
+	if sub, ok := mapClaims["sub"].(string); ok {
+		subStr := sub
 		claims.Subject = &subStr
 	}
 
