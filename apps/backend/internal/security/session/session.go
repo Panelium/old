@@ -11,21 +11,21 @@ import (
 
 // TODO: refactor this file
 
-func CreateSession(uid string) (sessionId string, refreshToken string, accessToken string, err error) {
+func CreateSession(uid string) (sessionId string, refreshToken string, accessToken string, refreshTokenExpiration time.Time, accessTokenExpiration time.Time, err error) {
 	sessionId, err = id.New()
 	if err != nil {
-		return "", "", "", stdErrors.Join(err, errors.SessionCreationFailed)
+		return "", "", "", time.Time{}, time.Time{}, stdErrors.Join(err, errors.SessionCreationFailed)
 	}
 
 	timeNow := time.Now()
 
-	refreshToken, refreshJTI, refreshExpiration, err := CreateRefreshToken(timeNow, sessionId, uid)
+	refreshToken, refreshJTI, refreshTokenExpiration, err := CreateRefreshToken(timeNow, sessionId, uid)
 	if err != nil {
-		return "", "", "", stdErrors.Join(err, errors.SessionCreationFailed)
+		return "", "", "", time.Time{}, time.Time{}, stdErrors.Join(err, errors.SessionCreationFailed)
 	}
-	accessToken, accessJTI, _, err := CreateAccessToken(timeNow, sessionId, uid)
+	accessToken, accessJTI, accessTokenExpiration, err := CreateAccessToken(timeNow, sessionId, uid)
 	if err != nil {
-		return "", "", "", stdErrors.Join(err, errors.SessionCreationFailed)
+		return "", "", "", time.Time{}, time.Time{}, stdErrors.Join(err, errors.SessionCreationFailed)
 	}
 
 	tx := db.Instance().Model(model.UserSession{}).Create(&model.UserSession{
@@ -33,46 +33,46 @@ func CreateSession(uid string) (sessionId string, refreshToken string, accessTok
 		UserID:     uid,
 		AccessJTI:  accessJTI,
 		RefreshJTI: refreshJTI,
-		Expiration: refreshExpiration,
+		Expiration: refreshTokenExpiration,
 	})
 
 	if tx.Error != nil || tx.RowsAffected == 0 {
-		return "", "", "", stdErrors.Join(tx.Error, errors.SessionCreationFailed)
+		return "", "", "", time.Time{}, time.Time{}, stdErrors.Join(tx.Error, errors.SessionCreationFailed)
 	}
 
-	return sessionId, refreshToken, accessToken, nil
+	return sessionId, refreshToken, accessToken, refreshTokenExpiration, accessTokenExpiration, nil
 }
 
-func RefreshSession(sessionId string) (refreshToken string, accessToken string, err error) {
+func RefreshSession(sessionId string) (refreshToken string, accessToken string, refreshTokenExpiration time.Time, accessTokenExpiration time.Time, err error) {
 	session := &model.UserSession{}
 	tx := db.Instance().Model(model.UserSession{}).First(session, "session_id = ?", sessionId)
 	if tx.Error != nil || tx.RowsAffected == 0 {
-		return "", "", stdErrors.Join(tx.Error, errors.SessionNotFound)
+		return "", "", time.Time{}, time.Time{}, stdErrors.Join(tx.Error, errors.SessionNotFound)
 	}
 
 	uid := session.UserID
 
 	timeNow := time.Now()
 
-	refreshToken, refreshJTI, refreshExpiration, err := CreateRefreshToken(timeNow, sessionId, uid)
+	refreshToken, refreshJTI, refreshTokenExpiration, err := CreateRefreshToken(timeNow, sessionId, uid)
 	if err != nil {
-		return "", "", stdErrors.Join(err, errors.SessionCreationFailed)
+		return "", "", time.Time{}, time.Time{}, stdErrors.Join(err, errors.SessionCreationFailed)
 	}
-	accessToken, accessJTI, _, err := CreateAccessToken(timeNow, sessionId, uid)
+	accessToken, accessJTI, accessTokenExpiration, err := CreateAccessToken(timeNow, sessionId, uid)
 	if err != nil {
-		return "", "", stdErrors.Join(err, errors.SessionCreationFailed)
+		return "", "", time.Time{}, time.Time{}, stdErrors.Join(err, errors.SessionCreationFailed)
 	}
 
 	tx = db.Instance().Model(model.UserSession{}).Where("session_id = ?", sessionId).Updates(&model.UserSession{
 		AccessJTI:  accessJTI,
 		RefreshJTI: refreshJTI,
-		Expiration: refreshExpiration,
+		Expiration: refreshTokenExpiration,
 	})
 	if tx.Error != nil || tx.RowsAffected == 0 {
-		return "", "", stdErrors.Join(tx.Error, errors.SessionCreationFailed)
+		return "", "", time.Time{}, time.Time{}, stdErrors.Join(tx.Error, errors.SessionCreationFailed)
 	}
 
-	return refreshToken, accessToken, nil
+	return refreshToken, accessToken, refreshTokenExpiration, accessTokenExpiration, nil
 }
 
 func DeleteSession(sessionId string) error {

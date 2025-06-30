@@ -9,10 +9,13 @@ import (
 	"panelium/backend/internal/global"
 	"panelium/backend/internal/model"
 	"panelium/backend/internal/security"
+	"panelium/backend/internal/security/cookies"
 	"panelium/backend/internal/security/session"
 	"panelium/common/id"
 	proto_gen_go "panelium/proto-gen-go"
 )
+
+// TODO: need to add rate limiting
 
 func (s *AuthServiceHandler) Register(
 	ctx context.Context,
@@ -66,7 +69,7 @@ func (s *AuthServiceHandler) Register(
 		return nil, connect.NewError(connect.CodeInternal, errors.New("failed to create user"))
 	}
 
-	_, refreshToken, accessToken, err := session.CreateSession(uid)
+	_, refreshToken, accessToken, refreshTokenExpiration, accessTokenExpiration, err := session.CreateSession(uid)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, errors.New("failed to create session"))
 	}
@@ -75,12 +78,8 @@ func (s *AuthServiceHandler) Register(
 		Success: true,
 	})
 
-	noop(refreshToken, accessToken) // TODO: remove this, just so go doesn't complain about unused variables
-
-	/* TODO: COOKIES
-	refresh_jwt: refreshToken,
-	access_jwt: accessToken,
-	*/
+	cookies.SetJWTCookie(res.Header(), "refresh_jwt", refreshToken, refreshTokenExpiration)
+	cookies.SetJWTCookie(res.Header(), "access_jwt", accessToken, accessTokenExpiration)
 
 	return res, nil
 }

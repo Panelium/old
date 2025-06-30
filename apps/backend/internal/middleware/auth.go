@@ -45,12 +45,12 @@ func authentication(ctx context.Context, req *http.Request) (any, error) {
 
 	accessToken, ok := tokens["access_jwt"]
 	if ok != true {
-		return nil, errors.ConnectInvalidCredentials
+		return nil, errors.ConnectInvalidCredentials // TODO: let the client know it should try refreshing the token (token is deleted when expired)
 	}
 
 	claims, err := jwt.VerifyJWT(accessToken, &config.JWTPrivateKeyInstance.PublicKey, jwt.BackendIssuer, jwt.AccessTokenType)
 	if err != nil {
-		return nil, errors.ConnectInvalidCredentials
+		return nil, errors.ConnectInvalidCredentials // TODO: let the client know it should try refreshing the token
 	}
 
 	userSession := &model.UserSession{}

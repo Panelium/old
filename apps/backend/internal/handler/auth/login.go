@@ -6,6 +6,7 @@ import (
 	"panelium/backend/internal/db"
 	"panelium/backend/internal/model"
 	"panelium/backend/internal/security"
+	"panelium/backend/internal/security/cookies"
 	"panelium/backend/internal/security/session"
 	"panelium/common/errors"
 	proto_gen_go "panelium/proto-gen-go"
@@ -39,7 +40,7 @@ func (s *AuthServiceHandler) Login(
 		return res, nil
 	}
 
-	_, refreshToken, accessToken, err := session.CreateSession(user.UID)
+	_, refreshToken, accessToken, refreshTokenExpiration, accessTokenExpiration, err := session.CreateSession(user.UID)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, errors.SessionCreationFailed)
 	}
@@ -49,12 +50,8 @@ func (s *AuthServiceHandler) Login(
 		RequiresMfa: false,
 	})
 
-	noop(refreshToken, accessToken) // TODO: remove this, just so go doesn't complain about unused variables
-
-	/* TODO: COOKIES
-	refresh_jwt: refreshToken,
-	access_jwt: accessToken,
-	*/
+	cookies.SetJWTCookie(res.Header(), "refresh_jwt", refreshToken, refreshTokenExpiration)
+	cookies.SetJWTCookie(res.Header(), "access_jwt", accessToken, accessTokenExpiration)
 
 	return res, nil
 }

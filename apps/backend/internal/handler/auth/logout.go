@@ -5,6 +5,7 @@ import (
 	"connectrpc.com/connect"
 	"context"
 	"panelium/backend/internal/middleware"
+	"panelium/backend/internal/security/cookies"
 	"panelium/backend/internal/security/session"
 	"panelium/common/errors"
 	proto_gen_go "panelium/proto-gen-go"
@@ -33,10 +34,8 @@ func (s *AuthServiceHandler) Logout(
 		Success: true,
 	})
 
-	/* TODO: COOKIES
-	CLEAR refresh_jwt
-	CLEAR access_jwt
-	*/
+	cookies.ClearJWTCookie(res.Header(), "refresh_jwt")
+	cookies.ClearJWTCookie(res.Header(), "access_jwt")
 
 	return res, nil
 }

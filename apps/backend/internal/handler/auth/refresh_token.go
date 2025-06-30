@@ -7,6 +7,7 @@ import (
 	"panelium/backend/internal/db"
 	"panelium/backend/internal/middleware"
 	"panelium/backend/internal/model"
+	"panelium/backend/internal/security/cookies"
 	"panelium/backend/internal/security/session"
 	"panelium/common/errors"
 	"panelium/common/jwt"
@@ -48,7 +49,7 @@ func (s *AuthServiceHandler) RefreshToken(
 		return nil, errors.ConnectInvalidCredentials
 	}
 
-	newRefreshToken, newAccessToken, err := session.RefreshSession(userSession.SessionID) // RefreshSession will also update the session in the database
+	newRefreshToken, newAccessToken, newRefreshTokenExpiration, newAccessTokenExpiration, err := session.RefreshSession(userSession.SessionID) // RefreshSession will also update the session in the database
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, errors.SessionCreationFailed)
 	}
@@ -57,12 +58,8 @@ func (s *AuthServiceHandler) RefreshToken(
 		Success: true,
 	})
 
-	noop(newRefreshToken, newAccessToken) // TODO: remove this, just so go doesn't complain about unused variables
-
-	/* TODO: COOKIES
-	refresh_jwt: newRefreshToken,
-	access_jwt: newAccessToken,
-	*/
+	cookies.SetJWTCookie(res.Header(), "refresh_jwt", newRefreshToken, newRefreshTokenExpiration)
+	cookies.SetJWTCookie(res.Header(), "access_jwt", newAccessToken, newAccessTokenExpiration)
 
 	return res, nil
 }
