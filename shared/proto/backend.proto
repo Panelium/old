@@ -6,25 +6,25 @@ option go_package = "panelium/proto-gen-go";
 import "common.proto";
 
 service AuthService {
-  rpc Register(RegisterRequest) returns (RegisterResponse) {}
+  rpc Register(RegisterRequest) returns (common.SuccessMessage) {} // COOKIES: access_jwt, refresh_jwt (if register success)
 
   rpc Login(LoginRequest) returns (LoginResponse) {}
 
   rpc ChangePassword(ChangePasswordRequest) returns (ChangePasswordResponse) {}
-  rpc ChangePasswordRequestMFACode(RequestMFACodeRequest) returns (RequestMFACodeResponse) {}
+  rpc ChangePasswordRequestMFACode(RequestMFACodeRequest) returns (common.SuccessMessage) {}
   rpc ChangePasswordVerifyMFA(VerifyMFARequest) returns (VerifyMFAResponse) {}
 
-  rpc RequestPasswordReset(RequestPasswordResetRequest) returns (RequestPasswordResetResponse) {}
+  rpc RequestPasswordReset(RequestPasswordResetRequest) returns (common.SuccessMessage) {} // THIS SHOULD NOT INDICATE WHETHER THE EMAIL EXISTS, JUST WHETHER THE REQUEST WAS PROCESSED
   rpc ResetPassword(ResetPasswordRequest) returns (ResetPasswordResponse) {}
-  rpc ResetPasswordRequestMFACode(RequestMFACodeRequest) returns (RequestMFACodeResponse) {}
+  rpc ResetPasswordRequestMFACode(RequestMFACodeRequest) returns (common.SuccessMessage) {}
   rpc ResetPasswordVerifyMFA(VerifyMFARequest) returns (VerifyMFAResponse) {}
 
-  rpc RequestMFACode(RequestMFACodeRequest) returns (RequestMFACodeResponse) {}
+  rpc RequestMFACode(RequestMFACodeRequest) returns (common.SuccessMessage) {}
   rpc VerifyMFA(VerifyMFARequest) returns (VerifyMFAResponse) {}
 
-  rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse) {}
+  rpc RefreshToken(common.Empty) returns (common.SuccessMessage) {} // REQUEST COOKIES: refresh_jwt | COOKIES: (ROTATE) access_jwt, (ROTATE) refresh_jwt (if refresh token valid)
 
-  rpc Logout(LogoutRequest) returns (LogoutResponse) {}
+  rpc Logout(common.Empty) returns (common.SuccessMessage) {} // REQUEST COOKIES: access_jwt | COOKIES: (CLEAR+INVALIDATE) access_jwt, (CLEAR+INVALIDATE) refresh_jwt (if access token valid)
 }
 
 enum MFAType {
@@ -38,14 +38,6 @@ message RegisterRequest {
   string username = 1;
   string email = 2;
   string password = 3;
-}
-
-message RegisterResponse {
-  /* COOKIES
-  access_jwt (if register success)
-  refresh_jwt (if register success)
-  */
-  bool success = 1;
 }
 
 message LoginRequest {
@@ -90,10 +82,6 @@ message RequestPasswordResetRequest {
   string email = 1; // email to send the reset link to
 }
 
-message RequestPasswordResetResponse {
-  bool success = 1; // THIS SHOULD NOT INDICATE WHETHER THE EMAIL EXISTS, JUST WHETHER THE REQUEST WAS PROCESSED
-}
-
 message ResetPasswordRequest {
   /* REQUEST COOKIES
   reset_jwt
@@ -121,10 +109,6 @@ message RequestMFACodeRequest {// only for MFA types that require the backend to
   MFAType mfa_type = 2; // type of MFA to use
 }
 
-message RequestMFACodeResponse {
-  bool success = 1;
-}
-
 message VerifyMFARequest {
   /* REQUEST COOKIES
   mfa_jwt
@@ -145,32 +129,4 @@ message VerifyMFAResponse {
   bool success = 1;
   bool requires_additional_mfa = 2;
   repeated MFAType mfa_types_available = 3;
-}
-
-message RefreshTokenRequest {
-  /* REQUEST COOKIES
-  refresh_jwt
-  */
-}
-
-message RefreshTokenResponse {// note: if refresh token reuse - revoke all user tokens
-  /* COOKIES
-  (ROTATE) access_jwt (if refresh token valid)
-  (ROTATE) refresh_jwt (if refresh token valid)
-   */
-  bool success = 1;
-}
-
-message LogoutRequest {
-  /* REQUEST COOKIES
-  access_jwt
-   */
-}
-
-message LogoutResponse {
-  /* COOKIES
-  (CLEAR+INVALIDATE) access_jwt (if access token valid)
-  (CLEAR+INVALIDATE) refresh_jwt (if access token valid)
-   */
-  bool success = 1;
 }

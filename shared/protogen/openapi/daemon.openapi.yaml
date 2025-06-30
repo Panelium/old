@@ -37,7 +37,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/common.Empty'
+                $ref: '#/components/schemas/common.SuccessMessage'
   /daemon.ServerService/Terminal: {}
   /daemon.ServerService/RunTerminalCommand:
     post:
@@ -73,7 +73,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/common.Empty'
+                $ref: '#/components/schemas/common.SuccessMessage'
   /daemon.ServerService/GetStatus:
     post:
       tags:
@@ -145,7 +145,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/common.Empty'
+                $ref: '#/components/schemas/common.SuccessMessage'
 components:
   schemas:
     daemon.PowerAction:
@@ -187,6 +187,14 @@ components:
           type: string
           title: text
       title: SimpleMessage
+      additionalProperties: false
+    common.SuccessMessage:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: SuccessMessage
       additionalProperties: false
     daemon.ServerStatus:
       type: object

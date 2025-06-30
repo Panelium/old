@@ -4,7 +4,7 @@
 
 import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
 import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { EmptySchema, SimpleMessageSchema } from "./common_pb.ts";
+import type { EmptySchema, SimpleMessageSchema, SuccessMessageSchema } from "./common_pb.ts";
 import { file_common } from "./common_pb.ts";
 import type { Timestamp } from "@bufbuild/protobuf/wkt";
 import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
@@ -14,7 +14,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file daemon.proto.
  */
 export const file_daemon: GenFile = /*@__PURE__*/
-  fileDesc("CgxkYWVtb24ucHJvdG8SBmRhZW1vbiKXAgoMU2VydmVyU3RhdHVzEigKBnN0YXR1cxgBIAEoDjIYLmRhZW1vbi5TZXJ2ZXJTdGF0dXNUeXBlEjcKDnRpbWVzdGFtcFN0YXJ0GAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcEgAiAEBEjUKDHRpbWVzdGFtcEVuZBgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBIAYgBARI3Cg1vZmZsaW5lUmVhc29uGAQgASgOMhsuZGFlbW9uLlNlcnZlck9mZmxpbmVSZWFzb25IAogBAUIRCg9fdGltZXN0YW1wU3RhcnRCDwoNX3RpbWVzdGFtcEVuZEIQCg5fb2ZmbGluZVJlYXNvbiqzAQoQU2VydmVyU3RhdHVzVHlwZRIeChpTRVJWRVJfU1RBVFVTX1RZUEVfVU5LTk9XThAAEh8KG1NFUlZFUl9TVEFUVVNfVFlQRV9TVEFSVElORxABEh0KGVNFUlZFUl9TVEFUVVNfVFlQRV9PTkxJTkUQAhIfChtTRVJWRVJfU1RBVFVTX1RZUEVfU1RPUFBJTkcQAxIeChpTRVJWRVJfU1RBVFVTX1RZUEVfT0ZGTElORRAEKsEBChNTZXJ2ZXJPZmZsaW5lUmVhc29uEiEKHVNFUlZFUl9PRkZMSU5FX1JFQVNPTl9VTktOT1dOEAASIQodU0VSVkVSX09GRkxJTkVfUkVBU09OX0NSRUFURUQQARIhCh1TRVJWRVJfT0ZGTElORV9SRUFTT05fU1RPUFBFRBACEiAKHFNFUlZFUl9PRkZMSU5FX1JFQVNPTl9LSUxMRUQQAxIfChtTRVJWRVJfT0ZGTElORV9SRUFTT05fRVJST1IQBCqLAQoLUG93ZXJBY3Rpb24SHAoYUE9XRVJfQUNUSU9OX1VOU1BFQ0lGSUVEEAASFgoSUE9XRVJfQUNUSU9OX1NUQVJUEAESGAoUUE9XRVJfQUNUSU9OX1JFU1RBUlQQAhIVChFQT1dFUl9BQ1RJT05fU1RPUBADEhUKEVBPV0VSX0FDVElPTl9LSUxMEAQy4QIKDVNlcnZlclNlcnZpY2USOwoHQ29uc29sZRIVLmNvbW1vbi5TaW1wbGVNZXNzYWdlGhUuY29tbW9uLlNpbXBsZU1lc3NhZ2UoATABEjIKClJ1bkNvbW1hbmQSFS5jb21tb24uU2ltcGxlTWVzc2FnZRoNLmNvbW1vbi5FbXB0eRI8CghUZXJtaW5hbBIVLmNvbW1vbi5TaW1wbGVNZXNzYWdlGhUuY29tbW9uLlNpbXBsZU1lc3NhZ2UoATABEjoKElJ1blRlcm1pbmFsQ29tbWFuZBIVLmNvbW1vbi5TaW1wbGVNZXNzYWdlGg0uY29tbW9uLkVtcHR5EjAKCUdldFN0YXR1cxINLmNvbW1vbi5FbXB0eRoULmRhZW1vbi5TZXJ2ZXJTdGF0dXMSMwoLUG93ZXJBY3Rpb24SFS5jb21tb24uU2ltcGxlTWVzc2FnZRoNLmNvbW1vbi5FbXB0eUIXWhVwYW5lbGl1bS9wcm90by1nZW4tZ29iBnByb3RvMw", [file_common, file_google_protobuf_timestamp]);
+  fileDesc("CgxkYWVtb24ucHJvdG8SBmRhZW1vbiKXAgoMU2VydmVyU3RhdHVzEigKBnN0YXR1cxgBIAEoDjIYLmRhZW1vbi5TZXJ2ZXJTdGF0dXNUeXBlEjcKDnRpbWVzdGFtcFN0YXJ0GAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcEgAiAEBEjUKDHRpbWVzdGFtcEVuZBgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBIAYgBARI3Cg1vZmZsaW5lUmVhc29uGAQgASgOMhsuZGFlbW9uLlNlcnZlck9mZmxpbmVSZWFzb25IAogBAUIRCg9fdGltZXN0YW1wU3RhcnRCDwoNX3RpbWVzdGFtcEVuZEIQCg5fb2ZmbGluZVJlYXNvbiqzAQoQU2VydmVyU3RhdHVzVHlwZRIeChpTRVJWRVJfU1RBVFVTX1RZUEVfVU5LTk9XThAAEh8KG1NFUlZFUl9TVEFUVVNfVFlQRV9TVEFSVElORxABEh0KGVNFUlZFUl9TVEFUVVNfVFlQRV9PTkxJTkUQAhIfChtTRVJWRVJfU1RBVFVTX1RZUEVfU1RPUFBJTkcQAxIeChpTRVJWRVJfU1RBVFVTX1RZUEVfT0ZGTElORRAEKsEBChNTZXJ2ZXJPZmZsaW5lUmVhc29uEiEKHVNFUlZFUl9PRkZMSU5FX1JFQVNPTl9VTktOT1dOEAASIQodU0VSVkVSX09GRkxJTkVfUkVBU09OX0NSRUFURUQQARIhCh1TRVJWRVJfT0ZGTElORV9SRUFTT05fU1RPUFBFRBACEiAKHFNFUlZFUl9PRkZMSU5FX1JFQVNPTl9LSUxMRUQQAxIfChtTRVJWRVJfT0ZGTElORV9SRUFTT05fRVJST1IQBCqLAQoLUG93ZXJBY3Rpb24SHAoYUE9XRVJfQUNUSU9OX1VOU1BFQ0lGSUVEEAASFgoSUE9XRVJfQUNUSU9OX1NUQVJUEAESGAoUUE9XRVJfQUNUSU9OX1JFU1RBUlQQAhIVChFQT1dFUl9BQ1RJT05fU1RPUBADEhUKEVBPV0VSX0FDVElPTl9LSUxMEAQy/AIKDVNlcnZlclNlcnZpY2USOwoHQ29uc29sZRIVLmNvbW1vbi5TaW1wbGVNZXNzYWdlGhUuY29tbW9uLlNpbXBsZU1lc3NhZ2UoATABEjsKClJ1bkNvbW1hbmQSFS5jb21tb24uU2ltcGxlTWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRI8CghUZXJtaW5hbBIVLmNvbW1vbi5TaW1wbGVNZXNzYWdlGhUuY29tbW9uLlNpbXBsZU1lc3NhZ2UoATABEkMKElJ1blRlcm1pbmFsQ29tbWFuZBIVLmNvbW1vbi5TaW1wbGVNZXNzYWdlGhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlEjAKCUdldFN0YXR1cxINLmNvbW1vbi5FbXB0eRoULmRhZW1vbi5TZXJ2ZXJTdGF0dXMSPAoLUG93ZXJBY3Rpb24SFS5jb21tb24uU2ltcGxlTWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZUIXWhVwYW5lbGl1bS9wcm90by1nZW4tZ29iBnByb3RvMw", [file_common, file_google_protobuf_timestamp]);
 
 /**
  * Server Info
@@ -182,7 +182,7 @@ export const ServerService: GenService<{
   runCommand: {
     methodKind: "unary";
     input: typeof SimpleMessageSchema;
-    output: typeof EmptySchema;
+    output: typeof SuccessMessageSchema;
   },
   /**
    * Terminal (system)
@@ -200,7 +200,7 @@ export const ServerService: GenService<{
   runTerminalCommand: {
     methodKind: "unary";
     input: typeof SimpleMessageSchema;
-    output: typeof EmptySchema;
+    output: typeof SuccessMessageSchema;
   },
   /**
    * Server Info
@@ -220,7 +220,7 @@ export const ServerService: GenService<{
   powerAction: {
     methodKind: "unary";
     input: typeof SimpleMessageSchema;
-    output: typeof EmptySchema;
+    output: typeof SuccessMessageSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_daemon, 0);

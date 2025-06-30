@@ -9,17 +9,17 @@ import "google/protobuf/timestamp.proto";
 service ServerService {
   // Console (process)
   rpc Console(stream common.SimpleMessage) returns (stream common.SimpleMessage);
-  rpc RunCommand(common.SimpleMessage) returns (common.Empty);
+  rpc RunCommand(common.SimpleMessage) returns (common.SuccessMessage);
 
   // Terminal (system)
   rpc Terminal(stream common.SimpleMessage) returns (stream common.SimpleMessage);
-  rpc RunTerminalCommand(common.SimpleMessage) returns (common.Empty);
+  rpc RunTerminalCommand(common.SimpleMessage) returns (common.SuccessMessage);
 
   // Server Info
   rpc GetStatus(common.Empty) returns (ServerStatus);
 
   // Power Actions
-  rpc PowerAction(common.SimpleMessage) returns (common.Empty);
+  rpc PowerAction(common.SimpleMessage) returns (common.SuccessMessage);
 }
 
 // Server Info

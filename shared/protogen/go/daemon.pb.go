@@ -287,15 +287,15 @@ const file_daemon_proto_rawDesc = "" +
 	"\x12POWER_ACTION_START\x10\x01\x12\x18\n" +
 	"\x14POWER_ACTION_RESTART\x10\x02\x12\x15\n" +
 	"\x11POWER_ACTION_STOP\x10\x03\x12\x15\n" +
-	"\x11POWER_ACTION_KILL\x10\x042\xe1\x02\n" +
+	"\x11POWER_ACTION_KILL\x10\x042\xfc\x02\n" +
 	"\rServerService\x12;\n" +
-	"\aConsole\x12\x15.common.SimpleMessage\x1a\x15.common.SimpleMessage(\x010\x01\x122\n" +
+	"\aConsole\x12\x15.common.SimpleMessage\x1a\x15.common.SimpleMessage(\x010\x01\x12;\n" +
 	"\n" +
-	"RunCommand\x12\x15.common.SimpleMessage\x1a\r.common.Empty\x12<\n" +
-	"\bTerminal\x12\x15.common.SimpleMessage\x1a\x15.common.SimpleMessage(\x010\x01\x12:\n" +
-	"\x12RunTerminalCommand\x12\x15.common.SimpleMessage\x1a\r.common.Empty\x120\n" +
-	"\tGetStatus\x12\r.common.Empty\x1a\x14.daemon.ServerStatus\x123\n" +
-	"\vPowerAction\x12\x15.common.SimpleMessage\x1a\r.common.EmptyB\x17Z\x15panelium/proto-gen-gob\x06proto3"
+	"RunCommand\x12\x15.common.SimpleMessage\x1a\x16.common.SuccessMessage\x12<\n" +
+	"\bTerminal\x12\x15.common.SimpleMessage\x1a\x15.common.SimpleMessage(\x010\x01\x12C\n" +
+	"\x12RunTerminalCommand\x12\x15.common.SimpleMessage\x1a\x16.common.SuccessMessage\x120\n" +
+	"\tGetStatus\x12\r.common.Empty\x1a\x14.daemon.ServerStatus\x12<\n" +
+	"\vPowerAction\x12\x15.common.SimpleMessage\x1a\x16.common.SuccessMessageB\x17Z\x15panelium/proto-gen-gob\x06proto3"
 
 var (
 	file_daemon_proto_rawDescOnce sync.Once
@@ -319,6 +319,7 @@ var file_daemon_proto_goTypes = []any{
 	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
 	(*SimpleMessage)(nil),         // 5: common.SimpleMessage
 	(*Empty)(nil),                 // 6: common.Empty
+	(*SuccessMessage)(nil),        // 7: common.SuccessMessage
 }
 var file_daemon_proto_depIdxs = []int32{
 	0,  // 0: daemon.ServerStatus.status:type_name -> daemon.ServerStatusType
@@ -332,11 +333,11 @@ var file_daemon_proto_depIdxs = []int32{
 	6,  // 8: daemon.ServerService.GetStatus:input_type -> common.Empty
 	5,  // 9: daemon.ServerService.PowerAction:input_type -> common.SimpleMessage
 	5,  // 10: daemon.ServerService.Console:output_type -> common.SimpleMessage
-	6,  // 11: daemon.ServerService.RunCommand:output_type -> common.Empty
+	7,  // 11: daemon.ServerService.RunCommand:output_type -> common.SuccessMessage
 	5,  // 12: daemon.ServerService.Terminal:output_type -> common.SimpleMessage
-	6,  // 13: daemon.ServerService.RunTerminalCommand:output_type -> common.Empty
+	7,  // 13: daemon.ServerService.RunTerminalCommand:output_type -> common.SuccessMessage
 	3,  // 14: daemon.ServerService.GetStatus:output_type -> daemon.ServerStatus
-	6,  // 15: daemon.ServerService.PowerAction:output_type -> common.Empty
+	7,  // 15: daemon.ServerService.PowerAction:output_type -> common.SuccessMessage
 	10, // [10:16] is the sub-list for method output_type
 	4,  // [4:10] is the sub-list for method input_type
 	4,  // [4:4] is the sub-list for extension type_name
