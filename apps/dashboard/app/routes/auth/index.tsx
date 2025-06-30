@@ -55,106 +55,108 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="flex min-h-screen items-center justify-center px-4 py-12 w-sm">
-            <Card className="w-full max-w-sm">
-                <CardHeader>
-                    <CardTitle className="text-2xl text-center no-select">
-                        Sign In
-                    </CardTitle>
-                    <CardDescription className="text-center no-select">
-                        Enter your credentials to access your account
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <Form {...form}>
-                        <form
-                            onSubmit={form.handleSubmit(onSubmit)}
-                            className="space-y-6"
-                        >
-                            <FormField
-                                control={form.control}
-                                name="email"
-                                render={({field}) => (
-                                    <FormItem>
-                                        <FormLabel>Email</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                placeholder="email@example.com"
-                                                className="no-select"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage/>
-                                    </FormItem>
+        <div className="flex flex-col gap-10 items-center">
+            <div className="flex items-center justify-center px-4 py-12 w-sm">
+                <Card className="w-full max-w-sm">
+                    <CardHeader>
+                        <CardTitle className="text-2xl text-center no-select">
+                            Sign In
+                        </CardTitle>
+                        <CardDescription className="text-center no-select">
+                            Enter your credentials to access your account
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <Form {...form}>
+                            <form
+                                onSubmit={form.handleSubmit(onSubmit)}
+                                className="space-y-6"
+                            >
+                                <FormField
+                                    control={form.control}
+                                    name="email"
+                                    render={({field}) => (
+                                        <FormItem>
+                                            <FormLabel>Email</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    placeholder="email@example.com"
+                                                    className="no-select"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage/>
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="password"
+                                    render={({field}) => (
+                                        <FormItem>
+                                            <FormLabel>Password</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    type="password"
+                                                    placeholder="••••••••"
+                                                    className="no-select"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage/>
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="rememberMe"
+                                    render={({field}) => (
+                                        <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                                            <FormControl>
+                                                <Checkbox
+                                                    checked={field.value}
+                                                    onCheckedChange={field.onChange}
+                                                />
+                                            </FormControl>
+                                            <div className="space-y-1 leading-none no-select">
+                                                <FormLabel>Remember me</FormLabel>
+                                            </div>
+                                        </FormItem>
+                                    )}
+                                />
+                                <Button type="submit" className="w-full no-select">
+                                    Sign In
+                                </Button>
+                                {form.formState.errors.root && (
+                                    <p className="text-sm font-medium text-destructive text-center">
+                                        {form.formState.errors.root.message}
+                                    </p>
                                 )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="password"
-                                render={({field}) => (
-                                    <FormItem>
-                                        <FormLabel>Password</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                type="password"
-                                                placeholder="••••••••"
-                                                className="no-select"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage/>
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="rememberMe"
-                                render={({field}) => (
-                                    <FormItem className="flex flex-row items-center space-x-3 space-y-0">
-                                        <FormControl>
-                                            <Checkbox
-                                                checked={field.value}
-                                                onCheckedChange={field.onChange}
-                                            />
-                                        </FormControl>
-                                        <div className="space-y-1 leading-none no-select">
-                                            <FormLabel>Remember me</FormLabel>
-                                        </div>
-                                    </FormItem>
-                                )}
-                            />
-                            <Button type="submit" className="w-full no-select">
-                                Sign In
-                            </Button>
-                            {form.formState.errors.root && (
-                                <p className="text-sm font-medium text-destructive text-center">
-                                    {form.formState.errors.root.message}
-                                </p>
-                            )}
-                        </form>
-                    </Form>
-                </CardContent>
-                <CardFooter className="flex flex-col items-center">
-                    <p className="text-sm text-center text-muted-foreground no-select">
-                        Don't have an account?{" "}
-                        <a
-                            className="text-primary underline-offset-4 hover:underline"
-                            onClick={showSignUpError}
-                        >
-                            Sign up
-                        </a>
-                    </p>
+                            </form>
+                        </Form>
+                    </CardContent>
+                    <CardFooter className="flex flex-col items-center">
+                        <p className="text-sm text-center text-muted-foreground no-select">
+                            Don't have an account?{" "}
+                            <a
+                                className="text-primary underline-offset-4 hover:underline"
+                                onClick={showSignUpError}
+                            >
+                                Sign up
+                            </a>
+                        </p>
 
-                    {/*TODO: Remove this once the authentication flow is implemented*/}
-                    <Button
-                        variant="outline"
-                        className="mt-4 w-s no-select"
-                        onClick={bypassAuthentication}
-                    >
-                        bypass authentication
-                    </Button>
-                </CardFooter>
-            </Card>
+                        {/*TODO: Remove this once the authentication flow is implemented*/}
+                        <Button
+                            variant="outline"
+                            className="mt-4 w-s no-select"
+                            onClick={bypassAuthentication}
+                        >
+                            bypass authentication
+                        </Button>
+                    </CardFooter>
+                </Card>
+            </div>
         </div>
     );
 }

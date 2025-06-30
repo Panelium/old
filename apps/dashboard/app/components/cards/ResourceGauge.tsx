@@ -1,13 +1,14 @@
-import React from 'react';
-import {motion} from 'framer-motion';
-import {cn} from '~/lib/utils';
+import React from "react";
+import {motion} from "framer-motion";
+import {cn} from "~/lib/utils";
 
 export interface ResourceGaugeProps {
     value: number;
     maxValue: number;
+    subtitle?: string;
     label?: string;
     unit?: string;
-    size?: 'sm' | 'md' | 'lg';
+    size?: "sm" | "md" | "lg";
     showValue?: boolean;
     className?: string;
 }
@@ -16,54 +17,49 @@ export function ResourceGauge({
                                   value,
                                   maxValue,
                                   label,
-                                  unit = '',
-                                  size = 'md',
+                                  unit = "",
+                                  size = "md",
                                   showValue = true,
                                   className,
                               }: ResourceGaugeProps) {
-    // Calculate percentage
     const percentage = Math.min((value / maxValue) * 100, 100);
 
-    // Determine colors based on usage percentage
     const getColor = () => {
-        if (percentage > 90) return 'text-red-500';
-        if (percentage > 75) return 'text-amber-500';
-        return 'text-emerald-500';
+        if (percentage > 90) return "text-chart-1";
+        if (percentage > 75) return "text-chart-5";
+        return "text-chart-2";
     };
 
-    // Determine size
     const getSize = () => {
         switch (size) {
-            case 'sm':
-                return 'w-24 h-24';
-            case 'lg':
-                return 'w-40 h-40';
+            case "sm":
+                return "w-24 h-24";
+            case "lg":
+                return "w-40 h-40";
             default:
-                return 'w-32 h-32';
+                return "w-32 h-32";
         }
     };
 
-    // Thickness of the gauge
     const getThickness = () => {
         switch (size) {
-            case 'sm':
+            case "sm":
                 return 4;
-            case 'lg':
+            case "lg":
                 return 8;
             default:
                 return 6;
         }
     };
 
-    // Font size for the value
     const getFontSize = () => {
         switch (size) {
-            case 'sm':
-                return 'text-lg';
-            case 'lg':
-                return 'text-3xl';
+            case "sm":
+                return "text-lg";
+            case "lg":
+                return "text-3xl";
             default:
-                return 'text-2xl';
+                return "text-2xl";
         }
     };
 
@@ -73,7 +69,13 @@ export function ResourceGauge({
     const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
     return (
-        <div className={cn('relative flex items-center justify-center', getSize(), className)}>
+        <div
+            className={cn(
+                "relative flex items-center justify-center",
+                getSize(),
+                className
+            )}
+        >
             {/* Background circle */}
             <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
                 <circle
@@ -83,7 +85,7 @@ export function ResourceGauge({
                     fill="none"
                     stroke="currentColor"
                     strokeWidth={getThickness()}
-                    className="text-slate-200 dark:text-slate-800"
+                    className="text-chart-background"
                 />
 
                 {/* Foreground circle with animation */}
@@ -106,11 +108,12 @@ export function ResourceGauge({
             {/* Center text */}
             {showValue && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className={cn('font-bold', getFontSize())}>
-            {value}{unit}
+          <span className={cn("font-bold", getFontSize())}>
+            {value}
+              {unit}
           </span>
                     {label && (
-                        <span className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                        <span className="text-xs text-card-foreground mt-1">
               {label}
             </span>
                     )}

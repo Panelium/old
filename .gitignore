@@ -5,3 +5,5 @@
 !/.idea/modules.xml
 !/.idea/compiler.xml
 !/.idea/Panelium.iml
+*.afdesign
+*.afdesign~lock~

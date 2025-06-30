@@ -65,7 +65,7 @@ export function ActivityLog({activities, className, maxItems = 10}: ActivityLogP
                             <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
                                 {activity.server && (
                                     <span
-                                        className="inline-flex items-center rounded-full border border-slate-200 dark:border-slate-700 px-2 py-0.5 text-xs font-medium text-slate-800 dark:text-slate-300">
+                                        className="inline-flex items-center rounded-full border border-border px-2 py-0.5 text-xs font-medium text-slate-800 dark:text-slate-300">
                     <Server className="mr-1 h-3 w-3 text-slate-500"/>
                                         {activity.server}
                   </span>
