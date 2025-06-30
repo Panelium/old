@@ -18,7 +18,7 @@ const EntityAvatar: React.FC<EntityAvatarProps> = ({
                                                        className,
                                                    }) => {
     return (
-        <div className="flex items-center text-left gap-3">
+        <div className="max-w-[100%] flex items-center text-left gap-3 truncate">
             <Avatar>
                 <AvatarImage
                     src={src}
@@ -27,10 +27,10 @@ const EntityAvatar: React.FC<EntityAvatarProps> = ({
                 />
                 <AvatarFallback>{title.charAt(0).toUpperCase()}</AvatarFallback>
             </Avatar>
-            <div className="flex flex-col flex-1">
+            <div className="w-1/2 flex flex-col flex-1">
                 <h3
                     className={cn(
-                        "font-medium",
+                        "font-medium truncate",
                         "text-foreground",
                         "group-hover:text-indigo-600 dark:group-hover:text-indigo-400",
                         className
@@ -38,7 +38,7 @@ const EntityAvatar: React.FC<EntityAvatarProps> = ({
                 >
                     {title}
                 </h3>
-                <p className="text-xs text-muted-foreground">{subTitle}</p>
+                <p className="text-xs text-muted-foreground truncate">{subTitle}</p>
             </div>
         </div>
     );

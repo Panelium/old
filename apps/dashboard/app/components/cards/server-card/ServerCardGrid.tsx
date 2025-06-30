@@ -11,18 +11,18 @@ const AddServerCard: React.FC = () => {
     return (
         <Card
             className={cn(
-                "flex flex-col items-center justify-center no-select",
+                "flex flex-col items-center justify-center no-select flex-1/2",
                 "border-border bg-server-card/50 hover:border-border-hover/50 hover:bg-server-card",
                 "transition-all cursor-pointer backdrop-blur-[3px]",
             )}
         >
-            <div className="rounded-full bg-tag-gray-background p-3 mb-3">
+            <div className="rounded-full bg-tag-gray-background p-3">
                 <Plus className="h-6 w-6 text-tag-gray"/>
             </div>
             <h3 className="text-lg font-medium text-foreground">
                 New Server
             </h3>
-            <p className="text-sm text-center text-server-card-foreground mt-1 mb-4">
+            <p className="text-sm text-center text-server-card-foreground mt-1 mb-2 min-h-10">
                 Deploy a new server with your preferred configuration
             </p>
         </Card>

@@ -30,16 +30,17 @@ const ServerStatusTypeNames: Record<ServerStatusType, string> = {
     [ServerStatusType.STOPPING]: "Stopping",
 }
 
-export default function StatusBadge({status, customStatusName}: {
+export default function StatusBadge({status, customStatusName, className}: {
     status: ServerStatusType,
-    customStatusName?: string
+    customStatusName?: string,
+    className?: string,
 }) {
     const badgeStyle = BadgeStyleMap[status] ?? BadgeStyleMap[ServerStatusType.UNKNOWN];
     const badgeDotStyle = BadgeDotStyleMap[status] ?? BadgeDotStyleMap[ServerStatusType.UNKNOWN];
     const statusName = customStatusName ?? ServerStatusTypeNames[status] ?? "Unknown";
 
     return (
-        <Badge variant="outline" className={badgeStyle}>
+        <Badge variant="outline" className={cn(badgeStyle, className)}>
             {(status != ServerStatusType.UNKNOWN) && (<span className={badgeDotStyle}></span>)}
             {statusName}
         </Badge>

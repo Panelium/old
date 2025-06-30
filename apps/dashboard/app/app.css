@@ -366,3 +366,7 @@
     background-color: var(--color-sidebar);
     background: linear-gradient(0deg, var(--color-background-darkest) 0%, var(--color-background) 100%);
 }
+
+.widthm {
+    max-width: 100px;
+}

@@ -85,7 +85,7 @@ const ServerCardButton: React.FC<ServerCardLinkProps> = ({
 const ServerCardHeader: React.FC<{ server: Server }> = ({server}) => {
     return (
         <CardHeader className="gap-3">
-            <div className="flex items-start justify-between gap-3">
+            <div className="flex items-start justify-between gap-3 truncate">
                 <EntityAvatar
                     src={server.icon}
                     alt={server.name}
