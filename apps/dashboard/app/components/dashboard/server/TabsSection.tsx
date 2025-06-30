@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type ReactElement } from "react";
 import {Activity, HardDrive, Settings, Terminal} from "lucide-react";
 import {cn} from "~/lib/utils";
 
@@ -12,6 +12,28 @@ import {Button} from "~/components/ui/button";
 import {ScrollArea} from "~/components/ui/scroll-area";
 import {Card, CardContent, CardHeader, CardTitle} from "~/components/ui/card";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "~/components/ui/tabs";
+
+interface SectionTabsTriggerProps {
+    value: string,
+    activeTab: string,
+    children: any,
+}
+
+function SectionTabsTrigger({value, activeTab, children}: SectionTabsTriggerProps){
+    return (<>
+        <TabsTrigger
+            value={value}
+            className="relative rounded-none data-[state=active]:bg-tag-purple/5 data-[state=active]:text-tag-purple data-[state=active]:shadow-none h-12 border-transparent border-0"
+        >
+            {children}
+            <span className="capitalize">{value}</span>
+            <span
+                className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600 dark:bg-indigo-400 data-[state=active]:animate-tab-border-in data-[state=inactive]:w-0 transition-all duration-300"
+                data-state={activeTab === value ? "active" : "inactive"}
+            ></span>
+        </TabsTrigger>
+    </>);
+}
 
 const TabsSection: React.FC = () => {
     const {
@@ -27,50 +49,10 @@ const TabsSection: React.FC = () => {
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                 <TabsList
                     className="grid grid-cols-4 rounded-none border-b border-border bg-transparent p-0 h-12 no-select">
-                    <TabsTrigger
-                        value="console"
-                        className="relative rounded-none data-[state=active]:bg-tag-purple/5 data-[state=active]:text-tag-purple data-[state=active]:shadow-none h-12 border-transparent border-0"
-                    >
-                        <Terminal className="mr-2 h-4 w-4"/>
-                        Console
-                        <span
-                            className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600 dark:bg-indigo-400 data-[state=active]:animate-tab-border-in data-[state=inactive]:w-0 transition-all duration-300"
-                            data-state={activeTab === "console" ? "active" : "inactive"}
-                        ></span>
-                    </TabsTrigger>
-                    <TabsTrigger
-                        value="files"
-                        className="relative rounded-none data-[state=active]:bg-tag-purple/5 data-[state=active]:text-tag-purple data-[state=active]:shadow-none h-12 border-transparent border-0"
-                    >
-                        <HardDrive className="mr-2 h-4 w-4"/>
-                        Files
-                        <span
-                            className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600 dark:bg-indigo-400 data-[state=active]:animate-tab-border-in data-[state=inactive]:w-0 transition-all duration-300"
-                            data-state={activeTab === "files" ? "active" : "inactive"}
-                        ></span>
-                    </TabsTrigger>
-                    <TabsTrigger
-                        value="activity"
-                        className="relative rounded-none data-[state=active]:bg-tag-purple/5 data-[state=active]:text-tag-purple data-[state=active]:shadow-none h-12 border-transparent border-0"
-                    >
-                        <Activity className="mr-2 h-4 w-4"/>
-                        Activity
-                        <span
-                            className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600 dark:bg-indigo-400 data-[state=active]:animate-tab-border-in data-[state=inactive]:w-0 transition-all duration-300"
-                            data-state={activeTab === "activity" ? "active" : "inactive"}
-                        ></span>
-                    </TabsTrigger>
-                    <TabsTrigger
-                        value="settings"
-                        className="relative rounded-none data-[state=active]:bg-tag-purple/5 data-[state=active]:text-tag-purple data-[state=active]:shadow-none h-12 border-transparent border-0"
-                    >
-                        <Settings className="mr-2 h-4 w-4"/>
-                        Settings
-                        <span
-                            className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600 dark:bg-indigo-400 data-[state=active]:animate-tab-border-in data-[state=inactive]:w-0 transition-all duration-300"
-                            data-state={activeTab === "settings" ? "active" : "inactive"}
-                        ></span>
-                    </TabsTrigger>
+                    <SectionTabsTrigger value="console"  activeTab={activeTab}><Terminal  className="mr-2 h-4 w-4"/></SectionTabsTrigger>
+                    <SectionTabsTrigger value="files"    activeTab={activeTab}><HardDrive className="mr-2 h-4 w-4"/></SectionTabsTrigger>
+                    <SectionTabsTrigger value="activity" activeTab={activeTab}><Activity  className="mr-2 h-4 w-4"/></SectionTabsTrigger>
+                    <SectionTabsTrigger value="settings" activeTab={activeTab}><Settings  className="mr-2 h-4 w-4"/></SectionTabsTrigger>
                 </TabsList>
 
                 <TabsContent value="console" className="m-0 px-6 pb-4">
