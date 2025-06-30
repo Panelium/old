@@ -11,6 +11,8 @@ import (
 	proto_gen_go "panelium/proto-gen-go"
 )
 
+// TODO: need to add rate limiting
+
 func (s *AuthServiceHandler) Login(
 	ctx context.Context,
 	req *connect.Request[proto_gen_go.LoginRequest],
