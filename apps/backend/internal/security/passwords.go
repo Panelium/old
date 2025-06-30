@@ -9,7 +9,7 @@ import (
 
 // hashPasswordInternal is a helper function that hashes the password using Argon2 provided salt and pepper.
 func hashPasswordInternal(password string, salt string) string {
-	pepperedPassword := password + config.SecretsInstance.GetPepper()
+	pepperedPassword := password + config.SecretsInstance.GetPepper()                           // TODO: this might have to be done differently, instead of just concatenating
 	passwordHashData := argon2.IDKey([]byte(pepperedPassword), []byte(salt), 1, 64*1024, 4, 32) // TODO: potentially make these parameters configurable
 	passwordHash := hex.EncodeToString(passwordHashData)
 	return passwordHash
