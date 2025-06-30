@@ -8,3 +8,7 @@ message Empty {}
 message SimpleMessage {
   string text = 1;
 }
+
+message SuccessMessage {
+  bool success = 1;
+}

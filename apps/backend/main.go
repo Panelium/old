@@ -1,82 +1,117 @@
 package main
 
 import (
-	"connectrpc.com/connect"
-	"context"
-	"crypto/tls"
-	"golang.org/x/net/http2"
-	"log"
-	"math/rand"
-	"net"
-	"net/http"
+	"fmt"
 	"os"
+	"panelium/backend/internal/config"
+	"panelium/backend/internal/db"
+	"panelium/backend/internal/global"
+	"panelium/backend/internal/handler"
+	"panelium/backend/internal/security"
 	"panelium/common/id"
-	proto_gen_go "panelium/proto-gen-go"
-	"panelium/proto-gen-go/proto_gen_goconnect"
-	"strconv"
+	"panelium/common/jwt"
+	"time"
 )
 
 func main() {
+	err := global.InitValidator()
+	if err != nil {
+		fmt.Printf("Failed to initialize validator: %v", err)
+		return
+	}
+
+	err = config.Init()
+	if err != nil {
+		fmt.Printf("Failed to initialize configuration: %v", err)
+		return
+	}
+
 	if len(os.Args) > 1 && os.Args[1] == "idGen" {
 		idGen()
 		return
 	}
-
-	message := proto_gen_go.SimpleMessage{}
-	messageText := "somecommand"
-	message.Text = &messageText
-
-	client := proto_gen_goconnect.NewServerServiceClient(
-		&http.Client{
-			Transport: &http2.Transport{
-				AllowHTTP: true,
-				DialTLS: func(network, addr string, cfg *tls.Config) (net.Conn, error) {
-					return net.Dial(network, addr)
-				},
-			},
-		},
-		"http://localhost:9090",
-		//connect.WithGRPC(),
-		//connect.WithGRPCWeb(),
-		//connect.WithProtoJSON(),
-	)
-	_, err := client.RunCommand(
-		context.Background(),
-		connect.NewRequest(&message),
-	)
-	if err != nil {
-		log.Println(err)
+	if len(os.Args) > 1 && os.Args[1] == "passwordHashTest" {
+		passwordHashTest()
 		return
 	}
-	log.Println("ok")
-
-	stream := client.Console(
-		context.Background(),
-	)
-
-	for i := 0; i < 10; i++ {
-		message := proto_gen_go.SimpleMessage{}
-		messageText := "message " + strconv.Itoa(rand.Intn(100))
-		message.Text = &messageText
-
-		if err := stream.Send(&message); err != nil {
-			log.Println("Error sending message:", err)
-			return
-		}
-
-		response, err := stream.Receive()
-		if err != nil {
-			log.Println("Error receiving response:", err)
-			return
-		}
-		log.Printf("Received response: %s\n", *response.Text)
+	if len(os.Args) > 1 && os.Args[1] == "jwtTest" {
+		jwtTest()
+		return
 	}
+
+	err = db.Init()
+	if err != nil {
+		fmt.Printf("Failed to initialize database: %v", err)
+		return
+	}
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "9090"
+	}
+
+	go func() {
+		err = handler.Handle("0.0.0.0:" + port)
+		if err != nil {
+			fmt.Printf("Failed to start handler: %v", err)
+			return
+		}
+	}()
+
+	fmt.Printf("Panelium Backend started on port %s", port)
+
+	select {}
 }
 
 func idGen() {
 	s, err := id.New()
 	if err != nil {
-		log.Fatalf("Failed to generate ID: %v", err)
+		fmt.Printf("Failed to generate ID: %v", err)
 	}
-	log.Printf("Generated ID: %s\n", s)
+	fmt.Printf("Generated ID: %s\n", s)
+}
+
+func passwordHashTest() {
+	pass := "test1234"
+	hashed, salt, err := security.HashPassword(pass)
+	if err != nil {
+		fmt.Printf("Failed to hash password: %v", err)
+		return
+	}
+	fmt.Printf("Hashed password: %s, Salt: %s\n", hashed, salt)
+	verified := security.VerifyPassword(pass, salt, hashed)
+	if verified {
+		fmt.Printf("Password verification successful")
+	} else {
+		fmt.Printf("Password verification failed")
+	}
+}
+
+func jwtTest() {
+	sessionId, err := id.New()
+	if err != nil {
+		fmt.Printf("Failed to generate session ID: %v", err)
+		return
+	}
+
+	jti, err := id.New()
+	if err != nil {
+		fmt.Printf("Failed to generate JTI: %v", err)
+		return
+	}
+
+	claims := &jwt.Claims{
+		IssuedAt:   time.Now().Unix(),
+		Expiration: time.Now().Add(time.Hour).Unix(),
+		Audience:   sessionId,
+		Issuer:     jwt.BackendIssuer,
+		TokenType:  jwt.MFATokenType,
+		JTI:        jti,
+	}
+	token, err := jwt.CreateJWT(*claims, config.JWTPrivateKeyInstance)
+	if err != nil {
+		fmt.Printf("Failed to create JWT: %v", err)
+		return
+	}
+	fmt.Printf("Generated JWT: %s\n", token)
 }

@@ -10,6 +10,7 @@ import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
+	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -20,19 +21,1115 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type MFAType int32
+
+const (
+	MFAType_MFA_TYPE_UNSPECIFIED MFAType = 0
+	MFAType_MFA_TYPE_TOTP        MFAType = 1
+	MFAType_MFA_TYPE_SMS         MFAType = 2
+	MFAType_MFA_TYPE_EMAIL       MFAType = 3
+)
+
+// Enum value maps for MFAType.
+var (
+	MFAType_name = map[int32]string{
+		0: "MFA_TYPE_UNSPECIFIED",
+		1: "MFA_TYPE_TOTP",
+		2: "MFA_TYPE_SMS",
+		3: "MFA_TYPE_EMAIL",
+	}
+	MFAType_value = map[string]int32{
+		"MFA_TYPE_UNSPECIFIED": 0,
+		"MFA_TYPE_TOTP":        1,
+		"MFA_TYPE_SMS":         2,
+		"MFA_TYPE_EMAIL":       3,
+	}
+)
+
+func (x MFAType) Enum() *MFAType {
+	p := new(MFAType)
+	*p = x
+	return p
+}
+
+func (x MFAType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (MFAType) Descriptor() protoreflect.EnumDescriptor {
+	return file_backend_proto_enumTypes[0].Descriptor()
+}
+
+func (MFAType) Type() protoreflect.EnumType {
+	return &file_backend_proto_enumTypes[0]
+}
+
+func (x MFAType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use MFAType.Descriptor instead.
+func (MFAType) EnumDescriptor() ([]byte, []int) {
+	return file_backend_proto_rawDescGZIP(), []int{0}
+}
+
+type RegisterRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
+	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
+	Password      string                 `protobuf:"bytes,3,opt,name=password,proto3" json:"password,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RegisterRequest) Reset() {
+	*x = RegisterRequest{}
+	mi := &file_backend_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RegisterRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RegisterRequest) ProtoMessage() {}
+
+func (x *RegisterRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RegisterRequest.ProtoReflect.Descriptor instead.
+func (*RegisterRequest) Descriptor() ([]byte, []int) {
+	return file_backend_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *RegisterRequest) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *RegisterRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *RegisterRequest) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+type RegisterResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// COOKIES
+	// access_jwt (if register success)
+	// refresh_jwt (if register success)
+	Success       bool `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RegisterResponse) Reset() {
+	*x = RegisterResponse{}
+	mi := &file_backend_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RegisterResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RegisterResponse) ProtoMessage() {}
+
+func (x *RegisterResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RegisterResponse.ProtoReflect.Descriptor instead.
+func (*RegisterResponse) Descriptor() ([]byte, []int) {
+	return file_backend_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *RegisterResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+type LoginRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
+	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LoginRequest) Reset() {
+	*x = LoginRequest{}
+	mi := &file_backend_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LoginRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LoginRequest) ProtoMessage() {}
+
+func (x *LoginRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LoginRequest.ProtoReflect.Descriptor instead.
+func (*LoginRequest) Descriptor() ([]byte, []int) {
+	return file_backend_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *LoginRequest) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *LoginRequest) GetPassword() string {
+	if x != nil {
+		return x.Password
+	}
+	return ""
+}
+
+type LoginResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// COOKIES
+	// access_jwt (if auth success and mfa not required)
+	// refresh_jwt (if auth success and mfa not required)
+	//
+	// mfa_jwt (if auth success and mfa required)
+	Success           bool      `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	RequiresMfa       bool      `protobuf:"varint,2,opt,name=requires_mfa,json=requiresMfa,proto3" json:"requires_mfa,omitempty"`
+	MfaTypesAvailable []MFAType `protobuf:"varint,3,rep,packed,name=mfa_types_available,json=mfaTypesAvailable,proto3,enum=backend.MFAType" json:"mfa_types_available,omitempty"` // (optional) types of MFA available for the user
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *LoginResponse) Reset() {
+	*x = LoginResponse{}
+	mi := &file_backend_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LoginResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LoginResponse) ProtoMessage() {}
+
+func (x *LoginResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LoginResponse.ProtoReflect.Descriptor instead.
+func (*LoginResponse) Descriptor() ([]byte, []int) {
+	return file_backend_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *LoginResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *LoginResponse) GetRequiresMfa() bool {
+	if x != nil {
+		return x.RequiresMfa
+	}
+	return false
+}
+
+func (x *LoginResponse) GetMfaTypesAvailable() []MFAType {
+	if x != nil {
+		return x.MfaTypesAvailable
+	}
+	return nil
+}
+
+type ChangePasswordRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// REQUEST COOKIES
+	// access_jwt
+	// refresh_jwt - high security change, requires refresh token validation
+	OldPassword   string `protobuf:"bytes,1,opt,name=old_password,json=oldPassword,proto3" json:"old_password,omitempty"`
+	NewPassword   string `protobuf:"bytes,2,opt,name=new_password,json=newPassword,proto3" json:"new_password,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ChangePasswordRequest) Reset() {
+	*x = ChangePasswordRequest{}
+	mi := &file_backend_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ChangePasswordRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChangePasswordRequest) ProtoMessage() {}
+
+func (x *ChangePasswordRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChangePasswordRequest.ProtoReflect.Descriptor instead.
+func (*ChangePasswordRequest) Descriptor() ([]byte, []int) {
+	return file_backend_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ChangePasswordRequest) GetOldPassword() string {
+	if x != nil {
+		return x.OldPassword
+	}
+	return ""
+}
+
+func (x *ChangePasswordRequest) GetNewPassword() string {
+	if x != nil {
+		return x.NewPassword
+	}
+	return ""
+}
+
+type ChangePasswordResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// COOKIES
+	// (ROTATE) access_jwt (if change password success)
+	// (ROTATE) refresh_jwt (if change password success)
+	//
+	// mfa_jwt (if change password success but additional MFA required)
+	Success           bool      `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	RequiresMfa       bool      `protobuf:"varint,2,opt,name=requires_mfa,json=requiresMfa,proto3" json:"requires_mfa,omitempty"`
+	MfaTypesAvailable []MFAType `protobuf:"varint,3,rep,packed,name=mfa_types_available,json=mfaTypesAvailable,proto3,enum=backend.MFAType" json:"mfa_types_available,omitempty"` // (optional) types of MFA available for the user
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *ChangePasswordResponse) Reset() {
+	*x = ChangePasswordResponse{}
+	mi := &file_backend_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ChangePasswordResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ChangePasswordResponse) ProtoMessage() {}
+
+func (x *ChangePasswordResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ChangePasswordResponse.ProtoReflect.Descriptor instead.
+func (*ChangePasswordResponse) Descriptor() ([]byte, []int) {
+	return file_backend_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ChangePasswordResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *ChangePasswordResponse) GetRequiresMfa() bool {
+	if x != nil {
+		return x.RequiresMfa
+	}
+	return false
+}
+
+func (x *ChangePasswordResponse) GetMfaTypesAvailable() []MFAType {
+	if x != nil {
+		return x.MfaTypesAvailable
+	}
+	return nil
+}
+
+type RequestPasswordResetRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Email         string                 `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"` // email to send the reset link to
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RequestPasswordResetRequest) Reset() {
+	*x = RequestPasswordResetRequest{}
+	mi := &file_backend_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RequestPasswordResetRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RequestPasswordResetRequest) ProtoMessage() {}
+
+func (x *RequestPasswordResetRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RequestPasswordResetRequest.ProtoReflect.Descriptor instead.
+func (*RequestPasswordResetRequest) Descriptor() ([]byte, []int) {
+	return file_backend_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *RequestPasswordResetRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+type RequestPasswordResetResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"` // THIS SHOULD NOT INDICATE WHETHER THE EMAIL EXISTS, JUST WHETHER THE REQUEST WAS PROCESSED
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RequestPasswordResetResponse) Reset() {
+	*x = RequestPasswordResetResponse{}
+	mi := &file_backend_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RequestPasswordResetResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RequestPasswordResetResponse) ProtoMessage() {}
+
+func (x *RequestPasswordResetResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RequestPasswordResetResponse.ProtoReflect.Descriptor instead.
+func (*RequestPasswordResetResponse) Descriptor() ([]byte, []int) {
+	return file_backend_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *RequestPasswordResetResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+type ResetPasswordRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// REQUEST COOKIES
+	// reset_jwt
+	NewPassword   string `protobuf:"bytes,1,opt,name=new_password,json=newPassword,proto3" json:"new_password,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ResetPasswordRequest) Reset() {
+	*x = ResetPasswordRequest{}
+	mi := &file_backend_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ResetPasswordRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ResetPasswordRequest) ProtoMessage() {}
+
+func (x *ResetPasswordRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ResetPasswordRequest.ProtoReflect.Descriptor instead.
+func (*ResetPasswordRequest) Descriptor() ([]byte, []int) {
+	return file_backend_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *ResetPasswordRequest) GetNewPassword() string {
+	if x != nil {
+		return x.NewPassword
+	}
+	return ""
+}
+
+type ResetPasswordResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// COOKIES
+	// (CLEAR) access_jwt (if reset password success)
+	// (CLEAR) refresh_jwt (if reset password success)
+	//
+	// (CLEAR+INVALIDATE) reset_jwt (if reset password success)
+	// mfa_jwt (if reset password success but additional MFA required)
+	Success           bool      `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	RequiresMfa       bool      `protobuf:"varint,2,opt,name=requires_mfa,json=requiresMfa,proto3" json:"requires_mfa,omitempty"`
+	MfaTypesAvailable []MFAType `protobuf:"varint,3,rep,packed,name=mfa_types_available,json=mfaTypesAvailable,proto3,enum=backend.MFAType" json:"mfa_types_available,omitempty"` // (optional) types of MFA available for the user
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *ResetPasswordResponse) Reset() {
+	*x = ResetPasswordResponse{}
+	mi := &file_backend_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ResetPasswordResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ResetPasswordResponse) ProtoMessage() {}
+
+func (x *ResetPasswordResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ResetPasswordResponse.ProtoReflect.Descriptor instead.
+func (*ResetPasswordResponse) Descriptor() ([]byte, []int) {
+	return file_backend_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *ResetPasswordResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *ResetPasswordResponse) GetRequiresMfa() bool {
+	if x != nil {
+		return x.RequiresMfa
+	}
+	return false
+}
+
+func (x *ResetPasswordResponse) GetMfaTypesAvailable() []MFAType {
+	if x != nil {
+		return x.MfaTypesAvailable
+	}
+	return nil
+}
+
+type RequestMFACodeRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// REQUEST COOKIES
+	// mfa_jwt
+	MfaType       MFAType `protobuf:"varint,2,opt,name=mfa_type,json=mfaType,proto3,enum=backend.MFAType" json:"mfa_type,omitempty"` // type of MFA to use
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RequestMFACodeRequest) Reset() {
+	*x = RequestMFACodeRequest{}
+	mi := &file_backend_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RequestMFACodeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RequestMFACodeRequest) ProtoMessage() {}
+
+func (x *RequestMFACodeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RequestMFACodeRequest.ProtoReflect.Descriptor instead.
+func (*RequestMFACodeRequest) Descriptor() ([]byte, []int) {
+	return file_backend_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *RequestMFACodeRequest) GetMfaType() MFAType {
+	if x != nil {
+		return x.MfaType
+	}
+	return MFAType_MFA_TYPE_UNSPECIFIED
+}
+
+type RequestMFACodeResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RequestMFACodeResponse) Reset() {
+	*x = RequestMFACodeResponse{}
+	mi := &file_backend_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RequestMFACodeResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RequestMFACodeResponse) ProtoMessage() {}
+
+func (x *RequestMFACodeResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RequestMFACodeResponse.ProtoReflect.Descriptor instead.
+func (*RequestMFACodeResponse) Descriptor() ([]byte, []int) {
+	return file_backend_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *RequestMFACodeResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+type VerifyMFARequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// REQUEST COOKIES
+	// mfa_jwt
+	MfaCode       string `protobuf:"bytes,1,opt,name=mfa_code,json=mfaCode,proto3" json:"mfa_code,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *VerifyMFARequest) Reset() {
+	*x = VerifyMFARequest{}
+	mi := &file_backend_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *VerifyMFARequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VerifyMFARequest) ProtoMessage() {}
+
+func (x *VerifyMFARequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VerifyMFARequest.ProtoReflect.Descriptor instead.
+func (*VerifyMFARequest) Descriptor() ([]byte, []int) {
+	return file_backend_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *VerifyMFARequest) GetMfaCode() string {
+	if x != nil {
+		return x.MfaCode
+	}
+	return ""
+}
+
+type VerifyMFAResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// COOKIES
+	// access_jwt (if auth and MFA success and no additional MFA required)
+	// refresh_jwt (if auth and MFA success and no additional MFA required)
+	//
+	// (ROTATE) mfa_jwt (if auth and MFA success but additional MFA required)
+	//
+	// (CLEAR) mfa_jwt (if auth and MFA success and no additional MFA required)
+	// (CLEAR+INVALIDATE) reset_jwt (if auth and MFA success and no additional MFA required)
+	Success               bool      `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	RequiresAdditionalMfa bool      `protobuf:"varint,2,opt,name=requires_additional_mfa,json=requiresAdditionalMfa,proto3" json:"requires_additional_mfa,omitempty"`
+	MfaTypesAvailable     []MFAType `protobuf:"varint,3,rep,packed,name=mfa_types_available,json=mfaTypesAvailable,proto3,enum=backend.MFAType" json:"mfa_types_available,omitempty"`
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
+}
+
+func (x *VerifyMFAResponse) Reset() {
+	*x = VerifyMFAResponse{}
+	mi := &file_backend_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *VerifyMFAResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VerifyMFAResponse) ProtoMessage() {}
+
+func (x *VerifyMFAResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VerifyMFAResponse.ProtoReflect.Descriptor instead.
+func (*VerifyMFAResponse) Descriptor() ([]byte, []int) {
+	return file_backend_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *VerifyMFAResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *VerifyMFAResponse) GetRequiresAdditionalMfa() bool {
+	if x != nil {
+		return x.RequiresAdditionalMfa
+	}
+	return false
+}
+
+func (x *VerifyMFAResponse) GetMfaTypesAvailable() []MFAType {
+	if x != nil {
+		return x.MfaTypesAvailable
+	}
+	return nil
+}
+
+type RefreshTokenRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RefreshTokenRequest) Reset() {
+	*x = RefreshTokenRequest{}
+	mi := &file_backend_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RefreshTokenRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RefreshTokenRequest) ProtoMessage() {}
+
+func (x *RefreshTokenRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RefreshTokenRequest.ProtoReflect.Descriptor instead.
+func (*RefreshTokenRequest) Descriptor() ([]byte, []int) {
+	return file_backend_proto_rawDescGZIP(), []int{14}
+}
+
+type RefreshTokenResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// COOKIES
+	// (ROTATE) access_jwt (if refresh token valid)
+	// (ROTATE) refresh_jwt (if refresh token valid)
+	Success       bool `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RefreshTokenResponse) Reset() {
+	*x = RefreshTokenResponse{}
+	mi := &file_backend_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RefreshTokenResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RefreshTokenResponse) ProtoMessage() {}
+
+func (x *RefreshTokenResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RefreshTokenResponse.ProtoReflect.Descriptor instead.
+func (*RefreshTokenResponse) Descriptor() ([]byte, []int) {
+	return file_backend_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *RefreshTokenResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+type LogoutRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LogoutRequest) Reset() {
+	*x = LogoutRequest{}
+	mi := &file_backend_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LogoutRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LogoutRequest) ProtoMessage() {}
+
+func (x *LogoutRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LogoutRequest.ProtoReflect.Descriptor instead.
+func (*LogoutRequest) Descriptor() ([]byte, []int) {
+	return file_backend_proto_rawDescGZIP(), []int{16}
+}
+
+type LogoutResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// COOKIES
+	// (CLEAR+INVALIDATE) access_jwt (if access token valid)
+	// (CLEAR+INVALIDATE) refresh_jwt (if access token valid)
+	Success       bool `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LogoutResponse) Reset() {
+	*x = LogoutResponse{}
+	mi := &file_backend_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LogoutResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LogoutResponse) ProtoMessage() {}
+
+func (x *LogoutResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LogoutResponse.ProtoReflect.Descriptor instead.
+func (*LogoutResponse) Descriptor() ([]byte, []int) {
+	return file_backend_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *LogoutResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
 var File_backend_proto protoreflect.FileDescriptor
 
 const file_backend_proto_rawDesc = "" +
 	"\n" +
-	"\rbackend.proto\x12\abackend\x1a\fcommon.protoB\x17Z\x15panelium/proto-gen-gob\x06proto3"
+	"\rbackend.proto\x12\abackend\x1a\fcommon.proto\"_\n" +
+	"\x0fRegisterRequest\x12\x1a\n" +
+	"\busername\x18\x01 \x01(\tR\busername\x12\x14\n" +
+	"\x05email\x18\x02 \x01(\tR\x05email\x12\x1a\n" +
+	"\bpassword\x18\x03 \x01(\tR\bpassword\",\n" +
+	"\x10RegisterResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"F\n" +
+	"\fLoginRequest\x12\x1a\n" +
+	"\busername\x18\x01 \x01(\tR\busername\x12\x1a\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\"\x8e\x01\n" +
+	"\rLoginResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12!\n" +
+	"\frequires_mfa\x18\x02 \x01(\bR\vrequiresMfa\x12@\n" +
+	"\x13mfa_types_available\x18\x03 \x03(\x0e2\x10.backend.MFATypeR\x11mfaTypesAvailable\"]\n" +
+	"\x15ChangePasswordRequest\x12!\n" +
+	"\fold_password\x18\x01 \x01(\tR\voldPassword\x12!\n" +
+	"\fnew_password\x18\x02 \x01(\tR\vnewPassword\"\x97\x01\n" +
+	"\x16ChangePasswordResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12!\n" +
+	"\frequires_mfa\x18\x02 \x01(\bR\vrequiresMfa\x12@\n" +
+	"\x13mfa_types_available\x18\x03 \x03(\x0e2\x10.backend.MFATypeR\x11mfaTypesAvailable\"3\n" +
+	"\x1bRequestPasswordResetRequest\x12\x14\n" +
+	"\x05email\x18\x01 \x01(\tR\x05email\"8\n" +
+	"\x1cRequestPasswordResetResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"9\n" +
+	"\x14ResetPasswordRequest\x12!\n" +
+	"\fnew_password\x18\x01 \x01(\tR\vnewPassword\"\x96\x01\n" +
+	"\x15ResetPasswordResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12!\n" +
+	"\frequires_mfa\x18\x02 \x01(\bR\vrequiresMfa\x12@\n" +
+	"\x13mfa_types_available\x18\x03 \x03(\x0e2\x10.backend.MFATypeR\x11mfaTypesAvailable\"D\n" +
+	"\x15RequestMFACodeRequest\x12+\n" +
+	"\bmfa_type\x18\x02 \x01(\x0e2\x10.backend.MFATypeR\amfaType\"2\n" +
+	"\x16RequestMFACodeResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"-\n" +
+	"\x10VerifyMFARequest\x12\x19\n" +
+	"\bmfa_code\x18\x01 \x01(\tR\amfaCode\"\xa7\x01\n" +
+	"\x11VerifyMFAResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x126\n" +
+	"\x17requires_additional_mfa\x18\x02 \x01(\bR\x15requiresAdditionalMfa\x12@\n" +
+	"\x13mfa_types_available\x18\x03 \x03(\x0e2\x10.backend.MFATypeR\x11mfaTypesAvailable\"\x15\n" +
+	"\x13RefreshTokenRequest\"0\n" +
+	"\x14RefreshTokenResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"\x0f\n" +
+	"\rLogoutRequest\"*\n" +
+	"\x0eLogoutResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess*\\\n" +
+	"\aMFAType\x12\x18\n" +
+	"\x14MFA_TYPE_UNSPECIFIED\x10\x00\x12\x11\n" +
+	"\rMFA_TYPE_TOTP\x10\x01\x12\x10\n" +
+	"\fMFA_TYPE_SMS\x10\x02\x12\x12\n" +
+	"\x0eMFA_TYPE_EMAIL\x10\x032\xab\b\n" +
+	"\vAuthService\x12A\n" +
+	"\bRegister\x12\x18.backend.RegisterRequest\x1a\x19.backend.RegisterResponse\"\x00\x128\n" +
+	"\x05Login\x12\x15.backend.LoginRequest\x1a\x16.backend.LoginResponse\"\x00\x12S\n" +
+	"\x0eChangePassword\x12\x1e.backend.ChangePasswordRequest\x1a\x1f.backend.ChangePasswordResponse\"\x00\x12a\n" +
+	"\x1cChangePasswordRequestMFACode\x12\x1e.backend.RequestMFACodeRequest\x1a\x1f.backend.RequestMFACodeResponse\"\x00\x12R\n" +
+	"\x17ChangePasswordVerifyMFA\x12\x19.backend.VerifyMFARequest\x1a\x1a.backend.VerifyMFAResponse\"\x00\x12e\n" +
+	"\x14RequestPasswordReset\x12$.backend.RequestPasswordResetRequest\x1a%.backend.RequestPasswordResetResponse\"\x00\x12P\n" +
+	"\rResetPassword\x12\x1d.backend.ResetPasswordRequest\x1a\x1e.backend.ResetPasswordResponse\"\x00\x12`\n" +
+	"\x1bResetPasswordRequestMFACode\x12\x1e.backend.RequestMFACodeRequest\x1a\x1f.backend.RequestMFACodeResponse\"\x00\x12Q\n" +
+	"\x16ResetPasswordVerifyMFA\x12\x19.backend.VerifyMFARequest\x1a\x1a.backend.VerifyMFAResponse\"\x00\x12S\n" +
+	"\x0eRequestMFACode\x12\x1e.backend.RequestMFACodeRequest\x1a\x1f.backend.RequestMFACodeResponse\"\x00\x12D\n" +
+	"\tVerifyMFA\x12\x19.backend.VerifyMFARequest\x1a\x1a.backend.VerifyMFAResponse\"\x00\x12M\n" +
+	"\fRefreshToken\x12\x1c.backend.RefreshTokenRequest\x1a\x1d.backend.RefreshTokenResponse\"\x00\x12;\n" +
+	"\x06Logout\x12\x16.backend.LogoutRequest\x1a\x17.backend.LogoutResponse\"\x00B\x17Z\x15panelium/proto-gen-gob\x06proto3"
 
-var file_backend_proto_goTypes = []any{}
+var (
+	file_backend_proto_rawDescOnce sync.Once
+	file_backend_proto_rawDescData []byte
+)
+
+func file_backend_proto_rawDescGZIP() []byte {
+	file_backend_proto_rawDescOnce.Do(func() {
+		file_backend_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_backend_proto_rawDesc), len(file_backend_proto_rawDesc)))
+	})
+	return file_backend_proto_rawDescData
+}
+
+var file_backend_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_backend_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
+var file_backend_proto_goTypes = []any{
+	(MFAType)(0),                         // 0: backend.MFAType
+	(*RegisterRequest)(nil),              // 1: backend.RegisterRequest
+	(*RegisterResponse)(nil),             // 2: backend.RegisterResponse
+	(*LoginRequest)(nil),                 // 3: backend.LoginRequest
+	(*LoginResponse)(nil),                // 4: backend.LoginResponse
+	(*ChangePasswordRequest)(nil),        // 5: backend.ChangePasswordRequest
+	(*ChangePasswordResponse)(nil),       // 6: backend.ChangePasswordResponse
+	(*RequestPasswordResetRequest)(nil),  // 7: backend.RequestPasswordResetRequest
+	(*RequestPasswordResetResponse)(nil), // 8: backend.RequestPasswordResetResponse
+	(*ResetPasswordRequest)(nil),         // 9: backend.ResetPasswordRequest
+	(*ResetPasswordResponse)(nil),        // 10: backend.ResetPasswordResponse
+	(*RequestMFACodeRequest)(nil),        // 11: backend.RequestMFACodeRequest
+	(*RequestMFACodeResponse)(nil),       // 12: backend.RequestMFACodeResponse
+	(*VerifyMFARequest)(nil),             // 13: backend.VerifyMFARequest
+	(*VerifyMFAResponse)(nil),            // 14: backend.VerifyMFAResponse
+	(*RefreshTokenRequest)(nil),          // 15: backend.RefreshTokenRequest
+	(*RefreshTokenResponse)(nil),         // 16: backend.RefreshTokenResponse
+	(*LogoutRequest)(nil),                // 17: backend.LogoutRequest
+	(*LogoutResponse)(nil),               // 18: backend.LogoutResponse
+}
 var file_backend_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0,  // 0: backend.LoginResponse.mfa_types_available:type_name -> backend.MFAType
+	0,  // 1: backend.ChangePasswordResponse.mfa_types_available:type_name -> backend.MFAType
+	0,  // 2: backend.ResetPasswordResponse.mfa_types_available:type_name -> backend.MFAType
+	0,  // 3: backend.RequestMFACodeRequest.mfa_type:type_name -> backend.MFAType
+	0,  // 4: backend.VerifyMFAResponse.mfa_types_available:type_name -> backend.MFAType
+	1,  // 5: backend.AuthService.Register:input_type -> backend.RegisterRequest
+	3,  // 6: backend.AuthService.Login:input_type -> backend.LoginRequest
+	5,  // 7: backend.AuthService.ChangePassword:input_type -> backend.ChangePasswordRequest
+	11, // 8: backend.AuthService.ChangePasswordRequestMFACode:input_type -> backend.RequestMFACodeRequest
+	13, // 9: backend.AuthService.ChangePasswordVerifyMFA:input_type -> backend.VerifyMFARequest
+	7,  // 10: backend.AuthService.RequestPasswordReset:input_type -> backend.RequestPasswordResetRequest
+	9,  // 11: backend.AuthService.ResetPassword:input_type -> backend.ResetPasswordRequest
+	11, // 12: backend.AuthService.ResetPasswordRequestMFACode:input_type -> backend.RequestMFACodeRequest
+	13, // 13: backend.AuthService.ResetPasswordVerifyMFA:input_type -> backend.VerifyMFARequest
+	11, // 14: backend.AuthService.RequestMFACode:input_type -> backend.RequestMFACodeRequest
+	13, // 15: backend.AuthService.VerifyMFA:input_type -> backend.VerifyMFARequest
+	15, // 16: backend.AuthService.RefreshToken:input_type -> backend.RefreshTokenRequest
+	17, // 17: backend.AuthService.Logout:input_type -> backend.LogoutRequest
+	2,  // 18: backend.AuthService.Register:output_type -> backend.RegisterResponse
+	4,  // 19: backend.AuthService.Login:output_type -> backend.LoginResponse
+	6,  // 20: backend.AuthService.ChangePassword:output_type -> backend.ChangePasswordResponse
+	12, // 21: backend.AuthService.ChangePasswordRequestMFACode:output_type -> backend.RequestMFACodeResponse
+	14, // 22: backend.AuthService.ChangePasswordVerifyMFA:output_type -> backend.VerifyMFAResponse
+	8,  // 23: backend.AuthService.RequestPasswordReset:output_type -> backend.RequestPasswordResetResponse
+	10, // 24: backend.AuthService.ResetPassword:output_type -> backend.ResetPasswordResponse
+	12, // 25: backend.AuthService.ResetPasswordRequestMFACode:output_type -> backend.RequestMFACodeResponse
+	14, // 26: backend.AuthService.ResetPasswordVerifyMFA:output_type -> backend.VerifyMFAResponse
+	12, // 27: backend.AuthService.RequestMFACode:output_type -> backend.RequestMFACodeResponse
+	14, // 28: backend.AuthService.VerifyMFA:output_type -> backend.VerifyMFAResponse
+	16, // 29: backend.AuthService.RefreshToken:output_type -> backend.RefreshTokenResponse
+	18, // 30: backend.AuthService.Logout:output_type -> backend.LogoutResponse
+	18, // [18:31] is the sub-list for method output_type
+	5,  // [5:18] is the sub-list for method input_type
+	5,  // [5:5] is the sub-list for extension type_name
+	5,  // [5:5] is the sub-list for extension extendee
+	0,  // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_backend_proto_init() }
@@ -46,13 +1143,15 @@ func file_backend_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_backend_proto_rawDesc), len(file_backend_proto_rawDesc)),
-			NumEnums:      0,
-			NumMessages:   0,
+			NumEnums:      1,
+			NumMessages:   18,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_backend_proto_goTypes,
 		DependencyIndexes: file_backend_proto_depIdxs,
+		EnumInfos:         file_backend_proto_enumTypes,
+		MessageInfos:      file_backend_proto_msgTypes,
 	}.Build()
 	File_backend_proto = out.File
 	file_backend_proto_goTypes = nil

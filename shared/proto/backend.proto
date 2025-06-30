@@ -4,3 +4,173 @@ package backend;
 option go_package = "panelium/proto-gen-go";
 
 import "common.proto";
+
+service AuthService {
+  rpc Register(RegisterRequest) returns (RegisterResponse) {}
+
+  rpc Login(LoginRequest) returns (LoginResponse) {}
+
+  rpc ChangePassword(ChangePasswordRequest) returns (ChangePasswordResponse) {}
+  rpc ChangePasswordRequestMFACode(RequestMFACodeRequest) returns (RequestMFACodeResponse) {}
+  rpc ChangePasswordVerifyMFA(VerifyMFARequest) returns (VerifyMFAResponse) {}
+
+  rpc RequestPasswordReset(RequestPasswordResetRequest) returns (RequestPasswordResetResponse) {}
+  rpc ResetPassword(ResetPasswordRequest) returns (ResetPasswordResponse) {}
+  rpc ResetPasswordRequestMFACode(RequestMFACodeRequest) returns (RequestMFACodeResponse) {}
+  rpc ResetPasswordVerifyMFA(VerifyMFARequest) returns (VerifyMFAResponse) {}
+
+  rpc RequestMFACode(RequestMFACodeRequest) returns (RequestMFACodeResponse) {}
+  rpc VerifyMFA(VerifyMFARequest) returns (VerifyMFAResponse) {}
+
+  rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse) {}
+
+  rpc Logout(LogoutRequest) returns (LogoutResponse) {}
+}
+
+enum MFAType {
+  MFA_TYPE_UNSPECIFIED = 0;
+  MFA_TYPE_TOTP = 1;
+  MFA_TYPE_SMS = 2;
+  MFA_TYPE_EMAIL = 3;
+}
+
+message RegisterRequest {
+  string username = 1;
+  string email = 2;
+  string password = 3;
+}
+
+message RegisterResponse {
+  /* COOKIES
+  access_jwt (if register success)
+  refresh_jwt (if register success)
+  */
+  bool success = 1;
+}
+
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  /* COOKIES
+  access_jwt (if auth success and mfa not required)
+  refresh_jwt (if auth success and mfa not required)
+
+  mfa_jwt (if auth success and mfa required)
+  */
+  bool success = 1;
+  bool requires_mfa = 2;
+  repeated MFAType mfa_types_available = 3; // (optional) types of MFA available for the user
+}
+
+message ChangePasswordRequest {
+  /* REQUEST COOKIES
+  access_jwt
+  refresh_jwt - high security change, requires refresh token validation
+  */
+  string old_password = 1;
+  string new_password = 2;
+}
+
+message ChangePasswordResponse {
+  /* COOKIES
+  (ROTATE) access_jwt (if change password success)
+  (ROTATE) refresh_jwt (if change password success)
+
+  mfa_jwt (if change password success but additional MFA required)
+  */
+  bool success = 1;
+  bool requires_mfa = 2;
+  repeated MFAType mfa_types_available = 3; // (optional) types of MFA available for the user
+}
+
+message RequestPasswordResetRequest {
+  string email = 1; // email to send the reset link to
+}
+
+message RequestPasswordResetResponse {
+  bool success = 1; // THIS SHOULD NOT INDICATE WHETHER THE EMAIL EXISTS, JUST WHETHER THE REQUEST WAS PROCESSED
+}
+
+message ResetPasswordRequest {
+  /* REQUEST COOKIES
+  reset_jwt
+  */
+  string new_password = 1;
+}
+
+message ResetPasswordResponse {
+  /* COOKIES
+  (CLEAR) access_jwt (if reset password success)
+  (CLEAR) refresh_jwt (if reset password success)
+
+  (CLEAR+INVALIDATE) reset_jwt (if reset password success)
+  mfa_jwt (if reset password success but additional MFA required)
+  */
+  bool success = 1;
+  bool requires_mfa = 2;
+  repeated MFAType mfa_types_available = 3; // (optional) types of MFA available for the user
+}
+
+message RequestMFACodeRequest {// only for MFA types that require the backend to send a code (e.g. SMS, Email)
+  /* REQUEST COOKIES
+  mfa_jwt
+  */
+  MFAType mfa_type = 2; // type of MFA to use
+}
+
+message RequestMFACodeResponse {
+  bool success = 1;
+}
+
+message VerifyMFARequest {
+  /* REQUEST COOKIES
+  mfa_jwt
+  */
+  string mfa_code = 1;
+}
+
+message VerifyMFAResponse {
+  /* COOKIES
+  access_jwt (if auth and MFA success and no additional MFA required)
+  refresh_jwt (if auth and MFA success and no additional MFA required)
+
+  (ROTATE) mfa_jwt (if auth and MFA success but additional MFA required)
+
+  (CLEAR) mfa_jwt (if auth and MFA success and no additional MFA required)
+  (CLEAR+INVALIDATE) reset_jwt (if auth and MFA success and no additional MFA required)
+  */
+  bool success = 1;
+  bool requires_additional_mfa = 2;
+  repeated MFAType mfa_types_available = 3;
+}
+
+message RefreshTokenRequest {
+  /* REQUEST COOKIES
+  refresh_jwt
+  */
+}
+
+message RefreshTokenResponse {// note: if refresh token reuse - revoke all user tokens
+  /* COOKIES
+  (ROTATE) access_jwt (if refresh token valid)
+  (ROTATE) refresh_jwt (if refresh token valid)
+   */
+  bool success = 1;
+}
+
+message LogoutRequest {
+  /* REQUEST COOKIES
+  access_jwt
+   */
+}
+
+message LogoutResponse {
+  /* COOKIES
+  (CLEAR+INVALIDATE) access_jwt (if access token valid)
+  (CLEAR+INVALIDATE) refresh_jwt (if access token valid)
+   */
+  bool success = 1;
+}

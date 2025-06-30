@@ -1,6 +1,775 @@
 openapi: 3.1.0
 info:
   title: backend
-paths: {}
-components: {}
+paths:
+  /backend.AuthService/Register:
+    post:
+      tags:
+        - backend.AuthService
+      summary: Register
+      operationId: backend.AuthService.Register
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend.RegisterRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.RegisterResponse'
+  /backend.AuthService/Login:
+    post:
+      tags:
+        - backend.AuthService
+      summary: Login
+      operationId: backend.AuthService.Login
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend.LoginRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.LoginResponse'
+  /backend.AuthService/ChangePassword:
+    post:
+      tags:
+        - backend.AuthService
+      summary: ChangePassword
+      operationId: backend.AuthService.ChangePassword
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend.ChangePasswordRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.ChangePasswordResponse'
+  /backend.AuthService/ChangePasswordRequestMFACode:
+    post:
+      tags:
+        - backend.AuthService
+      summary: ChangePasswordRequestMFACode
+      operationId: backend.AuthService.ChangePasswordRequestMFACode
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend.RequestMFACodeRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.RequestMFACodeResponse'
+  /backend.AuthService/ChangePasswordVerifyMFA:
+    post:
+      tags:
+        - backend.AuthService
+      summary: ChangePasswordVerifyMFA
+      operationId: backend.AuthService.ChangePasswordVerifyMFA
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend.VerifyMFARequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.VerifyMFAResponse'
+  /backend.AuthService/RequestPasswordReset:
+    post:
+      tags:
+        - backend.AuthService
+      summary: RequestPasswordReset
+      operationId: backend.AuthService.RequestPasswordReset
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend.RequestPasswordResetRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.RequestPasswordResetResponse'
+  /backend.AuthService/ResetPassword:
+    post:
+      tags:
+        - backend.AuthService
+      summary: ResetPassword
+      operationId: backend.AuthService.ResetPassword
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend.ResetPasswordRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.ResetPasswordResponse'
+  /backend.AuthService/ResetPasswordRequestMFACode:
+    post:
+      tags:
+        - backend.AuthService
+      summary: ResetPasswordRequestMFACode
+      operationId: backend.AuthService.ResetPasswordRequestMFACode
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend.RequestMFACodeRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.RequestMFACodeResponse'
+  /backend.AuthService/ResetPasswordVerifyMFA:
+    post:
+      tags:
+        - backend.AuthService
+      summary: ResetPasswordVerifyMFA
+      operationId: backend.AuthService.ResetPasswordVerifyMFA
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend.VerifyMFARequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.VerifyMFAResponse'
+  /backend.AuthService/RequestMFACode:
+    post:
+      tags:
+        - backend.AuthService
+      summary: RequestMFACode
+      operationId: backend.AuthService.RequestMFACode
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend.RequestMFACodeRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.RequestMFACodeResponse'
+  /backend.AuthService/VerifyMFA:
+    post:
+      tags:
+        - backend.AuthService
+      summary: VerifyMFA
+      operationId: backend.AuthService.VerifyMFA
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend.VerifyMFARequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.VerifyMFAResponse'
+  /backend.AuthService/RefreshToken:
+    post:
+      tags:
+        - backend.AuthService
+      summary: RefreshToken
+      operationId: backend.AuthService.RefreshToken
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend.RefreshTokenRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.RefreshTokenResponse'
+  /backend.AuthService/Logout:
+    post:
+      tags:
+        - backend.AuthService
+      summary: Logout
+      operationId: backend.AuthService.Logout
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend.LogoutRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.LogoutResponse'
+components:
+  schemas:
+    backend.MFAType:
+      type: string
+      title: MFAType
+      enum:
+        - MFA_TYPE_UNSPECIFIED
+        - MFA_TYPE_TOTP
+        - MFA_TYPE_SMS
+        - MFA_TYPE_EMAIL
+    backend.ChangePasswordRequest:
+      type: object
+      properties:
+        oldPassword:
+          type: string
+          title: old_password
+          description: |-
+            REQUEST COOKIES
+            access_jwt
+            refresh_jwt - high security change, requires refresh token validation
+        newPassword:
+          type: string
+          title: new_password
+      title: ChangePasswordRequest
+      additionalProperties: false
+    backend.ChangePasswordResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+          description: |-
+            COOKIES
+            (ROTATE) access_jwt (if change password success)
+            (ROTATE) refresh_jwt (if change password success)
+
+            mfa_jwt (if change password success but additional MFA required)
+        requiresMfa:
+          type: boolean
+          title: requires_mfa
+        mfaTypesAvailable:
+          type: array
+          items:
+            $ref: '#/components/schemas/backend.MFAType'
+          title: mfa_types_available
+          description: (optional) types of MFA available for the user
+      title: ChangePasswordResponse
+      additionalProperties: false
+    backend.LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          title: username
+        password:
+          type: string
+          title: password
+      title: LoginRequest
+      additionalProperties: false
+    backend.LoginResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+          description: |-
+            COOKIES
+            access_jwt (if auth success and mfa not required)
+            refresh_jwt (if auth success and mfa not required)
+
+            mfa_jwt (if auth success and mfa required)
+        requiresMfa:
+          type: boolean
+          title: requires_mfa
+        mfaTypesAvailable:
+          type: array
+          items:
+            $ref: '#/components/schemas/backend.MFAType'
+          title: mfa_types_available
+          description: (optional) types of MFA available for the user
+      title: LoginResponse
+      additionalProperties: false
+    backend.LogoutRequest:
+      type: object
+      title: LogoutRequest
+      additionalProperties: false
+      description: |-
+        REQUEST COOKIES
+        access_jwt
+    backend.LogoutResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+          description: |-
+            COOKIES
+            (CLEAR+INVALIDATE) access_jwt (if access token valid)
+            (CLEAR+INVALIDATE) refresh_jwt (if access token valid)
+      title: LogoutResponse
+      additionalProperties: false
+    backend.RefreshTokenRequest:
+      type: object
+      title: RefreshTokenRequest
+      additionalProperties: false
+      description: |-
+        REQUEST COOKIES
+        refresh_jwt
+    backend.RefreshTokenResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+          description: |-
+            COOKIES
+            (ROTATE) access_jwt (if refresh token valid)
+            (ROTATE) refresh_jwt (if refresh token valid)
+      title: RefreshTokenResponse
+      additionalProperties: false
+      description: 'note: if refresh token reuse - revoke all user tokens'
+    backend.RegisterRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          title: username
+        email:
+          type: string
+          title: email
+        password:
+          type: string
+          title: password
+      title: RegisterRequest
+      additionalProperties: false
+    backend.RegisterResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+          description: |-
+            COOKIES
+            access_jwt (if register success)
+            refresh_jwt (if register success)
+      title: RegisterResponse
+      additionalProperties: false
+    backend.RequestMFACodeRequest:
+      type: object
+      properties:
+        mfaType:
+          title: mfa_type
+          description: |-
+            REQUEST COOKIES
+            mfa_jwt type of MFA to use
+          $ref: '#/components/schemas/backend.MFAType'
+      title: RequestMFACodeRequest
+      additionalProperties: false
+      description: only for MFA types that require the backend to send a code (e.g. SMS, Email)
+    backend.RequestMFACodeResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: RequestMFACodeResponse
+      additionalProperties: false
+    backend.RequestPasswordResetRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          title: email
+          description: email to send the reset link to
+      title: RequestPasswordResetRequest
+      additionalProperties: false
+    backend.RequestPasswordResetResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+          description: THIS SHOULD NOT INDICATE WHETHER THE EMAIL EXISTS, JUST WHETHER THE REQUEST WAS PROCESSED
+      title: RequestPasswordResetResponse
+      additionalProperties: false
+    backend.ResetPasswordRequest:
+      type: object
+      properties:
+        newPassword:
+          type: string
+          title: new_password
+          description: |-
+            REQUEST COOKIES
+            reset_jwt
+      title: ResetPasswordRequest
+      additionalProperties: false
+    backend.ResetPasswordResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+          description: |-
+            COOKIES
+            (CLEAR) access_jwt (if reset password success)
+            (CLEAR) refresh_jwt (if reset password success)
+
+            (CLEAR+INVALIDATE) reset_jwt (if reset password success)
+            mfa_jwt (if reset password success but additional MFA required)
+        requiresMfa:
+          type: boolean
+          title: requires_mfa
+        mfaTypesAvailable:
+          type: array
+          items:
+            $ref: '#/components/schemas/backend.MFAType'
+          title: mfa_types_available
+          description: (optional) types of MFA available for the user
+      title: ResetPasswordResponse
+      additionalProperties: false
+    backend.VerifyMFARequest:
+      type: object
+      properties:
+        mfaCode:
+          type: string
+          title: mfa_code
+          description: |-
+            REQUEST COOKIES
+            mfa_jwt
+      title: VerifyMFARequest
+      additionalProperties: false
+    backend.VerifyMFAResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+          description: |-
+            COOKIES
+            access_jwt (if auth and MFA success and no additional MFA required)
+            refresh_jwt (if auth and MFA success and no additional MFA required)
+
+            (ROTATE) mfa_jwt (if auth and MFA success but additional MFA required)
+
+            (CLEAR) mfa_jwt (if auth and MFA success and no additional MFA required)
+            (CLEAR+INVALIDATE) reset_jwt (if auth and MFA success and no additional MFA required)
+        requiresAdditionalMfa:
+          type: boolean
+          title: requires_additional_mfa
+        mfaTypesAvailable:
+          type: array
+          items:
+            $ref: '#/components/schemas/backend.MFAType'
+          title: mfa_types_available
+      title: VerifyMFAResponse
+      additionalProperties: false
+    connect-protocol-version:
+      type: number
+      title: Connect-Protocol-Version
+      enum:
+        - 1
+      description: Define the version of the Connect protocol
+      const: 1
+    connect-timeout-header:
+      type: number
+      title: Connect-Timeout-Ms
+      description: Define the timeout, in ms
+    connect.error:
+      type: object
+      properties:
+        code:
+          type: string
+          examples:
+            - not_found
+          enum:
+            - canceled
+            - unknown
+            - invalid_argument
+            - deadline_exceeded
+            - not_found
+            - already_exists
+            - permission_denied
+            - resource_exhausted
+            - failed_precondition
+            - aborted
+            - out_of_range
+            - unimplemented
+            - internal
+            - unavailable
+            - data_loss
+            - unauthenticated
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        detail:
+          $ref: '#/components/schemas/google.protobuf.Any'
+      title: Connect Error
+      additionalProperties: true
+      description: 'Error type returned by Connect: https://connectrpc.com/docs/go/errors/#http-representation'
+    google.protobuf.Any:
+      type: object
+      properties:
+        type:
+          type: string
+        value:
+          type: string
+          format: binary
+        debug:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
 security: []
+tags:
+  - name: backend.AuthService

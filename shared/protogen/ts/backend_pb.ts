@@ -2,13 +2,589 @@
 // @generated from file backend.proto (package backend, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile } from "@bufbuild/protobuf/codegenv2";
-import { fileDesc } from "@bufbuild/protobuf/codegenv2";
+import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
+import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
 import { file_common } from "./common_pb.ts";
+import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file backend.proto.
  */
 export const file_backend: GenFile = /*@__PURE__*/
-  fileDesc("Cg1iYWNrZW5kLnByb3RvEgdiYWNrZW5kQhdaFXBhbmVsaXVtL3Byb3RvLWdlbi1nb2IGcHJvdG8z", [file_common]);
+  fileDesc("Cg1iYWNrZW5kLnByb3RvEgdiYWNrZW5kIkQKD1JlZ2lzdGVyUmVxdWVzdBIQCgh1c2VybmFtZRgBIAEoCRINCgVlbWFpbBgCIAEoCRIQCghwYXNzd29yZBgDIAEoCSIjChBSZWdpc3RlclJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgiMgoMTG9naW5SZXF1ZXN0EhAKCHVzZXJuYW1lGAEgASgJEhAKCHBhc3N3b3JkGAIgASgJImUKDUxvZ2luUmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCBIUCgxyZXF1aXJlc19tZmEYAiABKAgSLQoTbWZhX3R5cGVzX2F2YWlsYWJsZRgDIAMoDjIQLmJhY2tlbmQuTUZBVHlwZSJDChVDaGFuZ2VQYXNzd29yZFJlcXVlc3QSFAoMb2xkX3Bhc3N3b3JkGAEgASgJEhQKDG5ld19wYXNzd29yZBgCIAEoCSJuChZDaGFuZ2VQYXNzd29yZFJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgSFAoMcmVxdWlyZXNfbWZhGAIgASgIEi0KE21mYV90eXBlc19hdmFpbGFibGUYAyADKA4yEC5iYWNrZW5kLk1GQVR5cGUiLAobUmVxdWVzdFBhc3N3b3JkUmVzZXRSZXF1ZXN0Eg0KBWVtYWlsGAEgASgJIi8KHFJlcXVlc3RQYXNzd29yZFJlc2V0UmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCCIsChRSZXNldFBhc3N3b3JkUmVxdWVzdBIUCgxuZXdfcGFzc3dvcmQYASABKAkibQoVUmVzZXRQYXNzd29yZFJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgSFAoMcmVxdWlyZXNfbWZhGAIgASgIEi0KE21mYV90eXBlc19hdmFpbGFibGUYAyADKA4yEC5iYWNrZW5kLk1GQVR5cGUiOwoVUmVxdWVzdE1GQUNvZGVSZXF1ZXN0EiIKCG1mYV90eXBlGAIgASgOMhAuYmFja2VuZC5NRkFUeXBlIikKFlJlcXVlc3RNRkFDb2RlUmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCCIkChBWZXJpZnlNRkFSZXF1ZXN0EhAKCG1mYV9jb2RlGAEgASgJInQKEVZlcmlmeU1GQVJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgSHwoXcmVxdWlyZXNfYWRkaXRpb25hbF9tZmEYAiABKAgSLQoTbWZhX3R5cGVzX2F2YWlsYWJsZRgDIAMoDjIQLmJhY2tlbmQuTUZBVHlwZSIVChNSZWZyZXNoVG9rZW5SZXF1ZXN0IicKFFJlZnJlc2hUb2tlblJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgiDwoNTG9nb3V0UmVxdWVzdCIhCg5Mb2dvdXRSZXNwb25zZRIPCgdzdWNjZXNzGAEgASgIKlwKB01GQVR5cGUSGAoUTUZBX1RZUEVfVU5TUEVDSUZJRUQQABIRCg1NRkFfVFlQRV9UT1RQEAESEAoMTUZBX1RZUEVfU01TEAISEgoOTUZBX1RZUEVfRU1BSUwQAzKrCAoLQXV0aFNlcnZpY2USQQoIUmVnaXN0ZXISGC5iYWNrZW5kLlJlZ2lzdGVyUmVxdWVzdBoZLmJhY2tlbmQuUmVnaXN0ZXJSZXNwb25zZSIAEjgKBUxvZ2luEhUuYmFja2VuZC5Mb2dpblJlcXVlc3QaFi5iYWNrZW5kLkxvZ2luUmVzcG9uc2UiABJTCg5DaGFuZ2VQYXNzd29yZBIeLmJhY2tlbmQuQ2hhbmdlUGFzc3dvcmRSZXF1ZXN0Gh8uYmFja2VuZC5DaGFuZ2VQYXNzd29yZFJlc3BvbnNlIgASYQocQ2hhbmdlUGFzc3dvcmRSZXF1ZXN0TUZBQ29kZRIeLmJhY2tlbmQuUmVxdWVzdE1GQUNvZGVSZXF1ZXN0Gh8uYmFja2VuZC5SZXF1ZXN0TUZBQ29kZVJlc3BvbnNlIgASUgoXQ2hhbmdlUGFzc3dvcmRWZXJpZnlNRkESGS5iYWNrZW5kLlZlcmlmeU1GQVJlcXVlc3QaGi5iYWNrZW5kLlZlcmlmeU1GQVJlc3BvbnNlIgASZQoUUmVxdWVzdFBhc3N3b3JkUmVzZXQSJC5iYWNrZW5kLlJlcXVlc3RQYXNzd29yZFJlc2V0UmVxdWVzdBolLmJhY2tlbmQuUmVxdWVzdFBhc3N3b3JkUmVzZXRSZXNwb25zZSIAElAKDVJlc2V0UGFzc3dvcmQSHS5iYWNrZW5kLlJlc2V0UGFzc3dvcmRSZXF1ZXN0Gh4uYmFja2VuZC5SZXNldFBhc3N3b3JkUmVzcG9uc2UiABJgChtSZXNldFBhc3N3b3JkUmVxdWVzdE1GQUNvZGUSHi5iYWNrZW5kLlJlcXVlc3RNRkFDb2RlUmVxdWVzdBofLmJhY2tlbmQuUmVxdWVzdE1GQUNvZGVSZXNwb25zZSIAElEKFlJlc2V0UGFzc3dvcmRWZXJpZnlNRkESGS5iYWNrZW5kLlZlcmlmeU1GQVJlcXVlc3QaGi5iYWNrZW5kLlZlcmlmeU1GQVJlc3BvbnNlIgASUwoOUmVxdWVzdE1GQUNvZGUSHi5iYWNrZW5kLlJlcXVlc3RNRkFDb2RlUmVxdWVzdBofLmJhY2tlbmQuUmVxdWVzdE1GQUNvZGVSZXNwb25zZSIAEkQKCVZlcmlmeU1GQRIZLmJhY2tlbmQuVmVyaWZ5TUZBUmVxdWVzdBoaLmJhY2tlbmQuVmVyaWZ5TUZBUmVzcG9uc2UiABJNCgxSZWZyZXNoVG9rZW4SHC5iYWNrZW5kLlJlZnJlc2hUb2tlblJlcXVlc3QaHS5iYWNrZW5kLlJlZnJlc2hUb2tlblJlc3BvbnNlIgASOwoGTG9nb3V0EhYuYmFja2VuZC5Mb2dvdXRSZXF1ZXN0GhcuYmFja2VuZC5Mb2dvdXRSZXNwb25zZSIAQhdaFXBhbmVsaXVtL3Byb3RvLWdlbi1nb2IGcHJvdG8z", [file_common]);
+
+/**
+ * @generated from message backend.RegisterRequest
+ */
+export type RegisterRequest = Message<"backend.RegisterRequest"> & {
+  /**
+   * @generated from field: string username = 1;
+   */
+  username: string;
+
+  /**
+   * @generated from field: string email = 2;
+   */
+  email: string;
+
+  /**
+   * @generated from field: string password = 3;
+   */
+  password: string;
+};
+
+/**
+ * Describes the message backend.RegisterRequest.
+ * Use `create(RegisterRequestSchema)` to create a new message.
+ */
+export const RegisterRequestSchema: GenMessage<RegisterRequest> = /*@__PURE__*/
+  messageDesc(file_backend, 0);
+
+/**
+ * @generated from message backend.RegisterResponse
+ */
+export type RegisterResponse = Message<"backend.RegisterResponse"> & {
+  /**
+   * COOKIES
+   * access_jwt (if register success)
+   * refresh_jwt (if register success)
+   *
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+};
+
+/**
+ * Describes the message backend.RegisterResponse.
+ * Use `create(RegisterResponseSchema)` to create a new message.
+ */
+export const RegisterResponseSchema: GenMessage<RegisterResponse> = /*@__PURE__*/
+  messageDesc(file_backend, 1);
+
+/**
+ * @generated from message backend.LoginRequest
+ */
+export type LoginRequest = Message<"backend.LoginRequest"> & {
+  /**
+   * @generated from field: string username = 1;
+   */
+  username: string;
+
+  /**
+   * @generated from field: string password = 2;
+   */
+  password: string;
+};
+
+/**
+ * Describes the message backend.LoginRequest.
+ * Use `create(LoginRequestSchema)` to create a new message.
+ */
+export const LoginRequestSchema: GenMessage<LoginRequest> = /*@__PURE__*/
+  messageDesc(file_backend, 2);
+
+/**
+ * @generated from message backend.LoginResponse
+ */
+export type LoginResponse = Message<"backend.LoginResponse"> & {
+  /**
+   * COOKIES
+   * access_jwt (if auth success and mfa not required)
+   * refresh_jwt (if auth success and mfa not required)
+   *
+   * mfa_jwt (if auth success and mfa required)
+   *
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+
+  /**
+   * @generated from field: bool requires_mfa = 2;
+   */
+  requiresMfa: boolean;
+
+  /**
+   * (optional) types of MFA available for the user
+   *
+   * @generated from field: repeated backend.MFAType mfa_types_available = 3;
+   */
+  mfaTypesAvailable: MFAType[];
+};
+
+/**
+ * Describes the message backend.LoginResponse.
+ * Use `create(LoginResponseSchema)` to create a new message.
+ */
+export const LoginResponseSchema: GenMessage<LoginResponse> = /*@__PURE__*/
+  messageDesc(file_backend, 3);
+
+/**
+ * @generated from message backend.ChangePasswordRequest
+ */
+export type ChangePasswordRequest = Message<"backend.ChangePasswordRequest"> & {
+  /**
+   * REQUEST COOKIES
+   * access_jwt
+   * refresh_jwt - high security change, requires refresh token validation
+   *
+   * @generated from field: string old_password = 1;
+   */
+  oldPassword: string;
+
+  /**
+   * @generated from field: string new_password = 2;
+   */
+  newPassword: string;
+};
+
+/**
+ * Describes the message backend.ChangePasswordRequest.
+ * Use `create(ChangePasswordRequestSchema)` to create a new message.
+ */
+export const ChangePasswordRequestSchema: GenMessage<ChangePasswordRequest> = /*@__PURE__*/
+  messageDesc(file_backend, 4);
+
+/**
+ * @generated from message backend.ChangePasswordResponse
+ */
+export type ChangePasswordResponse = Message<"backend.ChangePasswordResponse"> & {
+  /**
+   * COOKIES
+   * (ROTATE) access_jwt (if change password success)
+   * (ROTATE) refresh_jwt (if change password success)
+   *
+   * mfa_jwt (if change password success but additional MFA required)
+   *
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+
+  /**
+   * @generated from field: bool requires_mfa = 2;
+   */
+  requiresMfa: boolean;
+
+  /**
+   * (optional) types of MFA available for the user
+   *
+   * @generated from field: repeated backend.MFAType mfa_types_available = 3;
+   */
+  mfaTypesAvailable: MFAType[];
+};
+
+/**
+ * Describes the message backend.ChangePasswordResponse.
+ * Use `create(ChangePasswordResponseSchema)` to create a new message.
+ */
+export const ChangePasswordResponseSchema: GenMessage<ChangePasswordResponse> = /*@__PURE__*/
+  messageDesc(file_backend, 5);
+
+/**
+ * @generated from message backend.RequestPasswordResetRequest
+ */
+export type RequestPasswordResetRequest = Message<"backend.RequestPasswordResetRequest"> & {
+  /**
+   * email to send the reset link to
+   *
+   * @generated from field: string email = 1;
+   */
+  email: string;
+};
+
+/**
+ * Describes the message backend.RequestPasswordResetRequest.
+ * Use `create(RequestPasswordResetRequestSchema)` to create a new message.
+ */
+export const RequestPasswordResetRequestSchema: GenMessage<RequestPasswordResetRequest> = /*@__PURE__*/
+  messageDesc(file_backend, 6);
+
+/**
+ * @generated from message backend.RequestPasswordResetResponse
+ */
+export type RequestPasswordResetResponse = Message<"backend.RequestPasswordResetResponse"> & {
+  /**
+   * THIS SHOULD NOT INDICATE WHETHER THE EMAIL EXISTS, JUST WHETHER THE REQUEST WAS PROCESSED
+   *
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+};
+
+/**
+ * Describes the message backend.RequestPasswordResetResponse.
+ * Use `create(RequestPasswordResetResponseSchema)` to create a new message.
+ */
+export const RequestPasswordResetResponseSchema: GenMessage<RequestPasswordResetResponse> = /*@__PURE__*/
+  messageDesc(file_backend, 7);
+
+/**
+ * @generated from message backend.ResetPasswordRequest
+ */
+export type ResetPasswordRequest = Message<"backend.ResetPasswordRequest"> & {
+  /**
+   * REQUEST COOKIES
+   * reset_jwt
+   *
+   * @generated from field: string new_password = 1;
+   */
+  newPassword: string;
+};
+
+/**
+ * Describes the message backend.ResetPasswordRequest.
+ * Use `create(ResetPasswordRequestSchema)` to create a new message.
+ */
+export const ResetPasswordRequestSchema: GenMessage<ResetPasswordRequest> = /*@__PURE__*/
+  messageDesc(file_backend, 8);
+
+/**
+ * @generated from message backend.ResetPasswordResponse
+ */
+export type ResetPasswordResponse = Message<"backend.ResetPasswordResponse"> & {
+  /**
+   * COOKIES
+   * (CLEAR) access_jwt (if reset password success)
+   * (CLEAR) refresh_jwt (if reset password success)
+   *
+   * (CLEAR+INVALIDATE) reset_jwt (if reset password success)
+   * mfa_jwt (if reset password success but additional MFA required)
+   *
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+
+  /**
+   * @generated from field: bool requires_mfa = 2;
+   */
+  requiresMfa: boolean;
+
+  /**
+   * (optional) types of MFA available for the user
+   *
+   * @generated from field: repeated backend.MFAType mfa_types_available = 3;
+   */
+  mfaTypesAvailable: MFAType[];
+};
+
+/**
+ * Describes the message backend.ResetPasswordResponse.
+ * Use `create(ResetPasswordResponseSchema)` to create a new message.
+ */
+export const ResetPasswordResponseSchema: GenMessage<ResetPasswordResponse> = /*@__PURE__*/
+  messageDesc(file_backend, 9);
+
+/**
+ * only for MFA types that require the backend to send a code (e.g. SMS, Email)
+ *
+ * @generated from message backend.RequestMFACodeRequest
+ */
+export type RequestMFACodeRequest = Message<"backend.RequestMFACodeRequest"> & {
+  /**
+   * REQUEST COOKIES
+   * mfa_jwt
+   *
+   * type of MFA to use
+   *
+   * @generated from field: backend.MFAType mfa_type = 2;
+   */
+  mfaType: MFAType;
+};
+
+/**
+ * Describes the message backend.RequestMFACodeRequest.
+ * Use `create(RequestMFACodeRequestSchema)` to create a new message.
+ */
+export const RequestMFACodeRequestSchema: GenMessage<RequestMFACodeRequest> = /*@__PURE__*/
+  messageDesc(file_backend, 10);
+
+/**
+ * @generated from message backend.RequestMFACodeResponse
+ */
+export type RequestMFACodeResponse = Message<"backend.RequestMFACodeResponse"> & {
+  /**
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+};
+
+/**
+ * Describes the message backend.RequestMFACodeResponse.
+ * Use `create(RequestMFACodeResponseSchema)` to create a new message.
+ */
+export const RequestMFACodeResponseSchema: GenMessage<RequestMFACodeResponse> = /*@__PURE__*/
+  messageDesc(file_backend, 11);
+
+/**
+ * @generated from message backend.VerifyMFARequest
+ */
+export type VerifyMFARequest = Message<"backend.VerifyMFARequest"> & {
+  /**
+   * REQUEST COOKIES
+   * mfa_jwt
+   *
+   * @generated from field: string mfa_code = 1;
+   */
+  mfaCode: string;
+};
+
+/**
+ * Describes the message backend.VerifyMFARequest.
+ * Use `create(VerifyMFARequestSchema)` to create a new message.
+ */
+export const VerifyMFARequestSchema: GenMessage<VerifyMFARequest> = /*@__PURE__*/
+  messageDesc(file_backend, 12);
+
+/**
+ * @generated from message backend.VerifyMFAResponse
+ */
+export type VerifyMFAResponse = Message<"backend.VerifyMFAResponse"> & {
+  /**
+   * COOKIES
+   * access_jwt (if auth and MFA success and no additional MFA required)
+   * refresh_jwt (if auth and MFA success and no additional MFA required)
+   *
+   * (ROTATE) mfa_jwt (if auth and MFA success but additional MFA required)
+   *
+   * (CLEAR) mfa_jwt (if auth and MFA success and no additional MFA required)
+   * (CLEAR+INVALIDATE) reset_jwt (if auth and MFA success and no additional MFA required)
+   *
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+
+  /**
+   * @generated from field: bool requires_additional_mfa = 2;
+   */
+  requiresAdditionalMfa: boolean;
+
+  /**
+   * @generated from field: repeated backend.MFAType mfa_types_available = 3;
+   */
+  mfaTypesAvailable: MFAType[];
+};
+
+/**
+ * Describes the message backend.VerifyMFAResponse.
+ * Use `create(VerifyMFAResponseSchema)` to create a new message.
+ */
+export const VerifyMFAResponseSchema: GenMessage<VerifyMFAResponse> = /*@__PURE__*/
+  messageDesc(file_backend, 13);
+
+/**
+ * REQUEST COOKIES
+ * refresh_jwt
+ *
+ * @generated from message backend.RefreshTokenRequest
+ */
+export type RefreshTokenRequest = Message<"backend.RefreshTokenRequest"> & {
+};
+
+/**
+ * Describes the message backend.RefreshTokenRequest.
+ * Use `create(RefreshTokenRequestSchema)` to create a new message.
+ */
+export const RefreshTokenRequestSchema: GenMessage<RefreshTokenRequest> = /*@__PURE__*/
+  messageDesc(file_backend, 14);
+
+/**
+ * note: if refresh token reuse - revoke all user tokens
+ *
+ * @generated from message backend.RefreshTokenResponse
+ */
+export type RefreshTokenResponse = Message<"backend.RefreshTokenResponse"> & {
+  /**
+   * COOKIES
+   * (ROTATE) access_jwt (if refresh token valid)
+   * (ROTATE) refresh_jwt (if refresh token valid)
+   *
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+};
+
+/**
+ * Describes the message backend.RefreshTokenResponse.
+ * Use `create(RefreshTokenResponseSchema)` to create a new message.
+ */
+export const RefreshTokenResponseSchema: GenMessage<RefreshTokenResponse> = /*@__PURE__*/
+  messageDesc(file_backend, 15);
+
+/**
+ * REQUEST COOKIES
+ * access_jwt
+ *
+ * @generated from message backend.LogoutRequest
+ */
+export type LogoutRequest = Message<"backend.LogoutRequest"> & {
+};
+
+/**
+ * Describes the message backend.LogoutRequest.
+ * Use `create(LogoutRequestSchema)` to create a new message.
+ */
+export const LogoutRequestSchema: GenMessage<LogoutRequest> = /*@__PURE__*/
+  messageDesc(file_backend, 16);
+
+/**
+ * @generated from message backend.LogoutResponse
+ */
+export type LogoutResponse = Message<"backend.LogoutResponse"> & {
+  /**
+   * COOKIES
+   * (CLEAR+INVALIDATE) access_jwt (if access token valid)
+   * (CLEAR+INVALIDATE) refresh_jwt (if access token valid)
+   *
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+};
+
+/**
+ * Describes the message backend.LogoutResponse.
+ * Use `create(LogoutResponseSchema)` to create a new message.
+ */
+export const LogoutResponseSchema: GenMessage<LogoutResponse> = /*@__PURE__*/
+  messageDesc(file_backend, 17);
+
+/**
+ * @generated from enum backend.MFAType
+ */
+export enum MFAType {
+  /**
+   * @generated from enum value: MFA_TYPE_UNSPECIFIED = 0;
+   */
+  MFA_TYPE_UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: MFA_TYPE_TOTP = 1;
+   */
+  MFA_TYPE_TOTP = 1,
+
+  /**
+   * @generated from enum value: MFA_TYPE_SMS = 2;
+   */
+  MFA_TYPE_SMS = 2,
+
+  /**
+   * @generated from enum value: MFA_TYPE_EMAIL = 3;
+   */
+  MFA_TYPE_EMAIL = 3,
+}
+
+/**
+ * Describes the enum backend.MFAType.
+ */
+export const MFATypeSchema: GenEnum<MFAType> = /*@__PURE__*/
+  enumDesc(file_backend, 0);
+
+/**
+ * @generated from service backend.AuthService
+ */
+export const AuthService: GenService<{
+  /**
+   * @generated from rpc backend.AuthService.Register
+   */
+  register: {
+    methodKind: "unary";
+    input: typeof RegisterRequestSchema;
+    output: typeof RegisterResponseSchema;
+  },
+  /**
+   * @generated from rpc backend.AuthService.Login
+   */
+  login: {
+    methodKind: "unary";
+    input: typeof LoginRequestSchema;
+    output: typeof LoginResponseSchema;
+  },
+  /**
+   * @generated from rpc backend.AuthService.ChangePassword
+   */
+  changePassword: {
+    methodKind: "unary";
+    input: typeof ChangePasswordRequestSchema;
+    output: typeof ChangePasswordResponseSchema;
+  },
+  /**
+   * @generated from rpc backend.AuthService.ChangePasswordRequestMFACode
+   */
+  changePasswordRequestMFACode: {
+    methodKind: "unary";
+    input: typeof RequestMFACodeRequestSchema;
+    output: typeof RequestMFACodeResponseSchema;
+  },
+  /**
+   * @generated from rpc backend.AuthService.ChangePasswordVerifyMFA
+   */
+  changePasswordVerifyMFA: {
+    methodKind: "unary";
+    input: typeof VerifyMFARequestSchema;
+    output: typeof VerifyMFAResponseSchema;
+  },
+  /**
+   * @generated from rpc backend.AuthService.RequestPasswordReset
+   */
+  requestPasswordReset: {
+    methodKind: "unary";
+    input: typeof RequestPasswordResetRequestSchema;
+    output: typeof RequestPasswordResetResponseSchema;
+  },
+  /**
+   * @generated from rpc backend.AuthService.ResetPassword
+   */
+  resetPassword: {
+    methodKind: "unary";
+    input: typeof ResetPasswordRequestSchema;
+    output: typeof ResetPasswordResponseSchema;
+  },
+  /**
+   * @generated from rpc backend.AuthService.ResetPasswordRequestMFACode
+   */
+  resetPasswordRequestMFACode: {
+    methodKind: "unary";
+    input: typeof RequestMFACodeRequestSchema;
+    output: typeof RequestMFACodeResponseSchema;
+  },
+  /**
+   * @generated from rpc backend.AuthService.ResetPasswordVerifyMFA
+   */
+  resetPasswordVerifyMFA: {
+    methodKind: "unary";
+    input: typeof VerifyMFARequestSchema;
+    output: typeof VerifyMFAResponseSchema;
+  },
+  /**
+   * @generated from rpc backend.AuthService.RequestMFACode
+   */
+  requestMFACode: {
+    methodKind: "unary";
+    input: typeof RequestMFACodeRequestSchema;
+    output: typeof RequestMFACodeResponseSchema;
+  },
+  /**
+   * @generated from rpc backend.AuthService.VerifyMFA
+   */
+  verifyMFA: {
+    methodKind: "unary";
+    input: typeof VerifyMFARequestSchema;
+    output: typeof VerifyMFAResponseSchema;
+  },
+  /**
+   * @generated from rpc backend.AuthService.RefreshToken
+   */
+  refreshToken: {
+    methodKind: "unary";
+    input: typeof RefreshTokenRequestSchema;
+    output: typeof RefreshTokenResponseSchema;
+  },
+  /**
+   * @generated from rpc backend.AuthService.Logout
+   */
+  logout: {
+    methodKind: "unary";
+    input: typeof LogoutRequestSchema;
+    output: typeof LogoutResponseSchema;
+  },
+}> = /*@__PURE__*/
+  serviceDesc(file_backend, 0);
 
