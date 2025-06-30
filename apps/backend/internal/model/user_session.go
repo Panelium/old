@@ -2,6 +2,8 @@ package model
 
 import "time"
 
+// TODO: later on, we should also store the IP and user agent
+
 type UserSession struct {
 	SessionID  string    `gorm:"uniqueIndex;not null" json:"session_id"`
 	UserID     string    `gorm:"index;not null" json:"user_id"`
