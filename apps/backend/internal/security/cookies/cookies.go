@@ -5,12 +5,40 @@ import (
 	"time"
 )
 
-// TODO: might have to url encode the names and tokens
-
 func SetJWTCookie(header http.Header, name string, token string, expiration time.Time) {
-	header.Add("Set-Cookie", name+"="+token+"; Path=/; HttpOnly; Secure; SameSite=Strict; Expires="+expiration.UTC().Format(http.TimeFormat))
+	cookie := &http.Cookie{
+		Name:     name,
+		Value:    token,
+		Path:     "/",
+		HttpOnly: true,
+		Secure:   true,
+		SameSite: http.SameSiteStrictMode,
+		Expires:  expiration,
+	}
+
+	cookieString := cookie.String()
+	if cookieString == "" {
+		return
+	}
+
+	header.Add("Set-Cookie", cookieString)
 }
 
 func ClearJWTCookie(header http.Header, name string) {
-	header.Add("Set-Cookie", name+"=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0")
+	cookie := &http.Cookie{
+		Name:     name,
+		Value:    "",
+		Path:     "/",
+		HttpOnly: true,
+		Secure:   true,
+		SameSite: http.SameSiteStrictMode,
+		MaxAge:   -1,
+	}
+
+	cookieString := cookie.String()
+	if cookieString == "" {
+		return
+	}
+
+	header.Add("Set-Cookie", cookieString)
 }

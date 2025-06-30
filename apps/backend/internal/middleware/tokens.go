@@ -1,44 +1,61 @@
 package middleware
 
 import (
-	"connectrpc.com/authn"
+	"connectrpc.com/connect"
 	"context"
 	"net/http"
 	"strings"
 )
 
-var TokensMiddleware = authn.NewMiddleware(tokens)
-
 type Tokens map[string]string
 
-// tokens extracts JWT tokens from cookies and stores them in the context as a map
-func tokens(ctx context.Context, req *http.Request) (any, error) {
-	cookies := req.Cookies()
+func NewTokensInterceptor() connect.UnaryInterceptorFunc {
+	interceptor := func(next connect.UnaryFunc) connect.UnaryFunc {
+		return func(
+			ctx context.Context,
+			req connect.AnyRequest,
+		) (connect.AnyResponse, error) {
+			if req.Spec().IsClient {
+				return next(ctx, req)
+			}
 
-	tokenMap := Tokens{}
+			cookieString := req.Header().Get("Cookie")
+			if cookieString == "" {
+				return next(ctx, req)
+			}
 
-	for _, cookie := range cookies {
-		if !strings.HasSuffix(cookie.Name, "_jwt") {
-			continue
-		}
-		if cookie.Value == "" {
-			continue
-		}
+			cookies, err := http.ParseCookie(cookieString)
+			if err != nil {
+				return next(ctx, req)
+			}
 
-		if !cookie.Secure {
-			continue
-		}
-		if !cookie.HttpOnly {
-			continue
-		}
-		if cookie.SameSite != http.SameSiteStrictMode {
-			continue
-		}
+			tokenMap := Tokens{}
 
-		tokenMap[cookie.Name] = cookie.Value
+			for _, cookie := range cookies {
+				if !strings.HasSuffix(cookie.Name, "_jwt") {
+					continue
+				}
+				if cookie.Value == "" {
+					continue
+				}
+
+				if !cookie.Secure {
+					continue
+				}
+				if !cookie.HttpOnly {
+					continue
+				}
+				if cookie.SameSite != http.SameSiteStrictMode {
+					continue
+				}
+
+				tokenMap[cookie.Name] = cookie.Value
+			}
+
+			ctx = context.WithValue(ctx, "panelium_tokens", tokenMap)
+
+			return next(ctx, req)
+		}
 	}
-
-	context.WithValue(ctx, "panelium_tokens", tokenMap)
-
-	return nil, nil // we don't want authn to modify the context
+	return interceptor
 }

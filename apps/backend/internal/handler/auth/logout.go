@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"connectrpc.com/authn"
 	"connectrpc.com/connect"
 	"context"
 	"panelium/backend/internal/middleware"
@@ -15,7 +14,7 @@ func (s *AuthServiceHandler) Logout(
 	ctx context.Context,
 	req *connect.Request[proto_gen_go.LogoutRequest],
 ) (*connect.Response[proto_gen_go.LogoutResponse], error) {
-	sessionInfoData := authn.GetInfo(ctx)
+	sessionInfoData := ctx.Value("panelium_session_info")
 	sessionInfo, ok := sessionInfoData.(*middleware.SessionInfo)
 	if !ok || sessionInfo == nil || sessionInfo.SessionID == "" || sessionInfo.UserID == "" {
 		return nil, errors.ConnectInvalidCredentials

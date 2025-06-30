@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"connectrpc.com/connect"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
 	"net/http"
@@ -10,12 +11,12 @@ import (
 )
 
 func Handle(host string) error {
-	mux := http.NewServeMux()
-	mux.Handle(proto_gen_goconnect.NewAuthServiceHandler(&auth.AuthServiceHandler{}))
+	authInterceptors := connect.WithInterceptors(middleware.NewTokensInterceptor(), middleware.NewAuthInterceptor())
 
-	authMiddlewareHandler := middleware.AuthenticationMiddleware.Wrap(mux)
-	tokensMiddlewareHandler := middleware.TokensMiddleware.Wrap(authMiddlewareHandler)
-	handler := h2c.NewHandler(tokensMiddlewareHandler, &http2.Server{})
+	mux := http.NewServeMux()
+	mux.Handle(proto_gen_goconnect.NewAuthServiceHandler(&auth.AuthServiceHandler{}, authInterceptors))
+
+	handler := h2c.NewHandler(mux, &http2.Server{})
 	corsHandler := middleware.WithCORS(handler)
 	err := http.ListenAndServe(
 		host,
