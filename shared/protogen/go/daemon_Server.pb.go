@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: daemon.proto
+// source: daemon_Server.proto
 
 package proto_gen_go
 
@@ -61,11 +61,11 @@ func (x ServerStatusType) String() string {
 }
 
 func (ServerStatusType) Descriptor() protoreflect.EnumDescriptor {
-	return file_daemon_proto_enumTypes[0].Descriptor()
+	return file_daemon_Server_proto_enumTypes[0].Descriptor()
 }
 
 func (ServerStatusType) Type() protoreflect.EnumType {
-	return &file_daemon_proto_enumTypes[0]
+	return &file_daemon_Server_proto_enumTypes[0]
 }
 
 func (x ServerStatusType) Number() protoreflect.EnumNumber {
@@ -74,7 +74,7 @@ func (x ServerStatusType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ServerStatusType.Descriptor instead.
 func (ServerStatusType) EnumDescriptor() ([]byte, []int) {
-	return file_daemon_proto_rawDescGZIP(), []int{0}
+	return file_daemon_Server_proto_rawDescGZIP(), []int{0}
 }
 
 type ServerOfflineReason int32
@@ -116,11 +116,11 @@ func (x ServerOfflineReason) String() string {
 }
 
 func (ServerOfflineReason) Descriptor() protoreflect.EnumDescriptor {
-	return file_daemon_proto_enumTypes[1].Descriptor()
+	return file_daemon_Server_proto_enumTypes[1].Descriptor()
 }
 
 func (ServerOfflineReason) Type() protoreflect.EnumType {
-	return &file_daemon_proto_enumTypes[1]
+	return &file_daemon_Server_proto_enumTypes[1]
 }
 
 func (x ServerOfflineReason) Number() protoreflect.EnumNumber {
@@ -129,7 +129,7 @@ func (x ServerOfflineReason) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ServerOfflineReason.Descriptor instead.
 func (ServerOfflineReason) EnumDescriptor() ([]byte, []int) {
-	return file_daemon_proto_rawDescGZIP(), []int{1}
+	return file_daemon_Server_proto_rawDescGZIP(), []int{1}
 }
 
 // Power Actions
@@ -172,11 +172,11 @@ func (x PowerAction) String() string {
 }
 
 func (PowerAction) Descriptor() protoreflect.EnumDescriptor {
-	return file_daemon_proto_enumTypes[2].Descriptor()
+	return file_daemon_Server_proto_enumTypes[2].Descriptor()
 }
 
 func (PowerAction) Type() protoreflect.EnumType {
-	return &file_daemon_proto_enumTypes[2]
+	return &file_daemon_Server_proto_enumTypes[2]
 }
 
 func (x PowerAction) Number() protoreflect.EnumNumber {
@@ -185,7 +185,7 @@ func (x PowerAction) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use PowerAction.Descriptor instead.
 func (PowerAction) EnumDescriptor() ([]byte, []int) {
-	return file_daemon_proto_rawDescGZIP(), []int{2}
+	return file_daemon_Server_proto_rawDescGZIP(), []int{2}
 }
 
 // Server Info
@@ -201,7 +201,7 @@ type ServerStatus struct {
 
 func (x *ServerStatus) Reset() {
 	*x = ServerStatus{}
-	mi := &file_daemon_proto_msgTypes[0]
+	mi := &file_daemon_Server_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -213,7 +213,7 @@ func (x *ServerStatus) String() string {
 func (*ServerStatus) ProtoMessage() {}
 
 func (x *ServerStatus) ProtoReflect() protoreflect.Message {
-	mi := &file_daemon_proto_msgTypes[0]
+	mi := &file_daemon_Server_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -226,7 +226,7 @@ func (x *ServerStatus) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ServerStatus.ProtoReflect.Descriptor instead.
 func (*ServerStatus) Descriptor() ([]byte, []int) {
-	return file_daemon_proto_rawDescGZIP(), []int{0}
+	return file_daemon_Server_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *ServerStatus) GetStatus() ServerStatusType {
@@ -257,11 +257,11 @@ func (x *ServerStatus) GetOfflineReason() ServerOfflineReason {
 	return ServerOfflineReason_SERVER_OFFLINE_REASON_UNKNOWN
 }
 
-var File_daemon_proto protoreflect.FileDescriptor
+var File_daemon_Server_proto protoreflect.FileDescriptor
 
-const file_daemon_proto_rawDesc = "" +
+const file_daemon_Server_proto_rawDesc = "" +
 	"\n" +
-	"\fdaemon.proto\x12\x06daemon\x1a\fcommon.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcc\x02\n" +
+	"\x13daemon_Server.proto\x12\x06daemon\x1a\fcommon.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcc\x02\n" +
 	"\fServerStatus\x120\n" +
 	"\x06status\x18\x01 \x01(\x0e2\x18.daemon.ServerStatusTypeR\x06status\x12G\n" +
 	"\x0etimestampStart\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampH\x00R\x0etimestampStart\x88\x01\x01\x12C\n" +
@@ -298,20 +298,20 @@ const file_daemon_proto_rawDesc = "" +
 	"\vPowerAction\x12\x15.common.SimpleMessage\x1a\x16.common.SuccessMessageB\x17Z\x15panelium/proto-gen-gob\x06proto3"
 
 var (
-	file_daemon_proto_rawDescOnce sync.Once
-	file_daemon_proto_rawDescData []byte
+	file_daemon_Server_proto_rawDescOnce sync.Once
+	file_daemon_Server_proto_rawDescData []byte
 )
 
-func file_daemon_proto_rawDescGZIP() []byte {
-	file_daemon_proto_rawDescOnce.Do(func() {
-		file_daemon_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_daemon_proto_rawDesc), len(file_daemon_proto_rawDesc)))
+func file_daemon_Server_proto_rawDescGZIP() []byte {
+	file_daemon_Server_proto_rawDescOnce.Do(func() {
+		file_daemon_Server_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_daemon_Server_proto_rawDesc), len(file_daemon_Server_proto_rawDesc)))
 	})
-	return file_daemon_proto_rawDescData
+	return file_daemon_Server_proto_rawDescData
 }
 
-var file_daemon_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_daemon_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_daemon_proto_goTypes = []any{
+var file_daemon_Server_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_daemon_Server_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_daemon_Server_proto_goTypes = []any{
 	(ServerStatusType)(0),         // 0: daemon.ServerStatusType
 	(ServerOfflineReason)(0),      // 1: daemon.ServerOfflineReason
 	(PowerAction)(0),              // 2: daemon.PowerAction
@@ -321,7 +321,7 @@ var file_daemon_proto_goTypes = []any{
 	(*Empty)(nil),                 // 6: common.Empty
 	(*SuccessMessage)(nil),        // 7: common.SuccessMessage
 }
-var file_daemon_proto_depIdxs = []int32{
+var file_daemon_Server_proto_depIdxs = []int32{
 	0,  // 0: daemon.ServerStatus.status:type_name -> daemon.ServerStatusType
 	4,  // 1: daemon.ServerStatus.timestampStart:type_name -> google.protobuf.Timestamp
 	4,  // 2: daemon.ServerStatus.timestampEnd:type_name -> google.protobuf.Timestamp
@@ -345,29 +345,29 @@ var file_daemon_proto_depIdxs = []int32{
 	0,  // [0:4] is the sub-list for field type_name
 }
 
-func init() { file_daemon_proto_init() }
-func file_daemon_proto_init() {
-	if File_daemon_proto != nil {
+func init() { file_daemon_Server_proto_init() }
+func file_daemon_Server_proto_init() {
+	if File_daemon_Server_proto != nil {
 		return
 	}
 	file_common_proto_init()
-	file_daemon_proto_msgTypes[0].OneofWrappers = []any{}
+	file_daemon_Server_proto_msgTypes[0].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_daemon_proto_rawDesc), len(file_daemon_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_daemon_Server_proto_rawDesc), len(file_daemon_Server_proto_rawDesc)),
 			NumEnums:      3,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_daemon_proto_goTypes,
-		DependencyIndexes: file_daemon_proto_depIdxs,
-		EnumInfos:         file_daemon_proto_enumTypes,
-		MessageInfos:      file_daemon_proto_msgTypes,
+		GoTypes:           file_daemon_Server_proto_goTypes,
+		DependencyIndexes: file_daemon_Server_proto_depIdxs,
+		EnumInfos:         file_daemon_Server_proto_enumTypes,
+		MessageInfos:      file_daemon_Server_proto_msgTypes,
 	}.Build()
-	File_daemon_proto = out.File
-	file_daemon_proto_goTypes = nil
-	file_daemon_proto_depIdxs = nil
+	File_daemon_Server_proto = out.File
+	file_daemon_Server_proto_goTypes = nil
+	file_daemon_Server_proto_depIdxs = nil
 }
