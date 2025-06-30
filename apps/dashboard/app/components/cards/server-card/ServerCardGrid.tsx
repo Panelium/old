@@ -11,7 +11,7 @@ const AddServerCard: React.FC = () => {
     return (
         <Card
             className={cn(
-                "flex flex-col items-center justify-center no-select flex-1/2",
+                "hover:rounded-h-xl flex flex-col items-center justify-center no-select flex-1/2",
                 "border-border bg-server-card/50 hover:border-border-hover/50 hover:bg-server-card",
                 "transition-all cursor-pointer backdrop-blur-[3px]",
             )}

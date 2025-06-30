@@ -231,7 +231,7 @@ const ServerCard: React.FC<ServerCardProps> = ({server, className}) => {
         <Link to={`/server/${server.id}`} className="group">
             <Card
                 className={cn(
-                    "relative flex flex-row overflow-hidden shadow-sm",
+                    "hover:rounded-h-xl relative flex flex-row overflow-hidden shadow-sm",
                     "bg-server-card border-border hover:border-border-hover hover:shadow-md",
                     serverCardTransition,
                     className
