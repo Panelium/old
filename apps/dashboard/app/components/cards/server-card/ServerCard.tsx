@@ -77,11 +77,14 @@ const ServerCardButton: React.FC<ServerCardLinkProps> = ({
 }) => {
   const IconComponent = icon;
   return (
+    <div>
+    <div className={cn(
+      "scale-20 group-hover:scale-100 w-10 h-10 bg-card rounded-full absolute",
+      serverCardTransition
+    )}/>
     <button
       className={cn(
         "flex items-center justify-center h-10 w-10 rounded-full shadow-sm",
-        "bg-amber-100 text-amber-700 hover:bg-amber-200",
-        "dark:bg-amber-900/30 dark:text-amber-400 dark:hover:bg-amber-800/50",
         "scale-20 group-hover:scale-100",
         "cursor-pointer",
         serverCardTransition,
@@ -92,6 +95,7 @@ const ServerCardButton: React.FC<ServerCardLinkProps> = ({
     >
       <IconComponent className="w-5 h-5" />
     </button>
+    </div>
   );
 };
 
@@ -172,8 +176,7 @@ const ServerCardAction: React.FC<ServerCardActionProps> = ({
     <div
       className={cn(
         "flex flex-col items-center justify-center gap-3",
-        "border-l border-indigo-100 bg-indigo-50",
-        "dark:border-indigo-800 dark:bg-indigo-950/30",
+        "border-l border-tag-purple/30 bg-tag-purple-background/20",
         "absolute top-0 bottom-0 right-0 w-[60px] translate-x-[60px] ",
         "group-hover:w-[60px] group-hover:translate-x-[0px]",
         serverCardTransition
@@ -182,32 +185,28 @@ const ServerCardAction: React.FC<ServerCardActionProps> = ({
       <ServerCardButton
         icon={server.status === ServerStatusType.ONLINE ? Square : Play}
         className={cn(
-          "bg-emerald-100 text-emerald-700 hover:bg-emerald-200",
-          "dark:bg-emerald-900/30 dark:text-emerald-400 dark:hover:bg-emerald-800/50"
+          "bg-tag-green-background/30 text-tag-green hover:bg-tag-green-background/70"
         )}
         onClick={(e) => onAction(e, "power")}
       />
       <ServerCardButton
         icon={Terminal}
         className={cn(
-          "bg-indigo-100 text-indigo-700 hover:bg-indigo-200",
-          "dark:bg-indigo-900/30 dark:text-indigo-400 dark:hover:bg-indigo-800/50"
+          "bg-tag-purple-background/30 text-tag-purple hover:bg-tag-purple-background/70"
         )}
         onClick={(e) => onAction(e, "console")}
       />
       <ServerCardButton
         icon={FolderOpen}
         className={cn(
-          "bg-amber-100 text-amber-700 hover:bg-amber-200",
-          "dark:bg-amber-900/30 dark:text-amber-400 dark:hover:bg-amber-800/50"
+          "bg-tag-orange-background/30 text-tag-orange hover:bg-tag-orange-background/70"
         )}
         onClick={(e) => onAction(e, "files")}
       />
       <ServerCardButton
         icon={Settings}
         className={cn(
-          "bg-slate-100 text-slate-700 hover:bg-slate-200",
-          "dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700"
+          "bg-tag-gray-background/30 text-tag-gray hover:bg-tag-gray-background/70"
         )}
         onClick={(e) => onAction(e, "settings")}
       />
