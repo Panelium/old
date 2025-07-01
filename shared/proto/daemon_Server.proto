@@ -44,7 +44,8 @@ message CreateServerRequest {
   string serverId = 1;
   repeated Allocation allocations = 2;
   ResourceLimit resourceLimit = 3;
-  // TODO: blueprint/docker stuff
+  string blueprintId = 4;
+  string dockerImage = 5;
 }
 
 message DeleteServerRequest {

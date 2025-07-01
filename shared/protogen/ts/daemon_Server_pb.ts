@@ -14,7 +14,130 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file daemon_Server.proto.
  */
 export const file_daemon_Server: GenFile = /*@__PURE__*/
-  fileDesc("ChNkYWVtb25fU2VydmVyLnByb3RvEgZkYWVtb24ilwIKDFNlcnZlclN0YXR1cxIoCgZzdGF0dXMYASABKA4yGC5kYWVtb24uU2VydmVyU3RhdHVzVHlwZRI3Cg50aW1lc3RhbXBTdGFydBgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBIAIgBARI1Cgx0aW1lc3RhbXBFbmQYAyABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wSAGIAQESNwoNb2ZmbGluZVJlYXNvbhgEIAEoDjIbLmRhZW1vbi5TZXJ2ZXJPZmZsaW5lUmVhc29uSAKIAQFCEQoPX3RpbWVzdGFtcFN0YXJ0Qg8KDV90aW1lc3RhbXBFbmRCEAoOX29mZmxpbmVSZWFzb24qswEKEFNlcnZlclN0YXR1c1R5cGUSHgoaU0VSVkVSX1NUQVRVU19UWVBFX1VOS05PV04QABIfChtTRVJWRVJfU1RBVFVTX1RZUEVfU1RBUlRJTkcQARIdChlTRVJWRVJfU1RBVFVTX1RZUEVfT05MSU5FEAISHwobU0VSVkVSX1NUQVRVU19UWVBFX1NUT1BQSU5HEAMSHgoaU0VSVkVSX1NUQVRVU19UWVBFX09GRkxJTkUQBCrBAQoTU2VydmVyT2ZmbGluZVJlYXNvbhIhCh1TRVJWRVJfT0ZGTElORV9SRUFTT05fVU5LTk9XThAAEiEKHVNFUlZFUl9PRkZMSU5FX1JFQVNPTl9DUkVBVEVEEAESIQodU0VSVkVSX09GRkxJTkVfUkVBU09OX1NUT1BQRUQQAhIgChxTRVJWRVJfT0ZGTElORV9SRUFTT05fS0lMTEVEEAMSHwobU0VSVkVSX09GRkxJTkVfUkVBU09OX0VSUk9SEAQqiwEKC1Bvd2VyQWN0aW9uEhwKGFBPV0VSX0FDVElPTl9VTlNQRUNJRklFRBAAEhYKElBPV0VSX0FDVElPTl9TVEFSVBABEhgKFFBPV0VSX0FDVElPTl9SRVNUQVJUEAISFQoRUE9XRVJfQUNUSU9OX1NUT1AQAxIVChFQT1dFUl9BQ1RJT05fS0lMTBAEMvwCCg1TZXJ2ZXJTZXJ2aWNlEjsKB0NvbnNvbGUSFS5jb21tb24uU2ltcGxlTWVzc2FnZRoVLmNvbW1vbi5TaW1wbGVNZXNzYWdlKAEwARI7CgpSdW5Db21tYW5kEhUuY29tbW9uLlNpbXBsZU1lc3NhZ2UaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USPAoIVGVybWluYWwSFS5jb21tb24uU2ltcGxlTWVzc2FnZRoVLmNvbW1vbi5TaW1wbGVNZXNzYWdlKAEwARJDChJSdW5UZXJtaW5hbENvbW1hbmQSFS5jb21tb24uU2ltcGxlTWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRIwCglHZXRTdGF0dXMSDS5jb21tb24uRW1wdHkaFC5kYWVtb24uU2VydmVyU3RhdHVzEjwKC1Bvd2VyQWN0aW9uEhUuY29tbW9uLlNpbXBsZU1lc3NhZ2UaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2VCF1oVcGFuZWxpdW0vcHJvdG8tZ2VuLWdvYgZwcm90bzM", [file_common, file_google_protobuf_timestamp]);
+  fileDesc("ChNkYWVtb25fU2VydmVyLnByb3RvEgZkYWVtb24iJgoKQWxsb2NhdGlvbhIKCgJpcBgBIAEoCRIMCgRwb3J0GAIgASgNIkgKDVJlc291cmNlTGltaXQSCwoDY3B1GAEgASgNEgsKA3JhbRgCIAEoDRIMCgRzd2FwGAMgASgNEg8KB3N0b3JhZ2UYBCABKA0iqAEKE0NyZWF0ZVNlcnZlclJlcXVlc3QSEAoIc2VydmVySWQYASABKAkSJwoLYWxsb2NhdGlvbnMYAiADKAsyEi5kYWVtb24uQWxsb2NhdGlvbhIsCg1yZXNvdXJjZUxpbWl0GAMgASgLMhUuZGFlbW9uLlJlc291cmNlTGltaXQSEwoLYmx1ZXByaW50SWQYBCABKAkSEwoLZG9ja2VySW1hZ2UYBSABKAkiNgoTRGVsZXRlU2VydmVyUmVxdWVzdBIQCghzZXJ2ZXJJZBgBIAEoCRINCgVmb3JjZRgCIAEoCCKXAgoMU2VydmVyU3RhdHVzEigKBnN0YXR1cxgBIAEoDjIYLmRhZW1vbi5TZXJ2ZXJTdGF0dXNUeXBlEjcKDnRpbWVzdGFtcFN0YXJ0GAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcEgAiAEBEjUKDHRpbWVzdGFtcEVuZBgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBIAYgBARI3Cg1vZmZsaW5lUmVhc29uGAQgASgOMhsuZGFlbW9uLlNlcnZlck9mZmxpbmVSZWFzb25IAogBAUIRCg9fdGltZXN0YW1wU3RhcnRCDwoNX3RpbWVzdGFtcEVuZEIQCg5fb2ZmbGluZVJlYXNvbiqzAQoQU2VydmVyU3RhdHVzVHlwZRIeChpTRVJWRVJfU1RBVFVTX1RZUEVfVU5LTk9XThAAEh8KG1NFUlZFUl9TVEFUVVNfVFlQRV9TVEFSVElORxABEh0KGVNFUlZFUl9TVEFUVVNfVFlQRV9PTkxJTkUQAhIfChtTRVJWRVJfU1RBVFVTX1RZUEVfU1RPUFBJTkcQAxIeChpTRVJWRVJfU1RBVFVTX1RZUEVfT0ZGTElORRAEKsEBChNTZXJ2ZXJPZmZsaW5lUmVhc29uEiEKHVNFUlZFUl9PRkZMSU5FX1JFQVNPTl9VTktOT1dOEAASIQodU0VSVkVSX09GRkxJTkVfUkVBU09OX0NSRUFURUQQARIhCh1TRVJWRVJfT0ZGTElORV9SRUFTT05fU1RPUFBFRBACEiAKHFNFUlZFUl9PRkZMSU5FX1JFQVNPTl9LSUxMRUQQAxIfChtTRVJWRVJfT0ZGTElORV9SRUFTT05fRVJST1IQBCqLAQoLUG93ZXJBY3Rpb24SHAoYUE9XRVJfQUNUSU9OX1VOU1BFQ0lGSUVEEAASFgoSUE9XRVJfQUNUSU9OX1NUQVJUEAESGAoUUE9XRVJfQUNUSU9OX1JFU1RBUlQQAhIVChFQT1dFUl9BQ1RJT05fU1RPUBADEhUKEVBPV0VSX0FDVElPTl9LSUxMEAQyhgQKDVNlcnZlclNlcnZpY2USQwoMQ3JlYXRlU2VydmVyEhsuZGFlbW9uLkNyZWF0ZVNlcnZlclJlcXVlc3QaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USQwoMRGVsZXRlU2VydmVyEhsuZGFlbW9uLkRlbGV0ZVNlcnZlclJlcXVlc3QaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USOwoHQ29uc29sZRIVLmNvbW1vbi5TaW1wbGVNZXNzYWdlGhUuY29tbW9uLlNpbXBsZU1lc3NhZ2UoATABEjsKClJ1bkNvbW1hbmQSFS5jb21tb24uU2ltcGxlTWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRI8CghUZXJtaW5hbBIVLmNvbW1vbi5TaW1wbGVNZXNzYWdlGhUuY29tbW9uLlNpbXBsZU1lc3NhZ2UoATABEkMKElJ1blRlcm1pbmFsQ29tbWFuZBIVLmNvbW1vbi5TaW1wbGVNZXNzYWdlGhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlEjAKCUdldFN0YXR1cxINLmNvbW1vbi5FbXB0eRoULmRhZW1vbi5TZXJ2ZXJTdGF0dXMSPAoLUG93ZXJBY3Rpb24SFS5jb21tb24uU2ltcGxlTWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZUIXWhVwYW5lbGl1bS9wcm90by1nZW4tZ29iBnByb3RvMw", [file_common, file_google_protobuf_timestamp]);
+
+/**
+ * @generated from message daemon.Allocation
+ */
+export type Allocation = Message<"daemon.Allocation"> & {
+  /**
+   * @generated from field: string ip = 1;
+   */
+  ip: string;
+
+  /**
+   * @generated from field: uint32 port = 2;
+   */
+  port: number;
+};
+
+/**
+ * Describes the message daemon.Allocation.
+ * Use `create(AllocationSchema)` to create a new message.
+ */
+export const AllocationSchema: GenMessage<Allocation> = /*@__PURE__*/
+  messageDesc(file_daemon_Server, 0);
+
+/**
+ * @generated from message daemon.ResourceLimit
+ */
+export type ResourceLimit = Message<"daemon.ResourceLimit"> & {
+  /**
+   * CPU in percentage (100% = 1 vCore)
+   *
+   * @generated from field: uint32 cpu = 1;
+   */
+  cpu: number;
+
+  /**
+   * RAM in MB
+   *
+   * @generated from field: uint32 ram = 2;
+   */
+  ram: number;
+
+  /**
+   * SWAP in MB
+   *
+   * @generated from field: uint32 swap = 3;
+   */
+  swap: number;
+
+  /**
+   * Storage in MB
+   *
+   * @generated from field: uint32 storage = 4;
+   */
+  storage: number;
+};
+
+/**
+ * Describes the message daemon.ResourceLimit.
+ * Use `create(ResourceLimitSchema)` to create a new message.
+ */
+export const ResourceLimitSchema: GenMessage<ResourceLimit> = /*@__PURE__*/
+  messageDesc(file_daemon_Server, 1);
+
+/**
+ * Server Management
+ *
+ * @generated from message daemon.CreateServerRequest
+ */
+export type CreateServerRequest = Message<"daemon.CreateServerRequest"> & {
+  /**
+   * @generated from field: string serverId = 1;
+   */
+  serverId: string;
+
+  /**
+   * @generated from field: repeated daemon.Allocation allocations = 2;
+   */
+  allocations: Allocation[];
+
+  /**
+   * @generated from field: daemon.ResourceLimit resourceLimit = 3;
+   */
+  resourceLimit?: ResourceLimit;
+
+  /**
+   * @generated from field: string blueprintId = 4;
+   */
+  blueprintId: string;
+
+  /**
+   * @generated from field: string dockerImage = 5;
+   */
+  dockerImage: string;
+};
+
+/**
+ * Describes the message daemon.CreateServerRequest.
+ * Use `create(CreateServerRequestSchema)` to create a new message.
+ */
+export const CreateServerRequestSchema: GenMessage<CreateServerRequest> = /*@__PURE__*/
+  messageDesc(file_daemon_Server, 2);
+
+/**
+ * @generated from message daemon.DeleteServerRequest
+ */
+export type DeleteServerRequest = Message<"daemon.DeleteServerRequest"> & {
+  /**
+   * @generated from field: string serverId = 1;
+   */
+  serverId: string;
+
+  /**
+   * @generated from field: bool force = 2;
+   */
+  force: boolean;
+};
+
+/**
+ * Describes the message daemon.DeleteServerRequest.
+ * Use `create(DeleteServerRequestSchema)` to create a new message.
+ */
+export const DeleteServerRequestSchema: GenMessage<DeleteServerRequest> = /*@__PURE__*/
+  messageDesc(file_daemon_Server, 3);
 
 /**
  * Server Info
@@ -48,7 +171,7 @@ export type ServerStatus = Message<"daemon.ServerStatus"> & {
  * Use `create(ServerStatusSchema)` to create a new message.
  */
 export const ServerStatusSchema: GenMessage<ServerStatus> = /*@__PURE__*/
-  messageDesc(file_daemon_Server, 0);
+  messageDesc(file_daemon_Server, 4);
 
 /**
  * @generated from enum daemon.ServerStatusType
@@ -167,6 +290,25 @@ export const PowerActionSchema: GenEnum<PowerAction> = /*@__PURE__*/
  */
 export const ServerService: GenService<{
   /**
+   * / Server Management
+   *
+   * @generated from rpc daemon.ServerService.CreateServer
+   */
+  createServer: {
+    methodKind: "unary";
+    input: typeof CreateServerRequestSchema;
+    output: typeof SuccessMessageSchema;
+  },
+  /**
+   * @generated from rpc daemon.ServerService.DeleteServer
+   */
+  deleteServer: {
+    methodKind: "unary";
+    input: typeof DeleteServerRequestSchema;
+    output: typeof SuccessMessageSchema;
+  },
+  /**
+   * / Server Actions - Requires a ServerID http header
    * Console (process)
    *
    * @generated from rpc daemon.ServerService.Console

@@ -2,20 +2,11 @@ package model
 
 import (
 	"gorm.io/datatypes"
-	"gorm.io/gorm"
 )
 
 type Blueprint struct {
-	gorm.Model             `json:"-"`
-	FormatVersion          uint           `gorm:"not null" json:"format_version"`  // Version of the blueprint format, used for compatibility checks
 	BID                    string         `gorm:"uniqueIndex;not null" json:"bid"` // Unique identifier for the blueprint
 	Version                uint           `gorm:"not null" json:"version"`
-	UpdateURL              string         `json:"update_url"` // Empty if not imported from a URL -> auto update not possible
-	Name                   string         `gorm:"not null" json:"name"`
-	Description            string         `gorm:"not null" json:"description"`
-	Category               string         `gorm:"not null" json:"category"`                // Category of the blueprint, e.g., Minecraft/Java,Generic,Database,SteamCMD,Games,Storage,Other,...
-	Icon                   string         `gorm:"not null" json:"icon"`                    // Base64 encoded icon image for the blueprint, used in UI
-	Banner                 string         `gorm:"not null" json:"banner"`                  // Base64 encoded banner image for the blueprint, used in UI
 	Flags                  datatypes.JSON `gorm:"type:json;not null" json:"flags"`         // JSON array of flags that modify the behavior of the blueprint, e.g., eula accept needed for start, server config ui, plugin manager, modpack installer, etc.
 	DockerImages           datatypes.JSON `gorm:"type:json;not null" json:"docker_images"` // JSON array of Docker images that can be used with this blueprint
 	BlockedFiles           datatypes.JSON `gorm:"type:json;not null" json:"blocked_files"` // JSON array of files that the user is not allowed to access or modify

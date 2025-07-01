@@ -33,6 +33,12 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
+	// ServerServiceCreateServerProcedure is the fully-qualified name of the ServerService's
+	// CreateServer RPC.
+	ServerServiceCreateServerProcedure = "/daemon.ServerService/CreateServer"
+	// ServerServiceDeleteServerProcedure is the fully-qualified name of the ServerService's
+	// DeleteServer RPC.
+	ServerServiceDeleteServerProcedure = "/daemon.ServerService/DeleteServer"
 	// ServerServiceConsoleProcedure is the fully-qualified name of the ServerService's Console RPC.
 	ServerServiceConsoleProcedure = "/daemon.ServerService/Console"
 	// ServerServiceRunCommandProcedure is the fully-qualified name of the ServerService's RunCommand
@@ -52,6 +58,10 @@ const (
 
 // ServerServiceClient is a client for the daemon.ServerService service.
 type ServerServiceClient interface {
+	// / Server Management
+	CreateServer(context.Context, *connect.Request[proto_gen_go.CreateServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	DeleteServer(context.Context, *connect.Request[proto_gen_go.DeleteServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	// / Server Actions - Requires a ServerID http header
 	// Console (process)
 	Console(context.Context) *connect.BidiStreamForClient[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]
 	RunCommand(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
@@ -75,6 +85,18 @@ func NewServerServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 	baseURL = strings.TrimRight(baseURL, "/")
 	serverServiceMethods := proto_gen_go.File_daemon_Server_proto.Services().ByName("ServerService").Methods()
 	return &serverServiceClient{
+		createServer: connect.NewClient[proto_gen_go.CreateServerRequest, proto_gen_go.SuccessMessage](
+			httpClient,
+			baseURL+ServerServiceCreateServerProcedure,
+			connect.WithSchema(serverServiceMethods.ByName("CreateServer")),
+			connect.WithClientOptions(opts...),
+		),
+		deleteServer: connect.NewClient[proto_gen_go.DeleteServerRequest, proto_gen_go.SuccessMessage](
+			httpClient,
+			baseURL+ServerServiceDeleteServerProcedure,
+			connect.WithSchema(serverServiceMethods.ByName("DeleteServer")),
+			connect.WithClientOptions(opts...),
+		),
 		console: connect.NewClient[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage](
 			httpClient,
 			baseURL+ServerServiceConsoleProcedure,
@@ -116,12 +138,24 @@ func NewServerServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 
 // serverServiceClient implements ServerServiceClient.
 type serverServiceClient struct {
+	createServer       *connect.Client[proto_gen_go.CreateServerRequest, proto_gen_go.SuccessMessage]
+	deleteServer       *connect.Client[proto_gen_go.DeleteServerRequest, proto_gen_go.SuccessMessage]
 	console            *connect.Client[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]
 	runCommand         *connect.Client[proto_gen_go.SimpleMessage, proto_gen_go.SuccessMessage]
 	terminal           *connect.Client[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]
 	runTerminalCommand *connect.Client[proto_gen_go.SimpleMessage, proto_gen_go.SuccessMessage]
 	getStatus          *connect.Client[proto_gen_go.Empty, proto_gen_go.ServerStatus]
 	powerAction        *connect.Client[proto_gen_go.SimpleMessage, proto_gen_go.SuccessMessage]
+}
+
+// CreateServer calls daemon.ServerService.CreateServer.
+func (c *serverServiceClient) CreateServer(ctx context.Context, req *connect.Request[proto_gen_go.CreateServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return c.createServer.CallUnary(ctx, req)
+}
+
+// DeleteServer calls daemon.ServerService.DeleteServer.
+func (c *serverServiceClient) DeleteServer(ctx context.Context, req *connect.Request[proto_gen_go.DeleteServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return c.deleteServer.CallUnary(ctx, req)
 }
 
 // Console calls daemon.ServerService.Console.
@@ -156,6 +190,10 @@ func (c *serverServiceClient) PowerAction(ctx context.Context, req *connect.Requ
 
 // ServerServiceHandler is an implementation of the daemon.ServerService service.
 type ServerServiceHandler interface {
+	// / Server Management
+	CreateServer(context.Context, *connect.Request[proto_gen_go.CreateServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	DeleteServer(context.Context, *connect.Request[proto_gen_go.DeleteServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	// / Server Actions - Requires a ServerID http header
 	// Console (process)
 	Console(context.Context, *connect.BidiStream[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]) error
 	RunCommand(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
@@ -175,6 +213,18 @@ type ServerServiceHandler interface {
 // and JSON codecs. They also support gzip compression.
 func NewServerServiceHandler(svc ServerServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
 	serverServiceMethods := proto_gen_go.File_daemon_Server_proto.Services().ByName("ServerService").Methods()
+	serverServiceCreateServerHandler := connect.NewUnaryHandler(
+		ServerServiceCreateServerProcedure,
+		svc.CreateServer,
+		connect.WithSchema(serverServiceMethods.ByName("CreateServer")),
+		connect.WithHandlerOptions(opts...),
+	)
+	serverServiceDeleteServerHandler := connect.NewUnaryHandler(
+		ServerServiceDeleteServerProcedure,
+		svc.DeleteServer,
+		connect.WithSchema(serverServiceMethods.ByName("DeleteServer")),
+		connect.WithHandlerOptions(opts...),
+	)
 	serverServiceConsoleHandler := connect.NewBidiStreamHandler(
 		ServerServiceConsoleProcedure,
 		svc.Console,
@@ -213,6 +263,10 @@ func NewServerServiceHandler(svc ServerServiceHandler, opts ...connect.HandlerOp
 	)
 	return "/daemon.ServerService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
+		case ServerServiceCreateServerProcedure:
+			serverServiceCreateServerHandler.ServeHTTP(w, r)
+		case ServerServiceDeleteServerProcedure:
+			serverServiceDeleteServerHandler.ServeHTTP(w, r)
 		case ServerServiceConsoleProcedure:
 			serverServiceConsoleHandler.ServeHTTP(w, r)
 		case ServerServiceRunCommandProcedure:
@@ -233,6 +287,14 @@ func NewServerServiceHandler(svc ServerServiceHandler, opts ...connect.HandlerOp
 
 // UnimplementedServerServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedServerServiceHandler struct{}
+
+func (UnimplementedServerServiceHandler) CreateServer(context.Context, *connect.Request[proto_gen_go.CreateServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("daemon.ServerService.CreateServer is not implemented"))
+}
+
+func (UnimplementedServerServiceHandler) DeleteServer(context.Context, *connect.Request[proto_gen_go.DeleteServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("daemon.ServerService.DeleteServer is not implemented"))
+}
 
 func (UnimplementedServerServiceHandler) Console(context.Context, *connect.BidiStream[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]) error {
 	return connect.NewError(connect.CodeUnimplemented, errors.New("daemon.ServerService.Console is not implemented"))

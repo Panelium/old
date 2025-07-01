@@ -8,6 +8,8 @@ type Server struct {
 	Allocations   []ServerAllocation            `gorm:"foreignKey:ServerID" json:"allocations"`
 	ResourceLimit ResourceLimit                 `gorm:"embedded" json:"resource_limit"`
 	DockerImage   string                        `gorm:"not null" json:"docker_image"`
+	BID           string                        `gorm:"not null" json:"bid"` // Blueprint ID
+	Blueprint     Blueprint                     `gorm:"foreignKey:BID" json:"blueprint"`
 }
 
 type ResourceLimit struct {

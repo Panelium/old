@@ -2,6 +2,77 @@ openapi: 3.1.0
 info:
   title: daemon
 paths:
+  /daemon.ServerService/CreateServer:
+    post:
+      tags:
+        - daemon.ServerService
+      summary: CreateServer
+      description: / Server Management
+      operationId: daemon.ServerService.CreateServer
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/daemon.CreateServerRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/common.SuccessMessage'
+  /daemon.ServerService/DeleteServer:
+    post:
+      tags:
+        - daemon.ServerService
+      summary: DeleteServer
+      operationId: daemon.ServerService.DeleteServer
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/daemon.DeleteServerRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/common.SuccessMessage'
   /daemon.ServerService/Console: {}
   /daemon.ServerService/RunCommand:
     post:
@@ -195,6 +266,72 @@ components:
           type: boolean
           title: success
       title: SuccessMessage
+      additionalProperties: false
+    daemon.Allocation:
+      type: object
+      properties:
+        ip:
+          type: string
+          title: ip
+        port:
+          type: integer
+          title: port
+      title: Allocation
+      additionalProperties: false
+    daemon.CreateServerRequest:
+      type: object
+      properties:
+        serverId:
+          type: string
+          title: serverId
+        allocations:
+          type: array
+          items:
+            $ref: '#/components/schemas/daemon.Allocation'
+          title: allocations
+        resourceLimit:
+          title: resourceLimit
+          $ref: '#/components/schemas/daemon.ResourceLimit'
+        blueprintId:
+          type: string
+          title: blueprintId
+        dockerImage:
+          type: string
+          title: dockerImage
+      title: CreateServerRequest
+      additionalProperties: false
+      description: Server Management
+    daemon.DeleteServerRequest:
+      type: object
+      properties:
+        serverId:
+          type: string
+          title: serverId
+        force:
+          type: boolean
+          title: force
+      title: DeleteServerRequest
+      additionalProperties: false
+    daemon.ResourceLimit:
+      type: object
+      properties:
+        cpu:
+          type: integer
+          title: cpu
+          description: CPU in percentage (100% = 1 vCore)
+        ram:
+          type: integer
+          title: ram
+          description: RAM in MB
+        swap:
+          type: integer
+          title: swap
+          description: SWAP in MB
+        storage:
+          type: integer
+          title: storage
+          description: Storage in MB
+      title: ResourceLimit
       additionalProperties: false
     daemon.ServerStatus:
       type: object
