@@ -252,7 +252,7 @@
     --sidebar-primary: #000;
     --sidebar-primary-foreground: #FFF;
     --sidebar-accent: #000;
-    --sidebar-accent-foreground: #FFF;
+    --sidebar-accent-foreground: #a5b1be;
     --sidebar-border: var(--border);
     --sidebar-ring: #000;
     --tag-purple: var(--color-indigo-400);
@@ -339,11 +339,11 @@
 .background {
     position: relative;
     background-color: transparent;
-    background-image: radial-gradient(circle, rgba(var(--background-detail), 0.25) 8%, transparent 12.5%), 
-                      linear-gradient(0deg, transparent 48%, rgba(var(--background-detail), 0.25) 49%, rgba(var(--background-detail), 0.25) 51%, transparent 52%),
-                      linear-gradient(90deg, transparent 48%, rgba(var(--background-detail), 0.25) 49%, rgba(var(--background-detail), 0.25) 51%, transparent 52%),
-                      linear-gradient(0deg, rgba(var(--background-detail), 0.15) 1%, transparent 2%, transparent 98%, rgba(var(--background-detail), 0.15) 99%),
-                      linear-gradient(90deg, rgba(var(--background-detail), 0.15) 1%, transparent 2%, transparent 98%, rgba(var(--background-detail), 0.15) 99%);
+    background-image: radial-gradient(circle, rgba(var(--background-detail), 0.25) 8%, transparent 12.5%),
+    linear-gradient(0deg, transparent 48%, rgba(var(--background-detail), 0.25) 49%, rgba(var(--background-detail), 0.25) 51%, transparent 52%),
+    linear-gradient(90deg, transparent 48%, rgba(var(--background-detail), 0.25) 49%, rgba(var(--background-detail), 0.25) 51%, transparent 52%),
+    linear-gradient(0deg, rgba(var(--background-detail), 0.15) 1%, transparent 2%, transparent 98%, rgba(var(--background-detail), 0.15) 99%),
+    linear-gradient(90deg, rgba(var(--background-detail), 0.15) 1%, transparent 2%, transparent 98%, rgba(var(--background-detail), 0.15) 99%);
     background-size: 80px 80px;
 
     height: 100%;
@@ -357,12 +357,16 @@
 
 .background-gradient {
     position: fixed;
-    top:0;
-    left:0;
+    top: 0;
+    left: 0;
     z-index: -1;
     width: 100%;
     height: 100%;
     overflow: hidden;
     background-color: var(--color-sidebar);
     background: linear-gradient(0deg, var(--color-background-darkest) 0%, var(--color-background) 100%);
+}
+
+.widthm {
+    max-width: 100px;
 }
