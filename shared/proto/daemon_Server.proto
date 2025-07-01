@@ -8,10 +8,12 @@ import "google/protobuf/timestamp.proto";
 
 service ServerService {
   /// Server Management
+  /// - Called by backend, needs token
   rpc CreateServer(CreateServerRequest) returns (common.SuccessMessage);
   rpc DeleteServer(DeleteServerRequest) returns (common.SuccessMessage);
 
   /// Server Actions - Requires a ServerID http header
+  /// - Called by client, needs jwt
   // Console (process)
   rpc Console(stream common.SimpleMessage) returns (stream common.SimpleMessage);
   rpc RunCommand(common.SimpleMessage) returns (common.SuccessMessage);
