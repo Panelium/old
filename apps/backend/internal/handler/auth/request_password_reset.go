@@ -10,6 +10,6 @@ import (
 func (s *AuthServiceHandler) RequestPasswordReset(
 	ctx context.Context,
 	req *connect.Request[proto_gen_go.RequestPasswordResetRequest],
-) (*connect.Response[proto_gen_go.RequestPasswordResetResponse], error) {
+) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("unimplemented"))
 }

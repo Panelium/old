@@ -20,7 +20,7 @@ import (
 func (s *AuthServiceHandler) Register(
 	ctx context.Context,
 	req *connect.Request[proto_gen_go.RegisterRequest],
-) (*connect.Response[proto_gen_go.RegisterResponse], error) {
+) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	err := global.ValidatorInstance().Var(req.Msg.Email, "required,email")
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("email is missing or invalid"))
@@ -74,7 +74,7 @@ func (s *AuthServiceHandler) Register(
 		return nil, connect.NewError(connect.CodeInternal, errors.New("failed to create session"))
 	}
 
-	res := connect.NewResponse(&proto_gen_go.RegisterResponse{
+	res := connect.NewResponse(&proto_gen_go.SuccessMessage{
 		Success: true,
 	})
 

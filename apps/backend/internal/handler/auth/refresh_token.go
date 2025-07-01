@@ -16,8 +16,8 @@ import (
 
 func (s *AuthServiceHandler) RefreshToken(
 	ctx context.Context,
-	req *connect.Request[proto_gen_go.RefreshTokenRequest],
-) (*connect.Response[proto_gen_go.RefreshTokenResponse], error) {
+	req *connect.Request[proto_gen_go.Empty],
+) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	tokensData := ctx.Value("panelium_tokens")
 	tokens, ok := tokensData.(middleware.Tokens)
 	if !ok || tokens == nil || len(tokens) == 0 {
@@ -54,7 +54,7 @@ func (s *AuthServiceHandler) RefreshToken(
 		return nil, connect.NewError(connect.CodeInternal, errors.SessionCreationFailed)
 	}
 
-	res := connect.NewResponse(&proto_gen_go.RefreshTokenResponse{
+	res := connect.NewResponse(&proto_gen_go.SuccessMessage{
 		Success: true,
 	})
 

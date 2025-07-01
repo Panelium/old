@@ -12,8 +12,8 @@ import (
 
 func (s *AuthServiceHandler) Logout(
 	ctx context.Context,
-	req *connect.Request[proto_gen_go.LogoutRequest],
-) (*connect.Response[proto_gen_go.LogoutResponse], error) {
+	req *connect.Request[proto_gen_go.Empty],
+) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	sessionInfoData := ctx.Value("panelium_session_info")
 	sessionInfo, ok := sessionInfoData.(*middleware.SessionInfo)
 	if !ok || sessionInfo == nil || sessionInfo.SessionID == "" || sessionInfo.UserID == "" {
@@ -22,14 +22,14 @@ func (s *AuthServiceHandler) Logout(
 
 	err := session.DeleteSession(sessionInfo.SessionID)
 	if err != nil {
-		res := connect.NewResponse(&proto_gen_go.LogoutResponse{
+		res := connect.NewResponse(&proto_gen_go.SuccessMessage{
 			Success: false,
 		})
 		// TODO: log this error?
 		return res, connect.NewError(connect.CodeInternal, errors.SessionDeletionFailed)
 	}
 
-	res := connect.NewResponse(&proto_gen_go.LogoutResponse{
+	res := connect.NewResponse(&proto_gen_go.SuccessMessage{
 		Success: true,
 	})
 
