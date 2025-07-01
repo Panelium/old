@@ -13,6 +13,7 @@ import {
   Settings,
   Sun,
   Terminal,
+  type LucideProps,
 } from "lucide-react";
 import { Link, Outlet } from "react-router-dom";
 import { cn } from "~/lib/utils";
@@ -30,8 +31,9 @@ import { Button } from "~/components/ui/button";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import EntityAvatar from "~/components/avatars/EntityAvatar";
 import { Sidebar, SidebarProvider, useSidebar } from "~/components/ui/sidebar";
+import useDashboard from "~/routes/dashboard/useDashboard";
 
-const NAVIGATION_ITEMS = [
+const NAVIGATION_ITEMS: {title?: string, icon?: React.ForwardRefExoticComponent<Omit<LucideProps, "ref">>, href?: string, type?: string, text?: string}[] = [
   {
     title: "Overview",
     icon: LayoutGrid,
@@ -43,38 +45,18 @@ const NAVIGATION_ITEMS = [
   {
     text: "Your Servers",
     type: "header",
-  },
-  {
-    title: "My Awesome Server 1",
-    icon: ServerIcon,
-    href: "/server/1",
-    type: "server",
-  },
-  {
-    title: "Web Server",
-    icon: ServerIcon,
-    href: "/server/2",
-    type: "server",
-  },
-  {
-    title: "Terraria Adventure",
-    icon: ServerIcon,
-    href: "/server/3",
-    type: "server",
-  },
-  {
-    title: "Rust Survival",
-    icon: ServerIcon,
-    href: "/server/4",
-    type: "server",
-  },
-  {
-    title: "ARK: Survival Evolved",
-    icon: ServerIcon,
-    href: "/server/5",
-    type: "server",
-  },
+  }
 ];
+
+// Adds the mockup servers to NAVIGATION_ITEMS
+useDashboard().mockServers.forEach((server) => {
+  NAVIGATION_ITEMS.push({
+    title: server.name,
+    icon: ServerIcon,
+    href: "/server/" + server.id,
+    type: "server",
+  });
+});
 
 const SidebarHeader: React.FC = () => {
   return (
