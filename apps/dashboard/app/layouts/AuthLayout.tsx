@@ -1,23 +1,23 @@
-import React, {useEffect} from 'react';
-import {Outlet, useNavigate} from 'react-router-dom';
-import {useSession} from '~/providers/SessionProvider';
+import React, { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useSession } from "~/providers/SessionProvider";
 
 export default function AuthLayout() {
-    const {authenticated} = useSession();
-    const navigate = useNavigate();
+  const { authenticated } = useSession();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        if (authenticated) {
-            navigate('/', {replace: true});
-        }
-    }, [authenticated, navigate]);
+  useEffect(() => {
+    if (authenticated) {
+      navigate("/", { replace: true });
+    }
+  }, [authenticated, navigate]);
 
-    return (
-        <>
-        <div className="background-gradient"/>
-        <div className="flex min-h-screen flex-col items-center justify-center background">
-            <Outlet/>
-        </div>
-        </>
-    );
+  return (
+    <>
+      <div className="background-gradient" />
+      <div className="flex min-h-screen flex-col items-center justify-center background">
+        <Outlet />
+      </div>
+    </>
+  );
 }

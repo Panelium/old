@@ -99,6 +99,7 @@ const SidebarNavigation: React.FC = () => {
       location.pathname === href || location.pathname.startsWith(href + "/")
     );
   }
+
   return (
     <ScrollArea className="flex-1 px-2 py-4">
       <nav className="flex flex-col w-full gap-1">
