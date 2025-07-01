@@ -7,6 +7,11 @@ import "common.proto";
 import "google/protobuf/timestamp.proto";
 
 service ServerService {
+  /// Server Management
+  rpc CreateServer(CreateServerRequest) returns (common.SuccessMessage);
+  rpc DeleteServer(DeleteServerRequest) returns (common.SuccessMessage);
+
+  /// Server Actions - Requires a ServerID http header
   // Console (process)
   rpc Console(stream common.SimpleMessage) returns (stream common.SimpleMessage);
   rpc RunCommand(common.SimpleMessage) returns (common.SuccessMessage);
@@ -20,6 +25,31 @@ service ServerService {
 
   // Power Actions
   rpc PowerAction(common.SimpleMessage) returns (common.SuccessMessage);
+}
+
+message Allocation {
+  string ip = 1;
+  uint32 port = 2;
+}
+
+message ResourceLimit {
+  uint32 cpu = 1;     // CPU in percentage (100% = 1 vCore)
+  uint32 ram = 2;     // RAM in MB
+  uint32 swap = 3;    // SWAP in MB
+  uint32 storage = 4; // Storage in MB
+}
+
+// Server Management
+message CreateServerRequest {
+  string serverId = 1;
+  repeated Allocation allocations = 2;
+  ResourceLimit resourceLimit = 3;
+  // TODO: blueprint/docker stuff
+}
+
+message DeleteServerRequest {
+  string serverId = 1;
+  bool force = 2;
 }
 
 // Server Info
