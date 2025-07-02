@@ -31,10 +31,10 @@ export default function ServerCardGrid({ servers }: { servers: Server[] }) {
     <div className="flex flex-col gap-4">
       <h2 className="text-xl font-bold text-foreground no-select">Servers</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+        <AddServerCard />
         {servers.map((server) => (
           <ServerCard key={server.id} server={server} className="no-select" />
         ))}
-        <AddServerCard />
       </div>
     </div>
   );
