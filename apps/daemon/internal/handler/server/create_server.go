@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"panelium/daemon/internal/db"
 	"panelium/daemon/internal/model"
-	proto_gen_go "panelium/proto-gen-go"
+	"panelium/proto_gen_go"
 )
 
 func (s *ServerServiceHandler) CreateServer(

@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"panelium/backend/internal/handler/auth"
 	"panelium/backend/internal/middleware"
-	"panelium/proto-gen-go/proto_gen_goconnect"
+	"panelium/proto_gen_go/proto_gen_goconnect"
 )
 
 func Handle(host string) error {

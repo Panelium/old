@@ -9,7 +9,7 @@ import (
 	"panelium/backend/internal/security/cookies"
 	"panelium/backend/internal/security/session"
 	"panelium/common/errors"
-	proto_gen_go "panelium/proto-gen-go"
+	"panelium/proto_gen_go"
 )
 
 // TODO: need to add rate limiting

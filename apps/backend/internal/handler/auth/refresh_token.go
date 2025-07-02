@@ -11,7 +11,7 @@ import (
 	"panelium/backend/internal/security/session"
 	"panelium/common/errors"
 	"panelium/common/jwt"
-	proto_gen_go "panelium/proto-gen-go"
+	"panelium/proto_gen_go"
 )
 
 func (s *AuthServiceHandler) RefreshToken(

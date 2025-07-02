@@ -4,7 +4,7 @@ import (
 	"connectrpc.com/connect"
 	"context"
 	"errors"
-	proto_gen_go "panelium/proto-gen-go"
+	"panelium/proto_gen_go"
 )
 
 func (s *AuthServiceHandler) ChangePasswordVerifyMFA(

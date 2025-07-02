@@ -3,9 +3,9 @@ WORKDIR /app/backend/
 RUN apk add --no-cache build-base
 COPY apps/backend/ .
 COPY shared/common/go/ /app/common/
-COPY shared/protogen/go/ /app/proto-gen-go/
+COPY shared/protogen/go/ /app/proto_gen_go/
 RUN go mod edit -replace=panelium/common=/app/common
-RUN go mod edit -replace=panelium/proto-gen-go=/app/proto-gen-go
+RUN go mod edit -replace=panelium/proto_gen_go=/app/proto_gen_go
 RUN go mod tidy
 RUN go mod download
 RUN go build -o /build/backend
@@ -22,9 +22,9 @@ WORKDIR /app/daemon/
 RUN apk add --no-cache build-base
 COPY apps/daemon/ .
 COPY shared/common/go/ /app/common/
-COPY shared/protogen/go/ /app/proto-gen-go/
+COPY shared/protogen/go/ /app/proto_gen_go/
 RUN go mod edit -replace=panelium/common=/app/common
-RUN go mod edit -replace=panelium/proto-gen-go=/app/proto-gen-go
+RUN go mod edit -replace=panelium/proto_gen_go=/app/proto_gen_go
 RUN go mod tidy
 RUN go mod download
 RUN go build -o /build/daemon
