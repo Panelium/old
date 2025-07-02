@@ -29,7 +29,7 @@ const BadgeStyleMap: Record<ServerStatusType, string> = {
   ),
   [ServerStatusType.INSTALLING]: cn(
     BASE_BADGE_STYLE,
-    `bg-tag-blue-background/30   text-tag-blue   border-tag-blue/50`
+    `bg-tag-purple-background/30   text-tag-purple   border-tag-purple/50`
   ),
 };
 
@@ -54,7 +54,7 @@ const BadgeDotStyleMap: Record<ServerStatusType, string> = {
   ),
   [ServerStatusType.INSTALLING]: cn(
     BASE_BADGE_DOT_STYLE,
-    `bg-tag-blue`,
+    `bg-tag-purple`,
     PULSE_STYLE
   ),
 };
