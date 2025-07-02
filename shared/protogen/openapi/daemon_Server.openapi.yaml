@@ -7,7 +7,9 @@ paths:
       tags:
         - daemon.ServerService
       summary: CreateServer
-      description: / Server Management
+      description: |-
+        / Server Management
+        / - Called by backend, needs token
       operationId: daemon.ServerService.CreateServer
       parameters:
         - name: Connect-Protocol-Version
@@ -333,6 +335,27 @@ components:
           description: Storage in MB
       title: ResourceLimit
       additionalProperties: false
+    daemon.ResourceUsage:
+      type: object
+      properties:
+        cpu:
+          type: integer
+          title: cpu
+          description: CPU in percentage (100% = 1 vCore)
+        ram:
+          type: integer
+          title: ram
+          description: RAM in MB
+        swap:
+          type: integer
+          title: swap
+          description: SWAP in MB
+        storage:
+          type: integer
+          title: storage
+          description: Storage in MB
+      title: ResourceUsage
+      additionalProperties: false
     daemon.ServerStatus:
       type: object
       properties:
@@ -351,6 +374,9 @@ components:
           title: offlineReason
           nullable: true
           $ref: '#/components/schemas/daemon.ServerOfflineReason'
+        resourceUsage:
+          title: resourceUsage
+          $ref: '#/components/schemas/daemon.ResourceUsage'
       title: ServerStatus
       additionalProperties: false
       description: Server Info

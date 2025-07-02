@@ -59,9 +59,11 @@ const (
 // ServerServiceClient is a client for the daemon.ServerService service.
 type ServerServiceClient interface {
 	// / Server Management
+	// / - Called by backend, needs token
 	CreateServer(context.Context, *connect.Request[proto_gen_go.CreateServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 	DeleteServer(context.Context, *connect.Request[proto_gen_go.DeleteServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 	// / Server Actions - Requires a ServerID http header
+	// / - Called by client, needs jwt
 	// Console (process)
 	Console(context.Context) *connect.BidiStreamForClient[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]
 	RunCommand(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
@@ -191,9 +193,11 @@ func (c *serverServiceClient) PowerAction(ctx context.Context, req *connect.Requ
 // ServerServiceHandler is an implementation of the daemon.ServerService service.
 type ServerServiceHandler interface {
 	// / Server Management
+	// / - Called by backend, needs token
 	CreateServer(context.Context, *connect.Request[proto_gen_go.CreateServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 	DeleteServer(context.Context, *connect.Request[proto_gen_go.DeleteServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 	// / Server Actions - Requires a ServerID http header
+	// / - Called by client, needs jwt
 	// Console (process)
 	Console(context.Context, *connect.BidiStream[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]) error
 	RunCommand(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)

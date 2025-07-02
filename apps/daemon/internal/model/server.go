@@ -1,16 +1,22 @@
 package model
 
-import proto_gen_go "panelium/proto-gen-go"
+import (
+	proto_gen_go "panelium/proto-gen-go"
+	"time"
+)
 
 type Server struct {
-	ID            uint                          `gorm:"primaryKey" json:"id"`
-	SID           string                        `gorm:"uniqueIndex;not null" json:"sid"`
-	Status        proto_gen_go.ServerStatusType `gorm:"not null" json:"status"`
-	Allocations   []ServerAllocation            `gorm:"foreignKey:ServerID" json:"allocations"`
-	ResourceLimit ResourceLimit                 `gorm:"embedded" json:"resource_limit"`
-	DockerImage   string                        `gorm:"not null" json:"docker_image"`
-	BID           string                        `gorm:"not null" json:"bid"` // Blueprint ID
-	Blueprint     Blueprint                     `gorm:"foreignKey:BID" json:"blueprint"`
+	ID             uint                             `gorm:"primaryKey" json:"id"`
+	SID            string                           `gorm:"uniqueIndex;not null" json:"sid"`
+	Status         proto_gen_go.ServerStatusType    `gorm:"not null" json:"status"`
+	TimestampStart time.Time                        `gorm:"default:null" json:"timestamp_start,omitempty"`
+	TimestampEnd   time.Time                        `gorm:"default:null" json:"timestamp_end,omitempty"`
+	OfflineReason  proto_gen_go.ServerOfflineReason `gorm:"default:null" json:"offline_reason,omitempty"`
+	Allocations    []ServerAllocation               `gorm:"foreignKey:ServerID" json:"allocations"`
+	ResourceLimit  ResourceLimit                    `gorm:"embedded" json:"resource_limit"`
+	DockerImage    string                           `gorm:"not null" json:"docker_image"`
+	BID            string                           `gorm:"not null" json:"bid"` // Blueprint ID
+	Blueprint      Blueprint                        `gorm:"foreignKey:BID" json:"blueprint"`
 }
 
 type ResourceLimit struct {

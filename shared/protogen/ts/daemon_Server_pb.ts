@@ -14,7 +14,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file daemon_Server.proto.
  */
 export const file_daemon_Server: GenFile = /*@__PURE__*/
-  fileDesc("ChNkYWVtb25fU2VydmVyLnByb3RvEgZkYWVtb24iJgoKQWxsb2NhdGlvbhIKCgJpcBgBIAEoCRIMCgRwb3J0GAIgASgNIkgKDVJlc291cmNlTGltaXQSCwoDY3B1GAEgASgNEgsKA3JhbRgCIAEoDRIMCgRzd2FwGAMgASgNEg8KB3N0b3JhZ2UYBCABKA0iqAEKE0NyZWF0ZVNlcnZlclJlcXVlc3QSEAoIc2VydmVySWQYASABKAkSJwoLYWxsb2NhdGlvbnMYAiADKAsyEi5kYWVtb24uQWxsb2NhdGlvbhIsCg1yZXNvdXJjZUxpbWl0GAMgASgLMhUuZGFlbW9uLlJlc291cmNlTGltaXQSEwoLYmx1ZXByaW50SWQYBCABKAkSEwoLZG9ja2VySW1hZ2UYBSABKAkiNgoTRGVsZXRlU2VydmVyUmVxdWVzdBIQCghzZXJ2ZXJJZBgBIAEoCRINCgVmb3JjZRgCIAEoCCKXAgoMU2VydmVyU3RhdHVzEigKBnN0YXR1cxgBIAEoDjIYLmRhZW1vbi5TZXJ2ZXJTdGF0dXNUeXBlEjcKDnRpbWVzdGFtcFN0YXJ0GAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcEgAiAEBEjUKDHRpbWVzdGFtcEVuZBgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBIAYgBARI3Cg1vZmZsaW5lUmVhc29uGAQgASgOMhsuZGFlbW9uLlNlcnZlck9mZmxpbmVSZWFzb25IAogBAUIRCg9fdGltZXN0YW1wU3RhcnRCDwoNX3RpbWVzdGFtcEVuZEIQCg5fb2ZmbGluZVJlYXNvbiqzAQoQU2VydmVyU3RhdHVzVHlwZRIeChpTRVJWRVJfU1RBVFVTX1RZUEVfVU5LTk9XThAAEh8KG1NFUlZFUl9TVEFUVVNfVFlQRV9TVEFSVElORxABEh0KGVNFUlZFUl9TVEFUVVNfVFlQRV9PTkxJTkUQAhIfChtTRVJWRVJfU1RBVFVTX1RZUEVfU1RPUFBJTkcQAxIeChpTRVJWRVJfU1RBVFVTX1RZUEVfT0ZGTElORRAEKsEBChNTZXJ2ZXJPZmZsaW5lUmVhc29uEiEKHVNFUlZFUl9PRkZMSU5FX1JFQVNPTl9VTktOT1dOEAASIQodU0VSVkVSX09GRkxJTkVfUkVBU09OX0NSRUFURUQQARIhCh1TRVJWRVJfT0ZGTElORV9SRUFTT05fU1RPUFBFRBACEiAKHFNFUlZFUl9PRkZMSU5FX1JFQVNPTl9LSUxMRUQQAxIfChtTRVJWRVJfT0ZGTElORV9SRUFTT05fRVJST1IQBCqLAQoLUG93ZXJBY3Rpb24SHAoYUE9XRVJfQUNUSU9OX1VOU1BFQ0lGSUVEEAASFgoSUE9XRVJfQUNUSU9OX1NUQVJUEAESGAoUUE9XRVJfQUNUSU9OX1JFU1RBUlQQAhIVChFQT1dFUl9BQ1RJT05fU1RPUBADEhUKEVBPV0VSX0FDVElPTl9LSUxMEAQyhgQKDVNlcnZlclNlcnZpY2USQwoMQ3JlYXRlU2VydmVyEhsuZGFlbW9uLkNyZWF0ZVNlcnZlclJlcXVlc3QaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USQwoMRGVsZXRlU2VydmVyEhsuZGFlbW9uLkRlbGV0ZVNlcnZlclJlcXVlc3QaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USOwoHQ29uc29sZRIVLmNvbW1vbi5TaW1wbGVNZXNzYWdlGhUuY29tbW9uLlNpbXBsZU1lc3NhZ2UoATABEjsKClJ1bkNvbW1hbmQSFS5jb21tb24uU2ltcGxlTWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRI8CghUZXJtaW5hbBIVLmNvbW1vbi5TaW1wbGVNZXNzYWdlGhUuY29tbW9uLlNpbXBsZU1lc3NhZ2UoATABEkMKElJ1blRlcm1pbmFsQ29tbWFuZBIVLmNvbW1vbi5TaW1wbGVNZXNzYWdlGhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlEjAKCUdldFN0YXR1cxINLmNvbW1vbi5FbXB0eRoULmRhZW1vbi5TZXJ2ZXJTdGF0dXMSPAoLUG93ZXJBY3Rpb24SFS5jb21tb24uU2ltcGxlTWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZUIXWhVwYW5lbGl1bS9wcm90by1nZW4tZ29iBnByb3RvMw", [file_common, file_google_protobuf_timestamp]);
+  fileDesc("ChNkYWVtb25fU2VydmVyLnByb3RvEgZkYWVtb24iJgoKQWxsb2NhdGlvbhIKCgJpcBgBIAEoCRIMCgRwb3J0GAIgASgNIkgKDVJlc291cmNlTGltaXQSCwoDY3B1GAEgASgNEgsKA3JhbRgCIAEoDRIMCgRzd2FwGAMgASgNEg8KB3N0b3JhZ2UYBCABKA0iSAoNUmVzb3VyY2VVc2FnZRILCgNjcHUYASABKA0SCwoDcmFtGAIgASgNEgwKBHN3YXAYAyABKA0SDwoHc3RvcmFnZRgEIAEoDSKoAQoTQ3JlYXRlU2VydmVyUmVxdWVzdBIQCghzZXJ2ZXJJZBgBIAEoCRInCgthbGxvY2F0aW9ucxgCIAMoCzISLmRhZW1vbi5BbGxvY2F0aW9uEiwKDXJlc291cmNlTGltaXQYAyABKAsyFS5kYWVtb24uUmVzb3VyY2VMaW1pdBITCgtibHVlcHJpbnRJZBgEIAEoCRITCgtkb2NrZXJJbWFnZRgFIAEoCSI2ChNEZWxldGVTZXJ2ZXJSZXF1ZXN0EhAKCHNlcnZlcklkGAEgASgJEg0KBWZvcmNlGAIgASgIIsUCCgxTZXJ2ZXJTdGF0dXMSKAoGc3RhdHVzGAEgASgOMhguZGFlbW9uLlNlcnZlclN0YXR1c1R5cGUSNwoOdGltZXN0YW1wU3RhcnQYAiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wSACIAQESNQoMdGltZXN0YW1wRW5kGAMgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcEgBiAEBEjcKDW9mZmxpbmVSZWFzb24YBCABKA4yGy5kYWVtb24uU2VydmVyT2ZmbGluZVJlYXNvbkgCiAEBEiwKDXJlc291cmNlVXNhZ2UYBSABKAsyFS5kYWVtb24uUmVzb3VyY2VVc2FnZUIRCg9fdGltZXN0YW1wU3RhcnRCDwoNX3RpbWVzdGFtcEVuZEIQCg5fb2ZmbGluZVJlYXNvbiqzAQoQU2VydmVyU3RhdHVzVHlwZRIeChpTRVJWRVJfU1RBVFVTX1RZUEVfVU5LTk9XThAAEh8KG1NFUlZFUl9TVEFUVVNfVFlQRV9TVEFSVElORxABEh0KGVNFUlZFUl9TVEFUVVNfVFlQRV9PTkxJTkUQAhIfChtTRVJWRVJfU1RBVFVTX1RZUEVfU1RPUFBJTkcQAxIeChpTRVJWRVJfU1RBVFVTX1RZUEVfT0ZGTElORRAEKsEBChNTZXJ2ZXJPZmZsaW5lUmVhc29uEiEKHVNFUlZFUl9PRkZMSU5FX1JFQVNPTl9VTktOT1dOEAASIQodU0VSVkVSX09GRkxJTkVfUkVBU09OX0NSRUFURUQQARIhCh1TRVJWRVJfT0ZGTElORV9SRUFTT05fU1RPUFBFRBACEiAKHFNFUlZFUl9PRkZMSU5FX1JFQVNPTl9LSUxMRUQQAxIfChtTRVJWRVJfT0ZGTElORV9SRUFTT05fRVJST1IQBCqLAQoLUG93ZXJBY3Rpb24SHAoYUE9XRVJfQUNUSU9OX1VOU1BFQ0lGSUVEEAASFgoSUE9XRVJfQUNUSU9OX1NUQVJUEAESGAoUUE9XRVJfQUNUSU9OX1JFU1RBUlQQAhIVChFQT1dFUl9BQ1RJT05fU1RPUBADEhUKEVBPV0VSX0FDVElPTl9LSUxMEAQyhgQKDVNlcnZlclNlcnZpY2USQwoMQ3JlYXRlU2VydmVyEhsuZGFlbW9uLkNyZWF0ZVNlcnZlclJlcXVlc3QaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USQwoMRGVsZXRlU2VydmVyEhsuZGFlbW9uLkRlbGV0ZVNlcnZlclJlcXVlc3QaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USOwoHQ29uc29sZRIVLmNvbW1vbi5TaW1wbGVNZXNzYWdlGhUuY29tbW9uLlNpbXBsZU1lc3NhZ2UoATABEjsKClJ1bkNvbW1hbmQSFS5jb21tb24uU2ltcGxlTWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRI8CghUZXJtaW5hbBIVLmNvbW1vbi5TaW1wbGVNZXNzYWdlGhUuY29tbW9uLlNpbXBsZU1lc3NhZ2UoATABEkMKElJ1blRlcm1pbmFsQ29tbWFuZBIVLmNvbW1vbi5TaW1wbGVNZXNzYWdlGhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlEjAKCUdldFN0YXR1cxINLmNvbW1vbi5FbXB0eRoULmRhZW1vbi5TZXJ2ZXJTdGF0dXMSPAoLUG93ZXJBY3Rpb24SFS5jb21tb24uU2ltcGxlTWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZUIXWhVwYW5lbGl1bS9wcm90by1nZW4tZ29iBnByb3RvMw", [file_common, file_google_protobuf_timestamp]);
 
 /**
  * @generated from message daemon.Allocation
@@ -79,6 +79,46 @@ export const ResourceLimitSchema: GenMessage<ResourceLimit> = /*@__PURE__*/
   messageDesc(file_daemon_Server, 1);
 
 /**
+ * @generated from message daemon.ResourceUsage
+ */
+export type ResourceUsage = Message<"daemon.ResourceUsage"> & {
+  /**
+   * CPU in percentage (100% = 1 vCore)
+   *
+   * @generated from field: uint32 cpu = 1;
+   */
+  cpu: number;
+
+  /**
+   * RAM in MB
+   *
+   * @generated from field: uint32 ram = 2;
+   */
+  ram: number;
+
+  /**
+   * SWAP in MB
+   *
+   * @generated from field: uint32 swap = 3;
+   */
+  swap: number;
+
+  /**
+   * Storage in MB
+   *
+   * @generated from field: uint32 storage = 4;
+   */
+  storage: number;
+};
+
+/**
+ * Describes the message daemon.ResourceUsage.
+ * Use `create(ResourceUsageSchema)` to create a new message.
+ */
+export const ResourceUsageSchema: GenMessage<ResourceUsage> = /*@__PURE__*/
+  messageDesc(file_daemon_Server, 2);
+
+/**
  * Server Management
  *
  * @generated from message daemon.CreateServerRequest
@@ -115,7 +155,7 @@ export type CreateServerRequest = Message<"daemon.CreateServerRequest"> & {
  * Use `create(CreateServerRequestSchema)` to create a new message.
  */
 export const CreateServerRequestSchema: GenMessage<CreateServerRequest> = /*@__PURE__*/
-  messageDesc(file_daemon_Server, 2);
+  messageDesc(file_daemon_Server, 3);
 
 /**
  * @generated from message daemon.DeleteServerRequest
@@ -137,7 +177,7 @@ export type DeleteServerRequest = Message<"daemon.DeleteServerRequest"> & {
  * Use `create(DeleteServerRequestSchema)` to create a new message.
  */
 export const DeleteServerRequestSchema: GenMessage<DeleteServerRequest> = /*@__PURE__*/
-  messageDesc(file_daemon_Server, 3);
+  messageDesc(file_daemon_Server, 4);
 
 /**
  * Server Info
@@ -164,6 +204,11 @@ export type ServerStatus = Message<"daemon.ServerStatus"> & {
    * @generated from field: optional daemon.ServerOfflineReason offlineReason = 4;
    */
   offlineReason?: ServerOfflineReason;
+
+  /**
+   * @generated from field: daemon.ResourceUsage resourceUsage = 5;
+   */
+  resourceUsage?: ResourceUsage;
 };
 
 /**
@@ -171,7 +216,7 @@ export type ServerStatus = Message<"daemon.ServerStatus"> & {
  * Use `create(ServerStatusSchema)` to create a new message.
  */
 export const ServerStatusSchema: GenMessage<ServerStatus> = /*@__PURE__*/
-  messageDesc(file_daemon_Server, 4);
+  messageDesc(file_daemon_Server, 5);
 
 /**
  * @generated from enum daemon.ServerStatusType
@@ -291,6 +336,7 @@ export const PowerActionSchema: GenEnum<PowerAction> = /*@__PURE__*/
 export const ServerService: GenService<{
   /**
    * / Server Management
+   * / - Called by backend, needs token
    *
    * @generated from rpc daemon.ServerService.CreateServer
    */
@@ -309,6 +355,7 @@ export const ServerService: GenService<{
   },
   /**
    * / Server Actions - Requires a ServerID http header
+   * / - Called by client, needs jwt
    * Console (process)
    *
    * @generated from rpc daemon.ServerService.Console
