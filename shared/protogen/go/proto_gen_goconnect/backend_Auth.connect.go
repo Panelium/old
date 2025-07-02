@@ -9,7 +9,7 @@ import (
 	context "context"
 	errors "errors"
 	http "net/http"
-	proto_gen_go "panelium/proto-gen-go"
+	proto_gen_go "panelium/proto_gen_go"
 	strings "strings"
 )
 

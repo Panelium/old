@@ -25,11 +25,12 @@ const (
 type ServerStatusType int32
 
 const (
-	ServerStatusType_SERVER_STATUS_TYPE_UNKNOWN  ServerStatusType = 0
-	ServerStatusType_SERVER_STATUS_TYPE_STARTING ServerStatusType = 1
-	ServerStatusType_SERVER_STATUS_TYPE_ONLINE   ServerStatusType = 2
-	ServerStatusType_SERVER_STATUS_TYPE_STOPPING ServerStatusType = 3
-	ServerStatusType_SERVER_STATUS_TYPE_OFFLINE  ServerStatusType = 4
+	ServerStatusType_SERVER_STATUS_TYPE_UNKNOWN    ServerStatusType = 0
+	ServerStatusType_SERVER_STATUS_TYPE_STARTING   ServerStatusType = 1
+	ServerStatusType_SERVER_STATUS_TYPE_ONLINE     ServerStatusType = 2
+	ServerStatusType_SERVER_STATUS_TYPE_STOPPING   ServerStatusType = 3
+	ServerStatusType_SERVER_STATUS_TYPE_OFFLINE    ServerStatusType = 4
+	ServerStatusType_SERVER_STATUS_TYPE_INSTALLING ServerStatusType = 5
 )
 
 // Enum value maps for ServerStatusType.
@@ -40,13 +41,15 @@ var (
 		2: "SERVER_STATUS_TYPE_ONLINE",
 		3: "SERVER_STATUS_TYPE_STOPPING",
 		4: "SERVER_STATUS_TYPE_OFFLINE",
+		5: "SERVER_STATUS_TYPE_INSTALLING",
 	}
 	ServerStatusType_value = map[string]int32{
-		"SERVER_STATUS_TYPE_UNKNOWN":  0,
-		"SERVER_STATUS_TYPE_STARTING": 1,
-		"SERVER_STATUS_TYPE_ONLINE":   2,
-		"SERVER_STATUS_TYPE_STOPPING": 3,
-		"SERVER_STATUS_TYPE_OFFLINE":  4,
+		"SERVER_STATUS_TYPE_UNKNOWN":    0,
+		"SERVER_STATUS_TYPE_STARTING":   1,
+		"SERVER_STATUS_TYPE_ONLINE":     2,
+		"SERVER_STATUS_TYPE_STOPPING":   3,
+		"SERVER_STATUS_TYPE_OFFLINE":    4,
+		"SERVER_STATUS_TYPE_INSTALLING": 5,
 	}
 )
 
@@ -191,7 +194,7 @@ func (PowerAction) EnumDescriptor() ([]byte, []int) {
 type Allocation struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Ip            string                 `protobuf:"bytes,1,opt,name=ip,proto3" json:"ip,omitempty"`
-	Port          uint32                 `protobuf:"varint,2,opt,name=port,proto3" json:"port,omitempty"`
+	Port          uint32                 `protobuf:"varint,2,opt,name=port,proto3" json:"port,omitempty"` // MUST BE 1024-65535
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -618,13 +621,14 @@ const file_daemon_Server_proto_rawDesc = "" +
 	"\rresourceUsage\x18\x05 \x01(\v2\x15.daemon.ResourceUsageR\rresourceUsageB\x11\n" +
 	"\x0f_timestampStartB\x0f\n" +
 	"\r_timestampEndB\x10\n" +
-	"\x0e_offlineReason*\xb3\x01\n" +
+	"\x0e_offlineReason*\xd6\x01\n" +
 	"\x10ServerStatusType\x12\x1e\n" +
 	"\x1aSERVER_STATUS_TYPE_UNKNOWN\x10\x00\x12\x1f\n" +
 	"\x1bSERVER_STATUS_TYPE_STARTING\x10\x01\x12\x1d\n" +
 	"\x19SERVER_STATUS_TYPE_ONLINE\x10\x02\x12\x1f\n" +
 	"\x1bSERVER_STATUS_TYPE_STOPPING\x10\x03\x12\x1e\n" +
-	"\x1aSERVER_STATUS_TYPE_OFFLINE\x10\x04*\xc1\x01\n" +
+	"\x1aSERVER_STATUS_TYPE_OFFLINE\x10\x04\x12!\n" +
+	"\x1dSERVER_STATUS_TYPE_INSTALLING\x10\x05*\xc1\x01\n" +
 	"\x13ServerOfflineReason\x12!\n" +
 	"\x1dSERVER_OFFLINE_REASON_UNKNOWN\x10\x00\x12!\n" +
 	"\x1dSERVER_OFFLINE_REASON_CREATED\x10\x01\x12!\n" +
@@ -646,7 +650,7 @@ const file_daemon_Server_proto_rawDesc = "" +
 	"\bTerminal\x12\x15.common.SimpleMessage\x1a\x15.common.SimpleMessage(\x010\x01\x12C\n" +
 	"\x12RunTerminalCommand\x12\x15.common.SimpleMessage\x1a\x16.common.SuccessMessage\x120\n" +
 	"\tGetStatus\x12\r.common.Empty\x1a\x14.daemon.ServerStatus\x12<\n" +
-	"\vPowerAction\x12\x15.common.SimpleMessage\x1a\x16.common.SuccessMessageB\x17Z\x15panelium/proto-gen-gob\x06proto3"
+	"\vPowerAction\x12\x15.common.SimpleMessage\x1a\x16.common.SuccessMessageB\x17Z\x15panelium/proto_gen_gob\x06proto3"
 
 var (
 	file_daemon_Server_proto_rawDescOnce sync.Once

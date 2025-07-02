@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package daemon;
-option go_package = "panelium/proto-gen-go";
+option go_package = "panelium/proto_gen_go";
 
 import "common.proto";
 import "google/protobuf/timestamp.proto";
@@ -31,7 +31,7 @@ service ServerService {
 
 message Allocation {
   string ip = 1;
-  uint32 port = 2;
+  uint32 port = 2; // MUST BE 1024-65535
 }
 
 message ResourceLimit {
@@ -78,6 +78,7 @@ enum ServerStatusType {
   SERVER_STATUS_TYPE_ONLINE = 2;
   SERVER_STATUS_TYPE_STOPPING = 3;
   SERVER_STATUS_TYPE_OFFLINE = 4;
+  SERVER_STATUS_TYPE_INSTALLING = 5;
 }
 
 enum ServerOfflineReason {

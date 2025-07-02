@@ -1,8 +1,6 @@
 package model
 
-import (
-	"gorm.io/datatypes"
-)
+import "gorm.io/datatypes"
 
 type Blueprint struct {
 	ID                     uint           `gorm:"primaryKey" json:"id"`

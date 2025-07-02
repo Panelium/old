@@ -743,7 +743,7 @@ const file_backend_Auth_proto_rawDesc = "" +
 	"\x0eRequestMFACode\x12\x1e.backend.RequestMFACodeRequest\x1a\x16.common.SuccessMessage\"\x00\x12D\n" +
 	"\tVerifyMFA\x12\x19.backend.VerifyMFARequest\x1a\x1a.backend.VerifyMFAResponse\"\x00\x127\n" +
 	"\fRefreshToken\x12\r.common.Empty\x1a\x16.common.SuccessMessage\"\x00\x121\n" +
-	"\x06Logout\x12\r.common.Empty\x1a\x16.common.SuccessMessage\"\x00B\x17Z\x15panelium/proto-gen-gob\x06proto3"
+	"\x06Logout\x12\r.common.Empty\x1a\x16.common.SuccessMessage\"\x00B\x17Z\x15panelium/proto_gen_gob\x06proto3"
 
 var (
 	file_backend_Auth_proto_rawDescOnce sync.Once

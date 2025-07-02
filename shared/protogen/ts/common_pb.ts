@@ -10,7 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file common.proto.
  */
 export const file_common: GenFile = /*@__PURE__*/
-  fileDesc("Cgxjb21tb24ucHJvdG8SBmNvbW1vbiIHCgVFbXB0eSIdCg1TaW1wbGVNZXNzYWdlEgwKBHRleHQYASABKAkiIQoOU3VjY2Vzc01lc3NhZ2USDwoHc3VjY2VzcxgBIAEoCEIXWhVwYW5lbGl1bS9wcm90by1nZW4tZ29iBnByb3RvMw");
+  fileDesc("Cgxjb21tb24ucHJvdG8SBmNvbW1vbiIHCgVFbXB0eSIdCg1TaW1wbGVNZXNzYWdlEgwKBHRleHQYASABKAkiIQoOU3VjY2Vzc01lc3NhZ2USDwoHc3VjY2VzcxgBIAEoCEIXWhVwYW5lbGl1bS9wcm90b19nZW5fZ29iBnByb3RvMw");
 
 /**
  * @generated from message common.Empty

@@ -154,7 +154,7 @@ const file_common_proto_rawDesc = "" +
 	"\rSimpleMessage\x12\x12\n" +
 	"\x04text\x18\x01 \x01(\tR\x04text\"*\n" +
 	"\x0eSuccessMessage\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccessB\x17Z\x15panelium/proto-gen-gob\x06proto3"
+	"\asuccess\x18\x01 \x01(\bR\asuccessB\x17Z\x15panelium/proto_gen_gob\x06proto3"
 
 var (
 	file_common_proto_rawDescOnce sync.Once

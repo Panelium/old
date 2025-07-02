@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package common;
-option go_package = "panelium/proto-gen-go";
+option go_package = "panelium/proto_gen_go";
 
 message Empty {}
 
