@@ -3,6 +3,7 @@ package model
 import proto_gen_go "panelium/proto-gen-go"
 
 type Server struct {
+	ID            uint                          `gorm:"primaryKey" json:"id"`
 	SID           string                        `gorm:"uniqueIndex;not null" json:"sid"`
 	Status        proto_gen_go.ServerStatusType `gorm:"not null" json:"status"`
 	Allocations   []ServerAllocation            `gorm:"foreignKey:ServerID" json:"allocations"`
