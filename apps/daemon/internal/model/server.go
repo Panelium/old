@@ -20,8 +20,8 @@ type Server struct {
 }
 
 type ResourceLimit struct {
-	CPU     uint `gorm:"not null" json:"cpu"`     // CPU in percentage (100% = 1 vCore)
-	RAM     uint `gorm:"not null" json:"ram"`     // RAM in MB
-	SWAP    uint `gorm:"not null" json:"swap"`    // SWAP in MB
-	Storage uint `gorm:"not null" json:"storage"` // Storage in MB
+	CPU     uint32 `gorm:"not null" json:"cpu"`     // CPU in percentage (100% = 1 vCore)
+	RAM     uint32 `gorm:"not null" json:"ram"`     // RAM in MB
+	SWAP    uint32 `gorm:"not null" json:"swap"`    // SWAP in MB
+	Storage uint32 `gorm:"not null" json:"storage"` // Storage in MB
 }
