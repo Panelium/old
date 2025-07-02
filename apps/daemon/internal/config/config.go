@@ -38,7 +38,7 @@ const jwtKeySize = 2048
 var ConfigInstance *Config
 var SecretsInstance *Secrets
 var JWTPrivateKeyInstance *rsa.PrivateKey
-var BackendJWTPublicKeyInstance *rsa.PublicKey
+var BackendJWTPublicKeyInstance *rsa.PublicKey // Note: can be nil if not set yet
 
 func Init() error {
 	if err := os.MkdirAll(BasePath, 0755); err != nil {
@@ -66,10 +66,6 @@ func Init() error {
 		if err := secrets.Save(); err != nil {
 			return err
 		}
-	}
-
-	if _, err := os.Stat(backendJWTPublicKeyLocation); os.IsNotExist(err) {
-		return err
 	}
 
 	if _, err := os.Stat(jwtPrivateKeyLocation); os.IsNotExist(err) {
@@ -122,11 +118,17 @@ func Init() error {
 	}
 	JWTPrivateKeyInstance = jwtPrivateKey
 
-	backendJWTPublicKey, err := loadBackendJWTPublicKey()
-	if err != nil {
+	_, err = os.Stat(backendJWTPublicKeyLocation)
+	if !os.IsNotExist(err) {
 		return err
 	}
-	BackendJWTPublicKeyInstance = backendJWTPublicKey
+	if err == nil {
+		backendJWTPublicKey, err := loadBackendJWTPublicKey()
+		if err != nil {
+			return err
+		}
+		BackendJWTPublicKeyInstance = backendJWTPublicKey
+	}
 
 	return nil
 }
