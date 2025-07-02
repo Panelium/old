@@ -11,6 +11,8 @@ import (
 	"sync"
 )
 
+// TODO: NodeJTI and BackendToken
+
 const BasePath = "/etc/panelium/daemon"
 
 // File names
