@@ -13,8 +13,8 @@ plugins:
   - remote: buf.build/bufbuild/es:v2.5.0
     out: ../protogen/ts
     opt:
-      - target=ts
-      - import_extension=ts
+      - target=js+ts+dts
+      - import_extension=none
       - js_import_style=module
 inputs:
   - directory: .
