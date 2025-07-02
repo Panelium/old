@@ -58,6 +58,7 @@ func Init() error {
 			return err
 		}
 	}
+
 	if _, err := os.Stat(secretsLocation); os.IsNotExist(err) {
 		secrets, err := newSecrets()
 		if err != nil {
@@ -248,36 +249,28 @@ func (c *Config) GetAccessTokenDuration() time.Duration {
 	c.lock.RLock()
 	defer c.lock.RUnlock()
 
-	val := time.Duration(c.JWTDurations.Access) * time.Second
-
-	return val
+	return time.Duration(c.JWTDurations.Access) * time.Second
 }
 
 func (c *Config) GetRefreshTokenDuration() time.Duration {
 	c.lock.RLock()
 	defer c.lock.RUnlock()
 
-	val := time.Duration(c.JWTDurations.Refresh) * time.Second
-
-	return val
+	return time.Duration(c.JWTDurations.Refresh) * time.Second
 }
 
 func (c *Config) GetPasswordResetTokenDuration() time.Duration {
 	c.lock.RLock()
 	defer c.lock.RUnlock()
 
-	val := time.Duration(c.JWTDurations.PasswordReset) * time.Second
-
-	return val
+	return time.Duration(c.JWTDurations.PasswordReset) * time.Second
 }
 
 func (c *Config) GetMFATokenDuration() time.Duration {
 	c.lock.RLock()
 	defer c.lock.RUnlock()
 
-	val := time.Duration(c.JWTDurations.MFA) * time.Second
-
-	return val
+	return time.Duration(c.JWTDurations.MFA) * time.Second
 }
 
 // TODO: Secrets should be stored in HSM when possible, or at least encrypted with the encryption key being in HSM or similar secure storage.
@@ -380,10 +373,7 @@ func (s *Secrets) Save() error {
 func (s *Secrets) GetPepper() string {
 	s.lock.RLock()
 	defer s.lock.RUnlock()
-
-	val := s.Pepper
-
-	return val
+	return s.Pepper
 }
 
 func (s *Secrets) GetEncryptionKey() ([]byte, error) {
