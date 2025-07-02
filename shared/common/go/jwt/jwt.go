@@ -15,6 +15,8 @@ const (
 	RefreshTokenType       TokenType = "refresh"
 	PasswordResetTokenType TokenType = "reset"
 	MFATokenType           TokenType = "mfa"
+	BackendTokenType       TokenType = "backend" // for daemon->backend communication (issued by backend)
+	NodeTokenType          TokenType = "node"    // for backend->daemon communication (issued by daemon)
 )
 
 type Issuer string // TODO: this might be changed to a url
@@ -29,7 +31,7 @@ type Claims struct {
 	NotBefore  *int64    `json:"nbf,omitempty"` // Not before time (optional as not all tokens need it)
 	Expiration int64     `json:"exp"`           // Expiration time
 	Subject    *string   `json:"sub,omitempty"` // User ID (optional as MFA session tokens should not include this)
-	Audience   string    `json:"aud"`           // Session ID
+	Audience   *string   `json:"aud,omitempty"` // Session ID (optional as node/backend tokens do not need it)
 	Issuer     Issuer    `json:"iss"`           // Issuer (backend/daemon)
 	TokenType  TokenType `json:"typ"`           // Token type (e.g., "access", "refresh", "mfa")
 	JTI        string    `json:"jti"`           // JWT ID - unique identifier for the token
@@ -39,7 +41,6 @@ func CreateJWT(claims Claims, key *rsa.PrivateKey) (string, error) {
 	mapClaims := jwt.MapClaims{
 		"iat": claims.IssuedAt,
 		"exp": claims.Expiration,
-		"aud": claims.Audience,
 		"iss": claims.Issuer,
 		"typ": claims.TokenType,
 		"jti": claims.JTI,
@@ -49,6 +50,9 @@ func CreateJWT(claims Claims, key *rsa.PrivateKey) (string, error) {
 	}
 	if claims.Subject != nil {
 		mapClaims["sub"] = *claims.Subject
+	}
+	if claims.Audience != nil {
+		mapClaims["aud"] = *claims.Audience
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodRS256, mapClaims)
@@ -88,10 +92,6 @@ func VerifyJWT(token string, key *rsa.PublicKey, expectedIssuer Issuer, expected
 	if !ok {
 		return nil, stdErrors.New("invalid or missing 'exp' claim")
 	}
-	audience, ok := mapClaims["aud"].(string)
-	if !ok {
-		return nil, stdErrors.New("invalid or missing 'aud' claim")
-	}
 	issuer, ok := mapClaims["iss"].(string)
 	if !ok {
 		return nil, stdErrors.New("invalid or missing 'iss' claim")
@@ -108,7 +108,6 @@ func VerifyJWT(token string, key *rsa.PublicKey, expectedIssuer Issuer, expected
 	claims := &Claims{
 		IssuedAt:   int64(issuedAt),
 		Expiration: int64(expiration),
-		Audience:   audience,
 		Issuer:     Issuer(issuer),
 		TokenType:  TokenType(tokenType),
 		JTI:        jti,
@@ -121,6 +120,10 @@ func VerifyJWT(token string, key *rsa.PublicKey, expectedIssuer Issuer, expected
 		subStr := sub
 		claims.Subject = &subStr
 	}
+	if aud, ok := mapClaims["aud"].(string); ok {
+		audStr := aud
+		claims.Audience = &audStr
+	}
 
 	if claims.Issuer != expectedIssuer {
 		return nil, errors.InvalidCredentials
@@ -130,9 +133,7 @@ func VerifyJWT(token string, key *rsa.PublicKey, expectedIssuer Issuer, expected
 		return nil, errors.InvalidCredentials
 	}
 
-	if claims.Audience == "" {
-		return nil, errors.InvalidCredentials
-	}
+	// TODO: check if audience is required for the expected token type
 
 	if (claims.Subject == nil || *claims.Subject == "") && expectedTokenType != MFATokenType {
 		return nil, errors.InvalidCredentials

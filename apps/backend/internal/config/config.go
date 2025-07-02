@@ -4,6 +4,7 @@ import (
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/x509"
+	"encoding/hex"
 	"encoding/json"
 	"encoding/pem"
 	"errors"
@@ -14,7 +15,7 @@ import (
 	"time"
 )
 
-const BasePath = "/etc/panelium"
+const BasePath = "/etc/panelium/backend"
 
 // File names
 const gitignoreFileName = ".gitignore"
@@ -32,7 +33,7 @@ const jwtPrivateKeyLocation = BasePath + "/" + jwtPrivateKeyFileName
 const jwtPublicKeyLocation = BasePath + "/" + jwtPublicKeyFileName
 const DatabaseLocation = BasePath + "/" + DatabaseFileName
 
-var gitignoreContent = fmt.Sprintf("%s\n%s\n%s\n", secretsFileName, jwtPrivateKeyFileName, jwtPublicKeyFileName)
+const gitignoreContent = "*.db\n*.pem\nsecrets.json\n"
 
 const jwtKeySize = 2048
 
@@ -283,8 +284,9 @@ func (c *Config) GetMFATokenDuration() time.Duration {
 
 // Secrets values should never be accessed or modified directly as that could lead to race conditions.
 type Secrets struct {
-	lock   sync.RWMutex
-	Pepper string `json:"pepper"`
+	lock          sync.RWMutex
+	Pepper        string `json:"pepper"`
+	EncryptionKey string `json:"encryption_key"` // AES-256 key for encrypting sensitive data
 }
 
 func newSecrets() (*Secrets, error) {
@@ -293,9 +295,17 @@ func newSecrets() (*Secrets, error) {
 		return nil, errors.New("failed to generate pepper: " + err.Error())
 	}
 
+	encryptionKey, err := random.GenerateAES256Key()
+	if err != nil {
+		return nil, errors.New("failed to generate encryption key: " + err.Error())
+	}
+
+	keyString := hex.EncodeToString(encryptionKey)
+
 	return &Secrets{
-		lock:   sync.RWMutex{},
-		Pepper: pepper,
+		lock:          sync.RWMutex{},
+		Pepper:        pepper,
+		EncryptionKey: keyString,
 	}, nil
 }
 
@@ -337,6 +347,15 @@ func (s *Secrets) Migrate() error {
 		s.Pepper = pepper
 	}
 
+	if s.EncryptionKey == "" {
+		encryptionKey, err := random.GenerateAES256Key()
+		if err != nil {
+			s.lock.Unlock()
+			return errors.New("failed to generate encryption key: " + err.Error())
+		}
+		s.EncryptionKey = hex.EncodeToString(encryptionKey)
+	}
+
 	s.lock.Unlock()
 
 	if err := s.Save(); err != nil {
@@ -365,6 +384,26 @@ func (s *Secrets) GetPepper() string {
 	val := s.Pepper
 
 	return val
+}
+
+func (s *Secrets) GetEncryptionKey() ([]byte, error) {
+	s.lock.RLock()
+	defer s.lock.RUnlock()
+
+	if s.EncryptionKey == "" {
+		return nil, errors.New("encryption key is not set")
+	}
+
+	val, err := hex.DecodeString(s.EncryptionKey)
+	if err != nil {
+		return nil, fmt.Errorf("failed to decode encryption key: %w", err)
+	}
+
+	if len(val) != 32 {
+		return nil, fmt.Errorf("invalid encryption key length: expected 32 bytes, got %d bytes", len(val))
+	}
+
+	return val, nil
 }
 
 func loadJWTPrivateKey() (*rsa.PrivateKey, error) {

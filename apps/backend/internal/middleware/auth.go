@@ -59,7 +59,7 @@ func NewAuthInterceptor() connect.UnaryInterceptorFunc {
 			}
 
 			ctx = context.WithValue(ctx, "panelium_session_info", SessionInfo{
-				SessionID: claims.Audience,
+				SessionID: *claims.Audience,
 				UserID:    *claims.Subject,
 			})
 
