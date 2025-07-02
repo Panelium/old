@@ -9,7 +9,7 @@ import { Button } from "~/components/ui/button";
 import SoftwareText from "~/components/texts/SoftwareText";
 import DurationText from "~/components/texts/DurationText";
 import PowerButton from "~/components/buttons/PowerButton";
-import type { Server } from "~/components/cards/server-card";
+import type { Server } from "~/components/cards/server-card/ServerCard";
 
 const ServerHeader: React.FC<{ server: Server }> = ({ server }) => {
   return (

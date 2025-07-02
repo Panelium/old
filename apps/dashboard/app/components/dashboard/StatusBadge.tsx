@@ -27,6 +27,10 @@ const BadgeStyleMap: Record<ServerStatusType, string> = {
     BASE_BADGE_STYLE,
     `bg-tag-red-background/30    text-tag-red    border-tag-red/50`
   ),
+  [ServerStatusType.INSTALLING]: cn(
+    BASE_BADGE_STYLE,
+    `bg-tag-blue-background/30   text-tag-blue   border-tag-blue/50`
+  ),
 };
 
 const BASE_BADGE_DOT_STYLE = "mr-1 h-1.5 w-1.5 rounded-full inline-block";
@@ -48,6 +52,11 @@ const BadgeDotStyleMap: Record<ServerStatusType, string> = {
     `bg-tag-red`,
     PULSE_STYLE
   ),
+  [ServerStatusType.INSTALLING]: cn(
+    BASE_BADGE_DOT_STYLE,
+    `bg-tag-blue`,
+    PULSE_STYLE
+  ),
 };
 
 const ServerStatusTypeNames: Record<ServerStatusType, string> = {
@@ -56,6 +65,7 @@ const ServerStatusTypeNames: Record<ServerStatusType, string> = {
   [ServerStatusType.OFFLINE]: "Offline",
   [ServerStatusType.STARTING]: "Starting",
   [ServerStatusType.STOPPING]: "Stopping",
+  [ServerStatusType.INSTALLING]: "Installing",
 };
 
 export default function StatusBadge({

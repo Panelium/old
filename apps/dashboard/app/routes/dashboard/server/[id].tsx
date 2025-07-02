@@ -11,7 +11,7 @@ export default function ServerDetailsPage() {
   return (
     <div className="p-6 pb-16">
       <div className="max-w-7xl mx-auto space-y-8">
-        <ServerHeader server={server} />
+        <ServerHeader server={server as unknown as Server} />
         <ResourceStats server={server as unknown as Server} />
         <TabsSection />
       </div>
