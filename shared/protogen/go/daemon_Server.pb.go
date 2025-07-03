@@ -315,8 +315,7 @@ type ResourceUsage struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Cpu           float32                `protobuf:"fixed32,1,opt,name=cpu,proto3" json:"cpu,omitempty"`         // CPU in percentage (100% = 1 vCore)
 	Ram           float32                `protobuf:"fixed32,2,opt,name=ram,proto3" json:"ram,omitempty"`         // RAM in MB
-	Swap          float32                `protobuf:"fixed32,3,opt,name=swap,proto3" json:"swap,omitempty"`       // SWAP in MB
-	Storage       float32                `protobuf:"fixed32,4,opt,name=storage,proto3" json:"storage,omitempty"` // Storage in MB
+	Storage       float32                `protobuf:"fixed32,3,opt,name=storage,proto3" json:"storage,omitempty"` // Storage in MB
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -361,13 +360,6 @@ func (x *ResourceUsage) GetCpu() float32 {
 func (x *ResourceUsage) GetRam() float32 {
 	if x != nil {
 		return x.Ram
-	}
-	return 0
-}
-
-func (x *ResourceUsage) GetSwap() float32 {
-	if x != nil {
-		return x.Swap
 	}
 	return 0
 }
@@ -678,12 +670,11 @@ const file_daemon_Server_proto_rawDesc = "" +
 	"\x03cpu\x18\x01 \x01(\rR\x03cpu\x12\x10\n" +
 	"\x03ram\x18\x02 \x01(\rR\x03ram\x12\x12\n" +
 	"\x04swap\x18\x03 \x01(\rR\x04swap\x12\x18\n" +
-	"\astorage\x18\x04 \x01(\rR\astorage\"a\n" +
+	"\astorage\x18\x04 \x01(\rR\astorage\"M\n" +
 	"\rResourceUsage\x12\x10\n" +
 	"\x03cpu\x18\x01 \x01(\x02R\x03cpu\x12\x10\n" +
-	"\x03ram\x18\x02 \x01(\x02R\x03ram\x12\x12\n" +
-	"\x04swap\x18\x03 \x01(\x02R\x04swap\x12\x18\n" +
-	"\astorage\x18\x04 \x01(\x02R\astorage\"\xe8\x01\n" +
+	"\x03ram\x18\x02 \x01(\x02R\x03ram\x12\x18\n" +
+	"\astorage\x18\x03 \x01(\x02R\astorage\"\xe8\x01\n" +
 	"\x13CreateServerRequest\x12\x1a\n" +
 	"\bserverId\x18\x01 \x01(\tR\bserverId\x124\n" +
 	"\vallocations\x18\x02 \x03(\v2\x12.daemon.AllocationR\vallocations\x12;\n" +

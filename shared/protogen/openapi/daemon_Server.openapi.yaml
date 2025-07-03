@@ -397,11 +397,6 @@ components:
           title: ram
           format: float
           description: RAM in MB
-        swap:
-          type: number
-          title: swap
-          format: float
-          description: SWAP in MB
         storage:
           type: number
           title: storage

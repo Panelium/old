@@ -49,8 +49,7 @@ message ResourceLimit {
 message ResourceUsage {
   float cpu = 1;     // CPU in percentage (100% = 1 vCore)
   float ram = 2;     // RAM in MB
-  float swap = 3;    // SWAP in MB
-  float storage = 4; // Storage in MB
+  float storage = 3; // Storage in MB
 }
 
 // Server Management
