@@ -245,6 +245,7 @@ const ServerCard: React.FC<ServerCardProps> = ({ server, className }) => {
         className={cn(
           "hover:rounded-h-xl relative flex flex-row overflow-hidden shadow-sm",
           "bg-server-card border-border hover:border-border-hover hover:shadow-md",
+          "hover:scale-105",
           serverCardTransition,
           className
         )}
