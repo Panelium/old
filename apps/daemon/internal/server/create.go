@@ -80,6 +80,12 @@ func CreateServer(sid string, allocations []model.ServerAllocation, resourceLimi
 			}
 			return
 		}
+
+		err = Start(&server) // TODO: maybe move to install?
+		if err != nil {
+			fmt.Printf("failed to start server %s: %v\n", server.SID, err)
+			return
+		}
 	}()
 
 	return &server, nil
