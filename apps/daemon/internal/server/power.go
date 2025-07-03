@@ -9,6 +9,7 @@ import (
 	"panelium/daemon/internal/docker"
 	"panelium/daemon/internal/model"
 	"panelium/proto_gen_go"
+	"time"
 )
 
 func Start(s *model.Server) error {
@@ -16,15 +17,20 @@ func Start(s *model.Server) error {
 		return fmt.Errorf("server %s does not have a container", s.SID)
 	}
 
-	err := docker.Instance().ContainerStart(context.Background(), s.SID, container.StartOptions{})
+	ci, err := docker.Instance().ContainerInspect(context.Background(), s.SID)
+	if err != nil {
+		return fmt.Errorf("failed to inspect server container %s: %v", s.SID, err)
+	}
+	if ci.State.Running {
+		return nil
+	}
+
+	err = docker.Instance().ContainerStart(context.Background(), s.SID, container.StartOptions{})
 	if err != nil {
 		fmt.Printf("failed to start server container %s: %v\n", s.SID, err)
-		s.OfflineReason = proto_gen_go.ServerOfflineReason_SERVER_OFFLINE_REASON_CREATED
-		if err := db.Instance().Save(s).Error; err != nil {
-			fmt.Printf("failed to update server status after failed start: %v\n", err)
-		}
 	}
 	s.Status = proto_gen_go.ServerStatusType_SERVER_STATUS_TYPE_STARTING
+	s.TimestampStart = time.Now()
 	if err := db.Instance().Save(s).Error; err != nil {
 		return err
 	}
@@ -68,6 +74,8 @@ func Stop(s *model.Server, kill bool) error {
 			}
 
 			s.Status = proto_gen_go.ServerStatusType_SERVER_STATUS_TYPE_OFFLINE
+			s.OfflineReason = util.IfElse(kill, proto_gen_go.ServerOfflineReason_SERVER_OFFLINE_REASON_KILLED, proto_gen_go.ServerOfflineReason_SERVER_OFFLINE_REASON_STOPPED)
+			s.TimestampEnd = time.Now()
 			if err := db.Instance().Save(s).Error; err != nil {
 				fmt.Printf("failed to update server status after stop: %v\n", err)
 			}
@@ -90,6 +98,7 @@ func Restart(s *model.Server) error {
 		return err
 	}
 	s.Status = proto_gen_go.ServerStatusType_SERVER_STATUS_TYPE_STOPPING
+	s.TimestampEnd = time.Now()
 	if err := db.Instance().Save(s).Error; err != nil {
 		return err
 	}
@@ -100,13 +109,24 @@ func Restart(s *model.Server) error {
 		case err := <-errCh:
 			if err != nil {
 				fmt.Printf("error waiting for server container %s to stop: %v\n", s.SID, err)
+
+				s.OfflineReason = proto_gen_go.ServerOfflineReason_SERVER_OFFLINE_REASON_ERROR
+				if err := db.Instance().Save(s).Error; err != nil {
+					fmt.Printf("failed to update server status after restart error: %v\n", err)
+				}
 			}
 		case status := <-statusCh:
 			if status.StatusCode != 0 {
 				fmt.Printf("server container %s stopped with non-zero status code: %d\n", s.SID, status.StatusCode)
+
+				s.OfflineReason = proto_gen_go.ServerOfflineReason_SERVER_OFFLINE_REASON_ERROR
+				if err := db.Instance().Save(s).Error; err != nil {
+					fmt.Printf("failed to update server status after restart error: %v\n", err)
+				}
 			}
 
 			s.Status = proto_gen_go.ServerStatusType_SERVER_STATUS_TYPE_STARTING
+			s.TimestampStart = time.Now()
 			if err := db.Instance().Save(s).Error; err != nil {
 				fmt.Printf("failed to update server status after stop: %v\n", err)
 			}

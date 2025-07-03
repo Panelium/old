@@ -17,6 +17,7 @@ import (
 	"panelium/daemon/internal/db"
 	"panelium/daemon/internal/docker"
 	"panelium/daemon/internal/model"
+	"panelium/proto_gen_go"
 	"path"
 )
 
@@ -179,6 +180,7 @@ func Install(s *model.Server) error {
 	}
 
 	s.ContainerExists = true
+	s.OfflineReason = proto_gen_go.ServerOfflineReason_SERVER_OFFLINE_REASON_CREATED
 	if err := db.Instance().Save(s).Error; err != nil {
 		return err
 	}
