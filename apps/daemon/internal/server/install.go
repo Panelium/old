@@ -21,6 +21,8 @@ import (
 	"path"
 )
 
+// TODO: set resource limits
+
 func Install(s *model.Server) error {
 	blueprint := model.Blueprint{}
 	tx := db.Instance().First(&blueprint, "s.BID = ?", s.BID)
