@@ -686,7 +686,7 @@ const file_daemon_Server_proto_rawDesc = "" +
 	"\x12POWER_ACTION_START\x10\x01\x12\x18\n" +
 	"\x14POWER_ACTION_RESTART\x10\x02\x12\x15\n" +
 	"\x11POWER_ACTION_STOP\x10\x03\x12\x15\n" +
-	"\x11POWER_ACTION_KILL\x10\x042\xbd\x04\n" +
+	"\x11POWER_ACTION_KILL\x10\x042\xba\x04\n" +
 	"\rServerService\x12C\n" +
 	"\fCreateServer\x12\x1b.daemon.CreateServerRequest\x1a\x16.common.SuccessMessage\x12C\n" +
 	"\fDeleteServer\x12\x1b.daemon.DeleteServerRequest\x1a\x16.common.SuccessMessage\x12;\n" +
@@ -694,8 +694,8 @@ const file_daemon_Server_proto_rawDesc = "" +
 	"\n" +
 	"RunCommand\x12\x15.common.SimpleMessage\x1a\x16.common.SuccessMessage\x12<\n" +
 	"\bTerminal\x12\x15.common.SimpleMessage\x1a\x15.common.SimpleMessage(\x010\x01\x12C\n" +
-	"\x12RunTerminalCommand\x12\x15.common.SimpleMessage\x1a\x16.common.SuccessMessage\x120\n" +
-	"\tGetStatus\x12\r.common.Empty\x1a\x14.daemon.ServerStatus\x12A\n" +
+	"\x12RunTerminalCommand\x12\x15.common.SimpleMessage\x1a\x16.common.SuccessMessage\x12-\n" +
+	"\x06Status\x12\r.common.Empty\x1a\x14.daemon.ServerStatus\x12A\n" +
 	"\vPowerAction\x12\x1a.daemon.PowerActionMessage\x1a\x16.common.SuccessMessage\x120\n" +
 	"\aInstall\x12\r.common.Empty\x1a\x16.common.SuccessMessageB\x17Z\x15panelium/proto_gen_gob\x06proto3"
 
@@ -744,7 +744,7 @@ var file_daemon_Server_proto_depIdxs = []int32{
 	11, // 11: daemon.ServerService.RunCommand:input_type -> common.SimpleMessage
 	11, // 12: daemon.ServerService.Terminal:input_type -> common.SimpleMessage
 	11, // 13: daemon.ServerService.RunTerminalCommand:input_type -> common.SimpleMessage
-	12, // 14: daemon.ServerService.GetStatus:input_type -> common.Empty
+	12, // 14: daemon.ServerService.Status:input_type -> common.Empty
 	9,  // 15: daemon.ServerService.PowerAction:input_type -> daemon.PowerActionMessage
 	12, // 16: daemon.ServerService.Install:input_type -> common.Empty
 	13, // 17: daemon.ServerService.CreateServer:output_type -> common.SuccessMessage
@@ -753,7 +753,7 @@ var file_daemon_Server_proto_depIdxs = []int32{
 	13, // 20: daemon.ServerService.RunCommand:output_type -> common.SuccessMessage
 	11, // 21: daemon.ServerService.Terminal:output_type -> common.SimpleMessage
 	13, // 22: daemon.ServerService.RunTerminalCommand:output_type -> common.SuccessMessage
-	8,  // 23: daemon.ServerService.GetStatus:output_type -> daemon.ServerStatus
+	8,  // 23: daemon.ServerService.Status:output_type -> daemon.ServerStatus
 	13, // 24: daemon.ServerService.PowerAction:output_type -> common.SuccessMessage
 	13, // 25: daemon.ServerService.Install:output_type -> common.SuccessMessage
 	17, // [17:26] is the sub-list for method output_type

@@ -147,15 +147,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/common.SuccessMessage'
-  /daemon.ServerService/GetStatus:
+  /daemon.ServerService/Status:
     post:
       tags:
         - daemon.ServerService
-      summary: GetStatus
+      summary: Status
       description: |-
         / - Called by backend, needs token
          Server Info
-      operationId: daemon.ServerService.GetStatus
+      operationId: daemon.ServerService.Status
       parameters:
         - name: Connect-Protocol-Version
           in: header

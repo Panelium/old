@@ -24,7 +24,7 @@ service ServerService {
 
   /// - Called by backend, needs token
   // Server Info
-  rpc GetStatus(common.Empty) returns (ServerStatus);
+  rpc Status(common.Empty) returns (ServerStatus);
 
   // Power Actions
   rpc PowerAction(PowerActionMessage) returns (common.SuccessMessage);

@@ -49,8 +49,8 @@ const (
 	// ServerServiceRunTerminalCommandProcedure is the fully-qualified name of the ServerService's
 	// RunTerminalCommand RPC.
 	ServerServiceRunTerminalCommandProcedure = "/daemon.ServerService/RunTerminalCommand"
-	// ServerServiceGetStatusProcedure is the fully-qualified name of the ServerService's GetStatus RPC.
-	ServerServiceGetStatusProcedure = "/daemon.ServerService/GetStatus"
+	// ServerServiceStatusProcedure is the fully-qualified name of the ServerService's Status RPC.
+	ServerServiceStatusProcedure = "/daemon.ServerService/Status"
 	// ServerServicePowerActionProcedure is the fully-qualified name of the ServerService's PowerAction
 	// RPC.
 	ServerServicePowerActionProcedure = "/daemon.ServerService/PowerAction"
@@ -74,7 +74,7 @@ type ServerServiceClient interface {
 	RunTerminalCommand(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 	// / - Called by backend, needs token
 	// Server Info
-	GetStatus(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.ServerStatus], error)
+	Status(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.ServerStatus], error)
 	// Power Actions
 	PowerAction(context.Context, *connect.Request[proto_gen_go.PowerActionMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 	// Installation
@@ -128,10 +128,10 @@ func NewServerServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 			connect.WithSchema(serverServiceMethods.ByName("RunTerminalCommand")),
 			connect.WithClientOptions(opts...),
 		),
-		getStatus: connect.NewClient[proto_gen_go.Empty, proto_gen_go.ServerStatus](
+		status: connect.NewClient[proto_gen_go.Empty, proto_gen_go.ServerStatus](
 			httpClient,
-			baseURL+ServerServiceGetStatusProcedure,
-			connect.WithSchema(serverServiceMethods.ByName("GetStatus")),
+			baseURL+ServerServiceStatusProcedure,
+			connect.WithSchema(serverServiceMethods.ByName("Status")),
 			connect.WithClientOptions(opts...),
 		),
 		powerAction: connect.NewClient[proto_gen_go.PowerActionMessage, proto_gen_go.SuccessMessage](
@@ -157,7 +157,7 @@ type serverServiceClient struct {
 	runCommand         *connect.Client[proto_gen_go.SimpleMessage, proto_gen_go.SuccessMessage]
 	terminal           *connect.Client[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]
 	runTerminalCommand *connect.Client[proto_gen_go.SimpleMessage, proto_gen_go.SuccessMessage]
-	getStatus          *connect.Client[proto_gen_go.Empty, proto_gen_go.ServerStatus]
+	status             *connect.Client[proto_gen_go.Empty, proto_gen_go.ServerStatus]
 	powerAction        *connect.Client[proto_gen_go.PowerActionMessage, proto_gen_go.SuccessMessage]
 	install            *connect.Client[proto_gen_go.Empty, proto_gen_go.SuccessMessage]
 }
@@ -192,9 +192,9 @@ func (c *serverServiceClient) RunTerminalCommand(ctx context.Context, req *conne
 	return c.runTerminalCommand.CallUnary(ctx, req)
 }
 
-// GetStatus calls daemon.ServerService.GetStatus.
-func (c *serverServiceClient) GetStatus(ctx context.Context, req *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.ServerStatus], error) {
-	return c.getStatus.CallUnary(ctx, req)
+// Status calls daemon.ServerService.Status.
+func (c *serverServiceClient) Status(ctx context.Context, req *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.ServerStatus], error) {
+	return c.status.CallUnary(ctx, req)
 }
 
 // PowerAction calls daemon.ServerService.PowerAction.
@@ -223,7 +223,7 @@ type ServerServiceHandler interface {
 	RunTerminalCommand(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 	// / - Called by backend, needs token
 	// Server Info
-	GetStatus(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.ServerStatus], error)
+	Status(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.ServerStatus], error)
 	// Power Actions
 	PowerAction(context.Context, *connect.Request[proto_gen_go.PowerActionMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 	// Installation
@@ -273,10 +273,10 @@ func NewServerServiceHandler(svc ServerServiceHandler, opts ...connect.HandlerOp
 		connect.WithSchema(serverServiceMethods.ByName("RunTerminalCommand")),
 		connect.WithHandlerOptions(opts...),
 	)
-	serverServiceGetStatusHandler := connect.NewUnaryHandler(
-		ServerServiceGetStatusProcedure,
-		svc.GetStatus,
-		connect.WithSchema(serverServiceMethods.ByName("GetStatus")),
+	serverServiceStatusHandler := connect.NewUnaryHandler(
+		ServerServiceStatusProcedure,
+		svc.Status,
+		connect.WithSchema(serverServiceMethods.ByName("Status")),
 		connect.WithHandlerOptions(opts...),
 	)
 	serverServicePowerActionHandler := connect.NewUnaryHandler(
@@ -305,8 +305,8 @@ func NewServerServiceHandler(svc ServerServiceHandler, opts ...connect.HandlerOp
 			serverServiceTerminalHandler.ServeHTTP(w, r)
 		case ServerServiceRunTerminalCommandProcedure:
 			serverServiceRunTerminalCommandHandler.ServeHTTP(w, r)
-		case ServerServiceGetStatusProcedure:
-			serverServiceGetStatusHandler.ServeHTTP(w, r)
+		case ServerServiceStatusProcedure:
+			serverServiceStatusHandler.ServeHTTP(w, r)
 		case ServerServicePowerActionProcedure:
 			serverServicePowerActionHandler.ServeHTTP(w, r)
 		case ServerServiceInstallProcedure:
@@ -344,8 +344,8 @@ func (UnimplementedServerServiceHandler) RunTerminalCommand(context.Context, *co
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("daemon.ServerService.RunTerminalCommand is not implemented"))
 }
 
-func (UnimplementedServerServiceHandler) GetStatus(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.ServerStatus], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("daemon.ServerService.GetStatus is not implemented"))
+func (UnimplementedServerServiceHandler) Status(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.ServerStatus], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("daemon.ServerService.Status is not implemented"))
 }
 
 func (UnimplementedServerServiceHandler) PowerAction(context.Context, *connect.Request[proto_gen_go.PowerActionMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
