@@ -388,20 +388,24 @@ components:
       type: object
       properties:
         cpu:
-          type: integer
+          type: number
           title: cpu
+          format: float
           description: CPU in percentage (100% = 1 vCore)
         ram:
-          type: integer
+          type: number
           title: ram
+          format: float
           description: RAM in MB
         swap:
-          type: integer
+          type: number
           title: swap
+          format: float
           description: SWAP in MB
         storage:
-          type: integer
+          type: number
           title: storage
+          format: float
           description: Storage in MB
       title: ResourceUsage
       additionalProperties: false
