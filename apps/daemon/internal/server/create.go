@@ -38,7 +38,7 @@ func CreateServer(sid string, allocations []model.ServerAllocation, resourceLimi
 			return
 		}
 
-		_, err = io.ReadAll(rc)
+		_, err = io.Copy(io.Discard, rc) // we could get the progress of the image pull here
 		if err != nil {
 			if err := yeetDbServer(sid); err != nil {
 				fmt.Printf("failed to rollback server creation: %v\n", err)
