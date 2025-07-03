@@ -72,6 +72,7 @@ type ServerServiceClient interface {
 	// Terminal (system)
 	Terminal(context.Context) *connect.BidiStreamForClient[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]
 	RunTerminalCommand(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	// / - Called by backend, needs token
 	// Server Info
 	GetStatus(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.ServerStatus], error)
 	// Power Actions
@@ -220,6 +221,7 @@ type ServerServiceHandler interface {
 	// Terminal (system)
 	Terminal(context.Context, *connect.BidiStream[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]) error
 	RunTerminalCommand(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	// / - Called by backend, needs token
 	// Server Info
 	GetStatus(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.ServerStatus], error)
 	// Power Actions

@@ -22,6 +22,7 @@ service ServerService {
   rpc Terminal(stream common.SimpleMessage) returns (stream common.SimpleMessage);
   rpc RunTerminalCommand(common.SimpleMessage) returns (common.SuccessMessage);
 
+  /// - Called by backend, needs token
   // Server Info
   rpc GetStatus(common.Empty) returns (ServerStatus);
 

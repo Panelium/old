@@ -418,6 +418,7 @@ export const ServerService: GenService<{
     output: typeof SuccessMessageSchema;
   },
   /**
+   * / - Called by backend, needs token
    * Server Info
    *
    * @generated from rpc daemon.ServerService.GetStatus

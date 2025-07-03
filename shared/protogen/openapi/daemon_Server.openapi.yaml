@@ -152,7 +152,9 @@ paths:
       tags:
         - daemon.ServerService
       summary: GetStatus
-      description: Server Info
+      description: |-
+        / - Called by backend, needs token
+         Server Info
       operationId: daemon.ServerService.GetStatus
       parameters:
         - name: Connect-Protocol-Version
