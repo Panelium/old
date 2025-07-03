@@ -13,7 +13,7 @@ var (
 func Init() error {
 	var err error
 	initOnce.Do(func() {
-		dockerClient, err = client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation()) // TODO: config
+		dockerClient, err = client.NewClientWithOpts(client.WithAPIVersionNegotiation())
 	})
 
 	return err
