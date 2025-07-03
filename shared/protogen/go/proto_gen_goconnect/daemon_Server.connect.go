@@ -51,6 +51,9 @@ const (
 	ServerServiceRunTerminalCommandProcedure = "/daemon.ServerService/RunTerminalCommand"
 	// ServerServiceStatusProcedure is the fully-qualified name of the ServerService's Status RPC.
 	ServerServiceStatusProcedure = "/daemon.ServerService/Status"
+	// ServerServiceResourceUsageProcedure is the fully-qualified name of the ServerService's
+	// ResourceUsage RPC.
+	ServerServiceResourceUsageProcedure = "/daemon.ServerService/ResourceUsage"
 	// ServerServicePowerActionProcedure is the fully-qualified name of the ServerService's PowerAction
 	// RPC.
 	ServerServicePowerActionProcedure = "/daemon.ServerService/PowerAction"
@@ -75,6 +78,7 @@ type ServerServiceClient interface {
 	// / - Called by backend, needs token
 	// Server Info
 	Status(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.ServerStatus], error)
+	ResourceUsage(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.ServerStreamForClient[proto_gen_go.ResourceUsageMessage], error)
 	// Power Actions
 	PowerAction(context.Context, *connect.Request[proto_gen_go.PowerActionMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 	// Installation
@@ -134,6 +138,12 @@ func NewServerServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 			connect.WithSchema(serverServiceMethods.ByName("Status")),
 			connect.WithClientOptions(opts...),
 		),
+		resourceUsage: connect.NewClient[proto_gen_go.Empty, proto_gen_go.ResourceUsageMessage](
+			httpClient,
+			baseURL+ServerServiceResourceUsageProcedure,
+			connect.WithSchema(serverServiceMethods.ByName("ResourceUsage")),
+			connect.WithClientOptions(opts...),
+		),
 		powerAction: connect.NewClient[proto_gen_go.PowerActionMessage, proto_gen_go.SuccessMessage](
 			httpClient,
 			baseURL+ServerServicePowerActionProcedure,
@@ -158,6 +168,7 @@ type serverServiceClient struct {
 	terminal           *connect.Client[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]
 	runTerminalCommand *connect.Client[proto_gen_go.SimpleMessage, proto_gen_go.SuccessMessage]
 	status             *connect.Client[proto_gen_go.Empty, proto_gen_go.ServerStatus]
+	resourceUsage      *connect.Client[proto_gen_go.Empty, proto_gen_go.ResourceUsageMessage]
 	powerAction        *connect.Client[proto_gen_go.PowerActionMessage, proto_gen_go.SuccessMessage]
 	install            *connect.Client[proto_gen_go.Empty, proto_gen_go.SuccessMessage]
 }
@@ -197,6 +208,11 @@ func (c *serverServiceClient) Status(ctx context.Context, req *connect.Request[p
 	return c.status.CallUnary(ctx, req)
 }
 
+// ResourceUsage calls daemon.ServerService.ResourceUsage.
+func (c *serverServiceClient) ResourceUsage(ctx context.Context, req *connect.Request[proto_gen_go.Empty]) (*connect.ServerStreamForClient[proto_gen_go.ResourceUsageMessage], error) {
+	return c.resourceUsage.CallServerStream(ctx, req)
+}
+
 // PowerAction calls daemon.ServerService.PowerAction.
 func (c *serverServiceClient) PowerAction(ctx context.Context, req *connect.Request[proto_gen_go.PowerActionMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	return c.powerAction.CallUnary(ctx, req)
@@ -224,6 +240,7 @@ type ServerServiceHandler interface {
 	// / - Called by backend, needs token
 	// Server Info
 	Status(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.ServerStatus], error)
+	ResourceUsage(context.Context, *connect.Request[proto_gen_go.Empty], *connect.ServerStream[proto_gen_go.ResourceUsageMessage]) error
 	// Power Actions
 	PowerAction(context.Context, *connect.Request[proto_gen_go.PowerActionMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 	// Installation
@@ -279,6 +296,12 @@ func NewServerServiceHandler(svc ServerServiceHandler, opts ...connect.HandlerOp
 		connect.WithSchema(serverServiceMethods.ByName("Status")),
 		connect.WithHandlerOptions(opts...),
 	)
+	serverServiceResourceUsageHandler := connect.NewServerStreamHandler(
+		ServerServiceResourceUsageProcedure,
+		svc.ResourceUsage,
+		connect.WithSchema(serverServiceMethods.ByName("ResourceUsage")),
+		connect.WithHandlerOptions(opts...),
+	)
 	serverServicePowerActionHandler := connect.NewUnaryHandler(
 		ServerServicePowerActionProcedure,
 		svc.PowerAction,
@@ -307,6 +330,8 @@ func NewServerServiceHandler(svc ServerServiceHandler, opts ...connect.HandlerOp
 			serverServiceRunTerminalCommandHandler.ServeHTTP(w, r)
 		case ServerServiceStatusProcedure:
 			serverServiceStatusHandler.ServeHTTP(w, r)
+		case ServerServiceResourceUsageProcedure:
+			serverServiceResourceUsageHandler.ServeHTTP(w, r)
 		case ServerServicePowerActionProcedure:
 			serverServicePowerActionHandler.ServeHTTP(w, r)
 		case ServerServiceInstallProcedure:
@@ -346,6 +371,10 @@ func (UnimplementedServerServiceHandler) RunTerminalCommand(context.Context, *co
 
 func (UnimplementedServerServiceHandler) Status(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.ServerStatus], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("daemon.ServerService.Status is not implemented"))
+}
+
+func (UnimplementedServerServiceHandler) ResourceUsage(context.Context, *connect.Request[proto_gen_go.Empty], *connect.ServerStream[proto_gen_go.ResourceUsageMessage]) error {
+	return connect.NewError(connect.CodeUnimplemented, errors.New("daemon.ServerService.ResourceUsage is not implemented"))
 }
 
 func (UnimplementedServerServiceHandler) PowerAction(context.Context, *connect.Request[proto_gen_go.PowerActionMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {

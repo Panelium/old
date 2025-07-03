@@ -25,6 +25,7 @@ service ServerService {
   /// - Called by backend, needs token
   // Server Info
   rpc Status(common.Empty) returns (ServerStatus);
+  rpc ResourceUsage(common.Empty) returns (stream ResourceUsageMessage);
 
   // Power Actions
   rpc PowerAction(PowerActionMessage) returns (common.SuccessMessage);
@@ -72,7 +73,6 @@ message ServerStatus {
   optional google.protobuf.Timestamp timestampStart = 2;
   optional google.protobuf.Timestamp timestampEnd = 3;
   optional ServerOfflineReason offlineReason = 4;
-  ResourceUsage resourceUsage = 5;
 }
 
 enum ServerStatusType {
@@ -103,4 +103,8 @@ enum PowerAction {
 
 message PowerActionMessage {
   PowerAction action = 1;
+}
+
+message ResourceUsageMessage {
+  ResourceUsage usage = 2;
 }

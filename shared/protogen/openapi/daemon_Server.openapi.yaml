@@ -185,6 +185,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/daemon.ServerStatus'
+  /daemon.ServerService/ResourceUsage: {}
   /daemon.ServerService/PowerAction:
     post:
       tags:
@@ -404,6 +405,14 @@ components:
           description: Storage in MB
       title: ResourceUsage
       additionalProperties: false
+    daemon.ResourceUsageMessage:
+      type: object
+      properties:
+        usage:
+          title: usage
+          $ref: '#/components/schemas/daemon.ResourceUsage'
+      title: ResourceUsageMessage
+      additionalProperties: false
     daemon.ServerStatus:
       type: object
       properties:
@@ -422,9 +431,6 @@ components:
           title: offlineReason
           nullable: true
           $ref: '#/components/schemas/daemon.ServerOfflineReason'
-        resourceUsage:
-          title: resourceUsage
-          $ref: '#/components/schemas/daemon.ResourceUsage'
       title: ServerStatus
       additionalProperties: false
       description: Server Info
