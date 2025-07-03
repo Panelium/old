@@ -74,7 +74,6 @@ message ServerStatus {
   optional ServerOfflineReason offlineReason = 4;
   ResourceUsage resourceUsage = 5;
 }
-// use https://pkg.go.dev/google.golang.org/protobuf/types/known/timestamppb to handle timestamps
 
 enum ServerStatusType {
   SERVER_STATUS_TYPE_UNKNOWN = 0;
