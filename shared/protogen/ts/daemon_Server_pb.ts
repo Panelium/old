@@ -288,6 +288,8 @@ export enum ServerOfflineReason {
   UNKNOWN = 0,
 
   /**
+   * created or installed
+   *
    * @generated from enum value: SERVER_OFFLINE_REASON_CREATED = 1;
    */
   CREATED = 1,

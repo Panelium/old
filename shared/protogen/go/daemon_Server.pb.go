@@ -84,7 +84,7 @@ type ServerOfflineReason int32
 
 const (
 	ServerOfflineReason_SERVER_OFFLINE_REASON_UNKNOWN ServerOfflineReason = 0
-	ServerOfflineReason_SERVER_OFFLINE_REASON_CREATED ServerOfflineReason = 1
+	ServerOfflineReason_SERVER_OFFLINE_REASON_CREATED ServerOfflineReason = 1 // created or installed
 	ServerOfflineReason_SERVER_OFFLINE_REASON_STOPPED ServerOfflineReason = 2
 	ServerOfflineReason_SERVER_OFFLINE_REASON_KILLED  ServerOfflineReason = 3
 	ServerOfflineReason_SERVER_OFFLINE_REASON_ERROR   ServerOfflineReason = 4
