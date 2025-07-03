@@ -33,6 +33,7 @@ func Init() error {
 		}
 
 		if err = db.AutoMigrate(
+			&model.Blueprint{},
 			&model.Server{},
 			&model.ServerAllocation{},
 		); err != nil {
