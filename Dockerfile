@@ -34,5 +34,6 @@ ENV PORT=9000
 EXPOSE ${PORT}/tcp
 WORKDIR /app/
 COPY --from=build-daemon /build/daemon /app/daemon
-# we need to also somehow mount the docker socket
+VOLUME ["/var/run/docker.sock", "/var/lib/docker/volumes"]
+# need to mount these when running the container
 CMD ["./daemon"]
