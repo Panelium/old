@@ -204,7 +204,43 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/common.SimpleMessage'
+              $ref: '#/components/schemas/daemon.PowerActionMessage'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/common.SuccessMessage'
+  /daemon.ServerService/Install:
+    post:
+      tags:
+        - daemon.ServerService
+      summary: Install
+      description: Installation
+      operationId: daemon.ServerService.Install
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/common.Empty'
         required: true
       responses:
         default:
@@ -315,6 +351,14 @@ components:
           type: boolean
           title: force
       title: DeleteServerRequest
+      additionalProperties: false
+    daemon.PowerActionMessage:
+      type: object
+      properties:
+        action:
+          title: action
+          $ref: '#/components/schemas/daemon.PowerAction'
+      title: PowerActionMessage
       additionalProperties: false
     daemon.ResourceLimit:
       type: object

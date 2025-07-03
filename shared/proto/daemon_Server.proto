@@ -26,7 +26,10 @@ service ServerService {
   rpc GetStatus(common.Empty) returns (ServerStatus);
 
   // Power Actions
-  rpc PowerAction(common.SimpleMessage) returns (common.SuccessMessage);
+  rpc PowerAction(PowerActionMessage) returns (common.SuccessMessage);
+
+  // Installation
+  rpc Install(common.Empty) returns (common.SuccessMessage);
 }
 
 message Allocation {
@@ -96,4 +99,8 @@ enum PowerAction {
   POWER_ACTION_RESTART = 2;
   POWER_ACTION_STOP = 3;
   POWER_ACTION_KILL = 4;
+}
+
+message PowerActionMessage {
+  PowerAction action = 1;
 }

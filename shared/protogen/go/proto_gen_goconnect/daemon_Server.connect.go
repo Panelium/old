@@ -54,6 +54,8 @@ const (
 	// ServerServicePowerActionProcedure is the fully-qualified name of the ServerService's PowerAction
 	// RPC.
 	ServerServicePowerActionProcedure = "/daemon.ServerService/PowerAction"
+	// ServerServiceInstallProcedure is the fully-qualified name of the ServerService's Install RPC.
+	ServerServiceInstallProcedure = "/daemon.ServerService/Install"
 )
 
 // ServerServiceClient is a client for the daemon.ServerService service.
@@ -73,7 +75,9 @@ type ServerServiceClient interface {
 	// Server Info
 	GetStatus(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.ServerStatus], error)
 	// Power Actions
-	PowerAction(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	PowerAction(context.Context, *connect.Request[proto_gen_go.PowerActionMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	// Installation
+	Install(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 }
 
 // NewServerServiceClient constructs a client for the daemon.ServerService service. By default, it
@@ -129,10 +133,16 @@ func NewServerServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 			connect.WithSchema(serverServiceMethods.ByName("GetStatus")),
 			connect.WithClientOptions(opts...),
 		),
-		powerAction: connect.NewClient[proto_gen_go.SimpleMessage, proto_gen_go.SuccessMessage](
+		powerAction: connect.NewClient[proto_gen_go.PowerActionMessage, proto_gen_go.SuccessMessage](
 			httpClient,
 			baseURL+ServerServicePowerActionProcedure,
 			connect.WithSchema(serverServiceMethods.ByName("PowerAction")),
+			connect.WithClientOptions(opts...),
+		),
+		install: connect.NewClient[proto_gen_go.Empty, proto_gen_go.SuccessMessage](
+			httpClient,
+			baseURL+ServerServiceInstallProcedure,
+			connect.WithSchema(serverServiceMethods.ByName("Install")),
 			connect.WithClientOptions(opts...),
 		),
 	}
@@ -147,7 +157,8 @@ type serverServiceClient struct {
 	terminal           *connect.Client[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]
 	runTerminalCommand *connect.Client[proto_gen_go.SimpleMessage, proto_gen_go.SuccessMessage]
 	getStatus          *connect.Client[proto_gen_go.Empty, proto_gen_go.ServerStatus]
-	powerAction        *connect.Client[proto_gen_go.SimpleMessage, proto_gen_go.SuccessMessage]
+	powerAction        *connect.Client[proto_gen_go.PowerActionMessage, proto_gen_go.SuccessMessage]
+	install            *connect.Client[proto_gen_go.Empty, proto_gen_go.SuccessMessage]
 }
 
 // CreateServer calls daemon.ServerService.CreateServer.
@@ -186,8 +197,13 @@ func (c *serverServiceClient) GetStatus(ctx context.Context, req *connect.Reques
 }
 
 // PowerAction calls daemon.ServerService.PowerAction.
-func (c *serverServiceClient) PowerAction(ctx context.Context, req *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+func (c *serverServiceClient) PowerAction(ctx context.Context, req *connect.Request[proto_gen_go.PowerActionMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	return c.powerAction.CallUnary(ctx, req)
+}
+
+// Install calls daemon.ServerService.Install.
+func (c *serverServiceClient) Install(ctx context.Context, req *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return c.install.CallUnary(ctx, req)
 }
 
 // ServerServiceHandler is an implementation of the daemon.ServerService service.
@@ -207,7 +223,9 @@ type ServerServiceHandler interface {
 	// Server Info
 	GetStatus(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.ServerStatus], error)
 	// Power Actions
-	PowerAction(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	PowerAction(context.Context, *connect.Request[proto_gen_go.PowerActionMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	// Installation
+	Install(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 }
 
 // NewServerServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -265,6 +283,12 @@ func NewServerServiceHandler(svc ServerServiceHandler, opts ...connect.HandlerOp
 		connect.WithSchema(serverServiceMethods.ByName("PowerAction")),
 		connect.WithHandlerOptions(opts...),
 	)
+	serverServiceInstallHandler := connect.NewUnaryHandler(
+		ServerServiceInstallProcedure,
+		svc.Install,
+		connect.WithSchema(serverServiceMethods.ByName("Install")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/daemon.ServerService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case ServerServiceCreateServerProcedure:
@@ -283,6 +307,8 @@ func NewServerServiceHandler(svc ServerServiceHandler, opts ...connect.HandlerOp
 			serverServiceGetStatusHandler.ServeHTTP(w, r)
 		case ServerServicePowerActionProcedure:
 			serverServicePowerActionHandler.ServeHTTP(w, r)
+		case ServerServiceInstallProcedure:
+			serverServiceInstallHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -320,6 +346,10 @@ func (UnimplementedServerServiceHandler) GetStatus(context.Context, *connect.Req
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("daemon.ServerService.GetStatus is not implemented"))
 }
 
-func (UnimplementedServerServiceHandler) PowerAction(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+func (UnimplementedServerServiceHandler) PowerAction(context.Context, *connect.Request[proto_gen_go.PowerActionMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("daemon.ServerService.PowerAction is not implemented"))
+}
+
+func (UnimplementedServerServiceHandler) Install(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("daemon.ServerService.Install is not implemented"))
 }

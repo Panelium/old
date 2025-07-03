@@ -585,6 +585,50 @@ func (x *ServerStatus) GetResourceUsage() *ResourceUsage {
 	return nil
 }
 
+type PowerActionMessage struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Action        PowerAction            `protobuf:"varint,1,opt,name=action,proto3,enum=daemon.PowerAction" json:"action,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *PowerActionMessage) Reset() {
+	*x = PowerActionMessage{}
+	mi := &file_daemon_Server_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PowerActionMessage) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PowerActionMessage) ProtoMessage() {}
+
+func (x *PowerActionMessage) ProtoReflect() protoreflect.Message {
+	mi := &file_daemon_Server_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PowerActionMessage.ProtoReflect.Descriptor instead.
+func (*PowerActionMessage) Descriptor() ([]byte, []int) {
+	return file_daemon_Server_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *PowerActionMessage) GetAction() PowerAction {
+	if x != nil {
+		return x.Action
+	}
+	return PowerAction_POWER_ACTION_UNSPECIFIED
+}
+
 var File_daemon_Server_proto protoreflect.FileDescriptor
 
 const file_daemon_Server_proto_rawDesc = "" +
@@ -621,7 +665,9 @@ const file_daemon_Server_proto_rawDesc = "" +
 	"\rresourceUsage\x18\x05 \x01(\v2\x15.daemon.ResourceUsageR\rresourceUsageB\x11\n" +
 	"\x0f_timestampStartB\x0f\n" +
 	"\r_timestampEndB\x10\n" +
-	"\x0e_offlineReason*\xd6\x01\n" +
+	"\x0e_offlineReason\"A\n" +
+	"\x12PowerActionMessage\x12+\n" +
+	"\x06action\x18\x01 \x01(\x0e2\x13.daemon.PowerActionR\x06action*\xd6\x01\n" +
 	"\x10ServerStatusType\x12\x1e\n" +
 	"\x1aSERVER_STATUS_TYPE_UNKNOWN\x10\x00\x12\x1f\n" +
 	"\x1bSERVER_STATUS_TYPE_STARTING\x10\x01\x12\x1d\n" +
@@ -640,7 +686,7 @@ const file_daemon_Server_proto_rawDesc = "" +
 	"\x12POWER_ACTION_START\x10\x01\x12\x18\n" +
 	"\x14POWER_ACTION_RESTART\x10\x02\x12\x15\n" +
 	"\x11POWER_ACTION_STOP\x10\x03\x12\x15\n" +
-	"\x11POWER_ACTION_KILL\x10\x042\x86\x04\n" +
+	"\x11POWER_ACTION_KILL\x10\x042\xbd\x04\n" +
 	"\rServerService\x12C\n" +
 	"\fCreateServer\x12\x1b.daemon.CreateServerRequest\x1a\x16.common.SuccessMessage\x12C\n" +
 	"\fDeleteServer\x12\x1b.daemon.DeleteServerRequest\x1a\x16.common.SuccessMessage\x12;\n" +
@@ -649,8 +695,9 @@ const file_daemon_Server_proto_rawDesc = "" +
 	"RunCommand\x12\x15.common.SimpleMessage\x1a\x16.common.SuccessMessage\x12<\n" +
 	"\bTerminal\x12\x15.common.SimpleMessage\x1a\x15.common.SimpleMessage(\x010\x01\x12C\n" +
 	"\x12RunTerminalCommand\x12\x15.common.SimpleMessage\x1a\x16.common.SuccessMessage\x120\n" +
-	"\tGetStatus\x12\r.common.Empty\x1a\x14.daemon.ServerStatus\x12<\n" +
-	"\vPowerAction\x12\x15.common.SimpleMessage\x1a\x16.common.SuccessMessageB\x17Z\x15panelium/proto_gen_gob\x06proto3"
+	"\tGetStatus\x12\r.common.Empty\x1a\x14.daemon.ServerStatus\x12A\n" +
+	"\vPowerAction\x12\x1a.daemon.PowerActionMessage\x1a\x16.common.SuccessMessage\x120\n" +
+	"\aInstall\x12\r.common.Empty\x1a\x16.common.SuccessMessageB\x17Z\x15panelium/proto_gen_gob\x06proto3"
 
 var (
 	file_daemon_Server_proto_rawDescOnce sync.Once
@@ -665,7 +712,7 @@ func file_daemon_Server_proto_rawDescGZIP() []byte {
 }
 
 var file_daemon_Server_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_daemon_Server_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_daemon_Server_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_daemon_Server_proto_goTypes = []any{
 	(ServerStatusType)(0),         // 0: daemon.ServerStatusType
 	(ServerOfflineReason)(0),      // 1: daemon.ServerOfflineReason
@@ -676,40 +723,44 @@ var file_daemon_Server_proto_goTypes = []any{
 	(*CreateServerRequest)(nil),   // 6: daemon.CreateServerRequest
 	(*DeleteServerRequest)(nil),   // 7: daemon.DeleteServerRequest
 	(*ServerStatus)(nil),          // 8: daemon.ServerStatus
-	(*timestamppb.Timestamp)(nil), // 9: google.protobuf.Timestamp
-	(*SimpleMessage)(nil),         // 10: common.SimpleMessage
-	(*Empty)(nil),                 // 11: common.Empty
-	(*SuccessMessage)(nil),        // 12: common.SuccessMessage
+	(*PowerActionMessage)(nil),    // 9: daemon.PowerActionMessage
+	(*timestamppb.Timestamp)(nil), // 10: google.protobuf.Timestamp
+	(*SimpleMessage)(nil),         // 11: common.SimpleMessage
+	(*Empty)(nil),                 // 12: common.Empty
+	(*SuccessMessage)(nil),        // 13: common.SuccessMessage
 }
 var file_daemon_Server_proto_depIdxs = []int32{
 	3,  // 0: daemon.CreateServerRequest.allocations:type_name -> daemon.Allocation
 	4,  // 1: daemon.CreateServerRequest.resourceLimit:type_name -> daemon.ResourceLimit
 	0,  // 2: daemon.ServerStatus.status:type_name -> daemon.ServerStatusType
-	9,  // 3: daemon.ServerStatus.timestampStart:type_name -> google.protobuf.Timestamp
-	9,  // 4: daemon.ServerStatus.timestampEnd:type_name -> google.protobuf.Timestamp
+	10, // 3: daemon.ServerStatus.timestampStart:type_name -> google.protobuf.Timestamp
+	10, // 4: daemon.ServerStatus.timestampEnd:type_name -> google.protobuf.Timestamp
 	1,  // 5: daemon.ServerStatus.offlineReason:type_name -> daemon.ServerOfflineReason
 	5,  // 6: daemon.ServerStatus.resourceUsage:type_name -> daemon.ResourceUsage
-	6,  // 7: daemon.ServerService.CreateServer:input_type -> daemon.CreateServerRequest
-	7,  // 8: daemon.ServerService.DeleteServer:input_type -> daemon.DeleteServerRequest
-	10, // 9: daemon.ServerService.Console:input_type -> common.SimpleMessage
-	10, // 10: daemon.ServerService.RunCommand:input_type -> common.SimpleMessage
-	10, // 11: daemon.ServerService.Terminal:input_type -> common.SimpleMessage
-	10, // 12: daemon.ServerService.RunTerminalCommand:input_type -> common.SimpleMessage
-	11, // 13: daemon.ServerService.GetStatus:input_type -> common.Empty
-	10, // 14: daemon.ServerService.PowerAction:input_type -> common.SimpleMessage
-	12, // 15: daemon.ServerService.CreateServer:output_type -> common.SuccessMessage
-	12, // 16: daemon.ServerService.DeleteServer:output_type -> common.SuccessMessage
-	10, // 17: daemon.ServerService.Console:output_type -> common.SimpleMessage
-	12, // 18: daemon.ServerService.RunCommand:output_type -> common.SuccessMessage
-	10, // 19: daemon.ServerService.Terminal:output_type -> common.SimpleMessage
-	12, // 20: daemon.ServerService.RunTerminalCommand:output_type -> common.SuccessMessage
-	8,  // 21: daemon.ServerService.GetStatus:output_type -> daemon.ServerStatus
-	12, // 22: daemon.ServerService.PowerAction:output_type -> common.SuccessMessage
-	15, // [15:23] is the sub-list for method output_type
-	7,  // [7:15] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	2,  // 7: daemon.PowerActionMessage.action:type_name -> daemon.PowerAction
+	6,  // 8: daemon.ServerService.CreateServer:input_type -> daemon.CreateServerRequest
+	7,  // 9: daemon.ServerService.DeleteServer:input_type -> daemon.DeleteServerRequest
+	11, // 10: daemon.ServerService.Console:input_type -> common.SimpleMessage
+	11, // 11: daemon.ServerService.RunCommand:input_type -> common.SimpleMessage
+	11, // 12: daemon.ServerService.Terminal:input_type -> common.SimpleMessage
+	11, // 13: daemon.ServerService.RunTerminalCommand:input_type -> common.SimpleMessage
+	12, // 14: daemon.ServerService.GetStatus:input_type -> common.Empty
+	9,  // 15: daemon.ServerService.PowerAction:input_type -> daemon.PowerActionMessage
+	12, // 16: daemon.ServerService.Install:input_type -> common.Empty
+	13, // 17: daemon.ServerService.CreateServer:output_type -> common.SuccessMessage
+	13, // 18: daemon.ServerService.DeleteServer:output_type -> common.SuccessMessage
+	11, // 19: daemon.ServerService.Console:output_type -> common.SimpleMessage
+	13, // 20: daemon.ServerService.RunCommand:output_type -> common.SuccessMessage
+	11, // 21: daemon.ServerService.Terminal:output_type -> common.SimpleMessage
+	13, // 22: daemon.ServerService.RunTerminalCommand:output_type -> common.SuccessMessage
+	8,  // 23: daemon.ServerService.GetStatus:output_type -> daemon.ServerStatus
+	13, // 24: daemon.ServerService.PowerAction:output_type -> common.SuccessMessage
+	13, // 25: daemon.ServerService.Install:output_type -> common.SuccessMessage
+	17, // [17:26] is the sub-list for method output_type
+	8,  // [8:17] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_daemon_Server_proto_init() }
@@ -725,7 +776,7 @@ func file_daemon_Server_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_daemon_Server_proto_rawDesc), len(file_daemon_Server_proto_rawDesc)),
 			NumEnums:      3,
-			NumMessages:   6,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
