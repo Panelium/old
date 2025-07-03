@@ -23,7 +23,7 @@ func NewServerInterceptor() connect.UnaryInterceptorFunc {
 				return next(ctx, req)
 			}
 
-			tx := db.Instance().First(&model.Server{}, "server_id = ?", serverId)
+			tx := db.Instance().First(&model.Server{}, "sid = ?", serverId)
 			if tx.Error != nil || tx.RowsAffected == 0 {
 				return nil, connect.NewError(connect.CodeNotFound, errors.New("server not found"))
 			}
