@@ -98,6 +98,7 @@ func Install(s *model.Server) error {
 		AttachStdin:  true,
 		AttachStdout: true,
 		AttachStderr: true,
+		Tty:          true,
 		Image:        blueprint.SetupDockerImage,
 		WorkingDir:   "/data",
 		Cmd: []string{
@@ -163,6 +164,7 @@ func Install(s *model.Server) error {
 		AttachStdin:  true,
 		AttachStdout: true,
 		AttachStderr: true,
+		Tty:          true,
 		Image:        s.DockerImage,
 		WorkingDir:   "/data",
 		Cmd:          []string{blueprint.ServerBinary},
