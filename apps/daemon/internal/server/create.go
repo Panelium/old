@@ -1,17 +1,11 @@
 package server
 
 import (
-	"context"
 	"fmt"
-	"github.com/docker/docker/api/types/container"
-	"github.com/docker/docker/api/types/image"
-	"github.com/docker/docker/api/types/network"
-	v1 "github.com/opencontainers/image-spec/specs-go/v1"
-	"io"
 	"panelium/daemon/internal/db"
-	"panelium/daemon/internal/docker"
 	"panelium/daemon/internal/model"
 	"panelium/proto_gen_go"
+	"slices"
 )
 
 func yeetDbServer(sid string) error {
@@ -27,54 +21,21 @@ func yeetDbServer(sid string) error {
 }
 
 func CreateServer(sid string, allocations []model.ServerAllocation, resourceLimit model.ResourceLimit, dockerImage string, bid string) (*model.Server, error) {
-	// image pull and container create are done in a goroutine to avoid blocking the main thread and prevent timeouts
-	go func() {
-		rc, err := docker.Instance().ImagePull(context.Background(), dockerImage, image.PullOptions{})
-		if err != nil {
-			if err := yeetDbServer(sid); err != nil {
-				fmt.Printf("failed to rollback server creation: %v\n", err)
-			}
-			fmt.Printf("failed to pull docker image: %v\n", err)
-			return
-		}
+	blueprint := model.Blueprint{}
+	tx := db.Instance().First(&blueprint, "s.BID = ?", bid)
+	if tx.Error != nil || tx.RowsAffected == 0 {
+		return nil, fmt.Errorf("failed to find blueprint with ID %s: %w", bid, tx.Error)
+	}
 
-		_, err = io.Copy(io.Discard, rc) // we could get the progress of the image pull here
-		if err != nil {
-			if err := yeetDbServer(sid); err != nil {
-				fmt.Printf("failed to rollback server creation: %v\n", err)
-			}
-			fmt.Printf("failed to read docker image pull response: %v\n", err)
-			return
-		}
-		err = rc.Close()
-		if err != nil {
-			if err := yeetDbServer(sid); err != nil {
-				fmt.Printf("failed to rollback server creation: %v\n", err)
-			}
-			fmt.Printf("failed to close docker image pull response: %v\n", err)
-			return
-		}
+	var dockerImages []string
+	err := blueprint.DockerImages.Scan(dockerImages)
+	if err != nil {
+		return nil, fmt.Errorf("failed to scan docker images from blueprint: %w", err)
+	}
 
-		cr, err := docker.Instance().ContainerCreate(context.Background(), &container.Config{}, &container.HostConfig{}, &network.NetworkingConfig{}, &v1.Platform{}, sid)
-		if err != nil {
-			if err := yeetDbServer(sid); err != nil {
-				fmt.Printf("failed to rollback server creation: %v\n", err)
-			}
-			fmt.Printf("failed to create docker container: %v\n", err)
-		}
-
-		if err := docker.Instance().ContainerStart(context.Background(), cr.ID, container.StartOptions{}); err != nil {
-			if err := yeetDbServer(sid); err != nil {
-				fmt.Printf("failed to rollback server creation: %v\n", err)
-			}
-			err := docker.Instance().ContainerRemove(context.Background(), cr.ID, container.RemoveOptions{Force: true})
-			if err != nil {
-				return
-			}
-			fmt.Printf("failed to start docker container: %v\n", err)
-			return
-		}
-	}()
+	if slices.Contains(dockerImages, dockerImage) {
+		return nil, fmt.Errorf("docker image %s is not allowed by the blueprint %s", dockerImage, bid)
+	}
 
 	server := model.Server{
 		SID:           sid,
@@ -109,6 +70,17 @@ func CreateServer(sid string, allocations []model.ServerAllocation, resourceLimi
 			return nil, err
 		}
 	}
+
+	go func() {
+		err := Install(&server)
+		if err != nil {
+			fmt.Printf("failed to install server %s: %v\n", server.SID, err)
+			if rollbackErr := yeetDbServer(server.SID); rollbackErr != nil {
+				fmt.Printf("failed to rollback server creation: %v\n", rollbackErr)
+			}
+			return
+		}
+	}()
 
 	return &server, nil
 }
