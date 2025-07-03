@@ -11,10 +11,11 @@ import (
 )
 
 func Handle(host string) error {
-	authInterceptors := connect.WithInterceptors()
+	backendAuthInterceptors := connect.WithInterceptors(middleware.NewAuthInterceptor())
+	serverInterceptors := connect.WithInterceptors(middleware.NewServerInterceptor())
 
 	mux := http.NewServeMux()
-	mux.Handle(proto_gen_goconnect.NewServerServiceHandler(&server.ServerServiceHandler{}, authInterceptors))
+	mux.Handle(proto_gen_goconnect.NewServerServiceHandler(&server.ServerServiceHandler{}, backendAuthInterceptors, serverInterceptors))
 
 	handler := h2c.NewHandler(mux, &http2.Server{})
 	corsHandler := middleware.WithCORS(handler)
