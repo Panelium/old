@@ -12,6 +12,6 @@ type Node struct {
 	Allocations []NodeAllocation `gorm:"foreignKey:NodeID" json:"allocations"`
 	MaxRAM      uint             `gorm:"not null" json:"max_ram"`     // Maximum RAM in MB
 	MaxStorage  uint             `gorm:"not null" json:"max_storage"` // Maximum Storage in MB
-	NodeToken   string           `gorm:"not null" json:"node_token"`  // Encrypted node token (backend->daemon communication)
-	BackendJTI  string           `gorm:"not null" json:"backend_jti"` // JWT ID of the backend token (daemon->backend communication)
+	NodeToken   string           `json:"node_token"`                  // Encrypted node token (backend->daemon communication)
+	BackendJTI  string           `json:"backend_jti"`                 // JWT ID of the backend token (daemon->backend communication)
 }
