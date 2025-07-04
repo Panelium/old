@@ -10,7 +10,9 @@ type Node struct {
 	Location    Location         `json:"location"`
 	Servers     []Server         `gorm:"foreignKey:NodeID" json:"servers"`
 	Allocations []NodeAllocation `gorm:"foreignKey:NodeID" json:"allocations"`
+	MaxCPU      uint             `gorm:"not null" json:"max_cpu"`     // Maximum CPU in % (100% = 1 vCore)
 	MaxRAM      uint             `gorm:"not null" json:"max_ram"`     // Maximum RAM in MB
+	MaxSWAP     uint             `gorm:"not null" json:"max_swap"`    // Maximum Swap in MB
 	MaxStorage  uint             `gorm:"not null" json:"max_storage"` // Maximum Storage in MB
 	NodeToken   string           `json:"node_token"`                  // Encrypted node token (backend->daemon communication)
 	BackendJTI  string           `json:"backend_jti"`                 // JWT ID of the backend token (daemon->backend communication)
