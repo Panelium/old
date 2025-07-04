@@ -2,13 +2,14 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: backend_Auth.proto
+// source: backend/Auth.proto
 
-package proto_gen_go
+package backend
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	proto_gen_go "panelium/proto_gen_go"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -690,7 +691,7 @@ var File_backend_Auth_proto protoreflect.FileDescriptor
 
 const file_backend_Auth_proto_rawDesc = "" +
 	"\n" +
-	"\x12backend_Auth.proto\x12\abackend\x1a\fcommon.proto\"_\n" +
+	"\x12backend/Auth.proto\x12\abackend\x1a\fcommon.proto\"_\n" +
 	"\x0fRegisterRequest\x12\x1a\n" +
 	"\busername\x18\x01 \x01(\tR\busername\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12\x1a\n" +
@@ -743,7 +744,7 @@ const file_backend_Auth_proto_rawDesc = "" +
 	"\x0eRequestMFACode\x12\x1e.backend.RequestMFACodeRequest\x1a\x16.common.SuccessMessage\"\x00\x12D\n" +
 	"\tVerifyMFA\x12\x19.backend.VerifyMFARequest\x1a\x1a.backend.VerifyMFAResponse\"\x00\x127\n" +
 	"\fRefreshToken\x12\r.common.Empty\x1a\x16.common.SuccessMessage\"\x00\x121\n" +
-	"\x06Logout\x12\r.common.Empty\x1a\x16.common.SuccessMessage\"\x00B\x17Z\x15panelium/proto_gen_gob\x06proto3"
+	"\x06Logout\x12\r.common.Empty\x1a\x16.common.SuccessMessage\"\x00B\x1fZ\x1dpanelium/proto_gen_go/backendb\x06proto3"
 
 var (
 	file_backend_Auth_proto_rawDescOnce sync.Once
@@ -772,8 +773,8 @@ var file_backend_Auth_proto_goTypes = []any{
 	(*RequestMFACodeRequest)(nil),       // 9: backend.RequestMFACodeRequest
 	(*VerifyMFARequest)(nil),            // 10: backend.VerifyMFARequest
 	(*VerifyMFAResponse)(nil),           // 11: backend.VerifyMFAResponse
-	(*Empty)(nil),                       // 12: common.Empty
-	(*SuccessMessage)(nil),              // 13: common.SuccessMessage
+	(*proto_gen_go.Empty)(nil),          // 12: common.Empty
+	(*proto_gen_go.SuccessMessage)(nil), // 13: common.SuccessMessage
 }
 var file_backend_Auth_proto_depIdxs = []int32{
 	0,  // 0: backend.LoginResponse.mfa_types_available:type_name -> backend.MFAType
@@ -819,7 +820,6 @@ func file_backend_Auth_proto_init() {
 	if File_backend_Auth_proto != nil {
 		return
 	}
-	file_common_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

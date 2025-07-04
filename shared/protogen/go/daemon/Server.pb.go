@@ -2,14 +2,15 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: daemon_Server.proto
+// source: daemon/Server.proto
 
-package proto_gen_go
+package daemon
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
+	proto_gen_go "panelium/proto_gen_go"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -661,7 +662,7 @@ var File_daemon_Server_proto protoreflect.FileDescriptor
 
 const file_daemon_Server_proto_rawDesc = "" +
 	"\n" +
-	"\x13daemon_Server.proto\x12\x06daemon\x1a\fcommon.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"0\n" +
+	"\x13daemon/Server.proto\x12\x06daemon\x1a\fcommon.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"0\n" +
 	"\n" +
 	"Allocation\x12\x0e\n" +
 	"\x02ip\x18\x01 \x01(\tR\x02ip\x12\x12\n" +
@@ -723,7 +724,7 @@ const file_daemon_Server_proto_rawDesc = "" +
 	"\x06Status\x12\r.common.Empty\x1a\x14.daemon.ServerStatus\x12>\n" +
 	"\rResourceUsage\x12\r.common.Empty\x1a\x1c.daemon.ResourceUsageMessage0\x01\x12A\n" +
 	"\vPowerAction\x12\x1a.daemon.PowerActionMessage\x1a\x16.common.SuccessMessage\x120\n" +
-	"\aInstall\x12\r.common.Empty\x1a\x16.common.SuccessMessageB\x17Z\x15panelium/proto_gen_gob\x06proto3"
+	"\aInstall\x12\r.common.Empty\x1a\x16.common.SuccessMessageB\x1eZ\x1cpanelium/proto_gen_go/daemonb\x06proto3"
 
 var (
 	file_daemon_Server_proto_rawDescOnce sync.Once
@@ -740,21 +741,21 @@ func file_daemon_Server_proto_rawDescGZIP() []byte {
 var file_daemon_Server_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_daemon_Server_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_daemon_Server_proto_goTypes = []any{
-	(ServerStatusType)(0),         // 0: daemon.ServerStatusType
-	(ServerOfflineReason)(0),      // 1: daemon.ServerOfflineReason
-	(PowerAction)(0),              // 2: daemon.PowerAction
-	(*Allocation)(nil),            // 3: daemon.Allocation
-	(*ResourceLimit)(nil),         // 4: daemon.ResourceLimit
-	(*ResourceUsage)(nil),         // 5: daemon.ResourceUsage
-	(*CreateServerRequest)(nil),   // 6: daemon.CreateServerRequest
-	(*DeleteServerRequest)(nil),   // 7: daemon.DeleteServerRequest
-	(*ServerStatus)(nil),          // 8: daemon.ServerStatus
-	(*PowerActionMessage)(nil),    // 9: daemon.PowerActionMessage
-	(*ResourceUsageMessage)(nil),  // 10: daemon.ResourceUsageMessage
-	(*timestamppb.Timestamp)(nil), // 11: google.protobuf.Timestamp
-	(*SimpleMessage)(nil),         // 12: common.SimpleMessage
-	(*Empty)(nil),                 // 13: common.Empty
-	(*SuccessMessage)(nil),        // 14: common.SuccessMessage
+	(ServerStatusType)(0),               // 0: daemon.ServerStatusType
+	(ServerOfflineReason)(0),            // 1: daemon.ServerOfflineReason
+	(PowerAction)(0),                    // 2: daemon.PowerAction
+	(*Allocation)(nil),                  // 3: daemon.Allocation
+	(*ResourceLimit)(nil),               // 4: daemon.ResourceLimit
+	(*ResourceUsage)(nil),               // 5: daemon.ResourceUsage
+	(*CreateServerRequest)(nil),         // 6: daemon.CreateServerRequest
+	(*DeleteServerRequest)(nil),         // 7: daemon.DeleteServerRequest
+	(*ServerStatus)(nil),                // 8: daemon.ServerStatus
+	(*PowerActionMessage)(nil),          // 9: daemon.PowerActionMessage
+	(*ResourceUsageMessage)(nil),        // 10: daemon.ResourceUsageMessage
+	(*timestamppb.Timestamp)(nil),       // 11: google.protobuf.Timestamp
+	(*proto_gen_go.SimpleMessage)(nil),  // 12: common.SimpleMessage
+	(*proto_gen_go.Empty)(nil),          // 13: common.Empty
+	(*proto_gen_go.SuccessMessage)(nil), // 14: common.SuccessMessage
 }
 var file_daemon_Server_proto_depIdxs = []int32{
 	3,  // 0: daemon.CreateServerRequest.allocations:type_name -> daemon.Allocation
@@ -793,7 +794,6 @@ func file_daemon_Server_proto_init() {
 	if File_daemon_Server_proto != nil {
 		return
 	}
-	file_common_proto_init()
 	file_daemon_Server_proto_msgTypes[5].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
