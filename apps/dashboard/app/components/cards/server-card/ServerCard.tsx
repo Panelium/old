@@ -46,6 +46,8 @@ export interface Server {
   ip?: string;
   port?: number; //TODO: ip and port will be merged into networkAllocation
   location?: string;
+  node?: string;
+  console?: {}
 }
 
 interface ServerCardProps {
