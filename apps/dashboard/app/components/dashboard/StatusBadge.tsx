@@ -1,4 +1,4 @@
-import { ServerStatusType } from "proto-gen-ts/daemon_Server_pb";
+import { ServerStatusType } from "proto-gen-ts/daemon/Server_pb";
 import { cn } from "~/lib/utils";
 import { Badge } from "~/components/ui/badge";
 

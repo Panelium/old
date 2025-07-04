@@ -1,5 +1,5 @@
 import IconButton from "~/components/buttons/IconButton";
-import { PowerAction } from "proto-gen-ts/daemon_Server_pb";
+import { PowerAction } from "proto-gen-ts/daemon/Server_pb";
 import {
   BadgeHelp,
   type LucideIcon,
