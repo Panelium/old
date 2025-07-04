@@ -80,8 +80,8 @@ const Pages: React.FC = () => {
     });
 
     return (
-        <div className="flex felx-row bg-card rounded-xl border-border shadow-lg shadow-black/20">
-        <div className="flex flex-col items-center w-14 group/holder bg-accent/20 rounded-xl overflow-hidden shadow-md shadow-black/10">
+        <div className="flex felx-row bg-server-card border-border shadow-lg shadow-black/20 rounded-xl overflow-hidden">
+        <div className="flex flex-col items-center w-14 group/holder bg-card overflow-hidden shadow-md shadow-black/10">
             <Page icon={HardDrive} id={FilesPage.id}    currentId={id} color="orange"/>
             <Page icon={Terminal}  id={ConsolePage.id}  currentId={id} color="purple"/>
             <Page icon={Activity}  id={ActivityPage.id} currentId={id} color="green"/>

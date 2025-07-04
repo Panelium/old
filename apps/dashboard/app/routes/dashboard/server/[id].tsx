@@ -12,9 +12,7 @@ export default function ServerDetailsPage() {
     <div className="p-6 pb-16">
       <div className="max-w-7xl mx-auto space-y-4">
         <ServerHeader server={server} />
-        <Card className="bg-server-card">
           <Pages/>
-        </Card>
       </div>
     </div>
   );
