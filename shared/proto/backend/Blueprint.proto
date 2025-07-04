@@ -6,7 +6,6 @@ option go_package = "panelium/proto_gen_go/backend";
 import "common.proto";
 
 // Note: Blueprints are JSONs, that's why we use SimpleMessage
-// BID string
 service BlueprintService {
   rpc CreateBlueprint(common.SimpleMessage) returns (common.SimpleIDMessage);
   rpc ReadBlueprint(common.SimpleIDMessage) returns (common.SimpleMessage);

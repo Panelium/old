@@ -4,6 +4,7 @@ import "gorm.io/gorm"
 
 type Node struct {
 	gorm.Model
+	NID         string           `gorm:"uniqueIndex;not null" json:"nid"` // Node ID
 	Name        string           `gorm:"uniqueIndex;not null" json:"name"`
 	FQDN        string           `gorm:"uniqueIndex;not null" json:"fqdn"`
 	LocationID  uint             `gorm:"index;not null" json:"location_id"`
