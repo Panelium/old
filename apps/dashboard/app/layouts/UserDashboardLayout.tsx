@@ -32,6 +32,8 @@ import { ScrollArea } from "~/components/ui/scroll-area";
 import EntityAvatar from "~/components/avatars/EntityAvatar";
 import { Sidebar, SidebarProvider, useSidebar } from "~/components/ui/sidebar";
 import useDashboard from "~/routes/dashboard/useDashboard";
+import { PagePressedEvent, pagesEventBus } from "~/components/dashboard/server/Pages";
+import FilesPage from "~/components/dashboard/server/pages/FilesPage";
 
 interface NavigationItemProps {
   title?: string,
@@ -104,6 +106,16 @@ const SidebarNavigationItem: React.FC<{item: NavigationItemProps}> = ({item}) =>
       isActive(item.href) &&
         "bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300"
     )}
+
+    onClick={() => {
+      if (item.href === undefined) { return; }
+      const splitHref = item.href.split("/");
+      if (item.type !== "server-tab") {
+        pagesEventBus.dispatchEvent(new PagePressedEvent(FilesPage.id));
+        return;
+      }
+      pagesEventBus.dispatchEvent(new PagePressedEvent(splitHref[splitHref.length-1]));
+    }}
   >
     {item.type === "server-tab" ? <div className="w-4" /> : <></> }
     {IconComponent && (
@@ -149,15 +161,15 @@ const SidebarNavigation: React.FC = () => {
                   </div>
                   <div className={isDroppedDown ? "" : "hidden"}>
                     <SidebarNavigationItem item={{
-                      title: "Console",
-                      icon: Terminal,
-                      href: item.href + "/console",
-                      type: "server-tab",
-                    }}/>
-                    <SidebarNavigationItem item={{
                       title: "Files",
                       icon: HardDrive,
                       href: item.href + "/files",
+                      type: "server-tab",
+                    }}/>
+                    <SidebarNavigationItem item={{
+                      title: "Console",
+                      icon: Terminal,
+                      href: item.href + "/console",
                       type: "server-tab",
                     }}/>
                     <SidebarNavigationItem item={{

@@ -2,8 +2,8 @@ import React from "react";
 import useServer from "./useServer";
 import TabsSection from "~/components/dashboard/server/TabsSection";
 import ServerHeader from "~/components/dashboard/server/ServerHeader";
-import ResourceStats from "~/components/dashboard/server/ResourceStats";
-import type { Server } from "~/components/cards/server-card/ServerCard";
+import Pages from "~/components/dashboard/server/Pages";
+import { Card } from "~/components/ui/card";
 
 export default function ServerDetailsPage() {
   const { server } = useServer();
@@ -12,8 +12,9 @@ export default function ServerDetailsPage() {
     <div className="p-6 pb-16">
       <div className="max-w-7xl mx-auto space-y-8">
         <ServerHeader server={server} />
-        <ResourceStats server={server as unknown as Server} />
-        <TabsSection />
+        <Card className="bg-server-card">
+          <Pages/>
+        </Card>
       </div>
     </div>
   );
