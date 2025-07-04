@@ -9,15 +9,15 @@ import (
 	"panelium/backend/internal/security/cookies"
 	"panelium/backend/internal/security/session"
 	"panelium/common/errors"
-	"panelium/proto_gen_go"
+	"panelium/proto_gen_go/backend"
 )
 
 // TODO: need to add rate limiting
 
 func (s *AuthServiceHandler) Login(
 	ctx context.Context,
-	req *connect.Request[proto_gen_go.LoginRequest],
-) (*connect.Response[proto_gen_go.LoginResponse], error) {
+	req *connect.Request[backend.LoginRequest],
+) (*connect.Response[backend.LoginResponse], error) {
 	user := &model.User{}
 	tx := db.Instance().First(user, "username = ? OR email = ?", req.Msg.Username, req.Msg.Username)
 	if tx.RowsAffected == 0 || tx.Error != nil {
@@ -33,7 +33,7 @@ func (s *AuthServiceHandler) Login(
 		//TODO: handle MFA
 		//TODO: generate MFA session token
 
-		res := connect.NewResponse(&proto_gen_go.LoginResponse{
+		res := connect.NewResponse(&backend.LoginResponse{
 			RequiresMfa: true,
 		})
 
@@ -45,7 +45,7 @@ func (s *AuthServiceHandler) Login(
 		return nil, connect.NewError(connect.CodeInternal, errors.SessionCreationFailed)
 	}
 
-	res := connect.NewResponse(&proto_gen_go.LoginResponse{
+	res := connect.NewResponse(&backend.LoginResponse{
 		Success:     true,
 		RequiresMfa: false,
 	})

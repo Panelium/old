@@ -8,11 +8,12 @@ import (
 	"panelium/daemon/internal/model"
 	"panelium/daemon/internal/server"
 	"panelium/proto_gen_go"
+	"panelium/proto_gen_go/daemon"
 )
 
 func (s *ServerServiceHandler) CreateServer(
 	ctx context.Context,
-	req *connect.Request[proto_gen_go.CreateServerRequest],
+	req *connect.Request[daemon.CreateServerRequest],
 ) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	// TODO: middleware for auth
 

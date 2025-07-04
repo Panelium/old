@@ -8,11 +8,12 @@ import (
 	"panelium/daemon/internal/model"
 	"panelium/daemon/internal/server"
 	"panelium/proto_gen_go"
+	"panelium/proto_gen_go/daemon"
 )
 
 func (s *ServerServiceHandler) PowerAction(
 	ctx context.Context,
-	req *connect.Request[proto_gen_go.PowerActionMessage],
+	req *connect.Request[daemon.PowerActionMessage],
 ) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	serverId := ctx.Value("server_id").(string)
 	if serverId == "" {
@@ -28,16 +29,16 @@ func (s *ServerServiceHandler) PowerAction(
 	var err error
 
 	switch req.Msg.Action {
-	case proto_gen_go.PowerAction_POWER_ACTION_START:
+	case daemon.PowerAction_POWER_ACTION_START:
 		err = server.Start(srv)
-	case proto_gen_go.PowerAction_POWER_ACTION_RESTART:
+	case daemon.PowerAction_POWER_ACTION_RESTART:
 		err = server.Restart(srv)
-	case proto_gen_go.PowerAction_POWER_ACTION_STOP:
+	case daemon.PowerAction_POWER_ACTION_STOP:
 		err = server.Stop(srv, false)
-	case proto_gen_go.PowerAction_POWER_ACTION_KILL:
+	case daemon.PowerAction_POWER_ACTION_KILL:
 		err = server.Stop(srv, true)
 
-	case proto_gen_go.PowerAction_POWER_ACTION_UNSPECIFIED:
+	case daemon.PowerAction_POWER_ACTION_UNSPECIFIED:
 	default:
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("invalid power action"))
 	}

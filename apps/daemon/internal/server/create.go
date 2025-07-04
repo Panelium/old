@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"panelium/daemon/internal/db"
 	"panelium/daemon/internal/model"
-	"panelium/proto_gen_go"
+	"panelium/proto_gen_go/daemon"
 	"slices"
 )
 
@@ -39,7 +39,7 @@ func CreateServer(sid string, allocations []model.ServerAllocation, resourceLimi
 
 	server := model.Server{
 		SID:           sid,
-		Status:        proto_gen_go.ServerStatusType_SERVER_STATUS_TYPE_INSTALLING,
+		Status:        daemon.ServerStatusType_SERVER_STATUS_TYPE_INSTALLING,
 		ResourceLimit: resourceLimit,
 		DockerImage:   dockerImage,
 		BID:           bid,

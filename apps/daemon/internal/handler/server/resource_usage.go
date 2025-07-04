@@ -13,13 +13,14 @@ import (
 	"panelium/daemon/internal/docker"
 	"panelium/daemon/internal/model"
 	"panelium/proto_gen_go"
+	"panelium/proto_gen_go/daemon"
 	"time"
 )
 
 func (s *ServerServiceHandler) ResourceUsage(
 	ctx context.Context,
 	req *connect.Request[proto_gen_go.Empty],
-	stm *connect.ServerStream[proto_gen_go.ResourceUsageMessage],
+	stm *connect.ServerStream[daemon.ResourceUsageMessage],
 ) error {
 	serverId := ctx.Value("server_id").(string)
 	if serverId == "" {
@@ -101,8 +102,8 @@ func (s *ServerServiceHandler) ResourceUsage(
 
 		memNowMB := float32(stat.MemoryStats.Usage) / (1024 * 1024)
 
-		msg := &proto_gen_go.ResourceUsageMessage{
-			Usage: &proto_gen_go.ResourceUsage{
+		msg := &daemon.ResourceUsageMessage{
+			Usage: &daemon.ResourceUsage{
 				Cpu:     cpuUsage,
 				Ram:     memNowMB,
 				Storage: lastStorageMB,

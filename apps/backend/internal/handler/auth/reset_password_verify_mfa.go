@@ -4,12 +4,12 @@ import (
 	"connectrpc.com/connect"
 	"context"
 	"errors"
-	"panelium/proto_gen_go"
+	"panelium/proto_gen_go/backend"
 )
 
 func (s *AuthServiceHandler) ResetPasswordVerifyMFA(
 	ctx context.Context,
-	req *connect.Request[proto_gen_go.VerifyMFARequest],
-) (*connect.Response[proto_gen_go.VerifyMFAResponse], error) {
+	req *connect.Request[backend.VerifyMFARequest],
+) (*connect.Response[backend.VerifyMFAResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("unimplemented"))
 }

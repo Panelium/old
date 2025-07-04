@@ -8,7 +8,7 @@ import (
 	"panelium/daemon/internal/db"
 	"panelium/daemon/internal/docker"
 	"panelium/daemon/internal/model"
-	"panelium/proto_gen_go"
+	"panelium/proto_gen_go/daemon"
 	"time"
 )
 
@@ -29,7 +29,7 @@ func Start(s *model.Server) error {
 	if err != nil {
 		fmt.Printf("failed to start server container %s: %v\n", s.SID, err)
 	}
-	s.Status = proto_gen_go.ServerStatusType_SERVER_STATUS_TYPE_STARTING
+	s.Status = daemon.ServerStatusType_SERVER_STATUS_TYPE_STARTING
 	s.TimestampStart = time.Now()
 	if err := db.Instance().Save(s).Error; err != nil {
 		return err
@@ -56,7 +56,7 @@ func Stop(s *model.Server, kill bool) error {
 		fmt.Printf("failed to stop server container %s: %v\n", s.SID, err)
 		return err
 	}
-	s.Status = proto_gen_go.ServerStatusType_SERVER_STATUS_TYPE_STOPPING
+	s.Status = daemon.ServerStatusType_SERVER_STATUS_TYPE_STOPPING
 	if err := db.Instance().Save(s).Error; err != nil {
 		return err
 	}
@@ -73,8 +73,8 @@ func Stop(s *model.Server, kill bool) error {
 				fmt.Printf("server container %s stopped with non-zero status code: %d\n", s.SID, status.StatusCode)
 			}
 
-			s.Status = proto_gen_go.ServerStatusType_SERVER_STATUS_TYPE_OFFLINE
-			s.OfflineReason = util.IfElse(kill, proto_gen_go.ServerOfflineReason_SERVER_OFFLINE_REASON_KILLED, proto_gen_go.ServerOfflineReason_SERVER_OFFLINE_REASON_STOPPED)
+			s.Status = daemon.ServerStatusType_SERVER_STATUS_TYPE_OFFLINE
+			s.OfflineReason = util.IfElse(kill, daemon.ServerOfflineReason_SERVER_OFFLINE_REASON_KILLED, daemon.ServerOfflineReason_SERVER_OFFLINE_REASON_STOPPED)
 			s.TimestampEnd = time.Now()
 			if err := db.Instance().Save(s).Error; err != nil {
 				fmt.Printf("failed to update server status after stop: %v\n", err)
@@ -97,7 +97,7 @@ func Restart(s *model.Server) error {
 		fmt.Printf("failed to restart server container %s: %v\n", s.SID, err)
 		return err
 	}
-	s.Status = proto_gen_go.ServerStatusType_SERVER_STATUS_TYPE_STOPPING
+	s.Status = daemon.ServerStatusType_SERVER_STATUS_TYPE_STOPPING
 	s.TimestampEnd = time.Now()
 	if err := db.Instance().Save(s).Error; err != nil {
 		return err
@@ -110,7 +110,7 @@ func Restart(s *model.Server) error {
 			if err != nil {
 				fmt.Printf("error waiting for server container %s to stop: %v\n", s.SID, err)
 
-				s.OfflineReason = proto_gen_go.ServerOfflineReason_SERVER_OFFLINE_REASON_ERROR
+				s.OfflineReason = daemon.ServerOfflineReason_SERVER_OFFLINE_REASON_ERROR
 				if err := db.Instance().Save(s).Error; err != nil {
 					fmt.Printf("failed to update server status after restart error: %v\n", err)
 				}
@@ -119,13 +119,13 @@ func Restart(s *model.Server) error {
 			if status.StatusCode != 0 {
 				fmt.Printf("server container %s stopped with non-zero status code: %d\n", s.SID, status.StatusCode)
 
-				s.OfflineReason = proto_gen_go.ServerOfflineReason_SERVER_OFFLINE_REASON_ERROR
+				s.OfflineReason = daemon.ServerOfflineReason_SERVER_OFFLINE_REASON_ERROR
 				if err := db.Instance().Save(s).Error; err != nil {
 					fmt.Printf("failed to update server status after restart error: %v\n", err)
 				}
 			}
 
-			s.Status = proto_gen_go.ServerStatusType_SERVER_STATUS_TYPE_STARTING
+			s.Status = daemon.ServerStatusType_SERVER_STATUS_TYPE_STARTING
 			s.TimestampStart = time.Now()
 			if err := db.Instance().Save(s).Error; err != nil {
 				fmt.Printf("failed to update server status after stop: %v\n", err)

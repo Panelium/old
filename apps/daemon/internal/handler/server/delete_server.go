@@ -5,11 +5,12 @@ import (
 	"context"
 	"panelium/daemon/internal/server"
 	"panelium/proto_gen_go"
+	"panelium/proto_gen_go/daemon"
 )
 
 func (s *ServerServiceHandler) DeleteServer(
 	ctx context.Context,
-	req *connect.Request[proto_gen_go.DeleteServerRequest],
+	req *connect.Request[daemon.DeleteServerRequest],
 ) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	err := server.DeleteServer(req.Msg.ServerId)
 	if err != nil {

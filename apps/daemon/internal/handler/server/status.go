@@ -8,12 +8,13 @@ import (
 	"panelium/daemon/internal/model"
 	"panelium/daemon/internal/server"
 	"panelium/proto_gen_go"
+	"panelium/proto_gen_go/daemon"
 )
 
 func (s *ServerServiceHandler) Status(
 	ctx context.Context,
 	req *connect.Request[proto_gen_go.Empty],
-) (*connect.Response[proto_gen_go.ServerStatus], error) {
+) (*connect.Response[daemon.ServerStatus], error) {
 	serverId := ctx.Value("server_id").(string)
 	if serverId == "" {
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("server ID is required"))
