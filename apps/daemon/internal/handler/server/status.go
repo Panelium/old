@@ -13,15 +13,10 @@ import (
 
 func (s *ServerServiceHandler) Status(
 	ctx context.Context,
-	req *connect.Request[proto_gen_go.Empty],
+	req *connect.Request[proto_gen_go.SimpleIDMessage],
 ) (*connect.Response[daemon.ServerStatus], error) {
-	serverId := ctx.Value("server_id").(string)
-	if serverId == "" {
-		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("server ID is required"))
-	}
-
 	var srv *model.Server
-	tx := db.Instance().First(&srv, "sid = ?", serverId)
+	tx := db.Instance().First(&srv, "sid = ?", req.Msg.Id)
 	if tx.Error != nil || tx.RowsAffected == 0 {
 		return nil, connect.NewError(connect.CodeNotFound, errors.New("server not found"))
 	}

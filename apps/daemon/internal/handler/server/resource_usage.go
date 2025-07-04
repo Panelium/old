@@ -19,16 +19,11 @@ import (
 
 func (s *ServerServiceHandler) ResourceUsage(
 	ctx context.Context,
-	req *connect.Request[proto_gen_go.Empty],
+	req *connect.Request[proto_gen_go.SimpleIDMessage],
 	stm *connect.ServerStream[daemon.ResourceUsageMessage],
 ) error {
-	serverId := ctx.Value("server_id").(string)
-	if serverId == "" {
-		return connect.NewError(connect.CodeInvalidArgument, errors.New("server ID is required"))
-	}
-
 	var srv *model.Server
-	tx := db.Instance().First(&srv, "sid = ?", serverId)
+	tx := db.Instance().First(&srv, "sid = ?", req.Msg.Id)
 	if tx.Error != nil || tx.RowsAffected == 0 {
 		return connect.NewError(connect.CodeNotFound, errors.New("server not found"))
 	}
@@ -37,12 +32,12 @@ func (s *ServerServiceHandler) ResourceUsage(
 		return connect.NewError(connect.CodeFailedPrecondition, errors.New("server does not have a container"))
 	}
 
-	vol, err := docker.Instance().VolumeInspect(context.Background(), serverId)
+	vol, err := docker.Instance().VolumeInspect(context.Background(), req.Msg.Id)
 	if err != nil {
 		return connect.NewError(connect.CodeInternal, errors.New("failed to inspect volume"))
 	}
 
-	csr, err := docker.Instance().ContainerStats(context.Background(), serverId, true)
+	csr, err := docker.Instance().ContainerStats(context.Background(), req.Msg.Id, true)
 	if err != nil {
 		return connect.NewError(connect.CodeInternal, errors.New("failed to get container stats"))
 	}

@@ -34,12 +34,6 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
-	// ServerServiceCreateServerProcedure is the fully-qualified name of the ServerService's
-	// CreateServer RPC.
-	ServerServiceCreateServerProcedure = "/daemon.ServerService/CreateServer"
-	// ServerServiceDeleteServerProcedure is the fully-qualified name of the ServerService's
-	// DeleteServer RPC.
-	ServerServiceDeleteServerProcedure = "/daemon.ServerService/DeleteServer"
 	// ServerServiceConsoleProcedure is the fully-qualified name of the ServerService's Console RPC.
 	ServerServiceConsoleProcedure = "/daemon.ServerService/Console"
 	// ServerServiceTerminalProcedure is the fully-qualified name of the ServerService's Terminal RPC.
@@ -58,24 +52,12 @@ const (
 
 // ServerServiceClient is a client for the daemon.ServerService service.
 type ServerServiceClient interface {
-	// / Server Management
-	// / - Called by backend, needs token
-	CreateServer(context.Context, *connect.Request[daemon.CreateServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
-	DeleteServer(context.Context, *connect.Request[daemon.DeleteServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
-	// / Server Actions - Requires a ServerID http header
-	// / - Called by client, needs jwt
-	// Console (process)
-	Console(context.Context) *connect.BidiStreamForClient[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]
-	// Terminal (system)
-	Terminal(context.Context) *connect.BidiStreamForClient[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]
-	// / - Called by backend, needs token
-	// Server Info
-	Status(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[daemon.ServerStatus], error)
-	ResourceUsage(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.ServerStreamForClient[daemon.ResourceUsageMessage], error)
-	// Power Actions
+	Console(context.Context) *connect.BidiStreamForClient[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage]
+	Terminal(context.Context) *connect.BidiStreamForClient[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage]
+	Status(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[daemon.ServerStatus], error)
+	ResourceUsage(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.ServerStreamForClient[daemon.ResourceUsageMessage], error)
 	PowerAction(context.Context, *connect.Request[daemon.PowerActionMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
-	// Installation
-	Install(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	Install(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 }
 
 // NewServerServiceClient constructs a client for the daemon.ServerService service. By default, it
@@ -89,37 +71,25 @@ func NewServerServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 	baseURL = strings.TrimRight(baseURL, "/")
 	serverServiceMethods := daemon.File_daemon_Server_proto.Services().ByName("ServerService").Methods()
 	return &serverServiceClient{
-		createServer: connect.NewClient[daemon.CreateServerRequest, proto_gen_go.SuccessMessage](
-			httpClient,
-			baseURL+ServerServiceCreateServerProcedure,
-			connect.WithSchema(serverServiceMethods.ByName("CreateServer")),
-			connect.WithClientOptions(opts...),
-		),
-		deleteServer: connect.NewClient[daemon.DeleteServerRequest, proto_gen_go.SuccessMessage](
-			httpClient,
-			baseURL+ServerServiceDeleteServerProcedure,
-			connect.WithSchema(serverServiceMethods.ByName("DeleteServer")),
-			connect.WithClientOptions(opts...),
-		),
-		console: connect.NewClient[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage](
+		console: connect.NewClient[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage](
 			httpClient,
 			baseURL+ServerServiceConsoleProcedure,
 			connect.WithSchema(serverServiceMethods.ByName("Console")),
 			connect.WithClientOptions(opts...),
 		),
-		terminal: connect.NewClient[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage](
+		terminal: connect.NewClient[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage](
 			httpClient,
 			baseURL+ServerServiceTerminalProcedure,
 			connect.WithSchema(serverServiceMethods.ByName("Terminal")),
 			connect.WithClientOptions(opts...),
 		),
-		status: connect.NewClient[proto_gen_go.Empty, daemon.ServerStatus](
+		status: connect.NewClient[proto_gen_go.SimpleIDMessage, daemon.ServerStatus](
 			httpClient,
 			baseURL+ServerServiceStatusProcedure,
 			connect.WithSchema(serverServiceMethods.ByName("Status")),
 			connect.WithClientOptions(opts...),
 		),
-		resourceUsage: connect.NewClient[proto_gen_go.Empty, daemon.ResourceUsageMessage](
+		resourceUsage: connect.NewClient[proto_gen_go.SimpleIDMessage, daemon.ResourceUsageMessage](
 			httpClient,
 			baseURL+ServerServiceResourceUsageProcedure,
 			connect.WithSchema(serverServiceMethods.ByName("ResourceUsage")),
@@ -131,7 +101,7 @@ func NewServerServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 			connect.WithSchema(serverServiceMethods.ByName("PowerAction")),
 			connect.WithClientOptions(opts...),
 		),
-		install: connect.NewClient[proto_gen_go.Empty, proto_gen_go.SuccessMessage](
+		install: connect.NewClient[proto_gen_go.SimpleIDMessage, proto_gen_go.SuccessMessage](
 			httpClient,
 			baseURL+ServerServiceInstallProcedure,
 			connect.WithSchema(serverServiceMethods.ByName("Install")),
@@ -142,43 +112,31 @@ func NewServerServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 
 // serverServiceClient implements ServerServiceClient.
 type serverServiceClient struct {
-	createServer  *connect.Client[daemon.CreateServerRequest, proto_gen_go.SuccessMessage]
-	deleteServer  *connect.Client[daemon.DeleteServerRequest, proto_gen_go.SuccessMessage]
-	console       *connect.Client[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]
-	terminal      *connect.Client[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]
-	status        *connect.Client[proto_gen_go.Empty, daemon.ServerStatus]
-	resourceUsage *connect.Client[proto_gen_go.Empty, daemon.ResourceUsageMessage]
+	console       *connect.Client[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage]
+	terminal      *connect.Client[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage]
+	status        *connect.Client[proto_gen_go.SimpleIDMessage, daemon.ServerStatus]
+	resourceUsage *connect.Client[proto_gen_go.SimpleIDMessage, daemon.ResourceUsageMessage]
 	powerAction   *connect.Client[daemon.PowerActionMessage, proto_gen_go.SuccessMessage]
-	install       *connect.Client[proto_gen_go.Empty, proto_gen_go.SuccessMessage]
-}
-
-// CreateServer calls daemon.ServerService.CreateServer.
-func (c *serverServiceClient) CreateServer(ctx context.Context, req *connect.Request[daemon.CreateServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
-	return c.createServer.CallUnary(ctx, req)
-}
-
-// DeleteServer calls daemon.ServerService.DeleteServer.
-func (c *serverServiceClient) DeleteServer(ctx context.Context, req *connect.Request[daemon.DeleteServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
-	return c.deleteServer.CallUnary(ctx, req)
+	install       *connect.Client[proto_gen_go.SimpleIDMessage, proto_gen_go.SuccessMessage]
 }
 
 // Console calls daemon.ServerService.Console.
-func (c *serverServiceClient) Console(ctx context.Context) *connect.BidiStreamForClient[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage] {
+func (c *serverServiceClient) Console(ctx context.Context) *connect.BidiStreamForClient[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage] {
 	return c.console.CallBidiStream(ctx)
 }
 
 // Terminal calls daemon.ServerService.Terminal.
-func (c *serverServiceClient) Terminal(ctx context.Context) *connect.BidiStreamForClient[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage] {
+func (c *serverServiceClient) Terminal(ctx context.Context) *connect.BidiStreamForClient[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage] {
 	return c.terminal.CallBidiStream(ctx)
 }
 
 // Status calls daemon.ServerService.Status.
-func (c *serverServiceClient) Status(ctx context.Context, req *connect.Request[proto_gen_go.Empty]) (*connect.Response[daemon.ServerStatus], error) {
+func (c *serverServiceClient) Status(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[daemon.ServerStatus], error) {
 	return c.status.CallUnary(ctx, req)
 }
 
 // ResourceUsage calls daemon.ServerService.ResourceUsage.
-func (c *serverServiceClient) ResourceUsage(ctx context.Context, req *connect.Request[proto_gen_go.Empty]) (*connect.ServerStreamForClient[daemon.ResourceUsageMessage], error) {
+func (c *serverServiceClient) ResourceUsage(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.ServerStreamForClient[daemon.ResourceUsageMessage], error) {
 	return c.resourceUsage.CallServerStream(ctx, req)
 }
 
@@ -188,30 +146,18 @@ func (c *serverServiceClient) PowerAction(ctx context.Context, req *connect.Requ
 }
 
 // Install calls daemon.ServerService.Install.
-func (c *serverServiceClient) Install(ctx context.Context, req *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+func (c *serverServiceClient) Install(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	return c.install.CallUnary(ctx, req)
 }
 
 // ServerServiceHandler is an implementation of the daemon.ServerService service.
 type ServerServiceHandler interface {
-	// / Server Management
-	// / - Called by backend, needs token
-	CreateServer(context.Context, *connect.Request[daemon.CreateServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
-	DeleteServer(context.Context, *connect.Request[daemon.DeleteServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
-	// / Server Actions - Requires a ServerID http header
-	// / - Called by client, needs jwt
-	// Console (process)
-	Console(context.Context, *connect.BidiStream[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]) error
-	// Terminal (system)
-	Terminal(context.Context, *connect.BidiStream[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]) error
-	// / - Called by backend, needs token
-	// Server Info
-	Status(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[daemon.ServerStatus], error)
-	ResourceUsage(context.Context, *connect.Request[proto_gen_go.Empty], *connect.ServerStream[daemon.ResourceUsageMessage]) error
-	// Power Actions
+	Console(context.Context, *connect.BidiStream[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage]) error
+	Terminal(context.Context, *connect.BidiStream[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage]) error
+	Status(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[daemon.ServerStatus], error)
+	ResourceUsage(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage], *connect.ServerStream[daemon.ResourceUsageMessage]) error
 	PowerAction(context.Context, *connect.Request[daemon.PowerActionMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
-	// Installation
-	Install(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	Install(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 }
 
 // NewServerServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -221,18 +167,6 @@ type ServerServiceHandler interface {
 // and JSON codecs. They also support gzip compression.
 func NewServerServiceHandler(svc ServerServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
 	serverServiceMethods := daemon.File_daemon_Server_proto.Services().ByName("ServerService").Methods()
-	serverServiceCreateServerHandler := connect.NewUnaryHandler(
-		ServerServiceCreateServerProcedure,
-		svc.CreateServer,
-		connect.WithSchema(serverServiceMethods.ByName("CreateServer")),
-		connect.WithHandlerOptions(opts...),
-	)
-	serverServiceDeleteServerHandler := connect.NewUnaryHandler(
-		ServerServiceDeleteServerProcedure,
-		svc.DeleteServer,
-		connect.WithSchema(serverServiceMethods.ByName("DeleteServer")),
-		connect.WithHandlerOptions(opts...),
-	)
 	serverServiceConsoleHandler := connect.NewBidiStreamHandler(
 		ServerServiceConsoleProcedure,
 		svc.Console,
@@ -271,10 +205,6 @@ func NewServerServiceHandler(svc ServerServiceHandler, opts ...connect.HandlerOp
 	)
 	return "/daemon.ServerService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
-		case ServerServiceCreateServerProcedure:
-			serverServiceCreateServerHandler.ServeHTTP(w, r)
-		case ServerServiceDeleteServerProcedure:
-			serverServiceDeleteServerHandler.ServeHTTP(w, r)
 		case ServerServiceConsoleProcedure:
 			serverServiceConsoleHandler.ServeHTTP(w, r)
 		case ServerServiceTerminalProcedure:
@@ -296,27 +226,19 @@ func NewServerServiceHandler(svc ServerServiceHandler, opts ...connect.HandlerOp
 // UnimplementedServerServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedServerServiceHandler struct{}
 
-func (UnimplementedServerServiceHandler) CreateServer(context.Context, *connect.Request[daemon.CreateServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("daemon.ServerService.CreateServer is not implemented"))
-}
-
-func (UnimplementedServerServiceHandler) DeleteServer(context.Context, *connect.Request[daemon.DeleteServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("daemon.ServerService.DeleteServer is not implemented"))
-}
-
-func (UnimplementedServerServiceHandler) Console(context.Context, *connect.BidiStream[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]) error {
+func (UnimplementedServerServiceHandler) Console(context.Context, *connect.BidiStream[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage]) error {
 	return connect.NewError(connect.CodeUnimplemented, errors.New("daemon.ServerService.Console is not implemented"))
 }
 
-func (UnimplementedServerServiceHandler) Terminal(context.Context, *connect.BidiStream[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]) error {
+func (UnimplementedServerServiceHandler) Terminal(context.Context, *connect.BidiStream[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage]) error {
 	return connect.NewError(connect.CodeUnimplemented, errors.New("daemon.ServerService.Terminal is not implemented"))
 }
 
-func (UnimplementedServerServiceHandler) Status(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[daemon.ServerStatus], error) {
+func (UnimplementedServerServiceHandler) Status(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[daemon.ServerStatus], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("daemon.ServerService.Status is not implemented"))
 }
 
-func (UnimplementedServerServiceHandler) ResourceUsage(context.Context, *connect.Request[proto_gen_go.Empty], *connect.ServerStream[daemon.ResourceUsageMessage]) error {
+func (UnimplementedServerServiceHandler) ResourceUsage(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage], *connect.ServerStream[daemon.ResourceUsageMessage]) error {
 	return connect.NewError(connect.CodeUnimplemented, errors.New("daemon.ServerService.ResourceUsage is not implemented"))
 }
 
@@ -324,6 +246,6 @@ func (UnimplementedServerServiceHandler) PowerAction(context.Context, *connect.R
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("daemon.ServerService.PowerAction is not implemented"))
 }
 
-func (UnimplementedServerServiceHandler) Install(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+func (UnimplementedServerServiceHandler) Install(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("daemon.ServerService.Install is not implemented"))
 }

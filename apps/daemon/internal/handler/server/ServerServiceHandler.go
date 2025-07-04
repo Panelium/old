@@ -6,4 +6,4 @@ type ServerServiceHandler struct {
 	daemonconnect.ServerServiceHandler
 }
 
-// ctx.Value("server_id")
+// TODO: check if user has access to the server

@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package daemon;
+option go_package = "panelium/proto_gen_go/daemon";
+
+import "common.proto";
+import "daemon/Server.proto";
+
+service ServersService {
+  rpc CreateServer(CreateServerRequest) returns (common.SuccessMessage);
+  rpc DeleteServer(DeleteServerRequest) returns (common.SuccessMessage);
+}
+
+message CreateServerRequest {
+  string serverId = 1;
+  repeated Allocation allocations = 2;
+  ResourceLimit resourceLimit = 3;
+  string blueprintId = 4;
+  string dockerImage = 5;
+}
+
+message DeleteServerRequest {
+  string serverId = 1;
+  bool force = 2;
+}

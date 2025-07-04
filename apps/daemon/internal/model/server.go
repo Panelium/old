@@ -8,6 +8,8 @@ import (
 type Server struct {
 	ID              uint                       `gorm:"primaryKey" json:"id"`
 	SID             string                     `gorm:"uniqueIndex;not null" json:"sid"`
+	OwnerID         string                     `gorm:"index;not null" json:"owner_id"`
+	Users           []ServerUser               `gorm:"foreignKey:ServerID" json:"users"`
 	Status          daemon.ServerStatusType    `gorm:"not null" json:"status"`
 	TimestampStart  time.Time                  `gorm:"default:null" json:"timestamp_start,omitempty"`
 	TimestampEnd    time.Time                  `gorm:"default:null" json:"timestamp_end,omitempty"`

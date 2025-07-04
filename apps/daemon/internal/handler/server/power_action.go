@@ -15,13 +15,8 @@ func (s *ServerServiceHandler) PowerAction(
 	ctx context.Context,
 	req *connect.Request[daemon.PowerActionMessage],
 ) (*connect.Response[proto_gen_go.SuccessMessage], error) {
-	serverId := ctx.Value("server_id").(string)
-	if serverId == "" {
-		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("server ID is required"))
-	}
-
 	var srv *model.Server
-	tx := db.Instance().First(&srv, "sid = ?", serverId)
+	tx := db.Instance().First(&srv, "sid = ?", req.Msg.ServerId)
 	if tx.Error != nil || tx.RowsAffected == 0 {
 		return nil, connect.NewError(connect.CodeNotFound, errors.New("server not found"))
 	}

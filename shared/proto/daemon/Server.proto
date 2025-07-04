@@ -7,29 +7,15 @@ import "common.proto";
 import "google/protobuf/timestamp.proto";
 
 service ServerService {
-  /// Server Management
-  /// - Called by backend, needs token
-  rpc CreateServer(CreateServerRequest) returns (common.SuccessMessage);
-  rpc DeleteServer(DeleteServerRequest) returns (common.SuccessMessage);
+  rpc Console(stream common.StreamIDMessage) returns (stream common.SimpleMessage);
+  rpc Terminal(stream common.StreamIDMessage) returns (stream common.SimpleMessage);
 
-  /// Server Actions - Requires a ServerID http header
-  /// - Called by client, needs jwt
-  // Console (process)
-  rpc Console(stream common.SimpleMessage) returns (stream common.SimpleMessage);
+  rpc Status(common.SimpleIDMessage) returns (ServerStatus);
+  rpc ResourceUsage(common.SimpleIDMessage) returns (stream ResourceUsageMessage);
 
-  // Terminal (system)
-  rpc Terminal(stream common.SimpleMessage) returns (stream common.SimpleMessage);
-
-  /// - Called by backend, needs token
-  // Server Info
-  rpc Status(common.Empty) returns (ServerStatus);
-  rpc ResourceUsage(common.Empty) returns (stream ResourceUsageMessage);
-
-  // Power Actions
   rpc PowerAction(PowerActionMessage) returns (common.SuccessMessage);
 
-  // Installation
-  rpc Install(common.Empty) returns (common.SuccessMessage);
+  rpc Install(common.SimpleIDMessage) returns (common.SuccessMessage);
 }
 
 message Allocation {
@@ -50,21 +36,6 @@ message ResourceUsage {
   float storage = 3; // Storage in MB
 }
 
-// Server Management
-message CreateServerRequest {
-  string serverId = 1;
-  repeated Allocation allocations = 2;
-  ResourceLimit resourceLimit = 3;
-  string blueprintId = 4;
-  string dockerImage = 5;
-}
-
-message DeleteServerRequest {
-  string serverId = 1;
-  bool force = 2;
-}
-
-// Server Info
 message ServerStatus {
   ServerStatusType status = 1;
   optional google.protobuf.Timestamp timestampStart = 2;
@@ -89,7 +60,6 @@ enum ServerOfflineReason {
   SERVER_OFFLINE_REASON_ERROR = 4;
 }
 
-// Power Actions
 enum PowerAction {
   POWER_ACTION_UNSPECIFIED = 0; // Default value, should not be used
   POWER_ACTION_START = 1;
@@ -99,7 +69,8 @@ enum PowerAction {
 }
 
 message PowerActionMessage {
-  PowerAction action = 1;
+  string serverId = 1;
+  PowerAction action = 2;
 }
 
 message ResourceUsageMessage {

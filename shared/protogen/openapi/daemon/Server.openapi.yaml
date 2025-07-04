@@ -2,79 +2,6 @@ openapi: 3.1.0
 info:
   title: daemon
 paths:
-  /daemon.ServerService/CreateServer:
-    post:
-      tags:
-        - daemon.ServerService
-      summary: CreateServer
-      description: |-
-        / Server Management
-        / - Called by backend, needs token
-      operationId: daemon.ServerService.CreateServer
-      parameters:
-        - name: Connect-Protocol-Version
-          in: header
-          required: true
-          schema:
-            $ref: '#/components/schemas/connect-protocol-version'
-        - name: Connect-Timeout-Ms
-          in: header
-          schema:
-            $ref: '#/components/schemas/connect-timeout-header'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/daemon.CreateServerRequest'
-        required: true
-      responses:
-        default:
-          description: Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/connect.error'
-        "200":
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/common.SuccessMessage'
-  /daemon.ServerService/DeleteServer:
-    post:
-      tags:
-        - daemon.ServerService
-      summary: DeleteServer
-      operationId: daemon.ServerService.DeleteServer
-      parameters:
-        - name: Connect-Protocol-Version
-          in: header
-          required: true
-          schema:
-            $ref: '#/components/schemas/connect-protocol-version'
-        - name: Connect-Timeout-Ms
-          in: header
-          schema:
-            $ref: '#/components/schemas/connect-timeout-header'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/daemon.DeleteServerRequest'
-        required: true
-      responses:
-        default:
-          description: Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/connect.error'
-        "200":
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/common.SuccessMessage'
   /daemon.ServerService/Console: {}
   /daemon.ServerService/Terminal: {}
   /daemon.ServerService/Status:
@@ -82,9 +9,6 @@ paths:
       tags:
         - daemon.ServerService
       summary: Status
-      description: |-
-        / - Called by backend, needs token
-         Server Info
       operationId: daemon.ServerService.Status
       parameters:
         - name: Connect-Protocol-Version
@@ -100,7 +24,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/common.Empty'
+              $ref: '#/components/schemas/common.SimpleIDMessage'
         required: true
       responses:
         default:
@@ -121,7 +45,6 @@ paths:
       tags:
         - daemon.ServerService
       summary: PowerAction
-      description: Power Actions
       operationId: daemon.ServerService.PowerAction
       parameters:
         - name: Connect-Protocol-Version
@@ -157,7 +80,6 @@ paths:
       tags:
         - daemon.ServerService
       summary: Install
-      description: Installation
       operationId: daemon.ServerService.Install
       parameters:
         - name: Connect-Protocol-Version
@@ -173,7 +95,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/common.Empty'
+              $ref: '#/components/schemas/common.SimpleIDMessage'
         required: true
       responses:
         default:
@@ -199,7 +121,6 @@ components:
         - POWER_ACTION_RESTART
         - POWER_ACTION_STOP
         - POWER_ACTION_KILL
-      description: Power Actions
     daemon.ServerOfflineReason:
       type: string
       title: ServerOfflineReason
@@ -219,9 +140,13 @@ components:
         - SERVER_STATUS_TYPE_STOPPING
         - SERVER_STATUS_TYPE_OFFLINE
         - SERVER_STATUS_TYPE_INSTALLING
-    common.Empty:
+    common.SimpleIDMessage:
       type: object
-      title: Empty
+      properties:
+        id:
+          type: string
+          title: id
+      title: SimpleIDMessage
       additionalProperties: false
     common.SimpleMessage:
       type: object
@@ -230,6 +155,21 @@ components:
           type: string
           title: text
       title: SimpleMessage
+      additionalProperties: false
+    common.StreamIDMessage:
+      type: object
+      properties:
+        id:
+          type: string
+          title: id
+          description: only required for the first message in the stream, subsequent messages can omit this field
+          nullable: true
+        text:
+          type: string
+          title: text
+          description: required after the first message in the stream, first message can omit this field
+          nullable: true
+      title: StreamIDMessage
       additionalProperties: false
     common.SuccessMessage:
       type: object
@@ -251,43 +191,12 @@ components:
           description: MUST BE 1024-65535
       title: Allocation
       additionalProperties: false
-    daemon.CreateServerRequest:
-      type: object
-      properties:
-        serverId:
-          type: string
-          title: serverId
-        allocations:
-          type: array
-          items:
-            $ref: '#/components/schemas/daemon.Allocation'
-          title: allocations
-        resourceLimit:
-          title: resourceLimit
-          $ref: '#/components/schemas/daemon.ResourceLimit'
-        blueprintId:
-          type: string
-          title: blueprintId
-        dockerImage:
-          type: string
-          title: dockerImage
-      title: CreateServerRequest
-      additionalProperties: false
-      description: Server Management
-    daemon.DeleteServerRequest:
-      type: object
-      properties:
-        serverId:
-          type: string
-          title: serverId
-        force:
-          type: boolean
-          title: force
-      title: DeleteServerRequest
-      additionalProperties: false
     daemon.PowerActionMessage:
       type: object
       properties:
+        serverId:
+          type: string
+          title: serverId
         action:
           title: action
           $ref: '#/components/schemas/daemon.PowerAction'
@@ -362,7 +271,6 @@ components:
           $ref: '#/components/schemas/daemon.ServerOfflineReason'
       title: ServerStatus
       additionalProperties: false
-      description: Server Info
     google.protobuf.Timestamp:
       type: string
       examples:

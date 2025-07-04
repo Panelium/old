@@ -10,14 +10,17 @@ import (
 
 func (s *ServerServiceHandler) Terminal(
 	ctx context.Context,
-	stm *connect.BidiStream[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage],
+	stm *connect.BidiStream[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage],
 ) error {
-	serverId := ctx.Value("server_id").(string)
-	if serverId == "" {
-		return connect.NewError(connect.CodeInvalidArgument, errors.New("server ID is required"))
+	firstMsg, err := stm.Receive()
+	if err != nil {
+		return err
+	}
+	if firstMsg.Id == nil || *firstMsg.Id == "" {
+		return connect.NewError(connect.CodeInvalidArgument, errors.New("invalid server ID"))
 	}
 
-	err := server.Terminal(serverId, stm)
+	err = server.Terminal(*firstMsg.Id, stm)
 	if err != nil {
 		return connect.NewError(connect.CodeInternal, err)
 	}

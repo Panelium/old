@@ -10,13 +10,14 @@ import (
 	"github.com/docker/docker/api/types/container"
 	"io"
 	"net"
+	"panelium/common/util"
 	"panelium/daemon/internal/docker"
 	"panelium/proto_gen_go"
 	"strings"
 	"time"
 )
 
-func Console(sid string, stm *connect.BidiStream[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]) error {
+func Console(sid string, stm *connect.BidiStream[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage]) error {
 	c, err := console(sid)
 	if err != nil {
 		return connect.NewError(connect.CodeInternal, fmt.Errorf("failed to attach to container console"))
@@ -40,7 +41,7 @@ func Console(sid string, stm *connect.BidiStream[proto_gen_go.SimpleMessage, pro
 	return nil
 }
 
-func Terminal(sid string, stm *connect.BidiStream[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]) error {
+func Terminal(sid string, stm *connect.BidiStream[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage]) error {
 	t, err := terminal(sid)
 	if err != nil {
 		return connect.NewError(connect.CodeInternal, fmt.Errorf("failed to create container terminal"))
@@ -58,10 +59,10 @@ func Terminal(sid string, stm *connect.BidiStream[proto_gen_go.SimpleMessage, pr
 	return nil
 }
 
-func attach(attachStream *types.HijackedResponse, stm *connect.BidiStream[proto_gen_go.SimpleMessage, proto_gen_go.SimpleMessage]) error {
+func attach(attachStream *types.HijackedResponse, stm *connect.BidiStream[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage]) error {
 	defer attachStream.Close()
 
-	resStmCh := make(chan *proto_gen_go.SimpleMessage)
+	resStmCh := make(chan *proto_gen_go.StreamIDMessage)
 	attachStmCh := make(chan string)
 	errCh := make(chan error, 2)
 
@@ -95,7 +96,7 @@ func attach(attachStream *types.HijackedResponse, stm *connect.BidiStream[proto_
 		select {
 		case msg := <-resStmCh:
 			// write client command to console
-			_, err := attachStream.Conn.Write([]byte(msg.Text + "\n"))
+			_, err := attachStream.Conn.Write([]byte(util.IfElse(msg.Text != nil, *msg.Text, "") + "\n"))
 			if err != nil {
 				return err
 			}

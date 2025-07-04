@@ -4,7 +4,7 @@
 
 import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
 import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { EmptySchema, SimpleMessageSchema, SuccessMessageSchema } from "../common_pb";
+import type { SimpleIDMessageSchema, SimpleMessageSchema, StreamIDMessageSchema, SuccessMessageSchema } from "../common_pb";
 import { file_common } from "../common_pb";
 import type { Timestamp } from "@bufbuild/protobuf/wkt";
 import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
@@ -14,7 +14,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file daemon/Server.proto.
  */
 export const file_daemon_Server: GenFile = /*@__PURE__*/
-  fileDesc("ChNkYWVtb24vU2VydmVyLnByb3RvEgZkYWVtb24iJgoKQWxsb2NhdGlvbhIKCgJpcBgBIAEoCRIMCgRwb3J0GAIgASgNIkgKDVJlc291cmNlTGltaXQSCwoDY3B1GAEgASgNEgsKA3JhbRgCIAEoDRIMCgRzd2FwGAMgASgNEg8KB3N0b3JhZ2UYBCABKA0iOgoNUmVzb3VyY2VVc2FnZRILCgNjcHUYASABKAISCwoDcmFtGAIgASgCEg8KB3N0b3JhZ2UYAyABKAIiqAEKE0NyZWF0ZVNlcnZlclJlcXVlc3QSEAoIc2VydmVySWQYASABKAkSJwoLYWxsb2NhdGlvbnMYAiADKAsyEi5kYWVtb24uQWxsb2NhdGlvbhIsCg1yZXNvdXJjZUxpbWl0GAMgASgLMhUuZGFlbW9uLlJlc291cmNlTGltaXQSEwoLYmx1ZXByaW50SWQYBCABKAkSEwoLZG9ja2VySW1hZ2UYBSABKAkiNgoTRGVsZXRlU2VydmVyUmVxdWVzdBIQCghzZXJ2ZXJJZBgBIAEoCRINCgVmb3JjZRgCIAEoCCKXAgoMU2VydmVyU3RhdHVzEigKBnN0YXR1cxgBIAEoDjIYLmRhZW1vbi5TZXJ2ZXJTdGF0dXNUeXBlEjcKDnRpbWVzdGFtcFN0YXJ0GAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcEgAiAEBEjUKDHRpbWVzdGFtcEVuZBgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBIAYgBARI3Cg1vZmZsaW5lUmVhc29uGAQgASgOMhsuZGFlbW9uLlNlcnZlck9mZmxpbmVSZWFzb25IAogBAUIRCg9fdGltZXN0YW1wU3RhcnRCDwoNX3RpbWVzdGFtcEVuZEIQCg5fb2ZmbGluZVJlYXNvbiI5ChJQb3dlckFjdGlvbk1lc3NhZ2USIwoGYWN0aW9uGAEgASgOMhMuZGFlbW9uLlBvd2VyQWN0aW9uIjwKFFJlc291cmNlVXNhZ2VNZXNzYWdlEiQKBXVzYWdlGAIgASgLMhUuZGFlbW9uLlJlc291cmNlVXNhZ2Uq1gEKEFNlcnZlclN0YXR1c1R5cGUSHgoaU0VSVkVSX1NUQVRVU19UWVBFX1VOS05PV04QABIfChtTRVJWRVJfU1RBVFVTX1RZUEVfU1RBUlRJTkcQARIdChlTRVJWRVJfU1RBVFVTX1RZUEVfT05MSU5FEAISHwobU0VSVkVSX1NUQVRVU19UWVBFX1NUT1BQSU5HEAMSHgoaU0VSVkVSX1NUQVRVU19UWVBFX09GRkxJTkUQBBIhCh1TRVJWRVJfU1RBVFVTX1RZUEVfSU5TVEFMTElORxAFKsEBChNTZXJ2ZXJPZmZsaW5lUmVhc29uEiEKHVNFUlZFUl9PRkZMSU5FX1JFQVNPTl9VTktOT1dOEAASIQodU0VSVkVSX09GRkxJTkVfUkVBU09OX0NSRUFURUQQARIhCh1TRVJWRVJfT0ZGTElORV9SRUFTT05fU1RPUFBFRBACEiAKHFNFUlZFUl9PRkZMSU5FX1JFQVNPTl9LSUxMRUQQAxIfChtTRVJWRVJfT0ZGTElORV9SRUFTT05fRVJST1IQBCqLAQoLUG93ZXJBY3Rpb24SHAoYUE9XRVJfQUNUSU9OX1VOU1BFQ0lGSUVEEAASFgoSUE9XRVJfQUNUSU9OX1NUQVJUEAESGAoUUE9XRVJfQUNUSU9OX1JFU1RBUlQQAhIVChFQT1dFUl9BQ1RJT05fU1RPUBADEhUKEVBPV0VSX0FDVElPTl9LSUxMEAQy+AMKDVNlcnZlclNlcnZpY2USQwoMQ3JlYXRlU2VydmVyEhsuZGFlbW9uLkNyZWF0ZVNlcnZlclJlcXVlc3QaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USQwoMRGVsZXRlU2VydmVyEhsuZGFlbW9uLkRlbGV0ZVNlcnZlclJlcXVlc3QaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USOwoHQ29uc29sZRIVLmNvbW1vbi5TaW1wbGVNZXNzYWdlGhUuY29tbW9uLlNpbXBsZU1lc3NhZ2UoATABEjwKCFRlcm1pbmFsEhUuY29tbW9uLlNpbXBsZU1lc3NhZ2UaFS5jb21tb24uU2ltcGxlTWVzc2FnZSgBMAESLQoGU3RhdHVzEg0uY29tbW9uLkVtcHR5GhQuZGFlbW9uLlNlcnZlclN0YXR1cxI+Cg1SZXNvdXJjZVVzYWdlEg0uY29tbW9uLkVtcHR5GhwuZGFlbW9uLlJlc291cmNlVXNhZ2VNZXNzYWdlMAESQQoLUG93ZXJBY3Rpb24SGi5kYWVtb24uUG93ZXJBY3Rpb25NZXNzYWdlGhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlEjAKB0luc3RhbGwSDS5jb21tb24uRW1wdHkaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2VCHloccGFuZWxpdW0vcHJvdG9fZ2VuX2dvL2RhZW1vbmIGcHJvdG8z", [file_common, file_google_protobuf_timestamp]);
+  fileDesc("ChNkYWVtb24vU2VydmVyLnByb3RvEgZkYWVtb24iJgoKQWxsb2NhdGlvbhIKCgJpcBgBIAEoCRIMCgRwb3J0GAIgASgNIkgKDVJlc291cmNlTGltaXQSCwoDY3B1GAEgASgNEgsKA3JhbRgCIAEoDRIMCgRzd2FwGAMgASgNEg8KB3N0b3JhZ2UYBCABKA0iOgoNUmVzb3VyY2VVc2FnZRILCgNjcHUYASABKAISCwoDcmFtGAIgASgCEg8KB3N0b3JhZ2UYAyABKAIilwIKDFNlcnZlclN0YXR1cxIoCgZzdGF0dXMYASABKA4yGC5kYWVtb24uU2VydmVyU3RhdHVzVHlwZRI3Cg50aW1lc3RhbXBTdGFydBgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBIAIgBARI1Cgx0aW1lc3RhbXBFbmQYAyABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wSAGIAQESNwoNb2ZmbGluZVJlYXNvbhgEIAEoDjIbLmRhZW1vbi5TZXJ2ZXJPZmZsaW5lUmVhc29uSAKIAQFCEQoPX3RpbWVzdGFtcFN0YXJ0Qg8KDV90aW1lc3RhbXBFbmRCEAoOX29mZmxpbmVSZWFzb24iSwoSUG93ZXJBY3Rpb25NZXNzYWdlEhAKCHNlcnZlcklkGAEgASgJEiMKBmFjdGlvbhgCIAEoDjITLmRhZW1vbi5Qb3dlckFjdGlvbiI8ChRSZXNvdXJjZVVzYWdlTWVzc2FnZRIkCgV1c2FnZRgCIAEoCzIVLmRhZW1vbi5SZXNvdXJjZVVzYWdlKtYBChBTZXJ2ZXJTdGF0dXNUeXBlEh4KGlNFUlZFUl9TVEFUVVNfVFlQRV9VTktOT1dOEAASHwobU0VSVkVSX1NUQVRVU19UWVBFX1NUQVJUSU5HEAESHQoZU0VSVkVSX1NUQVRVU19UWVBFX09OTElORRACEh8KG1NFUlZFUl9TVEFUVVNfVFlQRV9TVE9QUElORxADEh4KGlNFUlZFUl9TVEFUVVNfVFlQRV9PRkZMSU5FEAQSIQodU0VSVkVSX1NUQVRVU19UWVBFX0lOU1RBTExJTkcQBSrBAQoTU2VydmVyT2ZmbGluZVJlYXNvbhIhCh1TRVJWRVJfT0ZGTElORV9SRUFTT05fVU5LTk9XThAAEiEKHVNFUlZFUl9PRkZMSU5FX1JFQVNPTl9DUkVBVEVEEAESIQodU0VSVkVSX09GRkxJTkVfUkVBU09OX1NUT1BQRUQQAhIgChxTRVJWRVJfT0ZGTElORV9SRUFTT05fS0lMTEVEEAMSHwobU0VSVkVSX09GRkxJTkVfUkVBU09OX0VSUk9SEAQqiwEKC1Bvd2VyQWN0aW9uEhwKGFBPV0VSX0FDVElPTl9VTlNQRUNJRklFRBAAEhYKElBPV0VSX0FDVElPTl9TVEFSVBABEhgKFFBPV0VSX0FDVElPTl9SRVNUQVJUEAISFQoRUE9XRVJfQUNUSU9OX1NUT1AQAxIVChFQT1dFUl9BQ1RJT05fS0lMTBAEMpADCg1TZXJ2ZXJTZXJ2aWNlEj0KB0NvbnNvbGUSFy5jb21tb24uU3RyZWFtSURNZXNzYWdlGhUuY29tbW9uLlNpbXBsZU1lc3NhZ2UoATABEj4KCFRlcm1pbmFsEhcuY29tbW9uLlN0cmVhbUlETWVzc2FnZRoVLmNvbW1vbi5TaW1wbGVNZXNzYWdlKAEwARI3CgZTdGF0dXMSFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGhQuZGFlbW9uLlNlcnZlclN0YXR1cxJICg1SZXNvdXJjZVVzYWdlEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRocLmRhZW1vbi5SZXNvdXJjZVVzYWdlTWVzc2FnZTABEkEKC1Bvd2VyQWN0aW9uEhouZGFlbW9uLlBvd2VyQWN0aW9uTWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRI6CgdJbnN0YWxsEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZUIeWhxwYW5lbGl1bS9wcm90b19nZW5fZ28vZGFlbW9uYgZwcm90bzM", [file_common, file_google_protobuf_timestamp]);
 
 /**
  * @generated from message daemon.Allocation
@@ -114,69 +114,6 @@ export const ResourceUsageSchema: GenMessage<ResourceUsage> = /*@__PURE__*/
   messageDesc(file_daemon_Server, 2);
 
 /**
- * Server Management
- *
- * @generated from message daemon.CreateServerRequest
- */
-export type CreateServerRequest = Message<"daemon.CreateServerRequest"> & {
-  /**
-   * @generated from field: string serverId = 1;
-   */
-  serverId: string;
-
-  /**
-   * @generated from field: repeated daemon.Allocation allocations = 2;
-   */
-  allocations: Allocation[];
-
-  /**
-   * @generated from field: daemon.ResourceLimit resourceLimit = 3;
-   */
-  resourceLimit?: ResourceLimit;
-
-  /**
-   * @generated from field: string blueprintId = 4;
-   */
-  blueprintId: string;
-
-  /**
-   * @generated from field: string dockerImage = 5;
-   */
-  dockerImage: string;
-};
-
-/**
- * Describes the message daemon.CreateServerRequest.
- * Use `create(CreateServerRequestSchema)` to create a new message.
- */
-export const CreateServerRequestSchema: GenMessage<CreateServerRequest> = /*@__PURE__*/
-  messageDesc(file_daemon_Server, 3);
-
-/**
- * @generated from message daemon.DeleteServerRequest
- */
-export type DeleteServerRequest = Message<"daemon.DeleteServerRequest"> & {
-  /**
-   * @generated from field: string serverId = 1;
-   */
-  serverId: string;
-
-  /**
-   * @generated from field: bool force = 2;
-   */
-  force: boolean;
-};
-
-/**
- * Describes the message daemon.DeleteServerRequest.
- * Use `create(DeleteServerRequestSchema)` to create a new message.
- */
-export const DeleteServerRequestSchema: GenMessage<DeleteServerRequest> = /*@__PURE__*/
-  messageDesc(file_daemon_Server, 4);
-
-/**
- * Server Info
- *
  * @generated from message daemon.ServerStatus
  */
 export type ServerStatus = Message<"daemon.ServerStatus"> & {
@@ -206,14 +143,19 @@ export type ServerStatus = Message<"daemon.ServerStatus"> & {
  * Use `create(ServerStatusSchema)` to create a new message.
  */
 export const ServerStatusSchema: GenMessage<ServerStatus> = /*@__PURE__*/
-  messageDesc(file_daemon_Server, 5);
+  messageDesc(file_daemon_Server, 3);
 
 /**
  * @generated from message daemon.PowerActionMessage
  */
 export type PowerActionMessage = Message<"daemon.PowerActionMessage"> & {
   /**
-   * @generated from field: daemon.PowerAction action = 1;
+   * @generated from field: string serverId = 1;
+   */
+  serverId: string;
+
+  /**
+   * @generated from field: daemon.PowerAction action = 2;
    */
   action: PowerAction;
 };
@@ -223,7 +165,7 @@ export type PowerActionMessage = Message<"daemon.PowerActionMessage"> & {
  * Use `create(PowerActionMessageSchema)` to create a new message.
  */
 export const PowerActionMessageSchema: GenMessage<PowerActionMessage> = /*@__PURE__*/
-  messageDesc(file_daemon_Server, 6);
+  messageDesc(file_daemon_Server, 4);
 
 /**
  * @generated from message daemon.ResourceUsageMessage
@@ -240,7 +182,7 @@ export type ResourceUsageMessage = Message<"daemon.ResourceUsageMessage"> & {
  * Use `create(ResourceUsageMessageSchema)` to create a new message.
  */
 export const ResourceUsageMessageSchema: GenMessage<ResourceUsageMessage> = /*@__PURE__*/
-  messageDesc(file_daemon_Server, 7);
+  messageDesc(file_daemon_Server, 5);
 
 /**
  * @generated from enum daemon.ServerStatusType
@@ -322,8 +264,6 @@ export const ServerOfflineReasonSchema: GenEnum<ServerOfflineReason> = /*@__PURE
   enumDesc(file_daemon_Server, 1);
 
 /**
- * Power Actions
- *
  * @generated from enum daemon.PowerAction
  */
 export enum PowerAction {
@@ -366,55 +306,27 @@ export const PowerActionSchema: GenEnum<PowerAction> = /*@__PURE__*/
  */
 export const ServerService: GenService<{
   /**
-   * / Server Management
-   * / - Called by backend, needs token
-   *
-   * @generated from rpc daemon.ServerService.CreateServer
-   */
-  createServer: {
-    methodKind: "unary";
-    input: typeof CreateServerRequestSchema;
-    output: typeof SuccessMessageSchema;
-  },
-  /**
-   * @generated from rpc daemon.ServerService.DeleteServer
-   */
-  deleteServer: {
-    methodKind: "unary";
-    input: typeof DeleteServerRequestSchema;
-    output: typeof SuccessMessageSchema;
-  },
-  /**
-   * / Server Actions - Requires a ServerID http header
-   * / - Called by client, needs jwt
-   * Console (process)
-   *
    * @generated from rpc daemon.ServerService.Console
    */
   console: {
     methodKind: "bidi_streaming";
-    input: typeof SimpleMessageSchema;
+    input: typeof StreamIDMessageSchema;
     output: typeof SimpleMessageSchema;
   },
   /**
-   * Terminal (system)
-   *
    * @generated from rpc daemon.ServerService.Terminal
    */
   terminal: {
     methodKind: "bidi_streaming";
-    input: typeof SimpleMessageSchema;
+    input: typeof StreamIDMessageSchema;
     output: typeof SimpleMessageSchema;
   },
   /**
-   * / - Called by backend, needs token
-   * Server Info
-   *
    * @generated from rpc daemon.ServerService.Status
    */
   status: {
     methodKind: "unary";
-    input: typeof EmptySchema;
+    input: typeof SimpleIDMessageSchema;
     output: typeof ServerStatusSchema;
   },
   /**
@@ -422,12 +334,10 @@ export const ServerService: GenService<{
    */
   resourceUsage: {
     methodKind: "server_streaming";
-    input: typeof EmptySchema;
+    input: typeof SimpleIDMessageSchema;
     output: typeof ResourceUsageMessageSchema;
   },
   /**
-   * Power Actions
-   *
    * @generated from rpc daemon.ServerService.PowerAction
    */
   powerAction: {
@@ -436,13 +346,11 @@ export const ServerService: GenService<{
     output: typeof SuccessMessageSchema;
   },
   /**
-   * Installation
-   *
    * @generated from rpc daemon.ServerService.Install
    */
   install: {
     methodKind: "unary";
-    input: typeof EmptySchema;
+    input: typeof SimpleIDMessageSchema;
     output: typeof SuccessMessageSchema;
   },
 }> = /*@__PURE__*/

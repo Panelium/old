@@ -8,7 +8,7 @@ import (
 	"panelium/daemon/internal/config"
 )
 
-func NewAuthInterceptor() connect.UnaryInterceptorFunc {
+func NewBackendAuthInterceptor() connect.UnaryInterceptorFunc {
 	interceptor := func(next connect.UnaryFunc) connect.UnaryFunc {
 		return func(
 			ctx context.Context,
