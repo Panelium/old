@@ -8,18 +8,18 @@ import (
 	"panelium/daemon/internal/docker"
 )
 
-func DeleteServer(sid string) error {
+func DeleteServer(sid string, force bool) error {
 	dbErr := yeetDbServer(sid)
 	if dbErr != nil {
 		fmt.Printf("failed to delete server %s from database: %v\n", sid, dbErr)
 	}
 	crErr := docker.Instance().ContainerRemove(context.Background(), sid, container.RemoveOptions{
-		Force: true,
+		Force: force,
 	})
 	if crErr != nil {
 		fmt.Printf("failed to remove server container %s: %v\n", sid, crErr)
 	}
-	volErr := docker.Instance().VolumeRemove(context.Background(), sid, true)
+	volErr := docker.Instance().VolumeRemove(context.Background(), sid, force)
 	if volErr != nil {
 		fmt.Printf("failed to remove server volume %s: %v\n", sid, volErr)
 	}
