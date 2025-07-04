@@ -6,7 +6,7 @@ option go_package = "panelium/proto_gen_go/daemon";
 import "common.proto";
 import "daemon/Server.proto";
 
-service ServersService {
+service InternalService {
   rpc CreateServer(CreateServerRequest) returns (common.SuccessMessage);
   rpc UpdateServer(UpdateServerRequest) returns (common.SuccessMessage);
   rpc DeleteServer(DeleteServerRequest) returns (common.SuccessMessage);

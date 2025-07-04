@@ -2,12 +2,12 @@ openapi: 3.1.0
 info:
   title: daemon
 paths:
-  /daemon.ServersService/CreateServer:
+  /daemon.InternalService/CreateServer:
     post:
       tags:
-        - daemon.ServersService
+        - daemon.InternalService
       summary: CreateServer
-      operationId: daemon.ServersService.CreateServer
+      operationId: daemon.InternalService.CreateServer
       parameters:
         - name: Connect-Protocol-Version
           in: header
@@ -37,12 +37,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/common.SuccessMessage'
-  /daemon.ServersService/UpdateServer:
+  /daemon.InternalService/UpdateServer:
     post:
       tags:
-        - daemon.ServersService
+        - daemon.InternalService
       summary: UpdateServer
-      operationId: daemon.ServersService.UpdateServer
+      operationId: daemon.InternalService.UpdateServer
       parameters:
         - name: Connect-Protocol-Version
           in: header
@@ -72,12 +72,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/common.SuccessMessage'
-  /daemon.ServersService/DeleteServer:
+  /daemon.InternalService/DeleteServer:
     post:
       tags:
-        - daemon.ServersService
+        - daemon.InternalService
       summary: DeleteServer
-      operationId: daemon.ServersService.DeleteServer
+      operationId: daemon.InternalService.DeleteServer
       parameters:
         - name: Connect-Protocol-Version
           in: header
@@ -283,4 +283,4 @@ components:
       description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
 security: []
 tags:
-  - name: daemon.ServersService
+  - name: daemon.InternalService
