@@ -6,19 +6,30 @@ option go_package = "panelium/proto_gen_go/daemon";
 import "common.proto";
 import "daemon/Server.proto";
 
-// TODO: users
-
 service ServersService {
   rpc CreateServer(CreateServerRequest) returns (common.SuccessMessage);
+  rpc UpdateServer(UpdateServerRequest) returns (common.SuccessMessage);
   rpc DeleteServer(DeleteServerRequest) returns (common.SuccessMessage);
 }
 
 message CreateServerRequest {
   string serverId = 1;
-  repeated Allocation allocations = 2;
-  ResourceLimit resourceLimit = 3;
-  string blueprintId = 4;
-  string dockerImage = 5;
+  string ownerId = 2;
+  repeated string userIds = 3;
+  repeated Allocation allocations = 4;
+  ResourceLimit resourceLimit = 5;
+  string blueprintId = 6;
+  string dockerImage = 7;
+}
+
+// TODO: this should probably instead be pulled from backend on server startup
+message UpdateServerRequest {
+  string serverId = 1;
+  repeated string userIds = 3; //optional
+  repeated Allocation allocations = 4; //optional
+  optional ResourceLimit resourceLimit = 5;
+  optional string blueprintId = 6;
+  optional string dockerImage = 7;
 }
 
 message DeleteServerRequest {

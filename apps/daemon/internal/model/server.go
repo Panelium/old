@@ -6,15 +6,14 @@ import (
 )
 
 type Server struct {
-	ID              uint                       `gorm:"primaryKey" json:"id"`
 	SID             string                     `gorm:"uniqueIndex;not null" json:"sid"`
 	OwnerID         string                     `gorm:"index;not null" json:"owner_id"`
-	Users           []ServerUser               `gorm:"foreignKey:ServerID" json:"users"`
+	Users           []ServerUser               `gorm:"foreignKey:SID" json:"users"`
 	Status          daemon.ServerStatusType    `gorm:"not null" json:"status"`
 	TimestampStart  time.Time                  `gorm:"default:null" json:"timestamp_start,omitempty"`
 	TimestampEnd    time.Time                  `gorm:"default:null" json:"timestamp_end,omitempty"`
 	OfflineReason   daemon.ServerOfflineReason `gorm:"default:null" json:"offline_reason,omitempty"`
-	Allocations     []ServerAllocation         `gorm:"foreignKey:ServerID" json:"allocations"`
+	Allocations     []ServerAllocation         `gorm:"foreignKey:SID" json:"allocations"`
 	ResourceLimit   ResourceLimit              `gorm:"embedded" json:"resource_limit"`
 	DockerImage     string                     `gorm:"not null" json:"docker_image"`
 	BID             string                     `gorm:"not null" json:"bid"` // Blueprint ID

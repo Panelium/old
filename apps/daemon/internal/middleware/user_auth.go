@@ -3,6 +3,10 @@ package middleware
 import (
 	"connectrpc.com/connect"
 	"context"
+	"errors"
+	"net/http"
+	"panelium/common/jwt"
+	"panelium/daemon/internal/config"
 )
 
 func NewUserAuthInterceptor() connect.UnaryInterceptorFunc {
@@ -15,19 +19,52 @@ func NewUserAuthInterceptor() connect.UnaryInterceptorFunc {
 				return next(ctx, req)
 			}
 
-			//nodeToken := req.Header().Get("Authorization")
-			//if nodeToken == "" {
-			//	return next(ctx, req)
-			//}
-			//
-			//claims, err := jwt.VerifyJWT(nodeToken, &config.JWTPrivateKeyInstance.PublicKey, jwt.DaemonIssuer, jwt.NodeTokenType)
-			//if err != nil {
-			//	return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("invalid node token"))
-			//}
-			//
-			//if claims.JTI != config.SecretsInstance.NodeJTI {
-			//	return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("invalid node token"))
-			//}
+			cookieString := req.Header().Get("Cookie")
+			if cookieString == "" {
+				return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("invalid access token"))
+			}
+
+			cookies, err := http.ParseCookie(cookieString)
+			if err != nil {
+				return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("invalid access token"))
+			}
+
+			var cookie *http.Cookie
+
+			for _, c := range cookies {
+				if c.Name != "access_jwt" {
+					continue
+				}
+
+				if c.Value == "" {
+					continue
+				}
+
+				if !c.Secure {
+					continue
+				}
+				if !c.HttpOnly {
+					continue
+				}
+				if c.SameSite != http.SameSiteStrictMode {
+					continue
+				}
+
+				cookie = c
+			}
+
+			if cookie == nil {
+				return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("invalid access token"))
+			}
+
+			accessToken := cookie.Value
+
+			_, err = jwt.VerifyJWT(accessToken, config.BackendJWTPublicKeyInstance, jwt.BackendIssuer, jwt.AccessTokenType)
+			if err != nil {
+				return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("invalid access token"))
+			}
+
+			// TODO: check server access??
 
 			return next(ctx, req)
 		}

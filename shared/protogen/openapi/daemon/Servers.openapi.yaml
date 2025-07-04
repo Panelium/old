@@ -37,6 +37,41 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/common.SuccessMessage'
+  /daemon.ServersService/UpdateServer:
+    post:
+      tags:
+        - daemon.ServersService
+      summary: UpdateServer
+      operationId: daemon.ServersService.UpdateServer
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/daemon.UpdateServerRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/common.SuccessMessage'
   /daemon.ServersService/DeleteServer:
     post:
       tags:
@@ -100,6 +135,14 @@ components:
         serverId:
           type: string
           title: serverId
+        ownerId:
+          type: string
+          title: ownerId
+        userIds:
+          type: array
+          items:
+            type: string
+          title: userIds
         allocations:
           type: array
           items:
@@ -148,6 +191,39 @@ components:
           description: Storage in MB
       title: ResourceLimit
       additionalProperties: false
+    daemon.UpdateServerRequest:
+      type: object
+      properties:
+        serverId:
+          type: string
+          title: serverId
+        userIds:
+          type: array
+          items:
+            type: string
+          title: userIds
+          description: optional
+        allocations:
+          type: array
+          items:
+            $ref: '#/components/schemas/daemon.Allocation'
+          title: allocations
+          description: optional
+        resourceLimit:
+          title: resourceLimit
+          nullable: true
+          $ref: '#/components/schemas/daemon.ResourceLimit'
+        blueprintId:
+          type: string
+          title: blueprintId
+          nullable: true
+        dockerImage:
+          type: string
+          title: dockerImage
+          nullable: true
+      title: UpdateServerRequest
+      additionalProperties: false
+      description: 'TODO: this should probably instead be pulled from backend on server startup'
     connect-protocol-version:
       type: number
       title: Connect-Protocol-Version

@@ -37,6 +37,9 @@ const (
 	// ServersServiceCreateServerProcedure is the fully-qualified name of the ServersService's
 	// CreateServer RPC.
 	ServersServiceCreateServerProcedure = "/daemon.ServersService/CreateServer"
+	// ServersServiceUpdateServerProcedure is the fully-qualified name of the ServersService's
+	// UpdateServer RPC.
+	ServersServiceUpdateServerProcedure = "/daemon.ServersService/UpdateServer"
 	// ServersServiceDeleteServerProcedure is the fully-qualified name of the ServersService's
 	// DeleteServer RPC.
 	ServersServiceDeleteServerProcedure = "/daemon.ServersService/DeleteServer"
@@ -45,6 +48,7 @@ const (
 // ServersServiceClient is a client for the daemon.ServersService service.
 type ServersServiceClient interface {
 	CreateServer(context.Context, *connect.Request[daemon.CreateServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	UpdateServer(context.Context, *connect.Request[daemon.UpdateServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 	DeleteServer(context.Context, *connect.Request[daemon.DeleteServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 }
 
@@ -65,6 +69,12 @@ func NewServersServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 			connect.WithSchema(serversServiceMethods.ByName("CreateServer")),
 			connect.WithClientOptions(opts...),
 		),
+		updateServer: connect.NewClient[daemon.UpdateServerRequest, proto_gen_go.SuccessMessage](
+			httpClient,
+			baseURL+ServersServiceUpdateServerProcedure,
+			connect.WithSchema(serversServiceMethods.ByName("UpdateServer")),
+			connect.WithClientOptions(opts...),
+		),
 		deleteServer: connect.NewClient[daemon.DeleteServerRequest, proto_gen_go.SuccessMessage](
 			httpClient,
 			baseURL+ServersServiceDeleteServerProcedure,
@@ -77,12 +87,18 @@ func NewServersServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 // serversServiceClient implements ServersServiceClient.
 type serversServiceClient struct {
 	createServer *connect.Client[daemon.CreateServerRequest, proto_gen_go.SuccessMessage]
+	updateServer *connect.Client[daemon.UpdateServerRequest, proto_gen_go.SuccessMessage]
 	deleteServer *connect.Client[daemon.DeleteServerRequest, proto_gen_go.SuccessMessage]
 }
 
 // CreateServer calls daemon.ServersService.CreateServer.
 func (c *serversServiceClient) CreateServer(ctx context.Context, req *connect.Request[daemon.CreateServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	return c.createServer.CallUnary(ctx, req)
+}
+
+// UpdateServer calls daemon.ServersService.UpdateServer.
+func (c *serversServiceClient) UpdateServer(ctx context.Context, req *connect.Request[daemon.UpdateServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return c.updateServer.CallUnary(ctx, req)
 }
 
 // DeleteServer calls daemon.ServersService.DeleteServer.
@@ -93,6 +109,7 @@ func (c *serversServiceClient) DeleteServer(ctx context.Context, req *connect.Re
 // ServersServiceHandler is an implementation of the daemon.ServersService service.
 type ServersServiceHandler interface {
 	CreateServer(context.Context, *connect.Request[daemon.CreateServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	UpdateServer(context.Context, *connect.Request[daemon.UpdateServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 	DeleteServer(context.Context, *connect.Request[daemon.DeleteServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 }
 
@@ -109,6 +126,12 @@ func NewServersServiceHandler(svc ServersServiceHandler, opts ...connect.Handler
 		connect.WithSchema(serversServiceMethods.ByName("CreateServer")),
 		connect.WithHandlerOptions(opts...),
 	)
+	serversServiceUpdateServerHandler := connect.NewUnaryHandler(
+		ServersServiceUpdateServerProcedure,
+		svc.UpdateServer,
+		connect.WithSchema(serversServiceMethods.ByName("UpdateServer")),
+		connect.WithHandlerOptions(opts...),
+	)
 	serversServiceDeleteServerHandler := connect.NewUnaryHandler(
 		ServersServiceDeleteServerProcedure,
 		svc.DeleteServer,
@@ -119,6 +142,8 @@ func NewServersServiceHandler(svc ServersServiceHandler, opts ...connect.Handler
 		switch r.URL.Path {
 		case ServersServiceCreateServerProcedure:
 			serversServiceCreateServerHandler.ServeHTTP(w, r)
+		case ServersServiceUpdateServerProcedure:
+			serversServiceUpdateServerHandler.ServeHTTP(w, r)
 		case ServersServiceDeleteServerProcedure:
 			serversServiceDeleteServerHandler.ServeHTTP(w, r)
 		default:
@@ -132,6 +157,10 @@ type UnimplementedServersServiceHandler struct{}
 
 func (UnimplementedServersServiceHandler) CreateServer(context.Context, *connect.Request[daemon.CreateServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("daemon.ServersService.CreateServer is not implemented"))
+}
+
+func (UnimplementedServersServiceHandler) UpdateServer(context.Context, *connect.Request[daemon.UpdateServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("daemon.ServersService.UpdateServer is not implemented"))
 }
 
 func (UnimplementedServersServiceHandler) DeleteServer(context.Context, *connect.Request[daemon.DeleteServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error) {

@@ -34,7 +34,7 @@ func (s *ServersServiceHandler) CreateServer(
 		Storage: req.Msg.ResourceLimit.Storage,
 	}
 
-	_, err := server.CreateServer(req.Msg.ServerId, allocations, resourceLimit, req.Msg.DockerImage, req.Msg.BlueprintId)
+	_, err := server.CreateServer(req.Msg.ServerId, req.Msg.OwnerId, req.Msg.UserIds, allocations, resourceLimit, req.Msg.DockerImage, req.Msg.BlueprintId)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, errors.New("failed to create server"))
 	}

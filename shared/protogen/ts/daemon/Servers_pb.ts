@@ -14,7 +14,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file daemon/Servers.proto.
  */
 export const file_daemon_Servers: GenFile = /*@__PURE__*/
-  fileDesc("ChRkYWVtb24vU2VydmVycy5wcm90bxIGZGFlbW9uIqgBChNDcmVhdGVTZXJ2ZXJSZXF1ZXN0EhAKCHNlcnZlcklkGAEgASgJEicKC2FsbG9jYXRpb25zGAIgAygLMhIuZGFlbW9uLkFsbG9jYXRpb24SLAoNcmVzb3VyY2VMaW1pdBgDIAEoCzIVLmRhZW1vbi5SZXNvdXJjZUxpbWl0EhMKC2JsdWVwcmludElkGAQgASgJEhMKC2RvY2tlckltYWdlGAUgASgJIjYKE0RlbGV0ZVNlcnZlclJlcXVlc3QSEAoIc2VydmVySWQYASABKAkSDQoFZm9yY2UYAiABKAgymgEKDlNlcnZlcnNTZXJ2aWNlEkMKDENyZWF0ZVNlcnZlchIbLmRhZW1vbi5DcmVhdGVTZXJ2ZXJSZXF1ZXN0GhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlEkMKDERlbGV0ZVNlcnZlchIbLmRhZW1vbi5EZWxldGVTZXJ2ZXJSZXF1ZXN0GhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlQh5aHHBhbmVsaXVtL3Byb3RvX2dlbl9nby9kYWVtb25iBnByb3RvMw", [file_common, file_daemon_Server]);
+  fileDesc("ChRkYWVtb24vU2VydmVycy5wcm90bxIGZGFlbW9uIsoBChNDcmVhdGVTZXJ2ZXJSZXF1ZXN0EhAKCHNlcnZlcklkGAEgASgJEg8KB293bmVySWQYAiABKAkSDwoHdXNlcklkcxgDIAMoCRInCgthbGxvY2F0aW9ucxgEIAMoCzISLmRhZW1vbi5BbGxvY2F0aW9uEiwKDXJlc291cmNlTGltaXQYBSABKAsyFS5kYWVtb24uUmVzb3VyY2VMaW1pdBITCgtibHVlcHJpbnRJZBgGIAEoCRITCgtkb2NrZXJJbWFnZRgHIAEoCSL6AQoTVXBkYXRlU2VydmVyUmVxdWVzdBIQCghzZXJ2ZXJJZBgBIAEoCRIPCgd1c2VySWRzGAMgAygJEicKC2FsbG9jYXRpb25zGAQgAygLMhIuZGFlbW9uLkFsbG9jYXRpb24SMQoNcmVzb3VyY2VMaW1pdBgFIAEoCzIVLmRhZW1vbi5SZXNvdXJjZUxpbWl0SACIAQESGAoLYmx1ZXByaW50SWQYBiABKAlIAYgBARIYCgtkb2NrZXJJbWFnZRgHIAEoCUgCiAEBQhAKDl9yZXNvdXJjZUxpbWl0Qg4KDF9ibHVlcHJpbnRJZEIOCgxfZG9ja2VySW1hZ2UiNgoTRGVsZXRlU2VydmVyUmVxdWVzdBIQCghzZXJ2ZXJJZBgBIAEoCRINCgVmb3JjZRgCIAEoCDLfAQoOU2VydmVyc1NlcnZpY2USQwoMQ3JlYXRlU2VydmVyEhsuZGFlbW9uLkNyZWF0ZVNlcnZlclJlcXVlc3QaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USQwoMVXBkYXRlU2VydmVyEhsuZGFlbW9uLlVwZGF0ZVNlcnZlclJlcXVlc3QaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USQwoMRGVsZXRlU2VydmVyEhsuZGFlbW9uLkRlbGV0ZVNlcnZlclJlcXVlc3QaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2VCHloccGFuZWxpdW0vcHJvdG9fZ2VuX2dvL2RhZW1vbmIGcHJvdG8z", [file_common, file_daemon_Server]);
 
 /**
  * @generated from message daemon.CreateServerRequest
@@ -26,22 +26,32 @@ export type CreateServerRequest = Message<"daemon.CreateServerRequest"> & {
   serverId: string;
 
   /**
-   * @generated from field: repeated daemon.Allocation allocations = 2;
+   * @generated from field: string ownerId = 2;
+   */
+  ownerId: string;
+
+  /**
+   * @generated from field: repeated string userIds = 3;
+   */
+  userIds: string[];
+
+  /**
+   * @generated from field: repeated daemon.Allocation allocations = 4;
    */
   allocations: Allocation[];
 
   /**
-   * @generated from field: daemon.ResourceLimit resourceLimit = 3;
+   * @generated from field: daemon.ResourceLimit resourceLimit = 5;
    */
   resourceLimit?: ResourceLimit;
 
   /**
-   * @generated from field: string blueprintId = 4;
+   * @generated from field: string blueprintId = 6;
    */
   blueprintId: string;
 
   /**
-   * @generated from field: string dockerImage = 5;
+   * @generated from field: string dockerImage = 7;
    */
   dockerImage: string;
 };
@@ -52,6 +62,54 @@ export type CreateServerRequest = Message<"daemon.CreateServerRequest"> & {
  */
 export const CreateServerRequestSchema: GenMessage<CreateServerRequest> = /*@__PURE__*/
   messageDesc(file_daemon_Servers, 0);
+
+/**
+ * TODO: this should probably instead be pulled from backend on server startup
+ *
+ * @generated from message daemon.UpdateServerRequest
+ */
+export type UpdateServerRequest = Message<"daemon.UpdateServerRequest"> & {
+  /**
+   * @generated from field: string serverId = 1;
+   */
+  serverId: string;
+
+  /**
+   * optional
+   *
+   * @generated from field: repeated string userIds = 3;
+   */
+  userIds: string[];
+
+  /**
+   * optional
+   *
+   * @generated from field: repeated daemon.Allocation allocations = 4;
+   */
+  allocations: Allocation[];
+
+  /**
+   * @generated from field: optional daemon.ResourceLimit resourceLimit = 5;
+   */
+  resourceLimit?: ResourceLimit;
+
+  /**
+   * @generated from field: optional string blueprintId = 6;
+   */
+  blueprintId?: string;
+
+  /**
+   * @generated from field: optional string dockerImage = 7;
+   */
+  dockerImage?: string;
+};
+
+/**
+ * Describes the message daemon.UpdateServerRequest.
+ * Use `create(UpdateServerRequestSchema)` to create a new message.
+ */
+export const UpdateServerRequestSchema: GenMessage<UpdateServerRequest> = /*@__PURE__*/
+  messageDesc(file_daemon_Servers, 1);
 
 /**
  * @generated from message daemon.DeleteServerRequest
@@ -73,7 +131,7 @@ export type DeleteServerRequest = Message<"daemon.DeleteServerRequest"> & {
  * Use `create(DeleteServerRequestSchema)` to create a new message.
  */
 export const DeleteServerRequestSchema: GenMessage<DeleteServerRequest> = /*@__PURE__*/
-  messageDesc(file_daemon_Servers, 1);
+  messageDesc(file_daemon_Servers, 2);
 
 /**
  * @generated from service daemon.ServersService
@@ -85,6 +143,14 @@ export const ServersService: GenService<{
   createServer: {
     methodKind: "unary";
     input: typeof CreateServerRequestSchema;
+    output: typeof SuccessMessageSchema;
+  },
+  /**
+   * @generated from rpc daemon.ServersService.UpdateServer
+   */
+  updateServer: {
+    methodKind: "unary";
+    input: typeof UpdateServerRequestSchema;
     output: typeof SuccessMessageSchema;
   },
   /**
