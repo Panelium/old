@@ -714,15 +714,14 @@ const file_daemon_Server_proto_rawDesc = "" +
 	"\x12POWER_ACTION_START\x10\x01\x12\x18\n" +
 	"\x14POWER_ACTION_RESTART\x10\x02\x12\x15\n" +
 	"\x11POWER_ACTION_STOP\x10\x03\x12\x15\n" +
-	"\x11POWER_ACTION_KILL\x10\x042\xfa\x04\n" +
+	"\x11POWER_ACTION_KILL\x10\x042\xfb\x04\n" +
 	"\rServerService\x12C\n" +
 	"\fCreateServer\x12\x1b.daemon.CreateServerRequest\x1a\x16.common.SuccessMessage\x12C\n" +
 	"\fDeleteServer\x12\x1b.daemon.DeleteServerRequest\x1a\x16.common.SuccessMessage\x12;\n" +
-	"\aConsole\x12\x15.common.SimpleMessage\x1a\x15.common.SimpleMessage(\x010\x01\x12;\n" +
-	"\n" +
-	"RunCommand\x12\x15.common.SimpleMessage\x1a\x16.common.SuccessMessage\x12<\n" +
-	"\bTerminal\x12\x15.common.SimpleMessage\x1a\x15.common.SimpleMessage(\x010\x01\x12C\n" +
-	"\x12RunTerminalCommand\x12\x15.common.SimpleMessage\x1a\x16.common.SuccessMessage\x12-\n" +
+	"\aConsole\x12\x15.common.SimpleMessage\x1a\x15.common.SimpleMessage(\x010\x01\x12?\n" +
+	"\x0eConsoleCommand\x12\x15.common.SimpleMessage\x1a\x16.common.SuccessMessage\x12<\n" +
+	"\bTerminal\x12\x15.common.SimpleMessage\x1a\x15.common.SimpleMessage(\x010\x01\x12@\n" +
+	"\x0fTerminalCommand\x12\x15.common.SimpleMessage\x1a\x16.common.SuccessMessage\x12-\n" +
 	"\x06Status\x12\r.common.Empty\x1a\x14.daemon.ServerStatus\x12>\n" +
 	"\rResourceUsage\x12\r.common.Empty\x1a\x1c.daemon.ResourceUsageMessage0\x01\x12A\n" +
 	"\vPowerAction\x12\x1a.daemon.PowerActionMessage\x1a\x16.common.SuccessMessage\x120\n" +
@@ -771,9 +770,9 @@ var file_daemon_Server_proto_depIdxs = []int32{
 	6,  // 8: daemon.ServerService.CreateServer:input_type -> daemon.CreateServerRequest
 	7,  // 9: daemon.ServerService.DeleteServer:input_type -> daemon.DeleteServerRequest
 	12, // 10: daemon.ServerService.Console:input_type -> common.SimpleMessage
-	12, // 11: daemon.ServerService.RunCommand:input_type -> common.SimpleMessage
+	12, // 11: daemon.ServerService.ConsoleCommand:input_type -> common.SimpleMessage
 	12, // 12: daemon.ServerService.Terminal:input_type -> common.SimpleMessage
-	12, // 13: daemon.ServerService.RunTerminalCommand:input_type -> common.SimpleMessage
+	12, // 13: daemon.ServerService.TerminalCommand:input_type -> common.SimpleMessage
 	13, // 14: daemon.ServerService.Status:input_type -> common.Empty
 	13, // 15: daemon.ServerService.ResourceUsage:input_type -> common.Empty
 	9,  // 16: daemon.ServerService.PowerAction:input_type -> daemon.PowerActionMessage
@@ -781,9 +780,9 @@ var file_daemon_Server_proto_depIdxs = []int32{
 	14, // 18: daemon.ServerService.CreateServer:output_type -> common.SuccessMessage
 	14, // 19: daemon.ServerService.DeleteServer:output_type -> common.SuccessMessage
 	12, // 20: daemon.ServerService.Console:output_type -> common.SimpleMessage
-	14, // 21: daemon.ServerService.RunCommand:output_type -> common.SuccessMessage
+	14, // 21: daemon.ServerService.ConsoleCommand:output_type -> common.SuccessMessage
 	12, // 22: daemon.ServerService.Terminal:output_type -> common.SimpleMessage
-	14, // 23: daemon.ServerService.RunTerminalCommand:output_type -> common.SuccessMessage
+	14, // 23: daemon.ServerService.TerminalCommand:output_type -> common.SuccessMessage
 	8,  // 24: daemon.ServerService.Status:output_type -> daemon.ServerStatus
 	10, // 25: daemon.ServerService.ResourceUsage:output_type -> daemon.ResourceUsageMessage
 	14, // 26: daemon.ServerService.PowerAction:output_type -> common.SuccessMessage
