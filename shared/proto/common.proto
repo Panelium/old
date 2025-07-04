@@ -26,3 +26,10 @@ message SimpleMessage {
 message SuccessMessage {
   bool success = 1;
 }
+
+message ResourceLimit {
+  uint32 cpu = 1;     // CPU in percentage (100% = 1 vCore)
+  uint32 ram = 2;     // RAM in MB
+  uint32 swap = 3;    // SWAP in MB
+  uint32 storage = 4; // Storage in MB
+}
