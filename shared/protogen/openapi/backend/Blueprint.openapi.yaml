@@ -36,7 +36,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/common.SimpleIIDMessage'
+                $ref: '#/components/schemas/common.SimpleIDMessage'
   /backend.BlueprintService/ReadBlueprint:
     post:
       tags:
@@ -72,41 +72,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/common.SimpleMessage'
-  /backend.BlueprintService/ReadBlueprintI:
-    post:
-      tags:
-        - backend.BlueprintService
-      summary: ReadBlueprintI
-      operationId: backend.BlueprintService.ReadBlueprintI
-      parameters:
-        - name: Connect-Protocol-Version
-          in: header
-          required: true
-          schema:
-            $ref: '#/components/schemas/connect-protocol-version'
-        - name: Connect-Timeout-Ms
-          in: header
-          schema:
-            $ref: '#/components/schemas/connect-timeout-header'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/common.SimpleIIDMessage'
-        required: true
-      responses:
-        default:
-          description: Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/connect.error'
-        "200":
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/common.SimpleMessage'
   /backend.BlueprintService/UpdateBlueprint:
     post:
       tags:
@@ -127,7 +92,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/common.SimpleMessage'
+              $ref: '#/components/schemas/common.IDMessage'
         required: true
       responses:
         default:
@@ -163,41 +128,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/common.SimpleIDMessage'
-        required: true
-      responses:
-        default:
-          description: Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/connect.error'
-        "200":
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/common.SuccessMessage'
-  /backend.BlueprintService/DeleteBlueprintI:
-    post:
-      tags:
-        - backend.BlueprintService
-      summary: DeleteBlueprintI
-      operationId: backend.BlueprintService.DeleteBlueprintI
-      parameters:
-        - name: Connect-Protocol-Version
-          in: header
-          required: true
-          schema:
-            $ref: '#/components/schemas/connect-protocol-version'
-        - name: Connect-Timeout-Ms
-          in: header
-          schema:
-            $ref: '#/components/schemas/connect-timeout-header'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/common.SimpleIIDMessage'
         required: true
       responses:
         default:
@@ -253,6 +183,17 @@ components:
       type: object
       title: Empty
       additionalProperties: false
+    common.IDMessage:
+      type: object
+      properties:
+        id:
+          type: string
+          title: id
+        text:
+          type: string
+          title: text
+      title: IDMessage
+      additionalProperties: false
     common.SimpleIDMessage:
       type: object
       properties:
@@ -260,14 +201,6 @@ components:
           type: string
           title: id
       title: SimpleIDMessage
-      additionalProperties: false
-    common.SimpleIIDMessage:
-      type: object
-      properties:
-        id:
-          type: integer
-          title: id
-      title: SimpleIIDMessage
       additionalProperties: false
     common.SimpleMessage:
       type: object
@@ -345,4 +278,6 @@ components:
 security: []
 tags:
   - name: backend.BlueprintService
-    description: 'Note: Blueprints are JSONs, that''s why we use SimpleMessage'
+    description: |-
+      Note: Blueprints are JSONs, that's why we use SimpleMessage
+       BID string

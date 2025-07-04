@@ -4,17 +4,18 @@
 
 import type { GenFile, GenService } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { EmptySchema, SimpleIDMessageSchema, SimpleIIDMessageSchema, SimpleMessageSchema, SuccessMessageSchema } from "../common_pb";
+import type { EmptySchema, IDMessageSchema, SimpleIDMessageSchema, SimpleMessageSchema, SuccessMessageSchema } from "../common_pb";
 import { file_common } from "../common_pb";
 
 /**
  * Describes the file backend/Blueprint.proto.
  */
 export const file_backend_Blueprint: GenFile = /*@__PURE__*/
-  fileDesc("ChdiYWNrZW5kL0JsdWVwcmludC5wcm90bxIHYmFja2VuZDLeAwoQQmx1ZXByaW50U2VydmljZRJCCg9DcmVhdGVCbHVlcHJpbnQSFS5jb21tb24uU2ltcGxlTWVzc2FnZRoYLmNvbW1vbi5TaW1wbGVJSURNZXNzYWdlEj8KDVJlYWRCbHVlcHJpbnQSFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGhUuY29tbW9uLlNpbXBsZU1lc3NhZ2USQQoOUmVhZEJsdWVwcmludEkSGC5jb21tb24uU2ltcGxlSUlETWVzc2FnZRoVLmNvbW1vbi5TaW1wbGVNZXNzYWdlEkAKD1VwZGF0ZUJsdWVwcmludBIVLmNvbW1vbi5TaW1wbGVNZXNzYWdlGhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlEkIKD0RlbGV0ZUJsdWVwcmludBIXLmNvbW1vbi5TaW1wbGVJRE1lc3NhZ2UaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USRAoQRGVsZXRlQmx1ZXByaW50SRIYLmNvbW1vbi5TaW1wbGVJSURNZXNzYWdlGhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlEjYKDkxpc3RCbHVlcHJpbnRzEg0uY29tbW9uLkVtcHR5GhUuY29tbW9uLlNpbXBsZU1lc3NhZ2VCH1odcGFuZWxpdW0vcHJvdG9fZ2VuX2dvL2JhY2tlbmRiBnByb3RvMw", [file_common]);
+  fileDesc("ChdiYWNrZW5kL0JsdWVwcmludC5wcm90bxIHYmFja2VuZDLQAgoQQmx1ZXByaW50U2VydmljZRJBCg9DcmVhdGVCbHVlcHJpbnQSFS5jb21tb24uU2ltcGxlTWVzc2FnZRoXLmNvbW1vbi5TaW1wbGVJRE1lc3NhZ2USPwoNUmVhZEJsdWVwcmludBIXLmNvbW1vbi5TaW1wbGVJRE1lc3NhZ2UaFS5jb21tb24uU2ltcGxlTWVzc2FnZRI8Cg9VcGRhdGVCbHVlcHJpbnQSES5jb21tb24uSURNZXNzYWdlGhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlEkIKD0RlbGV0ZUJsdWVwcmludBIXLmNvbW1vbi5TaW1wbGVJRE1lc3NhZ2UaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USNgoOTGlzdEJsdWVwcmludHMSDS5jb21tb24uRW1wdHkaFS5jb21tb24uU2ltcGxlTWVzc2FnZUIfWh1wYW5lbGl1bS9wcm90b19nZW5fZ28vYmFja2VuZGIGcHJvdG8z", [file_common]);
 
 /**
  * Note: Blueprints are JSONs, that's why we use SimpleMessage
+ * BID string
  *
  * @generated from service backend.BlueprintService
  */
@@ -25,7 +26,7 @@ export const BlueprintService: GenService<{
   createBlueprint: {
     methodKind: "unary";
     input: typeof SimpleMessageSchema;
-    output: typeof SimpleIIDMessageSchema;
+    output: typeof SimpleIDMessageSchema;
   },
   /**
    * @generated from rpc backend.BlueprintService.ReadBlueprint
@@ -36,19 +37,11 @@ export const BlueprintService: GenService<{
     output: typeof SimpleMessageSchema;
   },
   /**
-   * @generated from rpc backend.BlueprintService.ReadBlueprintI
-   */
-  readBlueprintI: {
-    methodKind: "unary";
-    input: typeof SimpleIIDMessageSchema;
-    output: typeof SimpleMessageSchema;
-  },
-  /**
    * @generated from rpc backend.BlueprintService.UpdateBlueprint
    */
   updateBlueprint: {
     methodKind: "unary";
-    input: typeof SimpleMessageSchema;
+    input: typeof IDMessageSchema;
     output: typeof SuccessMessageSchema;
   },
   /**
@@ -57,14 +50,6 @@ export const BlueprintService: GenService<{
   deleteBlueprint: {
     methodKind: "unary";
     input: typeof SimpleIDMessageSchema;
-    output: typeof SuccessMessageSchema;
-  },
-  /**
-   * @generated from rpc backend.BlueprintService.DeleteBlueprintI
-   */
-  deleteBlueprintI: {
-    methodKind: "unary";
-    input: typeof SimpleIIDMessageSchema;
     output: typeof SuccessMessageSchema;
   },
   /**
