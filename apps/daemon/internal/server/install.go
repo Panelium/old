@@ -21,7 +21,7 @@ import (
 	"path"
 )
 
-// TODO: set resource limits
+// TODO: implement storage limiting
 
 func Install(s *model.Server) error {
 	blueprint := model.Blueprint{}
@@ -93,6 +93,19 @@ func Install(s *model.Server) error {
 		}
 	}
 
+	resources := container.Resources{
+		Memory:            int64(s.ResourceLimit.RAM * 1024 * 1024),
+		MemoryReservation: int64(s.ResourceLimit.RAM * 1024 * 1024),
+		MemorySwap:        int64(s.ResourceLimit.RAM*1024*1024 + s.ResourceLimit.SWAP*1024*1024),
+		OomKillDisable:    &[]bool{true}[0], // dumb hack to not have to create a variable for this
+	}
+
+	if s.ResourceLimit.CPU > 0 {
+		resources.CPUQuota = int64(s.ResourceLimit.CPU * 1_000)
+		resources.CPUPeriod = 100_000
+		resources.CPUShares = 1024
+	}
+
 	// create setup script container
 	scr, err := docker.Instance().ContainerCreate(context.Background(), &container.Config{
 		AttachStdin:  true,
@@ -112,11 +125,13 @@ func Install(s *model.Server) error {
 	}, &container.HostConfig{
 		Mounts: []mount.Mount{
 			{
-				Type:   mount.TypeBind,
-				Source: vol.Mountpoint,
-				Target: "/data",
+				Type:     mount.TypeBind,
+				Source:   vol.Mountpoint,
+				Target:   "/data",
+				ReadOnly: false,
 			},
 		},
+		Resources: resources,
 	}, &network.NetworkingConfig{}, &v1.Platform{}, s.SID)
 	if err != nil {
 		return fmt.Errorf("failed to create setup script container: %w", err)
@@ -175,11 +190,13 @@ func Install(s *model.Server) error {
 	}, &container.HostConfig{
 		Mounts: []mount.Mount{
 			{
-				Type:   mount.TypeBind,
-				Source: vol.Mountpoint,
-				Target: "/data",
+				Type:     mount.TypeBind,
+				Source:   vol.Mountpoint,
+				Target:   "/data",
+				ReadOnly: false,
 			},
 		},
+		Resources: resources,
 	}, &network.NetworkingConfig{}, &v1.Platform{}, s.SID)
 	if err != nil {
 		return fmt.Errorf("failed to create server container: %w", err)
