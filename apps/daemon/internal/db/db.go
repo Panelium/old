@@ -36,6 +36,7 @@ func Init() error {
 			&model.Blueprint{},
 			&model.Server{},
 			&model.ServerAllocation{},
+			&model.ServerUser{},
 		); err != nil {
 			return
 		}
