@@ -1,8 +1,0 @@
-syntax = "proto3";
-
-package backend;
-option go_package = "panelium/proto_gen_go/backend";
-
-import "common.proto";
-
-service BlueprintsService {}
