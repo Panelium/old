@@ -57,6 +57,154 @@ func (*Empty) Descriptor() ([]byte, []int) {
 	return file_common_proto_rawDescGZIP(), []int{0}
 }
 
+type SimpleIDMessage struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SimpleIDMessage) Reset() {
+	*x = SimpleIDMessage{}
+	mi := &file_common_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SimpleIDMessage) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SimpleIDMessage) ProtoMessage() {}
+
+func (x *SimpleIDMessage) ProtoReflect() protoreflect.Message {
+	mi := &file_common_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SimpleIDMessage.ProtoReflect.Descriptor instead.
+func (*SimpleIDMessage) Descriptor() ([]byte, []int) {
+	return file_common_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *SimpleIDMessage) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type IDMessage struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Text          string                 `protobuf:"bytes,2,opt,name=text,proto3" json:"text,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *IDMessage) Reset() {
+	*x = IDMessage{}
+	mi := &file_common_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *IDMessage) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*IDMessage) ProtoMessage() {}
+
+func (x *IDMessage) ProtoReflect() protoreflect.Message {
+	mi := &file_common_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use IDMessage.ProtoReflect.Descriptor instead.
+func (*IDMessage) Descriptor() ([]byte, []int) {
+	return file_common_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *IDMessage) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *IDMessage) GetText() string {
+	if x != nil {
+		return x.Text
+	}
+	return ""
+}
+
+type StreamIDMessage struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            *string                `protobuf:"bytes,1,opt,name=id,proto3,oneof" json:"id,omitempty"`     // only required for the first message in the stream, subsequent messages can omit this field
+	Text          *string                `protobuf:"bytes,2,opt,name=text,proto3,oneof" json:"text,omitempty"` // required after the first message in the stream, first message can omit this field
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *StreamIDMessage) Reset() {
+	*x = StreamIDMessage{}
+	mi := &file_common_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *StreamIDMessage) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StreamIDMessage) ProtoMessage() {}
+
+func (x *StreamIDMessage) ProtoReflect() protoreflect.Message {
+	mi := &file_common_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StreamIDMessage.ProtoReflect.Descriptor instead.
+func (*StreamIDMessage) Descriptor() ([]byte, []int) {
+	return file_common_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *StreamIDMessage) GetId() string {
+	if x != nil && x.Id != nil {
+		return *x.Id
+	}
+	return ""
+}
+
+func (x *StreamIDMessage) GetText() string {
+	if x != nil && x.Text != nil {
+		return *x.Text
+	}
+	return ""
+}
+
 type SimpleMessage struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Text          string                 `protobuf:"bytes,1,opt,name=text,proto3" json:"text,omitempty"`
@@ -66,7 +214,7 @@ type SimpleMessage struct {
 
 func (x *SimpleMessage) Reset() {
 	*x = SimpleMessage{}
-	mi := &file_common_proto_msgTypes[1]
+	mi := &file_common_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -78,7 +226,7 @@ func (x *SimpleMessage) String() string {
 func (*SimpleMessage) ProtoMessage() {}
 
 func (x *SimpleMessage) ProtoReflect() protoreflect.Message {
-	mi := &file_common_proto_msgTypes[1]
+	mi := &file_common_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -91,7 +239,7 @@ func (x *SimpleMessage) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SimpleMessage.ProtoReflect.Descriptor instead.
 func (*SimpleMessage) Descriptor() ([]byte, []int) {
-	return file_common_proto_rawDescGZIP(), []int{1}
+	return file_common_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *SimpleMessage) GetText() string {
@@ -110,7 +258,7 @@ type SuccessMessage struct {
 
 func (x *SuccessMessage) Reset() {
 	*x = SuccessMessage{}
-	mi := &file_common_proto_msgTypes[2]
+	mi := &file_common_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -122,7 +270,7 @@ func (x *SuccessMessage) String() string {
 func (*SuccessMessage) ProtoMessage() {}
 
 func (x *SuccessMessage) ProtoReflect() protoreflect.Message {
-	mi := &file_common_proto_msgTypes[2]
+	mi := &file_common_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -135,7 +283,7 @@ func (x *SuccessMessage) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SuccessMessage.ProtoReflect.Descriptor instead.
 func (*SuccessMessage) Descriptor() ([]byte, []int) {
-	return file_common_proto_rawDescGZIP(), []int{2}
+	return file_common_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *SuccessMessage) GetSuccess() bool {
@@ -150,11 +298,21 @@ var File_common_proto protoreflect.FileDescriptor
 const file_common_proto_rawDesc = "" +
 	"\n" +
 	"\fcommon.proto\x12\x06common\"\a\n" +
-	"\x05Empty\"#\n" +
+	"\x05Empty\"!\n" +
+	"\x0fSimpleIDMessage\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"/\n" +
+	"\tIDMessage\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
+	"\x04text\x18\x02 \x01(\tR\x04text\"O\n" +
+	"\x0fStreamIDMessage\x12\x13\n" +
+	"\x02id\x18\x01 \x01(\tH\x00R\x02id\x88\x01\x01\x12\x17\n" +
+	"\x04text\x18\x02 \x01(\tH\x01R\x04text\x88\x01\x01B\x05\n" +
+	"\x03_idB\a\n" +
+	"\x05_text\"#\n" +
 	"\rSimpleMessage\x12\x12\n" +
 	"\x04text\x18\x01 \x01(\tR\x04text\"*\n" +
 	"\x0eSuccessMessage\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccessB\x17Z\x15panelium/proto-gen-gob\x06proto3"
+	"\asuccess\x18\x01 \x01(\bR\asuccessB\x17Z\x15panelium/proto_gen_gob\x06proto3"
 
 var (
 	file_common_proto_rawDescOnce sync.Once
@@ -168,11 +326,14 @@ func file_common_proto_rawDescGZIP() []byte {
 	return file_common_proto_rawDescData
 }
 
-var file_common_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_common_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_common_proto_goTypes = []any{
-	(*Empty)(nil),          // 0: common.Empty
-	(*SimpleMessage)(nil),  // 1: common.SimpleMessage
-	(*SuccessMessage)(nil), // 2: common.SuccessMessage
+	(*Empty)(nil),           // 0: common.Empty
+	(*SimpleIDMessage)(nil), // 1: common.SimpleIDMessage
+	(*IDMessage)(nil),       // 2: common.IDMessage
+	(*StreamIDMessage)(nil), // 3: common.StreamIDMessage
+	(*SimpleMessage)(nil),   // 4: common.SimpleMessage
+	(*SuccessMessage)(nil),  // 5: common.SuccessMessage
 }
 var file_common_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -187,13 +348,14 @@ func file_common_proto_init() {
 	if File_common_proto != nil {
 		return
 	}
+	file_common_proto_msgTypes[3].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_common_proto_rawDesc), len(file_common_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

@@ -34,3 +34,13 @@ func GenerateSalt() (string, error) {
 	// ⌈log₃₆ 2¹²⁸⌉ = 25 chars
 	return generateText(25)
 }
+
+// GenerateAESKey generates a byte slice of 32 bytes, suitable for use as an AES-256 key.
+func GenerateAES256Key() ([]byte, error) {
+	key := make([]byte, 32)
+	_, err := rand.Read(key)
+	if err != nil {
+		return nil, err
+	}
+	return key, nil
+}

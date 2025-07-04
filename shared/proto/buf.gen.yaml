@@ -14,7 +14,7 @@ plugins:
     out: ../protogen/ts
     opt:
       - target=ts
-      - import_extension=ts
+      - import_extension=none
       - js_import_style=module
 inputs:
   - directory: .

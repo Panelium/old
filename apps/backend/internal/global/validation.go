@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	initOnce            sync.Once
+	initOnceValidation  sync.Once
 	validate            *validator.Validate
 	usernameRegexString = `^[a-zA-Z0-9][a-zA-Z0-9_.-]{1,30}[a-zA-Z0-9]$` // Username must start and end with an alphanumeric character, can contain alphanumeric characters, underscores, hyphens, and dots in between, and must be between 3 and 32 characters long.
 	usernameRegex       = regexp.MustCompile(usernameRegexString)
@@ -16,7 +16,7 @@ var (
 func InitValidator() error {
 	var err error
 
-	initOnce.Do(func() {
+	initOnceValidation.Do(func() {
 		validate = validator.New(validator.WithRequiredStructEnabled())
 
 		err = validate.RegisterValidation("username", func(fl validator.FieldLevel) bool {
