@@ -4,6 +4,7 @@ import (
 	"connectrpc.com/connect"
 	"context"
 	"errors"
+	"panelium/daemon/internal/security"
 	"panelium/daemon/internal/server"
 	"panelium/proto_gen_go"
 )
@@ -18,6 +19,11 @@ func (s *ServerServiceHandler) Console(
 	}
 	if firstMsg.Id == nil || *firstMsg.Id == "" {
 		return connect.NewError(connect.CodeInvalidArgument, errors.New("invalid server ID"))
+	}
+
+	err = security.CheckServerAccess(ctx, *firstMsg.Id)
+	if err != nil {
+		return connect.NewError(connect.CodePermissionDenied, err)
 	}
 
 	err = server.Console(*firstMsg.Id, stm)

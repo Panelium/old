@@ -59,12 +59,12 @@ func NewUserAuthInterceptor() connect.UnaryInterceptorFunc {
 
 			accessToken := cookie.Value
 
-			_, err = jwt.VerifyJWT(accessToken, config.BackendJWTPublicKeyInstance, jwt.BackendIssuer, jwt.AccessTokenType)
+			claims, err := jwt.VerifyJWT(accessToken, config.BackendJWTPublicKeyInstance, jwt.BackendIssuer, jwt.AccessTokenType)
 			if err != nil {
 				return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("invalid access token"))
 			}
 
-			// TODO: check server access??
+			ctx = context.WithValue(ctx, "user_id", claims.Subject)
 
 			return next(ctx, req)
 		}

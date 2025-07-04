@@ -12,6 +12,7 @@ import (
 	"panelium/daemon/internal/db"
 	"panelium/daemon/internal/docker"
 	"panelium/daemon/internal/model"
+	"panelium/daemon/internal/security"
 	"panelium/proto_gen_go"
 	"panelium/proto_gen_go/daemon"
 	"time"
@@ -22,6 +23,11 @@ func (s *ServerServiceHandler) ResourceUsage(
 	req *connect.Request[proto_gen_go.SimpleIDMessage],
 	stm *connect.ServerStream[daemon.ResourceUsageMessage],
 ) error {
+	err := security.CheckServerAccess(ctx, req.Msg.Id)
+	if err != nil {
+		return connect.NewError(connect.CodePermissionDenied, err)
+	}
+
 	var srv *model.Server
 	tx := db.Instance().First(&srv, "sid = ?", req.Msg.Id)
 	if tx.Error != nil || tx.RowsAffected == 0 {
