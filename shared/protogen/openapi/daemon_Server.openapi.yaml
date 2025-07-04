@@ -76,77 +76,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/common.SuccessMessage'
   /daemon.ServerService/Console: {}
-  /daemon.ServerService/ConsoleCommand:
-    post:
-      tags:
-        - daemon.ServerService
-      summary: ConsoleCommand
-      operationId: daemon.ServerService.ConsoleCommand
-      parameters:
-        - name: Connect-Protocol-Version
-          in: header
-          required: true
-          schema:
-            $ref: '#/components/schemas/connect-protocol-version'
-        - name: Connect-Timeout-Ms
-          in: header
-          schema:
-            $ref: '#/components/schemas/connect-timeout-header'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/common.SimpleMessage'
-        required: true
-      responses:
-        default:
-          description: Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/connect.error'
-        "200":
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/common.SuccessMessage'
   /daemon.ServerService/Terminal: {}
-  /daemon.ServerService/TerminalCommand:
-    post:
-      tags:
-        - daemon.ServerService
-      summary: TerminalCommand
-      operationId: daemon.ServerService.TerminalCommand
-      parameters:
-        - name: Connect-Protocol-Version
-          in: header
-          required: true
-          schema:
-            $ref: '#/components/schemas/connect-protocol-version'
-        - name: Connect-Timeout-Ms
-          in: header
-          schema:
-            $ref: '#/components/schemas/connect-timeout-header'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/common.SimpleMessage'
-        required: true
-      responses:
-        default:
-          description: Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/connect.error'
-        "200":
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/common.SuccessMessage'
   /daemon.ServerService/Status:
     post:
       tags:

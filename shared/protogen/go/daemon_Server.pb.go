@@ -714,14 +714,12 @@ const file_daemon_Server_proto_rawDesc = "" +
 	"\x12POWER_ACTION_START\x10\x01\x12\x18\n" +
 	"\x14POWER_ACTION_RESTART\x10\x02\x12\x15\n" +
 	"\x11POWER_ACTION_STOP\x10\x03\x12\x15\n" +
-	"\x11POWER_ACTION_KILL\x10\x042\xfb\x04\n" +
+	"\x11POWER_ACTION_KILL\x10\x042\xf8\x03\n" +
 	"\rServerService\x12C\n" +
 	"\fCreateServer\x12\x1b.daemon.CreateServerRequest\x1a\x16.common.SuccessMessage\x12C\n" +
 	"\fDeleteServer\x12\x1b.daemon.DeleteServerRequest\x1a\x16.common.SuccessMessage\x12;\n" +
-	"\aConsole\x12\x15.common.SimpleMessage\x1a\x15.common.SimpleMessage(\x010\x01\x12?\n" +
-	"\x0eConsoleCommand\x12\x15.common.SimpleMessage\x1a\x16.common.SuccessMessage\x12<\n" +
-	"\bTerminal\x12\x15.common.SimpleMessage\x1a\x15.common.SimpleMessage(\x010\x01\x12@\n" +
-	"\x0fTerminalCommand\x12\x15.common.SimpleMessage\x1a\x16.common.SuccessMessage\x12-\n" +
+	"\aConsole\x12\x15.common.SimpleMessage\x1a\x15.common.SimpleMessage(\x010\x01\x12<\n" +
+	"\bTerminal\x12\x15.common.SimpleMessage\x1a\x15.common.SimpleMessage(\x010\x01\x12-\n" +
 	"\x06Status\x12\r.common.Empty\x1a\x14.daemon.ServerStatus\x12>\n" +
 	"\rResourceUsage\x12\r.common.Empty\x1a\x1c.daemon.ResourceUsageMessage0\x01\x12A\n" +
 	"\vPowerAction\x12\x1a.daemon.PowerActionMessage\x1a\x16.common.SuccessMessage\x120\n" +
@@ -770,25 +768,21 @@ var file_daemon_Server_proto_depIdxs = []int32{
 	6,  // 8: daemon.ServerService.CreateServer:input_type -> daemon.CreateServerRequest
 	7,  // 9: daemon.ServerService.DeleteServer:input_type -> daemon.DeleteServerRequest
 	12, // 10: daemon.ServerService.Console:input_type -> common.SimpleMessage
-	12, // 11: daemon.ServerService.ConsoleCommand:input_type -> common.SimpleMessage
-	12, // 12: daemon.ServerService.Terminal:input_type -> common.SimpleMessage
-	12, // 13: daemon.ServerService.TerminalCommand:input_type -> common.SimpleMessage
-	13, // 14: daemon.ServerService.Status:input_type -> common.Empty
-	13, // 15: daemon.ServerService.ResourceUsage:input_type -> common.Empty
-	9,  // 16: daemon.ServerService.PowerAction:input_type -> daemon.PowerActionMessage
-	13, // 17: daemon.ServerService.Install:input_type -> common.Empty
-	14, // 18: daemon.ServerService.CreateServer:output_type -> common.SuccessMessage
-	14, // 19: daemon.ServerService.DeleteServer:output_type -> common.SuccessMessage
-	12, // 20: daemon.ServerService.Console:output_type -> common.SimpleMessage
-	14, // 21: daemon.ServerService.ConsoleCommand:output_type -> common.SuccessMessage
-	12, // 22: daemon.ServerService.Terminal:output_type -> common.SimpleMessage
-	14, // 23: daemon.ServerService.TerminalCommand:output_type -> common.SuccessMessage
-	8,  // 24: daemon.ServerService.Status:output_type -> daemon.ServerStatus
-	10, // 25: daemon.ServerService.ResourceUsage:output_type -> daemon.ResourceUsageMessage
-	14, // 26: daemon.ServerService.PowerAction:output_type -> common.SuccessMessage
-	14, // 27: daemon.ServerService.Install:output_type -> common.SuccessMessage
-	18, // [18:28] is the sub-list for method output_type
-	8,  // [8:18] is the sub-list for method input_type
+	12, // 11: daemon.ServerService.Terminal:input_type -> common.SimpleMessage
+	13, // 12: daemon.ServerService.Status:input_type -> common.Empty
+	13, // 13: daemon.ServerService.ResourceUsage:input_type -> common.Empty
+	9,  // 14: daemon.ServerService.PowerAction:input_type -> daemon.PowerActionMessage
+	13, // 15: daemon.ServerService.Install:input_type -> common.Empty
+	14, // 16: daemon.ServerService.CreateServer:output_type -> common.SuccessMessage
+	14, // 17: daemon.ServerService.DeleteServer:output_type -> common.SuccessMessage
+	12, // 18: daemon.ServerService.Console:output_type -> common.SimpleMessage
+	12, // 19: daemon.ServerService.Terminal:output_type -> common.SimpleMessage
+	8,  // 20: daemon.ServerService.Status:output_type -> daemon.ServerStatus
+	10, // 21: daemon.ServerService.ResourceUsage:output_type -> daemon.ResourceUsageMessage
+	14, // 22: daemon.ServerService.PowerAction:output_type -> common.SuccessMessage
+	14, // 23: daemon.ServerService.Install:output_type -> common.SuccessMessage
+	16, // [16:24] is the sub-list for method output_type
+	8,  // [8:16] is the sub-list for method input_type
 	8,  // [8:8] is the sub-list for extension type_name
 	8,  // [8:8] is the sub-list for extension extendee
 	0,  // [0:8] is the sub-list for field type_name

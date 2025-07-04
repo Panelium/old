@@ -16,11 +16,9 @@ service ServerService {
   /// - Called by client, needs jwt
   // Console (process)
   rpc Console(stream common.SimpleMessage) returns (stream common.SimpleMessage);
-  rpc ConsoleCommand(common.SimpleMessage) returns (common.SuccessMessage);
 
   // Terminal (system)
   rpc Terminal(stream common.SimpleMessage) returns (stream common.SimpleMessage);
-  rpc TerminalCommand(common.SimpleMessage) returns (common.SuccessMessage);
 
   /// - Called by backend, needs token
   // Server Info
