@@ -15,8 +15,6 @@ func (s *ServersServiceHandler) CreateServer(
 	ctx context.Context,
 	req *connect.Request[daemon.CreateServerRequest],
 ) (*connect.Response[proto_gen_go.SuccessMessage], error) {
-	// TODO: middleware for auth
-
 	allocations := make([]model.ServerAllocation, len(req.Msg.Allocations))
 	for i, alloc := range req.Msg.Allocations {
 		if alloc.Port < 1024 || alloc.Port > 65535 {
