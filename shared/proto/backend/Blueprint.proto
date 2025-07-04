@@ -5,4 +5,13 @@ option go_package = "panelium/proto_gen_go/backend";
 
 import "common.proto";
 
-service BlueprintService {}
+// Note: Blueprints are JSONs, that's why we use SimpleMessage
+service BlueprintService {
+  rpc CreateBlueprint(common.SimpleMessage) returns (common.SimpleIIDMessage);
+  rpc ReadBlueprint(common.SimpleIDMessage) returns (common.SimpleMessage);
+  rpc ReadBlueprintI(common.SimpleIIDMessage) returns (common.SimpleMessage);
+  rpc UpdateBlueprint(common.SimpleMessage) returns (common.SuccessMessage);
+  rpc DeleteBlueprint(common.SimpleIDMessage) returns (common.SuccessMessage);
+  rpc DeleteBlueprintI(common.SimpleIIDMessage) returns (common.SuccessMessage);
+  rpc ListBlueprints(common.Empty) returns (common.SimpleMessage);
+}

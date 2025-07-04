@@ -23,14 +23,14 @@ const (
 )
 
 type CreateServerRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ServerId      string                 `protobuf:"bytes,1,opt,name=serverId,proto3" json:"serverId,omitempty"`
-	OwnerId       string                 `protobuf:"bytes,2,opt,name=ownerId,proto3" json:"ownerId,omitempty"`
-	UserIds       []string               `protobuf:"bytes,3,rep,name=userIds,proto3" json:"userIds,omitempty"`
-	Allocations   []*Allocation          `protobuf:"bytes,4,rep,name=allocations,proto3" json:"allocations,omitempty"`
-	ResourceLimit *ResourceLimit         `protobuf:"bytes,5,opt,name=resourceLimit,proto3" json:"resourceLimit,omitempty"`
-	BlueprintId   string                 `protobuf:"bytes,6,opt,name=blueprintId,proto3" json:"blueprintId,omitempty"`
-	DockerImage   string                 `protobuf:"bytes,7,opt,name=dockerImage,proto3" json:"dockerImage,omitempty"`
+	state         protoimpl.MessageState       `protogen:"open.v1"`
+	ServerId      string                       `protobuf:"bytes,1,opt,name=serverId,proto3" json:"serverId,omitempty"`
+	OwnerId       string                       `protobuf:"bytes,2,opt,name=ownerId,proto3" json:"ownerId,omitempty"`
+	UserIds       []string                     `protobuf:"bytes,3,rep,name=userIds,proto3" json:"userIds,omitempty"`
+	Allocations   []*proto_gen_go.IPAllocation `protobuf:"bytes,4,rep,name=allocations,proto3" json:"allocations,omitempty"`
+	ResourceLimit *proto_gen_go.ResourceLimit  `protobuf:"bytes,5,opt,name=resourceLimit,proto3" json:"resourceLimit,omitempty"`
+	BlueprintId   string                       `protobuf:"bytes,6,opt,name=blueprintId,proto3" json:"blueprintId,omitempty"`
+	DockerImage   string                       `protobuf:"bytes,7,opt,name=dockerImage,proto3" json:"dockerImage,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -86,14 +86,14 @@ func (x *CreateServerRequest) GetUserIds() []string {
 	return nil
 }
 
-func (x *CreateServerRequest) GetAllocations() []*Allocation {
+func (x *CreateServerRequest) GetAllocations() []*proto_gen_go.IPAllocation {
 	if x != nil {
 		return x.Allocations
 	}
 	return nil
 }
 
-func (x *CreateServerRequest) GetResourceLimit() *ResourceLimit {
+func (x *CreateServerRequest) GetResourceLimit() *proto_gen_go.ResourceLimit {
 	if x != nil {
 		return x.ResourceLimit
 	}
@@ -116,13 +116,13 @@ func (x *CreateServerRequest) GetDockerImage() string {
 
 // TODO: this should probably instead be pulled from backend on server startup
 type UpdateServerRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ServerId      string                 `protobuf:"bytes,1,opt,name=serverId,proto3" json:"serverId,omitempty"`
-	UserIds       []string               `protobuf:"bytes,3,rep,name=userIds,proto3" json:"userIds,omitempty"`         //optional
-	Allocations   []*Allocation          `protobuf:"bytes,4,rep,name=allocations,proto3" json:"allocations,omitempty"` //optional
-	ResourceLimit *ResourceLimit         `protobuf:"bytes,5,opt,name=resourceLimit,proto3,oneof" json:"resourceLimit,omitempty"`
-	BlueprintId   *string                `protobuf:"bytes,6,opt,name=blueprintId,proto3,oneof" json:"blueprintId,omitempty"`
-	DockerImage   *string                `protobuf:"bytes,7,opt,name=dockerImage,proto3,oneof" json:"dockerImage,omitempty"`
+	state         protoimpl.MessageState       `protogen:"open.v1"`
+	ServerId      string                       `protobuf:"bytes,1,opt,name=serverId,proto3" json:"serverId,omitempty"`
+	UserIds       []string                     `protobuf:"bytes,3,rep,name=userIds,proto3" json:"userIds,omitempty"`         //optional
+	Allocations   []*proto_gen_go.IPAllocation `protobuf:"bytes,4,rep,name=allocations,proto3" json:"allocations,omitempty"` //optional
+	ResourceLimit *proto_gen_go.ResourceLimit  `protobuf:"bytes,5,opt,name=resourceLimit,proto3,oneof" json:"resourceLimit,omitempty"`
+	BlueprintId   *string                      `protobuf:"bytes,6,opt,name=blueprintId,proto3,oneof" json:"blueprintId,omitempty"`
+	DockerImage   *string                      `protobuf:"bytes,7,opt,name=dockerImage,proto3,oneof" json:"dockerImage,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -171,14 +171,14 @@ func (x *UpdateServerRequest) GetUserIds() []string {
 	return nil
 }
 
-func (x *UpdateServerRequest) GetAllocations() []*Allocation {
+func (x *UpdateServerRequest) GetAllocations() []*proto_gen_go.IPAllocation {
 	if x != nil {
 		return x.Allocations
 	}
 	return nil
 }
 
-func (x *UpdateServerRequest) GetResourceLimit() *ResourceLimit {
+func (x *UpdateServerRequest) GetResourceLimit() *proto_gen_go.ResourceLimit {
 	if x != nil {
 		return x.ResourceLimit
 	}
@@ -255,20 +255,20 @@ var File_daemon_Internal_proto protoreflect.FileDescriptor
 
 const file_daemon_Internal_proto_rawDesc = "" +
 	"\n" +
-	"\x15daemon/Internal.proto\x12\x06daemon\x1a\fcommon.proto\x1a\x13daemon/Server.proto\"\x9c\x02\n" +
+	"\x15daemon/Internal.proto\x12\x06daemon\x1a\fcommon.proto\x1a\x13daemon/Server.proto\"\x9e\x02\n" +
 	"\x13CreateServerRequest\x12\x1a\n" +
 	"\bserverId\x18\x01 \x01(\tR\bserverId\x12\x18\n" +
 	"\aownerId\x18\x02 \x01(\tR\aownerId\x12\x18\n" +
-	"\auserIds\x18\x03 \x03(\tR\auserIds\x124\n" +
-	"\vallocations\x18\x04 \x03(\v2\x12.daemon.AllocationR\vallocations\x12;\n" +
-	"\rresourceLimit\x18\x05 \x01(\v2\x15.daemon.ResourceLimitR\rresourceLimit\x12 \n" +
+	"\auserIds\x18\x03 \x03(\tR\auserIds\x126\n" +
+	"\vallocations\x18\x04 \x03(\v2\x14.common.IPAllocationR\vallocations\x12;\n" +
+	"\rresourceLimit\x18\x05 \x01(\v2\x15.common.ResourceLimitR\rresourceLimit\x12 \n" +
 	"\vblueprintId\x18\x06 \x01(\tR\vblueprintId\x12 \n" +
-	"\vdockerImage\x18\a \x01(\tR\vdockerImage\"\xc3\x02\n" +
+	"\vdockerImage\x18\a \x01(\tR\vdockerImage\"\xc5\x02\n" +
 	"\x13UpdateServerRequest\x12\x1a\n" +
 	"\bserverId\x18\x01 \x01(\tR\bserverId\x12\x18\n" +
-	"\auserIds\x18\x03 \x03(\tR\auserIds\x124\n" +
-	"\vallocations\x18\x04 \x03(\v2\x12.daemon.AllocationR\vallocations\x12@\n" +
-	"\rresourceLimit\x18\x05 \x01(\v2\x15.daemon.ResourceLimitH\x00R\rresourceLimit\x88\x01\x01\x12%\n" +
+	"\auserIds\x18\x03 \x03(\tR\auserIds\x126\n" +
+	"\vallocations\x18\x04 \x03(\v2\x14.common.IPAllocationR\vallocations\x12@\n" +
+	"\rresourceLimit\x18\x05 \x01(\v2\x15.common.ResourceLimitH\x00R\rresourceLimit\x88\x01\x01\x12%\n" +
 	"\vblueprintId\x18\x06 \x01(\tH\x01R\vblueprintId\x88\x01\x01\x12%\n" +
 	"\vdockerImage\x18\a \x01(\tH\x02R\vdockerImage\x88\x01\x01B\x10\n" +
 	"\x0e_resourceLimitB\x0e\n" +
@@ -299,15 +299,15 @@ var file_daemon_Internal_proto_goTypes = []any{
 	(*CreateServerRequest)(nil),         // 0: daemon.CreateServerRequest
 	(*UpdateServerRequest)(nil),         // 1: daemon.UpdateServerRequest
 	(*DeleteServerRequest)(nil),         // 2: daemon.DeleteServerRequest
-	(*Allocation)(nil),                  // 3: daemon.Allocation
-	(*ResourceLimit)(nil),               // 4: daemon.ResourceLimit
+	(*proto_gen_go.IPAllocation)(nil),   // 3: common.IPAllocation
+	(*proto_gen_go.ResourceLimit)(nil),  // 4: common.ResourceLimit
 	(*proto_gen_go.SuccessMessage)(nil), // 5: common.SuccessMessage
 }
 var file_daemon_Internal_proto_depIdxs = []int32{
-	3, // 0: daemon.CreateServerRequest.allocations:type_name -> daemon.Allocation
-	4, // 1: daemon.CreateServerRequest.resourceLimit:type_name -> daemon.ResourceLimit
-	3, // 2: daemon.UpdateServerRequest.allocations:type_name -> daemon.Allocation
-	4, // 3: daemon.UpdateServerRequest.resourceLimit:type_name -> daemon.ResourceLimit
+	3, // 0: daemon.CreateServerRequest.allocations:type_name -> common.IPAllocation
+	4, // 1: daemon.CreateServerRequest.resourceLimit:type_name -> common.ResourceLimit
+	3, // 2: daemon.UpdateServerRequest.allocations:type_name -> common.IPAllocation
+	4, // 3: daemon.UpdateServerRequest.resourceLimit:type_name -> common.ResourceLimit
 	0, // 4: daemon.InternalService.CreateServer:input_type -> daemon.CreateServerRequest
 	1, // 5: daemon.InternalService.UpdateServer:input_type -> daemon.UpdateServerRequest
 	2, // 6: daemon.InternalService.DeleteServer:input_type -> daemon.DeleteServerRequest

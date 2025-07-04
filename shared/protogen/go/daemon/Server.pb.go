@@ -191,126 +191,6 @@ func (PowerAction) EnumDescriptor() ([]byte, []int) {
 	return file_daemon_Server_proto_rawDescGZIP(), []int{2}
 }
 
-type Allocation struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Ip            string                 `protobuf:"bytes,1,opt,name=ip,proto3" json:"ip,omitempty"`
-	Port          uint32                 `protobuf:"varint,2,opt,name=port,proto3" json:"port,omitempty"` // MUST BE 1024-65535
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *Allocation) Reset() {
-	*x = Allocation{}
-	mi := &file_daemon_Server_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *Allocation) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Allocation) ProtoMessage() {}
-
-func (x *Allocation) ProtoReflect() protoreflect.Message {
-	mi := &file_daemon_Server_proto_msgTypes[0]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Allocation.ProtoReflect.Descriptor instead.
-func (*Allocation) Descriptor() ([]byte, []int) {
-	return file_daemon_Server_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *Allocation) GetIp() string {
-	if x != nil {
-		return x.Ip
-	}
-	return ""
-}
-
-func (x *Allocation) GetPort() uint32 {
-	if x != nil {
-		return x.Port
-	}
-	return 0
-}
-
-type ResourceLimit struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Cpu           uint32                 `protobuf:"varint,1,opt,name=cpu,proto3" json:"cpu,omitempty"`         // CPU in percentage (100% = 1 vCore)
-	Ram           uint32                 `protobuf:"varint,2,opt,name=ram,proto3" json:"ram,omitempty"`         // RAM in MB
-	Swap          uint32                 `protobuf:"varint,3,opt,name=swap,proto3" json:"swap,omitempty"`       // SWAP in MB
-	Storage       uint32                 `protobuf:"varint,4,opt,name=storage,proto3" json:"storage,omitempty"` // Storage in MB
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ResourceLimit) Reset() {
-	*x = ResourceLimit{}
-	mi := &file_daemon_Server_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ResourceLimit) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ResourceLimit) ProtoMessage() {}
-
-func (x *ResourceLimit) ProtoReflect() protoreflect.Message {
-	mi := &file_daemon_Server_proto_msgTypes[1]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ResourceLimit.ProtoReflect.Descriptor instead.
-func (*ResourceLimit) Descriptor() ([]byte, []int) {
-	return file_daemon_Server_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *ResourceLimit) GetCpu() uint32 {
-	if x != nil {
-		return x.Cpu
-	}
-	return 0
-}
-
-func (x *ResourceLimit) GetRam() uint32 {
-	if x != nil {
-		return x.Ram
-	}
-	return 0
-}
-
-func (x *ResourceLimit) GetSwap() uint32 {
-	if x != nil {
-		return x.Swap
-	}
-	return 0
-}
-
-func (x *ResourceLimit) GetStorage() uint32 {
-	if x != nil {
-		return x.Storage
-	}
-	return 0
-}
-
 type ResourceUsage struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Cpu           float32                `protobuf:"fixed32,1,opt,name=cpu,proto3" json:"cpu,omitempty"`         // CPU in percentage (100% = 1 vCore)
@@ -322,7 +202,7 @@ type ResourceUsage struct {
 
 func (x *ResourceUsage) Reset() {
 	*x = ResourceUsage{}
-	mi := &file_daemon_Server_proto_msgTypes[2]
+	mi := &file_daemon_Server_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -334,7 +214,7 @@ func (x *ResourceUsage) String() string {
 func (*ResourceUsage) ProtoMessage() {}
 
 func (x *ResourceUsage) ProtoReflect() protoreflect.Message {
-	mi := &file_daemon_Server_proto_msgTypes[2]
+	mi := &file_daemon_Server_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -347,7 +227,7 @@ func (x *ResourceUsage) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ResourceUsage.ProtoReflect.Descriptor instead.
 func (*ResourceUsage) Descriptor() ([]byte, []int) {
-	return file_daemon_Server_proto_rawDescGZIP(), []int{2}
+	return file_daemon_Server_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *ResourceUsage) GetCpu() float32 {
@@ -383,7 +263,7 @@ type ServerStatus struct {
 
 func (x *ServerStatus) Reset() {
 	*x = ServerStatus{}
-	mi := &file_daemon_Server_proto_msgTypes[3]
+	mi := &file_daemon_Server_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -395,7 +275,7 @@ func (x *ServerStatus) String() string {
 func (*ServerStatus) ProtoMessage() {}
 
 func (x *ServerStatus) ProtoReflect() protoreflect.Message {
-	mi := &file_daemon_Server_proto_msgTypes[3]
+	mi := &file_daemon_Server_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -408,7 +288,7 @@ func (x *ServerStatus) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ServerStatus.ProtoReflect.Descriptor instead.
 func (*ServerStatus) Descriptor() ([]byte, []int) {
-	return file_daemon_Server_proto_rawDescGZIP(), []int{3}
+	return file_daemon_Server_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ServerStatus) GetStatus() ServerStatusType {
@@ -449,7 +329,7 @@ type PowerActionMessage struct {
 
 func (x *PowerActionMessage) Reset() {
 	*x = PowerActionMessage{}
-	mi := &file_daemon_Server_proto_msgTypes[4]
+	mi := &file_daemon_Server_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -461,7 +341,7 @@ func (x *PowerActionMessage) String() string {
 func (*PowerActionMessage) ProtoMessage() {}
 
 func (x *PowerActionMessage) ProtoReflect() protoreflect.Message {
-	mi := &file_daemon_Server_proto_msgTypes[4]
+	mi := &file_daemon_Server_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -474,7 +354,7 @@ func (x *PowerActionMessage) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PowerActionMessage.ProtoReflect.Descriptor instead.
 func (*PowerActionMessage) Descriptor() ([]byte, []int) {
-	return file_daemon_Server_proto_rawDescGZIP(), []int{4}
+	return file_daemon_Server_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *PowerActionMessage) GetServerId() string {
@@ -500,7 +380,7 @@ type ResourceUsageMessage struct {
 
 func (x *ResourceUsageMessage) Reset() {
 	*x = ResourceUsageMessage{}
-	mi := &file_daemon_Server_proto_msgTypes[5]
+	mi := &file_daemon_Server_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -512,7 +392,7 @@ func (x *ResourceUsageMessage) String() string {
 func (*ResourceUsageMessage) ProtoMessage() {}
 
 func (x *ResourceUsageMessage) ProtoReflect() protoreflect.Message {
-	mi := &file_daemon_Server_proto_msgTypes[5]
+	mi := &file_daemon_Server_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -525,7 +405,7 @@ func (x *ResourceUsageMessage) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ResourceUsageMessage.ProtoReflect.Descriptor instead.
 func (*ResourceUsageMessage) Descriptor() ([]byte, []int) {
-	return file_daemon_Server_proto_rawDescGZIP(), []int{5}
+	return file_daemon_Server_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ResourceUsageMessage) GetUsage() *ResourceUsage {
@@ -539,16 +419,7 @@ var File_daemon_Server_proto protoreflect.FileDescriptor
 
 const file_daemon_Server_proto_rawDesc = "" +
 	"\n" +
-	"\x13daemon/Server.proto\x12\x06daemon\x1a\fcommon.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"0\n" +
-	"\n" +
-	"Allocation\x12\x0e\n" +
-	"\x02ip\x18\x01 \x01(\tR\x02ip\x12\x12\n" +
-	"\x04port\x18\x02 \x01(\rR\x04port\"a\n" +
-	"\rResourceLimit\x12\x10\n" +
-	"\x03cpu\x18\x01 \x01(\rR\x03cpu\x12\x10\n" +
-	"\x03ram\x18\x02 \x01(\rR\x03ram\x12\x12\n" +
-	"\x04swap\x18\x03 \x01(\rR\x04swap\x12\x18\n" +
-	"\astorage\x18\x04 \x01(\rR\astorage\"M\n" +
+	"\x13daemon/Server.proto\x12\x06daemon\x1a\fcommon.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"M\n" +
 	"\rResourceUsage\x12\x10\n" +
 	"\x03cpu\x18\x01 \x01(\x02R\x03cpu\x12\x10\n" +
 	"\x03ram\x18\x02 \x01(\x02R\x03ram\x12\x18\n" +
@@ -606,42 +477,40 @@ func file_daemon_Server_proto_rawDescGZIP() []byte {
 }
 
 var file_daemon_Server_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_daemon_Server_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_daemon_Server_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_daemon_Server_proto_goTypes = []any{
 	(ServerStatusType)(0),                // 0: daemon.ServerStatusType
 	(ServerOfflineReason)(0),             // 1: daemon.ServerOfflineReason
 	(PowerAction)(0),                     // 2: daemon.PowerAction
-	(*Allocation)(nil),                   // 3: daemon.Allocation
-	(*ResourceLimit)(nil),                // 4: daemon.ResourceLimit
-	(*ResourceUsage)(nil),                // 5: daemon.ResourceUsage
-	(*ServerStatus)(nil),                 // 6: daemon.ServerStatus
-	(*PowerActionMessage)(nil),           // 7: daemon.PowerActionMessage
-	(*ResourceUsageMessage)(nil),         // 8: daemon.ResourceUsageMessage
-	(*timestamppb.Timestamp)(nil),        // 9: google.protobuf.Timestamp
-	(*proto_gen_go.StreamIDMessage)(nil), // 10: common.StreamIDMessage
-	(*proto_gen_go.SimpleIDMessage)(nil), // 11: common.SimpleIDMessage
-	(*proto_gen_go.SimpleMessage)(nil),   // 12: common.SimpleMessage
-	(*proto_gen_go.SuccessMessage)(nil),  // 13: common.SuccessMessage
+	(*ResourceUsage)(nil),                // 3: daemon.ResourceUsage
+	(*ServerStatus)(nil),                 // 4: daemon.ServerStatus
+	(*PowerActionMessage)(nil),           // 5: daemon.PowerActionMessage
+	(*ResourceUsageMessage)(nil),         // 6: daemon.ResourceUsageMessage
+	(*timestamppb.Timestamp)(nil),        // 7: google.protobuf.Timestamp
+	(*proto_gen_go.StreamIDMessage)(nil), // 8: common.StreamIDMessage
+	(*proto_gen_go.SimpleIDMessage)(nil), // 9: common.SimpleIDMessage
+	(*proto_gen_go.SimpleMessage)(nil),   // 10: common.SimpleMessage
+	(*proto_gen_go.SuccessMessage)(nil),  // 11: common.SuccessMessage
 }
 var file_daemon_Server_proto_depIdxs = []int32{
 	0,  // 0: daemon.ServerStatus.status:type_name -> daemon.ServerStatusType
-	9,  // 1: daemon.ServerStatus.timestampStart:type_name -> google.protobuf.Timestamp
-	9,  // 2: daemon.ServerStatus.timestampEnd:type_name -> google.protobuf.Timestamp
+	7,  // 1: daemon.ServerStatus.timestampStart:type_name -> google.protobuf.Timestamp
+	7,  // 2: daemon.ServerStatus.timestampEnd:type_name -> google.protobuf.Timestamp
 	1,  // 3: daemon.ServerStatus.offlineReason:type_name -> daemon.ServerOfflineReason
 	2,  // 4: daemon.PowerActionMessage.action:type_name -> daemon.PowerAction
-	5,  // 5: daemon.ResourceUsageMessage.usage:type_name -> daemon.ResourceUsage
-	10, // 6: daemon.ServerService.Console:input_type -> common.StreamIDMessage
-	10, // 7: daemon.ServerService.Terminal:input_type -> common.StreamIDMessage
-	11, // 8: daemon.ServerService.Status:input_type -> common.SimpleIDMessage
-	11, // 9: daemon.ServerService.ResourceUsage:input_type -> common.SimpleIDMessage
-	7,  // 10: daemon.ServerService.PowerAction:input_type -> daemon.PowerActionMessage
-	11, // 11: daemon.ServerService.Install:input_type -> common.SimpleIDMessage
-	12, // 12: daemon.ServerService.Console:output_type -> common.SimpleMessage
-	12, // 13: daemon.ServerService.Terminal:output_type -> common.SimpleMessage
-	6,  // 14: daemon.ServerService.Status:output_type -> daemon.ServerStatus
-	8,  // 15: daemon.ServerService.ResourceUsage:output_type -> daemon.ResourceUsageMessage
-	13, // 16: daemon.ServerService.PowerAction:output_type -> common.SuccessMessage
-	13, // 17: daemon.ServerService.Install:output_type -> common.SuccessMessage
+	3,  // 5: daemon.ResourceUsageMessage.usage:type_name -> daemon.ResourceUsage
+	8,  // 6: daemon.ServerService.Console:input_type -> common.StreamIDMessage
+	8,  // 7: daemon.ServerService.Terminal:input_type -> common.StreamIDMessage
+	9,  // 8: daemon.ServerService.Status:input_type -> common.SimpleIDMessage
+	9,  // 9: daemon.ServerService.ResourceUsage:input_type -> common.SimpleIDMessage
+	5,  // 10: daemon.ServerService.PowerAction:input_type -> daemon.PowerActionMessage
+	9,  // 11: daemon.ServerService.Install:input_type -> common.SimpleIDMessage
+	10, // 12: daemon.ServerService.Console:output_type -> common.SimpleMessage
+	10, // 13: daemon.ServerService.Terminal:output_type -> common.SimpleMessage
+	4,  // 14: daemon.ServerService.Status:output_type -> daemon.ServerStatus
+	6,  // 15: daemon.ServerService.ResourceUsage:output_type -> daemon.ResourceUsageMessage
+	11, // 16: daemon.ServerService.PowerAction:output_type -> common.SuccessMessage
+	11, // 17: daemon.ServerService.Install:output_type -> common.SuccessMessage
 	12, // [12:18] is the sub-list for method output_type
 	6,  // [6:12] is the sub-list for method input_type
 	6,  // [6:6] is the sub-list for extension type_name
@@ -654,14 +523,14 @@ func file_daemon_Server_proto_init() {
 	if File_daemon_Server_proto != nil {
 		return
 	}
-	file_daemon_Server_proto_msgTypes[3].OneofWrappers = []any{}
+	file_daemon_Server_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_daemon_Server_proto_rawDesc), len(file_daemon_Server_proto_rawDesc)),
 			NumEnums:      3,
-			NumMessages:   6,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

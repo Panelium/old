@@ -4,9 +4,8 @@
 
 import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { SuccessMessageSchema } from "../common_pb";
+import type { IPAllocation, ResourceLimit, SuccessMessageSchema } from "../common_pb";
 import { file_common } from "../common_pb";
-import type { Allocation, ResourceLimit } from "./Server_pb";
 import { file_daemon_Server } from "./Server_pb";
 import type { Message } from "@bufbuild/protobuf";
 
@@ -14,7 +13,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file daemon/Internal.proto.
  */
 export const file_daemon_Internal: GenFile = /*@__PURE__*/
-  fileDesc("ChVkYWVtb24vSW50ZXJuYWwucHJvdG8SBmRhZW1vbiLKAQoTQ3JlYXRlU2VydmVyUmVxdWVzdBIQCghzZXJ2ZXJJZBgBIAEoCRIPCgdvd25lcklkGAIgASgJEg8KB3VzZXJJZHMYAyADKAkSJwoLYWxsb2NhdGlvbnMYBCADKAsyEi5kYWVtb24uQWxsb2NhdGlvbhIsCg1yZXNvdXJjZUxpbWl0GAUgASgLMhUuZGFlbW9uLlJlc291cmNlTGltaXQSEwoLYmx1ZXByaW50SWQYBiABKAkSEwoLZG9ja2VySW1hZ2UYByABKAki+gEKE1VwZGF0ZVNlcnZlclJlcXVlc3QSEAoIc2VydmVySWQYASABKAkSDwoHdXNlcklkcxgDIAMoCRInCgthbGxvY2F0aW9ucxgEIAMoCzISLmRhZW1vbi5BbGxvY2F0aW9uEjEKDXJlc291cmNlTGltaXQYBSABKAsyFS5kYWVtb24uUmVzb3VyY2VMaW1pdEgAiAEBEhgKC2JsdWVwcmludElkGAYgASgJSAGIAQESGAoLZG9ja2VySW1hZ2UYByABKAlIAogBAUIQCg5fcmVzb3VyY2VMaW1pdEIOCgxfYmx1ZXByaW50SWRCDgoMX2RvY2tlckltYWdlIjYKE0RlbGV0ZVNlcnZlclJlcXVlc3QSEAoIc2VydmVySWQYASABKAkSDQoFZm9yY2UYAiABKAgy4AEKD0ludGVybmFsU2VydmljZRJDCgxDcmVhdGVTZXJ2ZXISGy5kYWVtb24uQ3JlYXRlU2VydmVyUmVxdWVzdBoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRJDCgxVcGRhdGVTZXJ2ZXISGy5kYWVtb24uVXBkYXRlU2VydmVyUmVxdWVzdBoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRJDCgxEZWxldGVTZXJ2ZXISGy5kYWVtb24uRGVsZXRlU2VydmVyUmVxdWVzdBoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZUIeWhxwYW5lbGl1bS9wcm90b19nZW5fZ28vZGFlbW9uYgZwcm90bzM", [file_common, file_daemon_Server]);
+  fileDesc("ChVkYWVtb24vSW50ZXJuYWwucHJvdG8SBmRhZW1vbiLMAQoTQ3JlYXRlU2VydmVyUmVxdWVzdBIQCghzZXJ2ZXJJZBgBIAEoCRIPCgdvd25lcklkGAIgASgJEg8KB3VzZXJJZHMYAyADKAkSKQoLYWxsb2NhdGlvbnMYBCADKAsyFC5jb21tb24uSVBBbGxvY2F0aW9uEiwKDXJlc291cmNlTGltaXQYBSABKAsyFS5jb21tb24uUmVzb3VyY2VMaW1pdBITCgtibHVlcHJpbnRJZBgGIAEoCRITCgtkb2NrZXJJbWFnZRgHIAEoCSL8AQoTVXBkYXRlU2VydmVyUmVxdWVzdBIQCghzZXJ2ZXJJZBgBIAEoCRIPCgd1c2VySWRzGAMgAygJEikKC2FsbG9jYXRpb25zGAQgAygLMhQuY29tbW9uLklQQWxsb2NhdGlvbhIxCg1yZXNvdXJjZUxpbWl0GAUgASgLMhUuY29tbW9uLlJlc291cmNlTGltaXRIAIgBARIYCgtibHVlcHJpbnRJZBgGIAEoCUgBiAEBEhgKC2RvY2tlckltYWdlGAcgASgJSAKIAQFCEAoOX3Jlc291cmNlTGltaXRCDgoMX2JsdWVwcmludElkQg4KDF9kb2NrZXJJbWFnZSI2ChNEZWxldGVTZXJ2ZXJSZXF1ZXN0EhAKCHNlcnZlcklkGAEgASgJEg0KBWZvcmNlGAIgASgIMuABCg9JbnRlcm5hbFNlcnZpY2USQwoMQ3JlYXRlU2VydmVyEhsuZGFlbW9uLkNyZWF0ZVNlcnZlclJlcXVlc3QaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USQwoMVXBkYXRlU2VydmVyEhsuZGFlbW9uLlVwZGF0ZVNlcnZlclJlcXVlc3QaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USQwoMRGVsZXRlU2VydmVyEhsuZGFlbW9uLkRlbGV0ZVNlcnZlclJlcXVlc3QaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2VCHloccGFuZWxpdW0vcHJvdG9fZ2VuX2dvL2RhZW1vbmIGcHJvdG8z", [file_common, file_daemon_Server]);
 
 /**
  * @generated from message daemon.CreateServerRequest
@@ -36,12 +35,12 @@ export type CreateServerRequest = Message<"daemon.CreateServerRequest"> & {
   userIds: string[];
 
   /**
-   * @generated from field: repeated daemon.Allocation allocations = 4;
+   * @generated from field: repeated common.IPAllocation allocations = 4;
    */
-  allocations: Allocation[];
+  allocations: IPAllocation[];
 
   /**
-   * @generated from field: daemon.ResourceLimit resourceLimit = 5;
+   * @generated from field: common.ResourceLimit resourceLimit = 5;
    */
   resourceLimit?: ResourceLimit;
 
@@ -84,12 +83,12 @@ export type UpdateServerRequest = Message<"daemon.UpdateServerRequest"> & {
   /**
    * optional
    *
-   * @generated from field: repeated daemon.Allocation allocations = 4;
+   * @generated from field: repeated common.IPAllocation allocations = 4;
    */
-  allocations: Allocation[];
+  allocations: IPAllocation[];
 
   /**
-   * @generated from field: optional daemon.ResourceLimit resourceLimit = 5;
+   * @generated from field: optional common.ResourceLimit resourceLimit = 5;
    */
   resourceLimit?: ResourceLimit;
 

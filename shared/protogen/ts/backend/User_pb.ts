@@ -2,20 +2,165 @@
 // @generated from file backend/User.proto (package backend, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile, GenService } from "@bufbuild/protobuf/codegenv2";
-import { fileDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
+import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { EmptySchema, SimpleIDMessageSchema, SimpleIIDMessageSchema, SimpleMessageSchema, SuccessMessageSchema } from "../common_pb";
 import { file_common } from "../common_pb";
+import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file backend/User.proto.
  */
 export const file_backend_User: GenFile = /*@__PURE__*/
-  fileDesc("ChJiYWNrZW5kL1VzZXIucHJvdG8SB2JhY2tlbmQyDQoLVXNlclNlcnZpY2VCH1odcGFuZWxpdW0vcHJvdG9fZ2VuX2dvL2JhY2tlbmRiBnByb3RvMw", [file_common]);
+  fileDesc("ChJiYWNrZW5kL1VzZXIucHJvdG8SB2JhY2tlbmQiPwoIVXNlckRhdGESEAoIdXNlcm5hbWUYASABKAkSDQoFZW1haWwYAiABKAkSEgoKbWZhX25lZWRlZBgDIAEoCCJACgRVc2VyEgoKAmlkGAEgASgNEgsKA3VpZBgCIAEoCRIfCgRkYXRhGAMgASgLMhEuYmFja2VuZC5Vc2VyRGF0YSIlCgVVc2VycxIcCgV1c2VycxgBIAMoCzINLmJhY2tlbmQuVXNlcjL9AwoLVXNlclNlcnZpY2USLgoKQ3JlYXRlVXNlchIRLmJhY2tlbmQuVXNlckRhdGEaDS5iYWNrZW5kLlVzZXISMgoIUmVhZFVzZXISFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGg0uYmFja2VuZC5Vc2VyEjQKCVJlYWRVc2VySRIYLmNvbW1vbi5TaW1wbGVJSURNZXNzYWdlGg0uYmFja2VuZC5Vc2VyEjoKElJlYWRVc2VyQnlVc2VybmFtZRIVLmNvbW1vbi5TaW1wbGVNZXNzYWdlGg0uYmFja2VuZC5Vc2VyEjcKD1JlYWRVc2VyQnlFbWFpbBIVLmNvbW1vbi5TaW1wbGVNZXNzYWdlGg0uYmFja2VuZC5Vc2VyEjMKClVwZGF0ZVVzZXISDS5iYWNrZW5kLlVzZXIaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USPQoKRGVsZXRlVXNlchIXLmNvbW1vbi5TaW1wbGVJRE1lc3NhZ2UaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USPwoLRGVsZXRlVXNlckkSGC5jb21tb24uU2ltcGxlSUlETWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRIqCglMaXN0VXNlcnMSDS5jb21tb24uRW1wdHkaDi5iYWNrZW5kLlVzZXJzQh9aHXBhbmVsaXVtL3Byb3RvX2dlbl9nby9iYWNrZW5kYgZwcm90bzM", [file_common]);
+
+/**
+ * @generated from message backend.UserData
+ */
+export type UserData = Message<"backend.UserData"> & {
+  /**
+   * @generated from field: string username = 1;
+   */
+  username: string;
+
+  /**
+   * @generated from field: string email = 2;
+   */
+  email: string;
+
+  /**
+   * @generated from field: bool mfa_needed = 3;
+   */
+  mfaNeeded: boolean;
+};
+
+/**
+ * Describes the message backend.UserData.
+ * Use `create(UserDataSchema)` to create a new message.
+ */
+export const UserDataSchema: GenMessage<UserData> = /*@__PURE__*/
+  messageDesc(file_backend_User, 0);
+
+/**
+ * @generated from message backend.User
+ */
+export type User = Message<"backend.User"> & {
+  /**
+   * @generated from field: uint32 id = 1;
+   */
+  id: number;
+
+  /**
+   * @generated from field: string uid = 2;
+   */
+  uid: string;
+
+  /**
+   * @generated from field: backend.UserData data = 3;
+   */
+  data?: UserData;
+};
+
+/**
+ * Describes the message backend.User.
+ * Use `create(UserSchema)` to create a new message.
+ */
+export const UserSchema: GenMessage<User> = /*@__PURE__*/
+  messageDesc(file_backend_User, 1);
+
+/**
+ * @generated from message backend.Users
+ */
+export type Users = Message<"backend.Users"> & {
+  /**
+   * @generated from field: repeated backend.User users = 1;
+   */
+  users: User[];
+};
+
+/**
+ * Describes the message backend.Users.
+ * Use `create(UsersSchema)` to create a new message.
+ */
+export const UsersSchema: GenMessage<Users> = /*@__PURE__*/
+  messageDesc(file_backend_User, 2);
 
 /**
  * @generated from service backend.UserService
  */
 export const UserService: GenService<{
+  /**
+   * @generated from rpc backend.UserService.CreateUser
+   */
+  createUser: {
+    methodKind: "unary";
+    input: typeof UserDataSchema;
+    output: typeof UserSchema;
+  },
+  /**
+   * @generated from rpc backend.UserService.ReadUser
+   */
+  readUser: {
+    methodKind: "unary";
+    input: typeof SimpleIDMessageSchema;
+    output: typeof UserSchema;
+  },
+  /**
+   * @generated from rpc backend.UserService.ReadUserI
+   */
+  readUserI: {
+    methodKind: "unary";
+    input: typeof SimpleIIDMessageSchema;
+    output: typeof UserSchema;
+  },
+  /**
+   * @generated from rpc backend.UserService.ReadUserByUsername
+   */
+  readUserByUsername: {
+    methodKind: "unary";
+    input: typeof SimpleMessageSchema;
+    output: typeof UserSchema;
+  },
+  /**
+   * @generated from rpc backend.UserService.ReadUserByEmail
+   */
+  readUserByEmail: {
+    methodKind: "unary";
+    input: typeof SimpleMessageSchema;
+    output: typeof UserSchema;
+  },
+  /**
+   * @generated from rpc backend.UserService.UpdateUser
+   */
+  updateUser: {
+    methodKind: "unary";
+    input: typeof UserSchema;
+    output: typeof SuccessMessageSchema;
+  },
+  /**
+   * @generated from rpc backend.UserService.DeleteUser
+   */
+  deleteUser: {
+    methodKind: "unary";
+    input: typeof SimpleIDMessageSchema;
+    output: typeof SuccessMessageSchema;
+  },
+  /**
+   * @generated from rpc backend.UserService.DeleteUserI
+   */
+  deleteUserI: {
+    methodKind: "unary";
+    input: typeof SimpleIIDMessageSchema;
+    output: typeof SuccessMessageSchema;
+  },
+  /**
+   * @generated from rpc backend.UserService.ListUsers
+   */
+  listUsers: {
+    methodKind: "unary";
+    input: typeof EmptySchema;
+    output: typeof UsersSchema;
+  },
 }> = /*@__PURE__*/
   serviceDesc(file_backend_User, 0);
 

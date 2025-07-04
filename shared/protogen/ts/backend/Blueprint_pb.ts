@@ -4,18 +4,77 @@
 
 import type { GenFile, GenService } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { EmptySchema, SimpleIDMessageSchema, SimpleIIDMessageSchema, SimpleMessageSchema, SuccessMessageSchema } from "../common_pb";
 import { file_common } from "../common_pb";
 
 /**
  * Describes the file backend/Blueprint.proto.
  */
 export const file_backend_Blueprint: GenFile = /*@__PURE__*/
-  fileDesc("ChdiYWNrZW5kL0JsdWVwcmludC5wcm90bxIHYmFja2VuZDISChBCbHVlcHJpbnRTZXJ2aWNlQh9aHXBhbmVsaXVtL3Byb3RvX2dlbl9nby9iYWNrZW5kYgZwcm90bzM", [file_common]);
+  fileDesc("ChdiYWNrZW5kL0JsdWVwcmludC5wcm90bxIHYmFja2VuZDLeAwoQQmx1ZXByaW50U2VydmljZRJCCg9DcmVhdGVCbHVlcHJpbnQSFS5jb21tb24uU2ltcGxlTWVzc2FnZRoYLmNvbW1vbi5TaW1wbGVJSURNZXNzYWdlEj8KDVJlYWRCbHVlcHJpbnQSFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGhUuY29tbW9uLlNpbXBsZU1lc3NhZ2USQQoOUmVhZEJsdWVwcmludEkSGC5jb21tb24uU2ltcGxlSUlETWVzc2FnZRoVLmNvbW1vbi5TaW1wbGVNZXNzYWdlEkAKD1VwZGF0ZUJsdWVwcmludBIVLmNvbW1vbi5TaW1wbGVNZXNzYWdlGhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlEkIKD0RlbGV0ZUJsdWVwcmludBIXLmNvbW1vbi5TaW1wbGVJRE1lc3NhZ2UaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USRAoQRGVsZXRlQmx1ZXByaW50SRIYLmNvbW1vbi5TaW1wbGVJSURNZXNzYWdlGhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlEjYKDkxpc3RCbHVlcHJpbnRzEg0uY29tbW9uLkVtcHR5GhUuY29tbW9uLlNpbXBsZU1lc3NhZ2VCH1odcGFuZWxpdW0vcHJvdG9fZ2VuX2dvL2JhY2tlbmRiBnByb3RvMw", [file_common]);
 
 /**
+ * Note: Blueprints are JSONs, that's why we use SimpleMessage
+ *
  * @generated from service backend.BlueprintService
  */
 export const BlueprintService: GenService<{
+  /**
+   * @generated from rpc backend.BlueprintService.CreateBlueprint
+   */
+  createBlueprint: {
+    methodKind: "unary";
+    input: typeof SimpleMessageSchema;
+    output: typeof SimpleIIDMessageSchema;
+  },
+  /**
+   * @generated from rpc backend.BlueprintService.ReadBlueprint
+   */
+  readBlueprint: {
+    methodKind: "unary";
+    input: typeof SimpleIDMessageSchema;
+    output: typeof SimpleMessageSchema;
+  },
+  /**
+   * @generated from rpc backend.BlueprintService.ReadBlueprintI
+   */
+  readBlueprintI: {
+    methodKind: "unary";
+    input: typeof SimpleIIDMessageSchema;
+    output: typeof SimpleMessageSchema;
+  },
+  /**
+   * @generated from rpc backend.BlueprintService.UpdateBlueprint
+   */
+  updateBlueprint: {
+    methodKind: "unary";
+    input: typeof SimpleMessageSchema;
+    output: typeof SuccessMessageSchema;
+  },
+  /**
+   * @generated from rpc backend.BlueprintService.DeleteBlueprint
+   */
+  deleteBlueprint: {
+    methodKind: "unary";
+    input: typeof SimpleIDMessageSchema;
+    output: typeof SuccessMessageSchema;
+  },
+  /**
+   * @generated from rpc backend.BlueprintService.DeleteBlueprintI
+   */
+  deleteBlueprintI: {
+    methodKind: "unary";
+    input: typeof SimpleIIDMessageSchema;
+    output: typeof SuccessMessageSchema;
+  },
+  /**
+   * @generated from rpc backend.BlueprintService.ListBlueprints
+   */
+  listBlueprints: {
+    methodKind: "unary";
+    input: typeof EmptySchema;
+    output: typeof SimpleMessageSchema;
+  },
 }> = /*@__PURE__*/
   serviceDesc(file_backend_Blueprint, 0);
 

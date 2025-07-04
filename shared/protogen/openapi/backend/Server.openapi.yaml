@@ -1,8 +1,724 @@
 openapi: 3.1.0
 info:
   title: backend
-paths: {}
-components: {}
+paths:
+  /backend.ServerService/CreateServer:
+    post:
+      tags:
+        - backend.ServerService
+      summary: CreateServer
+      operationId: backend.ServerService.CreateServer
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend.ServerData'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.Server'
+  /backend.ServerService/ReadServer:
+    post:
+      tags:
+        - backend.ServerService
+      summary: ReadServer
+      operationId: backend.ServerService.ReadServer
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/common.SimpleIDMessage'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.Server'
+  /backend.ServerService/ReadServerI:
+    post:
+      tags:
+        - backend.ServerService
+      summary: ReadServerI
+      operationId: backend.ServerService.ReadServerI
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/common.SimpleIIDMessage'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.Server'
+  /backend.ServerService/UpdateServer:
+    post:
+      tags:
+        - backend.ServerService
+      summary: UpdateServer
+      operationId: backend.ServerService.UpdateServer
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend.Server'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/common.SuccessMessage'
+  /backend.ServerService/DeleteServer:
+    post:
+      tags:
+        - backend.ServerService
+      summary: DeleteServer
+      operationId: backend.ServerService.DeleteServer
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/common.SimpleIDMessage'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/common.SuccessMessage'
+  /backend.ServerService/DeleteServerI:
+    post:
+      tags:
+        - backend.ServerService
+      summary: DeleteServerI
+      operationId: backend.ServerService.DeleteServerI
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/common.SimpleIIDMessage'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/common.SuccessMessage'
+  /backend.ServerService/ListServers:
+    post:
+      tags:
+        - backend.ServerService
+      summary: ListServers
+      operationId: backend.ServerService.ListServers
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/common.Empty'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.Servers'
+  /backend.ServerService/ListServersByNode:
+    post:
+      tags:
+        - backend.ServerService
+      summary: ListServersByNode
+      operationId: backend.ServerService.ListServersByNode
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/common.SimpleIDMessage'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.Servers'
+  /backend.ServerService/ListServersByUser:
+    post:
+      tags:
+        - backend.ServerService
+      summary: ListServersByUser
+      operationId: backend.ServerService.ListServersByUser
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/common.SimpleIDMessage'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.Servers'
+  /backend.ServerService/CreateServerUser:
+    post:
+      tags:
+        - backend.ServerService
+      summary: CreateServerUser
+      operationId: backend.ServerService.CreateServerUser
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend.ServerUserData'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.ServerUser'
+  /backend.ServerService/ReadServerUser:
+    post:
+      tags:
+        - backend.ServerService
+      summary: ReadServerUser
+      operationId: backend.ServerService.ReadServerUser
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/common.SimpleIDMessage'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.ServerUser'
+  /backend.ServerService/UpdateServerUser:
+    post:
+      tags:
+        - backend.ServerService
+      summary: UpdateServerUser
+      operationId: backend.ServerService.UpdateServerUser
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend.ServerUserData'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.ServerUser'
+  /backend.ServerService/DeleteServerUser:
+    post:
+      tags:
+        - backend.ServerService
+      summary: DeleteServerUser
+      operationId: backend.ServerService.DeleteServerUser
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/common.SimpleIDMessage'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/common.SuccessMessage'
+  /backend.ServerService/ListServerUsersByServer:
+    post:
+      tags:
+        - backend.ServerService
+      summary: ListServerUsersByServer
+      operationId: backend.ServerService.ListServerUsersByServer
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/common.SimpleIDMessage'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.ServerUsers'
+components:
+  schemas:
+    backend.NodeAllocationData:
+      type: object
+      properties:
+        nodeId:
+          type: integer
+          title: node_id
+        allocation:
+          title: allocation
+          $ref: '#/components/schemas/common.IPAllocation'
+        serverId:
+          type: integer
+          title: server_id
+          nullable: true
+      title: NodeAllocationData
+      additionalProperties: false
+    backend.Server:
+      type: object
+      properties:
+        id:
+          type: integer
+          title: id
+        sid:
+          type: string
+          title: sid
+        data:
+          title: data
+          $ref: '#/components/schemas/backend.ServerData'
+      title: Server
+      additionalProperties: false
+    backend.ServerData:
+      type: object
+      properties:
+        name:
+          type: string
+          title: name
+        description:
+          type: string
+          title: description
+        ownerId:
+          type: integer
+          title: owner_id
+        nodeId:
+          type: integer
+          title: node_id
+        serverUsers:
+          type: array
+          items:
+            $ref: '#/components/schemas/backend.ServerUserData'
+          title: server_users
+        nodeAllocations:
+          type: array
+          items:
+            $ref: '#/components/schemas/backend.NodeAllocationData'
+          title: node_allocations
+        resourceLimit:
+          title: resource_limit
+          $ref: '#/components/schemas/common.ResourceLimit'
+        dockerImage:
+          type: string
+          title: docker_image
+        bid:
+          type: string
+          title: bid
+      title: ServerData
+      additionalProperties: false
+    backend.ServerUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          title: id
+        data:
+          title: data
+          $ref: '#/components/schemas/backend.ServerUserData'
+      title: ServerUser
+      additionalProperties: false
+    backend.ServerUserData:
+      type: object
+      properties:
+        userId:
+          type: integer
+          title: user_id
+        serverId:
+          type: integer
+          title: server_id
+      title: ServerUserData
+      additionalProperties: false
+    backend.ServerUsers:
+      type: object
+      properties:
+        serverUsers:
+          type: array
+          items:
+            $ref: '#/components/schemas/backend.ServerUser'
+          title: server_users
+      title: ServerUsers
+      additionalProperties: false
+    backend.Servers:
+      type: object
+      properties:
+        servers:
+          type: array
+          items:
+            $ref: '#/components/schemas/backend.Server'
+          title: servers
+      title: Servers
+      additionalProperties: false
+    common.Empty:
+      type: object
+      title: Empty
+      additionalProperties: false
+    common.IPAllocation:
+      type: object
+      properties:
+        ip:
+          type: string
+          title: ip
+        port:
+          type: integer
+          title: port
+          description: MUST BE 1024-65535
+      title: IPAllocation
+      additionalProperties: false
+    common.ResourceLimit:
+      type: object
+      properties:
+        cpu:
+          type: integer
+          title: cpu
+          description: CPU in percentage (100% = 1 vCore)
+        ram:
+          type: integer
+          title: ram
+          description: RAM in MB
+        swap:
+          type: integer
+          title: swap
+          description: SWAP in MB
+        storage:
+          type: integer
+          title: storage
+          description: Storage in MB
+      title: ResourceLimit
+      additionalProperties: false
+    common.SimpleIDMessage:
+      type: object
+      properties:
+        id:
+          type: string
+          title: id
+      title: SimpleIDMessage
+      additionalProperties: false
+    common.SimpleIIDMessage:
+      type: object
+      properties:
+        id:
+          type: integer
+          title: id
+      title: SimpleIIDMessage
+      additionalProperties: false
+    common.SuccessMessage:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: SuccessMessage
+      additionalProperties: false
+    connect-protocol-version:
+      type: number
+      title: Connect-Protocol-Version
+      enum:
+        - 1
+      description: Define the version of the Connect protocol
+      const: 1
+    connect-timeout-header:
+      type: number
+      title: Connect-Timeout-Ms
+      description: Define the timeout, in ms
+    connect.error:
+      type: object
+      properties:
+        code:
+          type: string
+          examples:
+            - not_found
+          enum:
+            - canceled
+            - unknown
+            - invalid_argument
+            - deadline_exceeded
+            - not_found
+            - already_exists
+            - permission_denied
+            - resource_exhausted
+            - failed_precondition
+            - aborted
+            - out_of_range
+            - unimplemented
+            - internal
+            - unavailable
+            - data_loss
+            - unauthenticated
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        detail:
+          $ref: '#/components/schemas/google.protobuf.Any'
+      title: Connect Error
+      additionalProperties: true
+      description: 'Error type returned by Connect: https://connectrpc.com/docs/go/errors/#http-representation'
+    google.protobuf.Any:
+      type: object
+      properties:
+        type:
+          type: string
+        value:
+          type: string
+          format: binary
+        debug:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
 security: []
 tags:
   - name: backend.ServerService

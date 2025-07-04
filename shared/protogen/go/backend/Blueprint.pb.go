@@ -9,7 +9,7 @@ package backend
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	_ "panelium/proto_gen_go"
+	proto_gen_go "panelium/proto_gen_go"
 	reflect "reflect"
 	unsafe "unsafe"
 )
@@ -25,13 +25,40 @@ var File_backend_Blueprint_proto protoreflect.FileDescriptor
 
 const file_backend_Blueprint_proto_rawDesc = "" +
 	"\n" +
-	"\x17backend/Blueprint.proto\x12\abackend\x1a\fcommon.proto2\x12\n" +
-	"\x10BlueprintServiceB\x1fZ\x1dpanelium/proto_gen_go/backendb\x06proto3"
+	"\x17backend/Blueprint.proto\x12\abackend\x1a\fcommon.proto2\xde\x03\n" +
+	"\x10BlueprintService\x12B\n" +
+	"\x0fCreateBlueprint\x12\x15.common.SimpleMessage\x1a\x18.common.SimpleIIDMessage\x12?\n" +
+	"\rReadBlueprint\x12\x17.common.SimpleIDMessage\x1a\x15.common.SimpleMessage\x12A\n" +
+	"\x0eReadBlueprintI\x12\x18.common.SimpleIIDMessage\x1a\x15.common.SimpleMessage\x12@\n" +
+	"\x0fUpdateBlueprint\x12\x15.common.SimpleMessage\x1a\x16.common.SuccessMessage\x12B\n" +
+	"\x0fDeleteBlueprint\x12\x17.common.SimpleIDMessage\x1a\x16.common.SuccessMessage\x12D\n" +
+	"\x10DeleteBlueprintI\x12\x18.common.SimpleIIDMessage\x1a\x16.common.SuccessMessage\x126\n" +
+	"\x0eListBlueprints\x12\r.common.Empty\x1a\x15.common.SimpleMessageB\x1fZ\x1dpanelium/proto_gen_go/backendb\x06proto3"
 
-var file_backend_Blueprint_proto_goTypes = []any{}
+var file_backend_Blueprint_proto_goTypes = []any{
+	(*proto_gen_go.SimpleMessage)(nil),    // 0: common.SimpleMessage
+	(*proto_gen_go.SimpleIDMessage)(nil),  // 1: common.SimpleIDMessage
+	(*proto_gen_go.SimpleIIDMessage)(nil), // 2: common.SimpleIIDMessage
+	(*proto_gen_go.Empty)(nil),            // 3: common.Empty
+	(*proto_gen_go.SuccessMessage)(nil),   // 4: common.SuccessMessage
+}
 var file_backend_Blueprint_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
+	0, // 0: backend.BlueprintService.CreateBlueprint:input_type -> common.SimpleMessage
+	1, // 1: backend.BlueprintService.ReadBlueprint:input_type -> common.SimpleIDMessage
+	2, // 2: backend.BlueprintService.ReadBlueprintI:input_type -> common.SimpleIIDMessage
+	0, // 3: backend.BlueprintService.UpdateBlueprint:input_type -> common.SimpleMessage
+	1, // 4: backend.BlueprintService.DeleteBlueprint:input_type -> common.SimpleIDMessage
+	2, // 5: backend.BlueprintService.DeleteBlueprintI:input_type -> common.SimpleIIDMessage
+	3, // 6: backend.BlueprintService.ListBlueprints:input_type -> common.Empty
+	2, // 7: backend.BlueprintService.CreateBlueprint:output_type -> common.SimpleIIDMessage
+	0, // 8: backend.BlueprintService.ReadBlueprint:output_type -> common.SimpleMessage
+	0, // 9: backend.BlueprintService.ReadBlueprintI:output_type -> common.SimpleMessage
+	4, // 10: backend.BlueprintService.UpdateBlueprint:output_type -> common.SuccessMessage
+	4, // 11: backend.BlueprintService.DeleteBlueprint:output_type -> common.SuccessMessage
+	4, // 12: backend.BlueprintService.DeleteBlueprintI:output_type -> common.SuccessMessage
+	0, // 13: backend.BlueprintService.ListBlueprints:output_type -> common.SimpleMessage
+	7, // [7:14] is the sub-list for method output_type
+	0, // [0:7] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name

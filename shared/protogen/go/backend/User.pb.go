@@ -9,8 +9,9 @@ package backend
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	_ "panelium/proto_gen_go"
+	proto_gen_go "panelium/proto_gen_go"
 	reflect "reflect"
+	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -21,20 +22,249 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type UserData struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
+	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
+	MfaNeeded     bool                   `protobuf:"varint,3,opt,name=mfa_needed,json=mfaNeeded,proto3" json:"mfa_needed,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UserData) Reset() {
+	*x = UserData{}
+	mi := &file_backend_User_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UserData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UserData) ProtoMessage() {}
+
+func (x *UserData) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_User_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UserData.ProtoReflect.Descriptor instead.
+func (*UserData) Descriptor() ([]byte, []int) {
+	return file_backend_User_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *UserData) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *UserData) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *UserData) GetMfaNeeded() bool {
+	if x != nil {
+		return x.MfaNeeded
+	}
+	return false
+}
+
+type User struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Uid           string                 `protobuf:"bytes,2,opt,name=uid,proto3" json:"uid,omitempty"`
+	Data          *UserData              `protobuf:"bytes,3,opt,name=data,proto3" json:"data,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *User) Reset() {
+	*x = User{}
+	mi := &file_backend_User_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *User) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*User) ProtoMessage() {}
+
+func (x *User) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_User_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use User.ProtoReflect.Descriptor instead.
+func (*User) Descriptor() ([]byte, []int) {
+	return file_backend_User_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *User) GetId() uint32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *User) GetUid() string {
+	if x != nil {
+		return x.Uid
+	}
+	return ""
+}
+
+func (x *User) GetData() *UserData {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+type Users struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Users         []*User                `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Users) Reset() {
+	*x = Users{}
+	mi := &file_backend_User_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Users) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Users) ProtoMessage() {}
+
+func (x *Users) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_User_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Users.ProtoReflect.Descriptor instead.
+func (*Users) Descriptor() ([]byte, []int) {
+	return file_backend_User_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *Users) GetUsers() []*User {
+	if x != nil {
+		return x.Users
+	}
+	return nil
+}
+
 var File_backend_User_proto protoreflect.FileDescriptor
 
 const file_backend_User_proto_rawDesc = "" +
 	"\n" +
-	"\x12backend/User.proto\x12\abackend\x1a\fcommon.proto2\r\n" +
-	"\vUserServiceB\x1fZ\x1dpanelium/proto_gen_go/backendb\x06proto3"
+	"\x12backend/User.proto\x12\abackend\x1a\fcommon.proto\"[\n" +
+	"\bUserData\x12\x1a\n" +
+	"\busername\x18\x01 \x01(\tR\busername\x12\x14\n" +
+	"\x05email\x18\x02 \x01(\tR\x05email\x12\x1d\n" +
+	"\n" +
+	"mfa_needed\x18\x03 \x01(\bR\tmfaNeeded\"O\n" +
+	"\x04User\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12\x10\n" +
+	"\x03uid\x18\x02 \x01(\tR\x03uid\x12%\n" +
+	"\x04data\x18\x03 \x01(\v2\x11.backend.UserDataR\x04data\",\n" +
+	"\x05Users\x12#\n" +
+	"\x05users\x18\x01 \x03(\v2\r.backend.UserR\x05users2\xfd\x03\n" +
+	"\vUserService\x12.\n" +
+	"\n" +
+	"CreateUser\x12\x11.backend.UserData\x1a\r.backend.User\x122\n" +
+	"\bReadUser\x12\x17.common.SimpleIDMessage\x1a\r.backend.User\x124\n" +
+	"\tReadUserI\x12\x18.common.SimpleIIDMessage\x1a\r.backend.User\x12:\n" +
+	"\x12ReadUserByUsername\x12\x15.common.SimpleMessage\x1a\r.backend.User\x127\n" +
+	"\x0fReadUserByEmail\x12\x15.common.SimpleMessage\x1a\r.backend.User\x123\n" +
+	"\n" +
+	"UpdateUser\x12\r.backend.User\x1a\x16.common.SuccessMessage\x12=\n" +
+	"\n" +
+	"DeleteUser\x12\x17.common.SimpleIDMessage\x1a\x16.common.SuccessMessage\x12?\n" +
+	"\vDeleteUserI\x12\x18.common.SimpleIIDMessage\x1a\x16.common.SuccessMessage\x12*\n" +
+	"\tListUsers\x12\r.common.Empty\x1a\x0e.backend.UsersB\x1fZ\x1dpanelium/proto_gen_go/backendb\x06proto3"
 
-var file_backend_User_proto_goTypes = []any{}
+var (
+	file_backend_User_proto_rawDescOnce sync.Once
+	file_backend_User_proto_rawDescData []byte
+)
+
+func file_backend_User_proto_rawDescGZIP() []byte {
+	file_backend_User_proto_rawDescOnce.Do(func() {
+		file_backend_User_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_backend_User_proto_rawDesc), len(file_backend_User_proto_rawDesc)))
+	})
+	return file_backend_User_proto_rawDescData
+}
+
+var file_backend_User_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_backend_User_proto_goTypes = []any{
+	(*UserData)(nil),                      // 0: backend.UserData
+	(*User)(nil),                          // 1: backend.User
+	(*Users)(nil),                         // 2: backend.Users
+	(*proto_gen_go.SimpleIDMessage)(nil),  // 3: common.SimpleIDMessage
+	(*proto_gen_go.SimpleIIDMessage)(nil), // 4: common.SimpleIIDMessage
+	(*proto_gen_go.SimpleMessage)(nil),    // 5: common.SimpleMessage
+	(*proto_gen_go.Empty)(nil),            // 6: common.Empty
+	(*proto_gen_go.SuccessMessage)(nil),   // 7: common.SuccessMessage
+}
 var file_backend_User_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0,  // 0: backend.User.data:type_name -> backend.UserData
+	1,  // 1: backend.Users.users:type_name -> backend.User
+	0,  // 2: backend.UserService.CreateUser:input_type -> backend.UserData
+	3,  // 3: backend.UserService.ReadUser:input_type -> common.SimpleIDMessage
+	4,  // 4: backend.UserService.ReadUserI:input_type -> common.SimpleIIDMessage
+	5,  // 5: backend.UserService.ReadUserByUsername:input_type -> common.SimpleMessage
+	5,  // 6: backend.UserService.ReadUserByEmail:input_type -> common.SimpleMessage
+	1,  // 7: backend.UserService.UpdateUser:input_type -> backend.User
+	3,  // 8: backend.UserService.DeleteUser:input_type -> common.SimpleIDMessage
+	4,  // 9: backend.UserService.DeleteUserI:input_type -> common.SimpleIIDMessage
+	6,  // 10: backend.UserService.ListUsers:input_type -> common.Empty
+	1,  // 11: backend.UserService.CreateUser:output_type -> backend.User
+	1,  // 12: backend.UserService.ReadUser:output_type -> backend.User
+	1,  // 13: backend.UserService.ReadUserI:output_type -> backend.User
+	1,  // 14: backend.UserService.ReadUserByUsername:output_type -> backend.User
+	1,  // 15: backend.UserService.ReadUserByEmail:output_type -> backend.User
+	7,  // 16: backend.UserService.UpdateUser:output_type -> common.SuccessMessage
+	7,  // 17: backend.UserService.DeleteUser:output_type -> common.SuccessMessage
+	7,  // 18: backend.UserService.DeleteUserI:output_type -> common.SuccessMessage
+	2,  // 19: backend.UserService.ListUsers:output_type -> backend.Users
+	11, // [11:20] is the sub-list for method output_type
+	2,  // [2:11] is the sub-list for method input_type
+	2,  // [2:2] is the sub-list for extension type_name
+	2,  // [2:2] is the sub-list for extension extendee
+	0,  // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_backend_User_proto_init() }
@@ -48,12 +278,13 @@ func file_backend_User_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_backend_User_proto_rawDesc), len(file_backend_User_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   0,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_backend_User_proto_goTypes,
 		DependencyIndexes: file_backend_User_proto_depIdxs,
+		MessageInfos:      file_backend_User_proto_msgTypes,
 	}.Build()
 	File_backend_User_proto = out.File
 	file_backend_User_proto_goTypes = nil

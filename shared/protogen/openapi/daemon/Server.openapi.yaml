@@ -179,18 +179,6 @@ components:
           title: success
       title: SuccessMessage
       additionalProperties: false
-    daemon.Allocation:
-      type: object
-      properties:
-        ip:
-          type: string
-          title: ip
-        port:
-          type: integer
-          title: port
-          description: MUST BE 1024-65535
-      title: Allocation
-      additionalProperties: false
     daemon.PowerActionMessage:
       type: object
       properties:
@@ -201,27 +189,6 @@ components:
           title: action
           $ref: '#/components/schemas/daemon.PowerAction'
       title: PowerActionMessage
-      additionalProperties: false
-    daemon.ResourceLimit:
-      type: object
-      properties:
-        cpu:
-          type: integer
-          title: cpu
-          description: CPU in percentage (100% = 1 vCore)
-        ram:
-          type: integer
-          title: ram
-          description: RAM in MB
-        swap:
-          type: integer
-          title: swap
-          description: SWAP in MB
-        storage:
-          type: integer
-          title: storage
-          description: Storage in MB
-      title: ResourceLimit
       additionalProperties: false
     daemon.ResourceUsage:
       type: object

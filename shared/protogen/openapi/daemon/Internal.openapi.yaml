@@ -109,15 +109,7 @@ paths:
                 $ref: '#/components/schemas/common.SuccessMessage'
 components:
   schemas:
-    common.SuccessMessage:
-      type: object
-      properties:
-        success:
-          type: boolean
-          title: success
-      title: SuccessMessage
-      additionalProperties: false
-    daemon.Allocation:
+    common.IPAllocation:
       type: object
       properties:
         ip:
@@ -127,50 +119,9 @@ components:
           type: integer
           title: port
           description: MUST BE 1024-65535
-      title: Allocation
+      title: IPAllocation
       additionalProperties: false
-    daemon.CreateServerRequest:
-      type: object
-      properties:
-        serverId:
-          type: string
-          title: serverId
-        ownerId:
-          type: string
-          title: ownerId
-        userIds:
-          type: array
-          items:
-            type: string
-          title: userIds
-        allocations:
-          type: array
-          items:
-            $ref: '#/components/schemas/daemon.Allocation'
-          title: allocations
-        resourceLimit:
-          title: resourceLimit
-          $ref: '#/components/schemas/daemon.ResourceLimit'
-        blueprintId:
-          type: string
-          title: blueprintId
-        dockerImage:
-          type: string
-          title: dockerImage
-      title: CreateServerRequest
-      additionalProperties: false
-    daemon.DeleteServerRequest:
-      type: object
-      properties:
-        serverId:
-          type: string
-          title: serverId
-        force:
-          type: boolean
-          title: force
-      title: DeleteServerRequest
-      additionalProperties: false
-    daemon.ResourceLimit:
+    common.ResourceLimit:
       type: object
       properties:
         cpu:
@@ -191,6 +142,55 @@ components:
           description: Storage in MB
       title: ResourceLimit
       additionalProperties: false
+    common.SuccessMessage:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: SuccessMessage
+      additionalProperties: false
+    daemon.CreateServerRequest:
+      type: object
+      properties:
+        serverId:
+          type: string
+          title: serverId
+        ownerId:
+          type: string
+          title: ownerId
+        userIds:
+          type: array
+          items:
+            type: string
+          title: userIds
+        allocations:
+          type: array
+          items:
+            $ref: '#/components/schemas/common.IPAllocation'
+          title: allocations
+        resourceLimit:
+          title: resourceLimit
+          $ref: '#/components/schemas/common.ResourceLimit'
+        blueprintId:
+          type: string
+          title: blueprintId
+        dockerImage:
+          type: string
+          title: dockerImage
+      title: CreateServerRequest
+      additionalProperties: false
+    daemon.DeleteServerRequest:
+      type: object
+      properties:
+        serverId:
+          type: string
+          title: serverId
+        force:
+          type: boolean
+          title: force
+      title: DeleteServerRequest
+      additionalProperties: false
     daemon.UpdateServerRequest:
       type: object
       properties:
@@ -206,13 +206,13 @@ components:
         allocations:
           type: array
           items:
-            $ref: '#/components/schemas/daemon.Allocation'
+            $ref: '#/components/schemas/common.IPAllocation'
           title: allocations
           description: optional
         resourceLimit:
           title: resourceLimit
           nullable: true
-          $ref: '#/components/schemas/daemon.ResourceLimit'
+          $ref: '#/components/schemas/common.ResourceLimit'
         blueprintId:
           type: string
           title: blueprintId

@@ -2,20 +2,351 @@
 // @generated from file backend/Node.proto (package backend, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile, GenService } from "@bufbuild/protobuf/codegenv2";
-import { fileDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
+import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { EmptySchema, IPAllocation, ResourceLimit, SimpleIDMessageSchema, SimpleIIDMessageSchema, SuccessMessageSchema } from "../common_pb";
 import { file_common } from "../common_pb";
+import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file backend/Node.proto.
  */
 export const file_backend_Node: GenFile = /*@__PURE__*/
-  fileDesc("ChJiYWNrZW5kL05vZGUucHJvdG8SB2JhY2tlbmQyDQoLTm9kZVNlcnZpY2VCH1odcGFuZWxpdW0vcHJvdG9fZ2VuX2dvL2JhY2tlbmRiBnByb3RvMw", [file_common]);
+  fileDesc("ChJiYWNrZW5kL05vZGUucHJvdG8SB2JhY2tlbmQiHAoMTG9jYXRpb25EYXRhEgwKBG5hbWUYASABKAkiOwoITG9jYXRpb24SCgoCaWQYASABKA0SIwoEZGF0YRgCIAEoCzIVLmJhY2tlbmQuTG9jYXRpb25EYXRhIjEKCUxvY2F0aW9ucxIkCglsb2NhdGlvbnMYASADKAsyES5iYWNrZW5kLkxvY2F0aW9uImoKCE5vZGVEYXRhEgwKBG5hbWUYASABKAkSDAoEZnFkbhgCIAEoCRITCgtsb2NhdGlvbl9pZBgDIAEoDRItCg5yZXNvdXJjZV9saW1pdBgEIAEoCzIVLmNvbW1vbi5SZXNvdXJjZUxpbWl0IjMKBE5vZGUSCgoCaWQYASABKA0SHwoEZGF0YRgCIAEoCzIRLmJhY2tlbmQuTm9kZURhdGEiJQoFTm9kZXMSHAoFbm9kZXMYASADKAsyDS5iYWNrZW5kLk5vZGUidQoSTm9kZUFsbG9jYXRpb25EYXRhEg8KB25vZGVfaWQYASABKA0SKAoKYWxsb2NhdGlvbhgCIAEoCzIULmNvbW1vbi5JUEFsbG9jYXRpb24SFgoJc2VydmVyX2lkGAMgASgNSACIAQFCDAoKX3NlcnZlcl9pZCJHCg5Ob2RlQWxsb2NhdGlvbhIKCgJpZBgBIAEoDRIpCgRkYXRhGAIgASgLMhsuYmFja2VuZC5Ob2RlQWxsb2NhdGlvbkRhdGEiPwoPTm9kZUFsbG9jYXRpb25zEiwKC2FsbG9jYXRpb25zGAEgAygLMhcuYmFja2VuZC5Ob2RlQWxsb2NhdGlvbjLMCAoLTm9kZVNlcnZpY2USOgoOQ3JlYXRlTG9jYXRpb24SFS5iYWNrZW5kLkxvY2F0aW9uRGF0YRoRLmJhY2tlbmQuTG9jYXRpb24SOwoMUmVhZExvY2F0aW9uEhguY29tbW9uLlNpbXBsZUlJRE1lc3NhZ2UaES5iYWNrZW5kLkxvY2F0aW9uEjsKDlVwZGF0ZUxvY2F0aW9uEhEuYmFja2VuZC5Mb2NhdGlvbhoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRJBCg5EZWxldGVMb2NhdGlvbhIXLmNvbW1vbi5TaW1wbGVJRE1lc3NhZ2UaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USMgoNTGlzdExvY2F0aW9ucxINLmNvbW1vbi5FbXB0eRoSLmJhY2tlbmQuTG9jYXRpb25zEi4KCkNyZWF0ZU5vZGUSES5iYWNrZW5kLk5vZGVEYXRhGg0uYmFja2VuZC5Ob2RlEjMKCFJlYWROb2RlEhguY29tbW9uLlNpbXBsZUlJRE1lc3NhZ2UaDS5iYWNrZW5kLk5vZGUSMwoKVXBkYXRlTm9kZRINLmJhY2tlbmQuTm9kZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRI9CgpEZWxldGVOb2RlEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRIqCglMaXN0Tm9kZXMSDS5jb21tb24uRW1wdHkaDi5iYWNrZW5kLk5vZGVzEj4KE0xpc3ROb2Rlc0J5TG9jYXRpb24SFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGg4uYmFja2VuZC5Ob2RlcxJMChRDcmVhdGVOb2RlQWxsb2NhdGlvbhIbLmJhY2tlbmQuTm9kZUFsbG9jYXRpb25EYXRhGhcuYmFja2VuZC5Ob2RlQWxsb2NhdGlvbhJHChJSZWFkTm9kZUFsbG9jYXRpb24SGC5jb21tb24uU2ltcGxlSUlETWVzc2FnZRoXLmJhY2tlbmQuTm9kZUFsbG9jYXRpb24SRwoUVXBkYXRlTm9kZUFsbG9jYXRpb24SFy5iYWNrZW5kLk5vZGVBbGxvY2F0aW9uGhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlEkcKFERlbGV0ZU5vZGVBbGxvY2F0aW9uEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRJOChlMaXN0Tm9kZUFsbG9jYXRpb25zQnlOb2RlEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRoYLmJhY2tlbmQuTm9kZUFsbG9jYXRpb25zElIKHUxpc3ROb2RlQWxsb2NhdGlvbnNCeUxvY2F0aW9uEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRoYLmJhY2tlbmQuTm9kZUFsbG9jYXRpb25zQh9aHXBhbmVsaXVtL3Byb3RvX2dlbl9nby9iYWNrZW5kYgZwcm90bzM", [file_common]);
+
+/**
+ * @generated from message backend.LocationData
+ */
+export type LocationData = Message<"backend.LocationData"> & {
+  /**
+   * @generated from field: string name = 1;
+   */
+  name: string;
+};
+
+/**
+ * Describes the message backend.LocationData.
+ * Use `create(LocationDataSchema)` to create a new message.
+ */
+export const LocationDataSchema: GenMessage<LocationData> = /*@__PURE__*/
+  messageDesc(file_backend_Node, 0);
+
+/**
+ * @generated from message backend.Location
+ */
+export type Location = Message<"backend.Location"> & {
+  /**
+   * @generated from field: uint32 id = 1;
+   */
+  id: number;
+
+  /**
+   * @generated from field: backend.LocationData data = 2;
+   */
+  data?: LocationData;
+};
+
+/**
+ * Describes the message backend.Location.
+ * Use `create(LocationSchema)` to create a new message.
+ */
+export const LocationSchema: GenMessage<Location> = /*@__PURE__*/
+  messageDesc(file_backend_Node, 1);
+
+/**
+ * @generated from message backend.Locations
+ */
+export type Locations = Message<"backend.Locations"> & {
+  /**
+   * @generated from field: repeated backend.Location locations = 1;
+   */
+  locations: Location[];
+};
+
+/**
+ * Describes the message backend.Locations.
+ * Use `create(LocationsSchema)` to create a new message.
+ */
+export const LocationsSchema: GenMessage<Locations> = /*@__PURE__*/
+  messageDesc(file_backend_Node, 2);
+
+/**
+ * @generated from message backend.NodeData
+ */
+export type NodeData = Message<"backend.NodeData"> & {
+  /**
+   * @generated from field: string name = 1;
+   */
+  name: string;
+
+  /**
+   * @generated from field: string fqdn = 2;
+   */
+  fqdn: string;
+
+  /**
+   * @generated from field: uint32 location_id = 3;
+   */
+  locationId: number;
+
+  /**
+   * @generated from field: common.ResourceLimit resource_limit = 4;
+   */
+  resourceLimit?: ResourceLimit;
+};
+
+/**
+ * Describes the message backend.NodeData.
+ * Use `create(NodeDataSchema)` to create a new message.
+ */
+export const NodeDataSchema: GenMessage<NodeData> = /*@__PURE__*/
+  messageDesc(file_backend_Node, 3);
+
+/**
+ * @generated from message backend.Node
+ */
+export type Node = Message<"backend.Node"> & {
+  /**
+   * @generated from field: uint32 id = 1;
+   */
+  id: number;
+
+  /**
+   * @generated from field: backend.NodeData data = 2;
+   */
+  data?: NodeData;
+};
+
+/**
+ * Describes the message backend.Node.
+ * Use `create(NodeSchema)` to create a new message.
+ */
+export const NodeSchema: GenMessage<Node> = /*@__PURE__*/
+  messageDesc(file_backend_Node, 4);
+
+/**
+ * @generated from message backend.Nodes
+ */
+export type Nodes = Message<"backend.Nodes"> & {
+  /**
+   * @generated from field: repeated backend.Node nodes = 1;
+   */
+  nodes: Node[];
+};
+
+/**
+ * Describes the message backend.Nodes.
+ * Use `create(NodesSchema)` to create a new message.
+ */
+export const NodesSchema: GenMessage<Nodes> = /*@__PURE__*/
+  messageDesc(file_backend_Node, 5);
+
+/**
+ * @generated from message backend.NodeAllocationData
+ */
+export type NodeAllocationData = Message<"backend.NodeAllocationData"> & {
+  /**
+   * @generated from field: uint32 node_id = 1;
+   */
+  nodeId: number;
+
+  /**
+   * @generated from field: common.IPAllocation allocation = 2;
+   */
+  allocation?: IPAllocation;
+
+  /**
+   * @generated from field: optional uint32 server_id = 3;
+   */
+  serverId?: number;
+};
+
+/**
+ * Describes the message backend.NodeAllocationData.
+ * Use `create(NodeAllocationDataSchema)` to create a new message.
+ */
+export const NodeAllocationDataSchema: GenMessage<NodeAllocationData> = /*@__PURE__*/
+  messageDesc(file_backend_Node, 6);
+
+/**
+ * @generated from message backend.NodeAllocation
+ */
+export type NodeAllocation = Message<"backend.NodeAllocation"> & {
+  /**
+   * @generated from field: uint32 id = 1;
+   */
+  id: number;
+
+  /**
+   * @generated from field: backend.NodeAllocationData data = 2;
+   */
+  data?: NodeAllocationData;
+};
+
+/**
+ * Describes the message backend.NodeAllocation.
+ * Use `create(NodeAllocationSchema)` to create a new message.
+ */
+export const NodeAllocationSchema: GenMessage<NodeAllocation> = /*@__PURE__*/
+  messageDesc(file_backend_Node, 7);
+
+/**
+ * @generated from message backend.NodeAllocations
+ */
+export type NodeAllocations = Message<"backend.NodeAllocations"> & {
+  /**
+   * @generated from field: repeated backend.NodeAllocation allocations = 1;
+   */
+  allocations: NodeAllocation[];
+};
+
+/**
+ * Describes the message backend.NodeAllocations.
+ * Use `create(NodeAllocationsSchema)` to create a new message.
+ */
+export const NodeAllocationsSchema: GenMessage<NodeAllocations> = /*@__PURE__*/
+  messageDesc(file_backend_Node, 8);
 
 /**
  * @generated from service backend.NodeService
  */
 export const NodeService: GenService<{
+  /**
+   * @generated from rpc backend.NodeService.CreateLocation
+   */
+  createLocation: {
+    methodKind: "unary";
+    input: typeof LocationDataSchema;
+    output: typeof LocationSchema;
+  },
+  /**
+   * @generated from rpc backend.NodeService.ReadLocation
+   */
+  readLocation: {
+    methodKind: "unary";
+    input: typeof SimpleIIDMessageSchema;
+    output: typeof LocationSchema;
+  },
+  /**
+   * @generated from rpc backend.NodeService.UpdateLocation
+   */
+  updateLocation: {
+    methodKind: "unary";
+    input: typeof LocationSchema;
+    output: typeof SuccessMessageSchema;
+  },
+  /**
+   * @generated from rpc backend.NodeService.DeleteLocation
+   */
+  deleteLocation: {
+    methodKind: "unary";
+    input: typeof SimpleIDMessageSchema;
+    output: typeof SuccessMessageSchema;
+  },
+  /**
+   * @generated from rpc backend.NodeService.ListLocations
+   */
+  listLocations: {
+    methodKind: "unary";
+    input: typeof EmptySchema;
+    output: typeof LocationsSchema;
+  },
+  /**
+   * @generated from rpc backend.NodeService.CreateNode
+   */
+  createNode: {
+    methodKind: "unary";
+    input: typeof NodeDataSchema;
+    output: typeof NodeSchema;
+  },
+  /**
+   * @generated from rpc backend.NodeService.ReadNode
+   */
+  readNode: {
+    methodKind: "unary";
+    input: typeof SimpleIIDMessageSchema;
+    output: typeof NodeSchema;
+  },
+  /**
+   * @generated from rpc backend.NodeService.UpdateNode
+   */
+  updateNode: {
+    methodKind: "unary";
+    input: typeof NodeSchema;
+    output: typeof SuccessMessageSchema;
+  },
+  /**
+   * @generated from rpc backend.NodeService.DeleteNode
+   */
+  deleteNode: {
+    methodKind: "unary";
+    input: typeof SimpleIDMessageSchema;
+    output: typeof SuccessMessageSchema;
+  },
+  /**
+   * @generated from rpc backend.NodeService.ListNodes
+   */
+  listNodes: {
+    methodKind: "unary";
+    input: typeof EmptySchema;
+    output: typeof NodesSchema;
+  },
+  /**
+   * @generated from rpc backend.NodeService.ListNodesByLocation
+   */
+  listNodesByLocation: {
+    methodKind: "unary";
+    input: typeof SimpleIDMessageSchema;
+    output: typeof NodesSchema;
+  },
+  /**
+   * @generated from rpc backend.NodeService.CreateNodeAllocation
+   */
+  createNodeAllocation: {
+    methodKind: "unary";
+    input: typeof NodeAllocationDataSchema;
+    output: typeof NodeAllocationSchema;
+  },
+  /**
+   * @generated from rpc backend.NodeService.ReadNodeAllocation
+   */
+  readNodeAllocation: {
+    methodKind: "unary";
+    input: typeof SimpleIIDMessageSchema;
+    output: typeof NodeAllocationSchema;
+  },
+  /**
+   * @generated from rpc backend.NodeService.UpdateNodeAllocation
+   */
+  updateNodeAllocation: {
+    methodKind: "unary";
+    input: typeof NodeAllocationSchema;
+    output: typeof SuccessMessageSchema;
+  },
+  /**
+   * @generated from rpc backend.NodeService.DeleteNodeAllocation
+   */
+  deleteNodeAllocation: {
+    methodKind: "unary";
+    input: typeof SimpleIDMessageSchema;
+    output: typeof SuccessMessageSchema;
+  },
+  /**
+   * @generated from rpc backend.NodeService.ListNodeAllocationsByNode
+   */
+  listNodeAllocationsByNode: {
+    methodKind: "unary";
+    input: typeof SimpleIDMessageSchema;
+    output: typeof NodeAllocationsSchema;
+  },
+  /**
+   * @generated from rpc backend.NodeService.ListNodeAllocationsByLocation
+   */
+  listNodeAllocationsByLocation: {
+    methodKind: "unary";
+    input: typeof SimpleIDMessageSchema;
+    output: typeof NodeAllocationsSchema;
+  },
 }> = /*@__PURE__*/
   serviceDesc(file_backend_Node, 0);
 

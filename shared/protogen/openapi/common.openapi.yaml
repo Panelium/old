@@ -19,6 +19,50 @@ components:
           title: text
       title: IDMessage
       additionalProperties: false
+    common.IIDMessage:
+      type: object
+      properties:
+        id:
+          type: integer
+          title: id
+        text:
+          type: string
+          title: text
+      title: IIDMessage
+      additionalProperties: false
+    common.IPAllocation:
+      type: object
+      properties:
+        ip:
+          type: string
+          title: ip
+        port:
+          type: integer
+          title: port
+          description: MUST BE 1024-65535
+      title: IPAllocation
+      additionalProperties: false
+    common.ResourceLimit:
+      type: object
+      properties:
+        cpu:
+          type: integer
+          title: cpu
+          description: CPU in percentage (100% = 1 vCore)
+        ram:
+          type: integer
+          title: ram
+          description: RAM in MB
+        swap:
+          type: integer
+          title: swap
+          description: SWAP in MB
+        storage:
+          type: integer
+          title: storage
+          description: Storage in MB
+      title: ResourceLimit
+      additionalProperties: false
     common.SimpleIDMessage:
       type: object
       properties:
@@ -26,6 +70,14 @@ components:
           type: string
           title: id
       title: SimpleIDMessage
+      additionalProperties: false
+    common.SimpleIIDMessage:
+      type: object
+      properties:
+        id:
+          type: integer
+          title: id
+      title: SimpleIIDMessage
       additionalProperties: false
     common.SimpleMessage:
       type: object
@@ -49,6 +101,21 @@ components:
           description: required after the first message in the stream, first message can omit this field
           nullable: true
       title: StreamIDMessage
+      additionalProperties: false
+    common.StreamIIDMessage:
+      type: object
+      properties:
+        id:
+          type: integer
+          title: id
+          description: only required for the first message in the stream, subsequent messages can omit this field
+          nullable: true
+        text:
+          type: string
+          title: text
+          description: required after the first message in the stream, first message can omit this field
+          nullable: true
+      title: StreamIIDMessage
       additionalProperties: false
     common.SuccessMessage:
       type: object

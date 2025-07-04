@@ -18,11 +18,6 @@ service ServerService {
   rpc Install(common.SimpleIDMessage) returns (common.SuccessMessage);
 }
 
-message Allocation {
-  string ip = 1;
-  uint32 port = 2; // MUST BE 1024-65535
-}
-
 message ResourceUsage {
   float cpu = 1;     // CPU in percentage (100% = 1 vCore)
   float ram = 2;     // RAM in MB

@@ -2,20 +2,298 @@
 // @generated from file backend/Server.proto (package backend, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile, GenService } from "@bufbuild/protobuf/codegenv2";
-import { fileDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
+import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { EmptySchema, ResourceLimit, SimpleIDMessageSchema, SimpleIIDMessageSchema, SuccessMessageSchema } from "../common_pb";
 import { file_common } from "../common_pb";
+import type { NodeAllocationData } from "./Node_pb";
+import { file_backend_Node } from "./Node_pb";
+import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file backend/Server.proto.
  */
 export const file_backend_Server: GenFile = /*@__PURE__*/
-  fileDesc("ChRiYWNrZW5kL1NlcnZlci5wcm90bxIHYmFja2VuZDIPCg1TZXJ2ZXJTZXJ2aWNlQh9aHXBhbmVsaXVtL3Byb3RvX2dlbl9nby9iYWNrZW5kYgZwcm90bzM", [file_common]);
+  fileDesc("ChRiYWNrZW5kL1NlcnZlci5wcm90bxIHYmFja2VuZCKKAgoKU2VydmVyRGF0YRIMCgRuYW1lGAEgASgJEhMKC2Rlc2NyaXB0aW9uGAIgASgJEhAKCG93bmVyX2lkGAMgASgNEg8KB25vZGVfaWQYBCABKA0SLQoMc2VydmVyX3VzZXJzGAUgAygLMhcuYmFja2VuZC5TZXJ2ZXJVc2VyRGF0YRI1ChBub2RlX2FsbG9jYXRpb25zGAYgAygLMhsuYmFja2VuZC5Ob2RlQWxsb2NhdGlvbkRhdGESLQoOcmVzb3VyY2VfbGltaXQYByABKAsyFS5jb21tb24uUmVzb3VyY2VMaW1pdBIUCgxkb2NrZXJfaW1hZ2UYCCABKAkSCwoDYmlkGAkgASgJIkQKBlNlcnZlchIKCgJpZBgBIAEoDRILCgNzaWQYAiABKAkSIQoEZGF0YRgDIAEoCzITLmJhY2tlbmQuU2VydmVyRGF0YSIrCgdTZXJ2ZXJzEiAKB3NlcnZlcnMYASADKAsyDy5iYWNrZW5kLlNlcnZlciI0Cg5TZXJ2ZXJVc2VyRGF0YRIPCgd1c2VyX2lkGAEgASgNEhEKCXNlcnZlcl9pZBgCIAEoDSI/CgpTZXJ2ZXJVc2VyEgoKAmlkGAEgASgNEiUKBGRhdGEYAiABKAsyFy5iYWNrZW5kLlNlcnZlclVzZXJEYXRhIjgKC1NlcnZlclVzZXJzEikKDHNlcnZlcl91c2VycxgBIAMoCzITLmJhY2tlbmQuU2VydmVyVXNlcjL3BgoNU2VydmVyU2VydmljZRI0CgxDcmVhdGVTZXJ2ZXISEy5iYWNrZW5kLlNlcnZlckRhdGEaDy5iYWNrZW5kLlNlcnZlchI2CgpSZWFkU2VydmVyEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRoPLmJhY2tlbmQuU2VydmVyEjgKC1JlYWRTZXJ2ZXJJEhguY29tbW9uLlNpbXBsZUlJRE1lc3NhZ2UaDy5iYWNrZW5kLlNlcnZlchI3CgxVcGRhdGVTZXJ2ZXISDy5iYWNrZW5kLlNlcnZlchoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRI/CgxEZWxldGVTZXJ2ZXISFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlEkEKDURlbGV0ZVNlcnZlckkSGC5jb21tb24uU2ltcGxlSUlETWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRIuCgtMaXN0U2VydmVycxINLmNvbW1vbi5FbXB0eRoQLmJhY2tlbmQuU2VydmVycxI+ChFMaXN0U2VydmVyc0J5Tm9kZRIXLmNvbW1vbi5TaW1wbGVJRE1lc3NhZ2UaEC5iYWNrZW5kLlNlcnZlcnMSPgoRTGlzdFNlcnZlcnNCeVVzZXISFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGhAuYmFja2VuZC5TZXJ2ZXJzEkAKEENyZWF0ZVNlcnZlclVzZXISFy5iYWNrZW5kLlNlcnZlclVzZXJEYXRhGhMuYmFja2VuZC5TZXJ2ZXJVc2VyEj4KDlJlYWRTZXJ2ZXJVc2VyEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRoTLmJhY2tlbmQuU2VydmVyVXNlchJAChBVcGRhdGVTZXJ2ZXJVc2VyEhcuYmFja2VuZC5TZXJ2ZXJVc2VyRGF0YRoTLmJhY2tlbmQuU2VydmVyVXNlchJDChBEZWxldGVTZXJ2ZXJVc2VyEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRJIChdMaXN0U2VydmVyVXNlcnNCeVNlcnZlchIXLmNvbW1vbi5TaW1wbGVJRE1lc3NhZ2UaFC5iYWNrZW5kLlNlcnZlclVzZXJzQh9aHXBhbmVsaXVtL3Byb3RvX2dlbl9nby9iYWNrZW5kYgZwcm90bzM", [file_common, file_backend_Node]);
+
+/**
+ * @generated from message backend.ServerData
+ */
+export type ServerData = Message<"backend.ServerData"> & {
+  /**
+   * @generated from field: string name = 1;
+   */
+  name: string;
+
+  /**
+   * @generated from field: string description = 2;
+   */
+  description: string;
+
+  /**
+   * @generated from field: uint32 owner_id = 3;
+   */
+  ownerId: number;
+
+  /**
+   * @generated from field: uint32 node_id = 4;
+   */
+  nodeId: number;
+
+  /**
+   * @generated from field: repeated backend.ServerUserData server_users = 5;
+   */
+  serverUsers: ServerUserData[];
+
+  /**
+   * @generated from field: repeated backend.NodeAllocationData node_allocations = 6;
+   */
+  nodeAllocations: NodeAllocationData[];
+
+  /**
+   * @generated from field: common.ResourceLimit resource_limit = 7;
+   */
+  resourceLimit?: ResourceLimit;
+
+  /**
+   * @generated from field: string docker_image = 8;
+   */
+  dockerImage: string;
+
+  /**
+   * @generated from field: string bid = 9;
+   */
+  bid: string;
+};
+
+/**
+ * Describes the message backend.ServerData.
+ * Use `create(ServerDataSchema)` to create a new message.
+ */
+export const ServerDataSchema: GenMessage<ServerData> = /*@__PURE__*/
+  messageDesc(file_backend_Server, 0);
+
+/**
+ * @generated from message backend.Server
+ */
+export type Server = Message<"backend.Server"> & {
+  /**
+   * @generated from field: uint32 id = 1;
+   */
+  id: number;
+
+  /**
+   * @generated from field: string sid = 2;
+   */
+  sid: string;
+
+  /**
+   * @generated from field: backend.ServerData data = 3;
+   */
+  data?: ServerData;
+};
+
+/**
+ * Describes the message backend.Server.
+ * Use `create(ServerSchema)` to create a new message.
+ */
+export const ServerSchema: GenMessage<Server> = /*@__PURE__*/
+  messageDesc(file_backend_Server, 1);
+
+/**
+ * @generated from message backend.Servers
+ */
+export type Servers = Message<"backend.Servers"> & {
+  /**
+   * @generated from field: repeated backend.Server servers = 1;
+   */
+  servers: Server[];
+};
+
+/**
+ * Describes the message backend.Servers.
+ * Use `create(ServersSchema)` to create a new message.
+ */
+export const ServersSchema: GenMessage<Servers> = /*@__PURE__*/
+  messageDesc(file_backend_Server, 2);
+
+/**
+ * @generated from message backend.ServerUserData
+ */
+export type ServerUserData = Message<"backend.ServerUserData"> & {
+  /**
+   * @generated from field: uint32 user_id = 1;
+   */
+  userId: number;
+
+  /**
+   * @generated from field: uint32 server_id = 2;
+   */
+  serverId: number;
+};
+
+/**
+ * Describes the message backend.ServerUserData.
+ * Use `create(ServerUserDataSchema)` to create a new message.
+ */
+export const ServerUserDataSchema: GenMessage<ServerUserData> = /*@__PURE__*/
+  messageDesc(file_backend_Server, 3);
+
+/**
+ * @generated from message backend.ServerUser
+ */
+export type ServerUser = Message<"backend.ServerUser"> & {
+  /**
+   * @generated from field: uint32 id = 1;
+   */
+  id: number;
+
+  /**
+   * @generated from field: backend.ServerUserData data = 2;
+   */
+  data?: ServerUserData;
+};
+
+/**
+ * Describes the message backend.ServerUser.
+ * Use `create(ServerUserSchema)` to create a new message.
+ */
+export const ServerUserSchema: GenMessage<ServerUser> = /*@__PURE__*/
+  messageDesc(file_backend_Server, 4);
+
+/**
+ * @generated from message backend.ServerUsers
+ */
+export type ServerUsers = Message<"backend.ServerUsers"> & {
+  /**
+   * @generated from field: repeated backend.ServerUser server_users = 1;
+   */
+  serverUsers: ServerUser[];
+};
+
+/**
+ * Describes the message backend.ServerUsers.
+ * Use `create(ServerUsersSchema)` to create a new message.
+ */
+export const ServerUsersSchema: GenMessage<ServerUsers> = /*@__PURE__*/
+  messageDesc(file_backend_Server, 5);
 
 /**
  * @generated from service backend.ServerService
  */
 export const ServerService: GenService<{
+  /**
+   * @generated from rpc backend.ServerService.CreateServer
+   */
+  createServer: {
+    methodKind: "unary";
+    input: typeof ServerDataSchema;
+    output: typeof ServerSchema;
+  },
+  /**
+   * @generated from rpc backend.ServerService.ReadServer
+   */
+  readServer: {
+    methodKind: "unary";
+    input: typeof SimpleIDMessageSchema;
+    output: typeof ServerSchema;
+  },
+  /**
+   * @generated from rpc backend.ServerService.ReadServerI
+   */
+  readServerI: {
+    methodKind: "unary";
+    input: typeof SimpleIIDMessageSchema;
+    output: typeof ServerSchema;
+  },
+  /**
+   * @generated from rpc backend.ServerService.UpdateServer
+   */
+  updateServer: {
+    methodKind: "unary";
+    input: typeof ServerSchema;
+    output: typeof SuccessMessageSchema;
+  },
+  /**
+   * @generated from rpc backend.ServerService.DeleteServer
+   */
+  deleteServer: {
+    methodKind: "unary";
+    input: typeof SimpleIDMessageSchema;
+    output: typeof SuccessMessageSchema;
+  },
+  /**
+   * @generated from rpc backend.ServerService.DeleteServerI
+   */
+  deleteServerI: {
+    methodKind: "unary";
+    input: typeof SimpleIIDMessageSchema;
+    output: typeof SuccessMessageSchema;
+  },
+  /**
+   * @generated from rpc backend.ServerService.ListServers
+   */
+  listServers: {
+    methodKind: "unary";
+    input: typeof EmptySchema;
+    output: typeof ServersSchema;
+  },
+  /**
+   * @generated from rpc backend.ServerService.ListServersByNode
+   */
+  listServersByNode: {
+    methodKind: "unary";
+    input: typeof SimpleIDMessageSchema;
+    output: typeof ServersSchema;
+  },
+  /**
+   * @generated from rpc backend.ServerService.ListServersByUser
+   */
+  listServersByUser: {
+    methodKind: "unary";
+    input: typeof SimpleIDMessageSchema;
+    output: typeof ServersSchema;
+  },
+  /**
+   * @generated from rpc backend.ServerService.CreateServerUser
+   */
+  createServerUser: {
+    methodKind: "unary";
+    input: typeof ServerUserDataSchema;
+    output: typeof ServerUserSchema;
+  },
+  /**
+   * @generated from rpc backend.ServerService.ReadServerUser
+   */
+  readServerUser: {
+    methodKind: "unary";
+    input: typeof SimpleIDMessageSchema;
+    output: typeof ServerUserSchema;
+  },
+  /**
+   * @generated from rpc backend.ServerService.UpdateServerUser
+   */
+  updateServerUser: {
+    methodKind: "unary";
+    input: typeof ServerUserDataSchema;
+    output: typeof ServerUserSchema;
+  },
+  /**
+   * @generated from rpc backend.ServerService.DeleteServerUser
+   */
+  deleteServerUser: {
+    methodKind: "unary";
+    input: typeof SimpleIDMessageSchema;
+    output: typeof SuccessMessageSchema;
+  },
+  /**
+   * @generated from rpc backend.ServerService.ListServerUsersByServer
+   */
+  listServerUsersByServer: {
+    methodKind: "unary";
+    input: typeof SimpleIDMessageSchema;
+    output: typeof ServerUsersSchema;
+  },
 }> = /*@__PURE__*/
   serviceDesc(file_backend_Server, 0);
 

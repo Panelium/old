@@ -4,5 +4,58 @@ package backend;
 option go_package = "panelium/proto_gen_go/backend";
 
 import "common.proto";
+import "backend/Node.proto";
 
-service ServerService {}
+service ServerService {
+  rpc CreateServer(ServerData) returns (Server);
+  rpc ReadServer(common.SimpleIDMessage) returns (Server);
+  rpc ReadServerI(common.SimpleIIDMessage) returns (Server);
+  rpc UpdateServer(Server) returns (common.SuccessMessage);
+  rpc DeleteServer(common.SimpleIDMessage) returns (common.SuccessMessage);
+  rpc DeleteServerI(common.SimpleIIDMessage) returns (common.SuccessMessage);
+  rpc ListServers(common.Empty) returns (Servers);
+  rpc ListServersByNode(common.SimpleIDMessage) returns (Servers);
+  rpc ListServersByUser(common.SimpleIDMessage) returns (Servers);
+
+  rpc CreateServerUser(ServerUserData) returns (ServerUser);
+  rpc ReadServerUser(common.SimpleIDMessage) returns (ServerUser);
+  rpc UpdateServerUser(ServerUserData) returns (ServerUser);
+  rpc DeleteServerUser(common.SimpleIDMessage) returns (common.SuccessMessage);
+  rpc ListServerUsersByServer(common.SimpleIDMessage) returns (ServerUsers);
+}
+
+message ServerData {
+  string name = 1;
+  string description = 2;
+  uint32 owner_id = 3;
+  uint32 node_id = 4;
+  repeated ServerUserData server_users = 5;
+  repeated NodeAllocationData node_allocations = 6;
+  common.ResourceLimit resource_limit = 7;
+  string docker_image = 8;
+  string bid = 9;
+}
+
+message Server {
+  uint32 id = 1;
+  string sid = 2;
+  ServerData data = 3;
+}
+
+message Servers {
+  repeated Server servers = 1;
+}
+
+message ServerUserData {
+  uint32 user_id = 1;
+  uint32 server_id = 2;
+}
+
+message ServerUser {
+  uint32 id = 1;
+  ServerUserData data = 2;
+}
+
+message ServerUsers {
+  repeated ServerUser server_users = 1;
+}

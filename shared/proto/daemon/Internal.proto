@@ -16,7 +16,7 @@ message CreateServerRequest {
   string serverId = 1;
   string ownerId = 2;
   repeated string userIds = 3;
-  repeated Allocation allocations = 4;
+  repeated common.IPAllocation allocations = 4;
   common.ResourceLimit resourceLimit = 5;
   string blueprintId = 6;
   string dockerImage = 7;
@@ -26,7 +26,7 @@ message CreateServerRequest {
 message UpdateServerRequest {
   string serverId = 1;
   repeated string userIds = 3; //optional
-  repeated Allocation allocations = 4; //optional
+  repeated common.IPAllocation allocations = 4; //optional
   optional common.ResourceLimit resourceLimit = 5;
   optional string blueprintId = 6;
   optional string dockerImage = 7;

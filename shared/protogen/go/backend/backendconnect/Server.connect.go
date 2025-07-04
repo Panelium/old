@@ -6,8 +6,12 @@ package backendconnect
 
 import (
 	connect "connectrpc.com/connect"
+	context "context"
+	errors "errors"
 	http "net/http"
-	_ "panelium/proto_gen_go/backend"
+	proto_gen_go "panelium/proto_gen_go"
+	backend "panelium/proto_gen_go/backend"
+	strings "strings"
 )
 
 // This is a compile-time assertion to ensure that this generated file and the connect package are
@@ -22,8 +26,74 @@ const (
 	ServerServiceName = "backend.ServerService"
 )
 
+// These constants are the fully-qualified names of the RPCs defined in this package. They're
+// exposed at runtime as Spec.Procedure and as the final two segments of the HTTP route.
+//
+// Note that these are different from the fully-qualified method names used by
+// google.golang.org/protobuf/reflect/protoreflect. To convert from these constants to
+// reflection-formatted method names, remove the leading slash and convert the remaining slash to a
+// period.
+const (
+	// ServerServiceCreateServerProcedure is the fully-qualified name of the ServerService's
+	// CreateServer RPC.
+	ServerServiceCreateServerProcedure = "/backend.ServerService/CreateServer"
+	// ServerServiceReadServerProcedure is the fully-qualified name of the ServerService's ReadServer
+	// RPC.
+	ServerServiceReadServerProcedure = "/backend.ServerService/ReadServer"
+	// ServerServiceReadServerIProcedure is the fully-qualified name of the ServerService's ReadServerI
+	// RPC.
+	ServerServiceReadServerIProcedure = "/backend.ServerService/ReadServerI"
+	// ServerServiceUpdateServerProcedure is the fully-qualified name of the ServerService's
+	// UpdateServer RPC.
+	ServerServiceUpdateServerProcedure = "/backend.ServerService/UpdateServer"
+	// ServerServiceDeleteServerProcedure is the fully-qualified name of the ServerService's
+	// DeleteServer RPC.
+	ServerServiceDeleteServerProcedure = "/backend.ServerService/DeleteServer"
+	// ServerServiceDeleteServerIProcedure is the fully-qualified name of the ServerService's
+	// DeleteServerI RPC.
+	ServerServiceDeleteServerIProcedure = "/backend.ServerService/DeleteServerI"
+	// ServerServiceListServersProcedure is the fully-qualified name of the ServerService's ListServers
+	// RPC.
+	ServerServiceListServersProcedure = "/backend.ServerService/ListServers"
+	// ServerServiceListServersByNodeProcedure is the fully-qualified name of the ServerService's
+	// ListServersByNode RPC.
+	ServerServiceListServersByNodeProcedure = "/backend.ServerService/ListServersByNode"
+	// ServerServiceListServersByUserProcedure is the fully-qualified name of the ServerService's
+	// ListServersByUser RPC.
+	ServerServiceListServersByUserProcedure = "/backend.ServerService/ListServersByUser"
+	// ServerServiceCreateServerUserProcedure is the fully-qualified name of the ServerService's
+	// CreateServerUser RPC.
+	ServerServiceCreateServerUserProcedure = "/backend.ServerService/CreateServerUser"
+	// ServerServiceReadServerUserProcedure is the fully-qualified name of the ServerService's
+	// ReadServerUser RPC.
+	ServerServiceReadServerUserProcedure = "/backend.ServerService/ReadServerUser"
+	// ServerServiceUpdateServerUserProcedure is the fully-qualified name of the ServerService's
+	// UpdateServerUser RPC.
+	ServerServiceUpdateServerUserProcedure = "/backend.ServerService/UpdateServerUser"
+	// ServerServiceDeleteServerUserProcedure is the fully-qualified name of the ServerService's
+	// DeleteServerUser RPC.
+	ServerServiceDeleteServerUserProcedure = "/backend.ServerService/DeleteServerUser"
+	// ServerServiceListServerUsersByServerProcedure is the fully-qualified name of the ServerService's
+	// ListServerUsersByServer RPC.
+	ServerServiceListServerUsersByServerProcedure = "/backend.ServerService/ListServerUsersByServer"
+)
+
 // ServerServiceClient is a client for the backend.ServerService service.
 type ServerServiceClient interface {
+	CreateServer(context.Context, *connect.Request[backend.ServerData]) (*connect.Response[backend.Server], error)
+	ReadServer(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.Server], error)
+	ReadServerI(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[backend.Server], error)
+	UpdateServer(context.Context, *connect.Request[backend.Server]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	DeleteServer(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	DeleteServerI(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	ListServers(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.Servers], error)
+	ListServersByNode(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.Servers], error)
+	ListServersByUser(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.Servers], error)
+	CreateServerUser(context.Context, *connect.Request[backend.ServerUserData]) (*connect.Response[backend.ServerUser], error)
+	ReadServerUser(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.ServerUser], error)
+	UpdateServerUser(context.Context, *connect.Request[backend.ServerUserData]) (*connect.Response[backend.ServerUser], error)
+	DeleteServerUser(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	ListServerUsersByServer(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.ServerUsers], error)
 }
 
 // NewServerServiceClient constructs a client for the backend.ServerService service. By default, it
@@ -34,15 +104,200 @@ type ServerServiceClient interface {
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
 func NewServerServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) ServerServiceClient {
-	return &serverServiceClient{}
+	baseURL = strings.TrimRight(baseURL, "/")
+	serverServiceMethods := backend.File_backend_Server_proto.Services().ByName("ServerService").Methods()
+	return &serverServiceClient{
+		createServer: connect.NewClient[backend.ServerData, backend.Server](
+			httpClient,
+			baseURL+ServerServiceCreateServerProcedure,
+			connect.WithSchema(serverServiceMethods.ByName("CreateServer")),
+			connect.WithClientOptions(opts...),
+		),
+		readServer: connect.NewClient[proto_gen_go.SimpleIDMessage, backend.Server](
+			httpClient,
+			baseURL+ServerServiceReadServerProcedure,
+			connect.WithSchema(serverServiceMethods.ByName("ReadServer")),
+			connect.WithClientOptions(opts...),
+		),
+		readServerI: connect.NewClient[proto_gen_go.SimpleIIDMessage, backend.Server](
+			httpClient,
+			baseURL+ServerServiceReadServerIProcedure,
+			connect.WithSchema(serverServiceMethods.ByName("ReadServerI")),
+			connect.WithClientOptions(opts...),
+		),
+		updateServer: connect.NewClient[backend.Server, proto_gen_go.SuccessMessage](
+			httpClient,
+			baseURL+ServerServiceUpdateServerProcedure,
+			connect.WithSchema(serverServiceMethods.ByName("UpdateServer")),
+			connect.WithClientOptions(opts...),
+		),
+		deleteServer: connect.NewClient[proto_gen_go.SimpleIDMessage, proto_gen_go.SuccessMessage](
+			httpClient,
+			baseURL+ServerServiceDeleteServerProcedure,
+			connect.WithSchema(serverServiceMethods.ByName("DeleteServer")),
+			connect.WithClientOptions(opts...),
+		),
+		deleteServerI: connect.NewClient[proto_gen_go.SimpleIIDMessage, proto_gen_go.SuccessMessage](
+			httpClient,
+			baseURL+ServerServiceDeleteServerIProcedure,
+			connect.WithSchema(serverServiceMethods.ByName("DeleteServerI")),
+			connect.WithClientOptions(opts...),
+		),
+		listServers: connect.NewClient[proto_gen_go.Empty, backend.Servers](
+			httpClient,
+			baseURL+ServerServiceListServersProcedure,
+			connect.WithSchema(serverServiceMethods.ByName("ListServers")),
+			connect.WithClientOptions(opts...),
+		),
+		listServersByNode: connect.NewClient[proto_gen_go.SimpleIDMessage, backend.Servers](
+			httpClient,
+			baseURL+ServerServiceListServersByNodeProcedure,
+			connect.WithSchema(serverServiceMethods.ByName("ListServersByNode")),
+			connect.WithClientOptions(opts...),
+		),
+		listServersByUser: connect.NewClient[proto_gen_go.SimpleIDMessage, backend.Servers](
+			httpClient,
+			baseURL+ServerServiceListServersByUserProcedure,
+			connect.WithSchema(serverServiceMethods.ByName("ListServersByUser")),
+			connect.WithClientOptions(opts...),
+		),
+		createServerUser: connect.NewClient[backend.ServerUserData, backend.ServerUser](
+			httpClient,
+			baseURL+ServerServiceCreateServerUserProcedure,
+			connect.WithSchema(serverServiceMethods.ByName("CreateServerUser")),
+			connect.WithClientOptions(opts...),
+		),
+		readServerUser: connect.NewClient[proto_gen_go.SimpleIDMessage, backend.ServerUser](
+			httpClient,
+			baseURL+ServerServiceReadServerUserProcedure,
+			connect.WithSchema(serverServiceMethods.ByName("ReadServerUser")),
+			connect.WithClientOptions(opts...),
+		),
+		updateServerUser: connect.NewClient[backend.ServerUserData, backend.ServerUser](
+			httpClient,
+			baseURL+ServerServiceUpdateServerUserProcedure,
+			connect.WithSchema(serverServiceMethods.ByName("UpdateServerUser")),
+			connect.WithClientOptions(opts...),
+		),
+		deleteServerUser: connect.NewClient[proto_gen_go.SimpleIDMessage, proto_gen_go.SuccessMessage](
+			httpClient,
+			baseURL+ServerServiceDeleteServerUserProcedure,
+			connect.WithSchema(serverServiceMethods.ByName("DeleteServerUser")),
+			connect.WithClientOptions(opts...),
+		),
+		listServerUsersByServer: connect.NewClient[proto_gen_go.SimpleIDMessage, backend.ServerUsers](
+			httpClient,
+			baseURL+ServerServiceListServerUsersByServerProcedure,
+			connect.WithSchema(serverServiceMethods.ByName("ListServerUsersByServer")),
+			connect.WithClientOptions(opts...),
+		),
+	}
 }
 
 // serverServiceClient implements ServerServiceClient.
 type serverServiceClient struct {
+	createServer            *connect.Client[backend.ServerData, backend.Server]
+	readServer              *connect.Client[proto_gen_go.SimpleIDMessage, backend.Server]
+	readServerI             *connect.Client[proto_gen_go.SimpleIIDMessage, backend.Server]
+	updateServer            *connect.Client[backend.Server, proto_gen_go.SuccessMessage]
+	deleteServer            *connect.Client[proto_gen_go.SimpleIDMessage, proto_gen_go.SuccessMessage]
+	deleteServerI           *connect.Client[proto_gen_go.SimpleIIDMessage, proto_gen_go.SuccessMessage]
+	listServers             *connect.Client[proto_gen_go.Empty, backend.Servers]
+	listServersByNode       *connect.Client[proto_gen_go.SimpleIDMessage, backend.Servers]
+	listServersByUser       *connect.Client[proto_gen_go.SimpleIDMessage, backend.Servers]
+	createServerUser        *connect.Client[backend.ServerUserData, backend.ServerUser]
+	readServerUser          *connect.Client[proto_gen_go.SimpleIDMessage, backend.ServerUser]
+	updateServerUser        *connect.Client[backend.ServerUserData, backend.ServerUser]
+	deleteServerUser        *connect.Client[proto_gen_go.SimpleIDMessage, proto_gen_go.SuccessMessage]
+	listServerUsersByServer *connect.Client[proto_gen_go.SimpleIDMessage, backend.ServerUsers]
+}
+
+// CreateServer calls backend.ServerService.CreateServer.
+func (c *serverServiceClient) CreateServer(ctx context.Context, req *connect.Request[backend.ServerData]) (*connect.Response[backend.Server], error) {
+	return c.createServer.CallUnary(ctx, req)
+}
+
+// ReadServer calls backend.ServerService.ReadServer.
+func (c *serverServiceClient) ReadServer(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.Server], error) {
+	return c.readServer.CallUnary(ctx, req)
+}
+
+// ReadServerI calls backend.ServerService.ReadServerI.
+func (c *serverServiceClient) ReadServerI(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[backend.Server], error) {
+	return c.readServerI.CallUnary(ctx, req)
+}
+
+// UpdateServer calls backend.ServerService.UpdateServer.
+func (c *serverServiceClient) UpdateServer(ctx context.Context, req *connect.Request[backend.Server]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return c.updateServer.CallUnary(ctx, req)
+}
+
+// DeleteServer calls backend.ServerService.DeleteServer.
+func (c *serverServiceClient) DeleteServer(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return c.deleteServer.CallUnary(ctx, req)
+}
+
+// DeleteServerI calls backend.ServerService.DeleteServerI.
+func (c *serverServiceClient) DeleteServerI(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return c.deleteServerI.CallUnary(ctx, req)
+}
+
+// ListServers calls backend.ServerService.ListServers.
+func (c *serverServiceClient) ListServers(ctx context.Context, req *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.Servers], error) {
+	return c.listServers.CallUnary(ctx, req)
+}
+
+// ListServersByNode calls backend.ServerService.ListServersByNode.
+func (c *serverServiceClient) ListServersByNode(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.Servers], error) {
+	return c.listServersByNode.CallUnary(ctx, req)
+}
+
+// ListServersByUser calls backend.ServerService.ListServersByUser.
+func (c *serverServiceClient) ListServersByUser(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.Servers], error) {
+	return c.listServersByUser.CallUnary(ctx, req)
+}
+
+// CreateServerUser calls backend.ServerService.CreateServerUser.
+func (c *serverServiceClient) CreateServerUser(ctx context.Context, req *connect.Request[backend.ServerUserData]) (*connect.Response[backend.ServerUser], error) {
+	return c.createServerUser.CallUnary(ctx, req)
+}
+
+// ReadServerUser calls backend.ServerService.ReadServerUser.
+func (c *serverServiceClient) ReadServerUser(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.ServerUser], error) {
+	return c.readServerUser.CallUnary(ctx, req)
+}
+
+// UpdateServerUser calls backend.ServerService.UpdateServerUser.
+func (c *serverServiceClient) UpdateServerUser(ctx context.Context, req *connect.Request[backend.ServerUserData]) (*connect.Response[backend.ServerUser], error) {
+	return c.updateServerUser.CallUnary(ctx, req)
+}
+
+// DeleteServerUser calls backend.ServerService.DeleteServerUser.
+func (c *serverServiceClient) DeleteServerUser(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return c.deleteServerUser.CallUnary(ctx, req)
+}
+
+// ListServerUsersByServer calls backend.ServerService.ListServerUsersByServer.
+func (c *serverServiceClient) ListServerUsersByServer(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.ServerUsers], error) {
+	return c.listServerUsersByServer.CallUnary(ctx, req)
 }
 
 // ServerServiceHandler is an implementation of the backend.ServerService service.
 type ServerServiceHandler interface {
+	CreateServer(context.Context, *connect.Request[backend.ServerData]) (*connect.Response[backend.Server], error)
+	ReadServer(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.Server], error)
+	ReadServerI(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[backend.Server], error)
+	UpdateServer(context.Context, *connect.Request[backend.Server]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	DeleteServer(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	DeleteServerI(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	ListServers(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.Servers], error)
+	ListServersByNode(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.Servers], error)
+	ListServersByUser(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.Servers], error)
+	CreateServerUser(context.Context, *connect.Request[backend.ServerUserData]) (*connect.Response[backend.ServerUser], error)
+	ReadServerUser(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.ServerUser], error)
+	UpdateServerUser(context.Context, *connect.Request[backend.ServerUserData]) (*connect.Response[backend.ServerUser], error)
+	DeleteServerUser(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	ListServerUsersByServer(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.ServerUsers], error)
 }
 
 // NewServerServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -51,8 +306,121 @@ type ServerServiceHandler interface {
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewServerServiceHandler(svc ServerServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	serverServiceMethods := backend.File_backend_Server_proto.Services().ByName("ServerService").Methods()
+	serverServiceCreateServerHandler := connect.NewUnaryHandler(
+		ServerServiceCreateServerProcedure,
+		svc.CreateServer,
+		connect.WithSchema(serverServiceMethods.ByName("CreateServer")),
+		connect.WithHandlerOptions(opts...),
+	)
+	serverServiceReadServerHandler := connect.NewUnaryHandler(
+		ServerServiceReadServerProcedure,
+		svc.ReadServer,
+		connect.WithSchema(serverServiceMethods.ByName("ReadServer")),
+		connect.WithHandlerOptions(opts...),
+	)
+	serverServiceReadServerIHandler := connect.NewUnaryHandler(
+		ServerServiceReadServerIProcedure,
+		svc.ReadServerI,
+		connect.WithSchema(serverServiceMethods.ByName("ReadServerI")),
+		connect.WithHandlerOptions(opts...),
+	)
+	serverServiceUpdateServerHandler := connect.NewUnaryHandler(
+		ServerServiceUpdateServerProcedure,
+		svc.UpdateServer,
+		connect.WithSchema(serverServiceMethods.ByName("UpdateServer")),
+		connect.WithHandlerOptions(opts...),
+	)
+	serverServiceDeleteServerHandler := connect.NewUnaryHandler(
+		ServerServiceDeleteServerProcedure,
+		svc.DeleteServer,
+		connect.WithSchema(serverServiceMethods.ByName("DeleteServer")),
+		connect.WithHandlerOptions(opts...),
+	)
+	serverServiceDeleteServerIHandler := connect.NewUnaryHandler(
+		ServerServiceDeleteServerIProcedure,
+		svc.DeleteServerI,
+		connect.WithSchema(serverServiceMethods.ByName("DeleteServerI")),
+		connect.WithHandlerOptions(opts...),
+	)
+	serverServiceListServersHandler := connect.NewUnaryHandler(
+		ServerServiceListServersProcedure,
+		svc.ListServers,
+		connect.WithSchema(serverServiceMethods.ByName("ListServers")),
+		connect.WithHandlerOptions(opts...),
+	)
+	serverServiceListServersByNodeHandler := connect.NewUnaryHandler(
+		ServerServiceListServersByNodeProcedure,
+		svc.ListServersByNode,
+		connect.WithSchema(serverServiceMethods.ByName("ListServersByNode")),
+		connect.WithHandlerOptions(opts...),
+	)
+	serverServiceListServersByUserHandler := connect.NewUnaryHandler(
+		ServerServiceListServersByUserProcedure,
+		svc.ListServersByUser,
+		connect.WithSchema(serverServiceMethods.ByName("ListServersByUser")),
+		connect.WithHandlerOptions(opts...),
+	)
+	serverServiceCreateServerUserHandler := connect.NewUnaryHandler(
+		ServerServiceCreateServerUserProcedure,
+		svc.CreateServerUser,
+		connect.WithSchema(serverServiceMethods.ByName("CreateServerUser")),
+		connect.WithHandlerOptions(opts...),
+	)
+	serverServiceReadServerUserHandler := connect.NewUnaryHandler(
+		ServerServiceReadServerUserProcedure,
+		svc.ReadServerUser,
+		connect.WithSchema(serverServiceMethods.ByName("ReadServerUser")),
+		connect.WithHandlerOptions(opts...),
+	)
+	serverServiceUpdateServerUserHandler := connect.NewUnaryHandler(
+		ServerServiceUpdateServerUserProcedure,
+		svc.UpdateServerUser,
+		connect.WithSchema(serverServiceMethods.ByName("UpdateServerUser")),
+		connect.WithHandlerOptions(opts...),
+	)
+	serverServiceDeleteServerUserHandler := connect.NewUnaryHandler(
+		ServerServiceDeleteServerUserProcedure,
+		svc.DeleteServerUser,
+		connect.WithSchema(serverServiceMethods.ByName("DeleteServerUser")),
+		connect.WithHandlerOptions(opts...),
+	)
+	serverServiceListServerUsersByServerHandler := connect.NewUnaryHandler(
+		ServerServiceListServerUsersByServerProcedure,
+		svc.ListServerUsersByServer,
+		connect.WithSchema(serverServiceMethods.ByName("ListServerUsersByServer")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/backend.ServerService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
+		case ServerServiceCreateServerProcedure:
+			serverServiceCreateServerHandler.ServeHTTP(w, r)
+		case ServerServiceReadServerProcedure:
+			serverServiceReadServerHandler.ServeHTTP(w, r)
+		case ServerServiceReadServerIProcedure:
+			serverServiceReadServerIHandler.ServeHTTP(w, r)
+		case ServerServiceUpdateServerProcedure:
+			serverServiceUpdateServerHandler.ServeHTTP(w, r)
+		case ServerServiceDeleteServerProcedure:
+			serverServiceDeleteServerHandler.ServeHTTP(w, r)
+		case ServerServiceDeleteServerIProcedure:
+			serverServiceDeleteServerIHandler.ServeHTTP(w, r)
+		case ServerServiceListServersProcedure:
+			serverServiceListServersHandler.ServeHTTP(w, r)
+		case ServerServiceListServersByNodeProcedure:
+			serverServiceListServersByNodeHandler.ServeHTTP(w, r)
+		case ServerServiceListServersByUserProcedure:
+			serverServiceListServersByUserHandler.ServeHTTP(w, r)
+		case ServerServiceCreateServerUserProcedure:
+			serverServiceCreateServerUserHandler.ServeHTTP(w, r)
+		case ServerServiceReadServerUserProcedure:
+			serverServiceReadServerUserHandler.ServeHTTP(w, r)
+		case ServerServiceUpdateServerUserProcedure:
+			serverServiceUpdateServerUserHandler.ServeHTTP(w, r)
+		case ServerServiceDeleteServerUserProcedure:
+			serverServiceDeleteServerUserHandler.ServeHTTP(w, r)
+		case ServerServiceListServerUsersByServerProcedure:
+			serverServiceListServerUsersByServerHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -61,3 +429,59 @@ func NewServerServiceHandler(svc ServerServiceHandler, opts ...connect.HandlerOp
 
 // UnimplementedServerServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedServerServiceHandler struct{}
+
+func (UnimplementedServerServiceHandler) CreateServer(context.Context, *connect.Request[backend.ServerData]) (*connect.Response[backend.Server], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.ServerService.CreateServer is not implemented"))
+}
+
+func (UnimplementedServerServiceHandler) ReadServer(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.Server], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.ServerService.ReadServer is not implemented"))
+}
+
+func (UnimplementedServerServiceHandler) ReadServerI(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[backend.Server], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.ServerService.ReadServerI is not implemented"))
+}
+
+func (UnimplementedServerServiceHandler) UpdateServer(context.Context, *connect.Request[backend.Server]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.ServerService.UpdateServer is not implemented"))
+}
+
+func (UnimplementedServerServiceHandler) DeleteServer(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.ServerService.DeleteServer is not implemented"))
+}
+
+func (UnimplementedServerServiceHandler) DeleteServerI(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.ServerService.DeleteServerI is not implemented"))
+}
+
+func (UnimplementedServerServiceHandler) ListServers(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.Servers], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.ServerService.ListServers is not implemented"))
+}
+
+func (UnimplementedServerServiceHandler) ListServersByNode(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.Servers], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.ServerService.ListServersByNode is not implemented"))
+}
+
+func (UnimplementedServerServiceHandler) ListServersByUser(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.Servers], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.ServerService.ListServersByUser is not implemented"))
+}
+
+func (UnimplementedServerServiceHandler) CreateServerUser(context.Context, *connect.Request[backend.ServerUserData]) (*connect.Response[backend.ServerUser], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.ServerService.CreateServerUser is not implemented"))
+}
+
+func (UnimplementedServerServiceHandler) ReadServerUser(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.ServerUser], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.ServerService.ReadServerUser is not implemented"))
+}
+
+func (UnimplementedServerServiceHandler) UpdateServerUser(context.Context, *connect.Request[backend.ServerUserData]) (*connect.Response[backend.ServerUser], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.ServerService.UpdateServerUser is not implemented"))
+}
+
+func (UnimplementedServerServiceHandler) DeleteServerUser(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.ServerService.DeleteServerUser is not implemented"))
+}
+
+func (UnimplementedServerServiceHandler) ListServerUsersByServer(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.ServerUsers], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.ServerService.ListServerUsersByServer is not implemented"))
+}

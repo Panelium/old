@@ -9,8 +9,9 @@ package backend
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	_ "panelium/proto_gen_go"
+	proto_gen_go "panelium/proto_gen_go"
 	reflect "reflect"
+	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -21,20 +22,602 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type LocationData struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LocationData) Reset() {
+	*x = LocationData{}
+	mi := &file_backend_Node_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LocationData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LocationData) ProtoMessage() {}
+
+func (x *LocationData) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_Node_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LocationData.ProtoReflect.Descriptor instead.
+func (*LocationData) Descriptor() ([]byte, []int) {
+	return file_backend_Node_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *LocationData) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+type Location struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Data          *LocationData          `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Location) Reset() {
+	*x = Location{}
+	mi := &file_backend_Node_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Location) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Location) ProtoMessage() {}
+
+func (x *Location) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_Node_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Location.ProtoReflect.Descriptor instead.
+func (*Location) Descriptor() ([]byte, []int) {
+	return file_backend_Node_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *Location) GetId() uint32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *Location) GetData() *LocationData {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+type Locations struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Locations     []*Location            `protobuf:"bytes,1,rep,name=locations,proto3" json:"locations,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Locations) Reset() {
+	*x = Locations{}
+	mi := &file_backend_Node_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Locations) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Locations) ProtoMessage() {}
+
+func (x *Locations) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_Node_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Locations.ProtoReflect.Descriptor instead.
+func (*Locations) Descriptor() ([]byte, []int) {
+	return file_backend_Node_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *Locations) GetLocations() []*Location {
+	if x != nil {
+		return x.Locations
+	}
+	return nil
+}
+
+type NodeData struct {
+	state         protoimpl.MessageState      `protogen:"open.v1"`
+	Name          string                      `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Fqdn          string                      `protobuf:"bytes,2,opt,name=fqdn,proto3" json:"fqdn,omitempty"`
+	LocationId    uint32                      `protobuf:"varint,3,opt,name=location_id,json=locationId,proto3" json:"location_id,omitempty"`
+	ResourceLimit *proto_gen_go.ResourceLimit `protobuf:"bytes,4,opt,name=resource_limit,json=resourceLimit,proto3" json:"resource_limit,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *NodeData) Reset() {
+	*x = NodeData{}
+	mi := &file_backend_Node_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *NodeData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NodeData) ProtoMessage() {}
+
+func (x *NodeData) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_Node_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NodeData.ProtoReflect.Descriptor instead.
+func (*NodeData) Descriptor() ([]byte, []int) {
+	return file_backend_Node_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *NodeData) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *NodeData) GetFqdn() string {
+	if x != nil {
+		return x.Fqdn
+	}
+	return ""
+}
+
+func (x *NodeData) GetLocationId() uint32 {
+	if x != nil {
+		return x.LocationId
+	}
+	return 0
+}
+
+func (x *NodeData) GetResourceLimit() *proto_gen_go.ResourceLimit {
+	if x != nil {
+		return x.ResourceLimit
+	}
+	return nil
+}
+
+type Node struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Data          *NodeData              `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Node) Reset() {
+	*x = Node{}
+	mi := &file_backend_Node_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Node) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Node) ProtoMessage() {}
+
+func (x *Node) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_Node_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Node.ProtoReflect.Descriptor instead.
+func (*Node) Descriptor() ([]byte, []int) {
+	return file_backend_Node_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *Node) GetId() uint32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *Node) GetData() *NodeData {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+type Nodes struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Nodes         []*Node                `protobuf:"bytes,1,rep,name=nodes,proto3" json:"nodes,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Nodes) Reset() {
+	*x = Nodes{}
+	mi := &file_backend_Node_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Nodes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Nodes) ProtoMessage() {}
+
+func (x *Nodes) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_Node_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Nodes.ProtoReflect.Descriptor instead.
+func (*Nodes) Descriptor() ([]byte, []int) {
+	return file_backend_Node_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *Nodes) GetNodes() []*Node {
+	if x != nil {
+		return x.Nodes
+	}
+	return nil
+}
+
+type NodeAllocationData struct {
+	state         protoimpl.MessageState     `protogen:"open.v1"`
+	NodeId        uint32                     `protobuf:"varint,1,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`
+	Allocation    *proto_gen_go.IPAllocation `protobuf:"bytes,2,opt,name=allocation,proto3" json:"allocation,omitempty"`
+	ServerId      *uint32                    `protobuf:"varint,3,opt,name=server_id,json=serverId,proto3,oneof" json:"server_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *NodeAllocationData) Reset() {
+	*x = NodeAllocationData{}
+	mi := &file_backend_Node_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *NodeAllocationData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NodeAllocationData) ProtoMessage() {}
+
+func (x *NodeAllocationData) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_Node_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NodeAllocationData.ProtoReflect.Descriptor instead.
+func (*NodeAllocationData) Descriptor() ([]byte, []int) {
+	return file_backend_Node_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *NodeAllocationData) GetNodeId() uint32 {
+	if x != nil {
+		return x.NodeId
+	}
+	return 0
+}
+
+func (x *NodeAllocationData) GetAllocation() *proto_gen_go.IPAllocation {
+	if x != nil {
+		return x.Allocation
+	}
+	return nil
+}
+
+func (x *NodeAllocationData) GetServerId() uint32 {
+	if x != nil && x.ServerId != nil {
+		return *x.ServerId
+	}
+	return 0
+}
+
+type NodeAllocation struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Data          *NodeAllocationData    `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *NodeAllocation) Reset() {
+	*x = NodeAllocation{}
+	mi := &file_backend_Node_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *NodeAllocation) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NodeAllocation) ProtoMessage() {}
+
+func (x *NodeAllocation) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_Node_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NodeAllocation.ProtoReflect.Descriptor instead.
+func (*NodeAllocation) Descriptor() ([]byte, []int) {
+	return file_backend_Node_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *NodeAllocation) GetId() uint32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *NodeAllocation) GetData() *NodeAllocationData {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+type NodeAllocations struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Allocations   []*NodeAllocation      `protobuf:"bytes,1,rep,name=allocations,proto3" json:"allocations,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *NodeAllocations) Reset() {
+	*x = NodeAllocations{}
+	mi := &file_backend_Node_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *NodeAllocations) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NodeAllocations) ProtoMessage() {}
+
+func (x *NodeAllocations) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_Node_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NodeAllocations.ProtoReflect.Descriptor instead.
+func (*NodeAllocations) Descriptor() ([]byte, []int) {
+	return file_backend_Node_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *NodeAllocations) GetAllocations() []*NodeAllocation {
+	if x != nil {
+		return x.Allocations
+	}
+	return nil
+}
+
 var File_backend_Node_proto protoreflect.FileDescriptor
 
 const file_backend_Node_proto_rawDesc = "" +
 	"\n" +
-	"\x12backend/Node.proto\x12\abackend\x1a\fcommon.proto2\r\n" +
-	"\vNodeServiceB\x1fZ\x1dpanelium/proto_gen_go/backendb\x06proto3"
+	"\x12backend/Node.proto\x12\abackend\x1a\fcommon.proto\"\"\n" +
+	"\fLocationData\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\"E\n" +
+	"\bLocation\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12)\n" +
+	"\x04data\x18\x02 \x01(\v2\x15.backend.LocationDataR\x04data\"<\n" +
+	"\tLocations\x12/\n" +
+	"\tlocations\x18\x01 \x03(\v2\x11.backend.LocationR\tlocations\"\x91\x01\n" +
+	"\bNodeData\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x12\n" +
+	"\x04fqdn\x18\x02 \x01(\tR\x04fqdn\x12\x1f\n" +
+	"\vlocation_id\x18\x03 \x01(\rR\n" +
+	"locationId\x12<\n" +
+	"\x0eresource_limit\x18\x04 \x01(\v2\x15.common.ResourceLimitR\rresourceLimit\"=\n" +
+	"\x04Node\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12%\n" +
+	"\x04data\x18\x02 \x01(\v2\x11.backend.NodeDataR\x04data\",\n" +
+	"\x05Nodes\x12#\n" +
+	"\x05nodes\x18\x01 \x03(\v2\r.backend.NodeR\x05nodes\"\x93\x01\n" +
+	"\x12NodeAllocationData\x12\x17\n" +
+	"\anode_id\x18\x01 \x01(\rR\x06nodeId\x124\n" +
+	"\n" +
+	"allocation\x18\x02 \x01(\v2\x14.common.IPAllocationR\n" +
+	"allocation\x12 \n" +
+	"\tserver_id\x18\x03 \x01(\rH\x00R\bserverId\x88\x01\x01B\f\n" +
+	"\n" +
+	"_server_id\"Q\n" +
+	"\x0eNodeAllocation\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12/\n" +
+	"\x04data\x18\x02 \x01(\v2\x1b.backend.NodeAllocationDataR\x04data\"L\n" +
+	"\x0fNodeAllocations\x129\n" +
+	"\vallocations\x18\x01 \x03(\v2\x17.backend.NodeAllocationR\vallocations2\xcc\b\n" +
+	"\vNodeService\x12:\n" +
+	"\x0eCreateLocation\x12\x15.backend.LocationData\x1a\x11.backend.Location\x12;\n" +
+	"\fReadLocation\x12\x18.common.SimpleIIDMessage\x1a\x11.backend.Location\x12;\n" +
+	"\x0eUpdateLocation\x12\x11.backend.Location\x1a\x16.common.SuccessMessage\x12A\n" +
+	"\x0eDeleteLocation\x12\x17.common.SimpleIDMessage\x1a\x16.common.SuccessMessage\x122\n" +
+	"\rListLocations\x12\r.common.Empty\x1a\x12.backend.Locations\x12.\n" +
+	"\n" +
+	"CreateNode\x12\x11.backend.NodeData\x1a\r.backend.Node\x123\n" +
+	"\bReadNode\x12\x18.common.SimpleIIDMessage\x1a\r.backend.Node\x123\n" +
+	"\n" +
+	"UpdateNode\x12\r.backend.Node\x1a\x16.common.SuccessMessage\x12=\n" +
+	"\n" +
+	"DeleteNode\x12\x17.common.SimpleIDMessage\x1a\x16.common.SuccessMessage\x12*\n" +
+	"\tListNodes\x12\r.common.Empty\x1a\x0e.backend.Nodes\x12>\n" +
+	"\x13ListNodesByLocation\x12\x17.common.SimpleIDMessage\x1a\x0e.backend.Nodes\x12L\n" +
+	"\x14CreateNodeAllocation\x12\x1b.backend.NodeAllocationData\x1a\x17.backend.NodeAllocation\x12G\n" +
+	"\x12ReadNodeAllocation\x12\x18.common.SimpleIIDMessage\x1a\x17.backend.NodeAllocation\x12G\n" +
+	"\x14UpdateNodeAllocation\x12\x17.backend.NodeAllocation\x1a\x16.common.SuccessMessage\x12G\n" +
+	"\x14DeleteNodeAllocation\x12\x17.common.SimpleIDMessage\x1a\x16.common.SuccessMessage\x12N\n" +
+	"\x19ListNodeAllocationsByNode\x12\x17.common.SimpleIDMessage\x1a\x18.backend.NodeAllocations\x12R\n" +
+	"\x1dListNodeAllocationsByLocation\x12\x17.common.SimpleIDMessage\x1a\x18.backend.NodeAllocationsB\x1fZ\x1dpanelium/proto_gen_go/backendb\x06proto3"
 
-var file_backend_Node_proto_goTypes = []any{}
+var (
+	file_backend_Node_proto_rawDescOnce sync.Once
+	file_backend_Node_proto_rawDescData []byte
+)
+
+func file_backend_Node_proto_rawDescGZIP() []byte {
+	file_backend_Node_proto_rawDescOnce.Do(func() {
+		file_backend_Node_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_backend_Node_proto_rawDesc), len(file_backend_Node_proto_rawDesc)))
+	})
+	return file_backend_Node_proto_rawDescData
+}
+
+var file_backend_Node_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_backend_Node_proto_goTypes = []any{
+	(*LocationData)(nil),                  // 0: backend.LocationData
+	(*Location)(nil),                      // 1: backend.Location
+	(*Locations)(nil),                     // 2: backend.Locations
+	(*NodeData)(nil),                      // 3: backend.NodeData
+	(*Node)(nil),                          // 4: backend.Node
+	(*Nodes)(nil),                         // 5: backend.Nodes
+	(*NodeAllocationData)(nil),            // 6: backend.NodeAllocationData
+	(*NodeAllocation)(nil),                // 7: backend.NodeAllocation
+	(*NodeAllocations)(nil),               // 8: backend.NodeAllocations
+	(*proto_gen_go.ResourceLimit)(nil),    // 9: common.ResourceLimit
+	(*proto_gen_go.IPAllocation)(nil),     // 10: common.IPAllocation
+	(*proto_gen_go.SimpleIIDMessage)(nil), // 11: common.SimpleIIDMessage
+	(*proto_gen_go.SimpleIDMessage)(nil),  // 12: common.SimpleIDMessage
+	(*proto_gen_go.Empty)(nil),            // 13: common.Empty
+	(*proto_gen_go.SuccessMessage)(nil),   // 14: common.SuccessMessage
+}
 var file_backend_Node_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0,  // 0: backend.Location.data:type_name -> backend.LocationData
+	1,  // 1: backend.Locations.locations:type_name -> backend.Location
+	9,  // 2: backend.NodeData.resource_limit:type_name -> common.ResourceLimit
+	3,  // 3: backend.Node.data:type_name -> backend.NodeData
+	4,  // 4: backend.Nodes.nodes:type_name -> backend.Node
+	10, // 5: backend.NodeAllocationData.allocation:type_name -> common.IPAllocation
+	6,  // 6: backend.NodeAllocation.data:type_name -> backend.NodeAllocationData
+	7,  // 7: backend.NodeAllocations.allocations:type_name -> backend.NodeAllocation
+	0,  // 8: backend.NodeService.CreateLocation:input_type -> backend.LocationData
+	11, // 9: backend.NodeService.ReadLocation:input_type -> common.SimpleIIDMessage
+	1,  // 10: backend.NodeService.UpdateLocation:input_type -> backend.Location
+	12, // 11: backend.NodeService.DeleteLocation:input_type -> common.SimpleIDMessage
+	13, // 12: backend.NodeService.ListLocations:input_type -> common.Empty
+	3,  // 13: backend.NodeService.CreateNode:input_type -> backend.NodeData
+	11, // 14: backend.NodeService.ReadNode:input_type -> common.SimpleIIDMessage
+	4,  // 15: backend.NodeService.UpdateNode:input_type -> backend.Node
+	12, // 16: backend.NodeService.DeleteNode:input_type -> common.SimpleIDMessage
+	13, // 17: backend.NodeService.ListNodes:input_type -> common.Empty
+	12, // 18: backend.NodeService.ListNodesByLocation:input_type -> common.SimpleIDMessage
+	6,  // 19: backend.NodeService.CreateNodeAllocation:input_type -> backend.NodeAllocationData
+	11, // 20: backend.NodeService.ReadNodeAllocation:input_type -> common.SimpleIIDMessage
+	7,  // 21: backend.NodeService.UpdateNodeAllocation:input_type -> backend.NodeAllocation
+	12, // 22: backend.NodeService.DeleteNodeAllocation:input_type -> common.SimpleIDMessage
+	12, // 23: backend.NodeService.ListNodeAllocationsByNode:input_type -> common.SimpleIDMessage
+	12, // 24: backend.NodeService.ListNodeAllocationsByLocation:input_type -> common.SimpleIDMessage
+	1,  // 25: backend.NodeService.CreateLocation:output_type -> backend.Location
+	1,  // 26: backend.NodeService.ReadLocation:output_type -> backend.Location
+	14, // 27: backend.NodeService.UpdateLocation:output_type -> common.SuccessMessage
+	14, // 28: backend.NodeService.DeleteLocation:output_type -> common.SuccessMessage
+	2,  // 29: backend.NodeService.ListLocations:output_type -> backend.Locations
+	4,  // 30: backend.NodeService.CreateNode:output_type -> backend.Node
+	4,  // 31: backend.NodeService.ReadNode:output_type -> backend.Node
+	14, // 32: backend.NodeService.UpdateNode:output_type -> common.SuccessMessage
+	14, // 33: backend.NodeService.DeleteNode:output_type -> common.SuccessMessage
+	5,  // 34: backend.NodeService.ListNodes:output_type -> backend.Nodes
+	5,  // 35: backend.NodeService.ListNodesByLocation:output_type -> backend.Nodes
+	7,  // 36: backend.NodeService.CreateNodeAllocation:output_type -> backend.NodeAllocation
+	7,  // 37: backend.NodeService.ReadNodeAllocation:output_type -> backend.NodeAllocation
+	14, // 38: backend.NodeService.UpdateNodeAllocation:output_type -> common.SuccessMessage
+	14, // 39: backend.NodeService.DeleteNodeAllocation:output_type -> common.SuccessMessage
+	8,  // 40: backend.NodeService.ListNodeAllocationsByNode:output_type -> backend.NodeAllocations
+	8,  // 41: backend.NodeService.ListNodeAllocationsByLocation:output_type -> backend.NodeAllocations
+	25, // [25:42] is the sub-list for method output_type
+	8,  // [8:25] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_backend_Node_proto_init() }
@@ -42,18 +625,20 @@ func file_backend_Node_proto_init() {
 	if File_backend_Node_proto != nil {
 		return
 	}
+	file_backend_Node_proto_msgTypes[6].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_backend_Node_proto_rawDesc), len(file_backend_Node_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   0,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_backend_Node_proto_goTypes,
 		DependencyIndexes: file_backend_Node_proto_depIdxs,
+		MessageInfos:      file_backend_Node_proto_msgTypes,
 	}.Build()
 	File_backend_Node_proto = out.File
 	file_backend_Node_proto_goTypes = nil

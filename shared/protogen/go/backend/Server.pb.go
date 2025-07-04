@@ -9,8 +9,9 @@ package backend
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	_ "panelium/proto_gen_go"
+	proto_gen_go "panelium/proto_gen_go"
 	reflect "reflect"
+	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -21,20 +22,482 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type ServerData struct {
+	state           protoimpl.MessageState      `protogen:"open.v1"`
+	Name            string                      `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Description     string                      `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	OwnerId         uint32                      `protobuf:"varint,3,opt,name=owner_id,json=ownerId,proto3" json:"owner_id,omitempty"`
+	NodeId          uint32                      `protobuf:"varint,4,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`
+	ServerUsers     []*ServerUserData           `protobuf:"bytes,5,rep,name=server_users,json=serverUsers,proto3" json:"server_users,omitempty"`
+	NodeAllocations []*NodeAllocationData       `protobuf:"bytes,6,rep,name=node_allocations,json=nodeAllocations,proto3" json:"node_allocations,omitempty"`
+	ResourceLimit   *proto_gen_go.ResourceLimit `protobuf:"bytes,7,opt,name=resource_limit,json=resourceLimit,proto3" json:"resource_limit,omitempty"`
+	DockerImage     string                      `protobuf:"bytes,8,opt,name=docker_image,json=dockerImage,proto3" json:"docker_image,omitempty"`
+	Bid             string                      `protobuf:"bytes,9,opt,name=bid,proto3" json:"bid,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *ServerData) Reset() {
+	*x = ServerData{}
+	mi := &file_backend_Server_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ServerData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ServerData) ProtoMessage() {}
+
+func (x *ServerData) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_Server_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ServerData.ProtoReflect.Descriptor instead.
+func (*ServerData) Descriptor() ([]byte, []int) {
+	return file_backend_Server_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *ServerData) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *ServerData) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *ServerData) GetOwnerId() uint32 {
+	if x != nil {
+		return x.OwnerId
+	}
+	return 0
+}
+
+func (x *ServerData) GetNodeId() uint32 {
+	if x != nil {
+		return x.NodeId
+	}
+	return 0
+}
+
+func (x *ServerData) GetServerUsers() []*ServerUserData {
+	if x != nil {
+		return x.ServerUsers
+	}
+	return nil
+}
+
+func (x *ServerData) GetNodeAllocations() []*NodeAllocationData {
+	if x != nil {
+		return x.NodeAllocations
+	}
+	return nil
+}
+
+func (x *ServerData) GetResourceLimit() *proto_gen_go.ResourceLimit {
+	if x != nil {
+		return x.ResourceLimit
+	}
+	return nil
+}
+
+func (x *ServerData) GetDockerImage() string {
+	if x != nil {
+		return x.DockerImage
+	}
+	return ""
+}
+
+func (x *ServerData) GetBid() string {
+	if x != nil {
+		return x.Bid
+	}
+	return ""
+}
+
+type Server struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Sid           string                 `protobuf:"bytes,2,opt,name=sid,proto3" json:"sid,omitempty"`
+	Data          *ServerData            `protobuf:"bytes,3,opt,name=data,proto3" json:"data,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Server) Reset() {
+	*x = Server{}
+	mi := &file_backend_Server_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Server) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Server) ProtoMessage() {}
+
+func (x *Server) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_Server_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Server.ProtoReflect.Descriptor instead.
+func (*Server) Descriptor() ([]byte, []int) {
+	return file_backend_Server_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *Server) GetId() uint32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *Server) GetSid() string {
+	if x != nil {
+		return x.Sid
+	}
+	return ""
+}
+
+func (x *Server) GetData() *ServerData {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+type Servers struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Servers       []*Server              `protobuf:"bytes,1,rep,name=servers,proto3" json:"servers,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Servers) Reset() {
+	*x = Servers{}
+	mi := &file_backend_Server_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Servers) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Servers) ProtoMessage() {}
+
+func (x *Servers) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_Server_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Servers.ProtoReflect.Descriptor instead.
+func (*Servers) Descriptor() ([]byte, []int) {
+	return file_backend_Server_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *Servers) GetServers() []*Server {
+	if x != nil {
+		return x.Servers
+	}
+	return nil
+}
+
+type ServerUserData struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	UserId        uint32                 `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	ServerId      uint32                 `protobuf:"varint,2,opt,name=server_id,json=serverId,proto3" json:"server_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ServerUserData) Reset() {
+	*x = ServerUserData{}
+	mi := &file_backend_Server_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ServerUserData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ServerUserData) ProtoMessage() {}
+
+func (x *ServerUserData) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_Server_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ServerUserData.ProtoReflect.Descriptor instead.
+func (*ServerUserData) Descriptor() ([]byte, []int) {
+	return file_backend_Server_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ServerUserData) GetUserId() uint32 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *ServerUserData) GetServerId() uint32 {
+	if x != nil {
+		return x.ServerId
+	}
+	return 0
+}
+
+type ServerUser struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Data          *ServerUserData        `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ServerUser) Reset() {
+	*x = ServerUser{}
+	mi := &file_backend_Server_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ServerUser) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ServerUser) ProtoMessage() {}
+
+func (x *ServerUser) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_Server_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ServerUser.ProtoReflect.Descriptor instead.
+func (*ServerUser) Descriptor() ([]byte, []int) {
+	return file_backend_Server_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ServerUser) GetId() uint32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *ServerUser) GetData() *ServerUserData {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+type ServerUsers struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ServerUsers   []*ServerUser          `protobuf:"bytes,1,rep,name=server_users,json=serverUsers,proto3" json:"server_users,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ServerUsers) Reset() {
+	*x = ServerUsers{}
+	mi := &file_backend_Server_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ServerUsers) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ServerUsers) ProtoMessage() {}
+
+func (x *ServerUsers) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_Server_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ServerUsers.ProtoReflect.Descriptor instead.
+func (*ServerUsers) Descriptor() ([]byte, []int) {
+	return file_backend_Server_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ServerUsers) GetServerUsers() []*ServerUser {
+	if x != nil {
+		return x.ServerUsers
+	}
+	return nil
+}
+
 var File_backend_Server_proto protoreflect.FileDescriptor
 
 const file_backend_Server_proto_rawDesc = "" +
 	"\n" +
-	"\x14backend/Server.proto\x12\abackend\x1a\fcommon.proto2\x0f\n" +
-	"\rServerServiceB\x1fZ\x1dpanelium/proto_gen_go/backendb\x06proto3"
+	"\x14backend/Server.proto\x12\abackend\x1a\fcommon.proto\x1a\x12backend/Node.proto\"\xed\x02\n" +
+	"\n" +
+	"ServerData\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
+	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x19\n" +
+	"\bowner_id\x18\x03 \x01(\rR\aownerId\x12\x17\n" +
+	"\anode_id\x18\x04 \x01(\rR\x06nodeId\x12:\n" +
+	"\fserver_users\x18\x05 \x03(\v2\x17.backend.ServerUserDataR\vserverUsers\x12F\n" +
+	"\x10node_allocations\x18\x06 \x03(\v2\x1b.backend.NodeAllocationDataR\x0fnodeAllocations\x12<\n" +
+	"\x0eresource_limit\x18\a \x01(\v2\x15.common.ResourceLimitR\rresourceLimit\x12!\n" +
+	"\fdocker_image\x18\b \x01(\tR\vdockerImage\x12\x10\n" +
+	"\x03bid\x18\t \x01(\tR\x03bid\"S\n" +
+	"\x06Server\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12\x10\n" +
+	"\x03sid\x18\x02 \x01(\tR\x03sid\x12'\n" +
+	"\x04data\x18\x03 \x01(\v2\x13.backend.ServerDataR\x04data\"4\n" +
+	"\aServers\x12)\n" +
+	"\aservers\x18\x01 \x03(\v2\x0f.backend.ServerR\aservers\"F\n" +
+	"\x0eServerUserData\x12\x17\n" +
+	"\auser_id\x18\x01 \x01(\rR\x06userId\x12\x1b\n" +
+	"\tserver_id\x18\x02 \x01(\rR\bserverId\"I\n" +
+	"\n" +
+	"ServerUser\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12+\n" +
+	"\x04data\x18\x02 \x01(\v2\x17.backend.ServerUserDataR\x04data\"E\n" +
+	"\vServerUsers\x126\n" +
+	"\fserver_users\x18\x01 \x03(\v2\x13.backend.ServerUserR\vserverUsers2\xf7\x06\n" +
+	"\rServerService\x124\n" +
+	"\fCreateServer\x12\x13.backend.ServerData\x1a\x0f.backend.Server\x126\n" +
+	"\n" +
+	"ReadServer\x12\x17.common.SimpleIDMessage\x1a\x0f.backend.Server\x128\n" +
+	"\vReadServerI\x12\x18.common.SimpleIIDMessage\x1a\x0f.backend.Server\x127\n" +
+	"\fUpdateServer\x12\x0f.backend.Server\x1a\x16.common.SuccessMessage\x12?\n" +
+	"\fDeleteServer\x12\x17.common.SimpleIDMessage\x1a\x16.common.SuccessMessage\x12A\n" +
+	"\rDeleteServerI\x12\x18.common.SimpleIIDMessage\x1a\x16.common.SuccessMessage\x12.\n" +
+	"\vListServers\x12\r.common.Empty\x1a\x10.backend.Servers\x12>\n" +
+	"\x11ListServersByNode\x12\x17.common.SimpleIDMessage\x1a\x10.backend.Servers\x12>\n" +
+	"\x11ListServersByUser\x12\x17.common.SimpleIDMessage\x1a\x10.backend.Servers\x12@\n" +
+	"\x10CreateServerUser\x12\x17.backend.ServerUserData\x1a\x13.backend.ServerUser\x12>\n" +
+	"\x0eReadServerUser\x12\x17.common.SimpleIDMessage\x1a\x13.backend.ServerUser\x12@\n" +
+	"\x10UpdateServerUser\x12\x17.backend.ServerUserData\x1a\x13.backend.ServerUser\x12C\n" +
+	"\x10DeleteServerUser\x12\x17.common.SimpleIDMessage\x1a\x16.common.SuccessMessage\x12H\n" +
+	"\x17ListServerUsersByServer\x12\x17.common.SimpleIDMessage\x1a\x14.backend.ServerUsersB\x1fZ\x1dpanelium/proto_gen_go/backendb\x06proto3"
 
-var file_backend_Server_proto_goTypes = []any{}
+var (
+	file_backend_Server_proto_rawDescOnce sync.Once
+	file_backend_Server_proto_rawDescData []byte
+)
+
+func file_backend_Server_proto_rawDescGZIP() []byte {
+	file_backend_Server_proto_rawDescOnce.Do(func() {
+		file_backend_Server_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_backend_Server_proto_rawDesc), len(file_backend_Server_proto_rawDesc)))
+	})
+	return file_backend_Server_proto_rawDescData
+}
+
+var file_backend_Server_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_backend_Server_proto_goTypes = []any{
+	(*ServerData)(nil),                    // 0: backend.ServerData
+	(*Server)(nil),                        // 1: backend.Server
+	(*Servers)(nil),                       // 2: backend.Servers
+	(*ServerUserData)(nil),                // 3: backend.ServerUserData
+	(*ServerUser)(nil),                    // 4: backend.ServerUser
+	(*ServerUsers)(nil),                   // 5: backend.ServerUsers
+	(*NodeAllocationData)(nil),            // 6: backend.NodeAllocationData
+	(*proto_gen_go.ResourceLimit)(nil),    // 7: common.ResourceLimit
+	(*proto_gen_go.SimpleIDMessage)(nil),  // 8: common.SimpleIDMessage
+	(*proto_gen_go.SimpleIIDMessage)(nil), // 9: common.SimpleIIDMessage
+	(*proto_gen_go.Empty)(nil),            // 10: common.Empty
+	(*proto_gen_go.SuccessMessage)(nil),   // 11: common.SuccessMessage
+}
 var file_backend_Server_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	3,  // 0: backend.ServerData.server_users:type_name -> backend.ServerUserData
+	6,  // 1: backend.ServerData.node_allocations:type_name -> backend.NodeAllocationData
+	7,  // 2: backend.ServerData.resource_limit:type_name -> common.ResourceLimit
+	0,  // 3: backend.Server.data:type_name -> backend.ServerData
+	1,  // 4: backend.Servers.servers:type_name -> backend.Server
+	3,  // 5: backend.ServerUser.data:type_name -> backend.ServerUserData
+	4,  // 6: backend.ServerUsers.server_users:type_name -> backend.ServerUser
+	0,  // 7: backend.ServerService.CreateServer:input_type -> backend.ServerData
+	8,  // 8: backend.ServerService.ReadServer:input_type -> common.SimpleIDMessage
+	9,  // 9: backend.ServerService.ReadServerI:input_type -> common.SimpleIIDMessage
+	1,  // 10: backend.ServerService.UpdateServer:input_type -> backend.Server
+	8,  // 11: backend.ServerService.DeleteServer:input_type -> common.SimpleIDMessage
+	9,  // 12: backend.ServerService.DeleteServerI:input_type -> common.SimpleIIDMessage
+	10, // 13: backend.ServerService.ListServers:input_type -> common.Empty
+	8,  // 14: backend.ServerService.ListServersByNode:input_type -> common.SimpleIDMessage
+	8,  // 15: backend.ServerService.ListServersByUser:input_type -> common.SimpleIDMessage
+	3,  // 16: backend.ServerService.CreateServerUser:input_type -> backend.ServerUserData
+	8,  // 17: backend.ServerService.ReadServerUser:input_type -> common.SimpleIDMessage
+	3,  // 18: backend.ServerService.UpdateServerUser:input_type -> backend.ServerUserData
+	8,  // 19: backend.ServerService.DeleteServerUser:input_type -> common.SimpleIDMessage
+	8,  // 20: backend.ServerService.ListServerUsersByServer:input_type -> common.SimpleIDMessage
+	1,  // 21: backend.ServerService.CreateServer:output_type -> backend.Server
+	1,  // 22: backend.ServerService.ReadServer:output_type -> backend.Server
+	1,  // 23: backend.ServerService.ReadServerI:output_type -> backend.Server
+	11, // 24: backend.ServerService.UpdateServer:output_type -> common.SuccessMessage
+	11, // 25: backend.ServerService.DeleteServer:output_type -> common.SuccessMessage
+	11, // 26: backend.ServerService.DeleteServerI:output_type -> common.SuccessMessage
+	2,  // 27: backend.ServerService.ListServers:output_type -> backend.Servers
+	2,  // 28: backend.ServerService.ListServersByNode:output_type -> backend.Servers
+	2,  // 29: backend.ServerService.ListServersByUser:output_type -> backend.Servers
+	4,  // 30: backend.ServerService.CreateServerUser:output_type -> backend.ServerUser
+	4,  // 31: backend.ServerService.ReadServerUser:output_type -> backend.ServerUser
+	4,  // 32: backend.ServerService.UpdateServerUser:output_type -> backend.ServerUser
+	11, // 33: backend.ServerService.DeleteServerUser:output_type -> common.SuccessMessage
+	5,  // 34: backend.ServerService.ListServerUsersByServer:output_type -> backend.ServerUsers
+	21, // [21:35] is the sub-list for method output_type
+	7,  // [7:21] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_backend_Server_proto_init() }
@@ -42,18 +505,20 @@ func file_backend_Server_proto_init() {
 	if File_backend_Server_proto != nil {
 		return
 	}
+	file_backend_Node_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_backend_Server_proto_rawDesc), len(file_backend_Server_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   0,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_backend_Server_proto_goTypes,
 		DependencyIndexes: file_backend_Server_proto_depIdxs,
+		MessageInfos:      file_backend_Server_proto_msgTypes,
 	}.Build()
 	File_backend_Server_proto = out.File
 	file_backend_Server_proto_goTypes = nil

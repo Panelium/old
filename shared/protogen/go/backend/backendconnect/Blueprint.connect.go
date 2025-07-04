@@ -6,8 +6,12 @@ package backendconnect
 
 import (
 	connect "connectrpc.com/connect"
+	context "context"
+	errors "errors"
 	http "net/http"
-	_ "panelium/proto_gen_go/backend"
+	proto_gen_go "panelium/proto_gen_go"
+	backend "panelium/proto_gen_go/backend"
+	strings "strings"
 )
 
 // This is a compile-time assertion to ensure that this generated file and the connect package are
@@ -22,8 +26,46 @@ const (
 	BlueprintServiceName = "backend.BlueprintService"
 )
 
+// These constants are the fully-qualified names of the RPCs defined in this package. They're
+// exposed at runtime as Spec.Procedure and as the final two segments of the HTTP route.
+//
+// Note that these are different from the fully-qualified method names used by
+// google.golang.org/protobuf/reflect/protoreflect. To convert from these constants to
+// reflection-formatted method names, remove the leading slash and convert the remaining slash to a
+// period.
+const (
+	// BlueprintServiceCreateBlueprintProcedure is the fully-qualified name of the BlueprintService's
+	// CreateBlueprint RPC.
+	BlueprintServiceCreateBlueprintProcedure = "/backend.BlueprintService/CreateBlueprint"
+	// BlueprintServiceReadBlueprintProcedure is the fully-qualified name of the BlueprintService's
+	// ReadBlueprint RPC.
+	BlueprintServiceReadBlueprintProcedure = "/backend.BlueprintService/ReadBlueprint"
+	// BlueprintServiceReadBlueprintIProcedure is the fully-qualified name of the BlueprintService's
+	// ReadBlueprintI RPC.
+	BlueprintServiceReadBlueprintIProcedure = "/backend.BlueprintService/ReadBlueprintI"
+	// BlueprintServiceUpdateBlueprintProcedure is the fully-qualified name of the BlueprintService's
+	// UpdateBlueprint RPC.
+	BlueprintServiceUpdateBlueprintProcedure = "/backend.BlueprintService/UpdateBlueprint"
+	// BlueprintServiceDeleteBlueprintProcedure is the fully-qualified name of the BlueprintService's
+	// DeleteBlueprint RPC.
+	BlueprintServiceDeleteBlueprintProcedure = "/backend.BlueprintService/DeleteBlueprint"
+	// BlueprintServiceDeleteBlueprintIProcedure is the fully-qualified name of the BlueprintService's
+	// DeleteBlueprintI RPC.
+	BlueprintServiceDeleteBlueprintIProcedure = "/backend.BlueprintService/DeleteBlueprintI"
+	// BlueprintServiceListBlueprintsProcedure is the fully-qualified name of the BlueprintService's
+	// ListBlueprints RPC.
+	BlueprintServiceListBlueprintsProcedure = "/backend.BlueprintService/ListBlueprints"
+)
+
 // BlueprintServiceClient is a client for the backend.BlueprintService service.
 type BlueprintServiceClient interface {
+	CreateBlueprint(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.SimpleIIDMessage], error)
+	ReadBlueprint(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SimpleMessage], error)
+	ReadBlueprintI(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[proto_gen_go.SimpleMessage], error)
+	UpdateBlueprint(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	DeleteBlueprint(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	DeleteBlueprintI(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	ListBlueprints(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.SimpleMessage], error)
 }
 
 // NewBlueprintServiceClient constructs a client for the backend.BlueprintService service. By
@@ -34,15 +76,109 @@ type BlueprintServiceClient interface {
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
 func NewBlueprintServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) BlueprintServiceClient {
-	return &blueprintServiceClient{}
+	baseURL = strings.TrimRight(baseURL, "/")
+	blueprintServiceMethods := backend.File_backend_Blueprint_proto.Services().ByName("BlueprintService").Methods()
+	return &blueprintServiceClient{
+		createBlueprint: connect.NewClient[proto_gen_go.SimpleMessage, proto_gen_go.SimpleIIDMessage](
+			httpClient,
+			baseURL+BlueprintServiceCreateBlueprintProcedure,
+			connect.WithSchema(blueprintServiceMethods.ByName("CreateBlueprint")),
+			connect.WithClientOptions(opts...),
+		),
+		readBlueprint: connect.NewClient[proto_gen_go.SimpleIDMessage, proto_gen_go.SimpleMessage](
+			httpClient,
+			baseURL+BlueprintServiceReadBlueprintProcedure,
+			connect.WithSchema(blueprintServiceMethods.ByName("ReadBlueprint")),
+			connect.WithClientOptions(opts...),
+		),
+		readBlueprintI: connect.NewClient[proto_gen_go.SimpleIIDMessage, proto_gen_go.SimpleMessage](
+			httpClient,
+			baseURL+BlueprintServiceReadBlueprintIProcedure,
+			connect.WithSchema(blueprintServiceMethods.ByName("ReadBlueprintI")),
+			connect.WithClientOptions(opts...),
+		),
+		updateBlueprint: connect.NewClient[proto_gen_go.SimpleMessage, proto_gen_go.SuccessMessage](
+			httpClient,
+			baseURL+BlueprintServiceUpdateBlueprintProcedure,
+			connect.WithSchema(blueprintServiceMethods.ByName("UpdateBlueprint")),
+			connect.WithClientOptions(opts...),
+		),
+		deleteBlueprint: connect.NewClient[proto_gen_go.SimpleIDMessage, proto_gen_go.SuccessMessage](
+			httpClient,
+			baseURL+BlueprintServiceDeleteBlueprintProcedure,
+			connect.WithSchema(blueprintServiceMethods.ByName("DeleteBlueprint")),
+			connect.WithClientOptions(opts...),
+		),
+		deleteBlueprintI: connect.NewClient[proto_gen_go.SimpleIIDMessage, proto_gen_go.SuccessMessage](
+			httpClient,
+			baseURL+BlueprintServiceDeleteBlueprintIProcedure,
+			connect.WithSchema(blueprintServiceMethods.ByName("DeleteBlueprintI")),
+			connect.WithClientOptions(opts...),
+		),
+		listBlueprints: connect.NewClient[proto_gen_go.Empty, proto_gen_go.SimpleMessage](
+			httpClient,
+			baseURL+BlueprintServiceListBlueprintsProcedure,
+			connect.WithSchema(blueprintServiceMethods.ByName("ListBlueprints")),
+			connect.WithClientOptions(opts...),
+		),
+	}
 }
 
 // blueprintServiceClient implements BlueprintServiceClient.
 type blueprintServiceClient struct {
+	createBlueprint  *connect.Client[proto_gen_go.SimpleMessage, proto_gen_go.SimpleIIDMessage]
+	readBlueprint    *connect.Client[proto_gen_go.SimpleIDMessage, proto_gen_go.SimpleMessage]
+	readBlueprintI   *connect.Client[proto_gen_go.SimpleIIDMessage, proto_gen_go.SimpleMessage]
+	updateBlueprint  *connect.Client[proto_gen_go.SimpleMessage, proto_gen_go.SuccessMessage]
+	deleteBlueprint  *connect.Client[proto_gen_go.SimpleIDMessage, proto_gen_go.SuccessMessage]
+	deleteBlueprintI *connect.Client[proto_gen_go.SimpleIIDMessage, proto_gen_go.SuccessMessage]
+	listBlueprints   *connect.Client[proto_gen_go.Empty, proto_gen_go.SimpleMessage]
+}
+
+// CreateBlueprint calls backend.BlueprintService.CreateBlueprint.
+func (c *blueprintServiceClient) CreateBlueprint(ctx context.Context, req *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.SimpleIIDMessage], error) {
+	return c.createBlueprint.CallUnary(ctx, req)
+}
+
+// ReadBlueprint calls backend.BlueprintService.ReadBlueprint.
+func (c *blueprintServiceClient) ReadBlueprint(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SimpleMessage], error) {
+	return c.readBlueprint.CallUnary(ctx, req)
+}
+
+// ReadBlueprintI calls backend.BlueprintService.ReadBlueprintI.
+func (c *blueprintServiceClient) ReadBlueprintI(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[proto_gen_go.SimpleMessage], error) {
+	return c.readBlueprintI.CallUnary(ctx, req)
+}
+
+// UpdateBlueprint calls backend.BlueprintService.UpdateBlueprint.
+func (c *blueprintServiceClient) UpdateBlueprint(ctx context.Context, req *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return c.updateBlueprint.CallUnary(ctx, req)
+}
+
+// DeleteBlueprint calls backend.BlueprintService.DeleteBlueprint.
+func (c *blueprintServiceClient) DeleteBlueprint(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return c.deleteBlueprint.CallUnary(ctx, req)
+}
+
+// DeleteBlueprintI calls backend.BlueprintService.DeleteBlueprintI.
+func (c *blueprintServiceClient) DeleteBlueprintI(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return c.deleteBlueprintI.CallUnary(ctx, req)
+}
+
+// ListBlueprints calls backend.BlueprintService.ListBlueprints.
+func (c *blueprintServiceClient) ListBlueprints(ctx context.Context, req *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.SimpleMessage], error) {
+	return c.listBlueprints.CallUnary(ctx, req)
 }
 
 // BlueprintServiceHandler is an implementation of the backend.BlueprintService service.
 type BlueprintServiceHandler interface {
+	CreateBlueprint(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.SimpleIIDMessage], error)
+	ReadBlueprint(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SimpleMessage], error)
+	ReadBlueprintI(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[proto_gen_go.SimpleMessage], error)
+	UpdateBlueprint(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	DeleteBlueprint(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	DeleteBlueprintI(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	ListBlueprints(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.SimpleMessage], error)
 }
 
 // NewBlueprintServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -51,8 +187,65 @@ type BlueprintServiceHandler interface {
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewBlueprintServiceHandler(svc BlueprintServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	blueprintServiceMethods := backend.File_backend_Blueprint_proto.Services().ByName("BlueprintService").Methods()
+	blueprintServiceCreateBlueprintHandler := connect.NewUnaryHandler(
+		BlueprintServiceCreateBlueprintProcedure,
+		svc.CreateBlueprint,
+		connect.WithSchema(blueprintServiceMethods.ByName("CreateBlueprint")),
+		connect.WithHandlerOptions(opts...),
+	)
+	blueprintServiceReadBlueprintHandler := connect.NewUnaryHandler(
+		BlueprintServiceReadBlueprintProcedure,
+		svc.ReadBlueprint,
+		connect.WithSchema(blueprintServiceMethods.ByName("ReadBlueprint")),
+		connect.WithHandlerOptions(opts...),
+	)
+	blueprintServiceReadBlueprintIHandler := connect.NewUnaryHandler(
+		BlueprintServiceReadBlueprintIProcedure,
+		svc.ReadBlueprintI,
+		connect.WithSchema(blueprintServiceMethods.ByName("ReadBlueprintI")),
+		connect.WithHandlerOptions(opts...),
+	)
+	blueprintServiceUpdateBlueprintHandler := connect.NewUnaryHandler(
+		BlueprintServiceUpdateBlueprintProcedure,
+		svc.UpdateBlueprint,
+		connect.WithSchema(blueprintServiceMethods.ByName("UpdateBlueprint")),
+		connect.WithHandlerOptions(opts...),
+	)
+	blueprintServiceDeleteBlueprintHandler := connect.NewUnaryHandler(
+		BlueprintServiceDeleteBlueprintProcedure,
+		svc.DeleteBlueprint,
+		connect.WithSchema(blueprintServiceMethods.ByName("DeleteBlueprint")),
+		connect.WithHandlerOptions(opts...),
+	)
+	blueprintServiceDeleteBlueprintIHandler := connect.NewUnaryHandler(
+		BlueprintServiceDeleteBlueprintIProcedure,
+		svc.DeleteBlueprintI,
+		connect.WithSchema(blueprintServiceMethods.ByName("DeleteBlueprintI")),
+		connect.WithHandlerOptions(opts...),
+	)
+	blueprintServiceListBlueprintsHandler := connect.NewUnaryHandler(
+		BlueprintServiceListBlueprintsProcedure,
+		svc.ListBlueprints,
+		connect.WithSchema(blueprintServiceMethods.ByName("ListBlueprints")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/backend.BlueprintService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
+		case BlueprintServiceCreateBlueprintProcedure:
+			blueprintServiceCreateBlueprintHandler.ServeHTTP(w, r)
+		case BlueprintServiceReadBlueprintProcedure:
+			blueprintServiceReadBlueprintHandler.ServeHTTP(w, r)
+		case BlueprintServiceReadBlueprintIProcedure:
+			blueprintServiceReadBlueprintIHandler.ServeHTTP(w, r)
+		case BlueprintServiceUpdateBlueprintProcedure:
+			blueprintServiceUpdateBlueprintHandler.ServeHTTP(w, r)
+		case BlueprintServiceDeleteBlueprintProcedure:
+			blueprintServiceDeleteBlueprintHandler.ServeHTTP(w, r)
+		case BlueprintServiceDeleteBlueprintIProcedure:
+			blueprintServiceDeleteBlueprintIHandler.ServeHTTP(w, r)
+		case BlueprintServiceListBlueprintsProcedure:
+			blueprintServiceListBlueprintsHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -61,3 +254,31 @@ func NewBlueprintServiceHandler(svc BlueprintServiceHandler, opts ...connect.Han
 
 // UnimplementedBlueprintServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedBlueprintServiceHandler struct{}
+
+func (UnimplementedBlueprintServiceHandler) CreateBlueprint(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.SimpleIIDMessage], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.BlueprintService.CreateBlueprint is not implemented"))
+}
+
+func (UnimplementedBlueprintServiceHandler) ReadBlueprint(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SimpleMessage], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.BlueprintService.ReadBlueprint is not implemented"))
+}
+
+func (UnimplementedBlueprintServiceHandler) ReadBlueprintI(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[proto_gen_go.SimpleMessage], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.BlueprintService.ReadBlueprintI is not implemented"))
+}
+
+func (UnimplementedBlueprintServiceHandler) UpdateBlueprint(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.BlueprintService.UpdateBlueprint is not implemented"))
+}
+
+func (UnimplementedBlueprintServiceHandler) DeleteBlueprint(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.BlueprintService.DeleteBlueprint is not implemented"))
+}
+
+func (UnimplementedBlueprintServiceHandler) DeleteBlueprintI(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.BlueprintService.DeleteBlueprintI is not implemented"))
+}
+
+func (UnimplementedBlueprintServiceHandler) ListBlueprints(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[proto_gen_go.SimpleMessage], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.BlueprintService.ListBlueprints is not implemented"))
+}

@@ -6,8 +6,12 @@ package backendconnect
 
 import (
 	connect "connectrpc.com/connect"
+	context "context"
+	errors "errors"
 	http "net/http"
-	_ "panelium/proto_gen_go/backend"
+	proto_gen_go "panelium/proto_gen_go"
+	backend "panelium/proto_gen_go/backend"
+	strings "strings"
 )
 
 // This is a compile-time assertion to ensure that this generated file and the connect package are
@@ -22,8 +26,47 @@ const (
 	UserServiceName = "backend.UserService"
 )
 
+// These constants are the fully-qualified names of the RPCs defined in this package. They're
+// exposed at runtime as Spec.Procedure and as the final two segments of the HTTP route.
+//
+// Note that these are different from the fully-qualified method names used by
+// google.golang.org/protobuf/reflect/protoreflect. To convert from these constants to
+// reflection-formatted method names, remove the leading slash and convert the remaining slash to a
+// period.
+const (
+	// UserServiceCreateUserProcedure is the fully-qualified name of the UserService's CreateUser RPC.
+	UserServiceCreateUserProcedure = "/backend.UserService/CreateUser"
+	// UserServiceReadUserProcedure is the fully-qualified name of the UserService's ReadUser RPC.
+	UserServiceReadUserProcedure = "/backend.UserService/ReadUser"
+	// UserServiceReadUserIProcedure is the fully-qualified name of the UserService's ReadUserI RPC.
+	UserServiceReadUserIProcedure = "/backend.UserService/ReadUserI"
+	// UserServiceReadUserByUsernameProcedure is the fully-qualified name of the UserService's
+	// ReadUserByUsername RPC.
+	UserServiceReadUserByUsernameProcedure = "/backend.UserService/ReadUserByUsername"
+	// UserServiceReadUserByEmailProcedure is the fully-qualified name of the UserService's
+	// ReadUserByEmail RPC.
+	UserServiceReadUserByEmailProcedure = "/backend.UserService/ReadUserByEmail"
+	// UserServiceUpdateUserProcedure is the fully-qualified name of the UserService's UpdateUser RPC.
+	UserServiceUpdateUserProcedure = "/backend.UserService/UpdateUser"
+	// UserServiceDeleteUserProcedure is the fully-qualified name of the UserService's DeleteUser RPC.
+	UserServiceDeleteUserProcedure = "/backend.UserService/DeleteUser"
+	// UserServiceDeleteUserIProcedure is the fully-qualified name of the UserService's DeleteUserI RPC.
+	UserServiceDeleteUserIProcedure = "/backend.UserService/DeleteUserI"
+	// UserServiceListUsersProcedure is the fully-qualified name of the UserService's ListUsers RPC.
+	UserServiceListUsersProcedure = "/backend.UserService/ListUsers"
+)
+
 // UserServiceClient is a client for the backend.UserService service.
 type UserServiceClient interface {
+	CreateUser(context.Context, *connect.Request[backend.UserData]) (*connect.Response[backend.User], error)
+	ReadUser(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.User], error)
+	ReadUserI(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[backend.User], error)
+	ReadUserByUsername(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[backend.User], error)
+	ReadUserByEmail(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[backend.User], error)
+	UpdateUser(context.Context, *connect.Request[backend.User]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	DeleteUser(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	DeleteUserI(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	ListUsers(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.Users], error)
 }
 
 // NewUserServiceClient constructs a client for the backend.UserService service. By default, it uses
@@ -34,15 +77,135 @@ type UserServiceClient interface {
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
 func NewUserServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) UserServiceClient {
-	return &userServiceClient{}
+	baseURL = strings.TrimRight(baseURL, "/")
+	userServiceMethods := backend.File_backend_User_proto.Services().ByName("UserService").Methods()
+	return &userServiceClient{
+		createUser: connect.NewClient[backend.UserData, backend.User](
+			httpClient,
+			baseURL+UserServiceCreateUserProcedure,
+			connect.WithSchema(userServiceMethods.ByName("CreateUser")),
+			connect.WithClientOptions(opts...),
+		),
+		readUser: connect.NewClient[proto_gen_go.SimpleIDMessage, backend.User](
+			httpClient,
+			baseURL+UserServiceReadUserProcedure,
+			connect.WithSchema(userServiceMethods.ByName("ReadUser")),
+			connect.WithClientOptions(opts...),
+		),
+		readUserI: connect.NewClient[proto_gen_go.SimpleIIDMessage, backend.User](
+			httpClient,
+			baseURL+UserServiceReadUserIProcedure,
+			connect.WithSchema(userServiceMethods.ByName("ReadUserI")),
+			connect.WithClientOptions(opts...),
+		),
+		readUserByUsername: connect.NewClient[proto_gen_go.SimpleMessage, backend.User](
+			httpClient,
+			baseURL+UserServiceReadUserByUsernameProcedure,
+			connect.WithSchema(userServiceMethods.ByName("ReadUserByUsername")),
+			connect.WithClientOptions(opts...),
+		),
+		readUserByEmail: connect.NewClient[proto_gen_go.SimpleMessage, backend.User](
+			httpClient,
+			baseURL+UserServiceReadUserByEmailProcedure,
+			connect.WithSchema(userServiceMethods.ByName("ReadUserByEmail")),
+			connect.WithClientOptions(opts...),
+		),
+		updateUser: connect.NewClient[backend.User, proto_gen_go.SuccessMessage](
+			httpClient,
+			baseURL+UserServiceUpdateUserProcedure,
+			connect.WithSchema(userServiceMethods.ByName("UpdateUser")),
+			connect.WithClientOptions(opts...),
+		),
+		deleteUser: connect.NewClient[proto_gen_go.SimpleIDMessage, proto_gen_go.SuccessMessage](
+			httpClient,
+			baseURL+UserServiceDeleteUserProcedure,
+			connect.WithSchema(userServiceMethods.ByName("DeleteUser")),
+			connect.WithClientOptions(opts...),
+		),
+		deleteUserI: connect.NewClient[proto_gen_go.SimpleIIDMessage, proto_gen_go.SuccessMessage](
+			httpClient,
+			baseURL+UserServiceDeleteUserIProcedure,
+			connect.WithSchema(userServiceMethods.ByName("DeleteUserI")),
+			connect.WithClientOptions(opts...),
+		),
+		listUsers: connect.NewClient[proto_gen_go.Empty, backend.Users](
+			httpClient,
+			baseURL+UserServiceListUsersProcedure,
+			connect.WithSchema(userServiceMethods.ByName("ListUsers")),
+			connect.WithClientOptions(opts...),
+		),
+	}
 }
 
 // userServiceClient implements UserServiceClient.
 type userServiceClient struct {
+	createUser         *connect.Client[backend.UserData, backend.User]
+	readUser           *connect.Client[proto_gen_go.SimpleIDMessage, backend.User]
+	readUserI          *connect.Client[proto_gen_go.SimpleIIDMessage, backend.User]
+	readUserByUsername *connect.Client[proto_gen_go.SimpleMessage, backend.User]
+	readUserByEmail    *connect.Client[proto_gen_go.SimpleMessage, backend.User]
+	updateUser         *connect.Client[backend.User, proto_gen_go.SuccessMessage]
+	deleteUser         *connect.Client[proto_gen_go.SimpleIDMessage, proto_gen_go.SuccessMessage]
+	deleteUserI        *connect.Client[proto_gen_go.SimpleIIDMessage, proto_gen_go.SuccessMessage]
+	listUsers          *connect.Client[proto_gen_go.Empty, backend.Users]
+}
+
+// CreateUser calls backend.UserService.CreateUser.
+func (c *userServiceClient) CreateUser(ctx context.Context, req *connect.Request[backend.UserData]) (*connect.Response[backend.User], error) {
+	return c.createUser.CallUnary(ctx, req)
+}
+
+// ReadUser calls backend.UserService.ReadUser.
+func (c *userServiceClient) ReadUser(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.User], error) {
+	return c.readUser.CallUnary(ctx, req)
+}
+
+// ReadUserI calls backend.UserService.ReadUserI.
+func (c *userServiceClient) ReadUserI(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[backend.User], error) {
+	return c.readUserI.CallUnary(ctx, req)
+}
+
+// ReadUserByUsername calls backend.UserService.ReadUserByUsername.
+func (c *userServiceClient) ReadUserByUsername(ctx context.Context, req *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[backend.User], error) {
+	return c.readUserByUsername.CallUnary(ctx, req)
+}
+
+// ReadUserByEmail calls backend.UserService.ReadUserByEmail.
+func (c *userServiceClient) ReadUserByEmail(ctx context.Context, req *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[backend.User], error) {
+	return c.readUserByEmail.CallUnary(ctx, req)
+}
+
+// UpdateUser calls backend.UserService.UpdateUser.
+func (c *userServiceClient) UpdateUser(ctx context.Context, req *connect.Request[backend.User]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return c.updateUser.CallUnary(ctx, req)
+}
+
+// DeleteUser calls backend.UserService.DeleteUser.
+func (c *userServiceClient) DeleteUser(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return c.deleteUser.CallUnary(ctx, req)
+}
+
+// DeleteUserI calls backend.UserService.DeleteUserI.
+func (c *userServiceClient) DeleteUserI(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return c.deleteUserI.CallUnary(ctx, req)
+}
+
+// ListUsers calls backend.UserService.ListUsers.
+func (c *userServiceClient) ListUsers(ctx context.Context, req *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.Users], error) {
+	return c.listUsers.CallUnary(ctx, req)
 }
 
 // UserServiceHandler is an implementation of the backend.UserService service.
 type UserServiceHandler interface {
+	CreateUser(context.Context, *connect.Request[backend.UserData]) (*connect.Response[backend.User], error)
+	ReadUser(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.User], error)
+	ReadUserI(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[backend.User], error)
+	ReadUserByUsername(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[backend.User], error)
+	ReadUserByEmail(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[backend.User], error)
+	UpdateUser(context.Context, *connect.Request[backend.User]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	DeleteUser(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	DeleteUserI(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	ListUsers(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.Users], error)
 }
 
 // NewUserServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -51,8 +214,81 @@ type UserServiceHandler interface {
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
 func NewUserServiceHandler(svc UserServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	userServiceMethods := backend.File_backend_User_proto.Services().ByName("UserService").Methods()
+	userServiceCreateUserHandler := connect.NewUnaryHandler(
+		UserServiceCreateUserProcedure,
+		svc.CreateUser,
+		connect.WithSchema(userServiceMethods.ByName("CreateUser")),
+		connect.WithHandlerOptions(opts...),
+	)
+	userServiceReadUserHandler := connect.NewUnaryHandler(
+		UserServiceReadUserProcedure,
+		svc.ReadUser,
+		connect.WithSchema(userServiceMethods.ByName("ReadUser")),
+		connect.WithHandlerOptions(opts...),
+	)
+	userServiceReadUserIHandler := connect.NewUnaryHandler(
+		UserServiceReadUserIProcedure,
+		svc.ReadUserI,
+		connect.WithSchema(userServiceMethods.ByName("ReadUserI")),
+		connect.WithHandlerOptions(opts...),
+	)
+	userServiceReadUserByUsernameHandler := connect.NewUnaryHandler(
+		UserServiceReadUserByUsernameProcedure,
+		svc.ReadUserByUsername,
+		connect.WithSchema(userServiceMethods.ByName("ReadUserByUsername")),
+		connect.WithHandlerOptions(opts...),
+	)
+	userServiceReadUserByEmailHandler := connect.NewUnaryHandler(
+		UserServiceReadUserByEmailProcedure,
+		svc.ReadUserByEmail,
+		connect.WithSchema(userServiceMethods.ByName("ReadUserByEmail")),
+		connect.WithHandlerOptions(opts...),
+	)
+	userServiceUpdateUserHandler := connect.NewUnaryHandler(
+		UserServiceUpdateUserProcedure,
+		svc.UpdateUser,
+		connect.WithSchema(userServiceMethods.ByName("UpdateUser")),
+		connect.WithHandlerOptions(opts...),
+	)
+	userServiceDeleteUserHandler := connect.NewUnaryHandler(
+		UserServiceDeleteUserProcedure,
+		svc.DeleteUser,
+		connect.WithSchema(userServiceMethods.ByName("DeleteUser")),
+		connect.WithHandlerOptions(opts...),
+	)
+	userServiceDeleteUserIHandler := connect.NewUnaryHandler(
+		UserServiceDeleteUserIProcedure,
+		svc.DeleteUserI,
+		connect.WithSchema(userServiceMethods.ByName("DeleteUserI")),
+		connect.WithHandlerOptions(opts...),
+	)
+	userServiceListUsersHandler := connect.NewUnaryHandler(
+		UserServiceListUsersProcedure,
+		svc.ListUsers,
+		connect.WithSchema(userServiceMethods.ByName("ListUsers")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/backend.UserService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
+		case UserServiceCreateUserProcedure:
+			userServiceCreateUserHandler.ServeHTTP(w, r)
+		case UserServiceReadUserProcedure:
+			userServiceReadUserHandler.ServeHTTP(w, r)
+		case UserServiceReadUserIProcedure:
+			userServiceReadUserIHandler.ServeHTTP(w, r)
+		case UserServiceReadUserByUsernameProcedure:
+			userServiceReadUserByUsernameHandler.ServeHTTP(w, r)
+		case UserServiceReadUserByEmailProcedure:
+			userServiceReadUserByEmailHandler.ServeHTTP(w, r)
+		case UserServiceUpdateUserProcedure:
+			userServiceUpdateUserHandler.ServeHTTP(w, r)
+		case UserServiceDeleteUserProcedure:
+			userServiceDeleteUserHandler.ServeHTTP(w, r)
+		case UserServiceDeleteUserIProcedure:
+			userServiceDeleteUserIHandler.ServeHTTP(w, r)
+		case UserServiceListUsersProcedure:
+			userServiceListUsersHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -61,3 +297,39 @@ func NewUserServiceHandler(svc UserServiceHandler, opts ...connect.HandlerOption
 
 // UnimplementedUserServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedUserServiceHandler struct{}
+
+func (UnimplementedUserServiceHandler) CreateUser(context.Context, *connect.Request[backend.UserData]) (*connect.Response[backend.User], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.UserService.CreateUser is not implemented"))
+}
+
+func (UnimplementedUserServiceHandler) ReadUser(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.User], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.UserService.ReadUser is not implemented"))
+}
+
+func (UnimplementedUserServiceHandler) ReadUserI(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[backend.User], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.UserService.ReadUserI is not implemented"))
+}
+
+func (UnimplementedUserServiceHandler) ReadUserByUsername(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[backend.User], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.UserService.ReadUserByUsername is not implemented"))
+}
+
+func (UnimplementedUserServiceHandler) ReadUserByEmail(context.Context, *connect.Request[proto_gen_go.SimpleMessage]) (*connect.Response[backend.User], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.UserService.ReadUserByEmail is not implemented"))
+}
+
+func (UnimplementedUserServiceHandler) UpdateUser(context.Context, *connect.Request[backend.User]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.UserService.UpdateUser is not implemented"))
+}
+
+func (UnimplementedUserServiceHandler) DeleteUser(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.UserService.DeleteUser is not implemented"))
+}
+
+func (UnimplementedUserServiceHandler) DeleteUserI(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.UserService.DeleteUserI is not implemented"))
+}
+
+func (UnimplementedUserServiceHandler) ListUsers(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.Users], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.UserService.ListUsers is not implemented"))
+}
