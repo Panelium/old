@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"panelium/daemon/internal/handler/server"
 	"panelium/daemon/internal/middleware"
-	"panelium/proto_gen_go/proto_gen_goconnect"
+	"panelium/proto_gen_go/daemon/daemonconnect"
 )
 
 func Handle(host string) error {
@@ -15,7 +15,7 @@ func Handle(host string) error {
 	serverInterceptors := connect.WithInterceptors(middleware.NewServerInterceptor())
 
 	mux := http.NewServeMux()
-	mux.Handle(proto_gen_goconnect.NewServerServiceHandler(&server.ServerServiceHandler{}, backendAuthInterceptors, serverInterceptors))
+	mux.Handle(daemonconnect.NewServerServiceHandler(&server.ServerServiceHandler{}, backendAuthInterceptors, serverInterceptors))
 
 	handler := h2c.NewHandler(mux, &http2.Server{})
 	corsHandler := middleware.WithCORS(handler)

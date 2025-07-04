@@ -1,9 +1,9 @@
 package server
 
-import "panelium/proto_gen_go/proto_gen_goconnect"
+import "panelium/proto_gen_go/daemon/daemonconnect"
 
 type ServerServiceHandler struct {
-	proto_gen_goconnect.ServerServiceHandler
+	daemonconnect.ServerServiceHandler
 }
 
 // ctx.Value("server_id")

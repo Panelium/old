@@ -7,14 +7,14 @@ import (
 	"net/http"
 	"panelium/backend/internal/handler/auth"
 	"panelium/backend/internal/middleware"
-	"panelium/proto_gen_go/proto_gen_goconnect"
+	"panelium/proto_gen_go/backend/backendconnect"
 )
 
 func Handle(host string) error {
 	authInterceptors := connect.WithInterceptors(middleware.NewTokensInterceptor(), middleware.NewAuthInterceptor())
 
 	mux := http.NewServeMux()
-	mux.Handle(proto_gen_goconnect.NewAuthServiceHandler(&auth.AuthServiceHandler{}, authInterceptors))
+	mux.Handle(backendconnect.NewAuthServiceHandler(&auth.AuthServiceHandler{}, authInterceptors))
 
 	handler := h2c.NewHandler(mux, &http2.Server{})
 	corsHandler := middleware.WithCORS(handler)
