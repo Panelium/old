@@ -21,6 +21,7 @@ message UserData {
   string username = 1;
   string email = 2;
   bool mfa_needed = 3;
+  bool admin = 4;
 }
 
 message User {

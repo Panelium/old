@@ -27,6 +27,7 @@ type UserData struct {
 	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
 	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
 	MfaNeeded     bool                   `protobuf:"varint,3,opt,name=mfa_needed,json=mfaNeeded,proto3" json:"mfa_needed,omitempty"`
+	Admin         bool                   `protobuf:"varint,4,opt,name=admin,proto3" json:"admin,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -78,6 +79,13 @@ func (x *UserData) GetEmail() string {
 func (x *UserData) GetMfaNeeded() bool {
 	if x != nil {
 		return x.MfaNeeded
+	}
+	return false
+}
+
+func (x *UserData) GetAdmin() bool {
+	if x != nil {
+		return x.Admin
 	}
 	return false
 }
@@ -190,12 +198,13 @@ var File_backend_User_proto protoreflect.FileDescriptor
 
 const file_backend_User_proto_rawDesc = "" +
 	"\n" +
-	"\x12backend/User.proto\x12\abackend\x1a\fcommon.proto\"[\n" +
+	"\x12backend/User.proto\x12\abackend\x1a\fcommon.proto\"q\n" +
 	"\bUserData\x12\x1a\n" +
 	"\busername\x18\x01 \x01(\tR\busername\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12\x1d\n" +
 	"\n" +
-	"mfa_needed\x18\x03 \x01(\bR\tmfaNeeded\"O\n" +
+	"mfa_needed\x18\x03 \x01(\bR\tmfaNeeded\x12\x14\n" +
+	"\x05admin\x18\x04 \x01(\bR\x05admin\"O\n" +
 	"\x04User\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\rR\x02id\x12\x10\n" +
 	"\x03uid\x18\x02 \x01(\tR\x03uid\x12%\n" +

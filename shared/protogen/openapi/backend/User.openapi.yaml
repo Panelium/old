@@ -345,6 +345,9 @@ components:
         mfaNeeded:
           type: boolean
           title: mfa_needed
+        admin:
+          type: boolean
+          title: admin
       title: UserData
       additionalProperties: false
     backend.Users:
