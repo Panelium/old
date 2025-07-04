@@ -4,7 +4,7 @@
 
 import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { EmptySchema, ResourceLimit, SimpleIDMessageSchema, SimpleIIDMessageSchema, SuccessMessageSchema } from "../common_pb";
+import type { EmptySchema, ResourceLimit, SimpleIDMessageSchema, SuccessMessageSchema } from "../common_pb";
 import { file_common } from "../common_pb";
 import type { NodeAllocationData } from "./Node_pb";
 import { file_backend_Node } from "./Node_pb";
@@ -14,7 +14,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file backend/Server.proto.
  */
 export const file_backend_Server: GenFile = /*@__PURE__*/
-  fileDesc("ChRiYWNrZW5kL1NlcnZlci5wcm90bxIHYmFja2VuZCKKAgoKU2VydmVyRGF0YRIMCgRuYW1lGAEgASgJEhMKC2Rlc2NyaXB0aW9uGAIgASgJEhAKCG93bmVyX2lkGAMgASgNEg8KB25vZGVfaWQYBCABKA0SLQoMc2VydmVyX3VzZXJzGAUgAygLMhcuYmFja2VuZC5TZXJ2ZXJVc2VyRGF0YRI1ChBub2RlX2FsbG9jYXRpb25zGAYgAygLMhsuYmFja2VuZC5Ob2RlQWxsb2NhdGlvbkRhdGESLQoOcmVzb3VyY2VfbGltaXQYByABKAsyFS5jb21tb24uUmVzb3VyY2VMaW1pdBIUCgxkb2NrZXJfaW1hZ2UYCCABKAkSCwoDYmlkGAkgASgJIkQKBlNlcnZlchIKCgJpZBgBIAEoDRILCgNzaWQYAiABKAkSIQoEZGF0YRgDIAEoCzITLmJhY2tlbmQuU2VydmVyRGF0YSIrCgdTZXJ2ZXJzEiAKB3NlcnZlcnMYASADKAsyDy5iYWNrZW5kLlNlcnZlciI0Cg5TZXJ2ZXJVc2VyRGF0YRIPCgd1c2VyX2lkGAEgASgNEhEKCXNlcnZlcl9pZBgCIAEoDSI/CgpTZXJ2ZXJVc2VyEgoKAmlkGAEgASgNEiUKBGRhdGEYAiABKAsyFy5iYWNrZW5kLlNlcnZlclVzZXJEYXRhIjgKC1NlcnZlclVzZXJzEikKDHNlcnZlcl91c2VycxgBIAMoCzITLmJhY2tlbmQuU2VydmVyVXNlcjL3BgoNU2VydmVyU2VydmljZRI0CgxDcmVhdGVTZXJ2ZXISEy5iYWNrZW5kLlNlcnZlckRhdGEaDy5iYWNrZW5kLlNlcnZlchI2CgpSZWFkU2VydmVyEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRoPLmJhY2tlbmQuU2VydmVyEjgKC1JlYWRTZXJ2ZXJJEhguY29tbW9uLlNpbXBsZUlJRE1lc3NhZ2UaDy5iYWNrZW5kLlNlcnZlchI3CgxVcGRhdGVTZXJ2ZXISDy5iYWNrZW5kLlNlcnZlchoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRI/CgxEZWxldGVTZXJ2ZXISFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlEkEKDURlbGV0ZVNlcnZlckkSGC5jb21tb24uU2ltcGxlSUlETWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRIuCgtMaXN0U2VydmVycxINLmNvbW1vbi5FbXB0eRoQLmJhY2tlbmQuU2VydmVycxI+ChFMaXN0U2VydmVyc0J5Tm9kZRIXLmNvbW1vbi5TaW1wbGVJRE1lc3NhZ2UaEC5iYWNrZW5kLlNlcnZlcnMSPgoRTGlzdFNlcnZlcnNCeVVzZXISFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGhAuYmFja2VuZC5TZXJ2ZXJzEkAKEENyZWF0ZVNlcnZlclVzZXISFy5iYWNrZW5kLlNlcnZlclVzZXJEYXRhGhMuYmFja2VuZC5TZXJ2ZXJVc2VyEj4KDlJlYWRTZXJ2ZXJVc2VyEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRoTLmJhY2tlbmQuU2VydmVyVXNlchJAChBVcGRhdGVTZXJ2ZXJVc2VyEhcuYmFja2VuZC5TZXJ2ZXJVc2VyRGF0YRoTLmJhY2tlbmQuU2VydmVyVXNlchJDChBEZWxldGVTZXJ2ZXJVc2VyEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRJIChdMaXN0U2VydmVyVXNlcnNCeVNlcnZlchIXLmNvbW1vbi5TaW1wbGVJRE1lc3NhZ2UaFC5iYWNrZW5kLlNlcnZlclVzZXJzQh9aHXBhbmVsaXVtL3Byb3RvX2dlbl9nby9iYWNrZW5kYgZwcm90bzM", [file_common, file_backend_Node]);
+  fileDesc("ChRiYWNrZW5kL1NlcnZlci5wcm90bxIHYmFja2VuZCKHAgoKU2VydmVyRGF0YRIMCgRuYW1lGAEgASgJEhMKC2Rlc2NyaXB0aW9uGAIgASgJEhEKCW93bmVyX3VpZBgDIAEoCRILCgNuaWQYBCABKAkSLQoMc2VydmVyX3VzZXJzGAUgAygLMhcuYmFja2VuZC5TZXJ2ZXJVc2VyRGF0YRI1ChBub2RlX2FsbG9jYXRpb25zGAYgAygLMhsuYmFja2VuZC5Ob2RlQWxsb2NhdGlvbkRhdGESLQoOcmVzb3VyY2VfbGltaXQYByABKAsyFS5jb21tb24uUmVzb3VyY2VMaW1pdBIUCgxkb2NrZXJfaW1hZ2UYCCABKAkSCwoDYmlkGAkgASgJIjgKBlNlcnZlchILCgNzaWQYASABKAkSIQoEZGF0YRgCIAEoCzITLmJhY2tlbmQuU2VydmVyRGF0YSIrCgdTZXJ2ZXJzEiAKB3NlcnZlcnMYASADKAsyDy5iYWNrZW5kLlNlcnZlciIqCg5TZXJ2ZXJVc2VyRGF0YRILCgN1aWQYASABKAkSCwoDc2lkGAIgASgJIj8KClNlcnZlclVzZXISCgoCaWQYASABKA0SJQoEZGF0YRgCIAEoCzIXLmJhY2tlbmQuU2VydmVyVXNlckRhdGEiOAoLU2VydmVyVXNlcnMSKQoMc2VydmVyX3VzZXJzGAEgAygLMhMuYmFja2VuZC5TZXJ2ZXJVc2VyMvYFCg1TZXJ2ZXJTZXJ2aWNlEjQKDENyZWF0ZVNlcnZlchITLmJhY2tlbmQuU2VydmVyRGF0YRoPLmJhY2tlbmQuU2VydmVyEjYKClJlYWRTZXJ2ZXISFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGg8uYmFja2VuZC5TZXJ2ZXISNwoMVXBkYXRlU2VydmVyEg8uYmFja2VuZC5TZXJ2ZXIaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USPwoMRGVsZXRlU2VydmVyEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRIuCgtMaXN0U2VydmVycxINLmNvbW1vbi5FbXB0eRoQLmJhY2tlbmQuU2VydmVycxI+ChFMaXN0U2VydmVyc0J5Tm9kZRIXLmNvbW1vbi5TaW1wbGVJRE1lc3NhZ2UaEC5iYWNrZW5kLlNlcnZlcnMSPgoRTGlzdFNlcnZlcnNCeVVzZXISFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGhAuYmFja2VuZC5TZXJ2ZXJzEkAKEENyZWF0ZVNlcnZlclVzZXISFy5iYWNrZW5kLlNlcnZlclVzZXJEYXRhGhMuYmFja2VuZC5TZXJ2ZXJVc2VyEj4KDlJlYWRTZXJ2ZXJVc2VyEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRoTLmJhY2tlbmQuU2VydmVyVXNlchI8ChBVcGRhdGVTZXJ2ZXJVc2VyEhMuYmFja2VuZC5TZXJ2ZXJVc2VyGhMuYmFja2VuZC5TZXJ2ZXJVc2VyEkMKEERlbGV0ZVNlcnZlclVzZXISFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlEkgKF0xpc3RTZXJ2ZXJVc2Vyc0J5U2VydmVyEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRoULmJhY2tlbmQuU2VydmVyVXNlcnNCH1odcGFuZWxpdW0vcHJvdG9fZ2VuX2dvL2JhY2tlbmRiBnByb3RvMw", [file_common, file_backend_Node]);
 
 /**
  * @generated from message backend.ServerData
@@ -31,14 +31,14 @@ export type ServerData = Message<"backend.ServerData"> & {
   description: string;
 
   /**
-   * @generated from field: uint32 owner_id = 3;
+   * @generated from field: string owner_uid = 3;
    */
-  ownerId: number;
+  ownerUid: string;
 
   /**
-   * @generated from field: uint32 node_id = 4;
+   * @generated from field: string nid = 4;
    */
-  nodeId: number;
+  nid: string;
 
   /**
    * @generated from field: repeated backend.ServerUserData server_users = 5;
@@ -78,17 +78,12 @@ export const ServerDataSchema: GenMessage<ServerData> = /*@__PURE__*/
  */
 export type Server = Message<"backend.Server"> & {
   /**
-   * @generated from field: uint32 id = 1;
-   */
-  id: number;
-
-  /**
-   * @generated from field: string sid = 2;
+   * @generated from field: string sid = 1;
    */
   sid: string;
 
   /**
-   * @generated from field: backend.ServerData data = 3;
+   * @generated from field: backend.ServerData data = 2;
    */
   data?: ServerData;
 };
@@ -122,14 +117,14 @@ export const ServersSchema: GenMessage<Servers> = /*@__PURE__*/
  */
 export type ServerUserData = Message<"backend.ServerUserData"> & {
   /**
-   * @generated from field: uint32 user_id = 1;
+   * @generated from field: string uid = 1;
    */
-  userId: number;
+  uid: string;
 
   /**
-   * @generated from field: uint32 server_id = 2;
+   * @generated from field: string sid = 2;
    */
-  serverId: number;
+  sid: string;
 };
 
 /**
@@ -199,14 +194,6 @@ export const ServerService: GenService<{
     output: typeof ServerSchema;
   },
   /**
-   * @generated from rpc backend.ServerService.ReadServerI
-   */
-  readServerI: {
-    methodKind: "unary";
-    input: typeof SimpleIIDMessageSchema;
-    output: typeof ServerSchema;
-  },
-  /**
    * @generated from rpc backend.ServerService.UpdateServer
    */
   updateServer: {
@@ -220,14 +207,6 @@ export const ServerService: GenService<{
   deleteServer: {
     methodKind: "unary";
     input: typeof SimpleIDMessageSchema;
-    output: typeof SuccessMessageSchema;
-  },
-  /**
-   * @generated from rpc backend.ServerService.DeleteServerI
-   */
-  deleteServerI: {
-    methodKind: "unary";
-    input: typeof SimpleIIDMessageSchema;
     output: typeof SuccessMessageSchema;
   },
   /**
@@ -275,7 +254,7 @@ export const ServerService: GenService<{
    */
   updateServerUser: {
     methodKind: "unary";
-    input: typeof ServerUserDataSchema;
+    input: typeof ServerUserSchema;
     output: typeof ServerUserSchema;
   },
   /**

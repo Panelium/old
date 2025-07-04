@@ -37,41 +37,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/backend.Location'
-  /backend.NodeService/ReadLocation:
-    post:
-      tags:
-        - backend.NodeService
-      summary: ReadLocation
-      operationId: backend.NodeService.ReadLocation
-      parameters:
-        - name: Connect-Protocol-Version
-          in: header
-          required: true
-          schema:
-            $ref: '#/components/schemas/connect-protocol-version'
-        - name: Connect-Timeout-Ms
-          in: header
-          schema:
-            $ref: '#/components/schemas/connect-timeout-header'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/common.SimpleIIDMessage'
-        required: true
-      responses:
-        default:
-          description: Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/connect.error'
-        "200":
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/backend.Location'
   /backend.NodeService/UpdateLocation:
     post:
       tags:
@@ -198,41 +163,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/backend.NodeData'
-        required: true
-      responses:
-        default:
-          description: Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/connect.error'
-        "200":
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/backend.Node'
-  /backend.NodeService/ReadNode:
-    post:
-      tags:
-        - backend.NodeService
-      summary: ReadNode
-      operationId: backend.NodeService.ReadNode
-      parameters:
-        - name: Connect-Protocol-Version
-          in: header
-          required: true
-          schema:
-            $ref: '#/components/schemas/connect-protocol-version'
-        - name: Connect-Timeout-Ms
-          in: header
-          schema:
-            $ref: '#/components/schemas/connect-timeout-header'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/common.SimpleIIDMessage'
         required: true
       responses:
         default:
@@ -422,41 +352,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/backend.NodeAllocation'
-  /backend.NodeService/ReadNodeAllocation:
-    post:
-      tags:
-        - backend.NodeService
-      summary: ReadNodeAllocation
-      operationId: backend.NodeService.ReadNodeAllocation
-      parameters:
-        - name: Connect-Protocol-Version
-          in: header
-          required: true
-          schema:
-            $ref: '#/components/schemas/connect-protocol-version'
-        - name: Connect-Timeout-Ms
-          in: header
-          schema:
-            $ref: '#/components/schemas/connect-timeout-header'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/common.SimpleIIDMessage'
-        required: true
-      responses:
-        default:
-          description: Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/connect.error'
-        "200":
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/backend.NodeAllocation'
   /backend.NodeService/UpdateNodeAllocation:
     post:
       tags:
@@ -602,9 +497,9 @@ components:
     backend.Location:
       type: object
       properties:
-        id:
-          type: integer
-          title: id
+        lid:
+          type: string
+          title: lid
         data:
           title: data
           $ref: '#/components/schemas/backend.LocationData'
@@ -631,9 +526,9 @@ components:
     backend.Node:
       type: object
       properties:
-        id:
-          type: integer
-          title: id
+        nid:
+          type: string
+          title: nid
         data:
           title: data
           $ref: '#/components/schemas/backend.NodeData'
@@ -642,9 +537,9 @@ components:
     backend.NodeAllocation:
       type: object
       properties:
-        id:
-          type: integer
-          title: id
+        nid:
+          type: string
+          title: nid
         data:
           title: data
           $ref: '#/components/schemas/backend.NodeAllocationData'
@@ -653,15 +548,15 @@ components:
     backend.NodeAllocationData:
       type: object
       properties:
-        nodeId:
-          type: integer
-          title: node_id
+        nid:
+          type: string
+          title: nid
         allocation:
           title: allocation
           $ref: '#/components/schemas/common.IPAllocation'
-        serverId:
-          type: integer
-          title: server_id
+        sid:
+          type: string
+          title: sid
           nullable: true
       title: NodeAllocationData
       additionalProperties: false
@@ -684,9 +579,9 @@ components:
         fqdn:
           type: string
           title: fqdn
-        locationId:
-          type: integer
-          title: location_id
+        lid:
+          type: string
+          title: lid
         resourceLimit:
           title: resource_limit
           $ref: '#/components/schemas/common.ResourceLimit'
@@ -746,14 +641,6 @@ components:
           type: string
           title: id
       title: SimpleIDMessage
-      additionalProperties: false
-    common.SimpleIIDMessage:
-      type: object
-      properties:
-        id:
-          type: integer
-          title: id
-      title: SimpleIIDMessage
       additionalProperties: false
     common.SuccessMessage:
       type: object

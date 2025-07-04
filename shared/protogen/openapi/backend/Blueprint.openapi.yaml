@@ -278,6 +278,4 @@ components:
 security: []
 tags:
   - name: backend.BlueprintService
-    description: |-
-      Note: Blueprints are JSONs, that's why we use SimpleMessage
-       BID string
+    description: 'Note: Blueprints are JSONs, that''s why we use SimpleMessage'

@@ -37,9 +37,6 @@ const (
 	// NodeServiceCreateLocationProcedure is the fully-qualified name of the NodeService's
 	// CreateLocation RPC.
 	NodeServiceCreateLocationProcedure = "/backend.NodeService/CreateLocation"
-	// NodeServiceReadLocationProcedure is the fully-qualified name of the NodeService's ReadLocation
-	// RPC.
-	NodeServiceReadLocationProcedure = "/backend.NodeService/ReadLocation"
 	// NodeServiceUpdateLocationProcedure is the fully-qualified name of the NodeService's
 	// UpdateLocation RPC.
 	NodeServiceUpdateLocationProcedure = "/backend.NodeService/UpdateLocation"
@@ -51,8 +48,6 @@ const (
 	NodeServiceListLocationsProcedure = "/backend.NodeService/ListLocations"
 	// NodeServiceCreateNodeProcedure is the fully-qualified name of the NodeService's CreateNode RPC.
 	NodeServiceCreateNodeProcedure = "/backend.NodeService/CreateNode"
-	// NodeServiceReadNodeProcedure is the fully-qualified name of the NodeService's ReadNode RPC.
-	NodeServiceReadNodeProcedure = "/backend.NodeService/ReadNode"
 	// NodeServiceUpdateNodeProcedure is the fully-qualified name of the NodeService's UpdateNode RPC.
 	NodeServiceUpdateNodeProcedure = "/backend.NodeService/UpdateNode"
 	// NodeServiceDeleteNodeProcedure is the fully-qualified name of the NodeService's DeleteNode RPC.
@@ -65,9 +60,6 @@ const (
 	// NodeServiceCreateNodeAllocationProcedure is the fully-qualified name of the NodeService's
 	// CreateNodeAllocation RPC.
 	NodeServiceCreateNodeAllocationProcedure = "/backend.NodeService/CreateNodeAllocation"
-	// NodeServiceReadNodeAllocationProcedure is the fully-qualified name of the NodeService's
-	// ReadNodeAllocation RPC.
-	NodeServiceReadNodeAllocationProcedure = "/backend.NodeService/ReadNodeAllocation"
 	// NodeServiceUpdateNodeAllocationProcedure is the fully-qualified name of the NodeService's
 	// UpdateNodeAllocation RPC.
 	NodeServiceUpdateNodeAllocationProcedure = "/backend.NodeService/UpdateNodeAllocation"
@@ -85,18 +77,15 @@ const (
 // NodeServiceClient is a client for the backend.NodeService service.
 type NodeServiceClient interface {
 	CreateLocation(context.Context, *connect.Request[backend.LocationData]) (*connect.Response[backend.Location], error)
-	ReadLocation(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[backend.Location], error)
 	UpdateLocation(context.Context, *connect.Request[backend.Location]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 	DeleteLocation(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 	ListLocations(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.Locations], error)
 	CreateNode(context.Context, *connect.Request[backend.NodeData]) (*connect.Response[backend.Node], error)
-	ReadNode(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[backend.Node], error)
 	UpdateNode(context.Context, *connect.Request[backend.Node]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 	DeleteNode(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 	ListNodes(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.Nodes], error)
 	ListNodesByLocation(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.Nodes], error)
 	CreateNodeAllocation(context.Context, *connect.Request[backend.NodeAllocationData]) (*connect.Response[backend.NodeAllocation], error)
-	ReadNodeAllocation(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[backend.NodeAllocation], error)
 	UpdateNodeAllocation(context.Context, *connect.Request[backend.NodeAllocation]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 	DeleteNodeAllocation(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 	ListNodeAllocationsByNode(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.NodeAllocations], error)
@@ -118,12 +107,6 @@ func NewNodeServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 			httpClient,
 			baseURL+NodeServiceCreateLocationProcedure,
 			connect.WithSchema(nodeServiceMethods.ByName("CreateLocation")),
-			connect.WithClientOptions(opts...),
-		),
-		readLocation: connect.NewClient[proto_gen_go.SimpleIIDMessage, backend.Location](
-			httpClient,
-			baseURL+NodeServiceReadLocationProcedure,
-			connect.WithSchema(nodeServiceMethods.ByName("ReadLocation")),
 			connect.WithClientOptions(opts...),
 		),
 		updateLocation: connect.NewClient[backend.Location, proto_gen_go.SuccessMessage](
@@ -148,12 +131,6 @@ func NewNodeServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 			httpClient,
 			baseURL+NodeServiceCreateNodeProcedure,
 			connect.WithSchema(nodeServiceMethods.ByName("CreateNode")),
-			connect.WithClientOptions(opts...),
-		),
-		readNode: connect.NewClient[proto_gen_go.SimpleIIDMessage, backend.Node](
-			httpClient,
-			baseURL+NodeServiceReadNodeProcedure,
-			connect.WithSchema(nodeServiceMethods.ByName("ReadNode")),
 			connect.WithClientOptions(opts...),
 		),
 		updateNode: connect.NewClient[backend.Node, proto_gen_go.SuccessMessage](
@@ -186,12 +163,6 @@ func NewNodeServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 			connect.WithSchema(nodeServiceMethods.ByName("CreateNodeAllocation")),
 			connect.WithClientOptions(opts...),
 		),
-		readNodeAllocation: connect.NewClient[proto_gen_go.SimpleIIDMessage, backend.NodeAllocation](
-			httpClient,
-			baseURL+NodeServiceReadNodeAllocationProcedure,
-			connect.WithSchema(nodeServiceMethods.ByName("ReadNodeAllocation")),
-			connect.WithClientOptions(opts...),
-		),
 		updateNodeAllocation: connect.NewClient[backend.NodeAllocation, proto_gen_go.SuccessMessage](
 			httpClient,
 			baseURL+NodeServiceUpdateNodeAllocationProcedure,
@@ -222,18 +193,15 @@ func NewNodeServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 // nodeServiceClient implements NodeServiceClient.
 type nodeServiceClient struct {
 	createLocation                *connect.Client[backend.LocationData, backend.Location]
-	readLocation                  *connect.Client[proto_gen_go.SimpleIIDMessage, backend.Location]
 	updateLocation                *connect.Client[backend.Location, proto_gen_go.SuccessMessage]
 	deleteLocation                *connect.Client[proto_gen_go.SimpleIDMessage, proto_gen_go.SuccessMessage]
 	listLocations                 *connect.Client[proto_gen_go.Empty, backend.Locations]
 	createNode                    *connect.Client[backend.NodeData, backend.Node]
-	readNode                      *connect.Client[proto_gen_go.SimpleIIDMessage, backend.Node]
 	updateNode                    *connect.Client[backend.Node, proto_gen_go.SuccessMessage]
 	deleteNode                    *connect.Client[proto_gen_go.SimpleIDMessage, proto_gen_go.SuccessMessage]
 	listNodes                     *connect.Client[proto_gen_go.Empty, backend.Nodes]
 	listNodesByLocation           *connect.Client[proto_gen_go.SimpleIDMessage, backend.Nodes]
 	createNodeAllocation          *connect.Client[backend.NodeAllocationData, backend.NodeAllocation]
-	readNodeAllocation            *connect.Client[proto_gen_go.SimpleIIDMessage, backend.NodeAllocation]
 	updateNodeAllocation          *connect.Client[backend.NodeAllocation, proto_gen_go.SuccessMessage]
 	deleteNodeAllocation          *connect.Client[proto_gen_go.SimpleIDMessage, proto_gen_go.SuccessMessage]
 	listNodeAllocationsByNode     *connect.Client[proto_gen_go.SimpleIDMessage, backend.NodeAllocations]
@@ -243,11 +211,6 @@ type nodeServiceClient struct {
 // CreateLocation calls backend.NodeService.CreateLocation.
 func (c *nodeServiceClient) CreateLocation(ctx context.Context, req *connect.Request[backend.LocationData]) (*connect.Response[backend.Location], error) {
 	return c.createLocation.CallUnary(ctx, req)
-}
-
-// ReadLocation calls backend.NodeService.ReadLocation.
-func (c *nodeServiceClient) ReadLocation(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[backend.Location], error) {
-	return c.readLocation.CallUnary(ctx, req)
 }
 
 // UpdateLocation calls backend.NodeService.UpdateLocation.
@@ -268,11 +231,6 @@ func (c *nodeServiceClient) ListLocations(ctx context.Context, req *connect.Requ
 // CreateNode calls backend.NodeService.CreateNode.
 func (c *nodeServiceClient) CreateNode(ctx context.Context, req *connect.Request[backend.NodeData]) (*connect.Response[backend.Node], error) {
 	return c.createNode.CallUnary(ctx, req)
-}
-
-// ReadNode calls backend.NodeService.ReadNode.
-func (c *nodeServiceClient) ReadNode(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[backend.Node], error) {
-	return c.readNode.CallUnary(ctx, req)
 }
 
 // UpdateNode calls backend.NodeService.UpdateNode.
@@ -300,11 +258,6 @@ func (c *nodeServiceClient) CreateNodeAllocation(ctx context.Context, req *conne
 	return c.createNodeAllocation.CallUnary(ctx, req)
 }
 
-// ReadNodeAllocation calls backend.NodeService.ReadNodeAllocation.
-func (c *nodeServiceClient) ReadNodeAllocation(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[backend.NodeAllocation], error) {
-	return c.readNodeAllocation.CallUnary(ctx, req)
-}
-
 // UpdateNodeAllocation calls backend.NodeService.UpdateNodeAllocation.
 func (c *nodeServiceClient) UpdateNodeAllocation(ctx context.Context, req *connect.Request[backend.NodeAllocation]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	return c.updateNodeAllocation.CallUnary(ctx, req)
@@ -328,18 +281,15 @@ func (c *nodeServiceClient) ListNodeAllocationsByLocation(ctx context.Context, r
 // NodeServiceHandler is an implementation of the backend.NodeService service.
 type NodeServiceHandler interface {
 	CreateLocation(context.Context, *connect.Request[backend.LocationData]) (*connect.Response[backend.Location], error)
-	ReadLocation(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[backend.Location], error)
 	UpdateLocation(context.Context, *connect.Request[backend.Location]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 	DeleteLocation(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 	ListLocations(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.Locations], error)
 	CreateNode(context.Context, *connect.Request[backend.NodeData]) (*connect.Response[backend.Node], error)
-	ReadNode(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[backend.Node], error)
 	UpdateNode(context.Context, *connect.Request[backend.Node]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 	DeleteNode(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 	ListNodes(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.Nodes], error)
 	ListNodesByLocation(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.Nodes], error)
 	CreateNodeAllocation(context.Context, *connect.Request[backend.NodeAllocationData]) (*connect.Response[backend.NodeAllocation], error)
-	ReadNodeAllocation(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[backend.NodeAllocation], error)
 	UpdateNodeAllocation(context.Context, *connect.Request[backend.NodeAllocation]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 	DeleteNodeAllocation(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 	ListNodeAllocationsByNode(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.NodeAllocations], error)
@@ -357,12 +307,6 @@ func NewNodeServiceHandler(svc NodeServiceHandler, opts ...connect.HandlerOption
 		NodeServiceCreateLocationProcedure,
 		svc.CreateLocation,
 		connect.WithSchema(nodeServiceMethods.ByName("CreateLocation")),
-		connect.WithHandlerOptions(opts...),
-	)
-	nodeServiceReadLocationHandler := connect.NewUnaryHandler(
-		NodeServiceReadLocationProcedure,
-		svc.ReadLocation,
-		connect.WithSchema(nodeServiceMethods.ByName("ReadLocation")),
 		connect.WithHandlerOptions(opts...),
 	)
 	nodeServiceUpdateLocationHandler := connect.NewUnaryHandler(
@@ -387,12 +331,6 @@ func NewNodeServiceHandler(svc NodeServiceHandler, opts ...connect.HandlerOption
 		NodeServiceCreateNodeProcedure,
 		svc.CreateNode,
 		connect.WithSchema(nodeServiceMethods.ByName("CreateNode")),
-		connect.WithHandlerOptions(opts...),
-	)
-	nodeServiceReadNodeHandler := connect.NewUnaryHandler(
-		NodeServiceReadNodeProcedure,
-		svc.ReadNode,
-		connect.WithSchema(nodeServiceMethods.ByName("ReadNode")),
 		connect.WithHandlerOptions(opts...),
 	)
 	nodeServiceUpdateNodeHandler := connect.NewUnaryHandler(
@@ -425,12 +363,6 @@ func NewNodeServiceHandler(svc NodeServiceHandler, opts ...connect.HandlerOption
 		connect.WithSchema(nodeServiceMethods.ByName("CreateNodeAllocation")),
 		connect.WithHandlerOptions(opts...),
 	)
-	nodeServiceReadNodeAllocationHandler := connect.NewUnaryHandler(
-		NodeServiceReadNodeAllocationProcedure,
-		svc.ReadNodeAllocation,
-		connect.WithSchema(nodeServiceMethods.ByName("ReadNodeAllocation")),
-		connect.WithHandlerOptions(opts...),
-	)
 	nodeServiceUpdateNodeAllocationHandler := connect.NewUnaryHandler(
 		NodeServiceUpdateNodeAllocationProcedure,
 		svc.UpdateNodeAllocation,
@@ -459,8 +391,6 @@ func NewNodeServiceHandler(svc NodeServiceHandler, opts ...connect.HandlerOption
 		switch r.URL.Path {
 		case NodeServiceCreateLocationProcedure:
 			nodeServiceCreateLocationHandler.ServeHTTP(w, r)
-		case NodeServiceReadLocationProcedure:
-			nodeServiceReadLocationHandler.ServeHTTP(w, r)
 		case NodeServiceUpdateLocationProcedure:
 			nodeServiceUpdateLocationHandler.ServeHTTP(w, r)
 		case NodeServiceDeleteLocationProcedure:
@@ -469,8 +399,6 @@ func NewNodeServiceHandler(svc NodeServiceHandler, opts ...connect.HandlerOption
 			nodeServiceListLocationsHandler.ServeHTTP(w, r)
 		case NodeServiceCreateNodeProcedure:
 			nodeServiceCreateNodeHandler.ServeHTTP(w, r)
-		case NodeServiceReadNodeProcedure:
-			nodeServiceReadNodeHandler.ServeHTTP(w, r)
 		case NodeServiceUpdateNodeProcedure:
 			nodeServiceUpdateNodeHandler.ServeHTTP(w, r)
 		case NodeServiceDeleteNodeProcedure:
@@ -481,8 +409,6 @@ func NewNodeServiceHandler(svc NodeServiceHandler, opts ...connect.HandlerOption
 			nodeServiceListNodesByLocationHandler.ServeHTTP(w, r)
 		case NodeServiceCreateNodeAllocationProcedure:
 			nodeServiceCreateNodeAllocationHandler.ServeHTTP(w, r)
-		case NodeServiceReadNodeAllocationProcedure:
-			nodeServiceReadNodeAllocationHandler.ServeHTTP(w, r)
 		case NodeServiceUpdateNodeAllocationProcedure:
 			nodeServiceUpdateNodeAllocationHandler.ServeHTTP(w, r)
 		case NodeServiceDeleteNodeAllocationProcedure:
@@ -504,10 +430,6 @@ func (UnimplementedNodeServiceHandler) CreateLocation(context.Context, *connect.
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.NodeService.CreateLocation is not implemented"))
 }
 
-func (UnimplementedNodeServiceHandler) ReadLocation(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[backend.Location], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.NodeService.ReadLocation is not implemented"))
-}
-
 func (UnimplementedNodeServiceHandler) UpdateLocation(context.Context, *connect.Request[backend.Location]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.NodeService.UpdateLocation is not implemented"))
 }
@@ -522,10 +444,6 @@ func (UnimplementedNodeServiceHandler) ListLocations(context.Context, *connect.R
 
 func (UnimplementedNodeServiceHandler) CreateNode(context.Context, *connect.Request[backend.NodeData]) (*connect.Response[backend.Node], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.NodeService.CreateNode is not implemented"))
-}
-
-func (UnimplementedNodeServiceHandler) ReadNode(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[backend.Node], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.NodeService.ReadNode is not implemented"))
 }
 
 func (UnimplementedNodeServiceHandler) UpdateNode(context.Context, *connect.Request[backend.Node]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
@@ -546,10 +464,6 @@ func (UnimplementedNodeServiceHandler) ListNodesByLocation(context.Context, *con
 
 func (UnimplementedNodeServiceHandler) CreateNodeAllocation(context.Context, *connect.Request[backend.NodeAllocationData]) (*connect.Response[backend.NodeAllocation], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.NodeService.CreateNodeAllocation is not implemented"))
-}
-
-func (UnimplementedNodeServiceHandler) ReadNodeAllocation(context.Context, *connect.Request[proto_gen_go.SimpleIIDMessage]) (*connect.Response[backend.NodeAllocation], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.NodeService.ReadNodeAllocation is not implemented"))
 }
 
 func (UnimplementedNodeServiceHandler) UpdateNodeAllocation(context.Context, *connect.Request[backend.NodeAllocation]) (*connect.Response[proto_gen_go.SuccessMessage], error) {

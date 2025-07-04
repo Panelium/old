@@ -26,8 +26,8 @@ type ServerData struct {
 	state           protoimpl.MessageState      `protogen:"open.v1"`
 	Name            string                      `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	Description     string                      `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	OwnerId         uint32                      `protobuf:"varint,3,opt,name=owner_id,json=ownerId,proto3" json:"owner_id,omitempty"`
-	NodeId          uint32                      `protobuf:"varint,4,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`
+	OwnerUid        string                      `protobuf:"bytes,3,opt,name=owner_uid,json=ownerUid,proto3" json:"owner_uid,omitempty"`
+	Nid             string                      `protobuf:"bytes,4,opt,name=nid,proto3" json:"nid,omitempty"`
 	ServerUsers     []*ServerUserData           `protobuf:"bytes,5,rep,name=server_users,json=serverUsers,proto3" json:"server_users,omitempty"`
 	NodeAllocations []*NodeAllocationData       `protobuf:"bytes,6,rep,name=node_allocations,json=nodeAllocations,proto3" json:"node_allocations,omitempty"`
 	ResourceLimit   *proto_gen_go.ResourceLimit `protobuf:"bytes,7,opt,name=resource_limit,json=resourceLimit,proto3" json:"resource_limit,omitempty"`
@@ -81,18 +81,18 @@ func (x *ServerData) GetDescription() string {
 	return ""
 }
 
-func (x *ServerData) GetOwnerId() uint32 {
+func (x *ServerData) GetOwnerUid() string {
 	if x != nil {
-		return x.OwnerId
+		return x.OwnerUid
 	}
-	return 0
+	return ""
 }
 
-func (x *ServerData) GetNodeId() uint32 {
+func (x *ServerData) GetNid() string {
 	if x != nil {
-		return x.NodeId
+		return x.Nid
 	}
-	return 0
+	return ""
 }
 
 func (x *ServerData) GetServerUsers() []*ServerUserData {
@@ -132,9 +132,8 @@ func (x *ServerData) GetBid() string {
 
 type Server struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Sid           string                 `protobuf:"bytes,2,opt,name=sid,proto3" json:"sid,omitempty"`
-	Data          *ServerData            `protobuf:"bytes,3,opt,name=data,proto3" json:"data,omitempty"`
+	Sid           string                 `protobuf:"bytes,1,opt,name=sid,proto3" json:"sid,omitempty"`
+	Data          *ServerData            `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -167,13 +166,6 @@ func (x *Server) ProtoReflect() protoreflect.Message {
 // Deprecated: Use Server.ProtoReflect.Descriptor instead.
 func (*Server) Descriptor() ([]byte, []int) {
 	return file_backend_Server_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *Server) GetId() uint32 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
 }
 
 func (x *Server) GetSid() string {
@@ -236,8 +228,8 @@ func (x *Servers) GetServers() []*Server {
 
 type ServerUserData struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserId        uint32                 `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	ServerId      uint32                 `protobuf:"varint,2,opt,name=server_id,json=serverId,proto3" json:"server_id,omitempty"`
+	Uid           string                 `protobuf:"bytes,1,opt,name=uid,proto3" json:"uid,omitempty"`
+	Sid           string                 `protobuf:"bytes,2,opt,name=sid,proto3" json:"sid,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -272,18 +264,18 @@ func (*ServerUserData) Descriptor() ([]byte, []int) {
 	return file_backend_Server_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *ServerUserData) GetUserId() uint32 {
+func (x *ServerUserData) GetUid() string {
 	if x != nil {
-		return x.UserId
+		return x.Uid
 	}
-	return 0
+	return ""
 }
 
-func (x *ServerUserData) GetServerId() uint32 {
+func (x *ServerUserData) GetSid() string {
 	if x != nil {
-		return x.ServerId
+		return x.Sid
 	}
-	return 0
+	return ""
 }
 
 type ServerUser struct {
@@ -386,47 +378,44 @@ var File_backend_Server_proto protoreflect.FileDescriptor
 
 const file_backend_Server_proto_rawDesc = "" +
 	"\n" +
-	"\x14backend/Server.proto\x12\abackend\x1a\fcommon.proto\x1a\x12backend/Node.proto\"\xed\x02\n" +
+	"\x14backend/Server.proto\x12\abackend\x1a\fcommon.proto\x1a\x12backend/Node.proto\"\xe8\x02\n" +
 	"\n" +
 	"ServerData\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x19\n" +
-	"\bowner_id\x18\x03 \x01(\rR\aownerId\x12\x17\n" +
-	"\anode_id\x18\x04 \x01(\rR\x06nodeId\x12:\n" +
+	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x1b\n" +
+	"\towner_uid\x18\x03 \x01(\tR\bownerUid\x12\x10\n" +
+	"\x03nid\x18\x04 \x01(\tR\x03nid\x12:\n" +
 	"\fserver_users\x18\x05 \x03(\v2\x17.backend.ServerUserDataR\vserverUsers\x12F\n" +
 	"\x10node_allocations\x18\x06 \x03(\v2\x1b.backend.NodeAllocationDataR\x0fnodeAllocations\x12<\n" +
 	"\x0eresource_limit\x18\a \x01(\v2\x15.common.ResourceLimitR\rresourceLimit\x12!\n" +
 	"\fdocker_image\x18\b \x01(\tR\vdockerImage\x12\x10\n" +
-	"\x03bid\x18\t \x01(\tR\x03bid\"S\n" +
-	"\x06Server\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\x12\x10\n" +
-	"\x03sid\x18\x02 \x01(\tR\x03sid\x12'\n" +
-	"\x04data\x18\x03 \x01(\v2\x13.backend.ServerDataR\x04data\"4\n" +
+	"\x03bid\x18\t \x01(\tR\x03bid\"C\n" +
+	"\x06Server\x12\x10\n" +
+	"\x03sid\x18\x01 \x01(\tR\x03sid\x12'\n" +
+	"\x04data\x18\x02 \x01(\v2\x13.backend.ServerDataR\x04data\"4\n" +
 	"\aServers\x12)\n" +
-	"\aservers\x18\x01 \x03(\v2\x0f.backend.ServerR\aservers\"F\n" +
-	"\x0eServerUserData\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\rR\x06userId\x12\x1b\n" +
-	"\tserver_id\x18\x02 \x01(\rR\bserverId\"I\n" +
+	"\aservers\x18\x01 \x03(\v2\x0f.backend.ServerR\aservers\"4\n" +
+	"\x0eServerUserData\x12\x10\n" +
+	"\x03uid\x18\x01 \x01(\tR\x03uid\x12\x10\n" +
+	"\x03sid\x18\x02 \x01(\tR\x03sid\"I\n" +
 	"\n" +
 	"ServerUser\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\rR\x02id\x12+\n" +
 	"\x04data\x18\x02 \x01(\v2\x17.backend.ServerUserDataR\x04data\"E\n" +
 	"\vServerUsers\x126\n" +
-	"\fserver_users\x18\x01 \x03(\v2\x13.backend.ServerUserR\vserverUsers2\xf7\x06\n" +
+	"\fserver_users\x18\x01 \x03(\v2\x13.backend.ServerUserR\vserverUsers2\xf6\x05\n" +
 	"\rServerService\x124\n" +
 	"\fCreateServer\x12\x13.backend.ServerData\x1a\x0f.backend.Server\x126\n" +
 	"\n" +
-	"ReadServer\x12\x17.common.SimpleIDMessage\x1a\x0f.backend.Server\x128\n" +
-	"\vReadServerI\x12\x18.common.SimpleIIDMessage\x1a\x0f.backend.Server\x127\n" +
+	"ReadServer\x12\x17.common.SimpleIDMessage\x1a\x0f.backend.Server\x127\n" +
 	"\fUpdateServer\x12\x0f.backend.Server\x1a\x16.common.SuccessMessage\x12?\n" +
-	"\fDeleteServer\x12\x17.common.SimpleIDMessage\x1a\x16.common.SuccessMessage\x12A\n" +
-	"\rDeleteServerI\x12\x18.common.SimpleIIDMessage\x1a\x16.common.SuccessMessage\x12.\n" +
+	"\fDeleteServer\x12\x17.common.SimpleIDMessage\x1a\x16.common.SuccessMessage\x12.\n" +
 	"\vListServers\x12\r.common.Empty\x1a\x10.backend.Servers\x12>\n" +
 	"\x11ListServersByNode\x12\x17.common.SimpleIDMessage\x1a\x10.backend.Servers\x12>\n" +
 	"\x11ListServersByUser\x12\x17.common.SimpleIDMessage\x1a\x10.backend.Servers\x12@\n" +
 	"\x10CreateServerUser\x12\x17.backend.ServerUserData\x1a\x13.backend.ServerUser\x12>\n" +
-	"\x0eReadServerUser\x12\x17.common.SimpleIDMessage\x1a\x13.backend.ServerUser\x12@\n" +
-	"\x10UpdateServerUser\x12\x17.backend.ServerUserData\x1a\x13.backend.ServerUser\x12C\n" +
+	"\x0eReadServerUser\x12\x17.common.SimpleIDMessage\x1a\x13.backend.ServerUser\x12<\n" +
+	"\x10UpdateServerUser\x12\x13.backend.ServerUser\x1a\x13.backend.ServerUser\x12C\n" +
 	"\x10DeleteServerUser\x12\x17.common.SimpleIDMessage\x1a\x16.common.SuccessMessage\x12H\n" +
 	"\x17ListServerUsersByServer\x12\x17.common.SimpleIDMessage\x1a\x14.backend.ServerUsersB\x1fZ\x1dpanelium/proto_gen_go/backendb\x06proto3"
 
@@ -444,18 +433,17 @@ func file_backend_Server_proto_rawDescGZIP() []byte {
 
 var file_backend_Server_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_backend_Server_proto_goTypes = []any{
-	(*ServerData)(nil),                    // 0: backend.ServerData
-	(*Server)(nil),                        // 1: backend.Server
-	(*Servers)(nil),                       // 2: backend.Servers
-	(*ServerUserData)(nil),                // 3: backend.ServerUserData
-	(*ServerUser)(nil),                    // 4: backend.ServerUser
-	(*ServerUsers)(nil),                   // 5: backend.ServerUsers
-	(*NodeAllocationData)(nil),            // 6: backend.NodeAllocationData
-	(*proto_gen_go.ResourceLimit)(nil),    // 7: common.ResourceLimit
-	(*proto_gen_go.SimpleIDMessage)(nil),  // 8: common.SimpleIDMessage
-	(*proto_gen_go.SimpleIIDMessage)(nil), // 9: common.SimpleIIDMessage
-	(*proto_gen_go.Empty)(nil),            // 10: common.Empty
-	(*proto_gen_go.SuccessMessage)(nil),   // 11: common.SuccessMessage
+	(*ServerData)(nil),                   // 0: backend.ServerData
+	(*Server)(nil),                       // 1: backend.Server
+	(*Servers)(nil),                      // 2: backend.Servers
+	(*ServerUserData)(nil),               // 3: backend.ServerUserData
+	(*ServerUser)(nil),                   // 4: backend.ServerUser
+	(*ServerUsers)(nil),                  // 5: backend.ServerUsers
+	(*NodeAllocationData)(nil),           // 6: backend.NodeAllocationData
+	(*proto_gen_go.ResourceLimit)(nil),   // 7: common.ResourceLimit
+	(*proto_gen_go.SimpleIDMessage)(nil), // 8: common.SimpleIDMessage
+	(*proto_gen_go.Empty)(nil),           // 9: common.Empty
+	(*proto_gen_go.SuccessMessage)(nil),  // 10: common.SuccessMessage
 }
 var file_backend_Server_proto_depIdxs = []int32{
 	3,  // 0: backend.ServerData.server_users:type_name -> backend.ServerUserData
@@ -467,34 +455,30 @@ var file_backend_Server_proto_depIdxs = []int32{
 	4,  // 6: backend.ServerUsers.server_users:type_name -> backend.ServerUser
 	0,  // 7: backend.ServerService.CreateServer:input_type -> backend.ServerData
 	8,  // 8: backend.ServerService.ReadServer:input_type -> common.SimpleIDMessage
-	9,  // 9: backend.ServerService.ReadServerI:input_type -> common.SimpleIIDMessage
-	1,  // 10: backend.ServerService.UpdateServer:input_type -> backend.Server
-	8,  // 11: backend.ServerService.DeleteServer:input_type -> common.SimpleIDMessage
-	9,  // 12: backend.ServerService.DeleteServerI:input_type -> common.SimpleIIDMessage
-	10, // 13: backend.ServerService.ListServers:input_type -> common.Empty
-	8,  // 14: backend.ServerService.ListServersByNode:input_type -> common.SimpleIDMessage
-	8,  // 15: backend.ServerService.ListServersByUser:input_type -> common.SimpleIDMessage
-	3,  // 16: backend.ServerService.CreateServerUser:input_type -> backend.ServerUserData
-	8,  // 17: backend.ServerService.ReadServerUser:input_type -> common.SimpleIDMessage
-	3,  // 18: backend.ServerService.UpdateServerUser:input_type -> backend.ServerUserData
-	8,  // 19: backend.ServerService.DeleteServerUser:input_type -> common.SimpleIDMessage
-	8,  // 20: backend.ServerService.ListServerUsersByServer:input_type -> common.SimpleIDMessage
-	1,  // 21: backend.ServerService.CreateServer:output_type -> backend.Server
-	1,  // 22: backend.ServerService.ReadServer:output_type -> backend.Server
-	1,  // 23: backend.ServerService.ReadServerI:output_type -> backend.Server
-	11, // 24: backend.ServerService.UpdateServer:output_type -> common.SuccessMessage
-	11, // 25: backend.ServerService.DeleteServer:output_type -> common.SuccessMessage
-	11, // 26: backend.ServerService.DeleteServerI:output_type -> common.SuccessMessage
-	2,  // 27: backend.ServerService.ListServers:output_type -> backend.Servers
-	2,  // 28: backend.ServerService.ListServersByNode:output_type -> backend.Servers
-	2,  // 29: backend.ServerService.ListServersByUser:output_type -> backend.Servers
-	4,  // 30: backend.ServerService.CreateServerUser:output_type -> backend.ServerUser
-	4,  // 31: backend.ServerService.ReadServerUser:output_type -> backend.ServerUser
-	4,  // 32: backend.ServerService.UpdateServerUser:output_type -> backend.ServerUser
-	11, // 33: backend.ServerService.DeleteServerUser:output_type -> common.SuccessMessage
-	5,  // 34: backend.ServerService.ListServerUsersByServer:output_type -> backend.ServerUsers
-	21, // [21:35] is the sub-list for method output_type
-	7,  // [7:21] is the sub-list for method input_type
+	1,  // 9: backend.ServerService.UpdateServer:input_type -> backend.Server
+	8,  // 10: backend.ServerService.DeleteServer:input_type -> common.SimpleIDMessage
+	9,  // 11: backend.ServerService.ListServers:input_type -> common.Empty
+	8,  // 12: backend.ServerService.ListServersByNode:input_type -> common.SimpleIDMessage
+	8,  // 13: backend.ServerService.ListServersByUser:input_type -> common.SimpleIDMessage
+	3,  // 14: backend.ServerService.CreateServerUser:input_type -> backend.ServerUserData
+	8,  // 15: backend.ServerService.ReadServerUser:input_type -> common.SimpleIDMessage
+	4,  // 16: backend.ServerService.UpdateServerUser:input_type -> backend.ServerUser
+	8,  // 17: backend.ServerService.DeleteServerUser:input_type -> common.SimpleIDMessage
+	8,  // 18: backend.ServerService.ListServerUsersByServer:input_type -> common.SimpleIDMessage
+	1,  // 19: backend.ServerService.CreateServer:output_type -> backend.Server
+	1,  // 20: backend.ServerService.ReadServer:output_type -> backend.Server
+	10, // 21: backend.ServerService.UpdateServer:output_type -> common.SuccessMessage
+	10, // 22: backend.ServerService.DeleteServer:output_type -> common.SuccessMessage
+	2,  // 23: backend.ServerService.ListServers:output_type -> backend.Servers
+	2,  // 24: backend.ServerService.ListServersByNode:output_type -> backend.Servers
+	2,  // 25: backend.ServerService.ListServersByUser:output_type -> backend.Servers
+	4,  // 26: backend.ServerService.CreateServerUser:output_type -> backend.ServerUser
+	4,  // 27: backend.ServerService.ReadServerUser:output_type -> backend.ServerUser
+	4,  // 28: backend.ServerService.UpdateServerUser:output_type -> backend.ServerUser
+	10, // 29: backend.ServerService.DeleteServerUser:output_type -> common.SuccessMessage
+	5,  // 30: backend.ServerService.ListServerUsersByServer:output_type -> backend.ServerUsers
+	19, // [19:31] is the sub-list for method output_type
+	7,  // [7:19] is the sub-list for method input_type
 	7,  // [7:7] is the sub-list for extension type_name
 	7,  // [7:7] is the sub-list for extension extendee
 	0,  // [0:7] is the sub-list for field type_name

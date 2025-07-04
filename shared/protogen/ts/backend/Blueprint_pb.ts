@@ -15,7 +15,6 @@ export const file_backend_Blueprint: GenFile = /*@__PURE__*/
 
 /**
  * Note: Blueprints are JSONs, that's why we use SimpleMessage
- * BID string
  *
  * @generated from service backend.BlueprintService
  */

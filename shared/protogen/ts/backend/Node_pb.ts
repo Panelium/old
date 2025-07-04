@@ -4,7 +4,7 @@
 
 import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { EmptySchema, IPAllocation, ResourceLimit, SimpleIDMessageSchema, SimpleIIDMessageSchema, SuccessMessageSchema } from "../common_pb";
+import type { EmptySchema, IPAllocation, ResourceLimit, SimpleIDMessageSchema, SuccessMessageSchema } from "../common_pb";
 import { file_common } from "../common_pb";
 import type { Message } from "@bufbuild/protobuf";
 
@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file backend/Node.proto.
  */
 export const file_backend_Node: GenFile = /*@__PURE__*/
-  fileDesc("ChJiYWNrZW5kL05vZGUucHJvdG8SB2JhY2tlbmQiHAoMTG9jYXRpb25EYXRhEgwKBG5hbWUYASABKAkiOwoITG9jYXRpb24SCgoCaWQYASABKA0SIwoEZGF0YRgCIAEoCzIVLmJhY2tlbmQuTG9jYXRpb25EYXRhIjEKCUxvY2F0aW9ucxIkCglsb2NhdGlvbnMYASADKAsyES5iYWNrZW5kLkxvY2F0aW9uImoKCE5vZGVEYXRhEgwKBG5hbWUYASABKAkSDAoEZnFkbhgCIAEoCRITCgtsb2NhdGlvbl9pZBgDIAEoDRItCg5yZXNvdXJjZV9saW1pdBgEIAEoCzIVLmNvbW1vbi5SZXNvdXJjZUxpbWl0IjMKBE5vZGUSCgoCaWQYASABKA0SHwoEZGF0YRgCIAEoCzIRLmJhY2tlbmQuTm9kZURhdGEiJQoFTm9kZXMSHAoFbm9kZXMYASADKAsyDS5iYWNrZW5kLk5vZGUidQoSTm9kZUFsbG9jYXRpb25EYXRhEg8KB25vZGVfaWQYASABKA0SKAoKYWxsb2NhdGlvbhgCIAEoCzIULmNvbW1vbi5JUEFsbG9jYXRpb24SFgoJc2VydmVyX2lkGAMgASgNSACIAQFCDAoKX3NlcnZlcl9pZCJHCg5Ob2RlQWxsb2NhdGlvbhIKCgJpZBgBIAEoDRIpCgRkYXRhGAIgASgLMhsuYmFja2VuZC5Ob2RlQWxsb2NhdGlvbkRhdGEiPwoPTm9kZUFsbG9jYXRpb25zEiwKC2FsbG9jYXRpb25zGAEgAygLMhcuYmFja2VuZC5Ob2RlQWxsb2NhdGlvbjLMCAoLTm9kZVNlcnZpY2USOgoOQ3JlYXRlTG9jYXRpb24SFS5iYWNrZW5kLkxvY2F0aW9uRGF0YRoRLmJhY2tlbmQuTG9jYXRpb24SOwoMUmVhZExvY2F0aW9uEhguY29tbW9uLlNpbXBsZUlJRE1lc3NhZ2UaES5iYWNrZW5kLkxvY2F0aW9uEjsKDlVwZGF0ZUxvY2F0aW9uEhEuYmFja2VuZC5Mb2NhdGlvbhoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRJBCg5EZWxldGVMb2NhdGlvbhIXLmNvbW1vbi5TaW1wbGVJRE1lc3NhZ2UaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USMgoNTGlzdExvY2F0aW9ucxINLmNvbW1vbi5FbXB0eRoSLmJhY2tlbmQuTG9jYXRpb25zEi4KCkNyZWF0ZU5vZGUSES5iYWNrZW5kLk5vZGVEYXRhGg0uYmFja2VuZC5Ob2RlEjMKCFJlYWROb2RlEhguY29tbW9uLlNpbXBsZUlJRE1lc3NhZ2UaDS5iYWNrZW5kLk5vZGUSMwoKVXBkYXRlTm9kZRINLmJhY2tlbmQuTm9kZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRI9CgpEZWxldGVOb2RlEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRIqCglMaXN0Tm9kZXMSDS5jb21tb24uRW1wdHkaDi5iYWNrZW5kLk5vZGVzEj4KE0xpc3ROb2Rlc0J5TG9jYXRpb24SFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGg4uYmFja2VuZC5Ob2RlcxJMChRDcmVhdGVOb2RlQWxsb2NhdGlvbhIbLmJhY2tlbmQuTm9kZUFsbG9jYXRpb25EYXRhGhcuYmFja2VuZC5Ob2RlQWxsb2NhdGlvbhJHChJSZWFkTm9kZUFsbG9jYXRpb24SGC5jb21tb24uU2ltcGxlSUlETWVzc2FnZRoXLmJhY2tlbmQuTm9kZUFsbG9jYXRpb24SRwoUVXBkYXRlTm9kZUFsbG9jYXRpb24SFy5iYWNrZW5kLk5vZGVBbGxvY2F0aW9uGhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlEkcKFERlbGV0ZU5vZGVBbGxvY2F0aW9uEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRJOChlMaXN0Tm9kZUFsbG9jYXRpb25zQnlOb2RlEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRoYLmJhY2tlbmQuTm9kZUFsbG9jYXRpb25zElIKHUxpc3ROb2RlQWxsb2NhdGlvbnNCeUxvY2F0aW9uEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRoYLmJhY2tlbmQuTm9kZUFsbG9jYXRpb25zQh9aHXBhbmVsaXVtL3Byb3RvX2dlbl9nby9iYWNrZW5kYgZwcm90bzM", [file_common]);
+  fileDesc("ChJiYWNrZW5kL05vZGUucHJvdG8SB2JhY2tlbmQiHAoMTG9jYXRpb25EYXRhEgwKBG5hbWUYASABKAkiPAoITG9jYXRpb24SCwoDbGlkGAEgASgJEiMKBGRhdGEYAiABKAsyFS5iYWNrZW5kLkxvY2F0aW9uRGF0YSIxCglMb2NhdGlvbnMSJAoJbG9jYXRpb25zGAEgAygLMhEuYmFja2VuZC5Mb2NhdGlvbiJiCghOb2RlRGF0YRIMCgRuYW1lGAEgASgJEgwKBGZxZG4YAiABKAkSCwoDbGlkGAMgASgJEi0KDnJlc291cmNlX2xpbWl0GAQgASgLMhUuY29tbW9uLlJlc291cmNlTGltaXQiNAoETm9kZRILCgNuaWQYASABKAkSHwoEZGF0YRgCIAEoCzIRLmJhY2tlbmQuTm9kZURhdGEiJQoFTm9kZXMSHAoFbm9kZXMYASADKAsyDS5iYWNrZW5kLk5vZGUiZQoSTm9kZUFsbG9jYXRpb25EYXRhEgsKA25pZBgBIAEoCRIoCgphbGxvY2F0aW9uGAIgASgLMhQuY29tbW9uLklQQWxsb2NhdGlvbhIQCgNzaWQYAyABKAlIAIgBAUIGCgRfc2lkIkgKDk5vZGVBbGxvY2F0aW9uEgsKA25pZBgBIAEoCRIpCgRkYXRhGAIgASgLMhsuYmFja2VuZC5Ob2RlQWxsb2NhdGlvbkRhdGEiPwoPTm9kZUFsbG9jYXRpb25zEiwKC2FsbG9jYXRpb25zGAEgAygLMhcuYmFja2VuZC5Ob2RlQWxsb2NhdGlvbjKRBwoLTm9kZVNlcnZpY2USOgoOQ3JlYXRlTG9jYXRpb24SFS5iYWNrZW5kLkxvY2F0aW9uRGF0YRoRLmJhY2tlbmQuTG9jYXRpb24SOwoOVXBkYXRlTG9jYXRpb24SES5iYWNrZW5kLkxvY2F0aW9uGhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlEkEKDkRlbGV0ZUxvY2F0aW9uEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRIyCg1MaXN0TG9jYXRpb25zEg0uY29tbW9uLkVtcHR5GhIuYmFja2VuZC5Mb2NhdGlvbnMSLgoKQ3JlYXRlTm9kZRIRLmJhY2tlbmQuTm9kZURhdGEaDS5iYWNrZW5kLk5vZGUSMwoKVXBkYXRlTm9kZRINLmJhY2tlbmQuTm9kZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRI9CgpEZWxldGVOb2RlEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRIqCglMaXN0Tm9kZXMSDS5jb21tb24uRW1wdHkaDi5iYWNrZW5kLk5vZGVzEj4KE0xpc3ROb2Rlc0J5TG9jYXRpb24SFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGg4uYmFja2VuZC5Ob2RlcxJMChRDcmVhdGVOb2RlQWxsb2NhdGlvbhIbLmJhY2tlbmQuTm9kZUFsbG9jYXRpb25EYXRhGhcuYmFja2VuZC5Ob2RlQWxsb2NhdGlvbhJHChRVcGRhdGVOb2RlQWxsb2NhdGlvbhIXLmJhY2tlbmQuTm9kZUFsbG9jYXRpb24aFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USRwoURGVsZXRlTm9kZUFsbG9jYXRpb24SFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlEk4KGUxpc3ROb2RlQWxsb2NhdGlvbnNCeU5vZGUSFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGhguYmFja2VuZC5Ob2RlQWxsb2NhdGlvbnMSUgodTGlzdE5vZGVBbGxvY2F0aW9uc0J5TG9jYXRpb24SFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGhguYmFja2VuZC5Ob2RlQWxsb2NhdGlvbnNCH1odcGFuZWxpdW0vcHJvdG9fZ2VuX2dvL2JhY2tlbmRiBnByb3RvMw", [file_common]);
 
 /**
  * @generated from message backend.LocationData
@@ -36,9 +36,9 @@ export const LocationDataSchema: GenMessage<LocationData> = /*@__PURE__*/
  */
 export type Location = Message<"backend.Location"> & {
   /**
-   * @generated from field: uint32 id = 1;
+   * @generated from field: string lid = 1;
    */
-  id: number;
+  lid: string;
 
   /**
    * @generated from field: backend.LocationData data = 2;
@@ -85,9 +85,9 @@ export type NodeData = Message<"backend.NodeData"> & {
   fqdn: string;
 
   /**
-   * @generated from field: uint32 location_id = 3;
+   * @generated from field: string lid = 3;
    */
-  locationId: number;
+  lid: string;
 
   /**
    * @generated from field: common.ResourceLimit resource_limit = 4;
@@ -107,9 +107,9 @@ export const NodeDataSchema: GenMessage<NodeData> = /*@__PURE__*/
  */
 export type Node = Message<"backend.Node"> & {
   /**
-   * @generated from field: uint32 id = 1;
+   * @generated from field: string nid = 1;
    */
-  id: number;
+  nid: string;
 
   /**
    * @generated from field: backend.NodeData data = 2;
@@ -146,9 +146,9 @@ export const NodesSchema: GenMessage<Nodes> = /*@__PURE__*/
  */
 export type NodeAllocationData = Message<"backend.NodeAllocationData"> & {
   /**
-   * @generated from field: uint32 node_id = 1;
+   * @generated from field: string nid = 1;
    */
-  nodeId: number;
+  nid: string;
 
   /**
    * @generated from field: common.IPAllocation allocation = 2;
@@ -156,9 +156,9 @@ export type NodeAllocationData = Message<"backend.NodeAllocationData"> & {
   allocation?: IPAllocation;
 
   /**
-   * @generated from field: optional uint32 server_id = 3;
+   * @generated from field: optional string sid = 3;
    */
-  serverId?: number;
+  sid?: string;
 };
 
 /**
@@ -173,9 +173,9 @@ export const NodeAllocationDataSchema: GenMessage<NodeAllocationData> = /*@__PUR
  */
 export type NodeAllocation = Message<"backend.NodeAllocation"> & {
   /**
-   * @generated from field: uint32 id = 1;
+   * @generated from field: string nid = 1;
    */
-  id: number;
+  nid: string;
 
   /**
    * @generated from field: backend.NodeAllocationData data = 2;
@@ -220,14 +220,6 @@ export const NodeService: GenService<{
     output: typeof LocationSchema;
   },
   /**
-   * @generated from rpc backend.NodeService.ReadLocation
-   */
-  readLocation: {
-    methodKind: "unary";
-    input: typeof SimpleIIDMessageSchema;
-    output: typeof LocationSchema;
-  },
-  /**
    * @generated from rpc backend.NodeService.UpdateLocation
    */
   updateLocation: {
@@ -257,14 +249,6 @@ export const NodeService: GenService<{
   createNode: {
     methodKind: "unary";
     input: typeof NodeDataSchema;
-    output: typeof NodeSchema;
-  },
-  /**
-   * @generated from rpc backend.NodeService.ReadNode
-   */
-  readNode: {
-    methodKind: "unary";
-    input: typeof SimpleIIDMessageSchema;
     output: typeof NodeSchema;
   },
   /**
@@ -305,14 +289,6 @@ export const NodeService: GenService<{
   createNodeAllocation: {
     methodKind: "unary";
     input: typeof NodeAllocationDataSchema;
-    output: typeof NodeAllocationSchema;
-  },
-  /**
-   * @generated from rpc backend.NodeService.ReadNodeAllocation
-   */
-  readNodeAllocation: {
-    methodKind: "unary";
-    input: typeof SimpleIIDMessageSchema;
     output: typeof NodeAllocationSchema;
   },
   /**

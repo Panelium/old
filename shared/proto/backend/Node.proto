@@ -7,20 +7,17 @@ import "common.proto";
 
 service NodeService {
   rpc CreateLocation(LocationData) returns (Location);
-  rpc ReadLocation(common.SimpleIIDMessage) returns (Location);
   rpc UpdateLocation(Location) returns (common.SuccessMessage);
   rpc DeleteLocation(common.SimpleIDMessage) returns (common.SuccessMessage);
   rpc ListLocations(common.Empty) returns (Locations);
 
   rpc CreateNode(NodeData) returns (Node);
-  rpc ReadNode(common.SimpleIIDMessage) returns (Node);
   rpc UpdateNode(Node) returns (common.SuccessMessage);
   rpc DeleteNode(common.SimpleIDMessage) returns (common.SuccessMessage);
   rpc ListNodes(common.Empty) returns (Nodes);
   rpc ListNodesByLocation(common.SimpleIDMessage) returns (Nodes);
 
   rpc CreateNodeAllocation(NodeAllocationData) returns (NodeAllocation);
-  rpc ReadNodeAllocation(common.SimpleIIDMessage) returns (NodeAllocation);
   rpc UpdateNodeAllocation(NodeAllocation) returns (common.SuccessMessage);
   rpc DeleteNodeAllocation(common.SimpleIDMessage) returns (common.SuccessMessage);
   rpc ListNodeAllocationsByNode(common.SimpleIDMessage) returns (NodeAllocations);
@@ -32,7 +29,7 @@ message LocationData {
 }
 
 message Location {
-  uint32 id = 1;
+  string lid = 1;
   LocationData data = 2;
 }
 
@@ -43,12 +40,12 @@ message Locations {
 message NodeData {
   string name = 1;
   string fqdn = 2;
-  uint32 location_id = 3;
+  string lid = 3;
   common.ResourceLimit resource_limit = 4;
 }
 
 message Node {
-  uint32 id = 1;
+  string nid = 1;
   NodeData data = 2;
 }
 
@@ -57,13 +54,13 @@ message Nodes {
 }
 
 message NodeAllocationData {
-  uint32 node_id = 1;
+  string nid = 1;
   common.IPAllocation allocation = 2;
-  optional uint32 server_id = 3;
+  optional string sid = 3;
 }
 
 message NodeAllocation {
-  uint32 id = 1;
+  string nid = 1;
   NodeAllocationData data = 2;
 }
 

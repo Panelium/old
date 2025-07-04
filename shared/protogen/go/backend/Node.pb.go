@@ -68,7 +68,7 @@ func (x *LocationData) GetName() string {
 
 type Location struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Lid           string                 `protobuf:"bytes,1,opt,name=lid,proto3" json:"lid,omitempty"`
 	Data          *LocationData          `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -104,11 +104,11 @@ func (*Location) Descriptor() ([]byte, []int) {
 	return file_backend_Node_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *Location) GetId() uint32 {
+func (x *Location) GetLid() string {
 	if x != nil {
-		return x.Id
+		return x.Lid
 	}
-	return 0
+	return ""
 }
 
 func (x *Location) GetData() *LocationData {
@@ -166,7 +166,7 @@ type NodeData struct {
 	state         protoimpl.MessageState      `protogen:"open.v1"`
 	Name          string                      `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	Fqdn          string                      `protobuf:"bytes,2,opt,name=fqdn,proto3" json:"fqdn,omitempty"`
-	LocationId    uint32                      `protobuf:"varint,3,opt,name=location_id,json=locationId,proto3" json:"location_id,omitempty"`
+	Lid           string                      `protobuf:"bytes,3,opt,name=lid,proto3" json:"lid,omitempty"`
 	ResourceLimit *proto_gen_go.ResourceLimit `protobuf:"bytes,4,opt,name=resource_limit,json=resourceLimit,proto3" json:"resource_limit,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -216,11 +216,11 @@ func (x *NodeData) GetFqdn() string {
 	return ""
 }
 
-func (x *NodeData) GetLocationId() uint32 {
+func (x *NodeData) GetLid() string {
 	if x != nil {
-		return x.LocationId
+		return x.Lid
 	}
-	return 0
+	return ""
 }
 
 func (x *NodeData) GetResourceLimit() *proto_gen_go.ResourceLimit {
@@ -232,7 +232,7 @@ func (x *NodeData) GetResourceLimit() *proto_gen_go.ResourceLimit {
 
 type Node struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Nid           string                 `protobuf:"bytes,1,opt,name=nid,proto3" json:"nid,omitempty"`
 	Data          *NodeData              `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -268,11 +268,11 @@ func (*Node) Descriptor() ([]byte, []int) {
 	return file_backend_Node_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *Node) GetId() uint32 {
+func (x *Node) GetNid() string {
 	if x != nil {
-		return x.Id
+		return x.Nid
 	}
-	return 0
+	return ""
 }
 
 func (x *Node) GetData() *NodeData {
@@ -328,9 +328,9 @@ func (x *Nodes) GetNodes() []*Node {
 
 type NodeAllocationData struct {
 	state         protoimpl.MessageState     `protogen:"open.v1"`
-	NodeId        uint32                     `protobuf:"varint,1,opt,name=node_id,json=nodeId,proto3" json:"node_id,omitempty"`
+	Nid           string                     `protobuf:"bytes,1,opt,name=nid,proto3" json:"nid,omitempty"`
 	Allocation    *proto_gen_go.IPAllocation `protobuf:"bytes,2,opt,name=allocation,proto3" json:"allocation,omitempty"`
-	ServerId      *uint32                    `protobuf:"varint,3,opt,name=server_id,json=serverId,proto3,oneof" json:"server_id,omitempty"`
+	Sid           *string                    `protobuf:"bytes,3,opt,name=sid,proto3,oneof" json:"sid,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -365,11 +365,11 @@ func (*NodeAllocationData) Descriptor() ([]byte, []int) {
 	return file_backend_Node_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *NodeAllocationData) GetNodeId() uint32 {
+func (x *NodeAllocationData) GetNid() string {
 	if x != nil {
-		return x.NodeId
+		return x.Nid
 	}
-	return 0
+	return ""
 }
 
 func (x *NodeAllocationData) GetAllocation() *proto_gen_go.IPAllocation {
@@ -379,16 +379,16 @@ func (x *NodeAllocationData) GetAllocation() *proto_gen_go.IPAllocation {
 	return nil
 }
 
-func (x *NodeAllocationData) GetServerId() uint32 {
-	if x != nil && x.ServerId != nil {
-		return *x.ServerId
+func (x *NodeAllocationData) GetSid() string {
+	if x != nil && x.Sid != nil {
+		return *x.Sid
 	}
-	return 0
+	return ""
 }
 
 type NodeAllocation struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Nid           string                 `protobuf:"bytes,1,opt,name=nid,proto3" json:"nid,omitempty"`
 	Data          *NodeAllocationData    `protobuf:"bytes,2,opt,name=data,proto3" json:"data,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -424,11 +424,11 @@ func (*NodeAllocation) Descriptor() ([]byte, []int) {
 	return file_backend_Node_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *NodeAllocation) GetId() uint32 {
+func (x *NodeAllocation) GetNid() string {
 	if x != nil {
-		return x.Id
+		return x.Nid
 	}
-	return 0
+	return ""
 }
 
 func (x *NodeAllocation) GetData() *NodeAllocationData {
@@ -488,45 +488,41 @@ const file_backend_Node_proto_rawDesc = "" +
 	"\n" +
 	"\x12backend/Node.proto\x12\abackend\x1a\fcommon.proto\"\"\n" +
 	"\fLocationData\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\"E\n" +
-	"\bLocation\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\x12)\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\"G\n" +
+	"\bLocation\x12\x10\n" +
+	"\x03lid\x18\x01 \x01(\tR\x03lid\x12)\n" +
 	"\x04data\x18\x02 \x01(\v2\x15.backend.LocationDataR\x04data\"<\n" +
 	"\tLocations\x12/\n" +
-	"\tlocations\x18\x01 \x03(\v2\x11.backend.LocationR\tlocations\"\x91\x01\n" +
+	"\tlocations\x18\x01 \x03(\v2\x11.backend.LocationR\tlocations\"\x82\x01\n" +
 	"\bNodeData\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x12\n" +
-	"\x04fqdn\x18\x02 \x01(\tR\x04fqdn\x12\x1f\n" +
-	"\vlocation_id\x18\x03 \x01(\rR\n" +
-	"locationId\x12<\n" +
-	"\x0eresource_limit\x18\x04 \x01(\v2\x15.common.ResourceLimitR\rresourceLimit\"=\n" +
-	"\x04Node\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\x12%\n" +
+	"\x04fqdn\x18\x02 \x01(\tR\x04fqdn\x12\x10\n" +
+	"\x03lid\x18\x03 \x01(\tR\x03lid\x12<\n" +
+	"\x0eresource_limit\x18\x04 \x01(\v2\x15.common.ResourceLimitR\rresourceLimit\"?\n" +
+	"\x04Node\x12\x10\n" +
+	"\x03nid\x18\x01 \x01(\tR\x03nid\x12%\n" +
 	"\x04data\x18\x02 \x01(\v2\x11.backend.NodeDataR\x04data\",\n" +
 	"\x05Nodes\x12#\n" +
-	"\x05nodes\x18\x01 \x03(\v2\r.backend.NodeR\x05nodes\"\x93\x01\n" +
-	"\x12NodeAllocationData\x12\x17\n" +
-	"\anode_id\x18\x01 \x01(\rR\x06nodeId\x124\n" +
+	"\x05nodes\x18\x01 \x03(\v2\r.backend.NodeR\x05nodes\"{\n" +
+	"\x12NodeAllocationData\x12\x10\n" +
+	"\x03nid\x18\x01 \x01(\tR\x03nid\x124\n" +
 	"\n" +
 	"allocation\x18\x02 \x01(\v2\x14.common.IPAllocationR\n" +
-	"allocation\x12 \n" +
-	"\tserver_id\x18\x03 \x01(\rH\x00R\bserverId\x88\x01\x01B\f\n" +
-	"\n" +
-	"_server_id\"Q\n" +
-	"\x0eNodeAllocation\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\rR\x02id\x12/\n" +
+	"allocation\x12\x15\n" +
+	"\x03sid\x18\x03 \x01(\tH\x00R\x03sid\x88\x01\x01B\x06\n" +
+	"\x04_sid\"S\n" +
+	"\x0eNodeAllocation\x12\x10\n" +
+	"\x03nid\x18\x01 \x01(\tR\x03nid\x12/\n" +
 	"\x04data\x18\x02 \x01(\v2\x1b.backend.NodeAllocationDataR\x04data\"L\n" +
 	"\x0fNodeAllocations\x129\n" +
-	"\vallocations\x18\x01 \x03(\v2\x17.backend.NodeAllocationR\vallocations2\xcc\b\n" +
+	"\vallocations\x18\x01 \x03(\v2\x17.backend.NodeAllocationR\vallocations2\x91\a\n" +
 	"\vNodeService\x12:\n" +
 	"\x0eCreateLocation\x12\x15.backend.LocationData\x1a\x11.backend.Location\x12;\n" +
-	"\fReadLocation\x12\x18.common.SimpleIIDMessage\x1a\x11.backend.Location\x12;\n" +
 	"\x0eUpdateLocation\x12\x11.backend.Location\x1a\x16.common.SuccessMessage\x12A\n" +
 	"\x0eDeleteLocation\x12\x17.common.SimpleIDMessage\x1a\x16.common.SuccessMessage\x122\n" +
 	"\rListLocations\x12\r.common.Empty\x1a\x12.backend.Locations\x12.\n" +
 	"\n" +
 	"CreateNode\x12\x11.backend.NodeData\x1a\r.backend.Node\x123\n" +
-	"\bReadNode\x12\x18.common.SimpleIIDMessage\x1a\r.backend.Node\x123\n" +
 	"\n" +
 	"UpdateNode\x12\r.backend.Node\x1a\x16.common.SuccessMessage\x12=\n" +
 	"\n" +
@@ -534,7 +530,6 @@ const file_backend_Node_proto_rawDesc = "" +
 	"\tListNodes\x12\r.common.Empty\x1a\x0e.backend.Nodes\x12>\n" +
 	"\x13ListNodesByLocation\x12\x17.common.SimpleIDMessage\x1a\x0e.backend.Nodes\x12L\n" +
 	"\x14CreateNodeAllocation\x12\x1b.backend.NodeAllocationData\x1a\x17.backend.NodeAllocation\x12G\n" +
-	"\x12ReadNodeAllocation\x12\x18.common.SimpleIIDMessage\x1a\x17.backend.NodeAllocation\x12G\n" +
 	"\x14UpdateNodeAllocation\x12\x17.backend.NodeAllocation\x1a\x16.common.SuccessMessage\x12G\n" +
 	"\x14DeleteNodeAllocation\x12\x17.common.SimpleIDMessage\x1a\x16.common.SuccessMessage\x12N\n" +
 	"\x19ListNodeAllocationsByNode\x12\x17.common.SimpleIDMessage\x1a\x18.backend.NodeAllocations\x12R\n" +
@@ -554,21 +549,20 @@ func file_backend_Node_proto_rawDescGZIP() []byte {
 
 var file_backend_Node_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_backend_Node_proto_goTypes = []any{
-	(*LocationData)(nil),                  // 0: backend.LocationData
-	(*Location)(nil),                      // 1: backend.Location
-	(*Locations)(nil),                     // 2: backend.Locations
-	(*NodeData)(nil),                      // 3: backend.NodeData
-	(*Node)(nil),                          // 4: backend.Node
-	(*Nodes)(nil),                         // 5: backend.Nodes
-	(*NodeAllocationData)(nil),            // 6: backend.NodeAllocationData
-	(*NodeAllocation)(nil),                // 7: backend.NodeAllocation
-	(*NodeAllocations)(nil),               // 8: backend.NodeAllocations
-	(*proto_gen_go.ResourceLimit)(nil),    // 9: common.ResourceLimit
-	(*proto_gen_go.IPAllocation)(nil),     // 10: common.IPAllocation
-	(*proto_gen_go.SimpleIIDMessage)(nil), // 11: common.SimpleIIDMessage
-	(*proto_gen_go.SimpleIDMessage)(nil),  // 12: common.SimpleIDMessage
-	(*proto_gen_go.Empty)(nil),            // 13: common.Empty
-	(*proto_gen_go.SuccessMessage)(nil),   // 14: common.SuccessMessage
+	(*LocationData)(nil),                 // 0: backend.LocationData
+	(*Location)(nil),                     // 1: backend.Location
+	(*Locations)(nil),                    // 2: backend.Locations
+	(*NodeData)(nil),                     // 3: backend.NodeData
+	(*Node)(nil),                         // 4: backend.Node
+	(*Nodes)(nil),                        // 5: backend.Nodes
+	(*NodeAllocationData)(nil),           // 6: backend.NodeAllocationData
+	(*NodeAllocation)(nil),               // 7: backend.NodeAllocation
+	(*NodeAllocations)(nil),              // 8: backend.NodeAllocations
+	(*proto_gen_go.ResourceLimit)(nil),   // 9: common.ResourceLimit
+	(*proto_gen_go.IPAllocation)(nil),    // 10: common.IPAllocation
+	(*proto_gen_go.SimpleIDMessage)(nil), // 11: common.SimpleIDMessage
+	(*proto_gen_go.Empty)(nil),           // 12: common.Empty
+	(*proto_gen_go.SuccessMessage)(nil),  // 13: common.SuccessMessage
 }
 var file_backend_Node_proto_depIdxs = []int32{
 	0,  // 0: backend.Location.data:type_name -> backend.LocationData
@@ -580,41 +574,35 @@ var file_backend_Node_proto_depIdxs = []int32{
 	6,  // 6: backend.NodeAllocation.data:type_name -> backend.NodeAllocationData
 	7,  // 7: backend.NodeAllocations.allocations:type_name -> backend.NodeAllocation
 	0,  // 8: backend.NodeService.CreateLocation:input_type -> backend.LocationData
-	11, // 9: backend.NodeService.ReadLocation:input_type -> common.SimpleIIDMessage
-	1,  // 10: backend.NodeService.UpdateLocation:input_type -> backend.Location
-	12, // 11: backend.NodeService.DeleteLocation:input_type -> common.SimpleIDMessage
-	13, // 12: backend.NodeService.ListLocations:input_type -> common.Empty
-	3,  // 13: backend.NodeService.CreateNode:input_type -> backend.NodeData
-	11, // 14: backend.NodeService.ReadNode:input_type -> common.SimpleIIDMessage
-	4,  // 15: backend.NodeService.UpdateNode:input_type -> backend.Node
-	12, // 16: backend.NodeService.DeleteNode:input_type -> common.SimpleIDMessage
-	13, // 17: backend.NodeService.ListNodes:input_type -> common.Empty
-	12, // 18: backend.NodeService.ListNodesByLocation:input_type -> common.SimpleIDMessage
-	6,  // 19: backend.NodeService.CreateNodeAllocation:input_type -> backend.NodeAllocationData
-	11, // 20: backend.NodeService.ReadNodeAllocation:input_type -> common.SimpleIIDMessage
-	7,  // 21: backend.NodeService.UpdateNodeAllocation:input_type -> backend.NodeAllocation
-	12, // 22: backend.NodeService.DeleteNodeAllocation:input_type -> common.SimpleIDMessage
-	12, // 23: backend.NodeService.ListNodeAllocationsByNode:input_type -> common.SimpleIDMessage
-	12, // 24: backend.NodeService.ListNodeAllocationsByLocation:input_type -> common.SimpleIDMessage
-	1,  // 25: backend.NodeService.CreateLocation:output_type -> backend.Location
-	1,  // 26: backend.NodeService.ReadLocation:output_type -> backend.Location
-	14, // 27: backend.NodeService.UpdateLocation:output_type -> common.SuccessMessage
-	14, // 28: backend.NodeService.DeleteLocation:output_type -> common.SuccessMessage
-	2,  // 29: backend.NodeService.ListLocations:output_type -> backend.Locations
-	4,  // 30: backend.NodeService.CreateNode:output_type -> backend.Node
-	4,  // 31: backend.NodeService.ReadNode:output_type -> backend.Node
-	14, // 32: backend.NodeService.UpdateNode:output_type -> common.SuccessMessage
-	14, // 33: backend.NodeService.DeleteNode:output_type -> common.SuccessMessage
-	5,  // 34: backend.NodeService.ListNodes:output_type -> backend.Nodes
-	5,  // 35: backend.NodeService.ListNodesByLocation:output_type -> backend.Nodes
-	7,  // 36: backend.NodeService.CreateNodeAllocation:output_type -> backend.NodeAllocation
-	7,  // 37: backend.NodeService.ReadNodeAllocation:output_type -> backend.NodeAllocation
-	14, // 38: backend.NodeService.UpdateNodeAllocation:output_type -> common.SuccessMessage
-	14, // 39: backend.NodeService.DeleteNodeAllocation:output_type -> common.SuccessMessage
-	8,  // 40: backend.NodeService.ListNodeAllocationsByNode:output_type -> backend.NodeAllocations
-	8,  // 41: backend.NodeService.ListNodeAllocationsByLocation:output_type -> backend.NodeAllocations
-	25, // [25:42] is the sub-list for method output_type
-	8,  // [8:25] is the sub-list for method input_type
+	1,  // 9: backend.NodeService.UpdateLocation:input_type -> backend.Location
+	11, // 10: backend.NodeService.DeleteLocation:input_type -> common.SimpleIDMessage
+	12, // 11: backend.NodeService.ListLocations:input_type -> common.Empty
+	3,  // 12: backend.NodeService.CreateNode:input_type -> backend.NodeData
+	4,  // 13: backend.NodeService.UpdateNode:input_type -> backend.Node
+	11, // 14: backend.NodeService.DeleteNode:input_type -> common.SimpleIDMessage
+	12, // 15: backend.NodeService.ListNodes:input_type -> common.Empty
+	11, // 16: backend.NodeService.ListNodesByLocation:input_type -> common.SimpleIDMessage
+	6,  // 17: backend.NodeService.CreateNodeAllocation:input_type -> backend.NodeAllocationData
+	7,  // 18: backend.NodeService.UpdateNodeAllocation:input_type -> backend.NodeAllocation
+	11, // 19: backend.NodeService.DeleteNodeAllocation:input_type -> common.SimpleIDMessage
+	11, // 20: backend.NodeService.ListNodeAllocationsByNode:input_type -> common.SimpleIDMessage
+	11, // 21: backend.NodeService.ListNodeAllocationsByLocation:input_type -> common.SimpleIDMessage
+	1,  // 22: backend.NodeService.CreateLocation:output_type -> backend.Location
+	13, // 23: backend.NodeService.UpdateLocation:output_type -> common.SuccessMessage
+	13, // 24: backend.NodeService.DeleteLocation:output_type -> common.SuccessMessage
+	2,  // 25: backend.NodeService.ListLocations:output_type -> backend.Locations
+	4,  // 26: backend.NodeService.CreateNode:output_type -> backend.Node
+	13, // 27: backend.NodeService.UpdateNode:output_type -> common.SuccessMessage
+	13, // 28: backend.NodeService.DeleteNode:output_type -> common.SuccessMessage
+	5,  // 29: backend.NodeService.ListNodes:output_type -> backend.Nodes
+	5,  // 30: backend.NodeService.ListNodesByLocation:output_type -> backend.Nodes
+	7,  // 31: backend.NodeService.CreateNodeAllocation:output_type -> backend.NodeAllocation
+	13, // 32: backend.NodeService.UpdateNodeAllocation:output_type -> common.SuccessMessage
+	13, // 33: backend.NodeService.DeleteNodeAllocation:output_type -> common.SuccessMessage
+	8,  // 34: backend.NodeService.ListNodeAllocationsByNode:output_type -> backend.NodeAllocations
+	8,  // 35: backend.NodeService.ListNodeAllocationsByLocation:output_type -> backend.NodeAllocations
+	22, // [22:36] is the sub-list for method output_type
+	8,  // [8:22] is the sub-list for method input_type
 	8,  // [8:8] is the sub-list for extension type_name
 	8,  // [8:8] is the sub-list for extension extendee
 	0,  // [0:8] is the sub-list for field type_name

@@ -9,17 +9,15 @@ import "backend/Node.proto";
 service ServerService {
   rpc CreateServer(ServerData) returns (Server);
   rpc ReadServer(common.SimpleIDMessage) returns (Server);
-  rpc ReadServerI(common.SimpleIIDMessage) returns (Server);
   rpc UpdateServer(Server) returns (common.SuccessMessage);
   rpc DeleteServer(common.SimpleIDMessage) returns (common.SuccessMessage);
-  rpc DeleteServerI(common.SimpleIIDMessage) returns (common.SuccessMessage);
   rpc ListServers(common.Empty) returns (Servers);
   rpc ListServersByNode(common.SimpleIDMessage) returns (Servers);
   rpc ListServersByUser(common.SimpleIDMessage) returns (Servers);
 
   rpc CreateServerUser(ServerUserData) returns (ServerUser);
   rpc ReadServerUser(common.SimpleIDMessage) returns (ServerUser);
-  rpc UpdateServerUser(ServerUserData) returns (ServerUser);
+  rpc UpdateServerUser(ServerUser) returns (ServerUser);
   rpc DeleteServerUser(common.SimpleIDMessage) returns (common.SuccessMessage);
   rpc ListServerUsersByServer(common.SimpleIDMessage) returns (ServerUsers);
 }
@@ -27,8 +25,8 @@ service ServerService {
 message ServerData {
   string name = 1;
   string description = 2;
-  uint32 owner_id = 3;
-  uint32 node_id = 4;
+  string owner_uid = 3;
+  string nid = 4;
   repeated ServerUserData server_users = 5;
   repeated NodeAllocationData node_allocations = 6;
   common.ResourceLimit resource_limit = 7;
@@ -37,9 +35,8 @@ message ServerData {
 }
 
 message Server {
-  uint32 id = 1;
-  string sid = 2;
-  ServerData data = 3;
+  string sid = 1;
+  ServerData data = 2;
 }
 
 message Servers {
@@ -47,8 +44,8 @@ message Servers {
 }
 
 message ServerUserData {
-  uint32 user_id = 1;
-  uint32 server_id = 2;
+  string uid = 1;
+  string sid = 2;
 }
 
 message ServerUser {

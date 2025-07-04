@@ -19,17 +19,6 @@ components:
           title: text
       title: IDMessage
       additionalProperties: false
-    common.IIDMessage:
-      type: object
-      properties:
-        id:
-          type: integer
-          title: id
-        text:
-          type: string
-          title: text
-      title: IIDMessage
-      additionalProperties: false
     common.IPAllocation:
       type: object
       properties:
@@ -71,14 +60,6 @@ components:
           title: id
       title: SimpleIDMessage
       additionalProperties: false
-    common.SimpleIIDMessage:
-      type: object
-      properties:
-        id:
-          type: integer
-          title: id
-      title: SimpleIIDMessage
-      additionalProperties: false
     common.SimpleMessage:
       type: object
       properties:
@@ -101,21 +82,6 @@ components:
           description: required after the first message in the stream, first message can omit this field
           nullable: true
       title: StreamIDMessage
-      additionalProperties: false
-    common.StreamIIDMessage:
-      type: object
-      properties:
-        id:
-          type: integer
-          title: id
-          description: only required for the first message in the stream, subsequent messages can omit this field
-          nullable: true
-        text:
-          type: string
-          title: text
-          description: required after the first message in the stream, first message can omit this field
-          nullable: true
-      title: StreamIIDMessage
       additionalProperties: false
     common.SuccessMessage:
       type: object

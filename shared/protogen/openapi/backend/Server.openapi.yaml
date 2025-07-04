@@ -72,41 +72,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/backend.Server'
-  /backend.ServerService/ReadServerI:
-    post:
-      tags:
-        - backend.ServerService
-      summary: ReadServerI
-      operationId: backend.ServerService.ReadServerI
-      parameters:
-        - name: Connect-Protocol-Version
-          in: header
-          required: true
-          schema:
-            $ref: '#/components/schemas/connect-protocol-version'
-        - name: Connect-Timeout-Ms
-          in: header
-          schema:
-            $ref: '#/components/schemas/connect-timeout-header'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/common.SimpleIIDMessage'
-        required: true
-      responses:
-        default:
-          description: Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/connect.error'
-        "200":
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/backend.Server'
   /backend.ServerService/UpdateServer:
     post:
       tags:
@@ -163,41 +128,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/common.SimpleIDMessage'
-        required: true
-      responses:
-        default:
-          description: Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/connect.error'
-        "200":
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/common.SuccessMessage'
-  /backend.ServerService/DeleteServerI:
-    post:
-      tags:
-        - backend.ServerService
-      summary: DeleteServerI
-      operationId: backend.ServerService.DeleteServerI
-      parameters:
-        - name: Connect-Protocol-Version
-          in: header
-          required: true
-          schema:
-            $ref: '#/components/schemas/connect-protocol-version'
-        - name: Connect-Timeout-Ms
-          in: header
-          schema:
-            $ref: '#/components/schemas/connect-timeout-header'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/common.SimpleIIDMessage'
         required: true
       responses:
         default:
@@ -407,7 +337,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/backend.ServerUserData'
+              $ref: '#/components/schemas/backend.ServerUser'
         required: true
       responses:
         default:
@@ -497,24 +427,21 @@ components:
     backend.NodeAllocationData:
       type: object
       properties:
-        nodeId:
-          type: integer
-          title: node_id
+        nid:
+          type: string
+          title: nid
         allocation:
           title: allocation
           $ref: '#/components/schemas/common.IPAllocation'
-        serverId:
-          type: integer
-          title: server_id
+        sid:
+          type: string
+          title: sid
           nullable: true
       title: NodeAllocationData
       additionalProperties: false
     backend.Server:
       type: object
       properties:
-        id:
-          type: integer
-          title: id
         sid:
           type: string
           title: sid
@@ -532,12 +459,12 @@ components:
         description:
           type: string
           title: description
-        ownerId:
-          type: integer
-          title: owner_id
-        nodeId:
-          type: integer
-          title: node_id
+        ownerUid:
+          type: string
+          title: owner_uid
+        nid:
+          type: string
+          title: nid
         serverUsers:
           type: array
           items:
@@ -573,12 +500,12 @@ components:
     backend.ServerUserData:
       type: object
       properties:
-        userId:
-          type: integer
-          title: user_id
-        serverId:
-          type: integer
-          title: server_id
+        uid:
+          type: string
+          title: uid
+        sid:
+          type: string
+          title: sid
       title: ServerUserData
       additionalProperties: false
     backend.ServerUsers:
@@ -645,14 +572,6 @@ components:
           type: string
           title: id
       title: SimpleIDMessage
-      additionalProperties: false
-    common.SimpleIIDMessage:
-      type: object
-      properties:
-        id:
-          type: integer
-          title: id
-      title: SimpleIIDMessage
       additionalProperties: false
     common.SuccessMessage:
       type: object

@@ -4,7 +4,7 @@
 
 import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { EmptySchema, SimpleIDMessageSchema, SimpleIIDMessageSchema, SimpleMessageSchema, SuccessMessageSchema } from "../common_pb";
+import type { EmptySchema, SimpleIDMessageSchema, SimpleMessageSchema, SuccessMessageSchema } from "../common_pb";
 import { file_common } from "../common_pb";
 import type { Message } from "@bufbuild/protobuf";
 
@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file backend/User.proto.
  */
 export const file_backend_User: GenFile = /*@__PURE__*/
-  fileDesc("ChJiYWNrZW5kL1VzZXIucHJvdG8SB2JhY2tlbmQiTgoIVXNlckRhdGESEAoIdXNlcm5hbWUYASABKAkSDQoFZW1haWwYAiABKAkSEgoKbWZhX25lZWRlZBgDIAEoCBINCgVhZG1pbhgEIAEoCCJACgRVc2VyEgoKAmlkGAEgASgNEgsKA3VpZBgCIAEoCRIfCgRkYXRhGAMgASgLMhEuYmFja2VuZC5Vc2VyRGF0YSIlCgVVc2VycxIcCgV1c2VycxgBIAMoCzINLmJhY2tlbmQuVXNlcjL9AwoLVXNlclNlcnZpY2USLgoKQ3JlYXRlVXNlchIRLmJhY2tlbmQuVXNlckRhdGEaDS5iYWNrZW5kLlVzZXISMgoIUmVhZFVzZXISFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGg0uYmFja2VuZC5Vc2VyEjQKCVJlYWRVc2VySRIYLmNvbW1vbi5TaW1wbGVJSURNZXNzYWdlGg0uYmFja2VuZC5Vc2VyEjoKElJlYWRVc2VyQnlVc2VybmFtZRIVLmNvbW1vbi5TaW1wbGVNZXNzYWdlGg0uYmFja2VuZC5Vc2VyEjcKD1JlYWRVc2VyQnlFbWFpbBIVLmNvbW1vbi5TaW1wbGVNZXNzYWdlGg0uYmFja2VuZC5Vc2VyEjMKClVwZGF0ZVVzZXISDS5iYWNrZW5kLlVzZXIaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USPQoKRGVsZXRlVXNlchIXLmNvbW1vbi5TaW1wbGVJRE1lc3NhZ2UaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USPwoLRGVsZXRlVXNlckkSGC5jb21tb24uU2ltcGxlSUlETWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRIqCglMaXN0VXNlcnMSDS5jb21tb24uRW1wdHkaDi5iYWNrZW5kLlVzZXJzQh9aHXBhbmVsaXVtL3Byb3RvX2dlbl9nby9iYWNrZW5kYgZwcm90bzM", [file_common]);
+  fileDesc("ChJiYWNrZW5kL1VzZXIucHJvdG8SB2JhY2tlbmQiTgoIVXNlckRhdGESEAoIdXNlcm5hbWUYASABKAkSDQoFZW1haWwYAiABKAkSEgoKbWZhX25lZWRlZBgDIAEoCBINCgVhZG1pbhgEIAEoCCI0CgRVc2VyEgsKA3VpZBgBIAEoCRIfCgRkYXRhGAIgASgLMhEuYmFja2VuZC5Vc2VyRGF0YSIlCgVVc2VycxIcCgV1c2VycxgBIAMoCzINLmJhY2tlbmQuVXNlcjKGAwoLVXNlclNlcnZpY2USLgoKQ3JlYXRlVXNlchIRLmJhY2tlbmQuVXNlckRhdGEaDS5iYWNrZW5kLlVzZXISMgoIUmVhZFVzZXISFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGg0uYmFja2VuZC5Vc2VyEjoKElJlYWRVc2VyQnlVc2VybmFtZRIVLmNvbW1vbi5TaW1wbGVNZXNzYWdlGg0uYmFja2VuZC5Vc2VyEjcKD1JlYWRVc2VyQnlFbWFpbBIVLmNvbW1vbi5TaW1wbGVNZXNzYWdlGg0uYmFja2VuZC5Vc2VyEjMKClVwZGF0ZVVzZXISDS5iYWNrZW5kLlVzZXIaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USPQoKRGVsZXRlVXNlchIXLmNvbW1vbi5TaW1wbGVJRE1lc3NhZ2UaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USKgoJTGlzdFVzZXJzEg0uY29tbW9uLkVtcHR5Gg4uYmFja2VuZC5Vc2Vyc0IfWh1wYW5lbGl1bS9wcm90b19nZW5fZ28vYmFja2VuZGIGcHJvdG8z", [file_common]);
 
 /**
  * @generated from message backend.UserData
@@ -51,17 +51,12 @@ export const UserDataSchema: GenMessage<UserData> = /*@__PURE__*/
  */
 export type User = Message<"backend.User"> & {
   /**
-   * @generated from field: uint32 id = 1;
-   */
-  id: number;
-
-  /**
-   * @generated from field: string uid = 2;
+   * @generated from field: string uid = 1;
    */
   uid: string;
 
   /**
-   * @generated from field: backend.UserData data = 3;
+   * @generated from field: backend.UserData data = 2;
    */
   data?: UserData;
 };
@@ -111,14 +106,6 @@ export const UserService: GenService<{
     output: typeof UserSchema;
   },
   /**
-   * @generated from rpc backend.UserService.ReadUserI
-   */
-  readUserI: {
-    methodKind: "unary";
-    input: typeof SimpleIIDMessageSchema;
-    output: typeof UserSchema;
-  },
-  /**
    * @generated from rpc backend.UserService.ReadUserByUsername
    */
   readUserByUsername: {
@@ -148,14 +135,6 @@ export const UserService: GenService<{
   deleteUser: {
     methodKind: "unary";
     input: typeof SimpleIDMessageSchema;
-    output: typeof SuccessMessageSchema;
-  },
-  /**
-   * @generated from rpc backend.UserService.DeleteUserI
-   */
-  deleteUserI: {
-    methodKind: "unary";
-    input: typeof SimpleIIDMessageSchema;
     output: typeof SuccessMessageSchema;
   },
   /**

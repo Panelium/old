@@ -72,41 +72,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/backend.User'
-  /backend.UserService/ReadUserI:
-    post:
-      tags:
-        - backend.UserService
-      summary: ReadUserI
-      operationId: backend.UserService.ReadUserI
-      parameters:
-        - name: Connect-Protocol-Version
-          in: header
-          required: true
-          schema:
-            $ref: '#/components/schemas/connect-protocol-version'
-        - name: Connect-Timeout-Ms
-          in: header
-          schema:
-            $ref: '#/components/schemas/connect-timeout-header'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/common.SimpleIIDMessage'
-        required: true
-      responses:
-        default:
-          description: Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/connect.error'
-        "200":
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/backend.User'
   /backend.UserService/ReadUserByUsername:
     post:
       tags:
@@ -247,41 +212,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/common.SuccessMessage'
-  /backend.UserService/DeleteUserI:
-    post:
-      tags:
-        - backend.UserService
-      summary: DeleteUserI
-      operationId: backend.UserService.DeleteUserI
-      parameters:
-        - name: Connect-Protocol-Version
-          in: header
-          required: true
-          schema:
-            $ref: '#/components/schemas/connect-protocol-version'
-        - name: Connect-Timeout-Ms
-          in: header
-          schema:
-            $ref: '#/components/schemas/connect-timeout-header'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/common.SimpleIIDMessage'
-        required: true
-      responses:
-        default:
-          description: Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/connect.error'
-        "200":
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/common.SuccessMessage'
   /backend.UserService/ListUsers:
     post:
       tags:
@@ -322,9 +252,6 @@ components:
     backend.User:
       type: object
       properties:
-        id:
-          type: integer
-          title: id
         uid:
           type: string
           title: uid
@@ -371,14 +298,6 @@ components:
           type: string
           title: id
       title: SimpleIDMessage
-      additionalProperties: false
-    common.SimpleIIDMessage:
-      type: object
-      properties:
-        id:
-          type: integer
-          title: id
-      title: SimpleIIDMessage
       additionalProperties: false
     common.SimpleMessage:
       type: object
