@@ -13,6 +13,7 @@ import (
 	"github.com/docker/go-connections/nat"
 	v1 "github.com/opencontainers/image-spec/specs-go/v1"
 	"io"
+	"log"
 	"os"
 	"panelium/daemon/internal/db"
 	"panelium/daemon/internal/docker"
@@ -67,7 +68,7 @@ func Install(s *model.Server) error {
 		return fmt.Errorf("found multiple volumes with name %s, expected only one", s.SID)
 	} else if len(vl.Volumes) == 1 {
 		vol = vl.Volumes[0]
-		fmt.Printf("found existing volume for server %s: %s\n", s.SID, vol.Name)
+		log.Printf("found existing volume for server %s: %s\n", s.SID, vol.Name)
 	}
 
 	setupScript, err := base64.StdEncoding.DecodeString(blueprint.SetupScriptBase64)
@@ -141,7 +142,7 @@ func Install(s *model.Server) error {
 		return fmt.Errorf("failed to start setup script container: %w", err)
 	}
 
-	fmt.Printf("setup script container started with ID: %s\n", scr.ID)
+	log.Printf("setup script container started with ID: %s\n", scr.ID)
 
 	// wait for the setup script container to finish install
 	statusCh, errCh := docker.Instance().ContainerWait(context.Background(), scr.ID, container.WaitConditionNotRunning)
@@ -154,7 +155,7 @@ func Install(s *model.Server) error {
 		if status.StatusCode != 0 {
 			return fmt.Errorf("setup script container exited with status code %d", status.StatusCode)
 		}
-		fmt.Printf("setup script container finished with status code %d\n", status.StatusCode)
+		log.Printf("setup script container finished with status code %d\n", status.StatusCode)
 
 		// remove the setup script container
 		if err := docker.Instance().ContainerRemove(context.Background(), scr.ID, container.RemoveOptions{
