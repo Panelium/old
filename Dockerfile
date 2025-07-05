@@ -48,4 +48,4 @@ RUN npm install --prefix /app/node_modules/proto-gen-ts/
 RUN npm run build
 
 FROM nginx:alpine AS dashboard
-COPY --from=build-dashboard /app/dashboard/build/ /usr/share/nginx/html/
+COPY --from=build-dashboard /app/dashboard/build/client/ /usr/share/nginx/html/
