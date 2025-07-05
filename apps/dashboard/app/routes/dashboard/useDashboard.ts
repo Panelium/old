@@ -1,4 +1,4 @@
-import { ServerStatusType } from "proto-gen-ts/daemon_Server_pb";
+import { ServerStatusType } from "proto-gen-ts/daemon/Server_pb";
 import { type Server } from "~/components/cards/server-card/ServerCard";
 
 interface UseDashboard {
@@ -122,6 +122,28 @@ const useDashboard = (): UseDashboard => {
       },
       ip: "192.168.1.13",
       port: 7778,
+    },
+    {
+      id: "6",
+      name: "Counter-Strike: Global Offensive",
+      status: ServerStatusType.INSTALLING,
+      description: "CS:GO competitive server",
+      cpuUsage: 25,
+      memoryUsage: {
+        used: 1024 * 1024,
+        total: 2048 * 1024,
+      },
+      diskUsage: {
+        used: 500 * 1024 * 1024,
+        total: 2000 * 1024 * 1024,
+      },
+      game: "CS:GO",
+      players: {
+        online: 10,
+        max: 24,
+      },
+      ip: "192.168.1.42",
+      port: 27015,
     },
   ];
 

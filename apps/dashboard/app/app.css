@@ -40,6 +40,8 @@
 
     --color-accent: var(--accent);
     --color-accent-foreground: var(--accent-foreground);
+    --color-muted-accent: var(--muted-accent);
+    --color-muted-accent-foreground: var(--muted-accent-foreground);
 
     --color-destructive: var(--destructive);
 
@@ -141,6 +143,8 @@
     --muted-foreground: var(--color-gray-800);
     --accent: var(--color-gray-300);
     --accent-foreground: var(--foreground);
+    --muted-accent: color-mix(in oklab, var(--color-slate-700) 20%, var(--color-card));
+    --muted-accent-foreground: var(--muted-foreground);
     --destructive: #F00;
     --border: #ddd;
     --border-hover: #ffffff6e;

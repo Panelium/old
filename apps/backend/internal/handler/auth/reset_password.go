@@ -4,12 +4,12 @@ import (
 	"connectrpc.com/connect"
 	"context"
 	"errors"
-	proto_gen_go "panelium/proto-gen-go"
+	"panelium/proto_gen_go/backend"
 )
 
 func (s *AuthServiceHandler) ResetPassword(
 	ctx context.Context,
-	req *connect.Request[proto_gen_go.ResetPasswordRequest],
-) (*connect.Response[proto_gen_go.ResetPasswordResponse], error) {
+	req *connect.Request[backend.ResetPasswordRequest],
+) (*connect.Response[backend.ResetPasswordResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("unimplemented"))
 }

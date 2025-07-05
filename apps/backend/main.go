@@ -26,6 +26,12 @@ func main() {
 		return
 	}
 
+	err = global.InitEncryption()
+	if err != nil {
+		fmt.Printf("Failed to initialize encryption: %v", err)
+		return
+	}
+
 	if len(os.Args) > 1 && os.Args[1] == "idGen" {
 		idGen()
 		return
@@ -103,7 +109,7 @@ func jwtTest() {
 	claims := &jwt.Claims{
 		IssuedAt:   time.Now().Unix(),
 		Expiration: time.Now().Add(time.Hour).Unix(),
-		Audience:   sessionId,
+		Audience:   &sessionId,
 		Issuer:     jwt.BackendIssuer,
 		TokenType:  jwt.MFATokenType,
 		JTI:        jti,

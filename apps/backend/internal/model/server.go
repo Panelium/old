@@ -15,6 +15,7 @@ type Server struct {
 	Allocations   []NodeAllocation `gorm:"foreignKey:ServerID" json:"allocations"`
 	ResourceLimit ResourceLimit    `gorm:"embedded" json:"resource_limit"`
 	DockerImage   string           `gorm:"not null" json:"docker_image"`
+	BID           string           `gorm:"not null" json:"bid"`
 }
 
 type ResourceLimit struct {

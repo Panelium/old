@@ -1,0 +1,179 @@
+syntax = "proto3";
+
+package daemon;
+option go_package = "panelium/proto_gen_go/daemon";
+
+import "common.proto";
+import "google/protobuf/timestamp.proto";
+
+service ServerFilesService {
+  // Directory operations
+  rpc ListDirectory(ListDirectoryRequest) returns (ListDirectoryResponse);
+  rpc CreateDirectory(CreateDirectoryRequest) returns (CreateDirectoryResponse);
+  rpc GetDirectorySize(GetDirectorySizeRequest) returns (GetDirectorySizeResponse);
+
+  // File operations
+  rpc ReadFile(ReadFileRequest) returns (ReadFileResponse);
+  rpc WriteFile(WriteFileRequest) returns (WriteFileResponse);
+  rpc DeleteFile(DeleteFileRequest) returns (DeleteFileResponse);
+
+  // Movement operations
+  rpc MoveFile(MoveFileRequest) returns (MoveFileResponse);
+  rpc CopyFile(CopyFileRequest) returns (CopyFileResponse);
+
+  // Compression operations
+  rpc CompressFile(CompressFileRequest) returns (CompressFileResponse);
+  rpc DecompressFile(DecompressFileRequest) returns (DecompressFileResponse);
+
+  // File permissions operations
+  rpc ChangeFilePermissions(ChangeFilePermissionsRequest) returns (ChangeFilePermissionsResponse);
+  rpc GetFilePermissions(GetFilePermissionsRequest) returns (GetFilePermissionsResponse);
+
+  // Search files
+  rpc SearchFiles(SearchFilesRequest) returns (SearchFilesResponse);
+}
+
+message FileEntry {
+  string path = 1;
+  bool isDirectory = 2;
+  int64 size = 3;
+  google.protobuf.Timestamp lastModified = 4;
+}
+
+// Directory operations
+message ListDirectoryRequest {
+  string serverId = 1;
+  string path = 2;
+}
+
+message ListDirectoryResponse {
+  repeated FileEntry files = 1;
+}
+
+message CreateDirectoryRequest {
+  string serverId = 1;
+  string path = 2;
+}
+
+message CreateDirectoryResponse {
+  bool success = 1;
+}
+
+message GetDirectorySizeRequest {
+  string serverId = 1;
+  string path = 2;
+}
+
+message GetDirectorySizeResponse {
+  int64 size = 1;
+}
+
+// File operations
+message ReadFileRequest {
+  string serverId = 1;
+  string path = 2;
+}
+
+message ReadFileResponse {
+  bytes content = 1;
+  FileEntry fileInfo = 2;
+}
+
+message WriteFileRequest {
+  string serverId = 1;
+  string path = 2;
+  bytes content = 3;
+}
+
+message WriteFileResponse {
+  bool success = 1;
+}
+
+message DeleteFileRequest {
+  string serverId = 1;
+  string path = 2;
+}
+
+message DeleteFileResponse {
+  bool success = 1;
+}
+
+// Movement operations
+message MoveFileRequest {
+  string serverId = 1;
+  string sourcePath = 2;
+  string destinationPath = 3;
+}
+
+message MoveFileResponse {
+  bool success = 1;
+}
+
+message CopyFileRequest {
+  string serverId = 1;
+  string sourcePath = 2;
+  string destinationPath = 3;
+}
+
+message CopyFileResponse {
+  bool success = 1;
+}
+
+// Compression operations
+enum CompressionFormat {
+  COMPRESSION_FORMAT_UNSPECIFIED = 0; // Default value, should not be used
+  COMPRESSION_FORMAT_ZIP = 1;
+  COMPRESSION_FORMAT_TAR = 2;
+  COMPRESSION_FORMAT_GZIP = 3;
+}
+
+message CompressFileRequest {
+  string serverId = 1;
+  string path = 2;
+  string destinationPath = 3;
+  CompressionFormat format = 4;
+}
+
+message CompressFileResponse {
+  bool success = 1;
+}
+
+message DecompressFileRequest {
+  string serverId = 1;
+  string path = 2;
+  string destinationPath = 3;
+}
+
+message DecompressFileResponse {
+  bool success = 1;
+}
+
+// File permissions operations
+message ChangeFilePermissionsRequest {
+  string serverId = 1;
+  string path = 2;
+  uint32 permissions = 3;
+}
+
+message ChangeFilePermissionsResponse {
+  bool success = 1;
+}
+
+message GetFilePermissionsRequest {
+  string serverId = 1;
+  string path = 2;
+}
+
+message GetFilePermissionsResponse {
+  uint32 permissions = 1;
+}
+
+message SearchFilesRequest {
+  string serverId = 1;
+  string query = 2;
+  string path = 3;
+}
+
+message SearchFilesResponse {
+  repeated FileEntry results = 1;
+}

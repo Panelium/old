@@ -36,6 +36,7 @@ interface OverviewCardBaseProps {
 }
 
 type OverviewCardProps =
+  | (OverviewCardBaseProps & { footer?: never; footerChildren?: never })
   | (OverviewCardBaseProps & { footer: string; footerChildren?: never })
   | (OverviewCardBaseProps & {
       footer?: never;
@@ -137,11 +138,13 @@ const OverviewCard: React.FC<OverviewCardProps> = ({
         {bar && <CardBar {...bar} />}
         {!gauge && !content && !bar && children}
       </CardContent>
-      <CardFooter className="border-t border-border">
-        <span className="flex-1 text-xs text-card-foreground h-3">
-          {footer || footerChildren}
-        </span>
-      </CardFooter>
+      {(footer || footerChildren) && (
+        <CardFooter className="border-t border-border">
+          <span className="flex-1 text-xs text-card-foreground h-3">
+            {footer || footerChildren}
+          </span>
+        </CardFooter>
+      )}
     </Card>
   );
 };

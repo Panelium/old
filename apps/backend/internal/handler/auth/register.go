@@ -12,14 +12,15 @@ import (
 	"panelium/backend/internal/security/cookies"
 	"panelium/backend/internal/security/session"
 	"panelium/common/id"
-	proto_gen_go "panelium/proto-gen-go"
+	"panelium/proto_gen_go"
+	"panelium/proto_gen_go/backend"
 )
 
 // TODO: need to add rate limiting
 
 func (s *AuthServiceHandler) Register(
 	ctx context.Context,
-	req *connect.Request[proto_gen_go.RegisterRequest],
+	req *connect.Request[backend.RegisterRequest],
 ) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	err := global.ValidatorInstance().Var(req.Msg.Email, "required,email")
 	if err != nil {

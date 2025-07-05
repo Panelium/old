@@ -1,7 +1,7 @@
 package auth
 
-import "panelium/proto-gen-go/proto_gen_goconnect"
+import "panelium/proto_gen_go/backend/backendconnect"
 
 type AuthServiceHandler struct {
-	proto_gen_goconnect.AuthServiceHandler
+	backendconnect.AuthServiceHandler
 }

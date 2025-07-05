@@ -1,0 +1,286 @@
+openapi: 3.1.0
+info:
+  title: daemon
+paths:
+  /daemon.BackendService/CreateServer:
+    post:
+      tags:
+        - daemon.BackendService
+      summary: CreateServer
+      operationId: daemon.BackendService.CreateServer
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/daemon.CreateServerRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/common.SuccessMessage'
+  /daemon.BackendService/UpdateServer:
+    post:
+      tags:
+        - daemon.BackendService
+      summary: UpdateServer
+      operationId: daemon.BackendService.UpdateServer
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/daemon.UpdateServerRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/common.SuccessMessage'
+  /daemon.BackendService/DeleteServer:
+    post:
+      tags:
+        - daemon.BackendService
+      summary: DeleteServer
+      operationId: daemon.BackendService.DeleteServer
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/daemon.DeleteServerRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/common.SuccessMessage'
+components:
+  schemas:
+    common.IPAllocation:
+      type: object
+      properties:
+        ip:
+          type: string
+          title: ip
+        port:
+          type: integer
+          title: port
+          description: MUST BE 1024-65535
+      title: IPAllocation
+      additionalProperties: false
+    common.ResourceLimit:
+      type: object
+      properties:
+        cpu:
+          type: integer
+          title: cpu
+          description: CPU in percentage (100% = 1 vCore)
+        ram:
+          type: integer
+          title: ram
+          description: RAM in MB
+        swap:
+          type: integer
+          title: swap
+          description: SWAP in MB
+        storage:
+          type: integer
+          title: storage
+          description: Storage in MB
+      title: ResourceLimit
+      additionalProperties: false
+    common.SuccessMessage:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: SuccessMessage
+      additionalProperties: false
+    daemon.CreateServerRequest:
+      type: object
+      properties:
+        serverId:
+          type: string
+          title: serverId
+        ownerId:
+          type: string
+          title: ownerId
+        userIds:
+          type: array
+          items:
+            type: string
+          title: userIds
+        allocations:
+          type: array
+          items:
+            $ref: '#/components/schemas/common.IPAllocation'
+          title: allocations
+        resourceLimit:
+          title: resourceLimit
+          $ref: '#/components/schemas/common.ResourceLimit'
+        blueprintId:
+          type: string
+          title: blueprintId
+        dockerImage:
+          type: string
+          title: dockerImage
+      title: CreateServerRequest
+      additionalProperties: false
+    daemon.DeleteServerRequest:
+      type: object
+      properties:
+        serverId:
+          type: string
+          title: serverId
+        force:
+          type: boolean
+          title: force
+      title: DeleteServerRequest
+      additionalProperties: false
+    daemon.UpdateServerRequest:
+      type: object
+      properties:
+        serverId:
+          type: string
+          title: serverId
+        userIds:
+          type: array
+          items:
+            type: string
+          title: userIds
+          description: optional
+        allocations:
+          type: array
+          items:
+            $ref: '#/components/schemas/common.IPAllocation'
+          title: allocations
+          description: optional
+        resourceLimit:
+          title: resourceLimit
+          nullable: true
+          $ref: '#/components/schemas/common.ResourceLimit'
+        blueprintId:
+          type: string
+          title: blueprintId
+          nullable: true
+        dockerImage:
+          type: string
+          title: dockerImage
+          nullable: true
+      title: UpdateServerRequest
+      additionalProperties: false
+      description: 'TODO: this should probably instead be pulled from backend on server startup'
+    connect-protocol-version:
+      type: number
+      title: Connect-Protocol-Version
+      enum:
+        - 1
+      description: Define the version of the Connect protocol
+      const: 1
+    connect-timeout-header:
+      type: number
+      title: Connect-Timeout-Ms
+      description: Define the timeout, in ms
+    connect.error:
+      type: object
+      properties:
+        code:
+          type: string
+          examples:
+            - not_found
+          enum:
+            - canceled
+            - unknown
+            - invalid_argument
+            - deadline_exceeded
+            - not_found
+            - already_exists
+            - permission_denied
+            - resource_exhausted
+            - failed_precondition
+            - aborted
+            - out_of_range
+            - unimplemented
+            - internal
+            - unavailable
+            - data_loss
+            - unauthenticated
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        detail:
+          $ref: '#/components/schemas/google.protobuf.Any'
+      title: Connect Error
+      additionalProperties: true
+      description: 'Error type returned by Connect: https://connectrpc.com/docs/go/errors/#http-representation'
+    google.protobuf.Any:
+      type: object
+      properties:
+        type:
+          type: string
+        value:
+          type: string
+          format: binary
+        debug:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+security: []
+tags:
+  - name: daemon.BackendService

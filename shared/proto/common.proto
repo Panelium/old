@@ -1,9 +1,23 @@
 syntax = "proto3";
 
 package common;
-option go_package = "panelium/proto-gen-go";
+option go_package = "panelium/proto_gen_go";
 
 message Empty {}
+
+message SimpleIDMessage {
+  string id = 1;
+}
+
+message IDMessage {
+  string id = 1;
+  string text = 2;
+}
+
+message StreamIDMessage {
+  optional string id = 1; // only required for the first message in the stream, subsequent messages can omit this field
+  optional string text = 2; // required after the first message in the stream, first message can omit this field
+}
 
 message SimpleMessage {
   string text = 1;
@@ -11,4 +25,16 @@ message SimpleMessage {
 
 message SuccessMessage {
   bool success = 1;
+}
+
+message ResourceLimit {
+  uint32 cpu = 1;     // CPU in percentage (100% = 1 vCore)
+  uint32 ram = 2;     // RAM in MB
+  uint32 swap = 3;    // SWAP in MB
+  uint32 storage = 4; // Storage in MB
+}
+
+message IPAllocation {
+  string ip = 1;
+  uint32 port = 2; // MUST BE 1024-65535
 }

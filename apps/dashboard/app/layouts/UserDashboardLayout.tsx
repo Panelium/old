@@ -13,6 +13,7 @@ import {
   Settings,
   Sun,
   Terminal,
+  type LucideProps,
 } from "lucide-react";
 import { Link, Outlet } from "react-router-dom";
 import { cn } from "~/lib/utils";
@@ -30,8 +31,19 @@ import { Button } from "~/components/ui/button";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import EntityAvatar from "~/components/avatars/EntityAvatar";
 import { Sidebar, SidebarProvider, useSidebar } from "~/components/ui/sidebar";
+import useDashboard from "~/routes/dashboard/useDashboard";
+import { PagePressedEvent, pagesEventBus } from "~/components/dashboard/server/Pages";
+import FilesPage from "~/components/dashboard/server/pages/FilesPage";
 
-const NAVIGATION_ITEMS = [
+interface NavigationItemProps {
+  title?: string,
+  icon?: React.ForwardRefExoticComponent<Omit<LucideProps, "ref">>,
+  href?: string,
+  type?: string,
+  text?: string,
+}
+
+const NAVIGATION_ITEMS: NavigationItemProps[] = [
   {
     title: "Overview",
     icon: LayoutGrid,
@@ -43,38 +55,18 @@ const NAVIGATION_ITEMS = [
   {
     text: "Your Servers",
     type: "header",
-  },
-  {
-    title: "My Awesome Server 1",
-    icon: ServerIcon,
-    href: "/server/1",
-    type: "server",
-  },
-  {
-    title: "Web Server",
-    icon: ServerIcon,
-    href: "/server/2",
-    type: "server",
-  },
-  {
-    title: "Terraria Adventure",
-    icon: ServerIcon,
-    href: "/server/3",
-    type: "server",
-  },
-  {
-    title: "Rust Survival",
-    icon: ServerIcon,
-    href: "/server/4",
-    type: "server",
-  },
-  {
-    title: "ARK: Survival Evolved",
-    icon: ServerIcon,
-    href: "/server/5",
-    type: "server",
-  },
+  }
 ];
+
+// Adds the mockup servers to NAVIGATION_ITEMS
+useDashboard().mockServers.forEach((server) => {
+  NAVIGATION_ITEMS.push({
+    title: server.name,
+    icon: ServerIcon,
+    href: "/server/" + server.id,
+    type: "server",
+  });
+});
 
 const SidebarHeader: React.FC = () => {
   return (
@@ -93,81 +85,67 @@ const SidebarHeader: React.FC = () => {
   );
 };
 
-const SidebarNavigation: React.FC = () => {
+const SidebarNavigationItem: React.FC<{item: NavigationItemProps}> = ({item}) => {
   function isActive(href: string | undefined): boolean {
     return (
       location.pathname === href || location.pathname.startsWith(href + "/")
     );
   }
 
+  const IconComponent = item.icon;
+
+  return (
+  <Link 
+    key={item.href}
+    to={item.href ?? "#"}
+    className={cn(
+      "flex w-full items-center gap-3 rounded-lg px-4 py-2.5",
+      "text-sm font-medium no-select",
+      "hover:bg-slate-100 dark:hover:bg-slate-700",
+      "transition-all duration-200 ease",
+      isActive(item.href) &&
+        "bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300"
+    )}
+
+    onClick={() => {
+      if (item.href === undefined) { return; }
+      const splitHref = item.href.split("/");
+      if (item.type !== "server-tab") {
+        pagesEventBus.dispatchEvent(new PagePressedEvent(FilesPage.id));
+        return;
+      }
+      pagesEventBus.dispatchEvent(new PagePressedEvent(splitHref[splitHref.length-1]));
+    }}
+  >
+    {item.type === "server-tab" ? <div className="w-4" /> : <></> }
+    {IconComponent && (
+      <IconComponent
+        className={cn(
+          "h-5 w-5 text-slate-500 dark:text-slate-400",
+          isActive(item.href) &&
+            "text-indigo-600 dark:text-indigo-400"
+        )}
+      />
+    )}
+    {item.title}
+  </Link>
+  );
+}
+const SidebarNavigation: React.FC = () => {
+
   return (
     <ScrollArea className="flex-1 px-2 py-4">
       <nav className="flex flex-col w-full gap-1">
         {NAVIGATION_ITEMS.map((item) => {
-          const IconComponent = item.icon;
-
-          if (item.type !== null) {
-            if (item.type === "seperator") {
-              return <hr className="border-muted-foreground m-2" />;
-            }
-            if (item.type === "header") {
-              return <h1 className="px-4 pt-1.5">{item.text}</h1>;
-            }
-            if (item.type === "server") {
-              function SubButton({ item, value, children }: any) {
-                return (
-                  <Link
-                    key={item.href + "/" + value}
-                    to={item.href + "/" + value}
-                    className={cn(
-                      "flex w-full items-center gap-2 rounded-lg px-4 py-1.5",
-                      "text-sm font-medium no-select",
-                      "hover:bg-accent",
-                      "transition-all duration-200 ease",
-                      isActive(item.href + "/" + value) &&
-                        "bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300"
-                    )}
-                  >
-                    <div className="w-4" />
-                    {children}
-                    <span className="capitalize">{value}</span>
-                  </Link>
-                );
-              }
-
+          switch(item.type) {
+            case "seperator": return <hr className="border-muted-foreground m-2" />;
+            case "header": return <h1 className="px-4 pt-1.5">{item.text}</h1>;
+            case "server": {
               const [isDroppedDown, setIsDroppedDown] = useState(false);
-
               return (
                 <div className="group/navigation-family">
-                  <div
-                    className={cn(
-                      "flex w-full items-center gap-0 rounded-lg",
-                      "text-sm font-medium no-select",
-                      "hover:bg-slate-100 dark:hover:bg-slate-700",
-                      "transition-all duration-200 ease",
-                      isActive(item.href) &&
-                        "bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300"
-                    )}
-                  >
-                    <Link
-                      key={item.href}
-                      to={item.href ?? "#"}
-                      className={cn(
-                        "flex min-w-full items-center gap-3 rounded-lg px-4 py-2.5",
-                        "text-sm font-medium no-select"
-                      )}
-                    >
-                      {IconComponent && (
-                        <IconComponent
-                          className={cn(
-                            "h-5 w-5 text-slate-500 dark:text-slate-400",
-                            isActive(item.href) &&
-                              "text-indigo-600 dark:text-indigo-400"
-                          )}
-                        />
-                      )}
-                      <span className="w-full">{item.title}</span>
-                    </Link>
+                  <div className="flex w-full items-center gap-0 rounded-lg">
+                    <SidebarNavigationItem item={item}/>
                     <button
                       className="ml-[calc(var(--spacing)*-7)] cursor-pointer hover:bg-sidebar-accent rounded-sm p-0.5 transition-all duration-300"
                       onClick={(event) => {
@@ -182,72 +160,36 @@ const SidebarNavigation: React.FC = () => {
                     </button>
                   </div>
                   <div className={isDroppedDown ? "" : "hidden"}>
-                    <SubButton item={item} value="console">
-                      <Terminal
-                        className={cn(
-                          "h-5 w-5 text-sidebar-accent-foreground",
-                          isActive(item.href + "/console") &&
-                            "text-indigo-600 dark:text-indigo-400"
-                        )}
-                      />
-                    </SubButton>
-                    <SubButton item={item} value="files">
-                      <HardDrive
-                        className={cn(
-                          "h-5 w-5 text-sidebar-accent-foreground",
-                          isActive(item.href + "/files") &&
-                            "text-indigo-600 dark:text-indigo-400"
-                        )}
-                      />
-                    </SubButton>
-                    <SubButton item={item} value="activity">
-                      <Activity
-                        className={cn(
-                          "h-5 w-5 text-sidebar-accent-foreground",
-                          isActive(item.href + "/activity") &&
-                            "text-indigo-600 dark:text-indigo-400"
-                        )}
-                      />
-                    </SubButton>
-                    <SubButton item={item} value="settings">
-                      <Settings
-                        className={cn(
-                          "h-5 w-5 text-sidebar-accent-foreground",
-                          isActive(item.href + "/settings") &&
-                            "text-indigo-600 dark:text-indigo-400"
-                        )}
-                      />
-                    </SubButton>
+                    <SidebarNavigationItem item={{
+                      title: "Files",
+                      icon: HardDrive,
+                      href: item.href + "/files",
+                      type: "server-tab",
+                    }}/>
+                    <SidebarNavigationItem item={{
+                      title: "Console",
+                      icon: Terminal,
+                      href: item.href + "/console",
+                      type: "server-tab",
+                    }}/>
+                    <SidebarNavigationItem item={{
+                      title: "Activity",
+                      icon: Activity,
+                      href: item.href + "/activity",
+                      type: "server-tab",
+                    }}/>
+                    <SidebarNavigationItem item={{
+                      title: "Settings",
+                      icon: Settings,
+                      href: item.href + "/settings",
+                      type: "server-tab",
+                    }}/>
                   </div>
                 </div>
               );
-            }
+            } 
+            default: return <SidebarNavigationItem item={item}/>
           }
-          return (
-            <Link
-              key={item.href}
-              to={item.href ?? "#"}
-              className={cn(
-                "flex w-full items-center gap-3 rounded-lg px-4 py-2.5",
-                "text-sm font-medium no-select",
-                "hover:bg-slate-100 dark:hover:bg-slate-700",
-                "transition-all duration-200 ease",
-                isActive(item.href) &&
-                  "bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300"
-              )}
-            >
-              {IconComponent && (
-                <IconComponent
-                  className={cn(
-                    "h-5 w-5 text-slate-500 dark:text-slate-400",
-                    isActive(item.href) &&
-                      "text-indigo-600 dark:text-indigo-400"
-                  )}
-                />
-              )}
-              {item.title}
-            </Link>
-          );
         })}
       </nav>
     </ScrollArea>

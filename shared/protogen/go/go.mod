@@ -1,4 +1,4 @@
-module panelium/proto-gen-go
+module panelium/proto_gen_go
 
 go 1.24
 

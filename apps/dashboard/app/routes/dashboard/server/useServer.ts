@@ -1,10 +1,12 @@
-import { ServerStatusType } from "proto-gen-ts/daemon_Server_pb";
+import { ServerStatusType } from "proto-gen-ts/daemon/Server_pb";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
+import type { Server } from "~/components/cards/server-card/ServerCard";
 
-const server = {
+const server: Server = {
   id: "1",
   name: "My Awesome Server 1",
+  description: "Eating pizza!",
   status: ServerStatusType.ONLINE,
   node: "Node Alpha",
   cpuUsage: 25,
@@ -20,7 +22,6 @@ const server = {
   port: 25565,
   location: "US East",
   game: "Minecraft",
-  uptime: "2d 15h 30m",
   console: [
     { time: "10:15:32", content: "Server started on port 25565" },
     { time: "10:15:33", content: "Loading world..." },

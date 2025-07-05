@@ -8,7 +8,7 @@ interface IconTextProps {
 export default function IconText({ icon, text }: IconTextProps) {
   const IconComponent = icon;
   return (
-    <div className="flex items-center text-sm text-slate-500 dark:text-slate-400">
+    <div className="flex items-center text-sm text-card-muted-foreground">
       <IconComponent className="h-3.5 w-3.5 mr-1.5" />
       {text}
     </div>
