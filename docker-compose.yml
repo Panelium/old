@@ -4,7 +4,7 @@ services:
       context: .
       target: backend
     ports:
-      - "8080:8080"
+      - "9090:9090"
     volumes:
       - /var/lib/docker/volumes:/var/lib/docker/volumes
       - /etc/panelium/backend:/etc/panelium/backend
