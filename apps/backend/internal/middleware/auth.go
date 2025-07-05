@@ -9,11 +9,24 @@ import (
 	"panelium/backend/internal/security/session"
 	"panelium/common/errors"
 	"panelium/common/jwt"
+	"panelium/proto_gen_go/backend/backendconnect"
+	"slices"
 )
 
 type SessionInfo struct {
 	SessionID string
 	UserID    string
+}
+
+var ignoredProcedures = []string{
+	backendconnect.AuthServiceRegisterProcedure,
+	backendconnect.AuthServiceLoginProcedure,
+	backendconnect.AuthServiceRequestMFACodeProcedure,
+	backendconnect.AuthServiceRequestPasswordResetProcedure,
+	backendconnect.AuthServiceResetPasswordProcedure,
+	backendconnect.AuthServiceResetPasswordRequestMFACodeProcedure,
+	backendconnect.AuthServiceResetPasswordVerifyMFAProcedure,
+	backendconnect.AuthServiceVerifyMFAProcedure,
 }
 
 func NewAuthInterceptor() connect.UnaryInterceptorFunc {
@@ -23,6 +36,9 @@ func NewAuthInterceptor() connect.UnaryInterceptorFunc {
 			req connect.AnyRequest,
 		) (connect.AnyResponse, error) {
 			if req.Spec().IsClient {
+				return next(ctx, req)
+			}
+			if slices.Contains(ignoredProcedures, req.Spec().Procedure) {
 				return next(ctx, req)
 			}
 
