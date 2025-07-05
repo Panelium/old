@@ -24,9 +24,9 @@ export default () => {
         ) : (
           <motion.div
             key="login"
-            initial={{ opacity: 0, x: -40 }}
+            initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 40 }}
+            exit={{ opacity: 0, x: -40 }}
             transition={{ duration: 0.35, ease: "easeInOut" }}
             className="w-full h-full flex items-center justify-center"
           >
