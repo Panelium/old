@@ -36,7 +36,7 @@ service ServerFilesService {
 message FileEntry {
   string path = 1;
   bool isDirectory = 2;
-  int64 size = 3; // size in bytes (only for files)
+  int64 size = 3;
   google.protobuf.Timestamp lastModified = 4;
 }
 
@@ -65,7 +65,7 @@ message GetDirectorySizeRequest {
 }
 
 message GetDirectorySizeResponse {
-  int64 size = 1; // size in bytes
+  int64 size = 1;
 }
 
 // File operations
@@ -152,7 +152,7 @@ message DecompressFileResponse {
 message ChangeFilePermissionsRequest {
   string serverId = 1;
   string path = 2;
-  uint32 permissions = 3; // standard unix permissions
+  uint32 permissions = 3;
 }
 
 message ChangeFilePermissionsResponse {
@@ -165,13 +165,13 @@ message GetFilePermissionsRequest {
 }
 
 message GetFilePermissionsResponse {
-  uint32 permissions = 1; // standard unix permissions
+  uint32 permissions = 1;
 }
 
 message SearchFilesRequest {
   string serverId = 1;
   string query = 2;
-  string path = 3; // search root
+  string path = 3;
 }
 
 message SearchFilesResponse {

@@ -486,7 +486,6 @@ components:
         permissions:
           type: integer
           title: permissions
-          description: standard unix permissions
       title: ChangeFilePermissionsRequest
       additionalProperties: false
       description: File permissions operations
@@ -620,7 +619,6 @@ components:
             - string
           title: size
           format: int64
-          description: size in bytes (only for files)
         lastModified:
           title: lastModified
           $ref: '#/components/schemas/google.protobuf.Timestamp'
@@ -646,7 +644,6 @@ components:
             - string
           title: size
           format: int64
-          description: size in bytes
       title: GetDirectorySizeResponse
       additionalProperties: false
     daemon.GetFilePermissionsRequest:
@@ -666,7 +663,6 @@ components:
         permissions:
           type: integer
           title: permissions
-          description: standard unix permissions
       title: GetFilePermissionsResponse
       additionalProperties: false
     daemon.ListDirectoryRequest:
@@ -750,7 +746,6 @@ components:
         path:
           type: string
           title: path
-          description: search root
       title: SearchFilesRequest
       additionalProperties: false
     daemon.SearchFilesResponse:

@@ -30,8 +30,6 @@ export type FileEntry = Message<"daemon.FileEntry"> & {
   isDirectory: boolean;
 
   /**
-   * size in bytes (only for files)
-   *
    * @generated from field: int64 size = 3;
    */
   size: bigint;
@@ -156,8 +154,6 @@ export const GetDirectorySizeRequestSchema: GenMessage<GetDirectorySizeRequest> 
  */
 export type GetDirectorySizeResponse = Message<"daemon.GetDirectorySizeResponse"> & {
   /**
-   * size in bytes
-   *
    * @generated from field: int64 size = 1;
    */
   size: bigint;
@@ -499,8 +495,6 @@ export type ChangeFilePermissionsRequest = Message<"daemon.ChangeFilePermissions
   path: string;
 
   /**
-   * standard unix permissions
-   *
    * @generated from field: uint32 permissions = 3;
    */
   permissions: number;
@@ -557,8 +551,6 @@ export const GetFilePermissionsRequestSchema: GenMessage<GetFilePermissionsReque
  */
 export type GetFilePermissionsResponse = Message<"daemon.GetFilePermissionsResponse"> & {
   /**
-   * standard unix permissions
-   *
    * @generated from field: uint32 permissions = 1;
    */
   permissions: number;
@@ -586,8 +578,6 @@ export type SearchFilesRequest = Message<"daemon.SearchFilesRequest"> & {
   query: string;
 
   /**
-   * search root
-   *
    * @generated from field: string path = 3;
    */
   path: string;

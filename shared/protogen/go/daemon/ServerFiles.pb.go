@@ -80,7 +80,7 @@ type FileEntry struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Path          string                 `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`
 	IsDirectory   bool                   `protobuf:"varint,2,opt,name=isDirectory,proto3" json:"isDirectory,omitempty"`
-	Size          int64                  `protobuf:"varint,3,opt,name=size,proto3" json:"size,omitempty"` // size in bytes (only for files)
+	Size          int64                  `protobuf:"varint,3,opt,name=size,proto3" json:"size,omitempty"`
 	LastModified  *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=lastModified,proto3" json:"lastModified,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -391,7 +391,7 @@ func (x *GetDirectorySizeRequest) GetPath() string {
 
 type GetDirectorySizeResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Size          int64                  `protobuf:"varint,1,opt,name=size,proto3" json:"size,omitempty"` // size in bytes
+	Size          int64                  `protobuf:"varint,1,opt,name=size,proto3" json:"size,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1168,7 +1168,7 @@ type ChangeFilePermissionsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ServerId      string                 `protobuf:"bytes,1,opt,name=serverId,proto3" json:"serverId,omitempty"`
 	Path          string                 `protobuf:"bytes,2,opt,name=path,proto3" json:"path,omitempty"`
-	Permissions   uint32                 `protobuf:"varint,3,opt,name=permissions,proto3" json:"permissions,omitempty"` // standard unix permissions
+	Permissions   uint32                 `protobuf:"varint,3,opt,name=permissions,proto3" json:"permissions,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1322,7 +1322,7 @@ func (x *GetFilePermissionsRequest) GetPath() string {
 
 type GetFilePermissionsResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Permissions   uint32                 `protobuf:"varint,1,opt,name=permissions,proto3" json:"permissions,omitempty"` // standard unix permissions
+	Permissions   uint32                 `protobuf:"varint,1,opt,name=permissions,proto3" json:"permissions,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1368,7 +1368,7 @@ type SearchFilesRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ServerId      string                 `protobuf:"bytes,1,opt,name=serverId,proto3" json:"serverId,omitempty"`
 	Query         string                 `protobuf:"bytes,2,opt,name=query,proto3" json:"query,omitempty"`
-	Path          string                 `protobuf:"bytes,3,opt,name=path,proto3" json:"path,omitempty"` // search root
+	Path          string                 `protobuf:"bytes,3,opt,name=path,proto3" json:"path,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
