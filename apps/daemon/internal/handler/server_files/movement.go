@@ -134,7 +134,52 @@ func rootCopyFile(root *os.Root, sourcePath string, destinationPath string, move
 }
 
 func rootCopyDirectory(root *os.Root, sourcePath string, destinationPath string, move bool) error {
-	return errors.New("unimplemented")
+	if sourcePath == destinationPath {
+		return nil
+	}
 
-	// TODO
+	sourceDir, err := root.Open(sourcePath)
+	if err != nil {
+		return err
+	}
+
+	defer func(dir *os.File) {
+		_ = dir.Close()
+	}(sourceDir)
+
+	err = rootMkdirAll(root, destinationPath, 0755)
+	if err != nil {
+		return err
+	}
+
+	files, err := sourceDir.Readdir(-1)
+	if err != nil {
+		return err
+	}
+
+	for _, file := range files {
+		sourceFilePath := sourcePath + "/" + file.Name()
+		destinationFilePath := destinationPath + "/" + file.Name()
+
+		if file.IsDir() {
+			err = rootCopyDirectory(root, sourceFilePath, destinationFilePath, move)
+			if err != nil {
+				return err
+			}
+		} else {
+			err = rootCopyFile(root, sourceFilePath, destinationFilePath, move)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	if move {
+		err = root.Remove(sourcePath)
+		if err != nil && !errors.Is(err, os.ErrNotExist) {
+			return err
+		}
+	}
+
+	return nil
 }
