@@ -8,7 +8,7 @@ export default () => {
   const [signup, setSignup] = useState(false);
 
   return (
-    <Card className="w-sm h-128 overflow-hidden flex items-center justify-center">
+    <Card className="w-sm min-h-128 overflow-hidden flex items-center justify-center">
       <AnimatePresence mode="wait" initial={false}>
         {signup ? (
           <motion.div
