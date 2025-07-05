@@ -1160,7 +1160,7 @@ type ChangeFilePermissionsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ServerId      string                 `protobuf:"bytes,1,opt,name=serverId,proto3" json:"serverId,omitempty"`
 	Path          string                 `protobuf:"bytes,2,opt,name=path,proto3" json:"path,omitempty"`
-	Permissions   int32                  `protobuf:"varint,3,opt,name=permissions,proto3" json:"permissions,omitempty"` // standard unix permissions
+	Permissions   uint32                 `protobuf:"varint,3,opt,name=permissions,proto3" json:"permissions,omitempty"` // standard unix permissions
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1209,7 +1209,7 @@ func (x *ChangeFilePermissionsRequest) GetPath() string {
 	return ""
 }
 
-func (x *ChangeFilePermissionsRequest) GetPermissions() int32 {
+func (x *ChangeFilePermissionsRequest) GetPermissions() uint32 {
 	if x != nil {
 		return x.Permissions
 	}
@@ -1314,7 +1314,7 @@ func (x *GetFilePermissionsRequest) GetPath() string {
 
 type GetFilePermissionsResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Permissions   int32                  `protobuf:"varint,1,opt,name=permissions,proto3" json:"permissions,omitempty"` // standard unix permissions
+	Permissions   uint32                 `protobuf:"varint,1,opt,name=permissions,proto3" json:"permissions,omitempty"` // standard unix permissions
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1349,7 +1349,7 @@ func (*GetFilePermissionsResponse) Descriptor() ([]byte, []int) {
 	return file_daemon_ServerFiles_proto_rawDescGZIP(), []int{24}
 }
 
-func (x *GetFilePermissionsResponse) GetPermissions() int32 {
+func (x *GetFilePermissionsResponse) GetPermissions() uint32 {
 	if x != nil {
 		return x.Permissions
 	}
@@ -1533,14 +1533,14 @@ const file_daemon_ServerFiles_proto_rawDesc = "" +
 	"\x1cChangeFilePermissionsRequest\x12\x1a\n" +
 	"\bserverId\x18\x01 \x01(\tR\bserverId\x12\x12\n" +
 	"\x04path\x18\x02 \x01(\tR\x04path\x12 \n" +
-	"\vpermissions\x18\x03 \x01(\x05R\vpermissions\"9\n" +
+	"\vpermissions\x18\x03 \x01(\rR\vpermissions\"9\n" +
 	"\x1dChangeFilePermissionsResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\"K\n" +
 	"\x19GetFilePermissionsRequest\x12\x1a\n" +
 	"\bserverId\x18\x01 \x01(\tR\bserverId\x12\x12\n" +
 	"\x04path\x18\x02 \x01(\tR\x04path\">\n" +
 	"\x1aGetFilePermissionsResponse\x12 \n" +
-	"\vpermissions\x18\x01 \x01(\x05R\vpermissions\"Z\n" +
+	"\vpermissions\x18\x01 \x01(\rR\vpermissions\"Z\n" +
 	"\x12SearchFilesRequest\x12\x1a\n" +
 	"\bserverId\x18\x01 \x01(\tR\bserverId\x12\x14\n" +
 	"\x05query\x18\x02 \x01(\tR\x05query\x12\x12\n" +

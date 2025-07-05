@@ -486,7 +486,6 @@ components:
         permissions:
           type: integer
           title: permissions
-          format: int32
           description: standard unix permissions
       title: ChangeFilePermissionsRequest
       additionalProperties: false
@@ -667,7 +666,6 @@ components:
         permissions:
           type: integer
           title: permissions
-          format: int32
           description: standard unix permissions
       title: GetFilePermissionsResponse
       additionalProperties: false

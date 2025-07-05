@@ -151,7 +151,7 @@ message DecompressFileResponse {
 message ChangeFilePermissionsRequest {
   string serverId = 1;
   string path = 2;
-  int32 permissions = 3; // standard unix permissions
+  uint32 permissions = 3; // standard unix permissions
 }
 
 message ChangeFilePermissionsResponse {
@@ -164,7 +164,7 @@ message GetFilePermissionsRequest {
 }
 
 message GetFilePermissionsResponse {
-  int32 permissions = 1; // standard unix permissions
+  uint32 permissions = 1; // standard unix permissions
 }
 
 message SearchFilesRequest {
