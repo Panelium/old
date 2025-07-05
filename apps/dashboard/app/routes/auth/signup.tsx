@@ -68,7 +68,7 @@ export default function SignupPage({ onLogin }: { onLogin: () => void }) {
   }
 
   return (
-    <div className="w-full max-w-sm truncate flex flex-col flex-1/2 gap-4">
+    <div className="w-full max-w-sm truncate flex flex-col flex-1/2 gap-6 p-1">
       <CardHeader>
         <CardTitle className="text-2xl text-center no-select">
           Create an account
