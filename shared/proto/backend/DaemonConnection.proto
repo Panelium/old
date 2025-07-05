@@ -8,6 +8,8 @@ import "common.proto";
 service DaemonConnectionService {
   rpc CreateBackendToken(common.SimpleIDMessage) returns (CreateTokenResponse);
   rpc RegisterDaemon(RegisterDaemonRequest) returns (common.SuccessMessage);
+
+  rpc SyncData(common.Empty) returns (stream SyncDataResponse);
 }
 
 message CreateTokenResponse {
@@ -17,6 +19,10 @@ message CreateTokenResponse {
 message RegisterDaemonRequest {
   string backend_token = 1;
   string node_token = 2;
+}
+
+message SyncDataResponse {
+  // servers, server users, server allocations, blueprints
 }
 
 /*

@@ -4,7 +4,7 @@
 
 import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { SimpleIDMessageSchema, SuccessMessageSchema } from "../common_pb";
+import type { EmptySchema, SimpleIDMessageSchema, SuccessMessageSchema } from "../common_pb";
 import { file_common } from "../common_pb";
 import type { Message } from "@bufbuild/protobuf";
 
@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file backend/DaemonConnection.proto.
  */
 export const file_backend_DaemonConnection: GenFile = /*@__PURE__*/
-  fileDesc("Ch5iYWNrZW5kL0RhZW1vbkNvbm5lY3Rpb24ucHJvdG8SB2JhY2tlbmQiLAoTQ3JlYXRlVG9rZW5SZXNwb25zZRIVCg1iYWNrZW5kX3Rva2VuGAEgASgJIkIKFVJlZ2lzdGVyRGFlbW9uUmVxdWVzdBIVCg1iYWNrZW5kX3Rva2VuGAEgASgJEhIKCm5vZGVfdG9rZW4YAiABKAkysAEKF0RhZW1vbkNvbm5lY3Rpb25TZXJ2aWNlEksKEkNyZWF0ZUJhY2tlbmRUb2tlbhIXLmNvbW1vbi5TaW1wbGVJRE1lc3NhZ2UaHC5iYWNrZW5kLkNyZWF0ZVRva2VuUmVzcG9uc2USSAoOUmVnaXN0ZXJEYWVtb24SHi5iYWNrZW5kLlJlZ2lzdGVyRGFlbW9uUmVxdWVzdBoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZUIfWh1wYW5lbGl1bS9wcm90b19nZW5fZ28vYmFja2VuZGIGcHJvdG8z", [file_common]);
+  fileDesc("Ch5iYWNrZW5kL0RhZW1vbkNvbm5lY3Rpb24ucHJvdG8SB2JhY2tlbmQiLAoTQ3JlYXRlVG9rZW5SZXNwb25zZRIVCg1iYWNrZW5kX3Rva2VuGAEgASgJIkIKFVJlZ2lzdGVyRGFlbW9uUmVxdWVzdBIVCg1iYWNrZW5kX3Rva2VuGAEgASgJEhIKCm5vZGVfdG9rZW4YAiABKAkiEgoQU3luY0RhdGFSZXNwb25zZTLoAQoXRGFlbW9uQ29ubmVjdGlvblNlcnZpY2USSwoSQ3JlYXRlQmFja2VuZFRva2VuEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRocLmJhY2tlbmQuQ3JlYXRlVG9rZW5SZXNwb25zZRJICg5SZWdpc3RlckRhZW1vbhIeLmJhY2tlbmQuUmVnaXN0ZXJEYWVtb25SZXF1ZXN0GhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlEjYKCFN5bmNEYXRhEg0uY29tbW9uLkVtcHR5GhkuYmFja2VuZC5TeW5jRGF0YVJlc3BvbnNlMAFCH1odcGFuZWxpdW0vcHJvdG9fZ2VuX2dvL2JhY2tlbmRiBnByb3RvMw", [file_common]);
 
 /**
  * @generated from message backend.CreateTokenResponse
@@ -54,6 +54,21 @@ export const RegisterDaemonRequestSchema: GenMessage<RegisterDaemonRequest> = /*
   messageDesc(file_backend_DaemonConnection, 1);
 
 /**
+ * servers, server users, server allocations, blueprints
+ *
+ * @generated from message backend.SyncDataResponse
+ */
+export type SyncDataResponse = Message<"backend.SyncDataResponse"> & {
+};
+
+/**
+ * Describes the message backend.SyncDataResponse.
+ * Use `create(SyncDataResponseSchema)` to create a new message.
+ */
+export const SyncDataResponseSchema: GenMessage<SyncDataResponse> = /*@__PURE__*/
+  messageDesc(file_backend_DaemonConnection, 2);
+
+/**
  * @generated from service backend.DaemonConnectionService
  */
 export const DaemonConnectionService: GenService<{
@@ -72,6 +87,14 @@ export const DaemonConnectionService: GenService<{
     methodKind: "unary";
     input: typeof RegisterDaemonRequestSchema;
     output: typeof SuccessMessageSchema;
+  },
+  /**
+   * @generated from rpc backend.DaemonConnectionService.SyncData
+   */
+  syncData: {
+    methodKind: "server_streaming";
+    input: typeof EmptySchema;
+    output: typeof SyncDataResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_backend_DaemonConnection, 0);

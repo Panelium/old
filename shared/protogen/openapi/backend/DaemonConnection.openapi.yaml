@@ -72,6 +72,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/common.SuccessMessage'
+  /backend.DaemonConnectionService/SyncData: {}
 components:
   schemas:
     backend.CreateTokenResponse:
@@ -92,6 +93,15 @@ components:
           type: string
           title: node_token
       title: RegisterDaemonRequest
+      additionalProperties: false
+    backend.SyncDataResponse:
+      type: object
+      title: SyncDataResponse
+      additionalProperties: false
+      description: servers, server users, server allocations, blueprints
+    common.Empty:
+      type: object
+      title: Empty
       additionalProperties: false
     common.SimpleIDMessage:
       type: object

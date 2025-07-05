@@ -118,6 +118,42 @@ func (x *RegisterDaemonRequest) GetNodeToken() string {
 	return ""
 }
 
+type SyncDataResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SyncDataResponse) Reset() {
+	*x = SyncDataResponse{}
+	mi := &file_backend_DaemonConnection_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SyncDataResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SyncDataResponse) ProtoMessage() {}
+
+func (x *SyncDataResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_DaemonConnection_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SyncDataResponse.ProtoReflect.Descriptor instead.
+func (*SyncDataResponse) Descriptor() ([]byte, []int) {
+	return file_backend_DaemonConnection_proto_rawDescGZIP(), []int{2}
+}
+
 var File_backend_DaemonConnection_proto protoreflect.FileDescriptor
 
 const file_backend_DaemonConnection_proto_rawDesc = "" +
@@ -128,10 +164,12 @@ const file_backend_DaemonConnection_proto_rawDesc = "" +
 	"\x15RegisterDaemonRequest\x12#\n" +
 	"\rbackend_token\x18\x01 \x01(\tR\fbackendToken\x12\x1d\n" +
 	"\n" +
-	"node_token\x18\x02 \x01(\tR\tnodeToken2\xb0\x01\n" +
+	"node_token\x18\x02 \x01(\tR\tnodeToken\"\x12\n" +
+	"\x10SyncDataResponse2\xe8\x01\n" +
 	"\x17DaemonConnectionService\x12K\n" +
 	"\x12CreateBackendToken\x12\x17.common.SimpleIDMessage\x1a\x1c.backend.CreateTokenResponse\x12H\n" +
-	"\x0eRegisterDaemon\x12\x1e.backend.RegisterDaemonRequest\x1a\x16.common.SuccessMessageB\x1fZ\x1dpanelium/proto_gen_go/backendb\x06proto3"
+	"\x0eRegisterDaemon\x12\x1e.backend.RegisterDaemonRequest\x1a\x16.common.SuccessMessage\x126\n" +
+	"\bSyncData\x12\r.common.Empty\x1a\x19.backend.SyncDataResponse0\x01B\x1fZ\x1dpanelium/proto_gen_go/backendb\x06proto3"
 
 var (
 	file_backend_DaemonConnection_proto_rawDescOnce sync.Once
@@ -145,20 +183,24 @@ func file_backend_DaemonConnection_proto_rawDescGZIP() []byte {
 	return file_backend_DaemonConnection_proto_rawDescData
 }
 
-var file_backend_DaemonConnection_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_backend_DaemonConnection_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_backend_DaemonConnection_proto_goTypes = []any{
 	(*CreateTokenResponse)(nil),          // 0: backend.CreateTokenResponse
 	(*RegisterDaemonRequest)(nil),        // 1: backend.RegisterDaemonRequest
-	(*proto_gen_go.SimpleIDMessage)(nil), // 2: common.SimpleIDMessage
-	(*proto_gen_go.SuccessMessage)(nil),  // 3: common.SuccessMessage
+	(*SyncDataResponse)(nil),             // 2: backend.SyncDataResponse
+	(*proto_gen_go.SimpleIDMessage)(nil), // 3: common.SimpleIDMessage
+	(*proto_gen_go.Empty)(nil),           // 4: common.Empty
+	(*proto_gen_go.SuccessMessage)(nil),  // 5: common.SuccessMessage
 }
 var file_backend_DaemonConnection_proto_depIdxs = []int32{
-	2, // 0: backend.DaemonConnectionService.CreateBackendToken:input_type -> common.SimpleIDMessage
+	3, // 0: backend.DaemonConnectionService.CreateBackendToken:input_type -> common.SimpleIDMessage
 	1, // 1: backend.DaemonConnectionService.RegisterDaemon:input_type -> backend.RegisterDaemonRequest
-	0, // 2: backend.DaemonConnectionService.CreateBackendToken:output_type -> backend.CreateTokenResponse
-	3, // 3: backend.DaemonConnectionService.RegisterDaemon:output_type -> common.SuccessMessage
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
+	4, // 2: backend.DaemonConnectionService.SyncData:input_type -> common.Empty
+	0, // 3: backend.DaemonConnectionService.CreateBackendToken:output_type -> backend.CreateTokenResponse
+	5, // 4: backend.DaemonConnectionService.RegisterDaemon:output_type -> common.SuccessMessage
+	2, // 5: backend.DaemonConnectionService.SyncData:output_type -> backend.SyncDataResponse
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -175,7 +217,7 @@ func file_backend_DaemonConnection_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_backend_DaemonConnection_proto_rawDesc), len(file_backend_DaemonConnection_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

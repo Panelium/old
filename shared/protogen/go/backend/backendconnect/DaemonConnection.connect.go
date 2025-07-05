@@ -40,12 +40,16 @@ const (
 	// DaemonConnectionServiceRegisterDaemonProcedure is the fully-qualified name of the
 	// DaemonConnectionService's RegisterDaemon RPC.
 	DaemonConnectionServiceRegisterDaemonProcedure = "/backend.DaemonConnectionService/RegisterDaemon"
+	// DaemonConnectionServiceSyncDataProcedure is the fully-qualified name of the
+	// DaemonConnectionService's SyncData RPC.
+	DaemonConnectionServiceSyncDataProcedure = "/backend.DaemonConnectionService/SyncData"
 )
 
 // DaemonConnectionServiceClient is a client for the backend.DaemonConnectionService service.
 type DaemonConnectionServiceClient interface {
 	CreateBackendToken(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.CreateTokenResponse], error)
 	RegisterDaemon(context.Context, *connect.Request[backend.RegisterDaemonRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	SyncData(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.ServerStreamForClient[backend.SyncDataResponse], error)
 }
 
 // NewDaemonConnectionServiceClient constructs a client for the backend.DaemonConnectionService
@@ -71,6 +75,12 @@ func NewDaemonConnectionServiceClient(httpClient connect.HTTPClient, baseURL str
 			connect.WithSchema(daemonConnectionServiceMethods.ByName("RegisterDaemon")),
 			connect.WithClientOptions(opts...),
 		),
+		syncData: connect.NewClient[proto_gen_go.Empty, backend.SyncDataResponse](
+			httpClient,
+			baseURL+DaemonConnectionServiceSyncDataProcedure,
+			connect.WithSchema(daemonConnectionServiceMethods.ByName("SyncData")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -78,6 +88,7 @@ func NewDaemonConnectionServiceClient(httpClient connect.HTTPClient, baseURL str
 type daemonConnectionServiceClient struct {
 	createBackendToken *connect.Client[proto_gen_go.SimpleIDMessage, backend.CreateTokenResponse]
 	registerDaemon     *connect.Client[backend.RegisterDaemonRequest, proto_gen_go.SuccessMessage]
+	syncData           *connect.Client[proto_gen_go.Empty, backend.SyncDataResponse]
 }
 
 // CreateBackendToken calls backend.DaemonConnectionService.CreateBackendToken.
@@ -90,11 +101,17 @@ func (c *daemonConnectionServiceClient) RegisterDaemon(ctx context.Context, req 
 	return c.registerDaemon.CallUnary(ctx, req)
 }
 
+// SyncData calls backend.DaemonConnectionService.SyncData.
+func (c *daemonConnectionServiceClient) SyncData(ctx context.Context, req *connect.Request[proto_gen_go.Empty]) (*connect.ServerStreamForClient[backend.SyncDataResponse], error) {
+	return c.syncData.CallServerStream(ctx, req)
+}
+
 // DaemonConnectionServiceHandler is an implementation of the backend.DaemonConnectionService
 // service.
 type DaemonConnectionServiceHandler interface {
 	CreateBackendToken(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.CreateTokenResponse], error)
 	RegisterDaemon(context.Context, *connect.Request[backend.RegisterDaemonRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	SyncData(context.Context, *connect.Request[proto_gen_go.Empty], *connect.ServerStream[backend.SyncDataResponse]) error
 }
 
 // NewDaemonConnectionServiceHandler builds an HTTP handler from the service implementation. It
@@ -116,12 +133,20 @@ func NewDaemonConnectionServiceHandler(svc DaemonConnectionServiceHandler, opts 
 		connect.WithSchema(daemonConnectionServiceMethods.ByName("RegisterDaemon")),
 		connect.WithHandlerOptions(opts...),
 	)
+	daemonConnectionServiceSyncDataHandler := connect.NewServerStreamHandler(
+		DaemonConnectionServiceSyncDataProcedure,
+		svc.SyncData,
+		connect.WithSchema(daemonConnectionServiceMethods.ByName("SyncData")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/backend.DaemonConnectionService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case DaemonConnectionServiceCreateBackendTokenProcedure:
 			daemonConnectionServiceCreateBackendTokenHandler.ServeHTTP(w, r)
 		case DaemonConnectionServiceRegisterDaemonProcedure:
 			daemonConnectionServiceRegisterDaemonHandler.ServeHTTP(w, r)
+		case DaemonConnectionServiceSyncDataProcedure:
+			daemonConnectionServiceSyncDataHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -137,4 +162,8 @@ func (UnimplementedDaemonConnectionServiceHandler) CreateBackendToken(context.Co
 
 func (UnimplementedDaemonConnectionServiceHandler) RegisterDaemon(context.Context, *connect.Request[backend.RegisterDaemonRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.DaemonConnectionService.RegisterDaemon is not implemented"))
+}
+
+func (UnimplementedDaemonConnectionServiceHandler) SyncData(context.Context, *connect.Request[proto_gen_go.Empty], *connect.ServerStream[backend.SyncDataResponse]) error {
+	return connect.NewError(connect.CodeUnimplemented, errors.New("backend.DaemonConnectionService.SyncData is not implemented"))
 }
