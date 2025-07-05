@@ -733,6 +733,9 @@ components:
           type: string
           title: content
           format: byte
+        fileInfo:
+          title: fileInfo
+          $ref: '#/components/schemas/daemon.FileEntry'
       title: ReadFileResponse
       additionalProperties: false
     daemon.SearchFilesRequest:

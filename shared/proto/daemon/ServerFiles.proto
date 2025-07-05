@@ -76,6 +76,7 @@ message ReadFileRequest {
 
 message ReadFileResponse {
   bytes content = 1;
+  FileEntry fileInfo = 2;
 }
 
 message WriteFileRequest {

@@ -489,6 +489,7 @@ func (x *ReadFileRequest) GetPath() string {
 type ReadFileResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Content       []byte                 `protobuf:"bytes,1,opt,name=content,proto3" json:"content,omitempty"`
+	FileInfo      *FileEntry             `protobuf:"bytes,2,opt,name=fileInfo,proto3" json:"fileInfo,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -526,6 +527,13 @@ func (*ReadFileResponse) Descriptor() ([]byte, []int) {
 func (x *ReadFileResponse) GetContent() []byte {
 	if x != nil {
 		return x.Content
+	}
+	return nil
+}
+
+func (x *ReadFileResponse) GetFileInfo() *FileEntry {
+	if x != nil {
+		return x.FileInfo
 	}
 	return nil
 }
@@ -1487,9 +1495,10 @@ const file_daemon_ServerFiles_proto_rawDesc = "" +
 	"\x04size\x18\x01 \x01(\x03R\x04size\"A\n" +
 	"\x0fReadFileRequest\x12\x1a\n" +
 	"\bserverId\x18\x01 \x01(\tR\bserverId\x12\x12\n" +
-	"\x04path\x18\x02 \x01(\tR\x04path\",\n" +
+	"\x04path\x18\x02 \x01(\tR\x04path\"[\n" +
 	"\x10ReadFileResponse\x12\x18\n" +
-	"\acontent\x18\x01 \x01(\fR\acontent\"\\\n" +
+	"\acontent\x18\x01 \x01(\fR\acontent\x12-\n" +
+	"\bfileInfo\x18\x02 \x01(\v2\x11.daemon.FileEntryR\bfileInfo\"\\\n" +
 	"\x10WriteFileRequest\x12\x1a\n" +
 	"\bserverId\x18\x01 \x01(\tR\bserverId\x12\x12\n" +
 	"\x04path\x18\x02 \x01(\tR\x04path\x12\x18\n" +
@@ -1616,39 +1625,40 @@ var file_daemon_ServerFiles_proto_goTypes = []any{
 var file_daemon_ServerFiles_proto_depIdxs = []int32{
 	28, // 0: daemon.FileEntry.lastModified:type_name -> google.protobuf.Timestamp
 	1,  // 1: daemon.ListDirectoryResponse.files:type_name -> daemon.FileEntry
-	0,  // 2: daemon.CompressFileRequest.format:type_name -> daemon.CompressionFormat
-	1,  // 3: daemon.SearchFilesResponse.results:type_name -> daemon.FileEntry
-	2,  // 4: daemon.ServerFilesService.ListDirectory:input_type -> daemon.ListDirectoryRequest
-	4,  // 5: daemon.ServerFilesService.CreateDirectory:input_type -> daemon.CreateDirectoryRequest
-	6,  // 6: daemon.ServerFilesService.GetDirectorySize:input_type -> daemon.GetDirectorySizeRequest
-	8,  // 7: daemon.ServerFilesService.ReadFile:input_type -> daemon.ReadFileRequest
-	10, // 8: daemon.ServerFilesService.WriteFile:input_type -> daemon.WriteFileRequest
-	12, // 9: daemon.ServerFilesService.DeleteFile:input_type -> daemon.DeleteFileRequest
-	14, // 10: daemon.ServerFilesService.MoveFile:input_type -> daemon.MoveFileRequest
-	16, // 11: daemon.ServerFilesService.CopyFile:input_type -> daemon.CopyFileRequest
-	18, // 12: daemon.ServerFilesService.CompressFile:input_type -> daemon.CompressFileRequest
-	20, // 13: daemon.ServerFilesService.DecompressFile:input_type -> daemon.DecompressFileRequest
-	22, // 14: daemon.ServerFilesService.ChangeFilePermissions:input_type -> daemon.ChangeFilePermissionsRequest
-	24, // 15: daemon.ServerFilesService.GetFilePermissions:input_type -> daemon.GetFilePermissionsRequest
-	26, // 16: daemon.ServerFilesService.SearchFiles:input_type -> daemon.SearchFilesRequest
-	3,  // 17: daemon.ServerFilesService.ListDirectory:output_type -> daemon.ListDirectoryResponse
-	5,  // 18: daemon.ServerFilesService.CreateDirectory:output_type -> daemon.CreateDirectoryResponse
-	7,  // 19: daemon.ServerFilesService.GetDirectorySize:output_type -> daemon.GetDirectorySizeResponse
-	9,  // 20: daemon.ServerFilesService.ReadFile:output_type -> daemon.ReadFileResponse
-	11, // 21: daemon.ServerFilesService.WriteFile:output_type -> daemon.WriteFileResponse
-	13, // 22: daemon.ServerFilesService.DeleteFile:output_type -> daemon.DeleteFileResponse
-	15, // 23: daemon.ServerFilesService.MoveFile:output_type -> daemon.MoveFileResponse
-	17, // 24: daemon.ServerFilesService.CopyFile:output_type -> daemon.CopyFileResponse
-	19, // 25: daemon.ServerFilesService.CompressFile:output_type -> daemon.CompressFileResponse
-	21, // 26: daemon.ServerFilesService.DecompressFile:output_type -> daemon.DecompressFileResponse
-	23, // 27: daemon.ServerFilesService.ChangeFilePermissions:output_type -> daemon.ChangeFilePermissionsResponse
-	25, // 28: daemon.ServerFilesService.GetFilePermissions:output_type -> daemon.GetFilePermissionsResponse
-	27, // 29: daemon.ServerFilesService.SearchFiles:output_type -> daemon.SearchFilesResponse
-	17, // [17:30] is the sub-list for method output_type
-	4,  // [4:17] is the sub-list for method input_type
-	4,  // [4:4] is the sub-list for extension type_name
-	4,  // [4:4] is the sub-list for extension extendee
-	0,  // [0:4] is the sub-list for field type_name
+	1,  // 2: daemon.ReadFileResponse.fileInfo:type_name -> daemon.FileEntry
+	0,  // 3: daemon.CompressFileRequest.format:type_name -> daemon.CompressionFormat
+	1,  // 4: daemon.SearchFilesResponse.results:type_name -> daemon.FileEntry
+	2,  // 5: daemon.ServerFilesService.ListDirectory:input_type -> daemon.ListDirectoryRequest
+	4,  // 6: daemon.ServerFilesService.CreateDirectory:input_type -> daemon.CreateDirectoryRequest
+	6,  // 7: daemon.ServerFilesService.GetDirectorySize:input_type -> daemon.GetDirectorySizeRequest
+	8,  // 8: daemon.ServerFilesService.ReadFile:input_type -> daemon.ReadFileRequest
+	10, // 9: daemon.ServerFilesService.WriteFile:input_type -> daemon.WriteFileRequest
+	12, // 10: daemon.ServerFilesService.DeleteFile:input_type -> daemon.DeleteFileRequest
+	14, // 11: daemon.ServerFilesService.MoveFile:input_type -> daemon.MoveFileRequest
+	16, // 12: daemon.ServerFilesService.CopyFile:input_type -> daemon.CopyFileRequest
+	18, // 13: daemon.ServerFilesService.CompressFile:input_type -> daemon.CompressFileRequest
+	20, // 14: daemon.ServerFilesService.DecompressFile:input_type -> daemon.DecompressFileRequest
+	22, // 15: daemon.ServerFilesService.ChangeFilePermissions:input_type -> daemon.ChangeFilePermissionsRequest
+	24, // 16: daemon.ServerFilesService.GetFilePermissions:input_type -> daemon.GetFilePermissionsRequest
+	26, // 17: daemon.ServerFilesService.SearchFiles:input_type -> daemon.SearchFilesRequest
+	3,  // 18: daemon.ServerFilesService.ListDirectory:output_type -> daemon.ListDirectoryResponse
+	5,  // 19: daemon.ServerFilesService.CreateDirectory:output_type -> daemon.CreateDirectoryResponse
+	7,  // 20: daemon.ServerFilesService.GetDirectorySize:output_type -> daemon.GetDirectorySizeResponse
+	9,  // 21: daemon.ServerFilesService.ReadFile:output_type -> daemon.ReadFileResponse
+	11, // 22: daemon.ServerFilesService.WriteFile:output_type -> daemon.WriteFileResponse
+	13, // 23: daemon.ServerFilesService.DeleteFile:output_type -> daemon.DeleteFileResponse
+	15, // 24: daemon.ServerFilesService.MoveFile:output_type -> daemon.MoveFileResponse
+	17, // 25: daemon.ServerFilesService.CopyFile:output_type -> daemon.CopyFileResponse
+	19, // 26: daemon.ServerFilesService.CompressFile:output_type -> daemon.CompressFileResponse
+	21, // 27: daemon.ServerFilesService.DecompressFile:output_type -> daemon.DecompressFileResponse
+	23, // 28: daemon.ServerFilesService.ChangeFilePermissions:output_type -> daemon.ChangeFilePermissionsResponse
+	25, // 29: daemon.ServerFilesService.GetFilePermissions:output_type -> daemon.GetFilePermissionsResponse
+	27, // 30: daemon.ServerFilesService.SearchFiles:output_type -> daemon.SearchFilesResponse
+	18, // [18:31] is the sub-list for method output_type
+	5,  // [5:18] is the sub-list for method input_type
+	5,  // [5:5] is the sub-list for extension type_name
+	5,  // [5:5] is the sub-list for extension extendee
+	0,  // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_daemon_ServerFiles_proto_init() }
