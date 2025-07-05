@@ -7,6 +7,14 @@ dev-backend:
 dev-daemon:
 	cd ./apps/daemon && air
 
+dashboard-image:
+	docker build --target dashboard --tag nginxalpine_dashboard .
+
+dashboard-container:
+	docker run -p 80:80 nginxalpine_dashboard:latest
+
+docker-dashboard: dashboard-image dashboard-container
+
 gen-proto:
 	cd ./shared/proto && buf generate
 
