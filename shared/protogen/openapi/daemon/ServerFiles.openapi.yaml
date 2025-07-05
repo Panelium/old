@@ -1,0 +1,943 @@
+openapi: 3.1.0
+info:
+  title: daemon
+paths:
+  /daemon.ServerFilesService/ListDirectory:
+    post:
+      tags:
+        - daemon.ServerFilesService
+      summary: ListDirectory
+      description: Directory operations
+      operationId: daemon.ServerFilesService.ListDirectory
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/daemon.ListDirectoryRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/daemon.ListDirectoryResponse'
+  /daemon.ServerFilesService/CreateDirectory:
+    post:
+      tags:
+        - daemon.ServerFilesService
+      summary: CreateDirectory
+      operationId: daemon.ServerFilesService.CreateDirectory
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/daemon.CreateDirectoryRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/daemon.CreateDirectoryResponse'
+  /daemon.ServerFilesService/GetDirectorySize:
+    post:
+      tags:
+        - daemon.ServerFilesService
+      summary: GetDirectorySize
+      operationId: daemon.ServerFilesService.GetDirectorySize
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/daemon.GetDirectorySizeRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/daemon.GetDirectorySizeResponse'
+  /daemon.ServerFilesService/ReadFile:
+    post:
+      tags:
+        - daemon.ServerFilesService
+      summary: ReadFile
+      description: File operations
+      operationId: daemon.ServerFilesService.ReadFile
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/daemon.ReadFileRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/daemon.ReadFileResponse'
+  /daemon.ServerFilesService/WriteFile:
+    post:
+      tags:
+        - daemon.ServerFilesService
+      summary: WriteFile
+      operationId: daemon.ServerFilesService.WriteFile
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/daemon.WriteFileRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/daemon.WriteFileResponse'
+  /daemon.ServerFilesService/DeleteFile:
+    post:
+      tags:
+        - daemon.ServerFilesService
+      summary: DeleteFile
+      operationId: daemon.ServerFilesService.DeleteFile
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/daemon.DeleteFileRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/daemon.DeleteFileResponse'
+  /daemon.ServerFilesService/MoveFile:
+    post:
+      tags:
+        - daemon.ServerFilesService
+      summary: MoveFile
+      description: Movement operations
+      operationId: daemon.ServerFilesService.MoveFile
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/daemon.MoveFileRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/daemon.MoveFileResponse'
+  /daemon.ServerFilesService/CopyFile:
+    post:
+      tags:
+        - daemon.ServerFilesService
+      summary: CopyFile
+      operationId: daemon.ServerFilesService.CopyFile
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/daemon.CopyFileRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/daemon.CopyFileResponse'
+  /daemon.ServerFilesService/CompressFile:
+    post:
+      tags:
+        - daemon.ServerFilesService
+      summary: CompressFile
+      description: Compression operations
+      operationId: daemon.ServerFilesService.CompressFile
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/daemon.CompressFileRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/daemon.CompressFileResponse'
+  /daemon.ServerFilesService/DecompressFile:
+    post:
+      tags:
+        - daemon.ServerFilesService
+      summary: DecompressFile
+      operationId: daemon.ServerFilesService.DecompressFile
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/daemon.DecompressFileRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/daemon.DecompressFileResponse'
+  /daemon.ServerFilesService/ChangeFilePermissions:
+    post:
+      tags:
+        - daemon.ServerFilesService
+      summary: ChangeFilePermissions
+      description: File permissions operations
+      operationId: daemon.ServerFilesService.ChangeFilePermissions
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/daemon.ChangeFilePermissionsRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/daemon.ChangeFilePermissionsResponse'
+  /daemon.ServerFilesService/GetFilePermissions:
+    post:
+      tags:
+        - daemon.ServerFilesService
+      summary: GetFilePermissions
+      operationId: daemon.ServerFilesService.GetFilePermissions
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/daemon.GetFilePermissionsRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/daemon.GetFilePermissionsResponse'
+  /daemon.ServerFilesService/SearchFiles:
+    post:
+      tags:
+        - daemon.ServerFilesService
+      summary: SearchFiles
+      description: Search files
+      operationId: daemon.ServerFilesService.SearchFiles
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/daemon.SearchFilesRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/daemon.SearchFilesResponse'
+components:
+  schemas:
+    daemon.CompressionFormat:
+      type: string
+      title: CompressionFormat
+      enum:
+        - COMPRESSION_FORMAT_UNSPECIFIED
+        - COMPRESSION_FORMAT_ZIP
+        - COMPRESSION_FORMAT_TAR
+        - COMPRESSION_FORMAT_GZIP
+      description: Compression operations
+    daemon.ChangeFilePermissionsRequest:
+      type: object
+      properties:
+        serverId:
+          type: string
+          title: serverId
+        path:
+          type: string
+          title: path
+        permissions:
+          type: integer
+          title: permissions
+          format: int32
+          description: standard unix permissions
+      title: ChangeFilePermissionsRequest
+      additionalProperties: false
+      description: File permissions operations
+    daemon.ChangeFilePermissionsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: ChangeFilePermissionsResponse
+      additionalProperties: false
+    daemon.CompressFileRequest:
+      type: object
+      properties:
+        serverId:
+          type: string
+          title: serverId
+        path:
+          type: string
+          title: path
+        destinationPath:
+          type: string
+          title: destinationPath
+        format:
+          title: format
+          $ref: '#/components/schemas/daemon.CompressionFormat'
+      title: CompressFileRequest
+      additionalProperties: false
+    daemon.CompressFileResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: CompressFileResponse
+      additionalProperties: false
+    daemon.CopyFileRequest:
+      type: object
+      properties:
+        serverId:
+          type: string
+          title: serverId
+        sourcePath:
+          type: string
+          title: sourcePath
+        destinationPath:
+          type: string
+          title: destinationPath
+      title: CopyFileRequest
+      additionalProperties: false
+    daemon.CopyFileResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: CopyFileResponse
+      additionalProperties: false
+    daemon.CreateDirectoryRequest:
+      type: object
+      properties:
+        serverId:
+          type: string
+          title: serverId
+        path:
+          type: string
+          title: path
+      title: CreateDirectoryRequest
+      additionalProperties: false
+    daemon.CreateDirectoryResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: CreateDirectoryResponse
+      additionalProperties: false
+    daemon.DecompressFileRequest:
+      type: object
+      properties:
+        serverId:
+          type: string
+          title: serverId
+        path:
+          type: string
+          title: path
+        destinationPath:
+          type: string
+          title: destinationPath
+      title: DecompressFileRequest
+      additionalProperties: false
+    daemon.DecompressFileResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: DecompressFileResponse
+      additionalProperties: false
+    daemon.DeleteFileRequest:
+      type: object
+      properties:
+        serverId:
+          type: string
+          title: serverId
+        path:
+          type: string
+          title: path
+      title: DeleteFileRequest
+      additionalProperties: false
+    daemon.DeleteFileResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: DeleteFileResponse
+      additionalProperties: false
+    daemon.FileEntry:
+      type: object
+      properties:
+        path:
+          type: string
+          title: path
+        isDirectory:
+          type: boolean
+          title: isDirectory
+        size:
+          type:
+            - integer
+            - string
+          title: size
+          format: int64
+          description: size in bytes (only for files)
+        lastModified:
+          title: lastModified
+          $ref: '#/components/schemas/google.protobuf.Timestamp'
+      title: FileEntry
+      additionalProperties: false
+    daemon.GetDirectorySizeRequest:
+      type: object
+      properties:
+        serverId:
+          type: string
+          title: serverId
+        path:
+          type: string
+          title: path
+      title: GetDirectorySizeRequest
+      additionalProperties: false
+    daemon.GetDirectorySizeResponse:
+      type: object
+      properties:
+        size:
+          type:
+            - integer
+            - string
+          title: size
+          format: int64
+          description: size in bytes
+      title: GetDirectorySizeResponse
+      additionalProperties: false
+    daemon.GetFilePermissionsRequest:
+      type: object
+      properties:
+        serverId:
+          type: string
+          title: serverId
+        path:
+          type: string
+          title: path
+      title: GetFilePermissionsRequest
+      additionalProperties: false
+    daemon.GetFilePermissionsResponse:
+      type: object
+      properties:
+        permissions:
+          type: integer
+          title: permissions
+          format: int32
+          description: standard unix permissions
+      title: GetFilePermissionsResponse
+      additionalProperties: false
+    daemon.ListDirectoryRequest:
+      type: object
+      properties:
+        serverId:
+          type: string
+          title: serverId
+        path:
+          type: string
+          title: path
+      title: ListDirectoryRequest
+      additionalProperties: false
+      description: Directory operations
+    daemon.ListDirectoryResponse:
+      type: object
+      properties:
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/daemon.FileEntry'
+          title: files
+      title: ListDirectoryResponse
+      additionalProperties: false
+    daemon.MoveFileRequest:
+      type: object
+      properties:
+        serverId:
+          type: string
+          title: serverId
+        sourcePath:
+          type: string
+          title: sourcePath
+        destinationPath:
+          type: string
+          title: destinationPath
+      title: MoveFileRequest
+      additionalProperties: false
+      description: Movement operations
+    daemon.MoveFileResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: MoveFileResponse
+      additionalProperties: false
+    daemon.ReadFileRequest:
+      type: object
+      properties:
+        serverId:
+          type: string
+          title: serverId
+        path:
+          type: string
+          title: path
+      title: ReadFileRequest
+      additionalProperties: false
+      description: File operations
+    daemon.ReadFileResponse:
+      type: object
+      properties:
+        content:
+          type: string
+          title: content
+          format: byte
+      title: ReadFileResponse
+      additionalProperties: false
+    daemon.SearchFilesRequest:
+      type: object
+      properties:
+        serverId:
+          type: string
+          title: serverId
+        query:
+          type: string
+          title: query
+        path:
+          type: string
+          title: path
+          description: search root
+      title: SearchFilesRequest
+      additionalProperties: false
+    daemon.SearchFilesResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/daemon.FileEntry'
+          title: results
+      title: SearchFilesResponse
+      additionalProperties: false
+    daemon.WriteFileRequest:
+      type: object
+      properties:
+        serverId:
+          type: string
+          title: serverId
+        path:
+          type: string
+          title: path
+        content:
+          type: string
+          title: content
+          format: byte
+      title: WriteFileRequest
+      additionalProperties: false
+    daemon.WriteFileResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: WriteFileResponse
+      additionalProperties: false
+    google.protobuf.Timestamp:
+      type: string
+      examples:
+        - 1s
+        - 1.000340012s
+      format: date-time
+      description: |-
+        A Timestamp represents a point in time independent of any time zone or local
+         calendar, encoded as a count of seconds and fractions of seconds at
+         nanosecond resolution. The count is relative to an epoch at UTC midnight on
+         January 1, 1970, in the proleptic Gregorian calendar which extends the
+         Gregorian calendar backwards to year one.
+
+         All minutes are 60 seconds long. Leap seconds are "smeared" so that no leap
+         second table is needed for interpretation, using a [24-hour linear
+         smear](https://developers.google.com/time/smear).
+
+         The range is from 0001-01-01T00:00:00Z to 9999-12-31T23:59:59.999999999Z. By
+         restricting to that range, we ensure that we can convert to and from [RFC
+         3339](https://www.ietf.org/rfc/rfc3339.txt) date strings.
+
+         # Examples
+
+         Example 1: Compute Timestamp from POSIX `time()`.
+
+             Timestamp timestamp;
+             timestamp.set_seconds(time(NULL));
+             timestamp.set_nanos(0);
+
+         Example 2: Compute Timestamp from POSIX `gettimeofday()`.
+
+             struct timeval tv;
+             gettimeofday(&tv, NULL);
+
+             Timestamp timestamp;
+             timestamp.set_seconds(tv.tv_sec);
+             timestamp.set_nanos(tv.tv_usec * 1000);
+
+         Example 3: Compute Timestamp from Win32 `GetSystemTimeAsFileTime()`.
+
+             FILETIME ft;
+             GetSystemTimeAsFileTime(&ft);
+             UINT64 ticks = (((UINT64)ft.dwHighDateTime) << 32) | ft.dwLowDateTime;
+
+             // A Windows tick is 100 nanoseconds. Windows epoch 1601-01-01T00:00:00Z
+             // is 11644473600 seconds before Unix epoch 1970-01-01T00:00:00Z.
+             Timestamp timestamp;
+             timestamp.set_seconds((INT64) ((ticks / 10000000) - 11644473600LL));
+             timestamp.set_nanos((INT32) ((ticks % 10000000) * 100));
+
+         Example 4: Compute Timestamp from Java `System.currentTimeMillis()`.
+
+             long millis = System.currentTimeMillis();
+
+             Timestamp timestamp = Timestamp.newBuilder().setSeconds(millis / 1000)
+                 .setNanos((int) ((millis % 1000) * 1000000)).build();
+
+         Example 5: Compute Timestamp from Java `Instant.now()`.
+
+             Instant now = Instant.now();
+
+             Timestamp timestamp =
+                 Timestamp.newBuilder().setSeconds(now.getEpochSecond())
+                     .setNanos(now.getNano()).build();
+
+         Example 6: Compute Timestamp from current time in Python.
+
+             timestamp = Timestamp()
+             timestamp.GetCurrentTime()
+
+         # JSON Mapping
+
+         In JSON format, the Timestamp type is encoded as a string in the
+         [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format. That is, the
+         format is "{year}-{month}-{day}T{hour}:{min}:{sec}[.{frac_sec}]Z"
+         where {year} is always expressed using four digits while {month}, {day},
+         {hour}, {min}, and {sec} are zero-padded to two digits each. The fractional
+         seconds, which can go up to 9 digits (i.e. up to 1 nanosecond resolution),
+         are optional. The "Z" suffix indicates the timezone ("UTC"); the timezone
+         is required. A proto3 JSON serializer should always use UTC (as indicated by
+         "Z") when printing the Timestamp type and a proto3 JSON parser should be
+         able to accept both UTC and other timezones (as indicated by an offset).
+
+         For example, "2017-01-15T01:30:15.01Z" encodes 15.01 seconds past
+         01:30 UTC on January 15, 2017.
+
+         In JavaScript, one can convert a Date object to this format using the
+         standard
+         [toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString)
+         method. In Python, a standard `datetime.datetime` object can be converted
+         to this format using
+         [`strftime`](https://docs.python.org/2/library/time.html#time.strftime) with
+         the time format spec '%Y-%m-%dT%H:%M:%S.%fZ'. Likewise, in Java, one can use
+         the Joda Time's [`ISODateTimeFormat.dateTime()`](
+         http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTime()
+         ) to obtain a formatter capable of generating timestamps in this format.
+    connect-protocol-version:
+      type: number
+      title: Connect-Protocol-Version
+      enum:
+        - 1
+      description: Define the version of the Connect protocol
+      const: 1
+    connect-timeout-header:
+      type: number
+      title: Connect-Timeout-Ms
+      description: Define the timeout, in ms
+    connect.error:
+      type: object
+      properties:
+        code:
+          type: string
+          examples:
+            - not_found
+          enum:
+            - canceled
+            - unknown
+            - invalid_argument
+            - deadline_exceeded
+            - not_found
+            - already_exists
+            - permission_denied
+            - resource_exhausted
+            - failed_precondition
+            - aborted
+            - out_of_range
+            - unimplemented
+            - internal
+            - unavailable
+            - data_loss
+            - unauthenticated
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        detail:
+          $ref: '#/components/schemas/google.protobuf.Any'
+      title: Connect Error
+      additionalProperties: true
+      description: 'Error type returned by Connect: https://connectrpc.com/docs/go/errors/#http-representation'
+    google.protobuf.Any:
+      type: object
+      properties:
+        type:
+          type: string
+        value:
+          type: string
+          format: binary
+        debug:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+security: []
+tags:
+  - name: daemon.ServerFilesService
