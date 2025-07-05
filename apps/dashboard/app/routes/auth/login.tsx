@@ -22,7 +22,7 @@ import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
 import { useSession } from "~/providers/SessionProvider";
-import { getAuthClient } from "~/lib/auth";
+import { getAuthClient } from "~/lib/api-clients";
 
 const loginFormSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),

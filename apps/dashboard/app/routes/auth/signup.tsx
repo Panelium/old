@@ -21,7 +21,7 @@ import {
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 import { useSession } from "~/providers/SessionProvider";
-import { getAuthClient } from "~/lib/auth";
+import { getAuthClient } from "~/lib/api-clients";
 
 const signupFormSchema = z.object({
   username: z.string(),
