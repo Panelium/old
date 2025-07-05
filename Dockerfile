@@ -37,3 +37,15 @@ COPY --from=build-daemon /build/daemon /app/daemon
 VOLUME ["/var/run/docker.sock", "/var/lib/docker/volumes"]
 # need to mount these when running the container
 CMD ["./daemon"]
+
+FROM node:22-alpine AS build-dashboard
+WORKDIR /app/dashboard/
+COPY apps/dashboard/ .
+RUN npm install
+# awful hack to not have to change imports
+COPY shared/protogen/ts/ /app/node_modules/proto-gen-ts/
+RUN npm install --prefix /app/node_modules/proto-gen-ts/
+RUN npm run build
+
+FROM nginx:alpine AS dashboard
+COPY --from=build-dashboard /app/dashboard/build/ /usr/share/nginx/html/
