@@ -1,4 +1,4 @@
-package servers
+package backend
 
 import (
 	"connectrpc.com/connect"
@@ -8,7 +8,7 @@ import (
 	"panelium/proto_gen_go/daemon"
 )
 
-func (s *ServersServiceHandler) DeleteServer(
+func (s *BackendServiceHandler) DeleteServer(
 	ctx context.Context,
 	req *connect.Request[daemon.DeleteServerRequest],
 ) (*connect.Response[proto_gen_go.SuccessMessage], error) {

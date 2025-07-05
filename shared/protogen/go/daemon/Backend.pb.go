@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        (unknown)
-// source: daemon/Internal.proto
+// source: daemon/Backend.proto
 
 package daemon
 
@@ -37,7 +37,7 @@ type CreateServerRequest struct {
 
 func (x *CreateServerRequest) Reset() {
 	*x = CreateServerRequest{}
-	mi := &file_daemon_Internal_proto_msgTypes[0]
+	mi := &file_daemon_Backend_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -49,7 +49,7 @@ func (x *CreateServerRequest) String() string {
 func (*CreateServerRequest) ProtoMessage() {}
 
 func (x *CreateServerRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_daemon_Internal_proto_msgTypes[0]
+	mi := &file_daemon_Backend_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -62,7 +62,7 @@ func (x *CreateServerRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateServerRequest.ProtoReflect.Descriptor instead.
 func (*CreateServerRequest) Descriptor() ([]byte, []int) {
-	return file_daemon_Internal_proto_rawDescGZIP(), []int{0}
+	return file_daemon_Backend_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *CreateServerRequest) GetServerId() string {
@@ -129,7 +129,7 @@ type UpdateServerRequest struct {
 
 func (x *UpdateServerRequest) Reset() {
 	*x = UpdateServerRequest{}
-	mi := &file_daemon_Internal_proto_msgTypes[1]
+	mi := &file_daemon_Backend_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -141,7 +141,7 @@ func (x *UpdateServerRequest) String() string {
 func (*UpdateServerRequest) ProtoMessage() {}
 
 func (x *UpdateServerRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_daemon_Internal_proto_msgTypes[1]
+	mi := &file_daemon_Backend_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -154,7 +154,7 @@ func (x *UpdateServerRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateServerRequest.ProtoReflect.Descriptor instead.
 func (*UpdateServerRequest) Descriptor() ([]byte, []int) {
-	return file_daemon_Internal_proto_rawDescGZIP(), []int{1}
+	return file_daemon_Backend_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *UpdateServerRequest) GetServerId() string {
@@ -209,7 +209,7 @@ type DeleteServerRequest struct {
 
 func (x *DeleteServerRequest) Reset() {
 	*x = DeleteServerRequest{}
-	mi := &file_daemon_Internal_proto_msgTypes[2]
+	mi := &file_daemon_Backend_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -221,7 +221,7 @@ func (x *DeleteServerRequest) String() string {
 func (*DeleteServerRequest) ProtoMessage() {}
 
 func (x *DeleteServerRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_daemon_Internal_proto_msgTypes[2]
+	mi := &file_daemon_Backend_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -234,7 +234,7 @@ func (x *DeleteServerRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteServerRequest.ProtoReflect.Descriptor instead.
 func (*DeleteServerRequest) Descriptor() ([]byte, []int) {
-	return file_daemon_Internal_proto_rawDescGZIP(), []int{2}
+	return file_daemon_Backend_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *DeleteServerRequest) GetServerId() string {
@@ -251,11 +251,11 @@ func (x *DeleteServerRequest) GetForce() bool {
 	return false
 }
 
-var File_daemon_Internal_proto protoreflect.FileDescriptor
+var File_daemon_Backend_proto protoreflect.FileDescriptor
 
-const file_daemon_Internal_proto_rawDesc = "" +
+const file_daemon_Backend_proto_rawDesc = "" +
 	"\n" +
-	"\x15daemon/Internal.proto\x12\x06daemon\x1a\fcommon.proto\x1a\x13daemon/Server.proto\"\x9e\x02\n" +
+	"\x14daemon/Backend.proto\x12\x06daemon\x1a\fcommon.proto\x1a\x13daemon/Server.proto\"\x9e\x02\n" +
 	"\x13CreateServerRequest\x12\x1a\n" +
 	"\bserverId\x18\x01 \x01(\tR\bserverId\x12\x18\n" +
 	"\aownerId\x18\x02 \x01(\tR\aownerId\x12\x18\n" +
@@ -276,26 +276,26 @@ const file_daemon_Internal_proto_rawDesc = "" +
 	"\f_dockerImage\"G\n" +
 	"\x13DeleteServerRequest\x12\x1a\n" +
 	"\bserverId\x18\x01 \x01(\tR\bserverId\x12\x14\n" +
-	"\x05force\x18\x02 \x01(\bR\x05force2\xe0\x01\n" +
-	"\x0fInternalService\x12C\n" +
+	"\x05force\x18\x02 \x01(\bR\x05force2\xdf\x01\n" +
+	"\x0eBackendService\x12C\n" +
 	"\fCreateServer\x12\x1b.daemon.CreateServerRequest\x1a\x16.common.SuccessMessage\x12C\n" +
 	"\fUpdateServer\x12\x1b.daemon.UpdateServerRequest\x1a\x16.common.SuccessMessage\x12C\n" +
 	"\fDeleteServer\x12\x1b.daemon.DeleteServerRequest\x1a\x16.common.SuccessMessageB\x1eZ\x1cpanelium/proto_gen_go/daemonb\x06proto3"
 
 var (
-	file_daemon_Internal_proto_rawDescOnce sync.Once
-	file_daemon_Internal_proto_rawDescData []byte
+	file_daemon_Backend_proto_rawDescOnce sync.Once
+	file_daemon_Backend_proto_rawDescData []byte
 )
 
-func file_daemon_Internal_proto_rawDescGZIP() []byte {
-	file_daemon_Internal_proto_rawDescOnce.Do(func() {
-		file_daemon_Internal_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_daemon_Internal_proto_rawDesc), len(file_daemon_Internal_proto_rawDesc)))
+func file_daemon_Backend_proto_rawDescGZIP() []byte {
+	file_daemon_Backend_proto_rawDescOnce.Do(func() {
+		file_daemon_Backend_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_daemon_Backend_proto_rawDesc), len(file_daemon_Backend_proto_rawDesc)))
 	})
-	return file_daemon_Internal_proto_rawDescData
+	return file_daemon_Backend_proto_rawDescData
 }
 
-var file_daemon_Internal_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
-var file_daemon_Internal_proto_goTypes = []any{
+var file_daemon_Backend_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_daemon_Backend_proto_goTypes = []any{
 	(*CreateServerRequest)(nil),         // 0: daemon.CreateServerRequest
 	(*UpdateServerRequest)(nil),         // 1: daemon.UpdateServerRequest
 	(*DeleteServerRequest)(nil),         // 2: daemon.DeleteServerRequest
@@ -303,17 +303,17 @@ var file_daemon_Internal_proto_goTypes = []any{
 	(*proto_gen_go.ResourceLimit)(nil),  // 4: common.ResourceLimit
 	(*proto_gen_go.SuccessMessage)(nil), // 5: common.SuccessMessage
 }
-var file_daemon_Internal_proto_depIdxs = []int32{
+var file_daemon_Backend_proto_depIdxs = []int32{
 	3, // 0: daemon.CreateServerRequest.allocations:type_name -> common.IPAllocation
 	4, // 1: daemon.CreateServerRequest.resourceLimit:type_name -> common.ResourceLimit
 	3, // 2: daemon.UpdateServerRequest.allocations:type_name -> common.IPAllocation
 	4, // 3: daemon.UpdateServerRequest.resourceLimit:type_name -> common.ResourceLimit
-	0, // 4: daemon.InternalService.CreateServer:input_type -> daemon.CreateServerRequest
-	1, // 5: daemon.InternalService.UpdateServer:input_type -> daemon.UpdateServerRequest
-	2, // 6: daemon.InternalService.DeleteServer:input_type -> daemon.DeleteServerRequest
-	5, // 7: daemon.InternalService.CreateServer:output_type -> common.SuccessMessage
-	5, // 8: daemon.InternalService.UpdateServer:output_type -> common.SuccessMessage
-	5, // 9: daemon.InternalService.DeleteServer:output_type -> common.SuccessMessage
+	0, // 4: daemon.BackendService.CreateServer:input_type -> daemon.CreateServerRequest
+	1, // 5: daemon.BackendService.UpdateServer:input_type -> daemon.UpdateServerRequest
+	2, // 6: daemon.BackendService.DeleteServer:input_type -> daemon.DeleteServerRequest
+	5, // 7: daemon.BackendService.CreateServer:output_type -> common.SuccessMessage
+	5, // 8: daemon.BackendService.UpdateServer:output_type -> common.SuccessMessage
+	5, // 9: daemon.BackendService.DeleteServer:output_type -> common.SuccessMessage
 	7, // [7:10] is the sub-list for method output_type
 	4, // [4:7] is the sub-list for method input_type
 	4, // [4:4] is the sub-list for extension type_name
@@ -321,28 +321,28 @@ var file_daemon_Internal_proto_depIdxs = []int32{
 	0, // [0:4] is the sub-list for field type_name
 }
 
-func init() { file_daemon_Internal_proto_init() }
-func file_daemon_Internal_proto_init() {
-	if File_daemon_Internal_proto != nil {
+func init() { file_daemon_Backend_proto_init() }
+func file_daemon_Backend_proto_init() {
+	if File_daemon_Backend_proto != nil {
 		return
 	}
 	file_daemon_Server_proto_init()
-	file_daemon_Internal_proto_msgTypes[1].OneofWrappers = []any{}
+	file_daemon_Backend_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_daemon_Internal_proto_rawDesc), len(file_daemon_Internal_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_daemon_Backend_proto_rawDesc), len(file_daemon_Backend_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_daemon_Internal_proto_goTypes,
-		DependencyIndexes: file_daemon_Internal_proto_depIdxs,
-		MessageInfos:      file_daemon_Internal_proto_msgTypes,
+		GoTypes:           file_daemon_Backend_proto_goTypes,
+		DependencyIndexes: file_daemon_Backend_proto_depIdxs,
+		MessageInfos:      file_daemon_Backend_proto_msgTypes,
 	}.Build()
-	File_daemon_Internal_proto = out.File
-	file_daemon_Internal_proto_goTypes = nil
-	file_daemon_Internal_proto_depIdxs = nil
+	File_daemon_Backend_proto = out.File
+	file_daemon_Backend_proto_goTypes = nil
+	file_daemon_Backend_proto_depIdxs = nil
 }

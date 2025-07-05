@@ -19,8 +19,8 @@ func UpdateServer(sid string, userIds *[]string, allocations *[]model.ServerAllo
 				return fmt.Errorf("user ID cannot be empty")
 			}
 			serverUser := model.ServerUser{
-				SID:    sid,
-				UserID: userId,
+				SID: sid,
+				UID: userId,
 			}
 			if err := db.Instance().Create(&serverUser).Error; err != nil {
 				return fmt.Errorf("failed to create server user: %w", err)

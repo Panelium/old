@@ -1,4 +1,4 @@
-package servers
+package backend
 
 import (
 	"connectrpc.com/connect"
@@ -11,7 +11,7 @@ import (
 	"panelium/proto_gen_go/daemon"
 )
 
-func (s *ServersServiceHandler) CreateServer(
+func (s *BackendServiceHandler) CreateServer(
 	ctx context.Context,
 	req *connect.Request[daemon.CreateServerRequest],
 ) (*connect.Response[proto_gen_go.SuccessMessage], error) {

@@ -56,8 +56,8 @@ func CreateServer(sid string, ownerId string, userIds []string, allocations []mo
 	if len(userIds) > 0 {
 		for _, userId := range userIds {
 			serverUser := model.ServerUser{
-				SID:    server.SID,
-				UserID: userId,
+				SID: server.SID,
+				UID: userId,
 			}
 			if err := db.Instance().Create(&serverUser).Error; err != nil {
 				if rollbackErr := yeetDbServer(server.SID); rollbackErr != nil {
