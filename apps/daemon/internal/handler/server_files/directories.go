@@ -8,6 +8,8 @@ import (
 	"panelium/daemon/internal/security"
 	"panelium/daemon/internal/server"
 	"panelium/proto_gen_go/daemon"
+	"path/filepath"
+	"strings"
 )
 
 func (s *ServerFilesServiceHandler) ListDirectory(ctx context.Context, req *connect.Request[daemon.ListDirectoryRequest]) (*connect.Response[daemon.ListDirectoryResponse], error) {
@@ -72,7 +74,7 @@ func (s *ServerFilesServiceHandler) CreateDirectory(ctx context.Context, req *co
 		_ = root.Close()
 	}(root)
 
-	err = root.Mkdir(req.Msg.Path, 0755)
+	err = rootMkdirAll(root, req.Msg.Path, 0755)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}
@@ -139,4 +141,29 @@ func rootDirSize(root *os.Root, path string) (int64, error) {
 	}
 
 	return totalSize, nil
+}
+
+func rootMkdirAll(root *os.Root, path string, perm os.FileMode) error {
+	path = filepath.Clean(path)
+	if path == "." {
+		return nil
+	}
+
+	parts := strings.Split(path, "/")
+
+	var curr string
+	for _, part := range parts {
+		if part == "" {
+			continue
+		}
+
+		curr = filepath.Join(curr, part)
+
+		err := root.Mkdir(curr, perm)
+		if err != nil && !os.IsExist(err) {
+			return err
+		}
+	}
+
+	return nil
 }
