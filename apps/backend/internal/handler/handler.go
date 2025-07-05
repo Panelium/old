@@ -11,9 +11,13 @@ import (
 )
 
 func Handle(host string) error {
-	authInterceptors := connect.WithInterceptors(middleware.NewTokensInterceptor(), middleware.NewAuthInterceptor())
+	authInterceptors := connect.WithInterceptors(
+		middleware.NewTokensInterceptor(),
+		middleware.NewAuthInterceptor(),
+	)
 
 	mux := http.NewServeMux()
+
 	mux.Handle(backendconnect.NewAuthServiceHandler(&auth.AuthServiceHandler{}, authInterceptors))
 
 	handler := h2c.NewHandler(mux, &http2.Server{})
