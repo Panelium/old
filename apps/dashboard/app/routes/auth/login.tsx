@@ -22,6 +22,7 @@ import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
 import { useSession } from "~/providers/SessionProvider";
+import { getAuthClient } from "~/lib/auth";
 
 const loginFormSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -49,23 +50,26 @@ export default function LoginPage({ onSignUp }: { onSignUp?: () => void }) {
   });
 
   async function onSubmit(data: LoginFormValues) {
-    // TODO: authenticateUser(data.email, data.password, data.rememberMe);
-    form.setError("root", {
-      message:
-        "Authentication is not implemented yet. Please use the bypass button.",
-    });
-  }
+    const response = await (
+      await getAuthClient()
+    )
+      .login({
+        username: data.email,
+        password: data.password,
+      })
+      .catch((error) => {
+        console.error("Login error:", error);
+      });
 
-  function bypassAuthentication() {
+    if (!response || !response.success) {
+      form.setError("root", {
+        message: "Login failed. Please check your credentials.",
+      });
+      return;
+    }
+
     session.setAuthenticated(true);
     navigate("/", { replace: true });
-  }
-
-  function showSignUpError() {
-    form.setError("root", {
-      message:
-        "Authentication is not implemented yet. Please use the bypass button.",
-    });
   }
 
   return (
@@ -154,15 +158,6 @@ export default function LoginPage({ onSignUp }: { onSignUp?: () => void }) {
             Sign up
           </a>
         </p>
-
-        {/*TODO: Remove this once the authentication flow is implemented*/}
-        <Button
-          variant="outline"
-          className="mt-4 w-s no-select"
-          onClick={bypassAuthentication}
-        >
-          bypass authentication
-        </Button>
       </CardFooter>
     </div>
   );

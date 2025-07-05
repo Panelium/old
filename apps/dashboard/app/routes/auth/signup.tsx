@@ -21,9 +21,10 @@ import {
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 import { useSession } from "~/providers/SessionProvider";
+import { getAuthClient } from "~/lib/auth";
 
 const signupFormSchema = z.object({
-  username: z.string().email({ message: "Username has to be unique" }),
+  username: z.string(),
   email: z.string().email({ message: "Please enter a valid email address" }),
   password: z.string().min(8, {
     message: "Password must be at least 8 characters",
@@ -48,23 +49,27 @@ export default function SignupPage({ onLogin }: { onLogin: () => void }) {
   });
 
   async function onSubmit(data: SignupFormValues) {
-    // TODO: authenticateUser(data.email, data.password, data.rememberMe);
-    form.setError("root", {
-      message:
-        "Authentication is not implemented yet. Please use the bypass button.",
-    });
-  }
+    const response = await (
+      await getAuthClient()
+    )
+      .register({
+        email: data.email,
+        password: data.password,
+        username: data.username,
+      })
+      .catch((error) => {
+        console.error("Signup error:", error);
+      });
 
-  function bypassAuthentication() {
+    if (!response || !response.success) {
+      form.setError("root", {
+        message: "Signup failed. Please check your credentials.",
+      });
+      return;
+    }
+
     session.setAuthenticated(true);
     navigate("/", { replace: true });
-  }
-
-  function showSignUpError() {
-    form.setError("root", {
-      message:
-        "Authentication is not implemented yet. Please use the bypass button.",
-    });
   }
 
   return (
@@ -153,15 +158,6 @@ export default function SignupPage({ onLogin }: { onLogin: () => void }) {
             Return to login
           </a>
         </p>
-
-        {/*TODO: Remove this once the authentication flow is implemented*/}
-        <Button
-          variant="outline"
-          className="mt-4 w-s no-select"
-          onClick={bypassAuthentication}
-        >
-          bypass authentication
-        </Button>
       </CardFooter>
     </div>
   );
