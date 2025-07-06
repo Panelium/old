@@ -278,7 +278,7 @@ components:
           type: string
           title: email
         admin:
-          type: string
+          type: boolean
           title: admin
         setPassword:
           type: string

@@ -27,7 +27,7 @@ type User struct {
 	Uid           string                 `protobuf:"bytes,1,opt,name=uid,proto3" json:"uid,omitempty"` // ignored with Create
 	Username      string                 `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`
 	Email         string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
-	Admin         string                 `protobuf:"bytes,4,opt,name=admin,proto3" json:"admin,omitempty"`
+	Admin         bool                   `protobuf:"varint,4,opt,name=admin,proto3" json:"admin,omitempty"`
 	SetPassword   *string                `protobuf:"bytes,5,opt,name=set_password,json=setPassword,proto3,oneof" json:"set_password,omitempty"`
 	MfaNeeded     bool                   `protobuf:"varint,6,opt,name=mfa_needed,json=mfaNeeded,proto3" json:"mfa_needed,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -85,11 +85,11 @@ func (x *User) GetEmail() string {
 	return ""
 }
 
-func (x *User) GetAdmin() string {
+func (x *User) GetAdmin() bool {
 	if x != nil {
 		return x.Admin
 	}
-	return ""
+	return false
 }
 
 func (x *User) GetSetPassword() string {
@@ -563,7 +563,7 @@ const file_backend_admin_UserManager_proto_rawDesc = "" +
 	"\x03uid\x18\x01 \x01(\tR\x03uid\x12\x1a\n" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x14\n" +
 	"\x05email\x18\x03 \x01(\tR\x05email\x12\x14\n" +
-	"\x05admin\x18\x04 \x01(\tR\x05admin\x12&\n" +
+	"\x05admin\x18\x04 \x01(\bR\x05admin\x12&\n" +
 	"\fset_password\x18\x05 \x01(\tH\x00R\vsetPassword\x88\x01\x01\x12\x1d\n" +
 	"\n" +
 	"mfa_needed\x18\x06 \x01(\bR\tmfaNeededB\x0f\n" +

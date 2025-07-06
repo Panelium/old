@@ -17,7 +17,7 @@ message User {
   string uid = 1; // ignored with Create
   string username = 2;
   string email = 3;
-  string admin = 4;
+  bool admin = 4;
   optional string set_password = 5;
   bool mfa_needed = 6;
 }
