@@ -140,6 +140,26 @@ components:
         - SERVER_STATUS_TYPE_STOPPING
         - SERVER_STATUS_TYPE_OFFLINE
         - SERVER_STATUS_TYPE_INSTALLING
+    common.ResourceUsage:
+      type: object
+      properties:
+        cpu:
+          type: number
+          title: cpu
+          format: float
+          description: CPU in percentage (100% = 1 vCore)
+        ram:
+          type: number
+          title: ram
+          format: float
+          description: RAM in MB
+        storage:
+          type: number
+          title: storage
+          format: float
+          description: Storage in MB
+      title: ResourceUsage
+      additionalProperties: false
     common.SimpleIDMessage:
       type: object
       properties:
@@ -190,32 +210,12 @@ components:
           $ref: '#/components/schemas/daemon.PowerAction'
       title: PowerActionMessage
       additionalProperties: false
-    daemon.ResourceUsage:
-      type: object
-      properties:
-        cpu:
-          type: number
-          title: cpu
-          format: float
-          description: CPU in percentage (100% = 1 vCore)
-        ram:
-          type: number
-          title: ram
-          format: float
-          description: RAM in MB
-        storage:
-          type: number
-          title: storage
-          format: float
-          description: Storage in MB
-      title: ResourceUsage
-      additionalProperties: false
     daemon.ResourceUsageMessage:
       type: object
       properties:
         usage:
           title: usage
-          $ref: '#/components/schemas/daemon.ResourceUsage'
+          $ref: '#/components/schemas/common.ResourceUsage'
       title: ResourceUsageMessage
       additionalProperties: false
     daemon.ServerStatus:

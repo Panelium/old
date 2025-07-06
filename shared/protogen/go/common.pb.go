@@ -361,6 +361,66 @@ func (x *ResourceLimit) GetStorage() uint32 {
 	return 0
 }
 
+type ResourceUsage struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Cpu           float32                `protobuf:"fixed32,1,opt,name=cpu,proto3" json:"cpu,omitempty"`         // CPU in percentage (100% = 1 vCore)
+	Ram           float32                `protobuf:"fixed32,2,opt,name=ram,proto3" json:"ram,omitempty"`         // RAM in MB
+	Storage       float32                `protobuf:"fixed32,3,opt,name=storage,proto3" json:"storage,omitempty"` // Storage in MB
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ResourceUsage) Reset() {
+	*x = ResourceUsage{}
+	mi := &file_common_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ResourceUsage) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ResourceUsage) ProtoMessage() {}
+
+func (x *ResourceUsage) ProtoReflect() protoreflect.Message {
+	mi := &file_common_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ResourceUsage.ProtoReflect.Descriptor instead.
+func (*ResourceUsage) Descriptor() ([]byte, []int) {
+	return file_common_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *ResourceUsage) GetCpu() float32 {
+	if x != nil {
+		return x.Cpu
+	}
+	return 0
+}
+
+func (x *ResourceUsage) GetRam() float32 {
+	if x != nil {
+		return x.Ram
+	}
+	return 0
+}
+
+func (x *ResourceUsage) GetStorage() float32 {
+	if x != nil {
+		return x.Storage
+	}
+	return 0
+}
+
 type IPAllocation struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Ip            string                 `protobuf:"bytes,1,opt,name=ip,proto3" json:"ip,omitempty"`
@@ -371,7 +431,7 @@ type IPAllocation struct {
 
 func (x *IPAllocation) Reset() {
 	*x = IPAllocation{}
-	mi := &file_common_proto_msgTypes[7]
+	mi := &file_common_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -383,7 +443,7 @@ func (x *IPAllocation) String() string {
 func (*IPAllocation) ProtoMessage() {}
 
 func (x *IPAllocation) ProtoReflect() protoreflect.Message {
-	mi := &file_common_proto_msgTypes[7]
+	mi := &file_common_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -396,7 +456,7 @@ func (x *IPAllocation) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use IPAllocation.ProtoReflect.Descriptor instead.
 func (*IPAllocation) Descriptor() ([]byte, []int) {
-	return file_common_proto_rawDescGZIP(), []int{7}
+	return file_common_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *IPAllocation) GetIp() string {
@@ -437,7 +497,11 @@ const file_common_proto_rawDesc = "" +
 	"\x03cpu\x18\x01 \x01(\rR\x03cpu\x12\x10\n" +
 	"\x03ram\x18\x02 \x01(\rR\x03ram\x12\x12\n" +
 	"\x04swap\x18\x03 \x01(\rR\x04swap\x12\x18\n" +
-	"\astorage\x18\x04 \x01(\rR\astorage\"2\n" +
+	"\astorage\x18\x04 \x01(\rR\astorage\"M\n" +
+	"\rResourceUsage\x12\x10\n" +
+	"\x03cpu\x18\x01 \x01(\x02R\x03cpu\x12\x10\n" +
+	"\x03ram\x18\x02 \x01(\x02R\x03ram\x12\x18\n" +
+	"\astorage\x18\x03 \x01(\x02R\astorage\"2\n" +
 	"\fIPAllocation\x12\x0e\n" +
 	"\x02ip\x18\x01 \x01(\tR\x02ip\x12\x12\n" +
 	"\x04port\x18\x02 \x01(\rR\x04portB\x17Z\x15panelium/proto_gen_gob\x06proto3"
@@ -454,7 +518,7 @@ func file_common_proto_rawDescGZIP() []byte {
 	return file_common_proto_rawDescData
 }
 
-var file_common_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_common_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_common_proto_goTypes = []any{
 	(*Empty)(nil),           // 0: common.Empty
 	(*SimpleIDMessage)(nil), // 1: common.SimpleIDMessage
@@ -463,7 +527,8 @@ var file_common_proto_goTypes = []any{
 	(*SimpleMessage)(nil),   // 4: common.SimpleMessage
 	(*SuccessMessage)(nil),  // 5: common.SuccessMessage
 	(*ResourceLimit)(nil),   // 6: common.ResourceLimit
-	(*IPAllocation)(nil),    // 7: common.IPAllocation
+	(*ResourceUsage)(nil),   // 7: common.ResourceUsage
+	(*IPAllocation)(nil),    // 8: common.IPAllocation
 }
 var file_common_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -485,7 +550,7 @@ func file_common_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_common_proto_rawDesc), len(file_common_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   8,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

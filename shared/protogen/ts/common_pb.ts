@@ -10,7 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file common.proto.
  */
 export const file_common: GenFile = /*@__PURE__*/
-  fileDesc("Cgxjb21tb24ucHJvdG8SBmNvbW1vbiIHCgVFbXB0eSIdCg9TaW1wbGVJRE1lc3NhZ2USCgoCaWQYASABKAkiJQoJSURNZXNzYWdlEgoKAmlkGAEgASgJEgwKBHRleHQYAiABKAkiRQoPU3RyZWFtSURNZXNzYWdlEg8KAmlkGAEgASgJSACIAQESEQoEdGV4dBgCIAEoCUgBiAEBQgUKA19pZEIHCgVfdGV4dCIdCg1TaW1wbGVNZXNzYWdlEgwKBHRleHQYASABKAkiIQoOU3VjY2Vzc01lc3NhZ2USDwoHc3VjY2VzcxgBIAEoCCJICg1SZXNvdXJjZUxpbWl0EgsKA2NwdRgBIAEoDRILCgNyYW0YAiABKA0SDAoEc3dhcBgDIAEoDRIPCgdzdG9yYWdlGAQgASgNIigKDElQQWxsb2NhdGlvbhIKCgJpcBgBIAEoCRIMCgRwb3J0GAIgASgNQhdaFXBhbmVsaXVtL3Byb3RvX2dlbl9nb2IGcHJvdG8z");
+  fileDesc("Cgxjb21tb24ucHJvdG8SBmNvbW1vbiIHCgVFbXB0eSIdCg9TaW1wbGVJRE1lc3NhZ2USCgoCaWQYASABKAkiJQoJSURNZXNzYWdlEgoKAmlkGAEgASgJEgwKBHRleHQYAiABKAkiRQoPU3RyZWFtSURNZXNzYWdlEg8KAmlkGAEgASgJSACIAQESEQoEdGV4dBgCIAEoCUgBiAEBQgUKA19pZEIHCgVfdGV4dCIdCg1TaW1wbGVNZXNzYWdlEgwKBHRleHQYASABKAkiIQoOU3VjY2Vzc01lc3NhZ2USDwoHc3VjY2VzcxgBIAEoCCJICg1SZXNvdXJjZUxpbWl0EgsKA2NwdRgBIAEoDRILCgNyYW0YAiABKA0SDAoEc3dhcBgDIAEoDRIPCgdzdG9yYWdlGAQgASgNIjoKDVJlc291cmNlVXNhZ2USCwoDY3B1GAEgASgCEgsKA3JhbRgCIAEoAhIPCgdzdG9yYWdlGAMgASgCIigKDElQQWxsb2NhdGlvbhIKCgJpcBgBIAEoCRIMCgRwb3J0GAIgASgNQhdaFXBhbmVsaXVtL3Byb3RvX2dlbl9nb2IGcHJvdG8z");
 
 /**
  * @generated from message common.Empty
@@ -165,6 +165,39 @@ export const ResourceLimitSchema: GenMessage<ResourceLimit> = /*@__PURE__*/
   messageDesc(file_common, 6);
 
 /**
+ * @generated from message common.ResourceUsage
+ */
+export type ResourceUsage = Message<"common.ResourceUsage"> & {
+  /**
+   * CPU in percentage (100% = 1 vCore)
+   *
+   * @generated from field: float cpu = 1;
+   */
+  cpu: number;
+
+  /**
+   * RAM in MB
+   *
+   * @generated from field: float ram = 2;
+   */
+  ram: number;
+
+  /**
+   * Storage in MB
+   *
+   * @generated from field: float storage = 3;
+   */
+  storage: number;
+};
+
+/**
+ * Describes the message common.ResourceUsage.
+ * Use `create(ResourceUsageSchema)` to create a new message.
+ */
+export const ResourceUsageSchema: GenMessage<ResourceUsage> = /*@__PURE__*/
+  messageDesc(file_common, 7);
+
+/**
  * @generated from message common.IPAllocation
  */
 export type IPAllocation = Message<"common.IPAllocation"> & {
@@ -186,5 +219,5 @@ export type IPAllocation = Message<"common.IPAllocation"> & {
  * Use `create(IPAllocationSchema)` to create a new message.
  */
 export const IPAllocationSchema: GenMessage<IPAllocation> = /*@__PURE__*/
-  messageDesc(file_common, 7);
+  messageDesc(file_common, 8);
 

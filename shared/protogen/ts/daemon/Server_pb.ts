@@ -4,7 +4,7 @@
 
 import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
 import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { SimpleIDMessageSchema, SimpleMessageSchema, StreamIDMessageSchema, SuccessMessageSchema } from "../common_pb";
+import type { ResourceUsage, SimpleIDMessageSchema, SimpleMessageSchema, StreamIDMessageSchema, SuccessMessageSchema } from "../common_pb";
 import { file_common } from "../common_pb";
 import type { Timestamp } from "@bufbuild/protobuf/wkt";
 import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
@@ -14,40 +14,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file daemon/Server.proto.
  */
 export const file_daemon_Server: GenFile = /*@__PURE__*/
-  fileDesc("ChNkYWVtb24vU2VydmVyLnByb3RvEgZkYWVtb24iOgoNUmVzb3VyY2VVc2FnZRILCgNjcHUYASABKAISCwoDcmFtGAIgASgCEg8KB3N0b3JhZ2UYAyABKAIilwIKDFNlcnZlclN0YXR1cxIoCgZzdGF0dXMYASABKA4yGC5kYWVtb24uU2VydmVyU3RhdHVzVHlwZRI3Cg50aW1lc3RhbXBTdGFydBgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBIAIgBARI1Cgx0aW1lc3RhbXBFbmQYAyABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wSAGIAQESNwoNb2ZmbGluZVJlYXNvbhgEIAEoDjIbLmRhZW1vbi5TZXJ2ZXJPZmZsaW5lUmVhc29uSAKIAQFCEQoPX3RpbWVzdGFtcFN0YXJ0Qg8KDV90aW1lc3RhbXBFbmRCEAoOX29mZmxpbmVSZWFzb24iSwoSUG93ZXJBY3Rpb25NZXNzYWdlEhAKCHNlcnZlcklkGAEgASgJEiMKBmFjdGlvbhgCIAEoDjITLmRhZW1vbi5Qb3dlckFjdGlvbiI8ChRSZXNvdXJjZVVzYWdlTWVzc2FnZRIkCgV1c2FnZRgCIAEoCzIVLmRhZW1vbi5SZXNvdXJjZVVzYWdlKtYBChBTZXJ2ZXJTdGF0dXNUeXBlEh4KGlNFUlZFUl9TVEFUVVNfVFlQRV9VTktOT1dOEAASHwobU0VSVkVSX1NUQVRVU19UWVBFX1NUQVJUSU5HEAESHQoZU0VSVkVSX1NUQVRVU19UWVBFX09OTElORRACEh8KG1NFUlZFUl9TVEFUVVNfVFlQRV9TVE9QUElORxADEh4KGlNFUlZFUl9TVEFUVVNfVFlQRV9PRkZMSU5FEAQSIQodU0VSVkVSX1NUQVRVU19UWVBFX0lOU1RBTExJTkcQBSrBAQoTU2VydmVyT2ZmbGluZVJlYXNvbhIhCh1TRVJWRVJfT0ZGTElORV9SRUFTT05fVU5LTk9XThAAEiEKHVNFUlZFUl9PRkZMSU5FX1JFQVNPTl9DUkVBVEVEEAESIQodU0VSVkVSX09GRkxJTkVfUkVBU09OX1NUT1BQRUQQAhIgChxTRVJWRVJfT0ZGTElORV9SRUFTT05fS0lMTEVEEAMSHwobU0VSVkVSX09GRkxJTkVfUkVBU09OX0VSUk9SEAQqiwEKC1Bvd2VyQWN0aW9uEhwKGFBPV0VSX0FDVElPTl9VTlNQRUNJRklFRBAAEhYKElBPV0VSX0FDVElPTl9TVEFSVBABEhgKFFBPV0VSX0FDVElPTl9SRVNUQVJUEAISFQoRUE9XRVJfQUNUSU9OX1NUT1AQAxIVChFQT1dFUl9BQ1RJT05fS0lMTBAEMpADCg1TZXJ2ZXJTZXJ2aWNlEj0KB0NvbnNvbGUSFy5jb21tb24uU3RyZWFtSURNZXNzYWdlGhUuY29tbW9uLlNpbXBsZU1lc3NhZ2UoATABEj4KCFRlcm1pbmFsEhcuY29tbW9uLlN0cmVhbUlETWVzc2FnZRoVLmNvbW1vbi5TaW1wbGVNZXNzYWdlKAEwARI3CgZTdGF0dXMSFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGhQuZGFlbW9uLlNlcnZlclN0YXR1cxJICg1SZXNvdXJjZVVzYWdlEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRocLmRhZW1vbi5SZXNvdXJjZVVzYWdlTWVzc2FnZTABEkEKC1Bvd2VyQWN0aW9uEhouZGFlbW9uLlBvd2VyQWN0aW9uTWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRI6CgdJbnN0YWxsEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZUIeWhxwYW5lbGl1bS9wcm90b19nZW5fZ28vZGFlbW9uYgZwcm90bzM", [file_common, file_google_protobuf_timestamp]);
-
-/**
- * @generated from message daemon.ResourceUsage
- */
-export type ResourceUsage = Message<"daemon.ResourceUsage"> & {
-  /**
-   * CPU in percentage (100% = 1 vCore)
-   *
-   * @generated from field: float cpu = 1;
-   */
-  cpu: number;
-
-  /**
-   * RAM in MB
-   *
-   * @generated from field: float ram = 2;
-   */
-  ram: number;
-
-  /**
-   * Storage in MB
-   *
-   * @generated from field: float storage = 3;
-   */
-  storage: number;
-};
-
-/**
- * Describes the message daemon.ResourceUsage.
- * Use `create(ResourceUsageSchema)` to create a new message.
- */
-export const ResourceUsageSchema: GenMessage<ResourceUsage> = /*@__PURE__*/
-  messageDesc(file_daemon_Server, 0);
+  fileDesc("ChNkYWVtb24vU2VydmVyLnByb3RvEgZkYWVtb24ilwIKDFNlcnZlclN0YXR1cxIoCgZzdGF0dXMYASABKA4yGC5kYWVtb24uU2VydmVyU3RhdHVzVHlwZRI3Cg50aW1lc3RhbXBTdGFydBgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBIAIgBARI1Cgx0aW1lc3RhbXBFbmQYAyABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wSAGIAQESNwoNb2ZmbGluZVJlYXNvbhgEIAEoDjIbLmRhZW1vbi5TZXJ2ZXJPZmZsaW5lUmVhc29uSAKIAQFCEQoPX3RpbWVzdGFtcFN0YXJ0Qg8KDV90aW1lc3RhbXBFbmRCEAoOX29mZmxpbmVSZWFzb24iSwoSUG93ZXJBY3Rpb25NZXNzYWdlEhAKCHNlcnZlcklkGAEgASgJEiMKBmFjdGlvbhgCIAEoDjITLmRhZW1vbi5Qb3dlckFjdGlvbiI8ChRSZXNvdXJjZVVzYWdlTWVzc2FnZRIkCgV1c2FnZRgCIAEoCzIVLmNvbW1vbi5SZXNvdXJjZVVzYWdlKtYBChBTZXJ2ZXJTdGF0dXNUeXBlEh4KGlNFUlZFUl9TVEFUVVNfVFlQRV9VTktOT1dOEAASHwobU0VSVkVSX1NUQVRVU19UWVBFX1NUQVJUSU5HEAESHQoZU0VSVkVSX1NUQVRVU19UWVBFX09OTElORRACEh8KG1NFUlZFUl9TVEFUVVNfVFlQRV9TVE9QUElORxADEh4KGlNFUlZFUl9TVEFUVVNfVFlQRV9PRkZMSU5FEAQSIQodU0VSVkVSX1NUQVRVU19UWVBFX0lOU1RBTExJTkcQBSrBAQoTU2VydmVyT2ZmbGluZVJlYXNvbhIhCh1TRVJWRVJfT0ZGTElORV9SRUFTT05fVU5LTk9XThAAEiEKHVNFUlZFUl9PRkZMSU5FX1JFQVNPTl9DUkVBVEVEEAESIQodU0VSVkVSX09GRkxJTkVfUkVBU09OX1NUT1BQRUQQAhIgChxTRVJWRVJfT0ZGTElORV9SRUFTT05fS0lMTEVEEAMSHwobU0VSVkVSX09GRkxJTkVfUkVBU09OX0VSUk9SEAQqiwEKC1Bvd2VyQWN0aW9uEhwKGFBPV0VSX0FDVElPTl9VTlNQRUNJRklFRBAAEhYKElBPV0VSX0FDVElPTl9TVEFSVBABEhgKFFBPV0VSX0FDVElPTl9SRVNUQVJUEAISFQoRUE9XRVJfQUNUSU9OX1NUT1AQAxIVChFQT1dFUl9BQ1RJT05fS0lMTBAEMpADCg1TZXJ2ZXJTZXJ2aWNlEj0KB0NvbnNvbGUSFy5jb21tb24uU3RyZWFtSURNZXNzYWdlGhUuY29tbW9uLlNpbXBsZU1lc3NhZ2UoATABEj4KCFRlcm1pbmFsEhcuY29tbW9uLlN0cmVhbUlETWVzc2FnZRoVLmNvbW1vbi5TaW1wbGVNZXNzYWdlKAEwARI3CgZTdGF0dXMSFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGhQuZGFlbW9uLlNlcnZlclN0YXR1cxJICg1SZXNvdXJjZVVzYWdlEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRocLmRhZW1vbi5SZXNvdXJjZVVzYWdlTWVzc2FnZTABEkEKC1Bvd2VyQWN0aW9uEhouZGFlbW9uLlBvd2VyQWN0aW9uTWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRI6CgdJbnN0YWxsEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZUIeWhxwYW5lbGl1bS9wcm90b19nZW5fZ28vZGFlbW9uYgZwcm90bzM", [file_common, file_google_protobuf_timestamp]);
 
 /**
  * @generated from message daemon.ServerStatus
@@ -79,7 +46,7 @@ export type ServerStatus = Message<"daemon.ServerStatus"> & {
  * Use `create(ServerStatusSchema)` to create a new message.
  */
 export const ServerStatusSchema: GenMessage<ServerStatus> = /*@__PURE__*/
-  messageDesc(file_daemon_Server, 1);
+  messageDesc(file_daemon_Server, 0);
 
 /**
  * @generated from message daemon.PowerActionMessage
@@ -101,14 +68,14 @@ export type PowerActionMessage = Message<"daemon.PowerActionMessage"> & {
  * Use `create(PowerActionMessageSchema)` to create a new message.
  */
 export const PowerActionMessageSchema: GenMessage<PowerActionMessage> = /*@__PURE__*/
-  messageDesc(file_daemon_Server, 2);
+  messageDesc(file_daemon_Server, 1);
 
 /**
  * @generated from message daemon.ResourceUsageMessage
  */
 export type ResourceUsageMessage = Message<"daemon.ResourceUsageMessage"> & {
   /**
-   * @generated from field: daemon.ResourceUsage usage = 2;
+   * @generated from field: common.ResourceUsage usage = 2;
    */
   usage?: ResourceUsage;
 };
@@ -118,7 +85,7 @@ export type ResourceUsageMessage = Message<"daemon.ResourceUsageMessage"> & {
  * Use `create(ResourceUsageMessageSchema)` to create a new message.
  */
 export const ResourceUsageMessageSchema: GenMessage<ResourceUsageMessage> = /*@__PURE__*/
-  messageDesc(file_daemon_Server, 3);
+  messageDesc(file_daemon_Server, 2);
 
 /**
  * @generated from enum daemon.ServerStatusType

@@ -1,0 +1,238 @@
+openapi: 3.1.0
+info:
+  title: backend
+paths:
+  /backend.ClientService/GetInfo:
+    post:
+      tags:
+        - backend.ClientService
+      summary: GetInfo
+      operationId: backend.ClientService.GetInfo
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/common.Empty'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.ClientInfo'
+  /backend.ClientService/GetServerList:
+    post:
+      tags:
+        - backend.ClientService
+      summary: GetServerList
+      operationId: backend.ClientService.GetServerList
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/common.Empty'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.ServerList'
+components:
+  schemas:
+    daemon.ServerStatusType:
+      type: string
+      title: ServerStatusType
+      enum:
+        - SERVER_STATUS_TYPE_UNKNOWN
+        - SERVER_STATUS_TYPE_STARTING
+        - SERVER_STATUS_TYPE_ONLINE
+        - SERVER_STATUS_TYPE_STOPPING
+        - SERVER_STATUS_TYPE_OFFLINE
+        - SERVER_STATUS_TYPE_INSTALLING
+    backend.ClientInfo:
+      type: object
+      properties:
+        uid:
+          type: string
+          title: uid
+        username:
+          type: string
+          title: username
+        email:
+          type: string
+          title: email
+        admin:
+          type: boolean
+          title: admin
+      title: ClientInfo
+      additionalProperties: false
+    backend.ServerInfo:
+      type: object
+      properties:
+        sid:
+          type: string
+          title: sid
+        name:
+          type: string
+          title: name
+        description:
+          type: string
+          title: description
+        software:
+          type: string
+          title: software
+        mainAllocation:
+          title: mainAllocation
+          nullable: true
+          $ref: '#/components/schemas/common.IPAllocation'
+        status:
+          title: status
+          description: 'TODO: stream'
+          $ref: '#/components/schemas/daemon.ServerStatusType'
+        resourceUsage:
+          title: resourceUsage
+          description: 'TODO: turn into a stream later on'
+          $ref: '#/components/schemas/common.ResourceUsage'
+      title: ServerInfo
+      additionalProperties: false
+    backend.ServerList:
+      type: object
+      properties:
+        servers:
+          type: array
+          items:
+            $ref: '#/components/schemas/backend.ServerInfo'
+          title: servers
+      title: ServerList
+      additionalProperties: false
+    common.Empty:
+      type: object
+      title: Empty
+      additionalProperties: false
+    common.IPAllocation:
+      type: object
+      properties:
+        ip:
+          type: string
+          title: ip
+        port:
+          type: integer
+          title: port
+          description: MUST BE 1024-65535
+      title: IPAllocation
+      additionalProperties: false
+    common.ResourceUsage:
+      type: object
+      properties:
+        cpu:
+          type: number
+          title: cpu
+          format: float
+          description: CPU in percentage (100% = 1 vCore)
+        ram:
+          type: number
+          title: ram
+          format: float
+          description: RAM in MB
+        storage:
+          type: number
+          title: storage
+          format: float
+          description: Storage in MB
+      title: ResourceUsage
+      additionalProperties: false
+    connect-protocol-version:
+      type: number
+      title: Connect-Protocol-Version
+      enum:
+        - 1
+      description: Define the version of the Connect protocol
+      const: 1
+    connect-timeout-header:
+      type: number
+      title: Connect-Timeout-Ms
+      description: Define the timeout, in ms
+    connect.error:
+      type: object
+      properties:
+        code:
+          type: string
+          examples:
+            - not_found
+          enum:
+            - canceled
+            - unknown
+            - invalid_argument
+            - deadline_exceeded
+            - not_found
+            - already_exists
+            - permission_denied
+            - resource_exhausted
+            - failed_precondition
+            - aborted
+            - out_of_range
+            - unimplemented
+            - internal
+            - unavailable
+            - data_loss
+            - unauthenticated
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        detail:
+          $ref: '#/components/schemas/google.protobuf.Any'
+      title: Connect Error
+      additionalProperties: true
+      description: 'Error type returned by Connect: https://connectrpc.com/docs/go/errors/#http-representation'
+    google.protobuf.Any:
+      type: object
+      properties:
+        type:
+          type: string
+        value:
+          type: string
+          format: binary
+        debug:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+security: []
+tags:
+  - name: backend.ClientService

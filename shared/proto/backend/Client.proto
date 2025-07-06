@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package backend;
+option go_package = "panelium/proto_gen_go/backend";
+
+import "common.proto";
+import "daemon/Server.proto";
+
+service ClientService {
+  rpc GetInfo(common.Empty) returns (ClientInfo);
+  rpc GetServerList(common.Empty) returns (ServerList);
+}
+
+message ClientInfo {
+  string uid = 1;
+  string username = 2;
+  string email = 3;
+  bool admin = 4;
+}
+
+message ServerList {
+  repeated ServerInfo servers = 1;
+}
+
+message ServerInfo {
+  string sid = 1;
+  string name = 2;
+  string description = 3;
+  string software = 4;
+  optional common.IPAllocation mainAllocation = 5;
+  daemon.ServerStatusType status = 6; // TODO: stream
+  common.ResourceUsage resourceUsage = 7; // TODO: turn into a stream later on
+}

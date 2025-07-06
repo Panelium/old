@@ -18,12 +18,6 @@ service ServerService {
   rpc Install(common.SimpleIDMessage) returns (common.SuccessMessage);
 }
 
-message ResourceUsage {
-  float cpu = 1;     // CPU in percentage (100% = 1 vCore)
-  float ram = 2;     // RAM in MB
-  float storage = 3; // Storage in MB
-}
-
 message ServerStatus {
   ServerStatusType status = 1;
   optional google.protobuf.Timestamp timestampStart = 2;
@@ -62,5 +56,5 @@ message PowerActionMessage {
 }
 
 message ResourceUsageMessage {
-  ResourceUsage usage = 2;
+  common.ResourceUsage usage = 2;
 }

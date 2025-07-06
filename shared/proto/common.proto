@@ -34,6 +34,12 @@ message ResourceLimit {
   uint32 storage = 4; // Storage in MB
 }
 
+message ResourceUsage {
+  float cpu = 1;     // CPU in percentage (100% = 1 vCore)
+  float ram = 2;     // RAM in MB
+  float storage = 3; // Storage in MB
+}
+
 message IPAllocation {
   string ip = 1;
   uint32 port = 2; // MUST BE 1024-65535
