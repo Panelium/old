@@ -24,18 +24,24 @@ func Handle(host string) error {
 		middleware.NewUserAuthInterceptor(),
 	)
 
+	adminAuthInterceptors := connect.WithInterceptors(
+		middleware.NewTokensInterceptor(),
+		middleware.NewUserAuthInterceptor(),
+		middleware.NewAdminAuthInterceptor(),
+	)
+
 	mux := http.NewServeMux()
 	mux.Handle(backendconnect.NewDaemonServiceHandler(&daemon.DaemonServiceHandler{}, daemonAuthInterceptors))
 
 	mux.Handle(backendconnect.NewAuthServiceHandler(&auth.AuthServiceHandler{}, userAuthInterceptors))
 	mux.Handle(backendconnect.NewClientServiceHandler(&client.ClientServiceHandler{}, userAuthInterceptors))
 
-	mux.Handle(adminconnect.NewUserManagerServiceHandler(admin.NewUserManagerServiceHandler(), userAuthInterceptors))
-	mux.Handle(adminconnect.NewBlueprintManagerServiceHandler(admin.NewBlueprintManagerServiceHandler(), userAuthInterceptors))
-	mux.Handle(adminconnect.NewLocationManagerServiceHandler(admin.NewLocationManagerServiceHandler(), userAuthInterceptors))
-	mux.Handle(adminconnect.NewNodeManagerServiceHandler(admin.NewNodeManagerServiceHandler(), userAuthInterceptors))
-	mux.Handle(adminconnect.NewNodeAllocationManagerServiceHandler(admin.NewNodeAllocationManagerServiceHandler(), userAuthInterceptors))
-	mux.Handle(adminconnect.NewServerManagerServiceHandler(admin.NewServerManagerServiceHandler(), userAuthInterceptors))
+	mux.Handle(adminconnect.NewUserManagerServiceHandler(admin.NewUserManagerServiceHandler(), adminAuthInterceptors))
+	mux.Handle(adminconnect.NewBlueprintManagerServiceHandler(admin.NewBlueprintManagerServiceHandler(), adminAuthInterceptors))
+	mux.Handle(adminconnect.NewLocationManagerServiceHandler(admin.NewLocationManagerServiceHandler(), adminAuthInterceptors))
+	mux.Handle(adminconnect.NewNodeManagerServiceHandler(admin.NewNodeManagerServiceHandler(), adminAuthInterceptors))
+	mux.Handle(adminconnect.NewNodeAllocationManagerServiceHandler(admin.NewNodeAllocationManagerServiceHandler(), adminAuthInterceptors))
+	mux.Handle(adminconnect.NewServerManagerServiceHandler(admin.NewServerManagerServiceHandler(), adminAuthInterceptors))
 
 	handler := h2c.NewHandler(mux, &http2.Server{})
 	corsHandler := middleware.WithCORS(handler)
