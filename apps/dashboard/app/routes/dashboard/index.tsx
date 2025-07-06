@@ -3,7 +3,6 @@ import { Users } from "lucide-react";
 import useDashboard from "./useDashboard";
 
 import ServerCardGrid from "~/components/cards/server-card/ServerCardGrid";
-import OverviewCardGrid from "~/components/cards/overview-card/OverviewCardGrid";
 import type { OverviewCardProps } from "~/components/cards/overview-card/OverviewCard";
 
 export default function DashboardOverviewPage() {
@@ -64,9 +63,8 @@ export default function DashboardOverviewPage() {
           Welcome back! Here's what's happening with your servers.
         </p>
       </div>
-
-      <OverviewCardGrid cards={overviewCardsData} />
-
+      {/*TODO: readd this*/}
+      {/*<OverviewCardGrid cards={overviewCardsData} />*/}
       <ServerCardGrid servers={dashboardData.mockServers} />
     </div>
   );
