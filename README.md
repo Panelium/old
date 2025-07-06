@@ -38,13 +38,13 @@ The script will handle the rest.
 
 ### Configuration
 
-Configuration files are generated automatically in `/etc/panelium/` for each service. You can adjust these files as
+Configuration files are created automatically in `/etc/panelium/` for each service. You can adjust these files as
 needed after installation.
 
 Note: backend and daemon(s) have to be on the same second-level domain (third- and lower level domains, aka subdomains,
 can be different) for the CORS and cookies to work properly.
 
-Blueprints are available at http://blueprints.ndmh.xyz/ ([source](https://github.com/Panelium/Blueprints))
+Blueprints are available at https://blueprints.ndmh.xyz/ ([source](https://github.com/Panelium/Blueprints))
 
 ### Development Environment Setup
 
@@ -59,17 +59,40 @@ To set up a development environment for Panelium, follow these steps:
 
 On Arch Linux:
 
+- Note: You will need the AUR helper `yay` installed for this.
+
 ```sh
 yay -Syu
 yay -S go nodejs npm docker docker-compose buf
 ```
 
-On Debian (also Ubuntu and other Debian-based distros):
+On Debian and Ubuntu or other derivatives:
 
 ```sh
 sudo apt update
 sudo apt install golang nodejs npm docker.io docker-compose buf
 ```
+
+On Fedora:
+
+```sh
+sudo dnf install golang nodejs npm docker docker-compose buf
+```
+
+On macOS (with Homebrew):
+
+```sh
+brew install go node docker bufbuild/buf/buf
+brew install --cask docker # for Docker Desktop
+```
+
+On Alpine:
+
+```sh
+apk add go nodejs npm docker docker-compose buf
+```
+
+> For Windows, WSL2 is recommended. We don't currently support native Windows installations.
 
 #### 2. Install Go Tools
 
