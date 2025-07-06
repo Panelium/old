@@ -14,11 +14,6 @@ message IDMessage {
   string text = 2;
 }
 
-message StreamIDMessage {
-  optional string id = 1; // only required for the first message in the stream, subsequent messages can omit this field
-  optional string text = 2; // required after the first message in the stream, first message can omit this field
-}
-
 message SimpleMessage {
   string text = 1;
 }

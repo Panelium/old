@@ -153,58 +153,6 @@ func (x *IDMessage) GetText() string {
 	return ""
 }
 
-type StreamIDMessage struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            *string                `protobuf:"bytes,1,opt,name=id,proto3,oneof" json:"id,omitempty"`     // only required for the first message in the stream, subsequent messages can omit this field
-	Text          *string                `protobuf:"bytes,2,opt,name=text,proto3,oneof" json:"text,omitempty"` // required after the first message in the stream, first message can omit this field
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *StreamIDMessage) Reset() {
-	*x = StreamIDMessage{}
-	mi := &file_common_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *StreamIDMessage) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*StreamIDMessage) ProtoMessage() {}
-
-func (x *StreamIDMessage) ProtoReflect() protoreflect.Message {
-	mi := &file_common_proto_msgTypes[3]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use StreamIDMessage.ProtoReflect.Descriptor instead.
-func (*StreamIDMessage) Descriptor() ([]byte, []int) {
-	return file_common_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *StreamIDMessage) GetId() string {
-	if x != nil && x.Id != nil {
-		return *x.Id
-	}
-	return ""
-}
-
-func (x *StreamIDMessage) GetText() string {
-	if x != nil && x.Text != nil {
-		return *x.Text
-	}
-	return ""
-}
-
 type SimpleMessage struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Text          string                 `protobuf:"bytes,1,opt,name=text,proto3" json:"text,omitempty"`
@@ -214,7 +162,7 @@ type SimpleMessage struct {
 
 func (x *SimpleMessage) Reset() {
 	*x = SimpleMessage{}
-	mi := &file_common_proto_msgTypes[4]
+	mi := &file_common_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -226,7 +174,7 @@ func (x *SimpleMessage) String() string {
 func (*SimpleMessage) ProtoMessage() {}
 
 func (x *SimpleMessage) ProtoReflect() protoreflect.Message {
-	mi := &file_common_proto_msgTypes[4]
+	mi := &file_common_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -239,7 +187,7 @@ func (x *SimpleMessage) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SimpleMessage.ProtoReflect.Descriptor instead.
 func (*SimpleMessage) Descriptor() ([]byte, []int) {
-	return file_common_proto_rawDescGZIP(), []int{4}
+	return file_common_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *SimpleMessage) GetText() string {
@@ -258,7 +206,7 @@ type SuccessMessage struct {
 
 func (x *SuccessMessage) Reset() {
 	*x = SuccessMessage{}
-	mi := &file_common_proto_msgTypes[5]
+	mi := &file_common_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -270,7 +218,7 @@ func (x *SuccessMessage) String() string {
 func (*SuccessMessage) ProtoMessage() {}
 
 func (x *SuccessMessage) ProtoReflect() protoreflect.Message {
-	mi := &file_common_proto_msgTypes[5]
+	mi := &file_common_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -283,7 +231,7 @@ func (x *SuccessMessage) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SuccessMessage.ProtoReflect.Descriptor instead.
 func (*SuccessMessage) Descriptor() ([]byte, []int) {
-	return file_common_proto_rawDescGZIP(), []int{5}
+	return file_common_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *SuccessMessage) GetSuccess() bool {
@@ -305,7 +253,7 @@ type ResourceLimit struct {
 
 func (x *ResourceLimit) Reset() {
 	*x = ResourceLimit{}
-	mi := &file_common_proto_msgTypes[6]
+	mi := &file_common_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -317,7 +265,7 @@ func (x *ResourceLimit) String() string {
 func (*ResourceLimit) ProtoMessage() {}
 
 func (x *ResourceLimit) ProtoReflect() protoreflect.Message {
-	mi := &file_common_proto_msgTypes[6]
+	mi := &file_common_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -330,7 +278,7 @@ func (x *ResourceLimit) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ResourceLimit.ProtoReflect.Descriptor instead.
 func (*ResourceLimit) Descriptor() ([]byte, []int) {
-	return file_common_proto_rawDescGZIP(), []int{6}
+	return file_common_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *ResourceLimit) GetCpu() uint32 {
@@ -372,7 +320,7 @@ type ResourceUsage struct {
 
 func (x *ResourceUsage) Reset() {
 	*x = ResourceUsage{}
-	mi := &file_common_proto_msgTypes[7]
+	mi := &file_common_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -384,7 +332,7 @@ func (x *ResourceUsage) String() string {
 func (*ResourceUsage) ProtoMessage() {}
 
 func (x *ResourceUsage) ProtoReflect() protoreflect.Message {
-	mi := &file_common_proto_msgTypes[7]
+	mi := &file_common_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -397,7 +345,7 @@ func (x *ResourceUsage) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ResourceUsage.ProtoReflect.Descriptor instead.
 func (*ResourceUsage) Descriptor() ([]byte, []int) {
-	return file_common_proto_rawDescGZIP(), []int{7}
+	return file_common_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *ResourceUsage) GetCpu() float32 {
@@ -431,7 +379,7 @@ type IPAllocation struct {
 
 func (x *IPAllocation) Reset() {
 	*x = IPAllocation{}
-	mi := &file_common_proto_msgTypes[8]
+	mi := &file_common_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -443,7 +391,7 @@ func (x *IPAllocation) String() string {
 func (*IPAllocation) ProtoMessage() {}
 
 func (x *IPAllocation) ProtoReflect() protoreflect.Message {
-	mi := &file_common_proto_msgTypes[8]
+	mi := &file_common_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -456,7 +404,7 @@ func (x *IPAllocation) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use IPAllocation.ProtoReflect.Descriptor instead.
 func (*IPAllocation) Descriptor() ([]byte, []int) {
-	return file_common_proto_rawDescGZIP(), []int{8}
+	return file_common_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *IPAllocation) GetIp() string {
@@ -483,12 +431,7 @@ const file_common_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"/\n" +
 	"\tIDMessage\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
-	"\x04text\x18\x02 \x01(\tR\x04text\"O\n" +
-	"\x0fStreamIDMessage\x12\x13\n" +
-	"\x02id\x18\x01 \x01(\tH\x00R\x02id\x88\x01\x01\x12\x17\n" +
-	"\x04text\x18\x02 \x01(\tH\x01R\x04text\x88\x01\x01B\x05\n" +
-	"\x03_idB\a\n" +
-	"\x05_text\"#\n" +
+	"\x04text\x18\x02 \x01(\tR\x04text\"#\n" +
 	"\rSimpleMessage\x12\x12\n" +
 	"\x04text\x18\x01 \x01(\tR\x04text\"*\n" +
 	"\x0eSuccessMessage\x12\x18\n" +
@@ -518,17 +461,16 @@ func file_common_proto_rawDescGZIP() []byte {
 	return file_common_proto_rawDescData
 }
 
-var file_common_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_common_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_common_proto_goTypes = []any{
 	(*Empty)(nil),           // 0: common.Empty
 	(*SimpleIDMessage)(nil), // 1: common.SimpleIDMessage
 	(*IDMessage)(nil),       // 2: common.IDMessage
-	(*StreamIDMessage)(nil), // 3: common.StreamIDMessage
-	(*SimpleMessage)(nil),   // 4: common.SimpleMessage
-	(*SuccessMessage)(nil),  // 5: common.SuccessMessage
-	(*ResourceLimit)(nil),   // 6: common.ResourceLimit
-	(*ResourceUsage)(nil),   // 7: common.ResourceUsage
-	(*IPAllocation)(nil),    // 8: common.IPAllocation
+	(*SimpleMessage)(nil),   // 3: common.SimpleMessage
+	(*SuccessMessage)(nil),  // 4: common.SuccessMessage
+	(*ResourceLimit)(nil),   // 5: common.ResourceLimit
+	(*ResourceUsage)(nil),   // 6: common.ResourceUsage
+	(*IPAllocation)(nil),    // 7: common.IPAllocation
 }
 var file_common_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -543,14 +485,13 @@ func file_common_proto_init() {
 	if File_common_proto != nil {
 		return
 	}
-	file_common_proto_msgTypes[3].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_common_proto_rawDesc), len(file_common_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   9,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

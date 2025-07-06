@@ -10,7 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file common.proto.
  */
 export const file_common: GenFile = /*@__PURE__*/
-  fileDesc("Cgxjb21tb24ucHJvdG8SBmNvbW1vbiIHCgVFbXB0eSIdCg9TaW1wbGVJRE1lc3NhZ2USCgoCaWQYASABKAkiJQoJSURNZXNzYWdlEgoKAmlkGAEgASgJEgwKBHRleHQYAiABKAkiRQoPU3RyZWFtSURNZXNzYWdlEg8KAmlkGAEgASgJSACIAQESEQoEdGV4dBgCIAEoCUgBiAEBQgUKA19pZEIHCgVfdGV4dCIdCg1TaW1wbGVNZXNzYWdlEgwKBHRleHQYASABKAkiIQoOU3VjY2Vzc01lc3NhZ2USDwoHc3VjY2VzcxgBIAEoCCJICg1SZXNvdXJjZUxpbWl0EgsKA2NwdRgBIAEoDRILCgNyYW0YAiABKA0SDAoEc3dhcBgDIAEoDRIPCgdzdG9yYWdlGAQgASgNIjoKDVJlc291cmNlVXNhZ2USCwoDY3B1GAEgASgCEgsKA3JhbRgCIAEoAhIPCgdzdG9yYWdlGAMgASgCIigKDElQQWxsb2NhdGlvbhIKCgJpcBgBIAEoCRIMCgRwb3J0GAIgASgNQhdaFXBhbmVsaXVtL3Byb3RvX2dlbl9nb2IGcHJvdG8z");
+  fileDesc("Cgxjb21tb24ucHJvdG8SBmNvbW1vbiIHCgVFbXB0eSIdCg9TaW1wbGVJRE1lc3NhZ2USCgoCaWQYASABKAkiJQoJSURNZXNzYWdlEgoKAmlkGAEgASgJEgwKBHRleHQYAiABKAkiHQoNU2ltcGxlTWVzc2FnZRIMCgR0ZXh0GAEgASgJIiEKDlN1Y2Nlc3NNZXNzYWdlEg8KB3N1Y2Nlc3MYASABKAgiSAoNUmVzb3VyY2VMaW1pdBILCgNjcHUYASABKA0SCwoDcmFtGAIgASgNEgwKBHN3YXAYAyABKA0SDwoHc3RvcmFnZRgEIAEoDSI6Cg1SZXNvdXJjZVVzYWdlEgsKA2NwdRgBIAEoAhILCgNyYW0YAiABKAISDwoHc3RvcmFnZRgDIAEoAiIoCgxJUEFsbG9jYXRpb24SCgoCaXAYASABKAkSDAoEcG9ydBgCIAEoDUIXWhVwYW5lbGl1bS9wcm90b19nZW5fZ29iBnByb3RvMw");
 
 /**
  * @generated from message common.Empty
@@ -65,32 +65,6 @@ export const IDMessageSchema: GenMessage<IDMessage> = /*@__PURE__*/
   messageDesc(file_common, 2);
 
 /**
- * @generated from message common.StreamIDMessage
- */
-export type StreamIDMessage = Message<"common.StreamIDMessage"> & {
-  /**
-   * only required for the first message in the stream, subsequent messages can omit this field
-   *
-   * @generated from field: optional string id = 1;
-   */
-  id?: string;
-
-  /**
-   * required after the first message in the stream, first message can omit this field
-   *
-   * @generated from field: optional string text = 2;
-   */
-  text?: string;
-};
-
-/**
- * Describes the message common.StreamIDMessage.
- * Use `create(StreamIDMessageSchema)` to create a new message.
- */
-export const StreamIDMessageSchema: GenMessage<StreamIDMessage> = /*@__PURE__*/
-  messageDesc(file_common, 3);
-
-/**
  * @generated from message common.SimpleMessage
  */
 export type SimpleMessage = Message<"common.SimpleMessage"> & {
@@ -105,7 +79,7 @@ export type SimpleMessage = Message<"common.SimpleMessage"> & {
  * Use `create(SimpleMessageSchema)` to create a new message.
  */
 export const SimpleMessageSchema: GenMessage<SimpleMessage> = /*@__PURE__*/
-  messageDesc(file_common, 4);
+  messageDesc(file_common, 3);
 
 /**
  * @generated from message common.SuccessMessage
@@ -122,7 +96,7 @@ export type SuccessMessage = Message<"common.SuccessMessage"> & {
  * Use `create(SuccessMessageSchema)` to create a new message.
  */
 export const SuccessMessageSchema: GenMessage<SuccessMessage> = /*@__PURE__*/
-  messageDesc(file_common, 5);
+  messageDesc(file_common, 4);
 
 /**
  * @generated from message common.ResourceLimit
@@ -162,7 +136,7 @@ export type ResourceLimit = Message<"common.ResourceLimit"> & {
  * Use `create(ResourceLimitSchema)` to create a new message.
  */
 export const ResourceLimitSchema: GenMessage<ResourceLimit> = /*@__PURE__*/
-  messageDesc(file_common, 6);
+  messageDesc(file_common, 5);
 
 /**
  * @generated from message common.ResourceUsage
@@ -195,7 +169,7 @@ export type ResourceUsage = Message<"common.ResourceUsage"> & {
  * Use `create(ResourceUsageSchema)` to create a new message.
  */
 export const ResourceUsageSchema: GenMessage<ResourceUsage> = /*@__PURE__*/
-  messageDesc(file_common, 7);
+  messageDesc(file_common, 6);
 
 /**
  * @generated from message common.IPAllocation
@@ -219,5 +193,5 @@ export type IPAllocation = Message<"common.IPAllocation"> & {
  * Use `create(IPAllocationSchema)` to create a new message.
  */
 export const IPAllocationSchema: GenMessage<IPAllocation> = /*@__PURE__*/
-  messageDesc(file_common, 8);
+  messageDesc(file_common, 7);
 
