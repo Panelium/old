@@ -22,7 +22,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/backend.Server'
+              $ref: '#/components/schemas/daemon.Server'
         required: true
       responses:
         default:
@@ -57,7 +57,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/backend.Server'
+              $ref: '#/components/schemas/daemon.Server'
         required: true
       responses:
         default:
@@ -109,36 +109,6 @@ paths:
                 $ref: '#/components/schemas/common.SuccessMessage'
 components:
   schemas:
-    backend.Server:
-      type: object
-      properties:
-        sid:
-          type: string
-          title: sid
-        ownerId:
-          type: string
-          title: owner_id
-        userIds:
-          type: array
-          items:
-            type: string
-          title: user_ids
-        allocations:
-          type: array
-          items:
-            $ref: '#/components/schemas/common.IPAllocation'
-          title: allocations
-        resourceLimit:
-          title: resource_limit
-          $ref: '#/components/schemas/common.ResourceLimit'
-        dockerImage:
-          type: string
-          title: docker_image
-        bid:
-          type: string
-          title: bid
-      title: Server
-      additionalProperties: false
     common.IPAllocation:
       type: object
       properties:
@@ -187,6 +157,36 @@ components:
           type: boolean
           title: success
       title: SuccessMessage
+      additionalProperties: false
+    daemon.Server:
+      type: object
+      properties:
+        sid:
+          type: string
+          title: sid
+        ownerId:
+          type: string
+          title: owner_id
+        userIds:
+          type: array
+          items:
+            type: string
+          title: user_ids
+        allocations:
+          type: array
+          items:
+            $ref: '#/components/schemas/common.IPAllocation'
+          title: allocations
+        resourceLimit:
+          title: resource_limit
+          $ref: '#/components/schemas/common.ResourceLimit'
+        dockerImage:
+          type: string
+          title: docker_image
+        bid:
+          type: string
+          title: bid
+      title: Server
       additionalProperties: false
     connect-protocol-version:
       type: number

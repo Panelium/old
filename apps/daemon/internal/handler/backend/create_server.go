@@ -8,12 +8,12 @@ import (
 	"panelium/daemon/internal/model"
 	"panelium/daemon/internal/server"
 	"panelium/proto_gen_go"
-	"panelium/proto_gen_go/backend"
+	"panelium/proto_gen_go/daemon"
 )
 
 func (s *BackendServiceHandler) CreateServer(
 	ctx context.Context,
-	req *connect.Request[backend.Server],
+	req *connect.Request[daemon.Server],
 ) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	allocations := make([]model.ServerAllocation, len(req.Msg.Allocations))
 	for i, alloc := range req.Msg.Allocations {
