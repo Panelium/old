@@ -79,9 +79,9 @@ func (CompressionFormat) EnumDescriptor() ([]byte, []int) {
 type FileEntry struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Path          string                 `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`
-	IsDirectory   bool                   `protobuf:"varint,2,opt,name=isDirectory,proto3" json:"isDirectory,omitempty"`
+	IsDirectory   bool                   `protobuf:"varint,2,opt,name=is_directory,json=isDirectory,proto3" json:"is_directory,omitempty"`
 	Size          int64                  `protobuf:"varint,3,opt,name=size,proto3" json:"size,omitempty"`
-	LastModified  *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=lastModified,proto3" json:"lastModified,omitempty"`
+	LastModified  *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=last_modified,json=lastModified,proto3" json:"last_modified,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -147,7 +147,7 @@ func (x *FileEntry) GetLastModified() *timestamppb.Timestamp {
 // Directory operations
 type ListDirectoryRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ServerId      string                 `protobuf:"bytes,1,opt,name=serverId,proto3" json:"serverId,omitempty"`
+	ServerId      string                 `protobuf:"bytes,1,opt,name=server_id,json=serverId,proto3" json:"server_id,omitempty"`
 	Path          string                 `protobuf:"bytes,2,opt,name=path,proto3" json:"path,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -243,7 +243,7 @@ func (x *ListDirectoryResponse) GetFiles() []*FileEntry {
 
 type CreateDirectoryRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ServerId      string                 `protobuf:"bytes,1,opt,name=serverId,proto3" json:"serverId,omitempty"`
+	ServerId      string                 `protobuf:"bytes,1,opt,name=server_id,json=serverId,proto3" json:"server_id,omitempty"`
 	Path          string                 `protobuf:"bytes,2,opt,name=path,proto3" json:"path,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -339,7 +339,7 @@ func (x *CreateDirectoryResponse) GetSuccess() bool {
 
 type GetDirectorySizeRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ServerId      string                 `protobuf:"bytes,1,opt,name=serverId,proto3" json:"serverId,omitempty"`
+	ServerId      string                 `protobuf:"bytes,1,opt,name=server_id,json=serverId,proto3" json:"server_id,omitempty"`
 	Path          string                 `protobuf:"bytes,2,opt,name=path,proto3" json:"path,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -436,7 +436,7 @@ func (x *GetDirectorySizeResponse) GetSize() int64 {
 // File operations
 type ReadFileRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ServerId      string                 `protobuf:"bytes,1,opt,name=serverId,proto3" json:"serverId,omitempty"`
+	ServerId      string                 `protobuf:"bytes,1,opt,name=server_id,json=serverId,proto3" json:"server_id,omitempty"`
 	Path          string                 `protobuf:"bytes,2,opt,name=path,proto3" json:"path,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -489,7 +489,7 @@ func (x *ReadFileRequest) GetPath() string {
 type ReadFileResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Content       []byte                 `protobuf:"bytes,1,opt,name=content,proto3" json:"content,omitempty"`
-	FileInfo      *FileEntry             `protobuf:"bytes,2,opt,name=fileInfo,proto3" json:"fileInfo,omitempty"`
+	FileInfo      *FileEntry             `protobuf:"bytes,2,opt,name=file_info,json=fileInfo,proto3" json:"file_info,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -540,7 +540,7 @@ func (x *ReadFileResponse) GetFileInfo() *FileEntry {
 
 type WriteFileRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ServerId      string                 `protobuf:"bytes,1,opt,name=serverId,proto3" json:"serverId,omitempty"`
+	ServerId      string                 `protobuf:"bytes,1,opt,name=server_id,json=serverId,proto3" json:"server_id,omitempty"`
 	Path          string                 `protobuf:"bytes,2,opt,name=path,proto3" json:"path,omitempty"`
 	Content       []byte                 `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -644,7 +644,7 @@ func (x *WriteFileResponse) GetSuccess() bool {
 
 type DeleteFileRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ServerId      string                 `protobuf:"bytes,1,opt,name=serverId,proto3" json:"serverId,omitempty"`
+	ServerId      string                 `protobuf:"bytes,1,opt,name=server_id,json=serverId,proto3" json:"server_id,omitempty"`
 	Path          string                 `protobuf:"bytes,2,opt,name=path,proto3" json:"path,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -741,9 +741,9 @@ func (x *DeleteFileResponse) GetSuccess() bool {
 // Movement operations
 type MoveFileRequest struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
-	ServerId        string                 `protobuf:"bytes,1,opt,name=serverId,proto3" json:"serverId,omitempty"`
-	SourcePath      string                 `protobuf:"bytes,2,opt,name=sourcePath,proto3" json:"sourcePath,omitempty"`
-	DestinationPath string                 `protobuf:"bytes,3,opt,name=destinationPath,proto3" json:"destinationPath,omitempty"`
+	ServerId        string                 `protobuf:"bytes,1,opt,name=server_id,json=serverId,proto3" json:"server_id,omitempty"`
+	SourcePath      string                 `protobuf:"bytes,2,opt,name=source_path,json=sourcePath,proto3" json:"source_path,omitempty"`
+	DestinationPath string                 `protobuf:"bytes,3,opt,name=destination_path,json=destinationPath,proto3" json:"destination_path,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -845,9 +845,9 @@ func (x *MoveFileResponse) GetSuccess() bool {
 
 type CopyFileRequest struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
-	ServerId        string                 `protobuf:"bytes,1,opt,name=serverId,proto3" json:"serverId,omitempty"`
-	SourcePath      string                 `protobuf:"bytes,2,opt,name=sourcePath,proto3" json:"sourcePath,omitempty"`
-	DestinationPath string                 `protobuf:"bytes,3,opt,name=destinationPath,proto3" json:"destinationPath,omitempty"`
+	ServerId        string                 `protobuf:"bytes,1,opt,name=server_id,json=serverId,proto3" json:"server_id,omitempty"`
+	SourcePath      string                 `protobuf:"bytes,2,opt,name=source_path,json=sourcePath,proto3" json:"source_path,omitempty"`
+	DestinationPath string                 `protobuf:"bytes,3,opt,name=destination_path,json=destinationPath,proto3" json:"destination_path,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -949,9 +949,9 @@ func (x *CopyFileResponse) GetSuccess() bool {
 
 type CompressFileRequest struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
-	ServerId        string                 `protobuf:"bytes,1,opt,name=serverId,proto3" json:"serverId,omitempty"`
+	ServerId        string                 `protobuf:"bytes,1,opt,name=server_id,json=serverId,proto3" json:"server_id,omitempty"`
 	Path            string                 `protobuf:"bytes,2,opt,name=path,proto3" json:"path,omitempty"`
-	DestinationPath string                 `protobuf:"bytes,3,opt,name=destinationPath,proto3" json:"destinationPath,omitempty"`
+	DestinationPath string                 `protobuf:"bytes,3,opt,name=destination_path,json=destinationPath,proto3" json:"destination_path,omitempty"`
 	Format          CompressionFormat      `protobuf:"varint,4,opt,name=format,proto3,enum=daemon.CompressionFormat" json:"format,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
@@ -1061,9 +1061,9 @@ func (x *CompressFileResponse) GetSuccess() bool {
 
 type DecompressFileRequest struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
-	ServerId        string                 `protobuf:"bytes,1,opt,name=serverId,proto3" json:"serverId,omitempty"`
+	ServerId        string                 `protobuf:"bytes,1,opt,name=server_id,json=serverId,proto3" json:"server_id,omitempty"`
 	Path            string                 `protobuf:"bytes,2,opt,name=path,proto3" json:"path,omitempty"`
-	DestinationPath string                 `protobuf:"bytes,3,opt,name=destinationPath,proto3" json:"destinationPath,omitempty"`
+	DestinationPath string                 `protobuf:"bytes,3,opt,name=destination_path,json=destinationPath,proto3" json:"destination_path,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -1166,7 +1166,7 @@ func (x *DecompressFileResponse) GetSuccess() bool {
 // File permissions operations
 type ChangeFilePermissionsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ServerId      string                 `protobuf:"bytes,1,opt,name=serverId,proto3" json:"serverId,omitempty"`
+	ServerId      string                 `protobuf:"bytes,1,opt,name=server_id,json=serverId,proto3" json:"server_id,omitempty"`
 	Path          string                 `protobuf:"bytes,2,opt,name=path,proto3" json:"path,omitempty"`
 	Permissions   uint32                 `protobuf:"varint,3,opt,name=permissions,proto3" json:"permissions,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1270,7 +1270,7 @@ func (x *ChangeFilePermissionsResponse) GetSuccess() bool {
 
 type GetFilePermissionsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ServerId      string                 `protobuf:"bytes,1,opt,name=serverId,proto3" json:"serverId,omitempty"`
+	ServerId      string                 `protobuf:"bytes,1,opt,name=server_id,json=serverId,proto3" json:"server_id,omitempty"`
 	Path          string                 `protobuf:"bytes,2,opt,name=path,proto3" json:"path,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1366,7 +1366,7 @@ func (x *GetFilePermissionsResponse) GetPermissions() uint32 {
 
 type SearchFilesRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ServerId      string                 `protobuf:"bytes,1,opt,name=serverId,proto3" json:"serverId,omitempty"`
+	ServerId      string                 `protobuf:"bytes,1,opt,name=server_id,json=serverId,proto3" json:"server_id,omitempty"`
 	Query         string                 `protobuf:"bytes,2,opt,name=query,proto3" json:"query,omitempty"`
 	Path          string                 `protobuf:"bytes,3,opt,name=path,proto3" json:"path,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1472,86 +1472,84 @@ var File_daemon_ServerFiles_proto protoreflect.FileDescriptor
 
 const file_daemon_ServerFiles_proto_rawDesc = "" +
 	"\n" +
-	"\x18daemon/ServerFiles.proto\x12\x06daemon\x1a\fcommon.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x95\x01\n" +
+	"\x18daemon/ServerFiles.proto\x12\x06daemon\x1a\fcommon.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x97\x01\n" +
 	"\tFileEntry\x12\x12\n" +
-	"\x04path\x18\x01 \x01(\tR\x04path\x12 \n" +
-	"\visDirectory\x18\x02 \x01(\bR\visDirectory\x12\x12\n" +
-	"\x04size\x18\x03 \x01(\x03R\x04size\x12>\n" +
-	"\flastModified\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\flastModified\"F\n" +
-	"\x14ListDirectoryRequest\x12\x1a\n" +
-	"\bserverId\x18\x01 \x01(\tR\bserverId\x12\x12\n" +
+	"\x04path\x18\x01 \x01(\tR\x04path\x12!\n" +
+	"\fis_directory\x18\x02 \x01(\bR\visDirectory\x12\x12\n" +
+	"\x04size\x18\x03 \x01(\x03R\x04size\x12?\n" +
+	"\rlast_modified\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\flastModified\"G\n" +
+	"\x14ListDirectoryRequest\x12\x1b\n" +
+	"\tserver_id\x18\x01 \x01(\tR\bserverId\x12\x12\n" +
 	"\x04path\x18\x02 \x01(\tR\x04path\"@\n" +
 	"\x15ListDirectoryResponse\x12'\n" +
-	"\x05files\x18\x01 \x03(\v2\x11.daemon.FileEntryR\x05files\"H\n" +
-	"\x16CreateDirectoryRequest\x12\x1a\n" +
-	"\bserverId\x18\x01 \x01(\tR\bserverId\x12\x12\n" +
+	"\x05files\x18\x01 \x03(\v2\x11.daemon.FileEntryR\x05files\"I\n" +
+	"\x16CreateDirectoryRequest\x12\x1b\n" +
+	"\tserver_id\x18\x01 \x01(\tR\bserverId\x12\x12\n" +
 	"\x04path\x18\x02 \x01(\tR\x04path\"3\n" +
 	"\x17CreateDirectoryResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"I\n" +
-	"\x17GetDirectorySizeRequest\x12\x1a\n" +
-	"\bserverId\x18\x01 \x01(\tR\bserverId\x12\x12\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"J\n" +
+	"\x17GetDirectorySizeRequest\x12\x1b\n" +
+	"\tserver_id\x18\x01 \x01(\tR\bserverId\x12\x12\n" +
 	"\x04path\x18\x02 \x01(\tR\x04path\".\n" +
 	"\x18GetDirectorySizeResponse\x12\x12\n" +
-	"\x04size\x18\x01 \x01(\x03R\x04size\"A\n" +
-	"\x0fReadFileRequest\x12\x1a\n" +
-	"\bserverId\x18\x01 \x01(\tR\bserverId\x12\x12\n" +
-	"\x04path\x18\x02 \x01(\tR\x04path\"[\n" +
+	"\x04size\x18\x01 \x01(\x03R\x04size\"B\n" +
+	"\x0fReadFileRequest\x12\x1b\n" +
+	"\tserver_id\x18\x01 \x01(\tR\bserverId\x12\x12\n" +
+	"\x04path\x18\x02 \x01(\tR\x04path\"\\\n" +
 	"\x10ReadFileResponse\x12\x18\n" +
-	"\acontent\x18\x01 \x01(\fR\acontent\x12-\n" +
-	"\bfileInfo\x18\x02 \x01(\v2\x11.daemon.FileEntryR\bfileInfo\"\\\n" +
-	"\x10WriteFileRequest\x12\x1a\n" +
-	"\bserverId\x18\x01 \x01(\tR\bserverId\x12\x12\n" +
+	"\acontent\x18\x01 \x01(\fR\acontent\x12.\n" +
+	"\tfile_info\x18\x02 \x01(\v2\x11.daemon.FileEntryR\bfileInfo\"]\n" +
+	"\x10WriteFileRequest\x12\x1b\n" +
+	"\tserver_id\x18\x01 \x01(\tR\bserverId\x12\x12\n" +
 	"\x04path\x18\x02 \x01(\tR\x04path\x12\x18\n" +
 	"\acontent\x18\x03 \x01(\fR\acontent\"-\n" +
 	"\x11WriteFileResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"C\n" +
-	"\x11DeleteFileRequest\x12\x1a\n" +
-	"\bserverId\x18\x01 \x01(\tR\bserverId\x12\x12\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"D\n" +
+	"\x11DeleteFileRequest\x12\x1b\n" +
+	"\tserver_id\x18\x01 \x01(\tR\bserverId\x12\x12\n" +
 	"\x04path\x18\x02 \x01(\tR\x04path\".\n" +
 	"\x12DeleteFileResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"w\n" +
-	"\x0fMoveFileRequest\x12\x1a\n" +
-	"\bserverId\x18\x01 \x01(\tR\bserverId\x12\x1e\n" +
-	"\n" +
-	"sourcePath\x18\x02 \x01(\tR\n" +
-	"sourcePath\x12(\n" +
-	"\x0fdestinationPath\x18\x03 \x01(\tR\x0fdestinationPath\",\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"z\n" +
+	"\x0fMoveFileRequest\x12\x1b\n" +
+	"\tserver_id\x18\x01 \x01(\tR\bserverId\x12\x1f\n" +
+	"\vsource_path\x18\x02 \x01(\tR\n" +
+	"sourcePath\x12)\n" +
+	"\x10destination_path\x18\x03 \x01(\tR\x0fdestinationPath\",\n" +
 	"\x10MoveFileResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"w\n" +
-	"\x0fCopyFileRequest\x12\x1a\n" +
-	"\bserverId\x18\x01 \x01(\tR\bserverId\x12\x1e\n" +
-	"\n" +
-	"sourcePath\x18\x02 \x01(\tR\n" +
-	"sourcePath\x12(\n" +
-	"\x0fdestinationPath\x18\x03 \x01(\tR\x0fdestinationPath\",\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"z\n" +
+	"\x0fCopyFileRequest\x12\x1b\n" +
+	"\tserver_id\x18\x01 \x01(\tR\bserverId\x12\x1f\n" +
+	"\vsource_path\x18\x02 \x01(\tR\n" +
+	"sourcePath\x12)\n" +
+	"\x10destination_path\x18\x03 \x01(\tR\x0fdestinationPath\",\n" +
 	"\x10CopyFileResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xa2\x01\n" +
-	"\x13CompressFileRequest\x12\x1a\n" +
-	"\bserverId\x18\x01 \x01(\tR\bserverId\x12\x12\n" +
-	"\x04path\x18\x02 \x01(\tR\x04path\x12(\n" +
-	"\x0fdestinationPath\x18\x03 \x01(\tR\x0fdestinationPath\x121\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xa4\x01\n" +
+	"\x13CompressFileRequest\x12\x1b\n" +
+	"\tserver_id\x18\x01 \x01(\tR\bserverId\x12\x12\n" +
+	"\x04path\x18\x02 \x01(\tR\x04path\x12)\n" +
+	"\x10destination_path\x18\x03 \x01(\tR\x0fdestinationPath\x121\n" +
 	"\x06format\x18\x04 \x01(\x0e2\x19.daemon.CompressionFormatR\x06format\"0\n" +
 	"\x14CompressFileResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"q\n" +
-	"\x15DecompressFileRequest\x12\x1a\n" +
-	"\bserverId\x18\x01 \x01(\tR\bserverId\x12\x12\n" +
-	"\x04path\x18\x02 \x01(\tR\x04path\x12(\n" +
-	"\x0fdestinationPath\x18\x03 \x01(\tR\x0fdestinationPath\"2\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"s\n" +
+	"\x15DecompressFileRequest\x12\x1b\n" +
+	"\tserver_id\x18\x01 \x01(\tR\bserverId\x12\x12\n" +
+	"\x04path\x18\x02 \x01(\tR\x04path\x12)\n" +
+	"\x10destination_path\x18\x03 \x01(\tR\x0fdestinationPath\"2\n" +
 	"\x16DecompressFileResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"p\n" +
-	"\x1cChangeFilePermissionsRequest\x12\x1a\n" +
-	"\bserverId\x18\x01 \x01(\tR\bserverId\x12\x12\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"q\n" +
+	"\x1cChangeFilePermissionsRequest\x12\x1b\n" +
+	"\tserver_id\x18\x01 \x01(\tR\bserverId\x12\x12\n" +
 	"\x04path\x18\x02 \x01(\tR\x04path\x12 \n" +
 	"\vpermissions\x18\x03 \x01(\rR\vpermissions\"9\n" +
 	"\x1dChangeFilePermissionsResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"K\n" +
-	"\x19GetFilePermissionsRequest\x12\x1a\n" +
-	"\bserverId\x18\x01 \x01(\tR\bserverId\x12\x12\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"L\n" +
+	"\x19GetFilePermissionsRequest\x12\x1b\n" +
+	"\tserver_id\x18\x01 \x01(\tR\bserverId\x12\x12\n" +
 	"\x04path\x18\x02 \x01(\tR\x04path\">\n" +
 	"\x1aGetFilePermissionsResponse\x12 \n" +
-	"\vpermissions\x18\x01 \x01(\rR\vpermissions\"Z\n" +
-	"\x12SearchFilesRequest\x12\x1a\n" +
-	"\bserverId\x18\x01 \x01(\tR\bserverId\x12\x14\n" +
+	"\vpermissions\x18\x01 \x01(\rR\vpermissions\"[\n" +
+	"\x12SearchFilesRequest\x12\x1b\n" +
+	"\tserver_id\x18\x01 \x01(\tR\bserverId\x12\x14\n" +
 	"\x05query\x18\x02 \x01(\tR\x05query\x12\x12\n" +
 	"\x04path\x18\x03 \x01(\tR\x04path\"B\n" +
 	"\x13SearchFilesResponse\x12+\n" +
@@ -1623,9 +1621,9 @@ var file_daemon_ServerFiles_proto_goTypes = []any{
 	(*timestamppb.Timestamp)(nil),         // 28: google.protobuf.Timestamp
 }
 var file_daemon_ServerFiles_proto_depIdxs = []int32{
-	28, // 0: daemon.FileEntry.lastModified:type_name -> google.protobuf.Timestamp
+	28, // 0: daemon.FileEntry.last_modified:type_name -> google.protobuf.Timestamp
 	1,  // 1: daemon.ListDirectoryResponse.files:type_name -> daemon.FileEntry
-	1,  // 2: daemon.ReadFileResponse.fileInfo:type_name -> daemon.FileEntry
+	1,  // 2: daemon.ReadFileResponse.file_info:type_name -> daemon.FileEntry
 	0,  // 3: daemon.CompressFileRequest.format:type_name -> daemon.CompressionFormat
 	1,  // 4: daemon.SearchFilesResponse.results:type_name -> daemon.FileEntry
 	2,  // 5: daemon.ServerFilesService.ListDirectory:input_type -> daemon.ListDirectoryRequest

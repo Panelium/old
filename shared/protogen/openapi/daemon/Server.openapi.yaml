@@ -274,7 +274,7 @@ components:
       properties:
         serverId:
           type: string
-          title: serverId
+          title: server_id
         action:
           title: action
           $ref: '#/components/schemas/daemon.PowerAction'
@@ -295,15 +295,15 @@ components:
           title: status
           $ref: '#/components/schemas/daemon.ServerStatusType'
         timestampStart:
-          title: timestampStart
+          title: timestamp_start
           nullable: true
           $ref: '#/components/schemas/google.protobuf.Timestamp'
         timestampEnd:
-          title: timestampEnd
+          title: timestamp_end
           nullable: true
           $ref: '#/components/schemas/google.protobuf.Timestamp'
         offlineReason:
-          title: offlineReason
+          title: offline_reason
           nullable: true
           $ref: '#/components/schemas/daemon.ServerOfflineReason'
       title: ServerStatus

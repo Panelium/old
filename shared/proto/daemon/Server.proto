@@ -22,9 +22,9 @@ service ServerService {
 
 message ServerStatus {
   ServerStatusType status = 1;
-  optional google.protobuf.Timestamp timestampStart = 2;
-  optional google.protobuf.Timestamp timestampEnd = 3;
-  optional ServerOfflineReason offlineReason = 4;
+  optional google.protobuf.Timestamp timestamp_start = 2;
+  optional google.protobuf.Timestamp timestamp_end = 3;
+  optional ServerOfflineReason offline_reason = 4;
 }
 
 enum ServerStatusType {
@@ -53,7 +53,7 @@ enum PowerAction {
 }
 
 message PowerActionMessage {
-  string serverId = 1;
+  string server_id = 1;
   PowerAction action = 2;
 }
 

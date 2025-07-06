@@ -35,14 +35,14 @@ service ServerFilesService {
 
 message FileEntry {
   string path = 1;
-  bool isDirectory = 2;
+  bool is_directory = 2;
   int64 size = 3;
-  google.protobuf.Timestamp lastModified = 4;
+  google.protobuf.Timestamp last_modified = 4;
 }
 
 // Directory operations
 message ListDirectoryRequest {
-  string serverId = 1;
+  string server_id = 1;
   string path = 2;
 }
 
@@ -51,7 +51,7 @@ message ListDirectoryResponse {
 }
 
 message CreateDirectoryRequest {
-  string serverId = 1;
+  string server_id = 1;
   string path = 2;
 }
 
@@ -60,7 +60,7 @@ message CreateDirectoryResponse {
 }
 
 message GetDirectorySizeRequest {
-  string serverId = 1;
+  string server_id = 1;
   string path = 2;
 }
 
@@ -70,17 +70,17 @@ message GetDirectorySizeResponse {
 
 // File operations
 message ReadFileRequest {
-  string serverId = 1;
+  string server_id = 1;
   string path = 2;
 }
 
 message ReadFileResponse {
   bytes content = 1;
-  FileEntry fileInfo = 2;
+  FileEntry file_info = 2;
 }
 
 message WriteFileRequest {
-  string serverId = 1;
+  string server_id = 1;
   string path = 2;
   bytes content = 3;
 }
@@ -90,7 +90,7 @@ message WriteFileResponse {
 }
 
 message DeleteFileRequest {
-  string serverId = 1;
+  string server_id = 1;
   string path = 2;
 }
 
@@ -100,9 +100,9 @@ message DeleteFileResponse {
 
 // Movement operations
 message MoveFileRequest {
-  string serverId = 1;
-  string sourcePath = 2;
-  string destinationPath = 3;
+  string server_id = 1;
+  string source_path = 2;
+  string destination_path = 3;
 }
 
 message MoveFileResponse {
@@ -110,9 +110,9 @@ message MoveFileResponse {
 }
 
 message CopyFileRequest {
-  string serverId = 1;
-  string sourcePath = 2;
-  string destinationPath = 3;
+  string server_id = 1;
+  string source_path = 2;
+  string destination_path = 3;
 }
 
 message CopyFileResponse {
@@ -128,9 +128,9 @@ enum CompressionFormat {
 }
 
 message CompressFileRequest {
-  string serverId = 1;
+  string server_id = 1;
   string path = 2;
-  string destinationPath = 3;
+  string destination_path = 3;
   CompressionFormat format = 4;
 }
 
@@ -139,9 +139,9 @@ message CompressFileResponse {
 }
 
 message DecompressFileRequest {
-  string serverId = 1;
+  string server_id = 1;
   string path = 2;
-  string destinationPath = 3;
+  string destination_path = 3;
 }
 
 message DecompressFileResponse {
@@ -150,7 +150,7 @@ message DecompressFileResponse {
 
 // File permissions operations
 message ChangeFilePermissionsRequest {
-  string serverId = 1;
+  string server_id = 1;
   string path = 2;
   uint32 permissions = 3;
 }
@@ -160,7 +160,7 @@ message ChangeFilePermissionsResponse {
 }
 
 message GetFilePermissionsRequest {
-  string serverId = 1;
+  string server_id = 1;
   string path = 2;
 }
 
@@ -169,7 +169,7 @@ message GetFilePermissionsResponse {
 }
 
 message SearchFilesRequest {
-  string serverId = 1;
+  string server_id = 1;
   string query = 2;
   string path = 3;
 }

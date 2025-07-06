@@ -13,7 +13,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file daemon/ServerFiles.proto.
  */
 export const file_daemon_ServerFiles: GenFile = /*@__PURE__*/
-  fileDesc("ChhkYWVtb24vU2VydmVyRmlsZXMucHJvdG8SBmRhZW1vbiJuCglGaWxlRW50cnkSDAoEcGF0aBgBIAEoCRITCgtpc0RpcmVjdG9yeRgCIAEoCBIMCgRzaXplGAMgASgDEjAKDGxhc3RNb2RpZmllZBgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAiNgoUTGlzdERpcmVjdG9yeVJlcXVlc3QSEAoIc2VydmVySWQYASABKAkSDAoEcGF0aBgCIAEoCSI5ChVMaXN0RGlyZWN0b3J5UmVzcG9uc2USIAoFZmlsZXMYASADKAsyES5kYWVtb24uRmlsZUVudHJ5IjgKFkNyZWF0ZURpcmVjdG9yeVJlcXVlc3QSEAoIc2VydmVySWQYASABKAkSDAoEcGF0aBgCIAEoCSIqChdDcmVhdGVEaXJlY3RvcnlSZXNwb25zZRIPCgdzdWNjZXNzGAEgASgIIjkKF0dldERpcmVjdG9yeVNpemVSZXF1ZXN0EhAKCHNlcnZlcklkGAEgASgJEgwKBHBhdGgYAiABKAkiKAoYR2V0RGlyZWN0b3J5U2l6ZVJlc3BvbnNlEgwKBHNpemUYASABKAMiMQoPUmVhZEZpbGVSZXF1ZXN0EhAKCHNlcnZlcklkGAEgASgJEgwKBHBhdGgYAiABKAkiSAoQUmVhZEZpbGVSZXNwb25zZRIPCgdjb250ZW50GAEgASgMEiMKCGZpbGVJbmZvGAIgASgLMhEuZGFlbW9uLkZpbGVFbnRyeSJDChBXcml0ZUZpbGVSZXF1ZXN0EhAKCHNlcnZlcklkGAEgASgJEgwKBHBhdGgYAiABKAkSDwoHY29udGVudBgDIAEoDCIkChFXcml0ZUZpbGVSZXNwb25zZRIPCgdzdWNjZXNzGAEgASgIIjMKEURlbGV0ZUZpbGVSZXF1ZXN0EhAKCHNlcnZlcklkGAEgASgJEgwKBHBhdGgYAiABKAkiJQoSRGVsZXRlRmlsZVJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgiUAoPTW92ZUZpbGVSZXF1ZXN0EhAKCHNlcnZlcklkGAEgASgJEhIKCnNvdXJjZVBhdGgYAiABKAkSFwoPZGVzdGluYXRpb25QYXRoGAMgASgJIiMKEE1vdmVGaWxlUmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCCJQCg9Db3B5RmlsZVJlcXVlc3QSEAoIc2VydmVySWQYASABKAkSEgoKc291cmNlUGF0aBgCIAEoCRIXCg9kZXN0aW5hdGlvblBhdGgYAyABKAkiIwoQQ29weUZpbGVSZXNwb25zZRIPCgdzdWNjZXNzGAEgASgIInkKE0NvbXByZXNzRmlsZVJlcXVlc3QSEAoIc2VydmVySWQYASABKAkSDAoEcGF0aBgCIAEoCRIXCg9kZXN0aW5hdGlvblBhdGgYAyABKAkSKQoGZm9ybWF0GAQgASgOMhkuZGFlbW9uLkNvbXByZXNzaW9uRm9ybWF0IicKFENvbXByZXNzRmlsZVJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgiUAoVRGVjb21wcmVzc0ZpbGVSZXF1ZXN0EhAKCHNlcnZlcklkGAEgASgJEgwKBHBhdGgYAiABKAkSFwoPZGVzdGluYXRpb25QYXRoGAMgASgJIikKFkRlY29tcHJlc3NGaWxlUmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCCJTChxDaGFuZ2VGaWxlUGVybWlzc2lvbnNSZXF1ZXN0EhAKCHNlcnZlcklkGAEgASgJEgwKBHBhdGgYAiABKAkSEwoLcGVybWlzc2lvbnMYAyABKA0iMAodQ2hhbmdlRmlsZVBlcm1pc3Npb25zUmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCCI7ChlHZXRGaWxlUGVybWlzc2lvbnNSZXF1ZXN0EhAKCHNlcnZlcklkGAEgASgJEgwKBHBhdGgYAiABKAkiMQoaR2V0RmlsZVBlcm1pc3Npb25zUmVzcG9uc2USEwoLcGVybWlzc2lvbnMYASABKA0iQwoSU2VhcmNoRmlsZXNSZXF1ZXN0EhAKCHNlcnZlcklkGAEgASgJEg0KBXF1ZXJ5GAIgASgJEgwKBHBhdGgYAyABKAkiOQoTU2VhcmNoRmlsZXNSZXNwb25zZRIiCgdyZXN1bHRzGAEgAygLMhEuZGFlbW9uLkZpbGVFbnRyeSqMAQoRQ29tcHJlc3Npb25Gb3JtYXQSIgoeQ09NUFJFU1NJT05fRk9STUFUX1VOU1BFQ0lGSUVEEAASGgoWQ09NUFJFU1NJT05fRk9STUFUX1pJUBABEhoKFkNPTVBSRVNTSU9OX0ZPUk1BVF9UQVIQAhIbChdDT01QUkVTU0lPTl9GT1JNQVRfR1pJUBADMvgHChJTZXJ2ZXJGaWxlc1NlcnZpY2USTAoNTGlzdERpcmVjdG9yeRIcLmRhZW1vbi5MaXN0RGlyZWN0b3J5UmVxdWVzdBodLmRhZW1vbi5MaXN0RGlyZWN0b3J5UmVzcG9uc2USUgoPQ3JlYXRlRGlyZWN0b3J5Eh4uZGFlbW9uLkNyZWF0ZURpcmVjdG9yeVJlcXVlc3QaHy5kYWVtb24uQ3JlYXRlRGlyZWN0b3J5UmVzcG9uc2USVQoQR2V0RGlyZWN0b3J5U2l6ZRIfLmRhZW1vbi5HZXREaXJlY3RvcnlTaXplUmVxdWVzdBogLmRhZW1vbi5HZXREaXJlY3RvcnlTaXplUmVzcG9uc2USPQoIUmVhZEZpbGUSFy5kYWVtb24uUmVhZEZpbGVSZXF1ZXN0GhguZGFlbW9uLlJlYWRGaWxlUmVzcG9uc2USQAoJV3JpdGVGaWxlEhguZGFlbW9uLldyaXRlRmlsZVJlcXVlc3QaGS5kYWVtb24uV3JpdGVGaWxlUmVzcG9uc2USQwoKRGVsZXRlRmlsZRIZLmRhZW1vbi5EZWxldGVGaWxlUmVxdWVzdBoaLmRhZW1vbi5EZWxldGVGaWxlUmVzcG9uc2USPQoITW92ZUZpbGUSFy5kYWVtb24uTW92ZUZpbGVSZXF1ZXN0GhguZGFlbW9uLk1vdmVGaWxlUmVzcG9uc2USPQoIQ29weUZpbGUSFy5kYWVtb24uQ29weUZpbGVSZXF1ZXN0GhguZGFlbW9uLkNvcHlGaWxlUmVzcG9uc2USSQoMQ29tcHJlc3NGaWxlEhsuZGFlbW9uLkNvbXByZXNzRmlsZVJlcXVlc3QaHC5kYWVtb24uQ29tcHJlc3NGaWxlUmVzcG9uc2USTwoORGVjb21wcmVzc0ZpbGUSHS5kYWVtb24uRGVjb21wcmVzc0ZpbGVSZXF1ZXN0Gh4uZGFlbW9uLkRlY29tcHJlc3NGaWxlUmVzcG9uc2USZAoVQ2hhbmdlRmlsZVBlcm1pc3Npb25zEiQuZGFlbW9uLkNoYW5nZUZpbGVQZXJtaXNzaW9uc1JlcXVlc3QaJS5kYWVtb24uQ2hhbmdlRmlsZVBlcm1pc3Npb25zUmVzcG9uc2USWwoSR2V0RmlsZVBlcm1pc3Npb25zEiEuZGFlbW9uLkdldEZpbGVQZXJtaXNzaW9uc1JlcXVlc3QaIi5kYWVtb24uR2V0RmlsZVBlcm1pc3Npb25zUmVzcG9uc2USRgoLU2VhcmNoRmlsZXMSGi5kYWVtb24uU2VhcmNoRmlsZXNSZXF1ZXN0GhsuZGFlbW9uLlNlYXJjaEZpbGVzUmVzcG9uc2VCHloccGFuZWxpdW0vcHJvdG9fZ2VuX2dvL2RhZW1vbmIGcHJvdG8z", [file_common, file_google_protobuf_timestamp]);
+  fileDesc("ChhkYWVtb24vU2VydmVyRmlsZXMucHJvdG8SBmRhZW1vbiJwCglGaWxlRW50cnkSDAoEcGF0aBgBIAEoCRIUCgxpc19kaXJlY3RvcnkYAiABKAgSDAoEc2l6ZRgDIAEoAxIxCg1sYXN0X21vZGlmaWVkGAQgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCI3ChRMaXN0RGlyZWN0b3J5UmVxdWVzdBIRCglzZXJ2ZXJfaWQYASABKAkSDAoEcGF0aBgCIAEoCSI5ChVMaXN0RGlyZWN0b3J5UmVzcG9uc2USIAoFZmlsZXMYASADKAsyES5kYWVtb24uRmlsZUVudHJ5IjkKFkNyZWF0ZURpcmVjdG9yeVJlcXVlc3QSEQoJc2VydmVyX2lkGAEgASgJEgwKBHBhdGgYAiABKAkiKgoXQ3JlYXRlRGlyZWN0b3J5UmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCCI6ChdHZXREaXJlY3RvcnlTaXplUmVxdWVzdBIRCglzZXJ2ZXJfaWQYASABKAkSDAoEcGF0aBgCIAEoCSIoChhHZXREaXJlY3RvcnlTaXplUmVzcG9uc2USDAoEc2l6ZRgBIAEoAyIyCg9SZWFkRmlsZVJlcXVlc3QSEQoJc2VydmVyX2lkGAEgASgJEgwKBHBhdGgYAiABKAkiSQoQUmVhZEZpbGVSZXNwb25zZRIPCgdjb250ZW50GAEgASgMEiQKCWZpbGVfaW5mbxgCIAEoCzIRLmRhZW1vbi5GaWxlRW50cnkiRAoQV3JpdGVGaWxlUmVxdWVzdBIRCglzZXJ2ZXJfaWQYASABKAkSDAoEcGF0aBgCIAEoCRIPCgdjb250ZW50GAMgASgMIiQKEVdyaXRlRmlsZVJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgiNAoRRGVsZXRlRmlsZVJlcXVlc3QSEQoJc2VydmVyX2lkGAEgASgJEgwKBHBhdGgYAiABKAkiJQoSRGVsZXRlRmlsZVJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgiUwoPTW92ZUZpbGVSZXF1ZXN0EhEKCXNlcnZlcl9pZBgBIAEoCRITCgtzb3VyY2VfcGF0aBgCIAEoCRIYChBkZXN0aW5hdGlvbl9wYXRoGAMgASgJIiMKEE1vdmVGaWxlUmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCCJTCg9Db3B5RmlsZVJlcXVlc3QSEQoJc2VydmVyX2lkGAEgASgJEhMKC3NvdXJjZV9wYXRoGAIgASgJEhgKEGRlc3RpbmF0aW9uX3BhdGgYAyABKAkiIwoQQ29weUZpbGVSZXNwb25zZRIPCgdzdWNjZXNzGAEgASgIInsKE0NvbXByZXNzRmlsZVJlcXVlc3QSEQoJc2VydmVyX2lkGAEgASgJEgwKBHBhdGgYAiABKAkSGAoQZGVzdGluYXRpb25fcGF0aBgDIAEoCRIpCgZmb3JtYXQYBCABKA4yGS5kYWVtb24uQ29tcHJlc3Npb25Gb3JtYXQiJwoUQ29tcHJlc3NGaWxlUmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCCJSChVEZWNvbXByZXNzRmlsZVJlcXVlc3QSEQoJc2VydmVyX2lkGAEgASgJEgwKBHBhdGgYAiABKAkSGAoQZGVzdGluYXRpb25fcGF0aBgDIAEoCSIpChZEZWNvbXByZXNzRmlsZVJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgiVAocQ2hhbmdlRmlsZVBlcm1pc3Npb25zUmVxdWVzdBIRCglzZXJ2ZXJfaWQYASABKAkSDAoEcGF0aBgCIAEoCRITCgtwZXJtaXNzaW9ucxgDIAEoDSIwCh1DaGFuZ2VGaWxlUGVybWlzc2lvbnNSZXNwb25zZRIPCgdzdWNjZXNzGAEgASgIIjwKGUdldEZpbGVQZXJtaXNzaW9uc1JlcXVlc3QSEQoJc2VydmVyX2lkGAEgASgJEgwKBHBhdGgYAiABKAkiMQoaR2V0RmlsZVBlcm1pc3Npb25zUmVzcG9uc2USEwoLcGVybWlzc2lvbnMYASABKA0iRAoSU2VhcmNoRmlsZXNSZXF1ZXN0EhEKCXNlcnZlcl9pZBgBIAEoCRINCgVxdWVyeRgCIAEoCRIMCgRwYXRoGAMgASgJIjkKE1NlYXJjaEZpbGVzUmVzcG9uc2USIgoHcmVzdWx0cxgBIAMoCzIRLmRhZW1vbi5GaWxlRW50cnkqjAEKEUNvbXByZXNzaW9uRm9ybWF0EiIKHkNPTVBSRVNTSU9OX0ZPUk1BVF9VTlNQRUNJRklFRBAAEhoKFkNPTVBSRVNTSU9OX0ZPUk1BVF9aSVAQARIaChZDT01QUkVTU0lPTl9GT1JNQVRfVEFSEAISGwoXQ09NUFJFU1NJT05fRk9STUFUX0daSVAQAzL4BwoSU2VydmVyRmlsZXNTZXJ2aWNlEkwKDUxpc3REaXJlY3RvcnkSHC5kYWVtb24uTGlzdERpcmVjdG9yeVJlcXVlc3QaHS5kYWVtb24uTGlzdERpcmVjdG9yeVJlc3BvbnNlElIKD0NyZWF0ZURpcmVjdG9yeRIeLmRhZW1vbi5DcmVhdGVEaXJlY3RvcnlSZXF1ZXN0Gh8uZGFlbW9uLkNyZWF0ZURpcmVjdG9yeVJlc3BvbnNlElUKEEdldERpcmVjdG9yeVNpemUSHy5kYWVtb24uR2V0RGlyZWN0b3J5U2l6ZVJlcXVlc3QaIC5kYWVtb24uR2V0RGlyZWN0b3J5U2l6ZVJlc3BvbnNlEj0KCFJlYWRGaWxlEhcuZGFlbW9uLlJlYWRGaWxlUmVxdWVzdBoYLmRhZW1vbi5SZWFkRmlsZVJlc3BvbnNlEkAKCVdyaXRlRmlsZRIYLmRhZW1vbi5Xcml0ZUZpbGVSZXF1ZXN0GhkuZGFlbW9uLldyaXRlRmlsZVJlc3BvbnNlEkMKCkRlbGV0ZUZpbGUSGS5kYWVtb24uRGVsZXRlRmlsZVJlcXVlc3QaGi5kYWVtb24uRGVsZXRlRmlsZVJlc3BvbnNlEj0KCE1vdmVGaWxlEhcuZGFlbW9uLk1vdmVGaWxlUmVxdWVzdBoYLmRhZW1vbi5Nb3ZlRmlsZVJlc3BvbnNlEj0KCENvcHlGaWxlEhcuZGFlbW9uLkNvcHlGaWxlUmVxdWVzdBoYLmRhZW1vbi5Db3B5RmlsZVJlc3BvbnNlEkkKDENvbXByZXNzRmlsZRIbLmRhZW1vbi5Db21wcmVzc0ZpbGVSZXF1ZXN0GhwuZGFlbW9uLkNvbXByZXNzRmlsZVJlc3BvbnNlEk8KDkRlY29tcHJlc3NGaWxlEh0uZGFlbW9uLkRlY29tcHJlc3NGaWxlUmVxdWVzdBoeLmRhZW1vbi5EZWNvbXByZXNzRmlsZVJlc3BvbnNlEmQKFUNoYW5nZUZpbGVQZXJtaXNzaW9ucxIkLmRhZW1vbi5DaGFuZ2VGaWxlUGVybWlzc2lvbnNSZXF1ZXN0GiUuZGFlbW9uLkNoYW5nZUZpbGVQZXJtaXNzaW9uc1Jlc3BvbnNlElsKEkdldEZpbGVQZXJtaXNzaW9ucxIhLmRhZW1vbi5HZXRGaWxlUGVybWlzc2lvbnNSZXF1ZXN0GiIuZGFlbW9uLkdldEZpbGVQZXJtaXNzaW9uc1Jlc3BvbnNlEkYKC1NlYXJjaEZpbGVzEhouZGFlbW9uLlNlYXJjaEZpbGVzUmVxdWVzdBobLmRhZW1vbi5TZWFyY2hGaWxlc1Jlc3BvbnNlQh5aHHBhbmVsaXVtL3Byb3RvX2dlbl9nby9kYWVtb25iBnByb3RvMw", [file_common, file_google_protobuf_timestamp]);
 
 /**
  * @generated from message daemon.FileEntry
@@ -25,7 +25,7 @@ export type FileEntry = Message<"daemon.FileEntry"> & {
   path: string;
 
   /**
-   * @generated from field: bool isDirectory = 2;
+   * @generated from field: bool is_directory = 2;
    */
   isDirectory: boolean;
 
@@ -35,7 +35,7 @@ export type FileEntry = Message<"daemon.FileEntry"> & {
   size: bigint;
 
   /**
-   * @generated from field: google.protobuf.Timestamp lastModified = 4;
+   * @generated from field: google.protobuf.Timestamp last_modified = 4;
    */
   lastModified?: Timestamp;
 };
@@ -54,7 +54,7 @@ export const FileEntrySchema: GenMessage<FileEntry> = /*@__PURE__*/
  */
 export type ListDirectoryRequest = Message<"daemon.ListDirectoryRequest"> & {
   /**
-   * @generated from field: string serverId = 1;
+   * @generated from field: string server_id = 1;
    */
   serverId: string;
 
@@ -93,7 +93,7 @@ export const ListDirectoryResponseSchema: GenMessage<ListDirectoryResponse> = /*
  */
 export type CreateDirectoryRequest = Message<"daemon.CreateDirectoryRequest"> & {
   /**
-   * @generated from field: string serverId = 1;
+   * @generated from field: string server_id = 1;
    */
   serverId: string;
 
@@ -132,7 +132,7 @@ export const CreateDirectoryResponseSchema: GenMessage<CreateDirectoryResponse> 
  */
 export type GetDirectorySizeRequest = Message<"daemon.GetDirectorySizeRequest"> & {
   /**
-   * @generated from field: string serverId = 1;
+   * @generated from field: string server_id = 1;
    */
   serverId: string;
 
@@ -173,7 +173,7 @@ export const GetDirectorySizeResponseSchema: GenMessage<GetDirectorySizeResponse
  */
 export type ReadFileRequest = Message<"daemon.ReadFileRequest"> & {
   /**
-   * @generated from field: string serverId = 1;
+   * @generated from field: string server_id = 1;
    */
   serverId: string;
 
@@ -200,7 +200,7 @@ export type ReadFileResponse = Message<"daemon.ReadFileResponse"> & {
   content: Uint8Array;
 
   /**
-   * @generated from field: daemon.FileEntry fileInfo = 2;
+   * @generated from field: daemon.FileEntry file_info = 2;
    */
   fileInfo?: FileEntry;
 };
@@ -217,7 +217,7 @@ export const ReadFileResponseSchema: GenMessage<ReadFileResponse> = /*@__PURE__*
  */
 export type WriteFileRequest = Message<"daemon.WriteFileRequest"> & {
   /**
-   * @generated from field: string serverId = 1;
+   * @generated from field: string server_id = 1;
    */
   serverId: string;
 
@@ -261,7 +261,7 @@ export const WriteFileResponseSchema: GenMessage<WriteFileResponse> = /*@__PURE_
  */
 export type DeleteFileRequest = Message<"daemon.DeleteFileRequest"> & {
   /**
-   * @generated from field: string serverId = 1;
+   * @generated from field: string server_id = 1;
    */
   serverId: string;
 
@@ -302,17 +302,17 @@ export const DeleteFileResponseSchema: GenMessage<DeleteFileResponse> = /*@__PUR
  */
 export type MoveFileRequest = Message<"daemon.MoveFileRequest"> & {
   /**
-   * @generated from field: string serverId = 1;
+   * @generated from field: string server_id = 1;
    */
   serverId: string;
 
   /**
-   * @generated from field: string sourcePath = 2;
+   * @generated from field: string source_path = 2;
    */
   sourcePath: string;
 
   /**
-   * @generated from field: string destinationPath = 3;
+   * @generated from field: string destination_path = 3;
    */
   destinationPath: string;
 };
@@ -346,17 +346,17 @@ export const MoveFileResponseSchema: GenMessage<MoveFileResponse> = /*@__PURE__*
  */
 export type CopyFileRequest = Message<"daemon.CopyFileRequest"> & {
   /**
-   * @generated from field: string serverId = 1;
+   * @generated from field: string server_id = 1;
    */
   serverId: string;
 
   /**
-   * @generated from field: string sourcePath = 2;
+   * @generated from field: string source_path = 2;
    */
   sourcePath: string;
 
   /**
-   * @generated from field: string destinationPath = 3;
+   * @generated from field: string destination_path = 3;
    */
   destinationPath: string;
 };
@@ -390,7 +390,7 @@ export const CopyFileResponseSchema: GenMessage<CopyFileResponse> = /*@__PURE__*
  */
 export type CompressFileRequest = Message<"daemon.CompressFileRequest"> & {
   /**
-   * @generated from field: string serverId = 1;
+   * @generated from field: string server_id = 1;
    */
   serverId: string;
 
@@ -400,7 +400,7 @@ export type CompressFileRequest = Message<"daemon.CompressFileRequest"> & {
   path: string;
 
   /**
-   * @generated from field: string destinationPath = 3;
+   * @generated from field: string destination_path = 3;
    */
   destinationPath: string;
 
@@ -439,7 +439,7 @@ export const CompressFileResponseSchema: GenMessage<CompressFileResponse> = /*@_
  */
 export type DecompressFileRequest = Message<"daemon.DecompressFileRequest"> & {
   /**
-   * @generated from field: string serverId = 1;
+   * @generated from field: string server_id = 1;
    */
   serverId: string;
 
@@ -449,7 +449,7 @@ export type DecompressFileRequest = Message<"daemon.DecompressFileRequest"> & {
   path: string;
 
   /**
-   * @generated from field: string destinationPath = 3;
+   * @generated from field: string destination_path = 3;
    */
   destinationPath: string;
 };
@@ -485,7 +485,7 @@ export const DecompressFileResponseSchema: GenMessage<DecompressFileResponse> = 
  */
 export type ChangeFilePermissionsRequest = Message<"daemon.ChangeFilePermissionsRequest"> & {
   /**
-   * @generated from field: string serverId = 1;
+   * @generated from field: string server_id = 1;
    */
   serverId: string;
 
@@ -529,7 +529,7 @@ export const ChangeFilePermissionsResponseSchema: GenMessage<ChangeFilePermissio
  */
 export type GetFilePermissionsRequest = Message<"daemon.GetFilePermissionsRequest"> & {
   /**
-   * @generated from field: string serverId = 1;
+   * @generated from field: string server_id = 1;
    */
   serverId: string;
 
@@ -568,7 +568,7 @@ export const GetFilePermissionsResponseSchema: GenMessage<GetFilePermissionsResp
  */
 export type SearchFilesRequest = Message<"daemon.SearchFilesRequest"> & {
   /**
-   * @generated from field: string serverId = 1;
+   * @generated from field: string server_id = 1;
    */
   serverId: string;
 

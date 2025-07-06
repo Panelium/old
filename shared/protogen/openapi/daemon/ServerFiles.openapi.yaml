@@ -479,7 +479,7 @@ components:
       properties:
         serverId:
           type: string
-          title: serverId
+          title: server_id
         path:
           type: string
           title: path
@@ -502,13 +502,13 @@ components:
       properties:
         serverId:
           type: string
-          title: serverId
+          title: server_id
         path:
           type: string
           title: path
         destinationPath:
           type: string
-          title: destinationPath
+          title: destination_path
         format:
           title: format
           $ref: '#/components/schemas/daemon.CompressionFormat'
@@ -527,13 +527,13 @@ components:
       properties:
         serverId:
           type: string
-          title: serverId
+          title: server_id
         sourcePath:
           type: string
-          title: sourcePath
+          title: source_path
         destinationPath:
           type: string
-          title: destinationPath
+          title: destination_path
       title: CopyFileRequest
       additionalProperties: false
     daemon.CopyFileResponse:
@@ -549,7 +549,7 @@ components:
       properties:
         serverId:
           type: string
-          title: serverId
+          title: server_id
         path:
           type: string
           title: path
@@ -568,13 +568,13 @@ components:
       properties:
         serverId:
           type: string
-          title: serverId
+          title: server_id
         path:
           type: string
           title: path
         destinationPath:
           type: string
-          title: destinationPath
+          title: destination_path
       title: DecompressFileRequest
       additionalProperties: false
     daemon.DecompressFileResponse:
@@ -590,7 +590,7 @@ components:
       properties:
         serverId:
           type: string
-          title: serverId
+          title: server_id
         path:
           type: string
           title: path
@@ -612,7 +612,7 @@ components:
           title: path
         isDirectory:
           type: boolean
-          title: isDirectory
+          title: is_directory
         size:
           type:
             - integer
@@ -620,7 +620,7 @@ components:
           title: size
           format: int64
         lastModified:
-          title: lastModified
+          title: last_modified
           $ref: '#/components/schemas/google.protobuf.Timestamp'
       title: FileEntry
       additionalProperties: false
@@ -629,7 +629,7 @@ components:
       properties:
         serverId:
           type: string
-          title: serverId
+          title: server_id
         path:
           type: string
           title: path
@@ -651,7 +651,7 @@ components:
       properties:
         serverId:
           type: string
-          title: serverId
+          title: server_id
         path:
           type: string
           title: path
@@ -670,7 +670,7 @@ components:
       properties:
         serverId:
           type: string
-          title: serverId
+          title: server_id
         path:
           type: string
           title: path
@@ -692,13 +692,13 @@ components:
       properties:
         serverId:
           type: string
-          title: serverId
+          title: server_id
         sourcePath:
           type: string
-          title: sourcePath
+          title: source_path
         destinationPath:
           type: string
-          title: destinationPath
+          title: destination_path
       title: MoveFileRequest
       additionalProperties: false
       description: Movement operations
@@ -715,7 +715,7 @@ components:
       properties:
         serverId:
           type: string
-          title: serverId
+          title: server_id
         path:
           type: string
           title: path
@@ -730,7 +730,7 @@ components:
           title: content
           format: byte
         fileInfo:
-          title: fileInfo
+          title: file_info
           $ref: '#/components/schemas/daemon.FileEntry'
       title: ReadFileResponse
       additionalProperties: false
@@ -739,7 +739,7 @@ components:
       properties:
         serverId:
           type: string
-          title: serverId
+          title: server_id
         query:
           type: string
           title: query
@@ -763,7 +763,7 @@ components:
       properties:
         serverId:
           type: string
-          title: serverId
+          title: server_id
         path:
           type: string
           title: path
