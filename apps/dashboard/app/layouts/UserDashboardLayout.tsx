@@ -31,9 +31,13 @@ import { Button } from "~/components/ui/button";
 import EntityAvatar from "~/components/avatars/EntityAvatar";
 import { Sidebar, SidebarProvider, useSidebar } from "~/components/ui/sidebar";
 import useDashboard from "~/routes/dashboard/useDashboard";
-import { PagePressedEvent, pagesEventBus } from "~/components/dashboard/server/Pages";
+import {
+  PagePressedEvent,
+  pagesEventBus,
+} from "~/components/dashboard/server/Pages";
 import FilesPage from "~/components/dashboard/server/pages/FilesPage";
 import { getClientClient } from "~/lib/api-clients";
+import { ScrollArea } from "~/components/ui/scroll-area";
 
 interface NavigationItemProps {
   title?: string;
@@ -112,7 +116,7 @@ const SidebarNavigationItem: React.FC<{ item: NavigationItemProps }> = ({
         if (item.href === undefined) {
           return;
         }
-        const splitHref = item.href.split(,"/");
+        const splitHref = item.href.split("/");
         if (item.type !== "server-tab") {
           pagesEventBus.dispatchEvent(new PagePressedEvent(FilesPage.id));
           return;
@@ -124,7 +128,7 @@ const SidebarNavigationItem: React.FC<{ item: NavigationItemProps }> = ({
     >
       {item.type === "server-tab" ? <div className="w-4" /> : <></>}
       {IconComponent && (
-        <IconCompone,nt
+        <IconComponent
           className={cn(
             "h-5 w-5 text-slate-500 dark:text-slate-400",
             isActive(item.href) && "text-indigo-600 dark:text-indigo-400"
@@ -137,7 +141,7 @@ const SidebarNavigationItem: React.FC<{ item: NavigationItemProps }> = ({
 };
 const SidebarNavigation: React.FC = () => {
   return (
-    <ScrollAre,a className="flex-1 px-2 py-4">
+    <ScrollArea className="flex-1 px-2 py-4">
       <nav className="flex flex-col w-full gap-1">
         {NAVIGATION_ITEMS.map((item) => {
           switch (item.type) {
@@ -225,7 +229,7 @@ const SidebarDropdownMenu: React.FC = () => {
     getClientClient().then((client) =>
       client.getInfo({}).then((info) => {
         if (mounted) setUserInfo(info);
-      }),
+      })
     );
     return () => {
       mounted = false;
