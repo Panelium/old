@@ -10,6 +10,7 @@ import (
 	errors "errors"
 	http "net/http"
 	proto_gen_go "panelium/proto_gen_go"
+	backend "panelium/proto_gen_go/backend"
 	daemon "panelium/proto_gen_go/daemon"
 	strings "strings"
 )
@@ -47,9 +48,9 @@ const (
 
 // BackendServiceClient is a client for the daemon.BackendService service.
 type BackendServiceClient interface {
-	CreateServer(context.Context, *connect.Request[daemon.CreateServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
-	UpdateServer(context.Context, *connect.Request[daemon.UpdateServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
-	DeleteServer(context.Context, *connect.Request[daemon.DeleteServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	CreateServer(context.Context, *connect.Request[backend.Server]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	UpdateServer(context.Context, *connect.Request[backend.Server]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	DeleteServer(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 }
 
 // NewBackendServiceClient constructs a client for the daemon.BackendService service. By default, it
@@ -63,19 +64,19 @@ func NewBackendServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 	baseURL = strings.TrimRight(baseURL, "/")
 	backendServiceMethods := daemon.File_daemon_Backend_proto.Services().ByName("BackendService").Methods()
 	return &backendServiceClient{
-		createServer: connect.NewClient[daemon.CreateServerRequest, proto_gen_go.SuccessMessage](
+		createServer: connect.NewClient[backend.Server, proto_gen_go.SuccessMessage](
 			httpClient,
 			baseURL+BackendServiceCreateServerProcedure,
 			connect.WithSchema(backendServiceMethods.ByName("CreateServer")),
 			connect.WithClientOptions(opts...),
 		),
-		updateServer: connect.NewClient[daemon.UpdateServerRequest, proto_gen_go.SuccessMessage](
+		updateServer: connect.NewClient[backend.Server, proto_gen_go.SuccessMessage](
 			httpClient,
 			baseURL+BackendServiceUpdateServerProcedure,
 			connect.WithSchema(backendServiceMethods.ByName("UpdateServer")),
 			connect.WithClientOptions(opts...),
 		),
-		deleteServer: connect.NewClient[daemon.DeleteServerRequest, proto_gen_go.SuccessMessage](
+		deleteServer: connect.NewClient[proto_gen_go.SimpleIDMessage, proto_gen_go.SuccessMessage](
 			httpClient,
 			baseURL+BackendServiceDeleteServerProcedure,
 			connect.WithSchema(backendServiceMethods.ByName("DeleteServer")),
@@ -86,31 +87,31 @@ func NewBackendServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 
 // backendServiceClient implements BackendServiceClient.
 type backendServiceClient struct {
-	createServer *connect.Client[daemon.CreateServerRequest, proto_gen_go.SuccessMessage]
-	updateServer *connect.Client[daemon.UpdateServerRequest, proto_gen_go.SuccessMessage]
-	deleteServer *connect.Client[daemon.DeleteServerRequest, proto_gen_go.SuccessMessage]
+	createServer *connect.Client[backend.Server, proto_gen_go.SuccessMessage]
+	updateServer *connect.Client[backend.Server, proto_gen_go.SuccessMessage]
+	deleteServer *connect.Client[proto_gen_go.SimpleIDMessage, proto_gen_go.SuccessMessage]
 }
 
 // CreateServer calls daemon.BackendService.CreateServer.
-func (c *backendServiceClient) CreateServer(ctx context.Context, req *connect.Request[daemon.CreateServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+func (c *backendServiceClient) CreateServer(ctx context.Context, req *connect.Request[backend.Server]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	return c.createServer.CallUnary(ctx, req)
 }
 
 // UpdateServer calls daemon.BackendService.UpdateServer.
-func (c *backendServiceClient) UpdateServer(ctx context.Context, req *connect.Request[daemon.UpdateServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+func (c *backendServiceClient) UpdateServer(ctx context.Context, req *connect.Request[backend.Server]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	return c.updateServer.CallUnary(ctx, req)
 }
 
 // DeleteServer calls daemon.BackendService.DeleteServer.
-func (c *backendServiceClient) DeleteServer(ctx context.Context, req *connect.Request[daemon.DeleteServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+func (c *backendServiceClient) DeleteServer(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	return c.deleteServer.CallUnary(ctx, req)
 }
 
 // BackendServiceHandler is an implementation of the daemon.BackendService service.
 type BackendServiceHandler interface {
-	CreateServer(context.Context, *connect.Request[daemon.CreateServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
-	UpdateServer(context.Context, *connect.Request[daemon.UpdateServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
-	DeleteServer(context.Context, *connect.Request[daemon.DeleteServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	CreateServer(context.Context, *connect.Request[backend.Server]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	UpdateServer(context.Context, *connect.Request[backend.Server]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	DeleteServer(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 }
 
 // NewBackendServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -155,14 +156,14 @@ func NewBackendServiceHandler(svc BackendServiceHandler, opts ...connect.Handler
 // UnimplementedBackendServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedBackendServiceHandler struct{}
 
-func (UnimplementedBackendServiceHandler) CreateServer(context.Context, *connect.Request[daemon.CreateServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+func (UnimplementedBackendServiceHandler) CreateServer(context.Context, *connect.Request[backend.Server]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("daemon.BackendService.CreateServer is not implemented"))
 }
 
-func (UnimplementedBackendServiceHandler) UpdateServer(context.Context, *connect.Request[daemon.UpdateServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+func (UnimplementedBackendServiceHandler) UpdateServer(context.Context, *connect.Request[backend.Server]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("daemon.BackendService.UpdateServer is not implemented"))
 }
 
-func (UnimplementedBackendServiceHandler) DeleteServer(context.Context, *connect.Request[daemon.DeleteServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+func (UnimplementedBackendServiceHandler) DeleteServer(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("daemon.BackendService.DeleteServer is not implemented"))
 }

@@ -22,7 +22,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/daemon.CreateServerRequest'
+              $ref: '#/components/schemas/backend.Server'
         required: true
       responses:
         default:
@@ -57,7 +57,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/daemon.UpdateServerRequest'
+              $ref: '#/components/schemas/backend.Server'
         required: true
       responses:
         default:
@@ -92,7 +92,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/daemon.DeleteServerRequest'
+              $ref: '#/components/schemas/common.SimpleIDMessage'
         required: true
       responses:
         default:
@@ -109,6 +109,36 @@ paths:
                 $ref: '#/components/schemas/common.SuccessMessage'
 components:
   schemas:
+    backend.Server:
+      type: object
+      properties:
+        sid:
+          type: string
+          title: sid
+        ownerId:
+          type: string
+          title: owner_id
+        userIds:
+          type: array
+          items:
+            type: string
+          title: user_ids
+        allocations:
+          type: array
+          items:
+            $ref: '#/components/schemas/common.IPAllocation'
+          title: allocations
+        resourceLimit:
+          title: resource_limit
+          $ref: '#/components/schemas/common.ResourceLimit'
+        dockerImage:
+          type: string
+          title: docker_image
+        bid:
+          type: string
+          title: bid
+      title: Server
+      additionalProperties: false
     common.IPAllocation:
       type: object
       properties:
@@ -142,6 +172,14 @@ components:
           description: Storage in MB
       title: ResourceLimit
       additionalProperties: false
+    common.SimpleIDMessage:
+      type: object
+      properties:
+        id:
+          type: string
+          title: id
+      title: SimpleIDMessage
+      additionalProperties: false
     common.SuccessMessage:
       type: object
       properties:
@@ -150,80 +188,6 @@ components:
           title: success
       title: SuccessMessage
       additionalProperties: false
-    daemon.CreateServerRequest:
-      type: object
-      properties:
-        serverId:
-          type: string
-          title: serverId
-        ownerId:
-          type: string
-          title: ownerId
-        userIds:
-          type: array
-          items:
-            type: string
-          title: userIds
-        allocations:
-          type: array
-          items:
-            $ref: '#/components/schemas/common.IPAllocation'
-          title: allocations
-        resourceLimit:
-          title: resourceLimit
-          $ref: '#/components/schemas/common.ResourceLimit'
-        blueprintId:
-          type: string
-          title: blueprintId
-        dockerImage:
-          type: string
-          title: dockerImage
-      title: CreateServerRequest
-      additionalProperties: false
-    daemon.DeleteServerRequest:
-      type: object
-      properties:
-        serverId:
-          type: string
-          title: serverId
-        force:
-          type: boolean
-          title: force
-      title: DeleteServerRequest
-      additionalProperties: false
-    daemon.UpdateServerRequest:
-      type: object
-      properties:
-        serverId:
-          type: string
-          title: serverId
-        userIds:
-          type: array
-          items:
-            type: string
-          title: userIds
-          description: optional
-        allocations:
-          type: array
-          items:
-            $ref: '#/components/schemas/common.IPAllocation'
-          title: allocations
-          description: optional
-        resourceLimit:
-          title: resourceLimit
-          nullable: true
-          $ref: '#/components/schemas/common.ResourceLimit'
-        blueprintId:
-          type: string
-          title: blueprintId
-          nullable: true
-        dockerImage:
-          type: string
-          title: dockerImage
-          nullable: true
-      title: UpdateServerRequest
-      additionalProperties: false
-      description: 'TODO: this should probably instead be pulled from backend on server startup'
     connect-protocol-version:
       type: number
       title: Connect-Protocol-Version
