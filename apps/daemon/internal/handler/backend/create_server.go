@@ -8,12 +8,12 @@ import (
 	"panelium/daemon/internal/model"
 	"panelium/daemon/internal/server"
 	"panelium/proto_gen_go"
-	"panelium/proto_gen_go/daemon"
+	"panelium/proto_gen_go/backend"
 )
 
 func (s *BackendServiceHandler) CreateServer(
 	ctx context.Context,
-	req *connect.Request[daemon.CreateServerRequest],
+	req *connect.Request[backend.Server],
 ) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	allocations := make([]model.ServerAllocation, len(req.Msg.Allocations))
 	for i, alloc := range req.Msg.Allocations {
@@ -34,7 +34,7 @@ func (s *BackendServiceHandler) CreateServer(
 		Storage: req.Msg.ResourceLimit.Storage,
 	}
 
-	_, err := server.CreateServer(req.Msg.ServerId, req.Msg.OwnerId, req.Msg.UserIds, allocations, resourceLimit, req.Msg.DockerImage, req.Msg.BlueprintId)
+	_, err := server.CreateServer(req.Msg.Sid, req.Msg.OwnerId, req.Msg.UserIds, allocations, resourceLimit, req.Msg.DockerImage, req.Msg.Bid)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, errors.New("failed to create server"))
 	}
