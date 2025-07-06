@@ -30,7 +30,7 @@ You can install Panelium using the automated setup script. This script will:
 **To run the setup script:**
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/panelium/panelium/main/assets/panelium-setup.sh | bash
+bash <(curl -s https://raw.githubusercontent.com/panelium/panelium/main/assets/panelium-setup.sh)
 ```
 
 Follow the prompts to enter your domain names (e.g., dashboard.example.com, backend.example.com, daemon.example.com).

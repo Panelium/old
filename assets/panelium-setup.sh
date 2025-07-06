@@ -1,8 +1,11 @@
 #!/bin/bash
-# To run this setup script directly:
-# curl -fsSL https://raw.githubusercontent.com/panelium/panelium/main/assets/panelium-setup.sh | bash
 
 set -e
+
+if ! [ -t 0 ]; then
+  echo "This script must be run in an interactive shell. Please download and run it directly."
+  exit 1
+fi
 
 DOCKER_COMPOSE_URL="https://raw.githubusercontent.com/panelium/panelium/main/assets/docker-compose.yml"
 SYSTEMD_BASE_URL="https://raw.githubusercontent.com/panelium/panelium/main/assets"
