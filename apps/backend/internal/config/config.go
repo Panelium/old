@@ -141,7 +141,7 @@ type Config struct {
 	Hosts struct {
 		Dashboard string `json:"dashboard"`
 		Backend   string `json:"backend"`
-	}
+	} `json:"hosts"`
 	// Durations of tokens in seconds
 	JWTDurations struct {
 		Access        uint `json:"access"`
