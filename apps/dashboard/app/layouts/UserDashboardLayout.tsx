@@ -143,16 +143,27 @@ const SidebarNavigation: React.FC = () => {
   return (
     <ScrollArea className="flex-1 px-2 py-4">
       <nav className="flex flex-col w-full gap-1">
-        {NAVIGATION_ITEMS.map((item) => {
+        {NAVIGATION_ITEMS.map((item, idx) => {
+          const key =
+            (item.type ? item.type + "-" : "") +
+            (item.title ? item.title + "-" : "") +
+            (item.text ? item.text + "-" : "") +
+            (item.href ? item.href : "") +
+            "-" +
+            idx;
           switch (item.type) {
             case "seperator":
-              return <hr className="border-muted-foreground m-2" />;
+              return <hr key={key} className="border-muted-foreground m-2" />;
             case "header":
-              return <h1 className="px-4 pt-1.5">{item.text}</h1>;
+              return (
+                <h1 key={key} className="px-4 pt-1.5">
+                  {item.text}
+                </h1>
+              );
             case "server": {
               const [isDroppedDown, setIsDroppedDown] = useState(false);
               return (
-                <div className="group/navigation-family">
+                <div key={key} className="group/navigation-family">
                   <div className="flex w-full items-center gap-0 rounded-lg">
                     <SidebarNavigationItem item={item} />
                     <button
@@ -170,6 +181,7 @@ const SidebarNavigation: React.FC = () => {
                   </div>
                   <div className={isDroppedDown ? "" : "hidden"}>
                     <SidebarNavigationItem
+                      key={key + "-files"}
                       item={{
                         title: "Files",
                         icon: HardDrive,
@@ -178,6 +190,7 @@ const SidebarNavigation: React.FC = () => {
                       }}
                     />
                     <SidebarNavigationItem
+                      key={key + "-console"}
                       item={{
                         title: "Console",
                         icon: Terminal,
@@ -186,6 +199,7 @@ const SidebarNavigation: React.FC = () => {
                       }}
                     />
                     <SidebarNavigationItem
+                      key={key + "-activity"}
                       item={{
                         title: "Activity",
                         icon: Activity,
@@ -194,6 +208,7 @@ const SidebarNavigation: React.FC = () => {
                       }}
                     />
                     <SidebarNavigationItem
+                      key={key + "-settings"}
                       item={{
                         title: "Settings",
                         icon: Settings,
@@ -206,7 +221,7 @@ const SidebarNavigation: React.FC = () => {
               );
             }
             default:
-              return <SidebarNavigationItem item={item} />;
+              return <SidebarNavigationItem key={key} item={item} />;
           }
         })}
       </nav>
