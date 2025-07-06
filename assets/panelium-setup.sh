@@ -127,16 +127,34 @@ if ! curl -fsSL "$NGINX_CONF_URL" -o "$NGINX_CONF_PATH"; then
 fi
 
 # Replace example.com domains in nginx config with user input
-escape_sed() {
-  # Escape &, /, and newlines for sed replacement
-  printf '%s' "$1" | sed -e 's/[&/\\]/\\&/g' | tr '\n' '\\n'
+get_cert_folder() {
+  # Extract the third-level domain for cert folder if more levels are present
+  domain="$1"
+  IFS='.' read -ra parts <<< "$domain"
+  count=${#parts[@]}
+  if (( count > 3 )); then
+    # Use the last three parts (e.g. backend.panelium-demo.ndmh.xyz -> panelium-demo.ndmh.xyz)
+    echo "${parts[count-3]}.${parts[count-2]}.${parts[count-1]}"
+  else
+    echo "$domain"
+  fi
 }
+
+dashboard_cert_folder=$(get_cert_folder "$DASHBOARD_DOMAIN")
+backend_cert_folder=$(get_cert_folder "$BACKEND_DOMAIN")
+daemon_cert_folder=$(get_cert_folder "$DAEMON_DOMAIN")
+
 dashboard_escaped=$(escape_sed "$DASHBOARD_DOMAIN")
 backend_escaped=$(escape_sed "$BACKEND_DOMAIN")
 daemon_escaped=$(escape_sed "$DAEMON_DOMAIN")
 sed -i "s/dashboard.example.com/$dashboard_escaped/g" "$NGINX_CONF_PATH"
 sed -i "s/backend.example.com/$backend_escaped/g" "$NGINX_CONF_PATH"
 sed -i "s/daemon.example.com/$daemon_escaped/g" "$NGINX_CONF_PATH"
+
+# Update certificate paths in nginx config to use the correct cert folder
+sed -i "s|/etc/letsencrypt/live/dashboard.example.com/|/etc/letsencrypt/live/$dashboard_cert_folder/|g" "$NGINX_CONF_PATH"
+sed -i "s|/etc/letsencrypt/live/backend.example.com/|/etc/letsencrypt/live/$backend_cert_folder/|g" "$NGINX_CONF_PATH"
+sed -i "s|/etc/letsencrypt/live/daemon.example.com/|/etc/letsencrypt/live/$daemon_cert_folder/|g" "$NGINX_CONF_PATH"
 
 # Enable nginx site
 if [ -d /etc/nginx/sites-enabled ]; then
