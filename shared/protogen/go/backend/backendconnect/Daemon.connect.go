@@ -34,9 +34,6 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
-	// DaemonServiceCreateBackendTokenProcedure is the fully-qualified name of the DaemonService's
-	// CreateBackendToken RPC.
-	DaemonServiceCreateBackendTokenProcedure = "/backend.DaemonService/CreateBackendToken"
 	// DaemonServiceRegisterDaemonProcedure is the fully-qualified name of the DaemonService's
 	// RegisterDaemon RPC.
 	DaemonServiceRegisterDaemonProcedure = "/backend.DaemonService/RegisterDaemon"
@@ -55,7 +52,6 @@ const (
 
 // DaemonServiceClient is a client for the backend.DaemonService service.
 type DaemonServiceClient interface {
-	CreateBackendToken(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.CreateTokenResponse], error)
 	RegisterDaemon(context.Context, *connect.Request[backend.RegisterDaemonRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 	SyncBlueprints(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.ServerStreamForClient[backend.Blueprint], error)
 	GetBlueprint(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.Blueprint], error)
@@ -74,12 +70,6 @@ func NewDaemonServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 	baseURL = strings.TrimRight(baseURL, "/")
 	daemonServiceMethods := backend.File_backend_Daemon_proto.Services().ByName("DaemonService").Methods()
 	return &daemonServiceClient{
-		createBackendToken: connect.NewClient[proto_gen_go.SimpleIDMessage, backend.CreateTokenResponse](
-			httpClient,
-			baseURL+DaemonServiceCreateBackendTokenProcedure,
-			connect.WithSchema(daemonServiceMethods.ByName("CreateBackendToken")),
-			connect.WithClientOptions(opts...),
-		),
 		registerDaemon: connect.NewClient[backend.RegisterDaemonRequest, proto_gen_go.SuccessMessage](
 			httpClient,
 			baseURL+DaemonServiceRegisterDaemonProcedure,
@@ -115,17 +105,11 @@ func NewDaemonServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 
 // daemonServiceClient implements DaemonServiceClient.
 type daemonServiceClient struct {
-	createBackendToken *connect.Client[proto_gen_go.SimpleIDMessage, backend.CreateTokenResponse]
-	registerDaemon     *connect.Client[backend.RegisterDaemonRequest, proto_gen_go.SuccessMessage]
-	syncBlueprints     *connect.Client[proto_gen_go.Empty, backend.Blueprint]
-	getBlueprint       *connect.Client[proto_gen_go.SimpleIDMessage, backend.Blueprint]
-	syncServers        *connect.Client[proto_gen_go.Empty, backend.Server]
-	getServer          *connect.Client[proto_gen_go.SimpleIDMessage, backend.Server]
-}
-
-// CreateBackendToken calls backend.DaemonService.CreateBackendToken.
-func (c *daemonServiceClient) CreateBackendToken(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.CreateTokenResponse], error) {
-	return c.createBackendToken.CallUnary(ctx, req)
+	registerDaemon *connect.Client[backend.RegisterDaemonRequest, proto_gen_go.SuccessMessage]
+	syncBlueprints *connect.Client[proto_gen_go.Empty, backend.Blueprint]
+	getBlueprint   *connect.Client[proto_gen_go.SimpleIDMessage, backend.Blueprint]
+	syncServers    *connect.Client[proto_gen_go.Empty, backend.Server]
+	getServer      *connect.Client[proto_gen_go.SimpleIDMessage, backend.Server]
 }
 
 // RegisterDaemon calls backend.DaemonService.RegisterDaemon.
@@ -155,7 +139,6 @@ func (c *daemonServiceClient) GetServer(ctx context.Context, req *connect.Reques
 
 // DaemonServiceHandler is an implementation of the backend.DaemonService service.
 type DaemonServiceHandler interface {
-	CreateBackendToken(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.CreateTokenResponse], error)
 	RegisterDaemon(context.Context, *connect.Request[backend.RegisterDaemonRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
 	SyncBlueprints(context.Context, *connect.Request[proto_gen_go.Empty], *connect.ServerStream[backend.Blueprint]) error
 	GetBlueprint(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.Blueprint], error)
@@ -170,12 +153,6 @@ type DaemonServiceHandler interface {
 // and JSON codecs. They also support gzip compression.
 func NewDaemonServiceHandler(svc DaemonServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
 	daemonServiceMethods := backend.File_backend_Daemon_proto.Services().ByName("DaemonService").Methods()
-	daemonServiceCreateBackendTokenHandler := connect.NewUnaryHandler(
-		DaemonServiceCreateBackendTokenProcedure,
-		svc.CreateBackendToken,
-		connect.WithSchema(daemonServiceMethods.ByName("CreateBackendToken")),
-		connect.WithHandlerOptions(opts...),
-	)
 	daemonServiceRegisterDaemonHandler := connect.NewUnaryHandler(
 		DaemonServiceRegisterDaemonProcedure,
 		svc.RegisterDaemon,
@@ -208,8 +185,6 @@ func NewDaemonServiceHandler(svc DaemonServiceHandler, opts ...connect.HandlerOp
 	)
 	return "/backend.DaemonService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
-		case DaemonServiceCreateBackendTokenProcedure:
-			daemonServiceCreateBackendTokenHandler.ServeHTTP(w, r)
 		case DaemonServiceRegisterDaemonProcedure:
 			daemonServiceRegisterDaemonHandler.ServeHTTP(w, r)
 		case DaemonServiceSyncBlueprintsProcedure:
@@ -228,10 +203,6 @@ func NewDaemonServiceHandler(svc DaemonServiceHandler, opts ...connect.HandlerOp
 
 // UnimplementedDaemonServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedDaemonServiceHandler struct{}
-
-func (UnimplementedDaemonServiceHandler) CreateBackendToken(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.CreateTokenResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.DaemonService.CreateBackendToken is not implemented"))
-}
 
 func (UnimplementedDaemonServiceHandler) RegisterDaemon(context.Context, *connect.Request[backend.RegisterDaemonRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.DaemonService.RegisterDaemon is not implemented"))

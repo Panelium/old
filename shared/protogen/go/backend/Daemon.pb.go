@@ -429,9 +429,8 @@ const file_backend_Daemon_proto_rawDesc = "" +
 	"\vallocations\x18\x04 \x03(\v2\x14.common.IPAllocationR\vallocations\x12<\n" +
 	"\x0eresource_limit\x18\x05 \x01(\v2\x15.common.ResourceLimitR\rresourceLimit\x12!\n" +
 	"\fdocker_image\x18\x06 \x01(\tR\vdockerImage\x12\x10\n" +
-	"\x03bid\x18\a \x01(\tR\x03bid2\x82\x03\n" +
-	"\rDaemonService\x12K\n" +
-	"\x12CreateBackendToken\x12\x17.common.SimpleIDMessage\x1a\x1c.backend.CreateTokenResponse\x12H\n" +
+	"\x03bid\x18\a \x01(\tR\x03bid2\xb5\x02\n" +
+	"\rDaemonService\x12H\n" +
 	"\x0eRegisterDaemon\x12\x1e.backend.RegisterDaemonRequest\x1a\x16.common.SuccessMessage\x125\n" +
 	"\x0eSyncBlueprints\x12\r.common.Empty\x1a\x12.backend.Blueprint0\x01\x12;\n" +
 	"\fGetBlueprint\x12\x17.common.SimpleIDMessage\x1a\x12.backend.Blueprint\x12/\n" +
@@ -459,28 +458,26 @@ var file_backend_Daemon_proto_goTypes = []any{
 	(*Server)(nil),                       // 4: backend.Server
 	(*proto_gen_go.IPAllocation)(nil),    // 5: common.IPAllocation
 	(*proto_gen_go.ResourceLimit)(nil),   // 6: common.ResourceLimit
-	(*proto_gen_go.SimpleIDMessage)(nil), // 7: common.SimpleIDMessage
-	(*proto_gen_go.Empty)(nil),           // 8: common.Empty
+	(*proto_gen_go.Empty)(nil),           // 7: common.Empty
+	(*proto_gen_go.SimpleIDMessage)(nil), // 8: common.SimpleIDMessage
 	(*proto_gen_go.SuccessMessage)(nil),  // 9: common.SuccessMessage
 }
 var file_backend_Daemon_proto_depIdxs = []int32{
 	3, // 0: backend.Blueprint.blocked_files:type_name -> backend.BlockedFile
 	5, // 1: backend.Server.allocations:type_name -> common.IPAllocation
 	6, // 2: backend.Server.resource_limit:type_name -> common.ResourceLimit
-	7, // 3: backend.DaemonService.CreateBackendToken:input_type -> common.SimpleIDMessage
-	1, // 4: backend.DaemonService.RegisterDaemon:input_type -> backend.RegisterDaemonRequest
-	8, // 5: backend.DaemonService.SyncBlueprints:input_type -> common.Empty
-	7, // 6: backend.DaemonService.GetBlueprint:input_type -> common.SimpleIDMessage
-	8, // 7: backend.DaemonService.SyncServers:input_type -> common.Empty
-	7, // 8: backend.DaemonService.GetServer:input_type -> common.SimpleIDMessage
-	0, // 9: backend.DaemonService.CreateBackendToken:output_type -> backend.CreateTokenResponse
-	9, // 10: backend.DaemonService.RegisterDaemon:output_type -> common.SuccessMessage
-	2, // 11: backend.DaemonService.SyncBlueprints:output_type -> backend.Blueprint
-	2, // 12: backend.DaemonService.GetBlueprint:output_type -> backend.Blueprint
-	4, // 13: backend.DaemonService.SyncServers:output_type -> backend.Server
-	4, // 14: backend.DaemonService.GetServer:output_type -> backend.Server
-	9, // [9:15] is the sub-list for method output_type
-	3, // [3:9] is the sub-list for method input_type
+	1, // 3: backend.DaemonService.RegisterDaemon:input_type -> backend.RegisterDaemonRequest
+	7, // 4: backend.DaemonService.SyncBlueprints:input_type -> common.Empty
+	8, // 5: backend.DaemonService.GetBlueprint:input_type -> common.SimpleIDMessage
+	7, // 6: backend.DaemonService.SyncServers:input_type -> common.Empty
+	8, // 7: backend.DaemonService.GetServer:input_type -> common.SimpleIDMessage
+	9, // 8: backend.DaemonService.RegisterDaemon:output_type -> common.SuccessMessage
+	2, // 9: backend.DaemonService.SyncBlueprints:output_type -> backend.Blueprint
+	2, // 10: backend.DaemonService.GetBlueprint:output_type -> backend.Blueprint
+	4, // 11: backend.DaemonService.SyncServers:output_type -> backend.Server
+	4, // 12: backend.DaemonService.GetServer:output_type -> backend.Server
+	8, // [8:13] is the sub-list for method output_type
+	3, // [3:8] is the sub-list for method input_type
 	3, // [3:3] is the sub-list for extension type_name
 	3, // [3:3] is the sub-list for extension extendee
 	0, // [0:3] is the sub-list for field type_name
