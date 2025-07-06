@@ -1,57 +1,26 @@
-import React from "react";
-import {
-  FolderOpen,
-  type LucideIcon,
-  Play,
-  Settings,
-  Square,
-  Terminal,
-  Users,
-} from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { FolderOpen, type LucideIcon, Play, Settings, Square, Terminal } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { ServerStatusType } from "proto-gen-ts/daemon/Server_pb";
-import { cn, formatMemory } from "~/lib/utils";
+import { ServerOfflineReason, ServerStatus, ServerStatusType } from "proto-gen-ts/daemon/Server_pb";
+import { clampNumber, cn, formatMemory } from "~/lib/utils";
 
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "~/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader } from "~/components/ui/card";
 import ServerBar from "~/components/bars/ServerBar";
 import EntityAvatar from "~/components/avatars/EntityAvatar";
 import StatusBadge from "~/components/dashboard/StatusBadge";
+import { ServerInfo } from "proto-gen-ts/backend/Client_pb";
+import { ResourceUsage } from "proto-gen-ts/common_pb";
+import { getDaemonServerClient } from "~/lib/api-clients";
 
-//temp until moved to proto
-export interface Server {
-  id: string;
-  name: string;
+export interface ServerData {
+  serverInfo: ServerInfo;
   status: ServerStatusType;
-  description: string;
-  icon?: string;
-  cpuUsage: number;
-  memoryUsage: {
-    used: number;
-    total: number;
-  };
-  diskUsage: {
-    used: number;
-    total: number;
-  };
-  game: string;
-  players?: {
-    online: number;
-    max: number;
-  };
-  ip?: string;
-  port?: number; //TODO: ip and port will be merged into networkAllocation
-  location?: string;
-  node?: string;
-  console: {time: string, content: string}[]
+  onlineSince: Date;
+  resourceUsage: ResourceUsage;
 }
 
 interface ServerCardProps {
-  server: Server;
+  serverInfo: ServerInfo;
   className?: string;
 }
 
@@ -64,116 +33,120 @@ interface ServerCardLinkProps {
 }
 
 interface ServerCardActionProps {
-  server: Server;
+  serverData: ServerData;
   onAction: (e: React.MouseEvent, action: string) => void;
 }
 
 const serverCardTransition = "transition-all duration-300 ease-in-out truncate";
 
-const ServerCardButton: React.FC<ServerCardLinkProps> = ({
-  icon,
-  color,
-  bgColor,
-  className,
-  onClick,
-}) => {
+const ServerCardButton: React.FC<ServerCardLinkProps> = ({ icon, color, bgColor, className, onClick }) => {
   const IconComponent = icon;
   return (
     <div>
-    <div className={cn(
-      "scale-20 group-hover:scale-100 w-10 h-10 bg-card rounded-full absolute",
-      serverCardTransition
-    )}/>
-    <button
-      className={cn(
-        "flex items-center justify-center h-10 w-10 rounded-full shadow-sm",
-        "scale-20 group-hover:scale-100",
-        "cursor-pointer",
-        serverCardTransition,
-        className
-      )}
-      style={{ color: color, backgroundColor: bgColor }}
-      onClick={onClick}
-    >
-      <IconComponent className="w-5 h-5" />
-    </button>
+      <div
+        className={cn("scale-20 group-hover:scale-100 w-10 h-10 bg-card rounded-full absolute", serverCardTransition)}
+      />
+      <button
+        className={cn(
+          "flex items-center justify-center h-10 w-10 rounded-full shadow-sm",
+          "scale-20 group-hover:scale-100",
+          "cursor-pointer",
+          serverCardTransition,
+          className
+        )}
+        style={{ color: color, backgroundColor: bgColor }}
+        onClick={onClick}
+      >
+        <IconComponent className="w-5 h-5" />
+      </button>
     </div>
   );
 };
 
-const ServerCardHeader: React.FC<{ server: Server }> = ({ server }) => {
+const ServerCardHeader: React.FC<{ serverData: ServerData }> = ({ serverData }) => {
   return (
     <CardHeader className="gap-3">
       <div className="flex items-start justify-between gap-3 truncate">
         <EntityAvatar
-          src={server.icon}
-          alt={server.name}
-          title={server.name}
-          subTitle={server.game}
+          src={serverData.serverInfo.softwareIcon}
+          alt={serverData.serverInfo.name}
+          title={serverData.serverInfo.name}
+          subTitle={serverData.serverInfo.software}
           className={serverCardTransition}
         />
-        <StatusBadge status={server.status} />
+        <StatusBadge status={serverData.status} />
       </div>
-      <p className="text-sm text-server-card-foreground line-clamp-2">
-        {server.description}
-      </p>
+      <p className="text-sm text-server-card-foreground line-clamp-2">{serverData.serverInfo.description}</p>
     </CardHeader>
   );
 };
 
-const ServerCardContent: React.FC<{ server: Server }> = ({ server }) => {
+const ServerCardContent: React.FC<{ serverData: ServerData }> = ({ serverData }) => {
+  const cpuUsage = serverData.resourceUsage.cpu;
+  const cpuLimit = serverData.serverInfo.resourceLimit!.cpu;
+
+  const cpuUsageText = `${cpuUsage.toFixed(1)}% / ${cpuLimit.toFixed(0)}%`;
+
+  const cpuUsagePercentage = clampNumber((cpuUsage / cpuLimit) * 100, {
+    min: 0,
+    max: 100,
+  });
+
+  const ramUsage = serverData.resourceUsage.ram;
+  const ramLimit = serverData.serverInfo.resourceLimit!.ram;
+
+  const ramUsageText = `${formatMemory(ramUsage)} / ${formatMemory(ramLimit)}`;
+
+  const storageUsage = serverData.resourceUsage.storage;
+  const storageLimit = serverData.serverInfo.resourceLimit!.storage;
+
+  const storageUsageText = `${formatMemory(storageUsage)} / ${formatMemory(storageLimit)}`;
+
   return (
     <CardContent className="space-y-3">
-      <ServerBar
-        title="CPU"
-        uiValue={server.cpuUsage.toFixed(1) + "%"}
-        value={server.cpuUsage}
-        max={100}
-      />
-      <ServerBar
-        title="Memory"
-        uiValue={
-          formatMemory(server.memoryUsage.used) +
-          " / " +
-          formatMemory(server.memoryUsage.total)
-        }
-        value={server.memoryUsage.used}
-        max={server.memoryUsage.total}
-      />
+      <div className="flex flex-row gap-3">
+        <div className="flex-1">
+          <ServerBar title="CPU" uiValue={cpuUsageText} value={cpuUsagePercentage} max={100} />
+        </div>
+        <div className="flex-1">
+          <ServerBar title="Memory" uiValue={ramUsageText} value={ramUsage} max={ramLimit} />
+        </div>
+      </div>
+      <div>
+        <ServerBar title="Storage" uiValue={storageUsageText} value={storageUsage} max={storageLimit} />
+      </div>
     </CardContent>
   );
 };
 
-const ServerCardFooter: React.FC<{ server: Server }> = ({ server }) => {
+const ServerCardFooter: React.FC<{ serverData: ServerData }> = ({ serverData }) => {
   return (
     <CardFooter>
       <div className="flex flex-1 items-center justify-between text-xs text-card-muted-foreground">
-        {server.ip && (
+        {serverData.serverInfo.mainAllocation && (
           <div className="font-mono">
-            {server.ip}
-            {server.port && ":" + server.port}
+            {serverData.serverInfo.mainAllocation.ip}
+            {serverData.serverInfo.mainAllocation.port}
           </div>
         )}
 
         <div className="flex flex-row gap-1">
-          {server.players && (
-            <>
-              <Users className="h-4 w-4 text-card-muted-foreground" />
-              <span>
-                {server.players.online} / {server.players.max} Players
-              </span>
-            </>
-          )}
+          {/*TODO: readd this*/}
+          {/*{server.players && (*/}
+          {/*  <>*/}
+          {/*    <Users className="h-4 w-4 text-card-muted-foreground" />*/}
+          {/*    <span>*/}
+          {/*      {server.players.online} / {server.players.max} Players*/}
+          {/*    </span>*/}
+          {/*  </>*/}
+          {/*)}*/}
         </div>
       </div>
     </CardFooter>
   );
 };
 
-const ServerCardAction: React.FC<ServerCardActionProps> = ({
-  server,
-  onAction,
-}) => {
+const ServerCardAction: React.FC<ServerCardActionProps> = ({ serverData, onAction }) => {
   return (
     <div
       className={cn(
@@ -185,64 +158,114 @@ const ServerCardAction: React.FC<ServerCardActionProps> = ({
       )}
     >
       <ServerCardButton
-        icon={server.status === ServerStatusType.ONLINE ? Square : Play}
-        className={cn(
-          "bg-tag-green-background/30 text-tag-green hover:bg-tag-green-background/70"
-        )}
+        icon={serverData.status === ServerStatusType.ONLINE ? Square : Play}
+        className={cn("bg-tag-green-background/30 text-tag-green hover:bg-tag-green-background/70")}
         onClick={(e) => onAction(e, "power")}
       />
       <ServerCardButton
         icon={Terminal}
-        className={cn(
-          "bg-tag-purple-background/30 text-tag-purple hover:bg-tag-purple-background/70"
-        )}
+        className={cn("bg-tag-purple-background/30 text-tag-purple hover:bg-tag-purple-background/70")}
         onClick={(e) => onAction(e, "console")}
       />
       <ServerCardButton
         icon={FolderOpen}
-        className={cn(
-          "bg-tag-orange-background/30 text-tag-orange hover:bg-tag-orange-background/70"
-        )}
+        className={cn("bg-tag-orange-background/30 text-tag-orange hover:bg-tag-orange-background/70")}
         onClick={(e) => onAction(e, "files")}
       />
       <ServerCardButton
         icon={Settings}
-        className={cn(
-          "bg-tag-gray-background/30 text-tag-gray hover:bg-tag-gray-background/70"
-        )}
+        className={cn("bg-tag-gray-background/30 text-tag-gray hover:bg-tag-gray-background/70")}
         onClick={(e) => onAction(e, "settings")}
       />
     </div>
   );
 };
 
-const ServerCard: React.FC<ServerCardProps> = ({ server, className }) => {
+const ServerCard: React.FC<ServerCardProps> = ({ serverInfo, className }) => {
   const navigate = useNavigate();
 
   const handleServerCardButtonClick = (e: React.MouseEvent, action: string) => {
     e.preventDefault();
     e.stopPropagation();
 
+    // TODO: change these actions
     switch (action) {
       case "power":
-        navigate(`/server/${server.id}/power`);
+        navigate(`/server/${serverInfo.sid}/power`);
         break;
       case "console":
-        navigate(`/server/${server.id}/console`);
+        navigate(`/server/${serverInfo.sid}/console`);
         break;
       case "files":
-        navigate(`/server/${server.id}/files`);
+        navigate(`/server/${serverInfo.sid}/files`);
         break;
       case "settings":
-        navigate(`/server/${server.id}/settings`);
+        navigate(`/server/${serverInfo.sid}/settings`);
         break;
       default:
-        navigate(`/server/${server.id}`);
+        navigate(`/server/${serverInfo.sid}`);
     }
   };
 
+  const [resourceUsage, setResourceUsage] = useState<ResourceUsage>({
+    $typeName: "common.ResourceUsage",
+    cpu: 0,
+    ram: 0,
+    storage: 0,
+  });
+  const [serverStatus, setServerStatus] = useState<ServerStatus>({
+    $typeName: "daemon.ServerStatus",
+    offlineReason: ServerOfflineReason.UNKNOWN,
+    status: ServerStatusType.UNKNOWN,
+  });
+
+  const serverData: ServerData = React.useMemo(
+    () => ({
+      serverInfo,
+      status: serverStatus.status,
+      onlineSince: serverStatus.timestampStart
+        ? new Date(Number(serverStatus.timestampStart.seconds * BigInt(1000)))
+        : new Date(0),
+      resourceUsage,
+    }),
+    [serverInfo, serverStatus, resourceUsage]
+  );
+
+  useEffect(() => {
+    const fetchServerStatus = async () => {
+      try {
+        const client = await getDaemonServerClient(serverInfo.daemonHost);
+
+        const statusResponse = await client.status({ id: serverInfo.sid });
+        setServerStatus(statusResponse);
+      } catch (error) {
+        console.error("Failed to fetch server data:", error);
+      }
+    };
+
+    fetchServerStatus();
+  }, [serverInfo.sid]);
+
+  useEffect(() => {
+    const fetchResourceUsage = async () => {
+      try {
+        const client = await getDaemonServerClient(serverInfo.daemonHost);
+
+        const usageResponseStream = client.resourceUsage({ id: serverInfo.sid });
+
+        for await (const usageResponse of usageResponseStream) {
+          if (usageResponse.usage) setResourceUsage(usageResponse.usage);
+        }
+      } catch (error) {
+        console.error("Failed to fetch resource usage:", error);
+      }
+    };
+
+    fetchResourceUsage();
+  }, [serverInfo.sid]);
+
   return (
-    <Link to={`/server/${server.id}`} className="group">
+    <Link to={`/server/${serverInfo.sid}`} className="group">
       <Card
         className={cn(
           "hover:rounded-h-xl relative flex flex-row overflow-hidden shadow-md shadow-black/20",
@@ -252,21 +275,12 @@ const ServerCard: React.FC<ServerCardProps> = ({ server, className }) => {
           className
         )}
       >
-        <div
-          className={cn(
-            "flex flex-col w-full gap-3",
-            "group-hover:w-[calc(100%-60px)]",
-            serverCardTransition
-          )}
-        >
-          <ServerCardHeader server={server} />
-          <ServerCardContent server={server} />
-          <ServerCardFooter server={server} />
+        <div className={cn("flex flex-col w-full gap-3", "group-hover:w-[calc(100%-60px)]", serverCardTransition)}>
+          <ServerCardHeader serverData={serverData} />
+          <ServerCardContent serverData={serverData} />
+          <ServerCardFooter serverData={serverData} />
         </div>
-        <ServerCardAction
-          server={server}
-          onAction={(e, action) => handleServerCardButtonClick(e, action)}
-        />
+        <ServerCardAction serverData={serverData} onAction={(e, action) => handleServerCardButtonClick(e, action)} />
       </Card>
     </Link>
   );

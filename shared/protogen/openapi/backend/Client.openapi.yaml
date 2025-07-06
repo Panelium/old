@@ -2,12 +2,12 @@ openapi: 3.1.0
 info:
   title: backend
 paths:
-  /backend.DaemonConnectionService/CreateBackendToken:
+  /backend.ClientService/GetInfo:
     post:
       tags:
-        - backend.DaemonConnectionService
-      summary: CreateBackendToken
-      operationId: backend.DaemonConnectionService.CreateBackendToken
+        - backend.ClientService
+      summary: GetInfo
+      operationId: backend.ClientService.GetInfo
       parameters:
         - name: Connect-Protocol-Version
           in: header
@@ -22,7 +22,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/common.SimpleIDMessage'
+              $ref: '#/components/schemas/common.Empty'
         required: true
       responses:
         default:
@@ -36,13 +36,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/backend.CreateTokenResponse'
-  /backend.DaemonConnectionService/RegisterDaemon:
+                $ref: '#/components/schemas/backend.ClientInfo'
+  /backend.ClientService/GetServerList:
     post:
       tags:
-        - backend.DaemonConnectionService
-      summary: RegisterDaemon
-      operationId: backend.DaemonConnectionService.RegisterDaemon
+        - backend.ClientService
+      summary: GetServerList
+      operationId: backend.ClientService.GetServerList
       parameters:
         - name: Connect-Protocol-Version
           in: header
@@ -57,7 +57,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/backend.RegisterDaemonRequest'
+              $ref: '#/components/schemas/common.Empty'
         required: true
       responses:
         default:
@@ -71,53 +71,105 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/common.SuccessMessage'
-  /backend.DaemonConnectionService/SyncData: {}
+                $ref: '#/components/schemas/backend.ServerList'
 components:
   schemas:
-    backend.CreateTokenResponse:
+    backend.ClientInfo:
       type: object
       properties:
-        backendToken:
+        uid:
           type: string
-          title: backend_token
-      title: CreateTokenResponse
+          title: uid
+        username:
+          type: string
+          title: username
+        email:
+          type: string
+          title: email
+        admin:
+          type: boolean
+          title: admin
+      title: ClientInfo
       additionalProperties: false
-    backend.RegisterDaemonRequest:
+    backend.ServerInfo:
       type: object
       properties:
-        backendToken:
+        sid:
           type: string
-          title: backend_token
-        nodeToken:
+          title: sid
+        name:
           type: string
-          title: node_token
-      title: RegisterDaemonRequest
+          title: name
+        description:
+          type: string
+          title: description
+        software:
+          type: string
+          title: software
+        softwareIcon:
+          type: string
+          title: software_icon
+        mainAllocation:
+          title: main_allocation
+          nullable: true
+          $ref: '#/components/schemas/common.IPAllocation'
+        daemonHost:
+          type: string
+          title: daemon_host
+        resourceLimit:
+          title: resource_limit
+          $ref: '#/components/schemas/common.ResourceLimit'
+        location:
+          type: string
+          title: location
+      title: ServerInfo
       additionalProperties: false
-    backend.SyncDataResponse:
+    backend.ServerList:
       type: object
-      title: SyncDataResponse
+      properties:
+        servers:
+          type: array
+          items:
+            $ref: '#/components/schemas/backend.ServerInfo'
+          title: servers
+      title: ServerList
       additionalProperties: false
-      description: servers, server users, server allocations, blueprints
     common.Empty:
       type: object
       title: Empty
       additionalProperties: false
-    common.SimpleIDMessage:
+    common.IPAllocation:
       type: object
       properties:
-        id:
+        ip:
           type: string
-          title: id
-      title: SimpleIDMessage
+          title: ip
+        port:
+          type: integer
+          title: port
+          description: MUST BE 1024-65535
+      title: IPAllocation
       additionalProperties: false
-    common.SuccessMessage:
+    common.ResourceLimit:
       type: object
       properties:
-        success:
-          type: boolean
-          title: success
-      title: SuccessMessage
+        cpu:
+          type: integer
+          title: cpu
+          description: CPU in percentage (100% = 1 vCore)
+        ram:
+          type: integer
+          title: ram
+          description: RAM in MB
+        swap:
+          type: integer
+          title: swap
+          description: SWAP in MB
+        storage:
+          type: integer
+          title: storage
+          description: Storage in MB
+      title: ResourceLimit
       additionalProperties: false
     connect-protocol-version:
       type: number
@@ -178,4 +230,4 @@ components:
       description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
 security: []
 tags:
-  - name: backend.DaemonConnectionService
+  - name: backend.ClientService

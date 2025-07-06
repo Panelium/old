@@ -134,15 +134,32 @@ func Init() error {
 }
 
 // Default Config Values
+const DefaultDashboardHost = "https://example.com"
+const DefaultBackendHost = "https://example.com:9090"
+const DefaultDaemonHost = "https://example.com:9000"
 
 // Config values should never be accessed or modified directly as that could lead to race conditions.
 type Config struct {
-	lock sync.RWMutex
+	lock  sync.RWMutex
+	Hosts struct {
+		Dashboard string `json:"dashboard"`
+		Backend   string `json:"backend"`
+		Daemon    string `json:"daemon"` // host for this daemon instance
+	}
 }
 
 func newConfig() *Config {
 	return &Config{
 		lock: sync.RWMutex{},
+		Hosts: struct {
+			Dashboard string `json:"dashboard"`
+			Backend   string `json:"backend"`
+			Daemon    string `json:"daemon"`
+		}{
+			Dashboard: DefaultDashboardHost,
+			Backend:   DefaultBackendHost,
+			Daemon:    DefaultDaemonHost,
+		},
 	}
 }
 
@@ -172,6 +189,16 @@ func loadConfig() (*Config, error) {
 func (c *Config) Migrate() error {
 	c.lock.Lock()
 
+	if c.Hosts.Dashboard == "" {
+		c.Hosts.Dashboard = DefaultDashboardHost
+	}
+	if c.Hosts.Backend == "" {
+		c.Hosts.Backend = DefaultBackendHost
+	}
+	if c.Hosts.Daemon == "" {
+		c.Hosts.Daemon = DefaultDaemonHost
+	}
+
 	c.lock.Unlock()
 
 	if err := c.Save(); err != nil {
@@ -193,6 +220,27 @@ func (c *Config) Save() error {
 	return os.WriteFile(configLocation, data, 0644)
 }
 
+func (c *Config) GetDashboardHost() string {
+	c.lock.RLock()
+	defer c.lock.RUnlock()
+
+	return c.Hosts.Dashboard
+}
+
+func (c *Config) GetBackendHost() string {
+	c.lock.RLock()
+	defer c.lock.RUnlock()
+
+	return c.Hosts.Backend
+}
+
+func (c *Config) GetDaemonHost() string {
+	c.lock.RLock()
+	defer c.lock.RUnlock()
+
+	return c.Hosts.Daemon
+}
+
 // TODO: Secrets should be stored in HSM when possible, or at least encrypted with the encryption key being in HSM or similar secure storage.
 
 // Secrets values should never be accessed or modified directly as that could lead to race conditions.
@@ -206,7 +254,7 @@ func newSecrets() (*Secrets, error) {
 	return &Secrets{
 		lock:         sync.RWMutex{},
 		NodeJTI:      "", // generated after node is connected to backend
-		BackendToken: "", // set after node is connected to backend
+		BackendToken: "",
 	}, nil
 }
 
@@ -276,12 +324,6 @@ func (s *Secrets) GetBackendToken() string {
 	s.lock.RLock()
 	defer s.lock.RUnlock()
 	return s.BackendToken
-}
-
-func (s *Secrets) SetBackendToken(backendToken string) {
-	s.lock.Lock()
-	defer s.lock.Unlock()
-	s.BackendToken = backendToken
 }
 
 func loadJWTPrivateKey() (*rsa.PrivateKey, error) {

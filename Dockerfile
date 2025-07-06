@@ -11,10 +11,10 @@ RUN go mod download
 RUN go build -o /build/backend
 
 FROM alpine:latest AS backend
-ENV PORT=9090
-EXPOSE ${PORT}/tcp
+EXPOSE 9090/tcp
 WORKDIR /app/
 COPY --from=build-backend /build/backend /app/backend
+VOLUME ["/etc/panelium", "/var/lib/panelium", "/var/log/panelium"]
 CMD ["./backend"]
 
 FROM golang:1.24-alpine AS build-daemon
@@ -30,10 +30,21 @@ RUN go mod download
 RUN go build -o /build/daemon
 
 FROM alpine:latest AS daemon
-ENV PORT=9000
-EXPOSE ${PORT}/tcp
+EXPOSE 9000/tcp
 WORKDIR /app/
 COPY --from=build-daemon /build/daemon /app/daemon
-VOLUME ["/var/run/docker.sock", "/var/lib/docker/volumes"]
-# need to mount these when running the container
+VOLUME ["/etc/panelium", "/var/lib/panelium", "/var/log/panelium", "/var/run/docker.sock", "/var/lib/docker/volumes"]
 CMD ["./daemon"]
+
+FROM node:22-alpine AS build-dashboard
+WORKDIR /app/dashboard/
+COPY apps/dashboard/ .
+RUN npm install
+COPY shared/protogen/ts/ /app/node_modules/proto-gen-ts/
+RUN npm install --prefix /app/node_modules/proto-gen-ts/
+RUN npm run build
+
+FROM nginx:alpine AS dashboard
+EXPOSE 80/tcp
+COPY --from=build-dashboard /app/dashboard/build/client/ /usr/share/nginx/html/
+COPY assets/nginx.conf /etc/nginx/conf.d/default.conf

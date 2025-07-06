@@ -14,11 +14,6 @@ message IDMessage {
   string text = 2;
 }
 
-message StreamIDMessage {
-  optional string id = 1; // only required for the first message in the stream, subsequent messages can omit this field
-  optional string text = 2; // required after the first message in the stream, first message can omit this field
-}
-
 message SimpleMessage {
   string text = 1;
 }
@@ -32,6 +27,12 @@ message ResourceLimit {
   uint32 ram = 2;     // RAM in MB
   uint32 swap = 3;    // SWAP in MB
   uint32 storage = 4; // Storage in MB
+}
+
+message ResourceUsage {
+  float cpu = 1;     // CPU in percentage (100% = 1 vCore)
+  float ram = 2;     // RAM in MB
+  float storage = 3; // Storage in MB
 }
 
 message IPAllocation {

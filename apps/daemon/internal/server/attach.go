@@ -10,14 +10,16 @@ import (
 	"github.com/docker/docker/api/types/container"
 	"io"
 	"net"
-	"panelium/common/util"
 	"panelium/daemon/internal/docker"
 	"panelium/proto_gen_go"
 	"strings"
 	"time"
 )
 
-func Console(sid string, stm *connect.BidiStream[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage]) error {
+func Console(
+	sid string,
+	stm *connect.ServerStream[proto_gen_go.SimpleMessage],
+) error {
 	c, err := console(sid)
 	if err != nil {
 		return connect.NewError(connect.CodeInternal, fmt.Errorf("failed to attach to container console"))
@@ -41,7 +43,10 @@ func Console(sid string, stm *connect.BidiStream[proto_gen_go.StreamIDMessage, p
 	return nil
 }
 
-func Terminal(sid string, stm *connect.BidiStream[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage]) error {
+func Terminal(
+	sid string,
+	stm *connect.ServerStream[proto_gen_go.SimpleMessage],
+) error {
 	t, err := terminal(sid)
 	if err != nil {
 		return connect.NewError(connect.CodeInternal, fmt.Errorf("failed to create container terminal"))
@@ -59,26 +64,15 @@ func Terminal(sid string, stm *connect.BidiStream[proto_gen_go.StreamIDMessage, 
 	return nil
 }
 
-func attach(attachStream *types.HijackedResponse, stm *connect.BidiStream[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage]) error {
+func attach(
+	attachStream *types.HijackedResponse,
+	stm *connect.ServerStream[proto_gen_go.SimpleMessage],
+) error {
 	defer attachStream.Close()
 
-	resStmCh := make(chan *proto_gen_go.StreamIDMessage)
 	attachStmCh := make(chan string)
 	errCh := make(chan error, 2)
 
-	// receiving from stream
-	go func() {
-		for {
-			msg, err := stm.Receive()
-			if err != nil {
-				errCh <- err
-				return
-			}
-			resStmCh <- msg
-		}
-	}()
-
-	// receiving from console
 	go func() {
 		scanner := bufio.NewScanner(attachStream.Reader)
 		for scanner.Scan() {
@@ -94,14 +88,7 @@ func attach(attachStream *types.HijackedResponse, stm *connect.BidiStream[proto_
 
 	for {
 		select {
-		case msg := <-resStmCh:
-			// write client command to console
-			_, err := attachStream.Conn.Write([]byte(util.IfElse(msg.Text != nil, *msg.Text, "") + "\n"))
-			if err != nil {
-				return err
-			}
 		case data := <-attachStmCh:
-			// send console output to client
 			response := &proto_gen_go.SimpleMessage{Text: data}
 			if err := stm.Send(response); err != nil {
 				return err

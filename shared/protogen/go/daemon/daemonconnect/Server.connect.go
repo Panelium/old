@@ -36,8 +36,14 @@ const (
 const (
 	// ServerServiceConsoleProcedure is the fully-qualified name of the ServerService's Console RPC.
 	ServerServiceConsoleProcedure = "/daemon.ServerService/Console"
+	// ServerServiceConsoleCommandProcedure is the fully-qualified name of the ServerService's
+	// ConsoleCommand RPC.
+	ServerServiceConsoleCommandProcedure = "/daemon.ServerService/ConsoleCommand"
 	// ServerServiceTerminalProcedure is the fully-qualified name of the ServerService's Terminal RPC.
 	ServerServiceTerminalProcedure = "/daemon.ServerService/Terminal"
+	// ServerServiceTerminalCommandProcedure is the fully-qualified name of the ServerService's
+	// TerminalCommand RPC.
+	ServerServiceTerminalCommandProcedure = "/daemon.ServerService/TerminalCommand"
 	// ServerServiceStatusProcedure is the fully-qualified name of the ServerService's Status RPC.
 	ServerServiceStatusProcedure = "/daemon.ServerService/Status"
 	// ServerServiceResourceUsageProcedure is the fully-qualified name of the ServerService's
@@ -52,8 +58,10 @@ const (
 
 // ServerServiceClient is a client for the daemon.ServerService service.
 type ServerServiceClient interface {
-	Console(context.Context) *connect.BidiStreamForClient[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage]
-	Terminal(context.Context) *connect.BidiStreamForClient[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage]
+	Console(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.ServerStreamForClient[proto_gen_go.SimpleMessage], error)
+	ConsoleCommand(context.Context, *connect.Request[proto_gen_go.IDMessage]) (*connect.Response[proto_gen_go.Empty], error)
+	Terminal(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.ServerStreamForClient[proto_gen_go.SimpleMessage], error)
+	TerminalCommand(context.Context, *connect.Request[proto_gen_go.IDMessage]) (*connect.Response[proto_gen_go.Empty], error)
 	Status(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[daemon.ServerStatus], error)
 	ResourceUsage(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.ServerStreamForClient[daemon.ResourceUsageMessage], error)
 	PowerAction(context.Context, *connect.Request[daemon.PowerActionMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
@@ -71,16 +79,28 @@ func NewServerServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 	baseURL = strings.TrimRight(baseURL, "/")
 	serverServiceMethods := daemon.File_daemon_Server_proto.Services().ByName("ServerService").Methods()
 	return &serverServiceClient{
-		console: connect.NewClient[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage](
+		console: connect.NewClient[proto_gen_go.SimpleIDMessage, proto_gen_go.SimpleMessage](
 			httpClient,
 			baseURL+ServerServiceConsoleProcedure,
 			connect.WithSchema(serverServiceMethods.ByName("Console")),
 			connect.WithClientOptions(opts...),
 		),
-		terminal: connect.NewClient[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage](
+		consoleCommand: connect.NewClient[proto_gen_go.IDMessage, proto_gen_go.Empty](
+			httpClient,
+			baseURL+ServerServiceConsoleCommandProcedure,
+			connect.WithSchema(serverServiceMethods.ByName("ConsoleCommand")),
+			connect.WithClientOptions(opts...),
+		),
+		terminal: connect.NewClient[proto_gen_go.SimpleIDMessage, proto_gen_go.SimpleMessage](
 			httpClient,
 			baseURL+ServerServiceTerminalProcedure,
 			connect.WithSchema(serverServiceMethods.ByName("Terminal")),
+			connect.WithClientOptions(opts...),
+		),
+		terminalCommand: connect.NewClient[proto_gen_go.IDMessage, proto_gen_go.Empty](
+			httpClient,
+			baseURL+ServerServiceTerminalCommandProcedure,
+			connect.WithSchema(serverServiceMethods.ByName("TerminalCommand")),
 			connect.WithClientOptions(opts...),
 		),
 		status: connect.NewClient[proto_gen_go.SimpleIDMessage, daemon.ServerStatus](
@@ -112,22 +132,34 @@ func NewServerServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 
 // serverServiceClient implements ServerServiceClient.
 type serverServiceClient struct {
-	console       *connect.Client[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage]
-	terminal      *connect.Client[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage]
-	status        *connect.Client[proto_gen_go.SimpleIDMessage, daemon.ServerStatus]
-	resourceUsage *connect.Client[proto_gen_go.SimpleIDMessage, daemon.ResourceUsageMessage]
-	powerAction   *connect.Client[daemon.PowerActionMessage, proto_gen_go.SuccessMessage]
-	install       *connect.Client[proto_gen_go.SimpleIDMessage, proto_gen_go.SuccessMessage]
+	console         *connect.Client[proto_gen_go.SimpleIDMessage, proto_gen_go.SimpleMessage]
+	consoleCommand  *connect.Client[proto_gen_go.IDMessage, proto_gen_go.Empty]
+	terminal        *connect.Client[proto_gen_go.SimpleIDMessage, proto_gen_go.SimpleMessage]
+	terminalCommand *connect.Client[proto_gen_go.IDMessage, proto_gen_go.Empty]
+	status          *connect.Client[proto_gen_go.SimpleIDMessage, daemon.ServerStatus]
+	resourceUsage   *connect.Client[proto_gen_go.SimpleIDMessage, daemon.ResourceUsageMessage]
+	powerAction     *connect.Client[daemon.PowerActionMessage, proto_gen_go.SuccessMessage]
+	install         *connect.Client[proto_gen_go.SimpleIDMessage, proto_gen_go.SuccessMessage]
 }
 
 // Console calls daemon.ServerService.Console.
-func (c *serverServiceClient) Console(ctx context.Context) *connect.BidiStreamForClient[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage] {
-	return c.console.CallBidiStream(ctx)
+func (c *serverServiceClient) Console(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.ServerStreamForClient[proto_gen_go.SimpleMessage], error) {
+	return c.console.CallServerStream(ctx, req)
+}
+
+// ConsoleCommand calls daemon.ServerService.ConsoleCommand.
+func (c *serverServiceClient) ConsoleCommand(ctx context.Context, req *connect.Request[proto_gen_go.IDMessage]) (*connect.Response[proto_gen_go.Empty], error) {
+	return c.consoleCommand.CallUnary(ctx, req)
 }
 
 // Terminal calls daemon.ServerService.Terminal.
-func (c *serverServiceClient) Terminal(ctx context.Context) *connect.BidiStreamForClient[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage] {
-	return c.terminal.CallBidiStream(ctx)
+func (c *serverServiceClient) Terminal(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.ServerStreamForClient[proto_gen_go.SimpleMessage], error) {
+	return c.terminal.CallServerStream(ctx, req)
+}
+
+// TerminalCommand calls daemon.ServerService.TerminalCommand.
+func (c *serverServiceClient) TerminalCommand(ctx context.Context, req *connect.Request[proto_gen_go.IDMessage]) (*connect.Response[proto_gen_go.Empty], error) {
+	return c.terminalCommand.CallUnary(ctx, req)
 }
 
 // Status calls daemon.ServerService.Status.
@@ -152,8 +184,10 @@ func (c *serverServiceClient) Install(ctx context.Context, req *connect.Request[
 
 // ServerServiceHandler is an implementation of the daemon.ServerService service.
 type ServerServiceHandler interface {
-	Console(context.Context, *connect.BidiStream[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage]) error
-	Terminal(context.Context, *connect.BidiStream[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage]) error
+	Console(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage], *connect.ServerStream[proto_gen_go.SimpleMessage]) error
+	ConsoleCommand(context.Context, *connect.Request[proto_gen_go.IDMessage]) (*connect.Response[proto_gen_go.Empty], error)
+	Terminal(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage], *connect.ServerStream[proto_gen_go.SimpleMessage]) error
+	TerminalCommand(context.Context, *connect.Request[proto_gen_go.IDMessage]) (*connect.Response[proto_gen_go.Empty], error)
 	Status(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[daemon.ServerStatus], error)
 	ResourceUsage(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage], *connect.ServerStream[daemon.ResourceUsageMessage]) error
 	PowerAction(context.Context, *connect.Request[daemon.PowerActionMessage]) (*connect.Response[proto_gen_go.SuccessMessage], error)
@@ -167,16 +201,28 @@ type ServerServiceHandler interface {
 // and JSON codecs. They also support gzip compression.
 func NewServerServiceHandler(svc ServerServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
 	serverServiceMethods := daemon.File_daemon_Server_proto.Services().ByName("ServerService").Methods()
-	serverServiceConsoleHandler := connect.NewBidiStreamHandler(
+	serverServiceConsoleHandler := connect.NewServerStreamHandler(
 		ServerServiceConsoleProcedure,
 		svc.Console,
 		connect.WithSchema(serverServiceMethods.ByName("Console")),
 		connect.WithHandlerOptions(opts...),
 	)
-	serverServiceTerminalHandler := connect.NewBidiStreamHandler(
+	serverServiceConsoleCommandHandler := connect.NewUnaryHandler(
+		ServerServiceConsoleCommandProcedure,
+		svc.ConsoleCommand,
+		connect.WithSchema(serverServiceMethods.ByName("ConsoleCommand")),
+		connect.WithHandlerOptions(opts...),
+	)
+	serverServiceTerminalHandler := connect.NewServerStreamHandler(
 		ServerServiceTerminalProcedure,
 		svc.Terminal,
 		connect.WithSchema(serverServiceMethods.ByName("Terminal")),
+		connect.WithHandlerOptions(opts...),
+	)
+	serverServiceTerminalCommandHandler := connect.NewUnaryHandler(
+		ServerServiceTerminalCommandProcedure,
+		svc.TerminalCommand,
+		connect.WithSchema(serverServiceMethods.ByName("TerminalCommand")),
 		connect.WithHandlerOptions(opts...),
 	)
 	serverServiceStatusHandler := connect.NewUnaryHandler(
@@ -207,8 +253,12 @@ func NewServerServiceHandler(svc ServerServiceHandler, opts ...connect.HandlerOp
 		switch r.URL.Path {
 		case ServerServiceConsoleProcedure:
 			serverServiceConsoleHandler.ServeHTTP(w, r)
+		case ServerServiceConsoleCommandProcedure:
+			serverServiceConsoleCommandHandler.ServeHTTP(w, r)
 		case ServerServiceTerminalProcedure:
 			serverServiceTerminalHandler.ServeHTTP(w, r)
+		case ServerServiceTerminalCommandProcedure:
+			serverServiceTerminalCommandHandler.ServeHTTP(w, r)
 		case ServerServiceStatusProcedure:
 			serverServiceStatusHandler.ServeHTTP(w, r)
 		case ServerServiceResourceUsageProcedure:
@@ -226,12 +276,20 @@ func NewServerServiceHandler(svc ServerServiceHandler, opts ...connect.HandlerOp
 // UnimplementedServerServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedServerServiceHandler struct{}
 
-func (UnimplementedServerServiceHandler) Console(context.Context, *connect.BidiStream[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage]) error {
+func (UnimplementedServerServiceHandler) Console(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage], *connect.ServerStream[proto_gen_go.SimpleMessage]) error {
 	return connect.NewError(connect.CodeUnimplemented, errors.New("daemon.ServerService.Console is not implemented"))
 }
 
-func (UnimplementedServerServiceHandler) Terminal(context.Context, *connect.BidiStream[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage]) error {
+func (UnimplementedServerServiceHandler) ConsoleCommand(context.Context, *connect.Request[proto_gen_go.IDMessage]) (*connect.Response[proto_gen_go.Empty], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("daemon.ServerService.ConsoleCommand is not implemented"))
+}
+
+func (UnimplementedServerServiceHandler) Terminal(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage], *connect.ServerStream[proto_gen_go.SimpleMessage]) error {
 	return connect.NewError(connect.CodeUnimplemented, errors.New("daemon.ServerService.Terminal is not implemented"))
+}
+
+func (UnimplementedServerServiceHandler) TerminalCommand(context.Context, *connect.Request[proto_gen_go.IDMessage]) (*connect.Response[proto_gen_go.Empty], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("daemon.ServerService.TerminalCommand is not implemented"))
 }
 
 func (UnimplementedServerServiceHandler) Status(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[daemon.ServerStatus], error) {
