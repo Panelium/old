@@ -147,12 +147,11 @@ fi
 
 # Replace example.com domains in nginx config with user input
 get_cert_folder() {
-  # Extract the third-level domain for cert folder if more levels are present
   domain="$1"
   IFS='.' read -ra parts <<< "$domain"
   count=${#parts[@]}
-  if (( count > 3 )); then
-    # Use the last three parts (e.g. backend.panelium-demo.ndmh.xyz -> panelium-demo.ndmh.xyz)
+  if (( count >= 3 )); then
+    # Always use the last three parts (e.g. a.b.c.d.com -> c.d.com)
     echo "${parts[count-3]}.${parts[count-2]}.${parts[count-1]}"
   else
     echo "$domain"
