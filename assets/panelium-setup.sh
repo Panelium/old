@@ -47,6 +47,25 @@ if ! command -v jq &>/dev/null; then
   exit 1
 fi
 
+# Check for existing install unless --unsupported-ignore-existing is passed
+IGNORE_EXISTING=0
+for arg in "$@"; do
+  if [[ "$arg" == "--unsupported-ignore-existing" ]]; then
+    IGNORE_EXISTING=1
+  fi
+done
+
+if [[ -d /etc/panelium/backend || -d /etc/panelium/daemon || -d /etc/panelium/dashboard || -f /var/lib/panelium/docker-compose.yml ]]; then
+  if [[ $IGNORE_EXISTING -eq 0 ]]; then
+    echo "Panelium appears to be already installed."
+    echo "To override, run with --unsupported-ignore-existing. This flag is NOT SUPPORTED and may BREAK your install. Use at your own risk!"
+    exit 1
+  else
+    echo "Warning: Existing Panelium install detected. Proceeding due to --unsupported-ignore-existing flag."
+    echo "This flag is NOT SUPPORTED and may BREAK your install. Use at your own risk!"
+  fi
+fi
+
 # Prompt for domains (used for both URLs and certbot/nginx)
 read -rp "Enter the Dashboard domain (e.g. dashboard.example.com): " DASHBOARD_DOMAIN
 read -rp "Enter the Backend domain (e.g. backend.example.com): " BACKEND_DOMAIN
