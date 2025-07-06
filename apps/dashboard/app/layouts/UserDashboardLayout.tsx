@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Activity,
   ChevronDown,
@@ -7,13 +7,13 @@ import {
   HardDrive,
   LayoutGrid,
   LogOut,
+  type LucideProps,
   Moon,
   PanelLeftIcon,
   ServerIcon,
   Settings,
   Sun,
   Terminal,
-  type LucideProps,
 } from "lucide-react";
 import { Link, Outlet } from "react-router-dom";
 import { cn } from "~/lib/utils";
@@ -28,19 +28,19 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { Button } from "~/components/ui/button";
-import { ScrollArea } from "~/components/ui/scroll-area";
 import EntityAvatar from "~/components/avatars/EntityAvatar";
 import { Sidebar, SidebarProvider, useSidebar } from "~/components/ui/sidebar";
 import useDashboard from "~/routes/dashboard/useDashboard";
 import { PagePressedEvent, pagesEventBus } from "~/components/dashboard/server/Pages";
 import FilesPage from "~/components/dashboard/server/pages/FilesPage";
+import { getClientClient } from "~/lib/api-clients";
 
 interface NavigationItemProps {
-  title?: string,
-  icon?: React.ForwardRefExoticComponent<Omit<LucideProps, "ref">>,
-  href?: string,
-  type?: string,
-  text?: string,
+  title?: string;
+  icon?: React.ForwardRefExoticComponent<Omit<LucideProps, "ref">>;
+  href?: string;
+  type?: string;
+  text?: string;
 }
 
 const NAVIGATION_ITEMS: NavigationItemProps[] = [
@@ -55,7 +55,7 @@ const NAVIGATION_ITEMS: NavigationItemProps[] = [
   {
     text: "Your Servers",
     type: "header",
-  }
+  },
 ];
 
 // Adds the mockup servers to NAVIGATION_ITEMS
@@ -85,7 +85,9 @@ const SidebarHeader: React.FC = () => {
   );
 };
 
-const SidebarNavigationItem: React.FC<{item: NavigationItemProps}> = ({item}) => {
+const SidebarNavigationItem: React.FC<{ item: NavigationItemProps }> = ({
+  item,
+}) => {
   function isActive(href: string | undefined): boolean {
     return (
       location.pathname === href || location.pathname.startsWith(href + "/")
@@ -95,57 +97,60 @@ const SidebarNavigationItem: React.FC<{item: NavigationItemProps}> = ({item}) =>
   const IconComponent = item.icon;
 
   return (
-  <Link 
-    key={item.href}
-    to={item.href ?? "#"}
-    className={cn(
-      "flex w-full items-center gap-3 rounded-lg px-4 py-2.5",
-      "text-sm font-medium no-select",
-      "hover:bg-slate-100 dark:hover:bg-slate-700",
-      "transition-all duration-200 ease",
-      isActive(item.href) &&
-        "bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300"
-    )}
-
-    onClick={() => {
-      if (item.href === undefined) { return; }
-      const splitHref = item.href.split("/");
-      if (item.type !== "server-tab") {
-        pagesEventBus.dispatchEvent(new PagePressedEvent(FilesPage.id));
-        return;
-      }
-      pagesEventBus.dispatchEvent(new PagePressedEvent(splitHref[splitHref.length-1]));
-    }}
-  >
-    {item.type === "server-tab" ? <div className="w-4" /> : <></> }
-    {IconComponent && (
-      <IconComponent
-        className={cn(
-          "h-5 w-5 text-slate-500 dark:text-slate-400",
-          isActive(item.href) &&
-            "text-indigo-600 dark:text-indigo-400"
-        )}
-      />
-    )}
-    {item.title}
-  </Link>
+    <Link
+      key={item.href}
+      to={item.href ?? "#"}
+      className={cn(
+        "flex w-full items-center gap-3 rounded-lg px-4 py-2.5",
+        "text-sm font-medium no-select",
+        "hover:bg-slate-100 dark:hover:bg-slate-700",
+        "transition-all duration-200 ease",
+        isActive(item.href) &&
+          "bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300"
+      )}
+      onClick={() => {
+        if (item.href === undefined) {
+          return;
+        }
+        const splitHref = item.href.split(,"/");
+        if (item.type !== "server-tab") {
+          pagesEventBus.dispatchEvent(new PagePressedEvent(FilesPage.id));
+          return;
+        }
+        pagesEventBus.dispatchEvent(
+          new PagePressedEvent(splitHref[splitHref.length - 1])
+        );
+      }}
+    >
+      {item.type === "server-tab" ? <div className="w-4" /> : <></>}
+      {IconComponent && (
+        <IconCompone,nt
+          className={cn(
+            "h-5 w-5 text-slate-500 dark:text-slate-400",
+            isActive(item.href) && "text-indigo-600 dark:text-indigo-400"
+          )}
+        />
+      )}
+      {item.title}
+    </Link>
   );
-}
+};
 const SidebarNavigation: React.FC = () => {
-
   return (
-    <ScrollArea className="flex-1 px-2 py-4">
+    <ScrollAre,a className="flex-1 px-2 py-4">
       <nav className="flex flex-col w-full gap-1">
         {NAVIGATION_ITEMS.map((item) => {
-          switch(item.type) {
-            case "seperator": return <hr className="border-muted-foreground m-2" />;
-            case "header": return <h1 className="px-4 pt-1.5">{item.text}</h1>;
+          switch (item.type) {
+            case "seperator":
+              return <hr className="border-muted-foreground m-2" />;
+            case "header":
+              return <h1 className="px-4 pt-1.5">{item.text}</h1>;
             case "server": {
               const [isDroppedDown, setIsDroppedDown] = useState(false);
               return (
                 <div className="group/navigation-family">
                   <div className="flex w-full items-center gap-0 rounded-lg">
-                    <SidebarNavigationItem item={item}/>
+                    <SidebarNavigationItem item={item} />
                     <button
                       className="ml-[calc(var(--spacing)*-7)] cursor-pointer hover:bg-sidebar-accent rounded-sm p-0.5 transition-all duration-300"
                       onClick={(event) => {
@@ -160,35 +165,44 @@ const SidebarNavigation: React.FC = () => {
                     </button>
                   </div>
                   <div className={isDroppedDown ? "" : "hidden"}>
-                    <SidebarNavigationItem item={{
-                      title: "Files",
-                      icon: HardDrive,
-                      href: item.href + "/files",
-                      type: "server-tab",
-                    }}/>
-                    <SidebarNavigationItem item={{
-                      title: "Console",
-                      icon: Terminal,
-                      href: item.href + "/console",
-                      type: "server-tab",
-                    }}/>
-                    <SidebarNavigationItem item={{
-                      title: "Activity",
-                      icon: Activity,
-                      href: item.href + "/activity",
-                      type: "server-tab",
-                    }}/>
-                    <SidebarNavigationItem item={{
-                      title: "Settings",
-                      icon: Settings,
-                      href: item.href + "/settings",
-                      type: "server-tab",
-                    }}/>
+                    <SidebarNavigationItem
+                      item={{
+                        title: "Files",
+                        icon: HardDrive,
+                        href: item.href + "/files",
+                        type: "server-tab",
+                      }}
+                    />
+                    <SidebarNavigationItem
+                      item={{
+                        title: "Console",
+                        icon: Terminal,
+                        href: item.href + "/console",
+                        type: "server-tab",
+                      }}
+                    />
+                    <SidebarNavigationItem
+                      item={{
+                        title: "Activity",
+                        icon: Activity,
+                        href: item.href + "/activity",
+                        type: "server-tab",
+                      }}
+                    />
+                    <SidebarNavigationItem
+                      item={{
+                        title: "Settings",
+                        icon: Settings,
+                        href: item.href + "/settings",
+                        type: "server-tab",
+                      }}
+                    />
                   </div>
                 </div>
               );
-            } 
-            default: return <SidebarNavigationItem item={item}/>
+            }
+            default:
+              return <SidebarNavigationItem item={item} />;
           }
         })}
       </nav>
@@ -198,6 +212,33 @@ const SidebarNavigation: React.FC = () => {
 
 const SidebarDropdownMenu: React.FC = () => {
   const performLogout = useLogout();
+
+  const [userInfo, setUserInfo] = useState<{
+    uid: string;
+    username: string;
+    email: string;
+    admin: boolean;
+  } | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    getClientClient().then((client) =>
+      client.getInfo({}).then((info) => {
+        if (mounted) setUserInfo(info);
+      }),
+    );
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const { uid, username, email, admin } = userInfo || {
+    uid: "",
+    username: "Loading...",
+    email: "Loading...",
+    admin: false,
+  };
+
   return (
     <div className="border-t border-sidebar-border p-4">
       <DropdownMenu>
@@ -209,8 +250,8 @@ const SidebarDropdownMenu: React.FC = () => {
             <EntityAvatar
               src=""
               alt="Avatar"
-              title="Freddy Fazbear"
-              subTitle="freddy.fazbear@freddys.pizza"
+              title={username}
+              subTitle={email}
             />
           </Button>
         </DropdownMenuTrigger>
