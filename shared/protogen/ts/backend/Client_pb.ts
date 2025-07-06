@@ -4,9 +4,8 @@
 
 import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { EmptySchema, IPAllocation, ResourceUsage } from "../common_pb";
+import type { EmptySchema, IPAllocation } from "../common_pb";
 import { file_common } from "../common_pb";
-import type { ServerStatusType } from "../daemon/Server_pb";
 import { file_daemon_Server } from "../daemon/Server_pb";
 import type { Message } from "@bufbuild/protobuf";
 
@@ -14,7 +13,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file backend/Client.proto.
  */
 export const file_backend_Client: GenFile = /*@__PURE__*/
-  fileDesc("ChRiYWNrZW5kL0NsaWVudC5wcm90bxIHYmFja2VuZCJJCgpDbGllbnRJbmZvEgsKA3VpZBgBIAEoCRIQCgh1c2VybmFtZRgCIAEoCRINCgVlbWFpbBgDIAEoCRINCgVhZG1pbhgEIAEoCCIyCgpTZXJ2ZXJMaXN0EiQKB3NlcnZlcnMYASADKAsyEy5iYWNrZW5kLlNlcnZlckluZm8i7AEKClNlcnZlckluZm8SCwoDc2lkGAEgASgJEgwKBG5hbWUYAiABKAkSEwoLZGVzY3JpcHRpb24YAyABKAkSEAoIc29mdHdhcmUYBCABKAkSMQoObWFpbkFsbG9jYXRpb24YBSABKAsyFC5jb21tb24uSVBBbGxvY2F0aW9uSACIAQESKAoGc3RhdHVzGAYgASgOMhguZGFlbW9uLlNlcnZlclN0YXR1c1R5cGUSLAoNcmVzb3VyY2VVc2FnZRgHIAEoCzIVLmNvbW1vbi5SZXNvdXJjZVVzYWdlQhEKD19tYWluQWxsb2NhdGlvbjJzCg1DbGllbnRTZXJ2aWNlEi0KB0dldEluZm8SDS5jb21tb24uRW1wdHkaEy5iYWNrZW5kLkNsaWVudEluZm8SMwoNR2V0U2VydmVyTGlzdBINLmNvbW1vbi5FbXB0eRoTLmJhY2tlbmQuU2VydmVyTGlzdEIfWh1wYW5lbGl1bS9wcm90b19nZW5fZ28vYmFja2VuZGIGcHJvdG8z", [file_common, file_daemon_Server]);
+  fileDesc("ChRiYWNrZW5kL0NsaWVudC5wcm90bxIHYmFja2VuZCJJCgpDbGllbnRJbmZvEgsKA3VpZBgBIAEoCRIQCgh1c2VybmFtZRgCIAEoCRINCgVlbWFpbBgDIAEoCRINCgVhZG1pbhgEIAEoCCIyCgpTZXJ2ZXJMaXN0EiQKB3NlcnZlcnMYASADKAsyEy5iYWNrZW5kLlNlcnZlckluZm8iqQEKClNlcnZlckluZm8SCwoDc2lkGAEgASgJEgwKBG5hbWUYAiABKAkSEwoLZGVzY3JpcHRpb24YAyABKAkSEAoIc29mdHdhcmUYBCABKAkSMQoObWFpbkFsbG9jYXRpb24YBSABKAsyFC5jb21tb24uSVBBbGxvY2F0aW9uSACIAQESEwoLZGFlbW9uX2hvc3QYBiABKAlCEQoPX21haW5BbGxvY2F0aW9uMnMKDUNsaWVudFNlcnZpY2USLQoHR2V0SW5mbxINLmNvbW1vbi5FbXB0eRoTLmJhY2tlbmQuQ2xpZW50SW5mbxIzCg1HZXRTZXJ2ZXJMaXN0Eg0uY29tbW9uLkVtcHR5GhMuYmFja2VuZC5TZXJ2ZXJMaXN0Qh9aHXBhbmVsaXVtL3Byb3RvX2dlbl9nby9iYWNrZW5kYgZwcm90bzM", [file_common, file_daemon_Server]);
 
 /**
  * @generated from message backend.ClientInfo
@@ -95,18 +94,9 @@ export type ServerInfo = Message<"backend.ServerInfo"> & {
   mainAllocation?: IPAllocation;
 
   /**
-   * TODO: stream
-   *
-   * @generated from field: daemon.ServerStatusType status = 6;
+   * @generated from field: string daemon_host = 6;
    */
-  status: ServerStatusType;
-
-  /**
-   * TODO: turn into a stream later on
-   *
-   * @generated from field: common.ResourceUsage resourceUsage = 7;
-   */
-  resourceUsage?: ResourceUsage;
+  daemonHost: string;
 };
 
 /**

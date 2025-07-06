@@ -10,7 +10,7 @@ import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	proto_gen_go "panelium/proto_gen_go"
-	daemon "panelium/proto_gen_go/daemon"
+	_ "panelium/proto_gen_go/daemon"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -136,14 +136,13 @@ func (x *ServerList) GetServers() []*ServerInfo {
 }
 
 type ServerInfo struct {
-	state          protoimpl.MessageState      `protogen:"open.v1"`
-	Sid            string                      `protobuf:"bytes,1,opt,name=sid,proto3" json:"sid,omitempty"`
-	Name           string                      `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Description    string                      `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	Software       string                      `protobuf:"bytes,4,opt,name=software,proto3" json:"software,omitempty"`
-	MainAllocation *proto_gen_go.IPAllocation  `protobuf:"bytes,5,opt,name=mainAllocation,proto3,oneof" json:"mainAllocation,omitempty"`
-	Status         daemon.ServerStatusType     `protobuf:"varint,6,opt,name=status,proto3,enum=daemon.ServerStatusType" json:"status,omitempty"` // TODO: stream
-	ResourceUsage  *proto_gen_go.ResourceUsage `protobuf:"bytes,7,opt,name=resourceUsage,proto3" json:"resourceUsage,omitempty"`                 // TODO: turn into a stream later on
+	state          protoimpl.MessageState     `protogen:"open.v1"`
+	Sid            string                     `protobuf:"bytes,1,opt,name=sid,proto3" json:"sid,omitempty"`
+	Name           string                     `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description    string                     `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	Software       string                     `protobuf:"bytes,4,opt,name=software,proto3" json:"software,omitempty"`
+	MainAllocation *proto_gen_go.IPAllocation `protobuf:"bytes,5,opt,name=mainAllocation,proto3,oneof" json:"mainAllocation,omitempty"`
+	DaemonHost     string                     `protobuf:"bytes,6,opt,name=daemon_host,json=daemonHost,proto3" json:"daemon_host,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -213,18 +212,11 @@ func (x *ServerInfo) GetMainAllocation() *proto_gen_go.IPAllocation {
 	return nil
 }
 
-func (x *ServerInfo) GetStatus() daemon.ServerStatusType {
+func (x *ServerInfo) GetDaemonHost() string {
 	if x != nil {
-		return x.Status
+		return x.DaemonHost
 	}
-	return daemon.ServerStatusType(0)
-}
-
-func (x *ServerInfo) GetResourceUsage() *proto_gen_go.ResourceUsage {
-	if x != nil {
-		return x.ResourceUsage
-	}
-	return nil
+	return ""
 }
 
 var File_backend_Client_proto protoreflect.FileDescriptor
@@ -240,16 +232,16 @@ const file_backend_Client_proto_rawDesc = "" +
 	"\x05admin\x18\x04 \x01(\bR\x05admin\";\n" +
 	"\n" +
 	"ServerList\x12-\n" +
-	"\aservers\x18\x01 \x03(\v2\x13.backend.ServerInfoR\aservers\"\xb5\x02\n" +
+	"\aservers\x18\x01 \x03(\v2\x13.backend.ServerInfoR\aservers\"\xe7\x01\n" +
 	"\n" +
 	"ServerInfo\x12\x10\n" +
 	"\x03sid\x18\x01 \x01(\tR\x03sid\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1a\n" +
 	"\bsoftware\x18\x04 \x01(\tR\bsoftware\x12A\n" +
-	"\x0emainAllocation\x18\x05 \x01(\v2\x14.common.IPAllocationH\x00R\x0emainAllocation\x88\x01\x01\x120\n" +
-	"\x06status\x18\x06 \x01(\x0e2\x18.daemon.ServerStatusTypeR\x06status\x12;\n" +
-	"\rresourceUsage\x18\a \x01(\v2\x15.common.ResourceUsageR\rresourceUsageB\x11\n" +
+	"\x0emainAllocation\x18\x05 \x01(\v2\x14.common.IPAllocationH\x00R\x0emainAllocation\x88\x01\x01\x12\x1f\n" +
+	"\vdaemon_host\x18\x06 \x01(\tR\n" +
+	"daemonHostB\x11\n" +
 	"\x0f_mainAllocation2s\n" +
 	"\rClientService\x12-\n" +
 	"\aGetInfo\x12\r.common.Empty\x1a\x13.backend.ClientInfo\x123\n" +
@@ -269,28 +261,24 @@ func file_backend_Client_proto_rawDescGZIP() []byte {
 
 var file_backend_Client_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_backend_Client_proto_goTypes = []any{
-	(*ClientInfo)(nil),                 // 0: backend.ClientInfo
-	(*ServerList)(nil),                 // 1: backend.ServerList
-	(*ServerInfo)(nil),                 // 2: backend.ServerInfo
-	(*proto_gen_go.IPAllocation)(nil),  // 3: common.IPAllocation
-	(daemon.ServerStatusType)(0),       // 4: daemon.ServerStatusType
-	(*proto_gen_go.ResourceUsage)(nil), // 5: common.ResourceUsage
-	(*proto_gen_go.Empty)(nil),         // 6: common.Empty
+	(*ClientInfo)(nil),                // 0: backend.ClientInfo
+	(*ServerList)(nil),                // 1: backend.ServerList
+	(*ServerInfo)(nil),                // 2: backend.ServerInfo
+	(*proto_gen_go.IPAllocation)(nil), // 3: common.IPAllocation
+	(*proto_gen_go.Empty)(nil),        // 4: common.Empty
 }
 var file_backend_Client_proto_depIdxs = []int32{
 	2, // 0: backend.ServerList.servers:type_name -> backend.ServerInfo
 	3, // 1: backend.ServerInfo.mainAllocation:type_name -> common.IPAllocation
-	4, // 2: backend.ServerInfo.status:type_name -> daemon.ServerStatusType
-	5, // 3: backend.ServerInfo.resourceUsage:type_name -> common.ResourceUsage
-	6, // 4: backend.ClientService.GetInfo:input_type -> common.Empty
-	6, // 5: backend.ClientService.GetServerList:input_type -> common.Empty
-	0, // 6: backend.ClientService.GetInfo:output_type -> backend.ClientInfo
-	1, // 7: backend.ClientService.GetServerList:output_type -> backend.ServerList
-	6, // [6:8] is the sub-list for method output_type
-	4, // [4:6] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	4, // 2: backend.ClientService.GetInfo:input_type -> common.Empty
+	4, // 3: backend.ClientService.GetServerList:input_type -> common.Empty
+	0, // 4: backend.ClientService.GetInfo:output_type -> backend.ClientInfo
+	1, // 5: backend.ClientService.GetServerList:output_type -> backend.ServerList
+	4, // [4:6] is the sub-list for method output_type
+	2, // [2:4] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_backend_Client_proto_init() }

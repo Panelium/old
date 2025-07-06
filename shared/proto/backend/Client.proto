@@ -28,6 +28,7 @@ message ServerInfo {
   string description = 3;
   string software = 4;
   optional common.IPAllocation mainAllocation = 5;
-  daemon.ServerStatusType status = 6; // TODO: stream
-  common.ResourceUsage resourceUsage = 7; // TODO: turn into a stream later on
+  string daemon_host = 6;
 }
+
+//status and resource usage are handled by the daemon

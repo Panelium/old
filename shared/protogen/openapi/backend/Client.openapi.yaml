@@ -74,16 +74,6 @@ paths:
                 $ref: '#/components/schemas/backend.ServerList'
 components:
   schemas:
-    daemon.ServerStatusType:
-      type: string
-      title: ServerStatusType
-      enum:
-        - SERVER_STATUS_TYPE_UNKNOWN
-        - SERVER_STATUS_TYPE_STARTING
-        - SERVER_STATUS_TYPE_ONLINE
-        - SERVER_STATUS_TYPE_STOPPING
-        - SERVER_STATUS_TYPE_OFFLINE
-        - SERVER_STATUS_TYPE_INSTALLING
     backend.ClientInfo:
       type: object
       properties:
@@ -120,14 +110,9 @@ components:
           title: mainAllocation
           nullable: true
           $ref: '#/components/schemas/common.IPAllocation'
-        status:
-          title: status
-          description: 'TODO: stream'
-          $ref: '#/components/schemas/daemon.ServerStatusType'
-        resourceUsage:
-          title: resourceUsage
-          description: 'TODO: turn into a stream later on'
-          $ref: '#/components/schemas/common.ResourceUsage'
+        daemonHost:
+          type: string
+          title: daemon_host
       title: ServerInfo
       additionalProperties: false
     backend.ServerList:
@@ -155,26 +140,6 @@ components:
           title: port
           description: MUST BE 1024-65535
       title: IPAllocation
-      additionalProperties: false
-    common.ResourceUsage:
-      type: object
-      properties:
-        cpu:
-          type: number
-          title: cpu
-          format: float
-          description: CPU in percentage (100% = 1 vCore)
-        ram:
-          type: number
-          title: ram
-          format: float
-          description: RAM in MB
-        storage:
-          type: number
-          title: storage
-          format: float
-          description: Storage in MB
-      title: ResourceUsage
       additionalProperties: false
     connect-protocol-version:
       type: number
