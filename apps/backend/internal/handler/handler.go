@@ -6,6 +6,7 @@ import (
 	"golang.org/x/net/http2/h2c"
 	"net/http"
 	"panelium/backend/internal/handler/auth"
+	"panelium/backend/internal/handler/client"
 	"panelium/backend/internal/middleware"
 	"panelium/proto_gen_go/backend/backendconnect"
 )
@@ -19,6 +20,7 @@ func Handle(host string) error {
 	mux := http.NewServeMux()
 
 	mux.Handle(backendconnect.NewAuthServiceHandler(&auth.AuthServiceHandler{}, authInterceptors))
+	mux.Handle(backendconnect.NewClientServiceHandler(&client.ClientServiceHandler{}, authInterceptors))
 
 	handler := h2c.NewHandler(mux, &http2.Server{})
 	corsHandler := middleware.WithCORS(handler)
