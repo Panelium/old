@@ -127,12 +127,16 @@ if ! curl -fsSL "$NGINX_CONF_URL" -o "$NGINX_CONF_PATH"; then
 fi
 
 # Replace example.com domains in nginx config with user input
-dashboard_escaped=$(printf '%s\n' "$DASHBOARD_DOMAIN" | sed 's/[\&/]/\\&/g')
-backend_escaped=$(printf '%s\n' "$BACKEND_DOMAIN" | sed 's/[\&/]/\\&/g')
-daemon_escaped=$(printf '%s\n' "$DAEMON_DOMAIN" | sed 's/[\&/]/\\&/g')
-sed -i "s/dashboard.example.com/${dashboard_escaped}/g" "$NGINX_CONF_PATH"
-sed -i "s/backend.example.com/${backend_escaped}/g" "$NGINX_CONF_PATH"
-sed -i "s/daemon.example.com/${daemon_escaped}/g" "$NGINX_CONF_PATH"
+escape_sed() {
+  # Escape &, /, and newlines for sed replacement
+  printf '%s' "$1" | sed -e 's/[&/\\]/\\&/g' | tr '\n' '\\n'
+}
+dashboard_escaped=$(escape_sed "$DASHBOARD_DOMAIN")
+backend_escaped=$(escape_sed "$BACKEND_DOMAIN")
+daemon_escaped=$(escape_sed "$DAEMON_DOMAIN")
+sed -i "s/dashboard.example.com/$dashboard_escaped/g" "$NGINX_CONF_PATH"
+sed -i "s/backend.example.com/$backend_escaped/g" "$NGINX_CONF_PATH"
+sed -i "s/daemon.example.com/$daemon_escaped/g" "$NGINX_CONF_PATH"
 
 # Enable nginx site
 if [ -d /etc/nginx/sites-enabled ]; then
