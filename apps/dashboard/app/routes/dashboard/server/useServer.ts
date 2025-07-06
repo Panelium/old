@@ -1,9 +1,9 @@
 import { ServerStatusType } from "proto-gen-ts/daemon/Server_pb";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
-import type { Server } from "~/components/cards/server-card/ServerCard";
+import type { ServerData } from "~/components/cards/server-card/ServerCard";
 
-const server: Server = {
+const server: ServerData = {
   id: "1",
   name: "My Awesome Server 1",
   description: "Eating pizza!",
@@ -43,10 +43,7 @@ const useServer = () => {
   const [command, setCommand] = useState("");
 
   useEffect(() => {
-    if (
-      tabParam &&
-      ["console", "files", "activity", "settings"].includes(tabParam)
-    ) {
+    if (tabParam && ["console", "files", "activity", "settings"].includes(tabParam)) {
       setActiveTab(tabParam);
     }
   }, [tabParam]);

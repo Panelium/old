@@ -2,10 +2,9 @@ import React from "react";
 import { Plus } from "lucide-react";
 import { cn } from "~/lib/utils";
 
-import type { Server } from "./ServerCard";
-
 import { Card } from "~/components/ui/card";
 import ServerCard from "~/components/cards/server-card/ServerCard";
+import { ServerInfo } from "proto-gen-ts/backend/Client_pb";
 
 const AddServerCard: React.FC = () => {
   return (
@@ -26,14 +25,14 @@ const AddServerCard: React.FC = () => {
     </Card>
   );
 };
-export default function ServerCardGrid({ servers }: { servers: Server[] }) {
+export default function ServerCardGrid({ serverInfos }: { serverInfos: ServerInfo[] }) {
   return (
     <div className="flex flex-col gap-4">
       <h2 className="text-xl font-bold text-foreground no-select">Servers</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
         <AddServerCard />
-        {servers.map((server) => (
-          <ServerCard key={server.id} server={server} className="no-select" />
+        {serverInfos.map((serverInfo) => (
+          <ServerCard key={serverInfo.sid} serverInfo={serverInfo} className="no-select" />
         ))}
       </div>
     </div>

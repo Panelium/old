@@ -1,49 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Users } from "lucide-react";
-import useDashboard from "./useDashboard";
 
 import ServerCardGrid from "~/components/cards/server-card/ServerCardGrid";
 import type { OverviewCardProps } from "~/components/cards/overview-card/OverviewCard";
+import { getClientClient } from "~/lib/api-clients";
+import { ServerInfo } from "proto-gen-ts/backend/Client_pb";
 
 export default function DashboardOverviewPage() {
-  const dashboardData = useDashboard();
-
   const overviewCardsData: OverviewCardProps[] = [
     {
       title: "Player Activity",
       content: {
-        title: dashboardData.totalPlayers.toString(),
-        subtitle: `across ${dashboardData.onlineServers} online servers`,
+        title: "x",
+        subtitle: `across y online servers`,
         icon: Users,
       },
-      footer: `${dashboardData.totalPlayers}/${dashboardData.maxPlayers} total capacity`,
+      footer: `x/z total capacity`,
     },
     {
       title: "CPU Usage",
       gauge: {
-        value: dashboardData.avgCpuUsage,
+        value: 0,
         maxValue: 100,
         size: "sm",
         unit: "%",
         label: "Average",
         subtitle: "Avg across 2 servers",
       },
-      footer: `Peak: ${Math.max(
-        ...dashboardData.onlineServersArray.map((s) => s.cpuUsage),
-        0
-      )}% on ${
-        dashboardData.onlineServersArray.length > 0
-          ? dashboardData.onlineServersArray.reduce((max, server) =>
-              server.cpuUsage > max.cpuUsage ? server : max
-            ).name
-          : "N/A"
-      }`,
+      footer: `Peak: x%`,
     },
     {
       title: "Memory Usage",
       gauge: {
-        value: parseFloat(dashboardData.usedMemoryGB),
-        maxValue: parseFloat(dashboardData.totalMemoryGB),
+        value: 0.5,
+        maxValue: 1,
         size: "sm",
         unit: "GB",
         label: "Used",
@@ -53,19 +43,31 @@ export default function DashboardOverviewPage() {
     },
   ];
 
+  const [serverInfos, setServerInfos] = useState<ServerInfo[]>([]);
+
+  useEffect(() => {
+    const fetchServerData = async () => {
+      try {
+        const client = await getClientClient();
+        const servers = await client.getServerList({});
+        setServerInfos(servers.servers);
+      } catch (error) {
+        console.error("Failed to fetch server data:", error);
+      }
+    };
+
+    fetchServerData();
+  }, []);
+
   return (
     <div className="container py-6 px-4 mx-auto max-w-7xl">
       <div className="mb-6 no-select">
-        <h1 className="text-3xl font-bold text-foreground">
-          Dashboard Overview
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          Welcome back! Here's what's happening with your servers.
-        </p>
+        <h1 className="text-3xl font-bold text-foreground">Dashboard Overview</h1>
+        <p className="text-sm text-muted-foreground">Welcome back! Here's what's happening with your servers.</p>
       </div>
       {/*TODO: readd this*/}
       {/*<OverviewCardGrid cards={overviewCardsData} />*/}
-      <ServerCardGrid servers={dashboardData.mockServers} />
+      <ServerCardGrid serverInfos={serverInfos} />
     </div>
   );
 }

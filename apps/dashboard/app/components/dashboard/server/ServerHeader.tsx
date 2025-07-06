@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
-import { ArrowLeft, FlagIcon, TerminalIcon, WifiIcon } from "lucide-react";
+import { ArrowLeft, FlagIcon, WifiIcon } from "lucide-react";
 
 import { PowerAction } from "proto-gen-ts/daemon/Server_pb";
 
@@ -9,10 +9,10 @@ import { Button } from "~/components/ui/button";
 import SoftwareText from "~/components/texts/SoftwareText";
 import DurationText from "~/components/texts/DurationText";
 import PowerButton from "~/components/buttons/PowerButton";
-import type { Server } from "~/components/cards/server-card/ServerCard";
+import type { ServerData } from "~/components/cards/server-card/ServerCard";
 import IconText from "~/components/texts/IconText";
 
-const ServerHeader: React.FC<{ server: Server }> = ({ server }) => {
+const ServerHeader: React.FC<{ server: ServerData }> = ({ server }) => {
   return (
     <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between no-select">
       <div className="flex items-center gap-3">
@@ -27,9 +27,7 @@ const ServerHeader: React.FC<{ server: Server }> = ({ server }) => {
           </Link>
         </Button>
         <div className="flex gap-0 flex-col">
-          <h1 className="text-2xl font-bold text-foreground">
-            {server.name}
-          </h1>
+          <h1 className="text-2xl font-bold text-foreground">{server.name}</h1>
           <div className="flex items-center gap-3 mt-1">
             <StatusBadge status={server.status} />
             <SoftwareText software={server.game} /> {/* TODO: CHANGE ME */}
