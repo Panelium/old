@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"os"
 	"panelium/daemon/internal/config"
 	"panelium/daemon/internal/db"
@@ -10,21 +10,29 @@ import (
 )
 
 func main() {
+	log.SetOutput(os.Stdout)
+
 	err := config.Init()
 	if err != nil {
-		fmt.Printf("Failed to initialize configuration: %v", err)
+		log.Printf("Failed to initialize configuration: %v", err)
 		return
 	}
 
+	if config.SecretsInstance.GetBackendToken() == "" {
+		log.Println("Backend token is not set. Please set it in the configuration file.")
+		return
+	}
+	// TODO: check for NodeJTI and if not found try to register with backend
+
 	err = db.Init()
 	if err != nil {
-		fmt.Printf("Failed to initialize database: %v", err)
+		log.Printf("Failed to initialize database: %v", err)
 		return
 	}
 
 	err = docker.Init()
 	if err != nil {
-		fmt.Printf("Failed to initialize Docker client: %v", err)
+		log.Printf("Failed to initialize Docker client: %v", err)
 		return
 	}
 
@@ -36,12 +44,12 @@ func main() {
 	go func() {
 		err = handler.Handle("0.0.0.0:" + port)
 		if err != nil {
-			fmt.Printf("Failed to start handler: %v", err)
+			log.Printf("Failed to start handler: %v", err)
 			return
 		}
 	}()
 
-	fmt.Printf("Panelium Daemon started on port %s", port)
+	log.Printf("Panelium Daemon started on port %s", port)
 
 	select {}
 }

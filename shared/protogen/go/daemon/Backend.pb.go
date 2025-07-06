@@ -10,8 +10,8 @@ import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	proto_gen_go "panelium/proto_gen_go"
+	backend "panelium/proto_gen_go/backend"
 	reflect "reflect"
-	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -22,303 +22,33 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type CreateServerRequest struct {
-	state         protoimpl.MessageState       `protogen:"open.v1"`
-	ServerId      string                       `protobuf:"bytes,1,opt,name=serverId,proto3" json:"serverId,omitempty"`
-	OwnerId       string                       `protobuf:"bytes,2,opt,name=ownerId,proto3" json:"ownerId,omitempty"`
-	UserIds       []string                     `protobuf:"bytes,3,rep,name=userIds,proto3" json:"userIds,omitempty"`
-	Allocations   []*proto_gen_go.IPAllocation `protobuf:"bytes,4,rep,name=allocations,proto3" json:"allocations,omitempty"`
-	ResourceLimit *proto_gen_go.ResourceLimit  `protobuf:"bytes,5,opt,name=resourceLimit,proto3" json:"resourceLimit,omitempty"`
-	BlueprintId   string                       `protobuf:"bytes,6,opt,name=blueprintId,proto3" json:"blueprintId,omitempty"`
-	DockerImage   string                       `protobuf:"bytes,7,opt,name=dockerImage,proto3" json:"dockerImage,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateServerRequest) Reset() {
-	*x = CreateServerRequest{}
-	mi := &file_daemon_Backend_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateServerRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateServerRequest) ProtoMessage() {}
-
-func (x *CreateServerRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_daemon_Backend_proto_msgTypes[0]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateServerRequest.ProtoReflect.Descriptor instead.
-func (*CreateServerRequest) Descriptor() ([]byte, []int) {
-	return file_daemon_Backend_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *CreateServerRequest) GetServerId() string {
-	if x != nil {
-		return x.ServerId
-	}
-	return ""
-}
-
-func (x *CreateServerRequest) GetOwnerId() string {
-	if x != nil {
-		return x.OwnerId
-	}
-	return ""
-}
-
-func (x *CreateServerRequest) GetUserIds() []string {
-	if x != nil {
-		return x.UserIds
-	}
-	return nil
-}
-
-func (x *CreateServerRequest) GetAllocations() []*proto_gen_go.IPAllocation {
-	if x != nil {
-		return x.Allocations
-	}
-	return nil
-}
-
-func (x *CreateServerRequest) GetResourceLimit() *proto_gen_go.ResourceLimit {
-	if x != nil {
-		return x.ResourceLimit
-	}
-	return nil
-}
-
-func (x *CreateServerRequest) GetBlueprintId() string {
-	if x != nil {
-		return x.BlueprintId
-	}
-	return ""
-}
-
-func (x *CreateServerRequest) GetDockerImage() string {
-	if x != nil {
-		return x.DockerImage
-	}
-	return ""
-}
-
-// TODO: this should probably instead be pulled from backend on server startup
-type UpdateServerRequest struct {
-	state         protoimpl.MessageState       `protogen:"open.v1"`
-	ServerId      string                       `protobuf:"bytes,1,opt,name=serverId,proto3" json:"serverId,omitempty"`
-	UserIds       []string                     `protobuf:"bytes,3,rep,name=userIds,proto3" json:"userIds,omitempty"`         //optional
-	Allocations   []*proto_gen_go.IPAllocation `protobuf:"bytes,4,rep,name=allocations,proto3" json:"allocations,omitempty"` //optional
-	ResourceLimit *proto_gen_go.ResourceLimit  `protobuf:"bytes,5,opt,name=resourceLimit,proto3,oneof" json:"resourceLimit,omitempty"`
-	BlueprintId   *string                      `protobuf:"bytes,6,opt,name=blueprintId,proto3,oneof" json:"blueprintId,omitempty"`
-	DockerImage   *string                      `protobuf:"bytes,7,opt,name=dockerImage,proto3,oneof" json:"dockerImage,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateServerRequest) Reset() {
-	*x = UpdateServerRequest{}
-	mi := &file_daemon_Backend_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateServerRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateServerRequest) ProtoMessage() {}
-
-func (x *UpdateServerRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_daemon_Backend_proto_msgTypes[1]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateServerRequest.ProtoReflect.Descriptor instead.
-func (*UpdateServerRequest) Descriptor() ([]byte, []int) {
-	return file_daemon_Backend_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *UpdateServerRequest) GetServerId() string {
-	if x != nil {
-		return x.ServerId
-	}
-	return ""
-}
-
-func (x *UpdateServerRequest) GetUserIds() []string {
-	if x != nil {
-		return x.UserIds
-	}
-	return nil
-}
-
-func (x *UpdateServerRequest) GetAllocations() []*proto_gen_go.IPAllocation {
-	if x != nil {
-		return x.Allocations
-	}
-	return nil
-}
-
-func (x *UpdateServerRequest) GetResourceLimit() *proto_gen_go.ResourceLimit {
-	if x != nil {
-		return x.ResourceLimit
-	}
-	return nil
-}
-
-func (x *UpdateServerRequest) GetBlueprintId() string {
-	if x != nil && x.BlueprintId != nil {
-		return *x.BlueprintId
-	}
-	return ""
-}
-
-func (x *UpdateServerRequest) GetDockerImage() string {
-	if x != nil && x.DockerImage != nil {
-		return *x.DockerImage
-	}
-	return ""
-}
-
-type DeleteServerRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ServerId      string                 `protobuf:"bytes,1,opt,name=serverId,proto3" json:"serverId,omitempty"`
-	Force         bool                   `protobuf:"varint,2,opt,name=force,proto3" json:"force,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeleteServerRequest) Reset() {
-	*x = DeleteServerRequest{}
-	mi := &file_daemon_Backend_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeleteServerRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteServerRequest) ProtoMessage() {}
-
-func (x *DeleteServerRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_daemon_Backend_proto_msgTypes[2]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteServerRequest.ProtoReflect.Descriptor instead.
-func (*DeleteServerRequest) Descriptor() ([]byte, []int) {
-	return file_daemon_Backend_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *DeleteServerRequest) GetServerId() string {
-	if x != nil {
-		return x.ServerId
-	}
-	return ""
-}
-
-func (x *DeleteServerRequest) GetForce() bool {
-	if x != nil {
-		return x.Force
-	}
-	return false
-}
-
 var File_daemon_Backend_proto protoreflect.FileDescriptor
 
 const file_daemon_Backend_proto_rawDesc = "" +
 	"\n" +
-	"\x14daemon/Backend.proto\x12\x06daemon\x1a\fcommon.proto\x1a\x13daemon/Server.proto\"\x9e\x02\n" +
-	"\x13CreateServerRequest\x12\x1a\n" +
-	"\bserverId\x18\x01 \x01(\tR\bserverId\x12\x18\n" +
-	"\aownerId\x18\x02 \x01(\tR\aownerId\x12\x18\n" +
-	"\auserIds\x18\x03 \x03(\tR\auserIds\x126\n" +
-	"\vallocations\x18\x04 \x03(\v2\x14.common.IPAllocationR\vallocations\x12;\n" +
-	"\rresourceLimit\x18\x05 \x01(\v2\x15.common.ResourceLimitR\rresourceLimit\x12 \n" +
-	"\vblueprintId\x18\x06 \x01(\tR\vblueprintId\x12 \n" +
-	"\vdockerImage\x18\a \x01(\tR\vdockerImage\"\xc5\x02\n" +
-	"\x13UpdateServerRequest\x12\x1a\n" +
-	"\bserverId\x18\x01 \x01(\tR\bserverId\x12\x18\n" +
-	"\auserIds\x18\x03 \x03(\tR\auserIds\x126\n" +
-	"\vallocations\x18\x04 \x03(\v2\x14.common.IPAllocationR\vallocations\x12@\n" +
-	"\rresourceLimit\x18\x05 \x01(\v2\x15.common.ResourceLimitH\x00R\rresourceLimit\x88\x01\x01\x12%\n" +
-	"\vblueprintId\x18\x06 \x01(\tH\x01R\vblueprintId\x88\x01\x01\x12%\n" +
-	"\vdockerImage\x18\a \x01(\tH\x02R\vdockerImage\x88\x01\x01B\x10\n" +
-	"\x0e_resourceLimitB\x0e\n" +
-	"\f_blueprintIdB\x0e\n" +
-	"\f_dockerImage\"G\n" +
-	"\x13DeleteServerRequest\x12\x1a\n" +
-	"\bserverId\x18\x01 \x01(\tR\bserverId\x12\x14\n" +
-	"\x05force\x18\x02 \x01(\bR\x05force2\xdf\x01\n" +
-	"\x0eBackendService\x12C\n" +
-	"\fCreateServer\x12\x1b.daemon.CreateServerRequest\x1a\x16.common.SuccessMessage\x12C\n" +
-	"\fUpdateServer\x12\x1b.daemon.UpdateServerRequest\x1a\x16.common.SuccessMessage\x12C\n" +
-	"\fDeleteServer\x12\x1b.daemon.DeleteServerRequest\x1a\x16.common.SuccessMessageB\x1eZ\x1cpanelium/proto_gen_go/daemonb\x06proto3"
+	"\x14daemon/Backend.proto\x12\x06daemon\x1a\fcommon.proto\x1a\x14backend/Daemon.proto2\xc3\x01\n" +
+	"\x0eBackendService\x127\n" +
+	"\fCreateServer\x12\x0f.backend.Server\x1a\x16.common.SuccessMessage\x127\n" +
+	"\fUpdateServer\x12\x0f.backend.Server\x1a\x16.common.SuccessMessage\x12?\n" +
+	"\fDeleteServer\x12\x17.common.SimpleIDMessage\x1a\x16.common.SuccessMessageB\x1eZ\x1cpanelium/proto_gen_go/daemonb\x06proto3"
 
-var (
-	file_daemon_Backend_proto_rawDescOnce sync.Once
-	file_daemon_Backend_proto_rawDescData []byte
-)
-
-func file_daemon_Backend_proto_rawDescGZIP() []byte {
-	file_daemon_Backend_proto_rawDescOnce.Do(func() {
-		file_daemon_Backend_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_daemon_Backend_proto_rawDesc), len(file_daemon_Backend_proto_rawDesc)))
-	})
-	return file_daemon_Backend_proto_rawDescData
-}
-
-var file_daemon_Backend_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_daemon_Backend_proto_goTypes = []any{
-	(*CreateServerRequest)(nil),         // 0: daemon.CreateServerRequest
-	(*UpdateServerRequest)(nil),         // 1: daemon.UpdateServerRequest
-	(*DeleteServerRequest)(nil),         // 2: daemon.DeleteServerRequest
-	(*proto_gen_go.IPAllocation)(nil),   // 3: common.IPAllocation
-	(*proto_gen_go.ResourceLimit)(nil),  // 4: common.ResourceLimit
-	(*proto_gen_go.SuccessMessage)(nil), // 5: common.SuccessMessage
+	(*backend.Server)(nil),               // 0: backend.Server
+	(*proto_gen_go.SimpleIDMessage)(nil), // 1: common.SimpleIDMessage
+	(*proto_gen_go.SuccessMessage)(nil),  // 2: common.SuccessMessage
 }
 var file_daemon_Backend_proto_depIdxs = []int32{
-	3, // 0: daemon.CreateServerRequest.allocations:type_name -> common.IPAllocation
-	4, // 1: daemon.CreateServerRequest.resourceLimit:type_name -> common.ResourceLimit
-	3, // 2: daemon.UpdateServerRequest.allocations:type_name -> common.IPAllocation
-	4, // 3: daemon.UpdateServerRequest.resourceLimit:type_name -> common.ResourceLimit
-	0, // 4: daemon.BackendService.CreateServer:input_type -> daemon.CreateServerRequest
-	1, // 5: daemon.BackendService.UpdateServer:input_type -> daemon.UpdateServerRequest
-	2, // 6: daemon.BackendService.DeleteServer:input_type -> daemon.DeleteServerRequest
-	5, // 7: daemon.BackendService.CreateServer:output_type -> common.SuccessMessage
-	5, // 8: daemon.BackendService.UpdateServer:output_type -> common.SuccessMessage
-	5, // 9: daemon.BackendService.DeleteServer:output_type -> common.SuccessMessage
-	7, // [7:10] is the sub-list for method output_type
-	4, // [4:7] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	0, // 0: daemon.BackendService.CreateServer:input_type -> backend.Server
+	0, // 1: daemon.BackendService.UpdateServer:input_type -> backend.Server
+	1, // 2: daemon.BackendService.DeleteServer:input_type -> common.SimpleIDMessage
+	2, // 3: daemon.BackendService.CreateServer:output_type -> common.SuccessMessage
+	2, // 4: daemon.BackendService.UpdateServer:output_type -> common.SuccessMessage
+	2, // 5: daemon.BackendService.DeleteServer:output_type -> common.SuccessMessage
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
+	0, // [0:0] is the sub-list for extension type_name
+	0, // [0:0] is the sub-list for extension extendee
+	0, // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_daemon_Backend_proto_init() }
@@ -326,21 +56,18 @@ func file_daemon_Backend_proto_init() {
 	if File_daemon_Backend_proto != nil {
 		return
 	}
-	file_daemon_Server_proto_init()
-	file_daemon_Backend_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_daemon_Backend_proto_rawDesc), len(file_daemon_Backend_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_daemon_Backend_proto_goTypes,
 		DependencyIndexes: file_daemon_Backend_proto_depIdxs,
-		MessageInfos:      file_daemon_Backend_proto_msgTypes,
 	}.Build()
 	File_daemon_Backend_proto = out.File
 	file_daemon_Backend_proto_goTypes = nil

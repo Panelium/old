@@ -7,8 +7,10 @@ import "common.proto";
 import "google/protobuf/timestamp.proto";
 
 service ServerService {
-  rpc Console(stream common.StreamIDMessage) returns (stream common.SimpleMessage);
-  rpc Terminal(stream common.StreamIDMessage) returns (stream common.SimpleMessage);
+  rpc Console(common.SimpleIDMessage) returns (stream common.SimpleMessage);
+  rpc ConsoleCommand(common.IDMessage) returns (common.Empty);
+  rpc Terminal(common.SimpleIDMessage) returns (stream common.SimpleMessage);
+  rpc TerminalCommand(common.IDMessage) returns (common.Empty);
 
   rpc Status(common.SimpleIDMessage) returns (ServerStatus);
   rpc ResourceUsage(common.SimpleIDMessage) returns (stream ResourceUsageMessage);
@@ -16,12 +18,6 @@ service ServerService {
   rpc PowerAction(PowerActionMessage) returns (common.SuccessMessage);
 
   rpc Install(common.SimpleIDMessage) returns (common.SuccessMessage);
-}
-
-message ResourceUsage {
-  float cpu = 1;     // CPU in percentage (100% = 1 vCore)
-  float ram = 2;     // RAM in MB
-  float storage = 3; // Storage in MB
 }
 
 message ServerStatus {
@@ -62,5 +58,5 @@ message PowerActionMessage {
 }
 
 message ResourceUsageMessage {
-  ResourceUsage usage = 2;
+  common.ResourceUsage usage = 1;
 }

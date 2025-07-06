@@ -5,14 +5,13 @@ import (
 	"context"
 	"panelium/daemon/internal/server"
 	"panelium/proto_gen_go"
-	"panelium/proto_gen_go/daemon"
 )
 
 func (s *BackendServiceHandler) DeleteServer(
 	ctx context.Context,
-	req *connect.Request[daemon.DeleteServerRequest],
+	req *connect.Request[proto_gen_go.SimpleIDMessage],
 ) (*connect.Response[proto_gen_go.SuccessMessage], error) {
-	err := server.DeleteServer(req.Msg.ServerId, req.Msg.Force)
+	err := server.DeleteServer(req.Msg.Id, true) // TODO: maybe don't always force delete?
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}

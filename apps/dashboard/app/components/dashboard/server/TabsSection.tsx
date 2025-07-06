@@ -2,15 +2,7 @@ import React from "react";
 import { Activity, HardDrive, Settings, Terminal } from "lucide-react";
 import { cn } from "~/lib/utils";
 
-import useServer from "~/routes/dashboard/server/useServer";
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "~/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~/components/ui/select";
 import { FileManager } from "../FileManager";
 import { ActivityLog } from "../ActivityLog";
 import { Input } from "~/components/ui/input";
@@ -25,11 +17,7 @@ interface SectionTabsTriggerProps {
   children: any;
 }
 
-function SectionTabsTrigger({
-  value,
-  activeTab,
-  children,
-}: SectionTabsTriggerProps) {
+function SectionTabsTrigger({ value, activeTab, children }: SectionTabsTriggerProps) {
   return (
     <>
       <TabsTrigger
@@ -48,14 +36,9 @@ function SectionTabsTrigger({
 }
 
 const TabsSection: React.FC = () => {
-  const {
-    activeTab,
-    setActiveTab,
-    server,
-    handleCommandSubmit,
-    command,
-    setCommand,
-  } = useServer();
+  //TODO: fetch server data
+  const { activeTab, setActiveTab, server, handleCommandSubmit, command, setCommand } = {} as any; // TODO: replace with real data
+
   return (
     <Card className="border-border bg-server-card shadow-sm overflow-hidden rounded-xl py-0">
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -78,12 +61,8 @@ const TabsSection: React.FC = () => {
           <div className="flex flex-col h-full">
             <div className="flex items-center justify-between mb-4 no-select">
               <div>
-                <h3 className="text-lg font-medium text-slate-900 dark:text-slate-50">
-                  Server Console
-                </h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400">
-                  View live server output and send commands
-                </p>
+                <h3 className="text-lg font-medium text-slate-900 dark:text-slate-50">Server Console</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400">View live server output and send commands</p>
               </div>
             </div>
 
@@ -115,8 +94,7 @@ const TabsSection: React.FC = () => {
                   onSelectCapture={(e) => {
                     // Check if the selection was triggered by Ctrl+A
                     if (
-                      document.getSelection()?.toString() ===
-                      document.querySelector(".console-content")?.textContent
+                      document.getSelection()?.toString() === document.querySelector(".console-content")?.textContent
                     ) {
                       // If entire content is selected, it's likely Ctrl+A
                       e.preventDefault();
@@ -128,14 +106,11 @@ const TabsSection: React.FC = () => {
                   <div className="pb-1 text-xs text-slate-500 no-select">
                     --- Server started on {new Date().toLocaleString()} ---
                   </div>
-                  {server.console.map((line, i) => {
+                  {[{ time: "", content: "" }].map((line, i) => {
                     // Apply styling based on content type
                     const isError =
-                      line.content.toLowerCase().includes("error") ||
-                      line.content.toLowerCase().includes("exception");
-                    const isWarning = line.content
-                      .toLowerCase()
-                      .includes("warn");
+                      line.content.toLowerCase().includes("error") || line.content.toLowerCase().includes("exception");
+                    const isWarning = line.content.toLowerCase().includes("warn");
                     const isInfo = line.content.toLowerCase().includes("info");
 
                     return (
@@ -148,8 +123,7 @@ const TabsSection: React.FC = () => {
                           isInfo && "text-blue-400"
                         )}
                       >
-                        <span className="text-slate-500">[{line.time}]</span>{" "}
-                        {line.content}
+                        <span className="text-slate-500">[{line.time}]</span> {line.content}
                       </div>
                     );
                   })}
@@ -192,7 +166,7 @@ const TabsSection: React.FC = () => {
 
         <TabsContent value="files" className="m-0 p-6 py-4">
           <div className="no-select">
-            <FileManager serverId={server.id!} />
+            <FileManager serverId={server.serverInfo.sid} />
           </div>
         </TabsContent>
 
@@ -205,37 +179,27 @@ const TabsSection: React.FC = () => {
         <TabsContent value="settings" className="m-0 px-6 pb-4">
           <div className="space-y-6 no-select">
             <div className="no-select">
-              <h3 className="text-lg font-medium text-foreground">
-                Server Settings
-              </h3>
-              <p className="text-sm text-card-muted-foreground">
-                Configure your server properties and behavior
-              </p>
+              <h3 className="text-lg font-medium text-foreground">Server Settings</h3>
+              <p className="text-sm text-card-muted-foreground">Configure your server properties and behavior</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Card className="border-border bg-card shadow-sm rounded-xl py-0 no-select">
                 <CardHeader className="p-4">
-                  <CardTitle className="text-base text-foreground">
-                    General Settings
-                  </CardTitle>
+                  <CardTitle className="text-base text-foreground">General Settings</CardTitle>
                 </CardHeader>
                 <CardContent className="p-4 pt-0 space-y-4">
                   <div className="grid gap-2">
-                    <label className="text-sm font-medium text-card-foreground">
-                      Server Name
-                    </label>
+                    <label className="text-sm font-medium text-card-foreground">Server Name</label>
                     <Input
                       type="text"
-                      defaultValue={server.name}
+                      defaultValue={server.serverInfo.name}
                       className="border-border focus-visible:ring-indigo-500/70"
                     />
                   </div>
 
                   <div className="grid gap-2">
-                    <label className="text-sm font-medium text-card-foreground">
-                      Memory Limit
-                    </label>
+                    <label className="text-sm font-medium text-card-foreground">Memory Limit</label>
                     <Select defaultValue="2 GB">
                       <SelectTrigger className="w-full border-border focus-visible:ring-indigo-500/70">
                         <SelectValue placeholder="Select memory limit" />
@@ -249,9 +213,7 @@ const TabsSection: React.FC = () => {
                   </div>
 
                   <div className="grid gap-2">
-                    <label className="text-sm font-medium text-card-foreground">
-                      CPU Limit
-                    </label>
+                    <label className="text-sm font-medium text-card-foreground">CPU Limit</label>
                     <Select defaultValue="1 Core">
                       <SelectTrigger className="w-full border-border focus-visible:ring-indigo-500/70">
                         <SelectValue placeholder="Select CPU limit" />
@@ -268,15 +230,11 @@ const TabsSection: React.FC = () => {
 
               <Card className="border-border bg-card shadow-sm rounded-xl py-0 no-select">
                 <CardHeader className="p-4">
-                  <CardTitle className="text-base text-foreground">
-                    Network Settings
-                  </CardTitle>
+                  <CardTitle className="text-base text-foreground">Network Settings</CardTitle>
                 </CardHeader>
                 <CardContent className="p-4 pt-0 space-y-4">
                   <div className="grid gap-2">
-                    <label className="text-sm font-medium text-card-foreground">
-                      Server Port
-                    </label>
+                    <label className="text-sm font-medium text-card-foreground">Server Port</label>
                     <Input
                       type="text"
                       defaultValue={server.port}
@@ -285,9 +243,7 @@ const TabsSection: React.FC = () => {
                   </div>
 
                   <div className="grid gap-2">
-                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                      Connection Address
-                    </label>
+                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Connection Address</label>
                     <Input
                       type="text"
                       defaultValue={server.ip}
@@ -297,9 +253,7 @@ const TabsSection: React.FC = () => {
                   </div>
 
                   <div className="grid gap-2">
-                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                      Location
-                    </label>
+                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Location</label>
                     <Select defaultValue={server.location}>
                       <SelectTrigger className="w-full border-border focus-visible:ring-indigo-500/70">
                         <SelectValue placeholder="Select location" />
@@ -322,9 +276,7 @@ const TabsSection: React.FC = () => {
               >
                 Cancel
               </Button>
-              <Button className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm">
-                Save Changes
-              </Button>
+              <Button className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm">Save Changes</Button>
             </div>
           </div>
         </TabsContent>

@@ -3,7 +3,6 @@ package server
 import (
 	"connectrpc.com/connect"
 	"context"
-	"errors"
 	"panelium/daemon/internal/security"
 	"panelium/daemon/internal/server"
 	"panelium/proto_gen_go"
@@ -11,22 +10,15 @@ import (
 
 func (s *ServerServiceHandler) Terminal(
 	ctx context.Context,
-	stm *connect.BidiStream[proto_gen_go.StreamIDMessage, proto_gen_go.SimpleMessage],
+	req *connect.Request[proto_gen_go.SimpleIDMessage],
+	stm *connect.ServerStream[proto_gen_go.SimpleMessage],
 ) error {
-	firstMsg, err := stm.Receive()
-	if err != nil {
-		return err
-	}
-	if firstMsg.Id == nil || *firstMsg.Id == "" {
-		return connect.NewError(connect.CodeInvalidArgument, errors.New("invalid server ID"))
-	}
-
-	err = security.CheckServerAccess(ctx, *firstMsg.Id)
+	err := security.CheckServerAccess(ctx, req.Msg.Id)
 	if err != nil {
 		return connect.NewError(connect.CodePermissionDenied, err)
 	}
 
-	err = server.Terminal(*firstMsg.Id, stm)
+	err = server.Terminal(req.Msg.Id, stm)
 	if err != nil {
 		return connect.NewError(connect.CodeInternal, err)
 	}

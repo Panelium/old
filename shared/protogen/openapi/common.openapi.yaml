@@ -52,6 +52,26 @@ components:
           description: Storage in MB
       title: ResourceLimit
       additionalProperties: false
+    common.ResourceUsage:
+      type: object
+      properties:
+        cpu:
+          type: number
+          title: cpu
+          format: float
+          description: CPU in percentage (100% = 1 vCore)
+        ram:
+          type: number
+          title: ram
+          format: float
+          description: RAM in MB
+        storage:
+          type: number
+          title: storage
+          format: float
+          description: Storage in MB
+      title: ResourceUsage
+      additionalProperties: false
     common.SimpleIDMessage:
       type: object
       properties:
@@ -67,21 +87,6 @@ components:
           type: string
           title: text
       title: SimpleMessage
-      additionalProperties: false
-    common.StreamIDMessage:
-      type: object
-      properties:
-        id:
-          type: string
-          title: id
-          description: only required for the first message in the stream, subsequent messages can omit this field
-          nullable: true
-        text:
-          type: string
-          title: text
-          description: required after the first message in the stream, first message can omit this field
-          nullable: true
-      title: StreamIDMessage
       additionalProperties: false
     common.SuccessMessage:
       type: object

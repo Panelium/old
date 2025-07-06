@@ -39,16 +39,6 @@ func NewTokensInterceptor() connect.UnaryInterceptorFunc {
 					continue
 				}
 
-				if !cookie.Secure {
-					continue
-				}
-				if !cookie.HttpOnly {
-					continue
-				}
-				if cookie.SameSite != http.SameSiteStrictMode {
-					continue
-				}
-
 				tokenMap[cookie.Name] = cookie.Value
 			}
 

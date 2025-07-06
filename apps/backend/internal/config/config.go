@@ -123,6 +123,9 @@ func Init() error {
 }
 
 // Default Config Values
+const DefaultDashboardHost = "https://example.com"
+const DefaultBackendHost = "https://example.com:9090"
+
 const DefaultAccessTokenDuration = 5 * time.Minute         // 5 minutes
 const DefaultRefreshTokenDuration = 24 * time.Hour         // 24 hours
 const DefaultPasswordResetTokenDuration = 15 * time.Minute // 15 minutes
@@ -134,7 +137,11 @@ const DefaultRecoveryCodesCount = 10
 
 // Config values should never be accessed or modified directly as that could lead to race conditions.
 type Config struct {
-	lock sync.RWMutex
+	lock  sync.RWMutex
+	Hosts struct {
+		Dashboard string `json:"dashboard"`
+		Backend   string `json:"backend"`
+	} `json:"hosts"`
 	// Durations of tokens in seconds
 	JWTDurations struct {
 		Access        uint `json:"access"`
@@ -152,6 +159,13 @@ type Config struct {
 func newConfig() *Config {
 	return &Config{
 		lock: sync.RWMutex{},
+		Hosts: struct {
+			Dashboard string `json:"dashboard"`
+			Backend   string `json:"backend"`
+		}{
+			Dashboard: DefaultDashboardHost,
+			Backend:   DefaultBackendHost,
+		},
 		JWTDurations: struct {
 			Access        uint `json:"access"`
 			Refresh       uint `json:"refresh"`
@@ -201,6 +215,13 @@ func loadConfig() (*Config, error) {
 func (c *Config) Migrate() error {
 	c.lock.Lock()
 
+	if c.Hosts.Dashboard == "" {
+		c.Hosts.Dashboard = DefaultDashboardHost
+	}
+	if c.Hosts.Backend == "" {
+		c.Hosts.Backend = DefaultBackendHost
+	}
+
 	if c.JWTDurations.Access == 0 {
 		c.JWTDurations.Access = uint(DefaultAccessTokenDuration.Seconds())
 	}
@@ -243,6 +264,20 @@ func (c *Config) Save() error {
 	}
 
 	return os.WriteFile(configLocation, data, 0644)
+}
+
+func (c *Config) GetDashboardHost() string {
+	c.lock.RLock()
+	defer c.lock.RUnlock()
+
+	return c.Hosts.Dashboard
+}
+
+func (c *Config) GetBackendHost() string {
+	c.lock.RLock()
+	defer c.lock.RUnlock()
+
+	return c.Hosts.Backend
 }
 
 func (c *Config) GetAccessTokenDuration() time.Duration {

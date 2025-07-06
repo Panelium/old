@@ -14,6 +14,8 @@ func (s *AuthServiceHandler) Logout(
 	ctx context.Context,
 	req *connect.Request[proto_gen_go.Empty],
 ) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	// TODO: make this only need either access or refresh token, not both or just access token
+
 	sessionInfoData := ctx.Value("panelium_session_info")
 	sessionInfo, ok := sessionInfoData.(*middleware.SessionInfo)
 	if !ok || sessionInfo == nil || sessionInfo.SessionID == "" || sessionInfo.UserID == "" {

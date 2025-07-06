@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+	"log"
 	"panelium/daemon/internal/db"
 	"panelium/daemon/internal/model"
 	"panelium/proto_gen_go/daemon"
@@ -94,16 +95,16 @@ func CreateServer(sid string, ownerId string, userIds []string, allocations []mo
 	go func() {
 		err := Install(&server)
 		if err != nil {
-			fmt.Printf("failed to install server %s: %v\n", server.SID, err)
+			log.Printf("failed to install server %s: %v\n", server.SID, err)
 			if rollbackErr := yeetDbServer(server.SID); rollbackErr != nil {
-				fmt.Printf("failed to rollback server creation: %v\n", rollbackErr)
+				log.Printf("failed to rollback server creation: %v\n", rollbackErr)
 			}
 			return
 		}
 
 		err = Start(&server) // TODO: maybe move to install?
 		if err != nil {
-			fmt.Printf("failed to start server %s: %v\n", server.SID, err)
+			log.Printf("failed to start server %s: %v\n", server.SID, err)
 			return
 		}
 	}()

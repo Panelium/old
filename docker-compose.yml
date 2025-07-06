@@ -1,0 +1,29 @@
+services:
+  backend:
+    build:
+      context: .
+      target: backend
+    ports:
+      - "9090:9090"
+    volumes:
+      - /var/lib/docker/volumes:/var/lib/docker/volumes
+      - /etc/panelium/backend:/etc/panelium/backend
+  daemon:
+    build:
+      context: .
+      target: daemon
+    privileged: true
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/volumes:/var/lib/docker/volumes
+      - /etc/panelium/daemon:/etc/panelium/daemon
+  dashboard:
+    build:
+      context: .
+      target: dashboard
+    ports:
+      - "80:80"
+    volumes:
+      - /etc/panelium/dashboard/config.json:/usr/share/nginx/html/config.json

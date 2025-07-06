@@ -2,135 +2,18 @@
 // @generated from file daemon/Backend.proto (package daemon, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
-import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { IPAllocation, ResourceLimit, SuccessMessageSchema } from "../common_pb";
+import type { GenFile, GenService } from "@bufbuild/protobuf/codegenv2";
+import { fileDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { SimpleIDMessageSchema, SuccessMessageSchema } from "../common_pb";
 import { file_common } from "../common_pb";
-import { file_daemon_Server } from "./Server_pb";
-import type { Message } from "@bufbuild/protobuf";
+import type { ServerSchema } from "../backend/Daemon_pb";
+import { file_backend_Daemon } from "../backend/Daemon_pb";
 
 /**
  * Describes the file daemon/Backend.proto.
  */
 export const file_daemon_Backend: GenFile = /*@__PURE__*/
-  fileDesc("ChRkYWVtb24vQmFja2VuZC5wcm90bxIGZGFlbW9uIswBChNDcmVhdGVTZXJ2ZXJSZXF1ZXN0EhAKCHNlcnZlcklkGAEgASgJEg8KB293bmVySWQYAiABKAkSDwoHdXNlcklkcxgDIAMoCRIpCgthbGxvY2F0aW9ucxgEIAMoCzIULmNvbW1vbi5JUEFsbG9jYXRpb24SLAoNcmVzb3VyY2VMaW1pdBgFIAEoCzIVLmNvbW1vbi5SZXNvdXJjZUxpbWl0EhMKC2JsdWVwcmludElkGAYgASgJEhMKC2RvY2tlckltYWdlGAcgASgJIvwBChNVcGRhdGVTZXJ2ZXJSZXF1ZXN0EhAKCHNlcnZlcklkGAEgASgJEg8KB3VzZXJJZHMYAyADKAkSKQoLYWxsb2NhdGlvbnMYBCADKAsyFC5jb21tb24uSVBBbGxvY2F0aW9uEjEKDXJlc291cmNlTGltaXQYBSABKAsyFS5jb21tb24uUmVzb3VyY2VMaW1pdEgAiAEBEhgKC2JsdWVwcmludElkGAYgASgJSAGIAQESGAoLZG9ja2VySW1hZ2UYByABKAlIAogBAUIQCg5fcmVzb3VyY2VMaW1pdEIOCgxfYmx1ZXByaW50SWRCDgoMX2RvY2tlckltYWdlIjYKE0RlbGV0ZVNlcnZlclJlcXVlc3QSEAoIc2VydmVySWQYASABKAkSDQoFZm9yY2UYAiABKAgy3wEKDkJhY2tlbmRTZXJ2aWNlEkMKDENyZWF0ZVNlcnZlchIbLmRhZW1vbi5DcmVhdGVTZXJ2ZXJSZXF1ZXN0GhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlEkMKDFVwZGF0ZVNlcnZlchIbLmRhZW1vbi5VcGRhdGVTZXJ2ZXJSZXF1ZXN0GhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlEkMKDERlbGV0ZVNlcnZlchIbLmRhZW1vbi5EZWxldGVTZXJ2ZXJSZXF1ZXN0GhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlQh5aHHBhbmVsaXVtL3Byb3RvX2dlbl9nby9kYWVtb25iBnByb3RvMw", [file_common, file_daemon_Server]);
-
-/**
- * @generated from message daemon.CreateServerRequest
- */
-export type CreateServerRequest = Message<"daemon.CreateServerRequest"> & {
-  /**
-   * @generated from field: string serverId = 1;
-   */
-  serverId: string;
-
-  /**
-   * @generated from field: string ownerId = 2;
-   */
-  ownerId: string;
-
-  /**
-   * @generated from field: repeated string userIds = 3;
-   */
-  userIds: string[];
-
-  /**
-   * @generated from field: repeated common.IPAllocation allocations = 4;
-   */
-  allocations: IPAllocation[];
-
-  /**
-   * @generated from field: common.ResourceLimit resourceLimit = 5;
-   */
-  resourceLimit?: ResourceLimit;
-
-  /**
-   * @generated from field: string blueprintId = 6;
-   */
-  blueprintId: string;
-
-  /**
-   * @generated from field: string dockerImage = 7;
-   */
-  dockerImage: string;
-};
-
-/**
- * Describes the message daemon.CreateServerRequest.
- * Use `create(CreateServerRequestSchema)` to create a new message.
- */
-export const CreateServerRequestSchema: GenMessage<CreateServerRequest> = /*@__PURE__*/
-  messageDesc(file_daemon_Backend, 0);
-
-/**
- * TODO: this should probably instead be pulled from backend on server startup
- *
- * @generated from message daemon.UpdateServerRequest
- */
-export type UpdateServerRequest = Message<"daemon.UpdateServerRequest"> & {
-  /**
-   * @generated from field: string serverId = 1;
-   */
-  serverId: string;
-
-  /**
-   * optional
-   *
-   * @generated from field: repeated string userIds = 3;
-   */
-  userIds: string[];
-
-  /**
-   * optional
-   *
-   * @generated from field: repeated common.IPAllocation allocations = 4;
-   */
-  allocations: IPAllocation[];
-
-  /**
-   * @generated from field: optional common.ResourceLimit resourceLimit = 5;
-   */
-  resourceLimit?: ResourceLimit;
-
-  /**
-   * @generated from field: optional string blueprintId = 6;
-   */
-  blueprintId?: string;
-
-  /**
-   * @generated from field: optional string dockerImage = 7;
-   */
-  dockerImage?: string;
-};
-
-/**
- * Describes the message daemon.UpdateServerRequest.
- * Use `create(UpdateServerRequestSchema)` to create a new message.
- */
-export const UpdateServerRequestSchema: GenMessage<UpdateServerRequest> = /*@__PURE__*/
-  messageDesc(file_daemon_Backend, 1);
-
-/**
- * @generated from message daemon.DeleteServerRequest
- */
-export type DeleteServerRequest = Message<"daemon.DeleteServerRequest"> & {
-  /**
-   * @generated from field: string serverId = 1;
-   */
-  serverId: string;
-
-  /**
-   * @generated from field: bool force = 2;
-   */
-  force: boolean;
-};
-
-/**
- * Describes the message daemon.DeleteServerRequest.
- * Use `create(DeleteServerRequestSchema)` to create a new message.
- */
-export const DeleteServerRequestSchema: GenMessage<DeleteServerRequest> = /*@__PURE__*/
-  messageDesc(file_daemon_Backend, 2);
+  fileDesc("ChRkYWVtb24vQmFja2VuZC5wcm90bxIGZGFlbW9uMsMBCg5CYWNrZW5kU2VydmljZRI3CgxDcmVhdGVTZXJ2ZXISDy5iYWNrZW5kLlNlcnZlchoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRI3CgxVcGRhdGVTZXJ2ZXISDy5iYWNrZW5kLlNlcnZlchoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRI/CgxEZWxldGVTZXJ2ZXISFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlQh5aHHBhbmVsaXVtL3Byb3RvX2dlbl9nby9kYWVtb25iBnByb3RvMw", [file_common, file_backend_Daemon]);
 
 /**
  * @generated from service daemon.BackendService
@@ -141,7 +24,7 @@ export const BackendService: GenService<{
    */
   createServer: {
     methodKind: "unary";
-    input: typeof CreateServerRequestSchema;
+    input: typeof ServerSchema;
     output: typeof SuccessMessageSchema;
   },
   /**
@@ -149,7 +32,7 @@ export const BackendService: GenService<{
    */
   updateServer: {
     methodKind: "unary";
-    input: typeof UpdateServerRequestSchema;
+    input: typeof ServerSchema;
     output: typeof SuccessMessageSchema;
   },
   /**
@@ -157,7 +40,7 @@ export const BackendService: GenService<{
    */
   deleteServer: {
     methodKind: "unary";
-    input: typeof DeleteServerRequestSchema;
+    input: typeof SimpleIDMessageSchema;
     output: typeof SuccessMessageSchema;
   },
 }> = /*@__PURE__*/

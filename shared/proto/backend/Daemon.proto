@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package backend;
+option go_package = "panelium/proto_gen_go/backend";
+
+import "common.proto";
+
+service DaemonService {
+  rpc RegisterDaemon(RegisterDaemonRequest) returns (common.SuccessMessage);
+
+  rpc SyncBlueprints(common.Empty) returns (stream Blueprint);
+  rpc GetBlueprint(common.SimpleIDMessage) returns (Blueprint);
+
+  rpc SyncServers(common.Empty) returns (stream Server);
+  rpc GetServer(common.SimpleIDMessage) returns (Server);
+}
+
+message RegisterDaemonRequest {
+  string node_token = 1;
+}
+
+message Blueprint {
+  string bid = 1;
+  uint32 version = 2;
+  repeated string flags = 3;
+  repeated string docker_images = 4; // only the uri
+  repeated BlockedFile blocked_files = 5;
+  string server_binary = 6;
+  string start_command = 7;
+  string stop_command = 8;
+  string setup_script_base64 = 9;
+  string setup_docker_image = 10;
+  string setup_script_interpreter = 11;
+}
+
+message BlockedFile {
+  string file = 1;
+  bool visible = 2;
+  bool readable = 3;
+}
+
+message Server {
+  string sid = 1;
+  string owner_id = 2;
+  repeated string user_ids = 3;
+  repeated common.IPAllocation allocations = 4;
+  common.ResourceLimit resource_limit = 5;
+  string docker_image = 6;
+  string bid = 7;
+}
+
+/*
+connection flow:
+
+user creates node on dashboard
+user/dashboard triggers CreateBackendToken
+backend generates BackendToken, stores BackendJTI, returns cmd with BackendToken and BackendHost
+user runs cmd on daemon
+daemon stores BackendToken
+daemon generates NodeToken, stores NodeJTI, calls RegisterDaemon with BackendToken and NodeToken
+backend stores NodeToken, returns success
+*/

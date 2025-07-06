@@ -9,6 +9,8 @@ import (
 	"panelium/backend/internal/security/session"
 	"panelium/common/errors"
 	"panelium/common/jwt"
+	"panelium/proto_gen_go/backend/backendconnect"
+	"slices"
 )
 
 type SessionInfo struct {
@@ -16,13 +18,27 @@ type SessionInfo struct {
 	UserID    string
 }
 
-func NewAuthInterceptor() connect.UnaryInterceptorFunc {
+var userAuthIgnoredProcedures = []string{
+	backendconnect.AuthServiceRegisterProcedure,
+	backendconnect.AuthServiceLoginProcedure,
+	backendconnect.AuthServiceRequestMFACodeProcedure,
+	backendconnect.AuthServiceRequestPasswordResetProcedure,
+	backendconnect.AuthServiceResetPasswordProcedure,
+	backendconnect.AuthServiceResetPasswordRequestMFACodeProcedure,
+	backendconnect.AuthServiceResetPasswordVerifyMFAProcedure,
+	backendconnect.AuthServiceVerifyMFAProcedure,
+}
+
+func NewUserAuthInterceptor() connect.UnaryInterceptorFunc {
 	interceptor := func(next connect.UnaryFunc) connect.UnaryFunc {
 		return func(
 			ctx context.Context,
 			req connect.AnyRequest,
 		) (connect.AnyResponse, error) {
 			if req.Spec().IsClient {
+				return next(ctx, req)
+			}
+			if slices.Contains(userAuthIgnoredProcedures, req.Spec().Procedure) {
 				return next(ctx, req)
 			}
 
@@ -58,7 +74,7 @@ func NewAuthInterceptor() connect.UnaryInterceptorFunc {
 				return nil, errors.ConnectInvalidCredentials
 			}
 
-			ctx = context.WithValue(ctx, "panelium_session_info", SessionInfo{
+			ctx = context.WithValue(ctx, "panelium_session_info", &SessionInfo{
 				SessionID: *claims.Audience,
 				UserID:    *claims.Subject,
 			})
