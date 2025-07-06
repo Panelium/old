@@ -240,6 +240,15 @@ fi
 # Copy backend JWT public key to daemon config dir
 BACKEND_JWT_PUBLIC_KEY="/etc/panelium/backend/jwt_public_key.pem"
 DAEMON_JWT_PUBLIC_KEY="/etc/panelium/daemon/backend_jwt_public_key.pem"
+
+# Wait up to 10 seconds for the backend JWT public key to appear
+WAIT_TIME=0
+while [[ ! -f "$BACKEND_JWT_PUBLIC_KEY" && $WAIT_TIME -lt 10 ]]; do
+  echo "Waiting for backend JWT public key to be generated... ($(expr 10 - $WAIT_TIME)s remaining until exit)"
+  sleep 1
+  WAIT_TIME=$((WAIT_TIME+1))
+done
+
 if [[ -f "$BACKEND_JWT_PUBLIC_KEY" ]]; then
   cp "$BACKEND_JWT_PUBLIC_KEY" "$DAEMON_JWT_PUBLIC_KEY"
   echo "Copied backend JWT public key to daemon config directory."
@@ -253,5 +262,5 @@ if [[ -f "$BACKEND_JWT_PUBLIC_KEY" ]]; then
     systemctl restart paneliumd.service
   fi
 else
-  echo "Warning: Backend JWT public key not found at $BACKEND_JWT_PUBLIC_KEY. Daemon may not be able to verify backend tokens."
+  echo "Warning: Backend JWT public key not found at $BACKEND_JWT_PUBLIC_KEY. Manual copy is required, otherwise the daemon will not start."
 fi
