@@ -1,0 +1,182 @@
+#!/bin/bash
+# To run this setup script directly:
+# curl -fsSL https://raw.githubusercontent.com/panelium/panelium/main/assets/panelium-setup.sh | bash
+
+set -e
+
+DOCKER_COMPOSE_URL="https://raw.githubusercontent.com/panelium/panelium/main/assets/docker-compose.yml"
+SYSTEMD_BASE_URL="https://raw.githubusercontent.com/panelium/panelium/main/assets"
+NGINX_CONF_URL="https://raw.githubusercontent.com/panelium/panelium/main/assets/panelium.conf"
+
+# Require root
+if [[ $EUID -ne 0 ]]; then
+  echo "This script must be run as root" >&2
+  exit 1
+fi
+
+# Check for docker
+if ! command -v docker &>/dev/null; then
+  echo "Docker is not installed. Please install Docker first." >&2
+  exit 1
+fi
+
+# Check for docker compose (plugin or standalone)
+if ! docker compose version &>/dev/null && ! command -v docker-compose &>/dev/null; then
+  echo "Docker Compose is not installed. Please install Docker Compose (plugin or standalone) first." >&2
+  exit 1
+fi
+
+# Check for nginx
+if ! command -v nginx &>/dev/null; then
+  echo "Nginx is not installed. Please install Nginx first." >&2
+  exit 1
+fi
+
+# Check for certbot
+if ! command -v certbot &>/dev/null; then
+  echo "Certbot is not installed. Please install Certbot first." >&2
+  exit 1
+fi
+
+# Prompt for domains (used for both URLs and certbot/nginx)
+read -rp "Enter the Dashboard domain (e.g. dashboard.example.com): " DASHBOARD_DOMAIN
+read -rp "Enter the Backend domain (e.g. backend.example.com): " BACKEND_DOMAIN
+read -rp "Enter the Daemon domain (e.g. daemon.example.com): " DAEMON_DOMAIN
+
+DASHBOARD_URL="https://$DASHBOARD_DOMAIN"
+BACKEND_URL="https://$BACKEND_DOMAIN"
+DAEMON_URL="https://$DAEMON_DOMAIN"
+
+# Create config directories if not exist
+mkdir -p /etc/panelium/backend
+mkdir -p /etc/panelium/daemon
+mkdir -p /etc/panelium/dashboard
+mkdir -p /var/lib/panelium
+
+# Download docker-compose.yml
+if ! curl -fsSL "$DOCKER_COMPOSE_URL" -o /var/lib/panelium/docker-compose.yml; then
+  echo "Failed to download docker-compose.yml from $DOCKER_COMPOSE_URL" >&2
+  exit 1
+fi
+
+# Update backend config
+BACKEND_CONFIG="/etc/panelium/backend/config.json"
+if [[ -f $BACKEND_CONFIG ]]; then
+  jq \
+    --arg dashboard "$DASHBOARD_URL" \
+    --arg backend "$BACKEND_URL" \
+    '.hosts.dashboard = $dashboard | .hosts.backend = $backend' \
+    "$BACKEND_CONFIG" > "$BACKEND_CONFIG.tmp" && mv "$BACKEND_CONFIG.tmp" "$BACKEND_CONFIG"
+else
+  cat > "$BACKEND_CONFIG" <<EOF
+{
+  "hosts": {
+    "dashboard": "$DASHBOARD_URL",
+    "backend": "$BACKEND_URL"
+  }
+}
+EOF
+fi
+
+# Update daemon config
+DAEMON_CONFIG="/etc/panelium/daemon/config.json"
+if [[ -f $DAEMON_CONFIG ]]; then
+  jq \
+    --arg dashboard "$DASHBOARD_URL" \
+    --arg backend "$BACKEND_URL" \
+    --arg daemon "$DAEMON_URL" \
+    '.hosts.dashboard = $dashboard | .hosts.backend = $backend | .hosts.daemon = $daemon' \
+    "$DAEMON_CONFIG" > "$DAEMON_CONFIG.tmp" && mv "$DAEMON_CONFIG.tmp" "$DAEMON_CONFIG"
+else
+  cat > "$DAEMON_CONFIG" <<EOF
+{
+  "hosts": {
+    "dashboard": "$DASHBOARD_URL",
+    "backend": "$BACKEND_URL",
+    "daemon": "$DAEMON_URL"
+  }
+}
+EOF
+fi
+
+# Update dashboard config
+DASHBOARD_CONFIG="/etc/panelium/dashboard/config.json"
+cat > "$DASHBOARD_CONFIG" <<EOF
+{
+  "BACKEND_HOST": "$BACKEND_URL"
+}
+EOF
+
+# Obtain SSL certificates using certbot (standalone mode)
+certbot certonly --nginx --non-interactive --agree-tos --register-unsafely-without-email -d "$DASHBOARD_DOMAIN" -d "$BACKEND_DOMAIN" -d "$DAEMON_DOMAIN"
+
+# Download and configure nginx site config
+NGINX_CONF_PATH="/etc/nginx/sites-available/panelium.conf"
+if ! curl -fsSL "$NGINX_CONF_URL" -o "$NGINX_CONF_PATH"; then
+  echo "Failed to download nginx config from $NGINX_CONF_URL" >&2
+  exit 1
+fi
+
+# Replace example.com domains in nginx config with user input
+dashboard_escaped=$(printf '%s\n' "$DASHBOARD_DOMAIN" | sed 's/[]\\[.^$*]/\\&/g')
+backend_escaped=$(printf '%s\n' "$BACKEND_DOMAIN" | sed 's/[]\\[.^$*]/\\&/g')
+daemon_escaped=$(printf '%s\n' "$DAEMON_DOMAIN" | sed 's/[]\\[.^$*]/\\&/g')
+sed -i "s/dashboard.example.com/$dashboard_escaped/g" "$NGINX_CONF_PATH"
+sed -i "s/backend.example.com/$backend_escaped/g" "$NGINX_CONF_PATH"
+sed -i "s/daemon.example.com/$daemon_escaped/g" "$NGINX_CONF_PATH"
+
+# Enable nginx site
+if [ -d /etc/nginx/sites-enabled ]; then
+  ln -sf "$NGINX_CONF_PATH" /etc/nginx/sites-enabled/panelium.conf
+else
+  echo "Warning: /etc/nginx/sites-enabled does not exist. Please ensure your nginx includes /etc/nginx/sites-available/panelium.conf manually."
+fi
+
+# Test and reload nginx
+nginx -t && systemctl reload nginx
+
+# Detect OS
+OS_TYPE=$(uname)
+
+if [[ "$OS_TYPE" == "Darwin" ]]; then
+  # macOS: print sample docker compose commands and create helper script
+  echo "macOS detected. To manage Panelium services manually, use the following commands:"
+  echo "Start all:   docker compose -f /var/lib/panelium/docker-compose.yml up -d"
+  echo "Stop all:    docker compose -f /var/lib/panelium/docker-compose.yml down"
+  echo "Start one:   docker compose -f /var/lib/panelium/docker-compose.yml up -d <service>"
+  echo "Stop one:    docker compose -f /var/lib/panelium/docker-compose.yml stop <service>"
+
+  cat > /var/lib/panelium/panelium-docker.sh <<EOS
+#!/bin/sh
+cd /var/lib/panelium
+case "$1" in
+  start)
+    docker compose up -d ;;
+  stop)
+    docker compose down ;;
+  restart)
+    docker compose down && docker compose up -d ;;
+  status)
+    docker compose ps ;;
+  *)
+    echo "Usage: $0 {start|stop|restart|status}" ;;
+esac
+EOS
+  chmod +x /var/lib/panelium/panelium-docker.sh
+  echo "Helper script created at /var/lib/panelium/panelium-docker.sh."
+  echo "Panelium configuration and setup complete!"
+else
+  # Linux: download and set up systemd unit files
+  for unit in panelium.service paneliumb.service paneliumd.service; do
+    if ! curl -fsSL "$SYSTEMD_BASE_URL/$unit" -o "/etc/systemd/system/$unit"; then
+      echo "Failed to download $unit from $SYSTEMD_BASE_URL/$unit" >&2
+      exit 1
+    fi
+  done
+
+  echo "Reloading systemd daemon and enabling Panelium services..."
+  systemctl daemon-reload
+  systemctl enable panelium.service paneliumb.service paneliumd.service
+  systemctl restart panelium.service paneliumb.service paneliumd.service
+  echo "Panelium configuration and setup complete!"
+fi
