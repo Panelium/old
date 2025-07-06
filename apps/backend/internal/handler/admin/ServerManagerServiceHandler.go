@@ -50,7 +50,12 @@ func (h *ServerManagerServiceHandler) GetServers(ctx context.Context, req *conne
 		Pagination: &proto_gen_go.Pagination{
 			Page:     page,
 			PageSize: pageSize,
+			Total:    (*uint32)(nil),
 		},
+	}
+	if count > 0 {
+		total := uint32(count)
+		resp.Pagination.Total = &total
 	}
 	for _, s := range servers {
 		resp.Servers = append(resp.Servers, ServerModelToProto(&s))

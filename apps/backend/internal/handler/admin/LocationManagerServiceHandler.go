@@ -34,7 +34,12 @@ func (h *LocationManagerServiceHandler) GetLocations(ctx context.Context, req *c
 		Pagination: &proto_gen_go.Pagination{
 			Page:     page,
 			PageSize: pageSize,
+			Total:    (*uint32)(nil),
 		},
+	}
+	if count > 0 {
+		total := uint32(count)
+		resp.Pagination.Total = &total
 	}
 	for _, l := range locations {
 		resp.Locations = append(resp.Locations, LocationModelToProto(&l))

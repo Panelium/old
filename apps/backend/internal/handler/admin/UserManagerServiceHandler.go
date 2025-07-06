@@ -34,7 +34,12 @@ func (h *UserManagerServiceHandler) GetUsers(ctx context.Context, req *connect.R
 		Pagination: &proto_gen_go.Pagination{
 			Page:     page,
 			PageSize: pageSize,
+			Total:    (*uint32)(nil),
 		},
+	}
+	if count > 0 {
+		total := uint32(count)
+		resp.Pagination.Total = &total
 	}
 	for _, u := range users {
 		resp.Users = append(resp.Users, UserModelToProto(&u))

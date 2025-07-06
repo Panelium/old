@@ -38,7 +38,12 @@ func (h *NodeManagerServiceHandler) GetNodes(ctx context.Context, req *connect.R
 		Pagination: &proto_gen_go.Pagination{
 			Page:     page,
 			PageSize: pageSize,
+			Total:    (*uint32)(nil),
 		},
+	}
+	if count > 0 {
+		total := uint32(count)
+		resp.Pagination.Total = &total
 	}
 	for _, n := range nodes {
 		resp.Nodes = append(resp.Nodes, NodeModelToProto(&n))

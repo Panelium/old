@@ -41,7 +41,12 @@ func (h *NodeAllocationManagerServiceHandler) GetNodeAllocations(ctx context.Con
 		Pagination: &proto_gen_go.Pagination{
 			Page:     page,
 			PageSize: pageSize,
+			Total:    (*uint32)(nil),
 		},
+	}
+	if count > 0 {
+		total := uint32(count)
+		resp.Pagination.Total = &total
 	}
 	for _, na := range allocations {
 		resp.NodeAllocations = append(resp.NodeAllocations, NodeAllocationModelToProto(&na))
