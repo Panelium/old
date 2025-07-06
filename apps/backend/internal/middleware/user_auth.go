@@ -18,7 +18,7 @@ type SessionInfo struct {
 	UserID    string
 }
 
-var ignoredProcedures = []string{
+var userAuthIgnoredProcedures = []string{
 	backendconnect.AuthServiceRegisterProcedure,
 	backendconnect.AuthServiceLoginProcedure,
 	backendconnect.AuthServiceRequestMFACodeProcedure,
@@ -38,7 +38,7 @@ func NewUserAuthInterceptor() connect.UnaryInterceptorFunc {
 			if req.Spec().IsClient {
 				return next(ctx, req)
 			}
-			if slices.Contains(ignoredProcedures, req.Spec().Procedure) {
+			if slices.Contains(userAuthIgnoredProcedures, req.Spec().Procedure) {
 				return next(ctx, req)
 			}
 
