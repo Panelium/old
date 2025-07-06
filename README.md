@@ -30,16 +30,17 @@ docker compose up -d
 
 TBA
 
-Note: backend and daemon(s) have to be on the same domain (subdomains can be different) for the CORS and cookies to work
+Note: backend and daemon(s) have to be on the same second-level domain (third- and lower level domains, aka subdomains, can be different) for the CORS and cookies to work
 properly.
 
 Blueprints are available at http://blueprints.ndmh.xyz/ ([source](https://github.com/Panelium/Blueprints))
 
 ### Development Environment Setup
-- Swap out the yay commands to equivalent commands of whatever package manager you use.
+- Swap out the yay commands to equivalent commands of whatever package manager you use. We have provided a commented out example for the apt package manager.
 - Make sure you have your GOBIN in your PATH.
 
 ```
-yay -S buf
+yay -Syu # apt update
+yay -S buf # apt install buf
 go install github.com/sudorandom/protoc-gen-connect-openapi@main
 ```
