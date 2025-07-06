@@ -7,8 +7,10 @@ import "common.proto";
 import "google/protobuf/timestamp.proto";
 
 service ServerService {
-  rpc Console(stream common.StreamIDMessage) returns (stream common.SimpleMessage);
-  rpc Terminal(stream common.StreamIDMessage) returns (stream common.SimpleMessage);
+  rpc Console(common.SimpleIDMessage) returns (stream common.SimpleMessage);
+  rpc ConsoleCommand(common.IDMessage) returns (common.Empty);
+  rpc Terminal(common.SimpleIDMessage) returns (stream common.SimpleMessage);
+  rpc TerminalCommand(common.IDMessage) returns (common.Empty);
 
   rpc Status(common.SimpleIDMessage) returns (ServerStatus);
   rpc ResourceUsage(common.SimpleIDMessage) returns (stream ResourceUsageMessage);

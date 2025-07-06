@@ -3,7 +3,77 @@ info:
   title: daemon
 paths:
   /daemon.ServerService/Console: {}
+  /daemon.ServerService/ConsoleCommand:
+    post:
+      tags:
+        - daemon.ServerService
+      summary: ConsoleCommand
+      operationId: daemon.ServerService.ConsoleCommand
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/common.IDMessage'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/common.Empty'
   /daemon.ServerService/Terminal: {}
+  /daemon.ServerService/TerminalCommand:
+    post:
+      tags:
+        - daemon.ServerService
+      summary: TerminalCommand
+      operationId: daemon.ServerService.TerminalCommand
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/common.IDMessage'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/common.Empty'
   /daemon.ServerService/Status:
     post:
       tags:
@@ -140,6 +210,21 @@ components:
         - SERVER_STATUS_TYPE_STOPPING
         - SERVER_STATUS_TYPE_OFFLINE
         - SERVER_STATUS_TYPE_INSTALLING
+    common.Empty:
+      type: object
+      title: Empty
+      additionalProperties: false
+    common.IDMessage:
+      type: object
+      properties:
+        id:
+          type: string
+          title: id
+        text:
+          type: string
+          title: text
+      title: IDMessage
+      additionalProperties: false
     common.ResourceUsage:
       type: object
       properties:
@@ -175,21 +260,6 @@ components:
           type: string
           title: text
       title: SimpleMessage
-      additionalProperties: false
-    common.StreamIDMessage:
-      type: object
-      properties:
-        id:
-          type: string
-          title: id
-          description: only required for the first message in the stream, subsequent messages can omit this field
-          nullable: true
-        text:
-          type: string
-          title: text
-          description: required after the first message in the stream, first message can omit this field
-          nullable: true
-      title: StreamIDMessage
       additionalProperties: false
     common.SuccessMessage:
       type: object

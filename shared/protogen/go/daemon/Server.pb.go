@@ -391,10 +391,12 @@ const file_daemon_Server_proto_rawDesc = "" +
 	"\x12POWER_ACTION_START\x10\x01\x12\x18\n" +
 	"\x14POWER_ACTION_RESTART\x10\x02\x12\x15\n" +
 	"\x11POWER_ACTION_STOP\x10\x03\x12\x15\n" +
-	"\x11POWER_ACTION_KILL\x10\x042\x90\x03\n" +
-	"\rServerService\x12=\n" +
-	"\aConsole\x12\x17.common.StreamIDMessage\x1a\x15.common.SimpleMessage(\x010\x01\x12>\n" +
-	"\bTerminal\x12\x17.common.StreamIDMessage\x1a\x15.common.SimpleMessage(\x010\x01\x127\n" +
+	"\x11POWER_ACTION_KILL\x10\x042\xf5\x03\n" +
+	"\rServerService\x12;\n" +
+	"\aConsole\x12\x17.common.SimpleIDMessage\x1a\x15.common.SimpleMessage0\x01\x122\n" +
+	"\x0eConsoleCommand\x12\x11.common.IDMessage\x1a\r.common.Empty\x12<\n" +
+	"\bTerminal\x12\x17.common.SimpleIDMessage\x1a\x15.common.SimpleMessage0\x01\x123\n" +
+	"\x0fTerminalCommand\x12\x11.common.IDMessage\x1a\r.common.Empty\x127\n" +
 	"\x06Status\x12\x17.common.SimpleIDMessage\x1a\x14.daemon.ServerStatus\x12H\n" +
 	"\rResourceUsage\x12\x17.common.SimpleIDMessage\x1a\x1c.daemon.ResourceUsageMessage0\x01\x12A\n" +
 	"\vPowerAction\x12\x1a.daemon.PowerActionMessage\x1a\x16.common.SuccessMessage\x12:\n" +
@@ -423,10 +425,11 @@ var file_daemon_Server_proto_goTypes = []any{
 	(*ResourceUsageMessage)(nil),         // 5: daemon.ResourceUsageMessage
 	(*timestamppb.Timestamp)(nil),        // 6: google.protobuf.Timestamp
 	(*proto_gen_go.ResourceUsage)(nil),   // 7: common.ResourceUsage
-	(*proto_gen_go.StreamIDMessage)(nil), // 8: common.StreamIDMessage
-	(*proto_gen_go.SimpleIDMessage)(nil), // 9: common.SimpleIDMessage
+	(*proto_gen_go.SimpleIDMessage)(nil), // 8: common.SimpleIDMessage
+	(*proto_gen_go.IDMessage)(nil),       // 9: common.IDMessage
 	(*proto_gen_go.SimpleMessage)(nil),   // 10: common.SimpleMessage
-	(*proto_gen_go.SuccessMessage)(nil),  // 11: common.SuccessMessage
+	(*proto_gen_go.Empty)(nil),           // 11: common.Empty
+	(*proto_gen_go.SuccessMessage)(nil),  // 12: common.SuccessMessage
 }
 var file_daemon_Server_proto_depIdxs = []int32{
 	0,  // 0: daemon.ServerStatus.status:type_name -> daemon.ServerStatusType
@@ -435,20 +438,24 @@ var file_daemon_Server_proto_depIdxs = []int32{
 	1,  // 3: daemon.ServerStatus.offlineReason:type_name -> daemon.ServerOfflineReason
 	2,  // 4: daemon.PowerActionMessage.action:type_name -> daemon.PowerAction
 	7,  // 5: daemon.ResourceUsageMessage.usage:type_name -> common.ResourceUsage
-	8,  // 6: daemon.ServerService.Console:input_type -> common.StreamIDMessage
-	8,  // 7: daemon.ServerService.Terminal:input_type -> common.StreamIDMessage
-	9,  // 8: daemon.ServerService.Status:input_type -> common.SimpleIDMessage
-	9,  // 9: daemon.ServerService.ResourceUsage:input_type -> common.SimpleIDMessage
-	4,  // 10: daemon.ServerService.PowerAction:input_type -> daemon.PowerActionMessage
-	9,  // 11: daemon.ServerService.Install:input_type -> common.SimpleIDMessage
-	10, // 12: daemon.ServerService.Console:output_type -> common.SimpleMessage
-	10, // 13: daemon.ServerService.Terminal:output_type -> common.SimpleMessage
-	3,  // 14: daemon.ServerService.Status:output_type -> daemon.ServerStatus
-	5,  // 15: daemon.ServerService.ResourceUsage:output_type -> daemon.ResourceUsageMessage
-	11, // 16: daemon.ServerService.PowerAction:output_type -> common.SuccessMessage
-	11, // 17: daemon.ServerService.Install:output_type -> common.SuccessMessage
-	12, // [12:18] is the sub-list for method output_type
-	6,  // [6:12] is the sub-list for method input_type
+	8,  // 6: daemon.ServerService.Console:input_type -> common.SimpleIDMessage
+	9,  // 7: daemon.ServerService.ConsoleCommand:input_type -> common.IDMessage
+	8,  // 8: daemon.ServerService.Terminal:input_type -> common.SimpleIDMessage
+	9,  // 9: daemon.ServerService.TerminalCommand:input_type -> common.IDMessage
+	8,  // 10: daemon.ServerService.Status:input_type -> common.SimpleIDMessage
+	8,  // 11: daemon.ServerService.ResourceUsage:input_type -> common.SimpleIDMessage
+	4,  // 12: daemon.ServerService.PowerAction:input_type -> daemon.PowerActionMessage
+	8,  // 13: daemon.ServerService.Install:input_type -> common.SimpleIDMessage
+	10, // 14: daemon.ServerService.Console:output_type -> common.SimpleMessage
+	11, // 15: daemon.ServerService.ConsoleCommand:output_type -> common.Empty
+	10, // 16: daemon.ServerService.Terminal:output_type -> common.SimpleMessage
+	11, // 17: daemon.ServerService.TerminalCommand:output_type -> common.Empty
+	3,  // 18: daemon.ServerService.Status:output_type -> daemon.ServerStatus
+	5,  // 19: daemon.ServerService.ResourceUsage:output_type -> daemon.ResourceUsageMessage
+	12, // 20: daemon.ServerService.PowerAction:output_type -> common.SuccessMessage
+	12, // 21: daemon.ServerService.Install:output_type -> common.SuccessMessage
+	14, // [14:22] is the sub-list for method output_type
+	6,  // [6:14] is the sub-list for method input_type
 	6,  // [6:6] is the sub-list for extension type_name
 	6,  // [6:6] is the sub-list for extension extendee
 	0,  // [0:6] is the sub-list for field type_name
