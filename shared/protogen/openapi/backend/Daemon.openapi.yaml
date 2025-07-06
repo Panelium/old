@@ -170,20 +170,9 @@ components:
           title: setup_script_interpreter
       title: Blueprint
       additionalProperties: false
-    backend.CreateTokenResponse:
-      type: object
-      properties:
-        backendToken:
-          type: string
-          title: backend_token
-      title: CreateTokenResponse
-      additionalProperties: false
     backend.RegisterDaemonRequest:
       type: object
       properties:
-        backendToken:
-          type: string
-          title: backend_token
         nodeToken:
           type: string
           title: node_token

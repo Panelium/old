@@ -12,36 +12,14 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file backend/Daemon.proto.
  */
 export const file_backend_Daemon: GenFile = /*@__PURE__*/
-  fileDesc("ChRiYWNrZW5kL0RhZW1vbi5wcm90bxIHYmFja2VuZCIsChNDcmVhdGVUb2tlblJlc3BvbnNlEhUKDWJhY2tlbmRfdG9rZW4YASABKAkiQgoVUmVnaXN0ZXJEYWVtb25SZXF1ZXN0EhUKDWJhY2tlbmRfdG9rZW4YASABKAkSEgoKbm9kZV90b2tlbhgCIAEoCSKbAgoJQmx1ZXByaW50EgsKA2JpZBgBIAEoCRIPCgd2ZXJzaW9uGAIgASgNEg0KBWZsYWdzGAMgAygJEhUKDWRvY2tlcl9pbWFnZXMYBCADKAkSKwoNYmxvY2tlZF9maWxlcxgFIAMoCzIULmJhY2tlbmQuQmxvY2tlZEZpbGUSFQoNc2VydmVyX2JpbmFyeRgGIAEoCRIVCg1zdGFydF9jb21tYW5kGAcgASgJEhQKDHN0b3BfY29tbWFuZBgIIAEoCRIbChNzZXR1cF9zY3JpcHRfYmFzZTY0GAkgASgJEhoKEnNldHVwX2RvY2tlcl9pbWFnZRgKIAEoCRIgChhzZXR1cF9zY3JpcHRfaW50ZXJwcmV0ZXIYCyABKAkiPgoLQmxvY2tlZEZpbGUSDAoEZmlsZRgBIAEoCRIPCgd2aXNpYmxlGAIgASgIEhAKCHJlYWRhYmxlGAMgASgIIrYBCgZTZXJ2ZXISCwoDc2lkGAEgASgJEhAKCG93bmVyX2lkGAIgASgJEhAKCHVzZXJfaWRzGAMgAygJEikKC2FsbG9jYXRpb25zGAQgAygLMhQuY29tbW9uLklQQWxsb2NhdGlvbhItCg5yZXNvdXJjZV9saW1pdBgFIAEoCzIVLmNvbW1vbi5SZXNvdXJjZUxpbWl0EhQKDGRvY2tlcl9pbWFnZRgGIAEoCRILCgNiaWQYByABKAkytQIKDURhZW1vblNlcnZpY2USSAoOUmVnaXN0ZXJEYWVtb24SHi5iYWNrZW5kLlJlZ2lzdGVyRGFlbW9uUmVxdWVzdBoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRI1Cg5TeW5jQmx1ZXByaW50cxINLmNvbW1vbi5FbXB0eRoSLmJhY2tlbmQuQmx1ZXByaW50MAESOwoMR2V0Qmx1ZXByaW50EhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRoSLmJhY2tlbmQuQmx1ZXByaW50Ei8KC1N5bmNTZXJ2ZXJzEg0uY29tbW9uLkVtcHR5Gg8uYmFja2VuZC5TZXJ2ZXIwARI1CglHZXRTZXJ2ZXISFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGg8uYmFja2VuZC5TZXJ2ZXJCH1odcGFuZWxpdW0vcHJvdG9fZ2VuX2dvL2JhY2tlbmRiBnByb3RvMw", [file_common]);
-
-/**
- * @generated from message backend.CreateTokenResponse
- */
-export type CreateTokenResponse = Message<"backend.CreateTokenResponse"> & {
-  /**
-   * @generated from field: string backend_token = 1;
-   */
-  backendToken: string;
-};
-
-/**
- * Describes the message backend.CreateTokenResponse.
- * Use `create(CreateTokenResponseSchema)` to create a new message.
- */
-export const CreateTokenResponseSchema: GenMessage<CreateTokenResponse> = /*@__PURE__*/
-  messageDesc(file_backend_Daemon, 0);
+  fileDesc("ChRiYWNrZW5kL0RhZW1vbi5wcm90bxIHYmFja2VuZCIrChVSZWdpc3RlckRhZW1vblJlcXVlc3QSEgoKbm9kZV90b2tlbhgBIAEoCSKbAgoJQmx1ZXByaW50EgsKA2JpZBgBIAEoCRIPCgd2ZXJzaW9uGAIgASgNEg0KBWZsYWdzGAMgAygJEhUKDWRvY2tlcl9pbWFnZXMYBCADKAkSKwoNYmxvY2tlZF9maWxlcxgFIAMoCzIULmJhY2tlbmQuQmxvY2tlZEZpbGUSFQoNc2VydmVyX2JpbmFyeRgGIAEoCRIVCg1zdGFydF9jb21tYW5kGAcgASgJEhQKDHN0b3BfY29tbWFuZBgIIAEoCRIbChNzZXR1cF9zY3JpcHRfYmFzZTY0GAkgASgJEhoKEnNldHVwX2RvY2tlcl9pbWFnZRgKIAEoCRIgChhzZXR1cF9zY3JpcHRfaW50ZXJwcmV0ZXIYCyABKAkiPgoLQmxvY2tlZEZpbGUSDAoEZmlsZRgBIAEoCRIPCgd2aXNpYmxlGAIgASgIEhAKCHJlYWRhYmxlGAMgASgIIrYBCgZTZXJ2ZXISCwoDc2lkGAEgASgJEhAKCG93bmVyX2lkGAIgASgJEhAKCHVzZXJfaWRzGAMgAygJEikKC2FsbG9jYXRpb25zGAQgAygLMhQuY29tbW9uLklQQWxsb2NhdGlvbhItCg5yZXNvdXJjZV9saW1pdBgFIAEoCzIVLmNvbW1vbi5SZXNvdXJjZUxpbWl0EhQKDGRvY2tlcl9pbWFnZRgGIAEoCRILCgNiaWQYByABKAkytQIKDURhZW1vblNlcnZpY2USSAoOUmVnaXN0ZXJEYWVtb24SHi5iYWNrZW5kLlJlZ2lzdGVyRGFlbW9uUmVxdWVzdBoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRI1Cg5TeW5jQmx1ZXByaW50cxINLmNvbW1vbi5FbXB0eRoSLmJhY2tlbmQuQmx1ZXByaW50MAESOwoMR2V0Qmx1ZXByaW50EhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRoSLmJhY2tlbmQuQmx1ZXByaW50Ei8KC1N5bmNTZXJ2ZXJzEg0uY29tbW9uLkVtcHR5Gg8uYmFja2VuZC5TZXJ2ZXIwARI1CglHZXRTZXJ2ZXISFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGg8uYmFja2VuZC5TZXJ2ZXJCH1odcGFuZWxpdW0vcHJvdG9fZ2VuX2dvL2JhY2tlbmRiBnByb3RvMw", [file_common]);
 
 /**
  * @generated from message backend.RegisterDaemonRequest
  */
 export type RegisterDaemonRequest = Message<"backend.RegisterDaemonRequest"> & {
   /**
-   * @generated from field: string backend_token = 1;
-   */
-  backendToken: string;
-
-  /**
-   * @generated from field: string node_token = 2;
+   * @generated from field: string node_token = 1;
    */
   nodeToken: string;
 };
@@ -51,7 +29,7 @@ export type RegisterDaemonRequest = Message<"backend.RegisterDaemonRequest"> & {
  * Use `create(RegisterDaemonRequestSchema)` to create a new message.
  */
 export const RegisterDaemonRequestSchema: GenMessage<RegisterDaemonRequest> = /*@__PURE__*/
-  messageDesc(file_backend_Daemon, 1);
+  messageDesc(file_backend_Daemon, 0);
 
 /**
  * @generated from message backend.Blueprint
@@ -120,7 +98,7 @@ export type Blueprint = Message<"backend.Blueprint"> & {
  * Use `create(BlueprintSchema)` to create a new message.
  */
 export const BlueprintSchema: GenMessage<Blueprint> = /*@__PURE__*/
-  messageDesc(file_backend_Daemon, 2);
+  messageDesc(file_backend_Daemon, 1);
 
 /**
  * @generated from message backend.BlockedFile
@@ -147,7 +125,7 @@ export type BlockedFile = Message<"backend.BlockedFile"> & {
  * Use `create(BlockedFileSchema)` to create a new message.
  */
 export const BlockedFileSchema: GenMessage<BlockedFile> = /*@__PURE__*/
-  messageDesc(file_backend_Daemon, 3);
+  messageDesc(file_backend_Daemon, 2);
 
 /**
  * @generated from message backend.Server
@@ -194,7 +172,7 @@ export type Server = Message<"backend.Server"> & {
  * Use `create(ServerSchema)` to create a new message.
  */
 export const ServerSchema: GenMessage<Server> = /*@__PURE__*/
-  messageDesc(file_backend_Daemon, 4);
+  messageDesc(file_backend_Daemon, 3);
 
 /**
  * @generated from service backend.DaemonService

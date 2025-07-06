@@ -8,7 +8,14 @@ import (
 	"panelium/backend/internal/db"
 	"panelium/backend/internal/model"
 	"panelium/common/jwt"
+	"slices"
 )
+
+var daemonAuthIgnoredProcedures = []string{}
+
+type DaemonInfo struct {
+	NID string
+}
 
 func NewDaemonAuthInterceptor() connect.UnaryInterceptorFunc {
 	interceptor := func(next connect.UnaryFunc) connect.UnaryFunc {
@@ -17,6 +24,9 @@ func NewDaemonAuthInterceptor() connect.UnaryInterceptorFunc {
 			req connect.AnyRequest,
 		) (connect.AnyResponse, error) {
 			if req.Spec().IsClient {
+				return next(ctx, req)
+			}
+			if slices.Contains(daemonAuthIgnoredProcedures, req.Spec().Procedure) {
 				return next(ctx, req)
 			}
 
@@ -30,10 +40,15 @@ func NewDaemonAuthInterceptor() connect.UnaryInterceptorFunc {
 				return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("invalid node token"))
 			}
 
-			tx := db.Instance().First(&model.Node{}, "backend_jti = ?", claims.JTI)
+			var node *model.Node
+			tx := db.Instance().First(node, "backend_jti = ?", claims.JTI)
 			if tx.Error != nil || tx.RowsAffected == 0 {
 				return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("invalid node token"))
 			}
+
+			ctx = context.WithValue(ctx, "panelium_daemon_info", &DaemonInfo{
+				NID: node.NID,
+			})
 
 			return next(ctx, req)
 		}

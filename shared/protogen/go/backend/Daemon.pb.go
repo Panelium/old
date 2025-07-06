@@ -22,61 +22,16 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type CreateTokenResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	BackendToken  string                 `protobuf:"bytes,1,opt,name=backend_token,json=backendToken,proto3" json:"backend_token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateTokenResponse) Reset() {
-	*x = CreateTokenResponse{}
-	mi := &file_backend_Daemon_proto_msgTypes[0]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateTokenResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateTokenResponse) ProtoMessage() {}
-
-func (x *CreateTokenResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_Daemon_proto_msgTypes[0]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateTokenResponse.ProtoReflect.Descriptor instead.
-func (*CreateTokenResponse) Descriptor() ([]byte, []int) {
-	return file_backend_Daemon_proto_rawDescGZIP(), []int{0}
-}
-
-func (x *CreateTokenResponse) GetBackendToken() string {
-	if x != nil {
-		return x.BackendToken
-	}
-	return ""
-}
-
 type RegisterDaemonRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	BackendToken  string                 `protobuf:"bytes,1,opt,name=backend_token,json=backendToken,proto3" json:"backend_token,omitempty"`
-	NodeToken     string                 `protobuf:"bytes,2,opt,name=node_token,json=nodeToken,proto3" json:"node_token,omitempty"`
+	NodeToken     string                 `protobuf:"bytes,1,opt,name=node_token,json=nodeToken,proto3" json:"node_token,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *RegisterDaemonRequest) Reset() {
 	*x = RegisterDaemonRequest{}
-	mi := &file_backend_Daemon_proto_msgTypes[1]
+	mi := &file_backend_Daemon_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -88,7 +43,7 @@ func (x *RegisterDaemonRequest) String() string {
 func (*RegisterDaemonRequest) ProtoMessage() {}
 
 func (x *RegisterDaemonRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_Daemon_proto_msgTypes[1]
+	mi := &file_backend_Daemon_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -101,14 +56,7 @@ func (x *RegisterDaemonRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterDaemonRequest.ProtoReflect.Descriptor instead.
 func (*RegisterDaemonRequest) Descriptor() ([]byte, []int) {
-	return file_backend_Daemon_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *RegisterDaemonRequest) GetBackendToken() string {
-	if x != nil {
-		return x.BackendToken
-	}
-	return ""
+	return file_backend_Daemon_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *RegisterDaemonRequest) GetNodeToken() string {
@@ -137,7 +85,7 @@ type Blueprint struct {
 
 func (x *Blueprint) Reset() {
 	*x = Blueprint{}
-	mi := &file_backend_Daemon_proto_msgTypes[2]
+	mi := &file_backend_Daemon_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -149,7 +97,7 @@ func (x *Blueprint) String() string {
 func (*Blueprint) ProtoMessage() {}
 
 func (x *Blueprint) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_Daemon_proto_msgTypes[2]
+	mi := &file_backend_Daemon_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -162,7 +110,7 @@ func (x *Blueprint) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Blueprint.ProtoReflect.Descriptor instead.
 func (*Blueprint) Descriptor() ([]byte, []int) {
-	return file_backend_Daemon_proto_rawDescGZIP(), []int{2}
+	return file_backend_Daemon_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *Blueprint) GetBid() string {
@@ -253,7 +201,7 @@ type BlockedFile struct {
 
 func (x *BlockedFile) Reset() {
 	*x = BlockedFile{}
-	mi := &file_backend_Daemon_proto_msgTypes[3]
+	mi := &file_backend_Daemon_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -265,7 +213,7 @@ func (x *BlockedFile) String() string {
 func (*BlockedFile) ProtoMessage() {}
 
 func (x *BlockedFile) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_Daemon_proto_msgTypes[3]
+	mi := &file_backend_Daemon_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -278,7 +226,7 @@ func (x *BlockedFile) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BlockedFile.ProtoReflect.Descriptor instead.
 func (*BlockedFile) Descriptor() ([]byte, []int) {
-	return file_backend_Daemon_proto_rawDescGZIP(), []int{3}
+	return file_backend_Daemon_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *BlockedFile) GetFile() string {
@@ -317,7 +265,7 @@ type Server struct {
 
 func (x *Server) Reset() {
 	*x = Server{}
-	mi := &file_backend_Daemon_proto_msgTypes[4]
+	mi := &file_backend_Daemon_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -329,7 +277,7 @@ func (x *Server) String() string {
 func (*Server) ProtoMessage() {}
 
 func (x *Server) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_Daemon_proto_msgTypes[4]
+	mi := &file_backend_Daemon_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -342,7 +290,7 @@ func (x *Server) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Server.ProtoReflect.Descriptor instead.
 func (*Server) Descriptor() ([]byte, []int) {
-	return file_backend_Daemon_proto_rawDescGZIP(), []int{4}
+	return file_backend_Daemon_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *Server) GetSid() string {
@@ -398,13 +346,10 @@ var File_backend_Daemon_proto protoreflect.FileDescriptor
 
 const file_backend_Daemon_proto_rawDesc = "" +
 	"\n" +
-	"\x14backend/Daemon.proto\x12\abackend\x1a\fcommon.proto\":\n" +
-	"\x13CreateTokenResponse\x12#\n" +
-	"\rbackend_token\x18\x01 \x01(\tR\fbackendToken\"[\n" +
-	"\x15RegisterDaemonRequest\x12#\n" +
-	"\rbackend_token\x18\x01 \x01(\tR\fbackendToken\x12\x1d\n" +
+	"\x14backend/Daemon.proto\x12\abackend\x1a\fcommon.proto\"6\n" +
+	"\x15RegisterDaemonRequest\x12\x1d\n" +
 	"\n" +
-	"node_token\x18\x02 \x01(\tR\tnodeToken\"\xb2\x03\n" +
+	"node_token\x18\x01 \x01(\tR\tnodeToken\"\xb2\x03\n" +
 	"\tBlueprint\x12\x10\n" +
 	"\x03bid\x18\x01 \x01(\tR\x03bid\x12\x18\n" +
 	"\aversion\x18\x02 \x01(\rR\aversion\x12\x14\n" +
@@ -449,33 +394,32 @@ func file_backend_Daemon_proto_rawDescGZIP() []byte {
 	return file_backend_Daemon_proto_rawDescData
 }
 
-var file_backend_Daemon_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_backend_Daemon_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_backend_Daemon_proto_goTypes = []any{
-	(*CreateTokenResponse)(nil),          // 0: backend.CreateTokenResponse
-	(*RegisterDaemonRequest)(nil),        // 1: backend.RegisterDaemonRequest
-	(*Blueprint)(nil),                    // 2: backend.Blueprint
-	(*BlockedFile)(nil),                  // 3: backend.BlockedFile
-	(*Server)(nil),                       // 4: backend.Server
-	(*proto_gen_go.IPAllocation)(nil),    // 5: common.IPAllocation
-	(*proto_gen_go.ResourceLimit)(nil),   // 6: common.ResourceLimit
-	(*proto_gen_go.Empty)(nil),           // 7: common.Empty
-	(*proto_gen_go.SimpleIDMessage)(nil), // 8: common.SimpleIDMessage
-	(*proto_gen_go.SuccessMessage)(nil),  // 9: common.SuccessMessage
+	(*RegisterDaemonRequest)(nil),        // 0: backend.RegisterDaemonRequest
+	(*Blueprint)(nil),                    // 1: backend.Blueprint
+	(*BlockedFile)(nil),                  // 2: backend.BlockedFile
+	(*Server)(nil),                       // 3: backend.Server
+	(*proto_gen_go.IPAllocation)(nil),    // 4: common.IPAllocation
+	(*proto_gen_go.ResourceLimit)(nil),   // 5: common.ResourceLimit
+	(*proto_gen_go.Empty)(nil),           // 6: common.Empty
+	(*proto_gen_go.SimpleIDMessage)(nil), // 7: common.SimpleIDMessage
+	(*proto_gen_go.SuccessMessage)(nil),  // 8: common.SuccessMessage
 }
 var file_backend_Daemon_proto_depIdxs = []int32{
-	3, // 0: backend.Blueprint.blocked_files:type_name -> backend.BlockedFile
-	5, // 1: backend.Server.allocations:type_name -> common.IPAllocation
-	6, // 2: backend.Server.resource_limit:type_name -> common.ResourceLimit
-	1, // 3: backend.DaemonService.RegisterDaemon:input_type -> backend.RegisterDaemonRequest
-	7, // 4: backend.DaemonService.SyncBlueprints:input_type -> common.Empty
-	8, // 5: backend.DaemonService.GetBlueprint:input_type -> common.SimpleIDMessage
-	7, // 6: backend.DaemonService.SyncServers:input_type -> common.Empty
-	8, // 7: backend.DaemonService.GetServer:input_type -> common.SimpleIDMessage
-	9, // 8: backend.DaemonService.RegisterDaemon:output_type -> common.SuccessMessage
-	2, // 9: backend.DaemonService.SyncBlueprints:output_type -> backend.Blueprint
-	2, // 10: backend.DaemonService.GetBlueprint:output_type -> backend.Blueprint
-	4, // 11: backend.DaemonService.SyncServers:output_type -> backend.Server
-	4, // 12: backend.DaemonService.GetServer:output_type -> backend.Server
+	2, // 0: backend.Blueprint.blocked_files:type_name -> backend.BlockedFile
+	4, // 1: backend.Server.allocations:type_name -> common.IPAllocation
+	5, // 2: backend.Server.resource_limit:type_name -> common.ResourceLimit
+	0, // 3: backend.DaemonService.RegisterDaemon:input_type -> backend.RegisterDaemonRequest
+	6, // 4: backend.DaemonService.SyncBlueprints:input_type -> common.Empty
+	7, // 5: backend.DaemonService.GetBlueprint:input_type -> common.SimpleIDMessage
+	6, // 6: backend.DaemonService.SyncServers:input_type -> common.Empty
+	7, // 7: backend.DaemonService.GetServer:input_type -> common.SimpleIDMessage
+	8, // 8: backend.DaemonService.RegisterDaemon:output_type -> common.SuccessMessage
+	1, // 9: backend.DaemonService.SyncBlueprints:output_type -> backend.Blueprint
+	1, // 10: backend.DaemonService.GetBlueprint:output_type -> backend.Blueprint
+	3, // 11: backend.DaemonService.SyncServers:output_type -> backend.Server
+	3, // 12: backend.DaemonService.GetServer:output_type -> backend.Server
 	8, // [8:13] is the sub-list for method output_type
 	3, // [3:8] is the sub-list for method input_type
 	3, // [3:3] is the sub-list for extension type_name
@@ -494,7 +438,7 @@ func file_backend_Daemon_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_backend_Daemon_proto_rawDesc), len(file_backend_Daemon_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
