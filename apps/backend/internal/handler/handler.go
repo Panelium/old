@@ -23,7 +23,7 @@ func Handle(host string) error {
 	)
 
 	mux := http.NewServeMux()
-	mux.Handle(backendconnect.NewDaemonConnectionServiceHandler(&daemon.DaemonServiceHandler{}, daemonAuthInterceptors))
+	mux.Handle(backendconnect.NewDaemonServiceHandler(&daemon.DaemonServiceHandler{}, daemonAuthInterceptors))
 
 	mux.Handle(backendconnect.NewAuthServiceHandler(&auth.AuthServiceHandler{}, userAuthInterceptors))
 	mux.Handle(backendconnect.NewClientServiceHandler(&client.ClientServiceHandler{}, userAuthInterceptors))
