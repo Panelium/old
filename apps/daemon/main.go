@@ -18,6 +18,12 @@ func main() {
 		return
 	}
 
+	if config.SecretsInstance.GetBackendToken() == "" {
+		log.Println("Backend token is not set. Please set it in the configuration file.")
+		return
+	}
+	// TODO: check for NodeJTI and if not found try to register with backend
+
 	err = db.Init()
 	if err != nil {
 		log.Printf("Failed to initialize database: %v", err)
