@@ -1,3 +1,6 @@
+# Panelium Development Docker Compose File
+# Not intended for production use.
+
 services:
   backend:
     build:
