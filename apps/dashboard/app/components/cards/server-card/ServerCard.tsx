@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FolderOpen, type LucideIcon, Play, Settings, Square, Terminal } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { ServerStatusType } from "proto-gen-ts/daemon/Server_pb";
+import { ServerOfflineReason, ServerStatus, ServerStatusType } from "proto-gen-ts/daemon/Server_pb";
 import { clampNumber, cn, formatMemory } from "~/lib/utils";
 
 import { Card, CardContent, CardFooter, CardHeader } from "~/components/ui/card";
@@ -9,7 +9,8 @@ import ServerBar from "~/components/bars/ServerBar";
 import EntityAvatar from "~/components/avatars/EntityAvatar";
 import StatusBadge from "~/components/dashboard/StatusBadge";
 import { ServerInfo } from "proto-gen-ts/backend/Client_pb";
-import { ResourceUsage, ResourceUsageSchema } from "proto-gen-ts/common_pb";
+import { ResourceUsage } from "proto-gen-ts/common_pb";
+import { getDaemonServerClient } from "~/lib/api-clients";
 
 export interface ServerData {
   serverInfo: ServerInfo;
@@ -187,6 +188,7 @@ const ServerCard: React.FC<ServerCardProps> = ({ serverInfo, className }) => {
     e.preventDefault();
     e.stopPropagation();
 
+    // TODO: change these actions
     switch (action) {
       case "power":
         navigate(`/server/${serverInfo.sid}/power`);
@@ -205,19 +207,62 @@ const ServerCard: React.FC<ServerCardProps> = ({ serverInfo, className }) => {
     }
   };
 
-  const serverData: ServerData = {
-    serverInfo,
+  const [resourceUsage, setResourceUsage] = useState<ResourceUsage>({
+    $typeName: "common.ResourceUsage",
+    cpu: 0,
+    ram: 0,
+    storage: 0,
+  });
+  const [serverStatus, setServerStatus] = useState<ServerStatus>({
+    $typeName: "daemon.ServerStatus",
+    offlineReason: ServerOfflineReason.UNKNOWN,
     status: ServerStatusType.UNKNOWN,
-    onlineSince: new Date(),
-    resourceUsage: {
-      $typeName: ResourceUsageSchema.typeName,
-      cpu: 0,
-      ram: 0,
-      storage: 0,
-    },
-  };
+  });
 
-  // TODO: fetch actual data
+  const serverData: ServerData = React.useMemo(
+    () => ({
+      serverInfo,
+      status: serverStatus.status,
+      onlineSince: serverStatus.timestampStart
+        ? new Date(Number(serverStatus.timestampStart.seconds * BigInt(1000)))
+        : new Date(0),
+      resourceUsage,
+    }),
+    [serverInfo, serverStatus, resourceUsage]
+  );
+
+  useEffect(() => {
+    const fetchServerStatus = async () => {
+      try {
+        const client = await getDaemonServerClient(serverInfo.daemonHost);
+
+        const statusResponse = await client.status({ id: serverInfo.sid });
+        setServerStatus(statusResponse);
+      } catch (error) {
+        console.error("Failed to fetch server data:", error);
+      }
+    };
+
+    fetchServerStatus();
+  }, [serverInfo.sid]);
+
+  useEffect(() => {
+    const fetchResourceUsage = async () => {
+      try {
+        const client = await getDaemonServerClient(serverInfo.daemonHost);
+
+        const usageResponseStream = client.resourceUsage({ id: serverInfo.sid });
+
+        for await (const usageResponse of usageResponseStream) {
+          if (usageResponse.usage) setResourceUsage(usageResponse.usage);
+        }
+      } catch (error) {
+        console.error("Failed to fetch resource usage:", error);
+      }
+    };
+
+    fetchResourceUsage();
+  }, [serverInfo.sid]);
 
   return (
     <Link to={`/server/${serverInfo.sid}`} className="group">
