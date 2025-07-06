@@ -1,0 +1,14 @@
+[Unit]
+Description=Panelium Backend Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/docker compose -f /var/lib/panelium/docker-compose.yml up backend
+ExecStop=/usr/bin/docker compose -f /var/lib/panelium/docker-compose.yml stop backend
+WorkingDirectory=/var/lib/panelium
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target

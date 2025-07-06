@@ -1,0 +1,14 @@
+[Unit]
+Description=Panelium Dashboard Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/docker compose -f /var/lib/panelium/docker-compose.yml up dashboard
+ExecStop=/usr/bin/docker compose -f /var/lib/panelium/docker-compose.yml stop dashboard
+WorkingDirectory=/var/lib/panelium
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target
