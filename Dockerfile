@@ -47,4 +47,4 @@ RUN npm run build
 FROM nginx:alpine AS dashboard
 EXPOSE 80/tcp
 COPY --from=build-dashboard /app/dashboard/build/client/ /usr/share/nginx/html/
-COPY assets/nginx.conf /etc/nginx/conf.d/default.conf
+COPY assets/dashboard-internal-nginx.conf /etc/nginx/conf.d/default.conf
