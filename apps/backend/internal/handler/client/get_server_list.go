@@ -71,6 +71,7 @@ func (s *ClientServiceHandler) GetServerList(ctx context.Context, req *connect.R
 				Swap:    uint32(server.ResourceLimit.SWAP),
 				Storage: uint32(server.ResourceLimit.Storage),
 			},
+			Location: server.Node.Location.Name,
 		}
 		serverInfos = append(serverInfos, serverInfo)
 	}

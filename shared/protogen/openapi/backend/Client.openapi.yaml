@@ -119,6 +119,9 @@ components:
         resourceLimit:
           title: resource_limit
           $ref: '#/components/schemas/common.ResourceLimit'
+        location:
+          type: string
+          title: location
       title: ServerInfo
       additionalProperties: false
     backend.ServerList:

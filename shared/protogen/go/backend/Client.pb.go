@@ -145,6 +145,7 @@ type ServerInfo struct {
 	MainAllocation *proto_gen_go.IPAllocation  `protobuf:"bytes,6,opt,name=main_allocation,json=mainAllocation,proto3,oneof" json:"main_allocation,omitempty"`
 	DaemonHost     string                      `protobuf:"bytes,7,opt,name=daemon_host,json=daemonHost,proto3" json:"daemon_host,omitempty"`
 	ResourceLimit  *proto_gen_go.ResourceLimit `protobuf:"bytes,8,opt,name=resource_limit,json=resourceLimit,proto3" json:"resource_limit,omitempty"`
+	Location       string                      `protobuf:"bytes,9,opt,name=location,proto3" json:"location,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -235,6 +236,13 @@ func (x *ServerInfo) GetResourceLimit() *proto_gen_go.ResourceLimit {
 	return nil
 }
 
+func (x *ServerInfo) GetLocation() string {
+	if x != nil {
+		return x.Location
+	}
+	return ""
+}
+
 var File_backend_Client_proto protoreflect.FileDescriptor
 
 const file_backend_Client_proto_rawDesc = "" +
@@ -248,7 +256,7 @@ const file_backend_Client_proto_rawDesc = "" +
 	"\x05admin\x18\x04 \x01(\bR\x05admin\";\n" +
 	"\n" +
 	"ServerList\x12-\n" +
-	"\aservers\x18\x01 \x03(\v2\x13.backend.ServerInfoR\aservers\"\xcc\x02\n" +
+	"\aservers\x18\x01 \x03(\v2\x13.backend.ServerInfoR\aservers\"\xe8\x02\n" +
 	"\n" +
 	"ServerInfo\x12\x10\n" +
 	"\x03sid\x18\x01 \x01(\tR\x03sid\x12\x12\n" +
@@ -259,7 +267,8 @@ const file_backend_Client_proto_rawDesc = "" +
 	"\x0fmain_allocation\x18\x06 \x01(\v2\x14.common.IPAllocationH\x00R\x0emainAllocation\x88\x01\x01\x12\x1f\n" +
 	"\vdaemon_host\x18\a \x01(\tR\n" +
 	"daemonHost\x12<\n" +
-	"\x0eresource_limit\x18\b \x01(\v2\x15.common.ResourceLimitR\rresourceLimitB\x12\n" +
+	"\x0eresource_limit\x18\b \x01(\v2\x15.common.ResourceLimitR\rresourceLimit\x12\x1a\n" +
+	"\blocation\x18\t \x01(\tR\blocationB\x12\n" +
 	"\x10_main_allocation2s\n" +
 	"\rClientService\x12-\n" +
 	"\aGetInfo\x12\r.common.Empty\x1a\x13.backend.ClientInfo\x123\n" +

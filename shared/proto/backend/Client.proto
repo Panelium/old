@@ -31,4 +31,5 @@ message ServerInfo {
   optional common.IPAllocation main_allocation = 6;
   string daemon_host = 7;
   common.ResourceLimit resource_limit = 8;
+  string location = 9;
 }
