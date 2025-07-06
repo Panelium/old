@@ -5,6 +5,8 @@
 Panelium is an all-in-one server hosting solution that provides a web-based control panel for managing games, servers,
 applications, and services.
 
+![Demo Screenshot](https://raw.githubusercontent.com/Panelium/Panelium/7556f9dcc11fa9e80b5dbd065d6c8363fffb7832/assets/panelium-screenshot.png)
+
 ## Installation
 
 ### Requirements
