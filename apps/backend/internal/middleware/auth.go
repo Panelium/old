@@ -74,7 +74,7 @@ func NewAuthInterceptor() connect.UnaryInterceptorFunc {
 				return nil, errors.ConnectInvalidCredentials
 			}
 
-			ctx = context.WithValue(ctx, "panelium_session_info", SessionInfo{
+			ctx = context.WithValue(ctx, "panelium_session_info", &SessionInfo{
 				SessionID: *claims.Audience,
 				UserID:    *claims.Subject,
 			})
