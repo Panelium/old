@@ -80,9 +80,8 @@ export function useLogout() {
   const { setAuthenticated } = useSession();
 
   return useCallback(async () => {
-    const res = await (await getAuthClient()).logout({});
-
     setAuthenticated(false);
+    const res = await (await getAuthClient()).logout({});
 
     if (!res.success) {
       console.error("Logout failed (?????)");
