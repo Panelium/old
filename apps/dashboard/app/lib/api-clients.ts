@@ -3,6 +3,8 @@ import { createConnectTransport } from "@connectrpc/connect-web";
 import { GenService } from "@bufbuild/protobuf/codegenv2";
 import { getConfig } from "~/lib/config";
 import { AuthService } from "proto-gen-ts/backend/Auth_pb";
+import { ClientService } from "proto-gen-ts/backend/Client_pb";
+import { ServerService } from "proto-gen-ts/daemon/Server_pb";
 
 const clientCache = new Map<string, Client<any>>();
 
@@ -28,3 +30,6 @@ export async function getClient<T extends GenService<any>>(
 }
 
 export const getAuthClient = () => getClient(AuthService);
+export const getClientClient = () => getClient(ClientService);
+export const getDaemonServerClient = (baseUrl: string) =>
+  getClient(ServerService, baseUrl);
