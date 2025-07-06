@@ -140,6 +140,11 @@ get_cert_folder() {
   fi
 }
 
+escape_sed() {
+  # Escape &, /, and newlines for sed replacement
+  printf '%s' "$1" | sed -e 's/[&/\\]/\\&/g' | tr '\n' '\\n'
+}
+
 dashboard_cert_folder=$(get_cert_folder "$DASHBOARD_DOMAIN")
 backend_cert_folder=$(get_cert_folder "$BACKEND_DOMAIN")
 daemon_cert_folder=$(get_cert_folder "$DAEMON_DOMAIN")
