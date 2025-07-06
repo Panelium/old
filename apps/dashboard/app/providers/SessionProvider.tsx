@@ -1,4 +1,5 @@
 import React, { createContext, useCallback, useEffect, useState } from "react";
+import { getAuthClient } from "~/lib/api-clients";
 
 interface SessionProviderProps {
   children?: React.ReactNode;
@@ -79,9 +80,14 @@ export function useLogout() {
   const { setAuthenticated } = useSession();
 
   return useCallback(async () => {
-    // TODO: Implement the logic to clear the session on the backend. This will be an API call to invalidate the session and clear the session id and JWT cookies.
+    const res = await (await getAuthClient()).logout({});
 
     setAuthenticated(false);
+
+    if (!res.success) {
+      console.error("Logout failed (?????)");
+    }
+
     return;
   }, [setAuthenticated]);
 }
