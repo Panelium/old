@@ -14,24 +14,35 @@ applications, and services.
 - Unix-like operating system (Linux, macOS, etc.), Windows is currently not supported.
 - Docker
 - Docker Compose
+- Nginx
+- Certbot
+- jq
 
 ### Quick Start
 
-To install Panelium, you can use the provided Docker Compose file. This will set up the necessary services, including
-the frontend (dashboard), backend, and a daemon.
+You can install Panelium using the automated setup script. This script will:
+
+- Check for required dependencies
+- Download and configure Docker Compose and systemd units (Linux) or helper scripts (macOS)
+- Set up Nginx and SSL certificates with Certbot
+- Prompt you for your dashboard, backend, and daemon domains
+
+**To run the setup script:**
 
 ```bash
-git clone https://github.com/Panelium/Panelium.git
-cd Panelium
-docker compose up -d
+curl -fsSL https://raw.githubusercontent.com/panelium/panelium/main/assets/panelium-setup.sh | bash
 ```
+
+Follow the prompts to enter your domain names (e.g., dashboard.example.com, backend.example.com, daemon.example.com).
+The script will handle the rest.
 
 ### Configuration
 
-TBA
+Configuration files are generated automatically in `/etc/panelium/` for each service. You can adjust these files as
+needed after installation.
 
-Note: backend and daemon(s) have to be on the same second-level domain (third- and lower level domains, aka subdomains, can be different) for the CORS and cookies to work
-properly.
+Note: backend and daemon(s) have to be on the same second-level domain (third- and lower level domains, aka subdomains,
+can be different) for the CORS and cookies to work properly.
 
 Blueprints are available at http://blueprints.ndmh.xyz/ ([source](https://github.com/Panelium/Blueprints))
 
