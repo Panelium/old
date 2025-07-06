@@ -9,8 +9,9 @@ package admin
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	_ "panelium/proto_gen_go"
+	proto_gen_go "panelium/proto_gen_go"
 	reflect "reflect"
+	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -21,19 +22,595 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Location struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Lid           string                 `protobuf:"bytes,1,opt,name=lid,proto3" json:"lid,omitempty"` // ignored with Create
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Location) Reset() {
+	*x = Location{}
+	mi := &file_backend_admin_LocationManager_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Location) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Location) ProtoMessage() {}
+
+func (x *Location) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_LocationManager_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Location.ProtoReflect.Descriptor instead.
+func (*Location) Descriptor() ([]byte, []int) {
+	return file_backend_admin_LocationManager_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Location) GetLid() string {
+	if x != nil {
+		return x.Lid
+	}
+	return ""
+}
+
+func (x *Location) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+type GetLocationsRequest struct {
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Pagination    *proto_gen_go.Pagination `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetLocationsRequest) Reset() {
+	*x = GetLocationsRequest{}
+	mi := &file_backend_admin_LocationManager_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetLocationsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetLocationsRequest) ProtoMessage() {}
+
+func (x *GetLocationsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_LocationManager_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetLocationsRequest.ProtoReflect.Descriptor instead.
+func (*GetLocationsRequest) Descriptor() ([]byte, []int) {
+	return file_backend_admin_LocationManager_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *GetLocationsRequest) GetPagination() *proto_gen_go.Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+type GetLocationsResponse struct {
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Locations     []*Location              `protobuf:"bytes,1,rep,name=locations,proto3" json:"locations,omitempty"`
+	Pagination    *proto_gen_go.Pagination `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetLocationsResponse) Reset() {
+	*x = GetLocationsResponse{}
+	mi := &file_backend_admin_LocationManager_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetLocationsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetLocationsResponse) ProtoMessage() {}
+
+func (x *GetLocationsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_LocationManager_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetLocationsResponse.ProtoReflect.Descriptor instead.
+func (*GetLocationsResponse) Descriptor() ([]byte, []int) {
+	return file_backend_admin_LocationManager_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *GetLocationsResponse) GetLocations() []*Location {
+	if x != nil {
+		return x.Locations
+	}
+	return nil
+}
+
+func (x *GetLocationsResponse) GetPagination() *proto_gen_go.Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+type GetLocationRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Lid           string                 `protobuf:"bytes,1,opt,name=lid,proto3" json:"lid,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetLocationRequest) Reset() {
+	*x = GetLocationRequest{}
+	mi := &file_backend_admin_LocationManager_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetLocationRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetLocationRequest) ProtoMessage() {}
+
+func (x *GetLocationRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_LocationManager_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetLocationRequest.ProtoReflect.Descriptor instead.
+func (*GetLocationRequest) Descriptor() ([]byte, []int) {
+	return file_backend_admin_LocationManager_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetLocationRequest) GetLid() string {
+	if x != nil {
+		return x.Lid
+	}
+	return ""
+}
+
+type GetLocationResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Location      *Location              `protobuf:"bytes,1,opt,name=location,proto3" json:"location,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetLocationResponse) Reset() {
+	*x = GetLocationResponse{}
+	mi := &file_backend_admin_LocationManager_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetLocationResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetLocationResponse) ProtoMessage() {}
+
+func (x *GetLocationResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_LocationManager_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetLocationResponse.ProtoReflect.Descriptor instead.
+func (*GetLocationResponse) Descriptor() ([]byte, []int) {
+	return file_backend_admin_LocationManager_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetLocationResponse) GetLocation() *Location {
+	if x != nil {
+		return x.Location
+	}
+	return nil
+}
+
+type CreateLocationRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Location      *Location              `protobuf:"bytes,1,opt,name=location,proto3" json:"location,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateLocationRequest) Reset() {
+	*x = CreateLocationRequest{}
+	mi := &file_backend_admin_LocationManager_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateLocationRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateLocationRequest) ProtoMessage() {}
+
+func (x *CreateLocationRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_LocationManager_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateLocationRequest.ProtoReflect.Descriptor instead.
+func (*CreateLocationRequest) Descriptor() ([]byte, []int) {
+	return file_backend_admin_LocationManager_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *CreateLocationRequest) GetLocation() *Location {
+	if x != nil {
+		return x.Location
+	}
+	return nil
+}
+
+type CreateLocationResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateLocationResponse) Reset() {
+	*x = CreateLocationResponse{}
+	mi := &file_backend_admin_LocationManager_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateLocationResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateLocationResponse) ProtoMessage() {}
+
+func (x *CreateLocationResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_LocationManager_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateLocationResponse.ProtoReflect.Descriptor instead.
+func (*CreateLocationResponse) Descriptor() ([]byte, []int) {
+	return file_backend_admin_LocationManager_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *CreateLocationResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+type UpdateLocationRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Location      *Location              `protobuf:"bytes,1,opt,name=location,proto3" json:"location,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateLocationRequest) Reset() {
+	*x = UpdateLocationRequest{}
+	mi := &file_backend_admin_LocationManager_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateLocationRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateLocationRequest) ProtoMessage() {}
+
+func (x *UpdateLocationRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_LocationManager_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateLocationRequest.ProtoReflect.Descriptor instead.
+func (*UpdateLocationRequest) Descriptor() ([]byte, []int) {
+	return file_backend_admin_LocationManager_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *UpdateLocationRequest) GetLocation() *Location {
+	if x != nil {
+		return x.Location
+	}
+	return nil
+}
+
+type UpdateLocationResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateLocationResponse) Reset() {
+	*x = UpdateLocationResponse{}
+	mi := &file_backend_admin_LocationManager_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateLocationResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateLocationResponse) ProtoMessage() {}
+
+func (x *UpdateLocationResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_LocationManager_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateLocationResponse.ProtoReflect.Descriptor instead.
+func (*UpdateLocationResponse) Descriptor() ([]byte, []int) {
+	return file_backend_admin_LocationManager_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *UpdateLocationResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+type DeleteLocationRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Lid           string                 `protobuf:"bytes,1,opt,name=lid,proto3" json:"lid,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteLocationRequest) Reset() {
+	*x = DeleteLocationRequest{}
+	mi := &file_backend_admin_LocationManager_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteLocationRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteLocationRequest) ProtoMessage() {}
+
+func (x *DeleteLocationRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_LocationManager_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteLocationRequest.ProtoReflect.Descriptor instead.
+func (*DeleteLocationRequest) Descriptor() ([]byte, []int) {
+	return file_backend_admin_LocationManager_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *DeleteLocationRequest) GetLid() string {
+	if x != nil {
+		return x.Lid
+	}
+	return ""
+}
+
+type DeleteLocationResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteLocationResponse) Reset() {
+	*x = DeleteLocationResponse{}
+	mi := &file_backend_admin_LocationManager_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteLocationResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteLocationResponse) ProtoMessage() {}
+
+func (x *DeleteLocationResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_LocationManager_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteLocationResponse.ProtoReflect.Descriptor instead.
+func (*DeleteLocationResponse) Descriptor() ([]byte, []int) {
+	return file_backend_admin_LocationManager_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *DeleteLocationResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
 var File_backend_admin_LocationManager_proto protoreflect.FileDescriptor
 
 const file_backend_admin_LocationManager_proto_rawDesc = "" +
 	"\n" +
-	"#backend/admin/LocationManager.proto\x12\rbackend_admin\x1a\fcommon.protoB%Z#panelium/proto_gen_go/backend/adminb\x06proto3"
+	"#backend/admin/LocationManager.proto\x12\rbackend_admin\x1a\fcommon.proto\"0\n" +
+	"\bLocation\x12\x10\n" +
+	"\x03lid\x18\x01 \x01(\tR\x03lid\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\"I\n" +
+	"\x13GetLocationsRequest\x122\n" +
+	"\n" +
+	"pagination\x18\x01 \x01(\v2\x12.common.PaginationR\n" +
+	"pagination\"\x81\x01\n" +
+	"\x14GetLocationsResponse\x125\n" +
+	"\tlocations\x18\x01 \x03(\v2\x17.backend_admin.LocationR\tlocations\x122\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x12.common.PaginationR\n" +
+	"pagination\"&\n" +
+	"\x12GetLocationRequest\x12\x10\n" +
+	"\x03lid\x18\x01 \x01(\tR\x03lid\"J\n" +
+	"\x13GetLocationResponse\x123\n" +
+	"\blocation\x18\x01 \x01(\v2\x17.backend_admin.LocationR\blocation\"L\n" +
+	"\x15CreateLocationRequest\x123\n" +
+	"\blocation\x18\x01 \x01(\v2\x17.backend_admin.LocationR\blocation\"2\n" +
+	"\x16CreateLocationResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"L\n" +
+	"\x15UpdateLocationRequest\x123\n" +
+	"\blocation\x18\x01 \x01(\v2\x17.backend_admin.LocationR\blocation\"2\n" +
+	"\x16UpdateLocationResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\")\n" +
+	"\x15DeleteLocationRequest\x12\x10\n" +
+	"\x03lid\x18\x01 \x01(\tR\x03lid\"2\n" +
+	"\x16DeleteLocationResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess2\xe4\x03\n" +
+	"\x16LocationManagerService\x12W\n" +
+	"\fGetLocations\x12\".backend_admin.GetLocationsRequest\x1a#.backend_admin.GetLocationsResponse\x12T\n" +
+	"\vGetLocation\x12!.backend_admin.GetLocationRequest\x1a\".backend_admin.GetLocationResponse\x12]\n" +
+	"\x0eCreateLocation\x12$.backend_admin.CreateLocationRequest\x1a%.backend_admin.CreateLocationResponse\x12]\n" +
+	"\x0eUpdateLocation\x12$.backend_admin.UpdateLocationRequest\x1a%.backend_admin.UpdateLocationResponse\x12]\n" +
+	"\x0eDeleteLocation\x12$.backend_admin.DeleteLocationRequest\x1a%.backend_admin.DeleteLocationResponseB%Z#panelium/proto_gen_go/backend/adminb\x06proto3"
 
-var file_backend_admin_LocationManager_proto_goTypes = []any{}
+var (
+	file_backend_admin_LocationManager_proto_rawDescOnce sync.Once
+	file_backend_admin_LocationManager_proto_rawDescData []byte
+)
+
+func file_backend_admin_LocationManager_proto_rawDescGZIP() []byte {
+	file_backend_admin_LocationManager_proto_rawDescOnce.Do(func() {
+		file_backend_admin_LocationManager_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_backend_admin_LocationManager_proto_rawDesc), len(file_backend_admin_LocationManager_proto_rawDesc)))
+	})
+	return file_backend_admin_LocationManager_proto_rawDescData
+}
+
+var file_backend_admin_LocationManager_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_backend_admin_LocationManager_proto_goTypes = []any{
+	(*Location)(nil),                // 0: backend_admin.Location
+	(*GetLocationsRequest)(nil),     // 1: backend_admin.GetLocationsRequest
+	(*GetLocationsResponse)(nil),    // 2: backend_admin.GetLocationsResponse
+	(*GetLocationRequest)(nil),      // 3: backend_admin.GetLocationRequest
+	(*GetLocationResponse)(nil),     // 4: backend_admin.GetLocationResponse
+	(*CreateLocationRequest)(nil),   // 5: backend_admin.CreateLocationRequest
+	(*CreateLocationResponse)(nil),  // 6: backend_admin.CreateLocationResponse
+	(*UpdateLocationRequest)(nil),   // 7: backend_admin.UpdateLocationRequest
+	(*UpdateLocationResponse)(nil),  // 8: backend_admin.UpdateLocationResponse
+	(*DeleteLocationRequest)(nil),   // 9: backend_admin.DeleteLocationRequest
+	(*DeleteLocationResponse)(nil),  // 10: backend_admin.DeleteLocationResponse
+	(*proto_gen_go.Pagination)(nil), // 11: common.Pagination
+}
 var file_backend_admin_LocationManager_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	11, // 0: backend_admin.GetLocationsRequest.pagination:type_name -> common.Pagination
+	0,  // 1: backend_admin.GetLocationsResponse.locations:type_name -> backend_admin.Location
+	11, // 2: backend_admin.GetLocationsResponse.pagination:type_name -> common.Pagination
+	0,  // 3: backend_admin.GetLocationResponse.location:type_name -> backend_admin.Location
+	0,  // 4: backend_admin.CreateLocationRequest.location:type_name -> backend_admin.Location
+	0,  // 5: backend_admin.UpdateLocationRequest.location:type_name -> backend_admin.Location
+	1,  // 6: backend_admin.LocationManagerService.GetLocations:input_type -> backend_admin.GetLocationsRequest
+	3,  // 7: backend_admin.LocationManagerService.GetLocation:input_type -> backend_admin.GetLocationRequest
+	5,  // 8: backend_admin.LocationManagerService.CreateLocation:input_type -> backend_admin.CreateLocationRequest
+	7,  // 9: backend_admin.LocationManagerService.UpdateLocation:input_type -> backend_admin.UpdateLocationRequest
+	9,  // 10: backend_admin.LocationManagerService.DeleteLocation:input_type -> backend_admin.DeleteLocationRequest
+	2,  // 11: backend_admin.LocationManagerService.GetLocations:output_type -> backend_admin.GetLocationsResponse
+	4,  // 12: backend_admin.LocationManagerService.GetLocation:output_type -> backend_admin.GetLocationResponse
+	6,  // 13: backend_admin.LocationManagerService.CreateLocation:output_type -> backend_admin.CreateLocationResponse
+	8,  // 14: backend_admin.LocationManagerService.UpdateLocation:output_type -> backend_admin.UpdateLocationResponse
+	10, // 15: backend_admin.LocationManagerService.DeleteLocation:output_type -> backend_admin.DeleteLocationResponse
+	11, // [11:16] is the sub-list for method output_type
+	6,  // [6:11] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_backend_admin_LocationManager_proto_init() }
@@ -47,12 +624,13 @@ func file_backend_admin_LocationManager_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_backend_admin_LocationManager_proto_rawDesc), len(file_backend_admin_LocationManager_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   0,
+			NumMessages:   11,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_backend_admin_LocationManager_proto_goTypes,
 		DependencyIndexes: file_backend_admin_LocationManager_proto_depIdxs,
+		MessageInfos:      file_backend_admin_LocationManager_proto_msgTypes,
 	}.Build()
 	File_backend_admin_LocationManager_proto = out.File
 	file_backend_admin_LocationManager_proto_goTypes = nil

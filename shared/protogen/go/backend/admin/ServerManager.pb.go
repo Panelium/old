@@ -9,8 +9,9 @@ package admin
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	_ "panelium/proto_gen_go"
+	proto_gen_go "panelium/proto_gen_go"
 	reflect "reflect"
+	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -21,19 +22,713 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Server struct {
+	state         protoimpl.MessageState      `protogen:"open.v1"`
+	Sid           string                      `protobuf:"bytes,1,opt,name=sid,proto3" json:"sid,omitempty"` // ignored with Create
+	Name          string                      `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description   string                      `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	OwnerUid      string                      `protobuf:"bytes,4,opt,name=owner_uid,json=ownerUid,proto3" json:"owner_uid,omitempty"`
+	Nid           string                      `protobuf:"bytes,5,opt,name=nid,proto3" json:"nid,omitempty"`
+	Uids          []string                    `protobuf:"bytes,6,rep,name=uids,proto3" json:"uids,omitempty"`
+	ResourceLimit *proto_gen_go.ResourceLimit `protobuf:"bytes,7,opt,name=resource_limit,json=resourceLimit,proto3" json:"resource_limit,omitempty"`
+	DockerImage   string                      `protobuf:"bytes,8,opt,name=docker_image,json=dockerImage,proto3" json:"docker_image,omitempty"`
+	Bid           string                      `protobuf:"bytes,9,opt,name=bid,proto3" json:"bid,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Server) Reset() {
+	*x = Server{}
+	mi := &file_backend_admin_ServerManager_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Server) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Server) ProtoMessage() {}
+
+func (x *Server) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_ServerManager_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Server.ProtoReflect.Descriptor instead.
+func (*Server) Descriptor() ([]byte, []int) {
+	return file_backend_admin_ServerManager_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Server) GetSid() string {
+	if x != nil {
+		return x.Sid
+	}
+	return ""
+}
+
+func (x *Server) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Server) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *Server) GetOwnerUid() string {
+	if x != nil {
+		return x.OwnerUid
+	}
+	return ""
+}
+
+func (x *Server) GetNid() string {
+	if x != nil {
+		return x.Nid
+	}
+	return ""
+}
+
+func (x *Server) GetUids() []string {
+	if x != nil {
+		return x.Uids
+	}
+	return nil
+}
+
+func (x *Server) GetResourceLimit() *proto_gen_go.ResourceLimit {
+	if x != nil {
+		return x.ResourceLimit
+	}
+	return nil
+}
+
+func (x *Server) GetDockerImage() string {
+	if x != nil {
+		return x.DockerImage
+	}
+	return ""
+}
+
+func (x *Server) GetBid() string {
+	if x != nil {
+		return x.Bid
+	}
+	return ""
+}
+
+type GetServersRequest struct {
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Pagination    *proto_gen_go.Pagination `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	Nid           *string                  `protobuf:"bytes,2,opt,name=nid,proto3,oneof" json:"nid,omitempty"`                              // filter by node ID
+	OwnerUid      *string                  `protobuf:"bytes,3,opt,name=owner_uid,json=ownerUid,proto3,oneof" json:"owner_uid,omitempty"`    // filter by owner user ID
+	Bid           *string                  `protobuf:"bytes,4,opt,name=bid,proto3,oneof" json:"bid,omitempty"`                              // filter by blueprint ID
+	AccessUid     *string                  `protobuf:"bytes,5,opt,name=access_uid,json=accessUid,proto3,oneof" json:"access_uid,omitempty"` // filter by user ID with access
+	Uid           *string                  `protobuf:"bytes,6,opt,name=uid,proto3,oneof" json:"uid,omitempty"`                              // filter by user ID (either owner or with access)
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetServersRequest) Reset() {
+	*x = GetServersRequest{}
+	mi := &file_backend_admin_ServerManager_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetServersRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetServersRequest) ProtoMessage() {}
+
+func (x *GetServersRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_ServerManager_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetServersRequest.ProtoReflect.Descriptor instead.
+func (*GetServersRequest) Descriptor() ([]byte, []int) {
+	return file_backend_admin_ServerManager_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *GetServersRequest) GetPagination() *proto_gen_go.Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+func (x *GetServersRequest) GetNid() string {
+	if x != nil && x.Nid != nil {
+		return *x.Nid
+	}
+	return ""
+}
+
+func (x *GetServersRequest) GetOwnerUid() string {
+	if x != nil && x.OwnerUid != nil {
+		return *x.OwnerUid
+	}
+	return ""
+}
+
+func (x *GetServersRequest) GetBid() string {
+	if x != nil && x.Bid != nil {
+		return *x.Bid
+	}
+	return ""
+}
+
+func (x *GetServersRequest) GetAccessUid() string {
+	if x != nil && x.AccessUid != nil {
+		return *x.AccessUid
+	}
+	return ""
+}
+
+func (x *GetServersRequest) GetUid() string {
+	if x != nil && x.Uid != nil {
+		return *x.Uid
+	}
+	return ""
+}
+
+type GetServersResponse struct {
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Servers       []*Server                `protobuf:"bytes,1,rep,name=servers,proto3" json:"servers,omitempty"`
+	Pagination    *proto_gen_go.Pagination `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetServersResponse) Reset() {
+	*x = GetServersResponse{}
+	mi := &file_backend_admin_ServerManager_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetServersResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetServersResponse) ProtoMessage() {}
+
+func (x *GetServersResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_ServerManager_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetServersResponse.ProtoReflect.Descriptor instead.
+func (*GetServersResponse) Descriptor() ([]byte, []int) {
+	return file_backend_admin_ServerManager_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *GetServersResponse) GetServers() []*Server {
+	if x != nil {
+		return x.Servers
+	}
+	return nil
+}
+
+func (x *GetServersResponse) GetPagination() *proto_gen_go.Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+type GetServerRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Sid           string                 `protobuf:"bytes,1,opt,name=sid,proto3" json:"sid,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetServerRequest) Reset() {
+	*x = GetServerRequest{}
+	mi := &file_backend_admin_ServerManager_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetServerRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetServerRequest) ProtoMessage() {}
+
+func (x *GetServerRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_ServerManager_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetServerRequest.ProtoReflect.Descriptor instead.
+func (*GetServerRequest) Descriptor() ([]byte, []int) {
+	return file_backend_admin_ServerManager_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetServerRequest) GetSid() string {
+	if x != nil {
+		return x.Sid
+	}
+	return ""
+}
+
+type GetServerResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Server        *Server                `protobuf:"bytes,1,opt,name=server,proto3" json:"server,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetServerResponse) Reset() {
+	*x = GetServerResponse{}
+	mi := &file_backend_admin_ServerManager_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetServerResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetServerResponse) ProtoMessage() {}
+
+func (x *GetServerResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_ServerManager_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetServerResponse.ProtoReflect.Descriptor instead.
+func (*GetServerResponse) Descriptor() ([]byte, []int) {
+	return file_backend_admin_ServerManager_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetServerResponse) GetServer() *Server {
+	if x != nil {
+		return x.Server
+	}
+	return nil
+}
+
+type CreateServerRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Server        *Server                `protobuf:"bytes,1,opt,name=server,proto3" json:"server,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateServerRequest) Reset() {
+	*x = CreateServerRequest{}
+	mi := &file_backend_admin_ServerManager_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateServerRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateServerRequest) ProtoMessage() {}
+
+func (x *CreateServerRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_ServerManager_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateServerRequest.ProtoReflect.Descriptor instead.
+func (*CreateServerRequest) Descriptor() ([]byte, []int) {
+	return file_backend_admin_ServerManager_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *CreateServerRequest) GetServer() *Server {
+	if x != nil {
+		return x.Server
+	}
+	return nil
+}
+
+type CreateServerResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateServerResponse) Reset() {
+	*x = CreateServerResponse{}
+	mi := &file_backend_admin_ServerManager_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateServerResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateServerResponse) ProtoMessage() {}
+
+func (x *CreateServerResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_ServerManager_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateServerResponse.ProtoReflect.Descriptor instead.
+func (*CreateServerResponse) Descriptor() ([]byte, []int) {
+	return file_backend_admin_ServerManager_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *CreateServerResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+type UpdateServerRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Server        *Server                `protobuf:"bytes,1,opt,name=server,proto3" json:"server,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateServerRequest) Reset() {
+	*x = UpdateServerRequest{}
+	mi := &file_backend_admin_ServerManager_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateServerRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateServerRequest) ProtoMessage() {}
+
+func (x *UpdateServerRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_ServerManager_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateServerRequest.ProtoReflect.Descriptor instead.
+func (*UpdateServerRequest) Descriptor() ([]byte, []int) {
+	return file_backend_admin_ServerManager_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *UpdateServerRequest) GetServer() *Server {
+	if x != nil {
+		return x.Server
+	}
+	return nil
+}
+
+type UpdateServerResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateServerResponse) Reset() {
+	*x = UpdateServerResponse{}
+	mi := &file_backend_admin_ServerManager_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateServerResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateServerResponse) ProtoMessage() {}
+
+func (x *UpdateServerResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_ServerManager_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateServerResponse.ProtoReflect.Descriptor instead.
+func (*UpdateServerResponse) Descriptor() ([]byte, []int) {
+	return file_backend_admin_ServerManager_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *UpdateServerResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+type DeleteServerRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Sid           string                 `protobuf:"bytes,1,opt,name=sid,proto3" json:"sid,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteServerRequest) Reset() {
+	*x = DeleteServerRequest{}
+	mi := &file_backend_admin_ServerManager_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteServerRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteServerRequest) ProtoMessage() {}
+
+func (x *DeleteServerRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_ServerManager_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteServerRequest.ProtoReflect.Descriptor instead.
+func (*DeleteServerRequest) Descriptor() ([]byte, []int) {
+	return file_backend_admin_ServerManager_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *DeleteServerRequest) GetSid() string {
+	if x != nil {
+		return x.Sid
+	}
+	return ""
+}
+
+type DeleteServerResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteServerResponse) Reset() {
+	*x = DeleteServerResponse{}
+	mi := &file_backend_admin_ServerManager_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteServerResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteServerResponse) ProtoMessage() {}
+
+func (x *DeleteServerResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_ServerManager_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteServerResponse.ProtoReflect.Descriptor instead.
+func (*DeleteServerResponse) Descriptor() ([]byte, []int) {
+	return file_backend_admin_ServerManager_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *DeleteServerResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
 var File_backend_admin_ServerManager_proto protoreflect.FileDescriptor
 
 const file_backend_admin_ServerManager_proto_rawDesc = "" +
 	"\n" +
-	"!backend/admin/ServerManager.proto\x12\rbackend_admin\x1a\fcommon.protoB%Z#panelium/proto_gen_go/backend/adminb\x06proto3"
+	"!backend/admin/ServerManager.proto\x12\rbackend_admin\x1a\fcommon.proto\"\x86\x02\n" +
+	"\x06Server\x12\x10\n" +
+	"\x03sid\x18\x01 \x01(\tR\x03sid\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1b\n" +
+	"\towner_uid\x18\x04 \x01(\tR\bownerUid\x12\x10\n" +
+	"\x03nid\x18\x05 \x01(\tR\x03nid\x12\x12\n" +
+	"\x04uids\x18\x06 \x03(\tR\x04uids\x12<\n" +
+	"\x0eresource_limit\x18\a \x01(\v2\x15.common.ResourceLimitR\rresourceLimit\x12!\n" +
+	"\fdocker_image\x18\b \x01(\tR\vdockerImage\x12\x10\n" +
+	"\x03bid\x18\t \x01(\tR\x03bid\"\x87\x02\n" +
+	"\x11GetServersRequest\x122\n" +
+	"\n" +
+	"pagination\x18\x01 \x01(\v2\x12.common.PaginationR\n" +
+	"pagination\x12\x15\n" +
+	"\x03nid\x18\x02 \x01(\tH\x00R\x03nid\x88\x01\x01\x12 \n" +
+	"\towner_uid\x18\x03 \x01(\tH\x01R\bownerUid\x88\x01\x01\x12\x15\n" +
+	"\x03bid\x18\x04 \x01(\tH\x02R\x03bid\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"access_uid\x18\x05 \x01(\tH\x03R\taccessUid\x88\x01\x01\x12\x15\n" +
+	"\x03uid\x18\x06 \x01(\tH\x04R\x03uid\x88\x01\x01B\x06\n" +
+	"\x04_nidB\f\n" +
+	"\n" +
+	"_owner_uidB\x06\n" +
+	"\x04_bidB\r\n" +
+	"\v_access_uidB\x06\n" +
+	"\x04_uid\"y\n" +
+	"\x12GetServersResponse\x12/\n" +
+	"\aservers\x18\x01 \x03(\v2\x15.backend_admin.ServerR\aservers\x122\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x12.common.PaginationR\n" +
+	"pagination\"$\n" +
+	"\x10GetServerRequest\x12\x10\n" +
+	"\x03sid\x18\x01 \x01(\tR\x03sid\"B\n" +
+	"\x11GetServerResponse\x12-\n" +
+	"\x06server\x18\x01 \x01(\v2\x15.backend_admin.ServerR\x06server\"D\n" +
+	"\x13CreateServerRequest\x12-\n" +
+	"\x06server\x18\x01 \x01(\v2\x15.backend_admin.ServerR\x06server\"0\n" +
+	"\x14CreateServerResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"D\n" +
+	"\x13UpdateServerRequest\x12-\n" +
+	"\x06server\x18\x01 \x01(\v2\x15.backend_admin.ServerR\x06server\"0\n" +
+	"\x14UpdateServerResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"'\n" +
+	"\x13DeleteServerRequest\x12\x10\n" +
+	"\x03sid\x18\x01 \x01(\tR\x03sid\"0\n" +
+	"\x14DeleteServerResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess2\xc4\x03\n" +
+	"\x14ServerManagerService\x12Q\n" +
+	"\n" +
+	"GetServers\x12 .backend_admin.GetServersRequest\x1a!.backend_admin.GetServersResponse\x12N\n" +
+	"\tGetServer\x12\x1f.backend_admin.GetServerRequest\x1a .backend_admin.GetServerResponse\x12W\n" +
+	"\fCreateServer\x12\".backend_admin.CreateServerRequest\x1a#.backend_admin.CreateServerResponse\x12W\n" +
+	"\fUpdateServer\x12\".backend_admin.UpdateServerRequest\x1a#.backend_admin.UpdateServerResponse\x12W\n" +
+	"\fDeleteServer\x12\".backend_admin.DeleteServerRequest\x1a#.backend_admin.DeleteServerResponseB%Z#panelium/proto_gen_go/backend/adminb\x06proto3"
 
-var file_backend_admin_ServerManager_proto_goTypes = []any{}
+var (
+	file_backend_admin_ServerManager_proto_rawDescOnce sync.Once
+	file_backend_admin_ServerManager_proto_rawDescData []byte
+)
+
+func file_backend_admin_ServerManager_proto_rawDescGZIP() []byte {
+	file_backend_admin_ServerManager_proto_rawDescOnce.Do(func() {
+		file_backend_admin_ServerManager_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_backend_admin_ServerManager_proto_rawDesc), len(file_backend_admin_ServerManager_proto_rawDesc)))
+	})
+	return file_backend_admin_ServerManager_proto_rawDescData
+}
+
+var file_backend_admin_ServerManager_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_backend_admin_ServerManager_proto_goTypes = []any{
+	(*Server)(nil),                     // 0: backend_admin.Server
+	(*GetServersRequest)(nil),          // 1: backend_admin.GetServersRequest
+	(*GetServersResponse)(nil),         // 2: backend_admin.GetServersResponse
+	(*GetServerRequest)(nil),           // 3: backend_admin.GetServerRequest
+	(*GetServerResponse)(nil),          // 4: backend_admin.GetServerResponse
+	(*CreateServerRequest)(nil),        // 5: backend_admin.CreateServerRequest
+	(*CreateServerResponse)(nil),       // 6: backend_admin.CreateServerResponse
+	(*UpdateServerRequest)(nil),        // 7: backend_admin.UpdateServerRequest
+	(*UpdateServerResponse)(nil),       // 8: backend_admin.UpdateServerResponse
+	(*DeleteServerRequest)(nil),        // 9: backend_admin.DeleteServerRequest
+	(*DeleteServerResponse)(nil),       // 10: backend_admin.DeleteServerResponse
+	(*proto_gen_go.ResourceLimit)(nil), // 11: common.ResourceLimit
+	(*proto_gen_go.Pagination)(nil),    // 12: common.Pagination
+}
 var file_backend_admin_ServerManager_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	11, // 0: backend_admin.Server.resource_limit:type_name -> common.ResourceLimit
+	12, // 1: backend_admin.GetServersRequest.pagination:type_name -> common.Pagination
+	0,  // 2: backend_admin.GetServersResponse.servers:type_name -> backend_admin.Server
+	12, // 3: backend_admin.GetServersResponse.pagination:type_name -> common.Pagination
+	0,  // 4: backend_admin.GetServerResponse.server:type_name -> backend_admin.Server
+	0,  // 5: backend_admin.CreateServerRequest.server:type_name -> backend_admin.Server
+	0,  // 6: backend_admin.UpdateServerRequest.server:type_name -> backend_admin.Server
+	1,  // 7: backend_admin.ServerManagerService.GetServers:input_type -> backend_admin.GetServersRequest
+	3,  // 8: backend_admin.ServerManagerService.GetServer:input_type -> backend_admin.GetServerRequest
+	5,  // 9: backend_admin.ServerManagerService.CreateServer:input_type -> backend_admin.CreateServerRequest
+	7,  // 10: backend_admin.ServerManagerService.UpdateServer:input_type -> backend_admin.UpdateServerRequest
+	9,  // 11: backend_admin.ServerManagerService.DeleteServer:input_type -> backend_admin.DeleteServerRequest
+	2,  // 12: backend_admin.ServerManagerService.GetServers:output_type -> backend_admin.GetServersResponse
+	4,  // 13: backend_admin.ServerManagerService.GetServer:output_type -> backend_admin.GetServerResponse
+	6,  // 14: backend_admin.ServerManagerService.CreateServer:output_type -> backend_admin.CreateServerResponse
+	8,  // 15: backend_admin.ServerManagerService.UpdateServer:output_type -> backend_admin.UpdateServerResponse
+	10, // 16: backend_admin.ServerManagerService.DeleteServer:output_type -> backend_admin.DeleteServerResponse
+	12, // [12:17] is the sub-list for method output_type
+	7,  // [7:12] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_backend_admin_ServerManager_proto_init() }
@@ -41,18 +736,20 @@ func file_backend_admin_ServerManager_proto_init() {
 	if File_backend_admin_ServerManager_proto != nil {
 		return
 	}
+	file_backend_admin_ServerManager_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_backend_admin_ServerManager_proto_rawDesc), len(file_backend_admin_ServerManager_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   0,
+			NumMessages:   11,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_backend_admin_ServerManager_proto_goTypes,
 		DependencyIndexes: file_backend_admin_ServerManager_proto_depIdxs,
+		MessageInfos:      file_backend_admin_ServerManager_proto_msgTypes,
 	}.Build()
 	File_backend_admin_ServerManager_proto = out.File
 	file_backend_admin_ServerManager_proto_goTypes = nil

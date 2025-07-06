@@ -2,13 +2,308 @@
 // @generated from file backend/admin/NodeManager.proto (package backend_admin, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile } from "@bufbuild/protobuf/codegenv2";
-import { fileDesc } from "@bufbuild/protobuf/codegenv2";
+import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
+import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { Pagination } from "../../common_pb";
 import { file_common } from "../../common_pb";
+import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file backend/admin/NodeManager.proto.
  */
 export const file_backend_admin_NodeManager: GenFile = /*@__PURE__*/
-  fileDesc("Ch9iYWNrZW5kL2FkbWluL05vZGVNYW5hZ2VyLnByb3RvEg1iYWNrZW5kX2FkbWluQiVaI3BhbmVsaXVtL3Byb3RvX2dlbl9nby9iYWNrZW5kL2FkbWluYgZwcm90bzM", [file_common]);
+  fileDesc("Ch9iYWNrZW5kL2FkbWluL05vZGVNYW5hZ2VyLnByb3RvEg1iYWNrZW5kX2FkbWluIqkBCgROb2RlEgsKA25pZBgBIAEoCRIMCgRuYW1lGAIgASgJEgwKBGZxZG4YAyABKAkSEwoLZGFlbW9uX3BvcnQYBCABKA0SDQoFaHR0cHMYBSABKAgSCwoDbGlkGAYgASgJEg8KB21heF9jcHUYByABKA0SDwoHbWF4X3JhbRgIIAEoDRIQCghtYXhfc3dhcBgJIAEoDRITCgttYXhfc3RvcmFnZRgKIAEoDSJTCg9HZXROb2Rlc1JlcXVlc3QSJgoKcGFnaW5hdGlvbhgBIAEoCzISLmNvbW1vbi5QYWdpbmF0aW9uEhAKA2xpZBgCIAEoCUgAiAEBQgYKBF9saWQiXgoQR2V0Tm9kZXNSZXNwb25zZRIiCgVub2RlcxgBIAMoCzITLmJhY2tlbmRfYWRtaW4uTm9kZRImCgpwYWdpbmF0aW9uGAIgASgLMhIuY29tbW9uLlBhZ2luYXRpb24iHQoOR2V0Tm9kZVJlcXVlc3QSCwoDbmlkGAEgASgJIjQKD0dldE5vZGVSZXNwb25zZRIhCgRub2RlGAEgASgLMhMuYmFja2VuZF9hZG1pbi5Ob2RlIjYKEUNyZWF0ZU5vZGVSZXF1ZXN0EiEKBG5vZGUYASABKAsyEy5iYWNrZW5kX2FkbWluLk5vZGUiJQoSQ3JlYXRlTm9kZVJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgiNgoRVXBkYXRlTm9kZVJlcXVlc3QSIQoEbm9kZRgBIAEoCzITLmJhY2tlbmRfYWRtaW4uTm9kZSIlChJVcGRhdGVOb2RlUmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCCIgChFEZWxldGVOb2RlUmVxdWVzdBILCgNuaWQYASABKAkiJQoSRGVsZXRlTm9kZVJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgypAMKEk5vZGVNYW5hZ2VyU2VydmljZRJLCghHZXROb2RlcxIeLmJhY2tlbmRfYWRtaW4uR2V0Tm9kZXNSZXF1ZXN0Gh8uYmFja2VuZF9hZG1pbi5HZXROb2Rlc1Jlc3BvbnNlEkgKB0dldE5vZGUSHS5iYWNrZW5kX2FkbWluLkdldE5vZGVSZXF1ZXN0Gh4uYmFja2VuZF9hZG1pbi5HZXROb2RlUmVzcG9uc2USUQoKQ3JlYXRlTm9kZRIgLmJhY2tlbmRfYWRtaW4uQ3JlYXRlTm9kZVJlcXVlc3QaIS5iYWNrZW5kX2FkbWluLkNyZWF0ZU5vZGVSZXNwb25zZRJRCgpVcGRhdGVOb2RlEiAuYmFja2VuZF9hZG1pbi5VcGRhdGVOb2RlUmVxdWVzdBohLmJhY2tlbmRfYWRtaW4uVXBkYXRlTm9kZVJlc3BvbnNlElEKCkRlbGV0ZU5vZGUSIC5iYWNrZW5kX2FkbWluLkRlbGV0ZU5vZGVSZXF1ZXN0GiEuYmFja2VuZF9hZG1pbi5EZWxldGVOb2RlUmVzcG9uc2VCJVojcGFuZWxpdW0vcHJvdG9fZ2VuX2dvL2JhY2tlbmQvYWRtaW5iBnByb3RvMw", [file_common]);
+
+/**
+ * @generated from message backend_admin.Node
+ */
+export type Node = Message<"backend_admin.Node"> & {
+  /**
+   * ignored with Create
+   *
+   * @generated from field: string nid = 1;
+   */
+  nid: string;
+
+  /**
+   * @generated from field: string name = 2;
+   */
+  name: string;
+
+  /**
+   * @generated from field: string fqdn = 3;
+   */
+  fqdn: string;
+
+  /**
+   * @generated from field: uint32 daemon_port = 4;
+   */
+  daemonPort: number;
+
+  /**
+   * @generated from field: bool https = 5;
+   */
+  https: boolean;
+
+  /**
+   * @generated from field: string lid = 6;
+   */
+  lid: string;
+
+  /**
+   * @generated from field: uint32 max_cpu = 7;
+   */
+  maxCpu: number;
+
+  /**
+   * @generated from field: uint32 max_ram = 8;
+   */
+  maxRam: number;
+
+  /**
+   * @generated from field: uint32 max_swap = 9;
+   */
+  maxSwap: number;
+
+  /**
+   * @generated from field: uint32 max_storage = 10;
+   */
+  maxStorage: number;
+};
+
+/**
+ * Describes the message backend_admin.Node.
+ * Use `create(NodeSchema)` to create a new message.
+ */
+export const NodeSchema: GenMessage<Node> = /*@__PURE__*/
+  messageDesc(file_backend_admin_NodeManager, 0);
+
+/**
+ * @generated from message backend_admin.GetNodesRequest
+ */
+export type GetNodesRequest = Message<"backend_admin.GetNodesRequest"> & {
+  /**
+   * @generated from field: common.Pagination pagination = 1;
+   */
+  pagination?: Pagination;
+
+  /**
+   * filter by location ID
+   *
+   * @generated from field: optional string lid = 2;
+   */
+  lid?: string;
+};
+
+/**
+ * Describes the message backend_admin.GetNodesRequest.
+ * Use `create(GetNodesRequestSchema)` to create a new message.
+ */
+export const GetNodesRequestSchema: GenMessage<GetNodesRequest> = /*@__PURE__*/
+  messageDesc(file_backend_admin_NodeManager, 1);
+
+/**
+ * @generated from message backend_admin.GetNodesResponse
+ */
+export type GetNodesResponse = Message<"backend_admin.GetNodesResponse"> & {
+  /**
+   * @generated from field: repeated backend_admin.Node nodes = 1;
+   */
+  nodes: Node[];
+
+  /**
+   * @generated from field: common.Pagination pagination = 2;
+   */
+  pagination?: Pagination;
+};
+
+/**
+ * Describes the message backend_admin.GetNodesResponse.
+ * Use `create(GetNodesResponseSchema)` to create a new message.
+ */
+export const GetNodesResponseSchema: GenMessage<GetNodesResponse> = /*@__PURE__*/
+  messageDesc(file_backend_admin_NodeManager, 2);
+
+/**
+ * @generated from message backend_admin.GetNodeRequest
+ */
+export type GetNodeRequest = Message<"backend_admin.GetNodeRequest"> & {
+  /**
+   * @generated from field: string nid = 1;
+   */
+  nid: string;
+};
+
+/**
+ * Describes the message backend_admin.GetNodeRequest.
+ * Use `create(GetNodeRequestSchema)` to create a new message.
+ */
+export const GetNodeRequestSchema: GenMessage<GetNodeRequest> = /*@__PURE__*/
+  messageDesc(file_backend_admin_NodeManager, 3);
+
+/**
+ * @generated from message backend_admin.GetNodeResponse
+ */
+export type GetNodeResponse = Message<"backend_admin.GetNodeResponse"> & {
+  /**
+   * @generated from field: backend_admin.Node node = 1;
+   */
+  node?: Node;
+};
+
+/**
+ * Describes the message backend_admin.GetNodeResponse.
+ * Use `create(GetNodeResponseSchema)` to create a new message.
+ */
+export const GetNodeResponseSchema: GenMessage<GetNodeResponse> = /*@__PURE__*/
+  messageDesc(file_backend_admin_NodeManager, 4);
+
+/**
+ * @generated from message backend_admin.CreateNodeRequest
+ */
+export type CreateNodeRequest = Message<"backend_admin.CreateNodeRequest"> & {
+  /**
+   * @generated from field: backend_admin.Node node = 1;
+   */
+  node?: Node;
+};
+
+/**
+ * Describes the message backend_admin.CreateNodeRequest.
+ * Use `create(CreateNodeRequestSchema)` to create a new message.
+ */
+export const CreateNodeRequestSchema: GenMessage<CreateNodeRequest> = /*@__PURE__*/
+  messageDesc(file_backend_admin_NodeManager, 5);
+
+/**
+ * @generated from message backend_admin.CreateNodeResponse
+ */
+export type CreateNodeResponse = Message<"backend_admin.CreateNodeResponse"> & {
+  /**
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+};
+
+/**
+ * Describes the message backend_admin.CreateNodeResponse.
+ * Use `create(CreateNodeResponseSchema)` to create a new message.
+ */
+export const CreateNodeResponseSchema: GenMessage<CreateNodeResponse> = /*@__PURE__*/
+  messageDesc(file_backend_admin_NodeManager, 6);
+
+/**
+ * @generated from message backend_admin.UpdateNodeRequest
+ */
+export type UpdateNodeRequest = Message<"backend_admin.UpdateNodeRequest"> & {
+  /**
+   * @generated from field: backend_admin.Node node = 1;
+   */
+  node?: Node;
+};
+
+/**
+ * Describes the message backend_admin.UpdateNodeRequest.
+ * Use `create(UpdateNodeRequestSchema)` to create a new message.
+ */
+export const UpdateNodeRequestSchema: GenMessage<UpdateNodeRequest> = /*@__PURE__*/
+  messageDesc(file_backend_admin_NodeManager, 7);
+
+/**
+ * @generated from message backend_admin.UpdateNodeResponse
+ */
+export type UpdateNodeResponse = Message<"backend_admin.UpdateNodeResponse"> & {
+  /**
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+};
+
+/**
+ * Describes the message backend_admin.UpdateNodeResponse.
+ * Use `create(UpdateNodeResponseSchema)` to create a new message.
+ */
+export const UpdateNodeResponseSchema: GenMessage<UpdateNodeResponse> = /*@__PURE__*/
+  messageDesc(file_backend_admin_NodeManager, 8);
+
+/**
+ * @generated from message backend_admin.DeleteNodeRequest
+ */
+export type DeleteNodeRequest = Message<"backend_admin.DeleteNodeRequest"> & {
+  /**
+   * @generated from field: string nid = 1;
+   */
+  nid: string;
+};
+
+/**
+ * Describes the message backend_admin.DeleteNodeRequest.
+ * Use `create(DeleteNodeRequestSchema)` to create a new message.
+ */
+export const DeleteNodeRequestSchema: GenMessage<DeleteNodeRequest> = /*@__PURE__*/
+  messageDesc(file_backend_admin_NodeManager, 9);
+
+/**
+ * @generated from message backend_admin.DeleteNodeResponse
+ */
+export type DeleteNodeResponse = Message<"backend_admin.DeleteNodeResponse"> & {
+  /**
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+};
+
+/**
+ * Describes the message backend_admin.DeleteNodeResponse.
+ * Use `create(DeleteNodeResponseSchema)` to create a new message.
+ */
+export const DeleteNodeResponseSchema: GenMessage<DeleteNodeResponse> = /*@__PURE__*/
+  messageDesc(file_backend_admin_NodeManager, 10);
+
+/**
+ * @generated from service backend_admin.NodeManagerService
+ */
+export const NodeManagerService: GenService<{
+  /**
+   * @generated from rpc backend_admin.NodeManagerService.GetNodes
+   */
+  getNodes: {
+    methodKind: "unary";
+    input: typeof GetNodesRequestSchema;
+    output: typeof GetNodesResponseSchema;
+  },
+  /**
+   * @generated from rpc backend_admin.NodeManagerService.GetNode
+   */
+  getNode: {
+    methodKind: "unary";
+    input: typeof GetNodeRequestSchema;
+    output: typeof GetNodeResponseSchema;
+  },
+  /**
+   * @generated from rpc backend_admin.NodeManagerService.CreateNode
+   */
+  createNode: {
+    methodKind: "unary";
+    input: typeof CreateNodeRequestSchema;
+    output: typeof CreateNodeResponseSchema;
+  },
+  /**
+   * @generated from rpc backend_admin.NodeManagerService.UpdateNode
+   */
+  updateNode: {
+    methodKind: "unary";
+    input: typeof UpdateNodeRequestSchema;
+    output: typeof UpdateNodeResponseSchema;
+  },
+  /**
+   * @generated from rpc backend_admin.NodeManagerService.DeleteNode
+   */
+  deleteNode: {
+    methodKind: "unary";
+    input: typeof DeleteNodeRequestSchema;
+    output: typeof DeleteNodeResponseSchema;
+  },
+}> = /*@__PURE__*/
+  serviceDesc(file_backend_admin_NodeManager, 0);
 

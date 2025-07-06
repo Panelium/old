@@ -1,6 +1,418 @@
 openapi: 3.1.0
 info:
   title: backend_admin
-paths: {}
-components: {}
+paths:
+  /backend_admin.ServerManagerService/GetServers:
+    post:
+      tags:
+        - backend_admin.ServerManagerService
+      summary: GetServers
+      operationId: backend_admin.ServerManagerService.GetServers
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend_admin.GetServersRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend_admin.GetServersResponse'
+  /backend_admin.ServerManagerService/GetServer:
+    post:
+      tags:
+        - backend_admin.ServerManagerService
+      summary: GetServer
+      operationId: backend_admin.ServerManagerService.GetServer
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend_admin.GetServerRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend_admin.GetServerResponse'
+  /backend_admin.ServerManagerService/CreateServer:
+    post:
+      tags:
+        - backend_admin.ServerManagerService
+      summary: CreateServer
+      operationId: backend_admin.ServerManagerService.CreateServer
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend_admin.CreateServerRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend_admin.CreateServerResponse'
+  /backend_admin.ServerManagerService/UpdateServer:
+    post:
+      tags:
+        - backend_admin.ServerManagerService
+      summary: UpdateServer
+      operationId: backend_admin.ServerManagerService.UpdateServer
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend_admin.UpdateServerRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend_admin.UpdateServerResponse'
+  /backend_admin.ServerManagerService/DeleteServer:
+    post:
+      tags:
+        - backend_admin.ServerManagerService
+      summary: DeleteServer
+      operationId: backend_admin.ServerManagerService.DeleteServer
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend_admin.DeleteServerRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend_admin.DeleteServerResponse'
+components:
+  schemas:
+    backend_admin.CreateServerRequest:
+      type: object
+      properties:
+        server:
+          title: server
+          $ref: '#/components/schemas/backend_admin.Server'
+      title: CreateServerRequest
+      additionalProperties: false
+    backend_admin.CreateServerResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: CreateServerResponse
+      additionalProperties: false
+    backend_admin.DeleteServerRequest:
+      type: object
+      properties:
+        sid:
+          type: string
+          title: sid
+      title: DeleteServerRequest
+      additionalProperties: false
+    backend_admin.DeleteServerResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: DeleteServerResponse
+      additionalProperties: false
+    backend_admin.GetServerRequest:
+      type: object
+      properties:
+        sid:
+          type: string
+          title: sid
+      title: GetServerRequest
+      additionalProperties: false
+    backend_admin.GetServerResponse:
+      type: object
+      properties:
+        server:
+          title: server
+          $ref: '#/components/schemas/backend_admin.Server'
+      title: GetServerResponse
+      additionalProperties: false
+    backend_admin.GetServersRequest:
+      type: object
+      properties:
+        pagination:
+          title: pagination
+          $ref: '#/components/schemas/common.Pagination'
+        nid:
+          type: string
+          title: nid
+          description: filter by node ID
+          nullable: true
+        ownerUid:
+          type: string
+          title: owner_uid
+          description: filter by owner user ID
+          nullable: true
+        bid:
+          type: string
+          title: bid
+          description: filter by blueprint ID
+          nullable: true
+        accessUid:
+          type: string
+          title: access_uid
+          description: filter by user ID with access
+          nullable: true
+        uid:
+          type: string
+          title: uid
+          description: filter by user ID (either owner or with access)
+          nullable: true
+      title: GetServersRequest
+      additionalProperties: false
+    backend_admin.GetServersResponse:
+      type: object
+      properties:
+        servers:
+          type: array
+          items:
+            $ref: '#/components/schemas/backend_admin.Server'
+          title: servers
+        pagination:
+          title: pagination
+          $ref: '#/components/schemas/common.Pagination'
+      title: GetServersResponse
+      additionalProperties: false
+    backend_admin.Server:
+      type: object
+      properties:
+        sid:
+          type: string
+          title: sid
+          description: ignored with Create
+        name:
+          type: string
+          title: name
+        description:
+          type: string
+          title: description
+        ownerUid:
+          type: string
+          title: owner_uid
+        nid:
+          type: string
+          title: nid
+        uids:
+          type: array
+          items:
+            type: string
+          title: uids
+        resourceLimit:
+          title: resource_limit
+          $ref: '#/components/schemas/common.ResourceLimit'
+        dockerImage:
+          type: string
+          title: docker_image
+        bid:
+          type: string
+          title: bid
+      title: Server
+      additionalProperties: false
+    backend_admin.UpdateServerRequest:
+      type: object
+      properties:
+        server:
+          title: server
+          $ref: '#/components/schemas/backend_admin.Server'
+      title: UpdateServerRequest
+      additionalProperties: false
+    backend_admin.UpdateServerResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: UpdateServerResponse
+      additionalProperties: false
+    common.Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+          title: page
+        pageSize:
+          type: integer
+          title: page_size
+      title: Pagination
+      additionalProperties: false
+    common.ResourceLimit:
+      type: object
+      properties:
+        cpu:
+          type: integer
+          title: cpu
+          description: CPU in percentage (100% = 1 vCore)
+        ram:
+          type: integer
+          title: ram
+          description: RAM in MB
+        swap:
+          type: integer
+          title: swap
+          description: SWAP in MB
+        storage:
+          type: integer
+          title: storage
+          description: Storage in MB
+      title: ResourceLimit
+      additionalProperties: false
+    connect-protocol-version:
+      type: number
+      title: Connect-Protocol-Version
+      enum:
+        - 1
+      description: Define the version of the Connect protocol
+      const: 1
+    connect-timeout-header:
+      type: number
+      title: Connect-Timeout-Ms
+      description: Define the timeout, in ms
+    connect.error:
+      type: object
+      properties:
+        code:
+          type: string
+          examples:
+            - not_found
+          enum:
+            - canceled
+            - unknown
+            - invalid_argument
+            - deadline_exceeded
+            - not_found
+            - already_exists
+            - permission_denied
+            - resource_exhausted
+            - failed_precondition
+            - aborted
+            - out_of_range
+            - unimplemented
+            - internal
+            - unavailable
+            - data_loss
+            - unauthenticated
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        detail:
+          $ref: '#/components/schemas/google.protobuf.Any'
+      title: Connect Error
+      additionalProperties: true
+      description: 'Error type returned by Connect: https://connectrpc.com/docs/go/errors/#http-representation'
+    google.protobuf.Any:
+      type: object
+      properties:
+        type:
+          type: string
+        value:
+          type: string
+          format: binary
+        debug:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
 security: []
+tags:
+  - name: backend_admin.ServerManagerService

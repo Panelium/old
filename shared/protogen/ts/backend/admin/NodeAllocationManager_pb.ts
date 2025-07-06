@@ -2,13 +2,285 @@
 // @generated from file backend/admin/NodeAllocationManager.proto (package backend_admin, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile } from "@bufbuild/protobuf/codegenv2";
-import { fileDesc } from "@bufbuild/protobuf/codegenv2";
+import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
+import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { IPAllocation, Pagination } from "../../common_pb";
 import { file_common } from "../../common_pb";
+import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file backend/admin/NodeAllocationManager.proto.
  */
 export const file_backend_admin_NodeAllocationManager: GenFile = /*@__PURE__*/
-  fileDesc("CiliYWNrZW5kL2FkbWluL05vZGVBbGxvY2F0aW9uTWFuYWdlci5wcm90bxINYmFja2VuZF9hZG1pbkIlWiNwYW5lbGl1bS9wcm90b19nZW5fZ28vYmFja2VuZC9hZG1pbmIGcHJvdG8z", [file_common]);
+  fileDesc("CiliYWNrZW5kL2FkbWluL05vZGVBbGxvY2F0aW9uTWFuYWdlci5wcm90bxINYmFja2VuZF9hZG1pbiJwCg5Ob2RlQWxsb2NhdGlvbhIKCgJpZBgBIAEoDRILCgNuaWQYAiABKAkSEAoDc2lkGAMgASgJSACIAQESKwoNaXBfYWxsb2NhdGlvbhgEIAEoCzIULmNvbW1vbi5JUEFsbG9jYXRpb25CBgoEX3NpZCJ3ChlHZXROb2RlQWxsb2NhdGlvbnNSZXF1ZXN0EiYKCnBhZ2luYXRpb24YASABKAsyEi5jb21tb24uUGFnaW5hdGlvbhIQCgNuaWQYAiABKAlIAIgBARIQCgNzaWQYAyABKAlIAYgBAUIGCgRfbmlkQgYKBF9zaWQifQoaR2V0Tm9kZUFsbG9jYXRpb25zUmVzcG9uc2USNwoQbm9kZV9hbGxvY2F0aW9ucxgBIAMoCzIdLmJhY2tlbmRfYWRtaW4uTm9kZUFsbG9jYXRpb24SJgoKcGFnaW5hdGlvbhgCIAEoCzISLmNvbW1vbi5QYWdpbmF0aW9uIiYKGEdldE5vZGVBbGxvY2F0aW9uUmVxdWVzdBIKCgJpZBgBIAEoDSJTChlHZXROb2RlQWxsb2NhdGlvblJlc3BvbnNlEjYKD25vZGVfYWxsb2NhdGlvbhgBIAEoCzIdLmJhY2tlbmRfYWRtaW4uTm9kZUFsbG9jYXRpb24iVQobQ3JlYXRlTm9kZUFsbG9jYXRpb25SZXF1ZXN0EjYKD25vZGVfYWxsb2NhdGlvbhgBIAEoCzIdLmJhY2tlbmRfYWRtaW4uTm9kZUFsbG9jYXRpb24iLwocQ3JlYXRlTm9kZUFsbG9jYXRpb25SZXNwb25zZRIPCgdzdWNjZXNzGAEgASgIIlUKG1VwZGF0ZU5vZGVBbGxvY2F0aW9uUmVxdWVzdBI2Cg9ub2RlX2FsbG9jYXRpb24YASABKAsyHS5iYWNrZW5kX2FkbWluLk5vZGVBbGxvY2F0aW9uIi8KHFVwZGF0ZU5vZGVBbGxvY2F0aW9uUmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCCIpChtEZWxldGVOb2RlQWxsb2NhdGlvblJlcXVlc3QSCgoCaWQYASABKA0iLwocRGVsZXRlTm9kZUFsbG9jYXRpb25SZXNwb25zZRIPCgdzdWNjZXNzGAEgASgIMsQEChxOb2RlQWxsb2NhdGlvbk1hbmFnZXJTZXJ2aWNlEmkKEkdldE5vZGVBbGxvY2F0aW9ucxIoLmJhY2tlbmRfYWRtaW4uR2V0Tm9kZUFsbG9jYXRpb25zUmVxdWVzdBopLmJhY2tlbmRfYWRtaW4uR2V0Tm9kZUFsbG9jYXRpb25zUmVzcG9uc2USZgoRR2V0Tm9kZUFsbG9jYXRpb24SJy5iYWNrZW5kX2FkbWluLkdldE5vZGVBbGxvY2F0aW9uUmVxdWVzdBooLmJhY2tlbmRfYWRtaW4uR2V0Tm9kZUFsbG9jYXRpb25SZXNwb25zZRJvChRDcmVhdGVOb2RlQWxsb2NhdGlvbhIqLmJhY2tlbmRfYWRtaW4uQ3JlYXRlTm9kZUFsbG9jYXRpb25SZXF1ZXN0GisuYmFja2VuZF9hZG1pbi5DcmVhdGVOb2RlQWxsb2NhdGlvblJlc3BvbnNlEm8KFFVwZGF0ZU5vZGVBbGxvY2F0aW9uEiouYmFja2VuZF9hZG1pbi5VcGRhdGVOb2RlQWxsb2NhdGlvblJlcXVlc3QaKy5iYWNrZW5kX2FkbWluLlVwZGF0ZU5vZGVBbGxvY2F0aW9uUmVzcG9uc2USbwoURGVsZXRlTm9kZUFsbG9jYXRpb24SKi5iYWNrZW5kX2FkbWluLkRlbGV0ZU5vZGVBbGxvY2F0aW9uUmVxdWVzdBorLmJhY2tlbmRfYWRtaW4uRGVsZXRlTm9kZUFsbG9jYXRpb25SZXNwb25zZUIlWiNwYW5lbGl1bS9wcm90b19nZW5fZ28vYmFja2VuZC9hZG1pbmIGcHJvdG8z", [file_common]);
+
+/**
+ * @generated from message backend_admin.NodeAllocation
+ */
+export type NodeAllocation = Message<"backend_admin.NodeAllocation"> & {
+  /**
+   * ignored with Create
+   *
+   * @generated from field: uint32 id = 1;
+   */
+  id: number;
+
+  /**
+   * @generated from field: string nid = 2;
+   */
+  nid: string;
+
+  /**
+   * @generated from field: optional string sid = 3;
+   */
+  sid?: string;
+
+  /**
+   * @generated from field: common.IPAllocation ip_allocation = 4;
+   */
+  ipAllocation?: IPAllocation;
+};
+
+/**
+ * Describes the message backend_admin.NodeAllocation.
+ * Use `create(NodeAllocationSchema)` to create a new message.
+ */
+export const NodeAllocationSchema: GenMessage<NodeAllocation> = /*@__PURE__*/
+  messageDesc(file_backend_admin_NodeAllocationManager, 0);
+
+/**
+ * @generated from message backend_admin.GetNodeAllocationsRequest
+ */
+export type GetNodeAllocationsRequest = Message<"backend_admin.GetNodeAllocationsRequest"> & {
+  /**
+   * @generated from field: common.Pagination pagination = 1;
+   */
+  pagination?: Pagination;
+
+  /**
+   * filter by node ID
+   *
+   * @generated from field: optional string nid = 2;
+   */
+  nid?: string;
+
+  /**
+   * filter by server ID
+   *
+   * @generated from field: optional string sid = 3;
+   */
+  sid?: string;
+};
+
+/**
+ * Describes the message backend_admin.GetNodeAllocationsRequest.
+ * Use `create(GetNodeAllocationsRequestSchema)` to create a new message.
+ */
+export const GetNodeAllocationsRequestSchema: GenMessage<GetNodeAllocationsRequest> = /*@__PURE__*/
+  messageDesc(file_backend_admin_NodeAllocationManager, 1);
+
+/**
+ * @generated from message backend_admin.GetNodeAllocationsResponse
+ */
+export type GetNodeAllocationsResponse = Message<"backend_admin.GetNodeAllocationsResponse"> & {
+  /**
+   * @generated from field: repeated backend_admin.NodeAllocation node_allocations = 1;
+   */
+  nodeAllocations: NodeAllocation[];
+
+  /**
+   * @generated from field: common.Pagination pagination = 2;
+   */
+  pagination?: Pagination;
+};
+
+/**
+ * Describes the message backend_admin.GetNodeAllocationsResponse.
+ * Use `create(GetNodeAllocationsResponseSchema)` to create a new message.
+ */
+export const GetNodeAllocationsResponseSchema: GenMessage<GetNodeAllocationsResponse> = /*@__PURE__*/
+  messageDesc(file_backend_admin_NodeAllocationManager, 2);
+
+/**
+ * @generated from message backend_admin.GetNodeAllocationRequest
+ */
+export type GetNodeAllocationRequest = Message<"backend_admin.GetNodeAllocationRequest"> & {
+  /**
+   * @generated from field: uint32 id = 1;
+   */
+  id: number;
+};
+
+/**
+ * Describes the message backend_admin.GetNodeAllocationRequest.
+ * Use `create(GetNodeAllocationRequestSchema)` to create a new message.
+ */
+export const GetNodeAllocationRequestSchema: GenMessage<GetNodeAllocationRequest> = /*@__PURE__*/
+  messageDesc(file_backend_admin_NodeAllocationManager, 3);
+
+/**
+ * @generated from message backend_admin.GetNodeAllocationResponse
+ */
+export type GetNodeAllocationResponse = Message<"backend_admin.GetNodeAllocationResponse"> & {
+  /**
+   * @generated from field: backend_admin.NodeAllocation node_allocation = 1;
+   */
+  nodeAllocation?: NodeAllocation;
+};
+
+/**
+ * Describes the message backend_admin.GetNodeAllocationResponse.
+ * Use `create(GetNodeAllocationResponseSchema)` to create a new message.
+ */
+export const GetNodeAllocationResponseSchema: GenMessage<GetNodeAllocationResponse> = /*@__PURE__*/
+  messageDesc(file_backend_admin_NodeAllocationManager, 4);
+
+/**
+ * @generated from message backend_admin.CreateNodeAllocationRequest
+ */
+export type CreateNodeAllocationRequest = Message<"backend_admin.CreateNodeAllocationRequest"> & {
+  /**
+   * @generated from field: backend_admin.NodeAllocation node_allocation = 1;
+   */
+  nodeAllocation?: NodeAllocation;
+};
+
+/**
+ * Describes the message backend_admin.CreateNodeAllocationRequest.
+ * Use `create(CreateNodeAllocationRequestSchema)` to create a new message.
+ */
+export const CreateNodeAllocationRequestSchema: GenMessage<CreateNodeAllocationRequest> = /*@__PURE__*/
+  messageDesc(file_backend_admin_NodeAllocationManager, 5);
+
+/**
+ * @generated from message backend_admin.CreateNodeAllocationResponse
+ */
+export type CreateNodeAllocationResponse = Message<"backend_admin.CreateNodeAllocationResponse"> & {
+  /**
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+};
+
+/**
+ * Describes the message backend_admin.CreateNodeAllocationResponse.
+ * Use `create(CreateNodeAllocationResponseSchema)` to create a new message.
+ */
+export const CreateNodeAllocationResponseSchema: GenMessage<CreateNodeAllocationResponse> = /*@__PURE__*/
+  messageDesc(file_backend_admin_NodeAllocationManager, 6);
+
+/**
+ * @generated from message backend_admin.UpdateNodeAllocationRequest
+ */
+export type UpdateNodeAllocationRequest = Message<"backend_admin.UpdateNodeAllocationRequest"> & {
+  /**
+   * @generated from field: backend_admin.NodeAllocation node_allocation = 1;
+   */
+  nodeAllocation?: NodeAllocation;
+};
+
+/**
+ * Describes the message backend_admin.UpdateNodeAllocationRequest.
+ * Use `create(UpdateNodeAllocationRequestSchema)` to create a new message.
+ */
+export const UpdateNodeAllocationRequestSchema: GenMessage<UpdateNodeAllocationRequest> = /*@__PURE__*/
+  messageDesc(file_backend_admin_NodeAllocationManager, 7);
+
+/**
+ * @generated from message backend_admin.UpdateNodeAllocationResponse
+ */
+export type UpdateNodeAllocationResponse = Message<"backend_admin.UpdateNodeAllocationResponse"> & {
+  /**
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+};
+
+/**
+ * Describes the message backend_admin.UpdateNodeAllocationResponse.
+ * Use `create(UpdateNodeAllocationResponseSchema)` to create a new message.
+ */
+export const UpdateNodeAllocationResponseSchema: GenMessage<UpdateNodeAllocationResponse> = /*@__PURE__*/
+  messageDesc(file_backend_admin_NodeAllocationManager, 8);
+
+/**
+ * @generated from message backend_admin.DeleteNodeAllocationRequest
+ */
+export type DeleteNodeAllocationRequest = Message<"backend_admin.DeleteNodeAllocationRequest"> & {
+  /**
+   * @generated from field: uint32 id = 1;
+   */
+  id: number;
+};
+
+/**
+ * Describes the message backend_admin.DeleteNodeAllocationRequest.
+ * Use `create(DeleteNodeAllocationRequestSchema)` to create a new message.
+ */
+export const DeleteNodeAllocationRequestSchema: GenMessage<DeleteNodeAllocationRequest> = /*@__PURE__*/
+  messageDesc(file_backend_admin_NodeAllocationManager, 9);
+
+/**
+ * @generated from message backend_admin.DeleteNodeAllocationResponse
+ */
+export type DeleteNodeAllocationResponse = Message<"backend_admin.DeleteNodeAllocationResponse"> & {
+  /**
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+};
+
+/**
+ * Describes the message backend_admin.DeleteNodeAllocationResponse.
+ * Use `create(DeleteNodeAllocationResponseSchema)` to create a new message.
+ */
+export const DeleteNodeAllocationResponseSchema: GenMessage<DeleteNodeAllocationResponse> = /*@__PURE__*/
+  messageDesc(file_backend_admin_NodeAllocationManager, 10);
+
+/**
+ * @generated from service backend_admin.NodeAllocationManagerService
+ */
+export const NodeAllocationManagerService: GenService<{
+  /**
+   * @generated from rpc backend_admin.NodeAllocationManagerService.GetNodeAllocations
+   */
+  getNodeAllocations: {
+    methodKind: "unary";
+    input: typeof GetNodeAllocationsRequestSchema;
+    output: typeof GetNodeAllocationsResponseSchema;
+  },
+  /**
+   * @generated from rpc backend_admin.NodeAllocationManagerService.GetNodeAllocation
+   */
+  getNodeAllocation: {
+    methodKind: "unary";
+    input: typeof GetNodeAllocationRequestSchema;
+    output: typeof GetNodeAllocationResponseSchema;
+  },
+  /**
+   * @generated from rpc backend_admin.NodeAllocationManagerService.CreateNodeAllocation
+   */
+  createNodeAllocation: {
+    methodKind: "unary";
+    input: typeof CreateNodeAllocationRequestSchema;
+    output: typeof CreateNodeAllocationResponseSchema;
+  },
+  /**
+   * @generated from rpc backend_admin.NodeAllocationManagerService.UpdateNodeAllocation
+   */
+  updateNodeAllocation: {
+    methodKind: "unary";
+    input: typeof UpdateNodeAllocationRequestSchema;
+    output: typeof UpdateNodeAllocationResponseSchema;
+  },
+  /**
+   * @generated from rpc backend_admin.NodeAllocationManagerService.DeleteNodeAllocation
+   */
+  deleteNodeAllocation: {
+    methodKind: "unary";
+    input: typeof DeleteNodeAllocationRequestSchema;
+    output: typeof DeleteNodeAllocationResponseSchema;
+  },
+}> = /*@__PURE__*/
+  serviceDesc(file_backend_admin_NodeAllocationManager, 0);
 

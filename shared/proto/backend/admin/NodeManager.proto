@@ -4,3 +4,68 @@ package backend_admin;
 option go_package = "panelium/proto_gen_go/backend/admin";
 
 import "common.proto";
+
+service NodeManagerService {
+  rpc GetNodes(GetNodesRequest) returns (GetNodesResponse);
+  rpc GetNode(GetNodeRequest) returns (GetNodeResponse);
+  rpc CreateNode(CreateNodeRequest) returns (CreateNodeResponse);
+  rpc UpdateNode(UpdateNodeRequest) returns (UpdateNodeResponse);
+  rpc DeleteNode(DeleteNodeRequest) returns (DeleteNodeResponse);
+
+  // daemon connection thingy
+}
+
+message Node {
+  string nid = 1; // ignored with Create
+  string name = 2;
+  string fqdn = 3;
+  uint32 daemon_port = 4;
+  bool https = 5;
+  string lid = 6;
+  uint32 max_cpu = 7;
+  uint32 max_ram = 8;
+  uint32 max_swap = 9;
+  uint32 max_storage = 10;
+}
+
+message GetNodesRequest {
+  common.Pagination pagination = 1;
+  optional string lid = 2; // filter by location ID
+}
+
+message GetNodesResponse {
+  repeated Node nodes = 1;
+  common.Pagination pagination = 2;
+}
+
+message GetNodeRequest {
+  string nid = 1;
+}
+
+message GetNodeResponse {
+  Node node = 1;
+}
+
+message CreateNodeRequest {
+  Node node = 1;
+}
+
+message CreateNodeResponse {
+  bool success = 1;
+}
+
+message UpdateNodeRequest {
+  Node node = 1;
+}
+
+message UpdateNodeResponse {
+  bool success = 1;
+}
+
+message DeleteNodeRequest {
+  string nid = 1;
+}
+
+message DeleteNodeResponse {
+  bool success = 1;
+}

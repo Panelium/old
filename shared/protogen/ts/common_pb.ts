@@ -10,7 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file common.proto.
  */
 export const file_common: GenFile = /*@__PURE__*/
-  fileDesc("Cgxjb21tb24ucHJvdG8SBmNvbW1vbiIHCgVFbXB0eSIdCg9TaW1wbGVJRE1lc3NhZ2USCgoCaWQYASABKAkiJQoJSURNZXNzYWdlEgoKAmlkGAEgASgJEgwKBHRleHQYAiABKAkiHQoNU2ltcGxlTWVzc2FnZRIMCgR0ZXh0GAEgASgJIiEKDlN1Y2Nlc3NNZXNzYWdlEg8KB3N1Y2Nlc3MYASABKAgiSAoNUmVzb3VyY2VMaW1pdBILCgNjcHUYASABKA0SCwoDcmFtGAIgASgNEgwKBHN3YXAYAyABKA0SDwoHc3RvcmFnZRgEIAEoDSI6Cg1SZXNvdXJjZVVzYWdlEgsKA2NwdRgBIAEoAhILCgNyYW0YAiABKAISDwoHc3RvcmFnZRgDIAEoAiIoCgxJUEFsbG9jYXRpb24SCgoCaXAYASABKAkSDAoEcG9ydBgCIAEoDUIXWhVwYW5lbGl1bS9wcm90b19nZW5fZ29iBnByb3RvMw");
+  fileDesc("Cgxjb21tb24ucHJvdG8SBmNvbW1vbiIHCgVFbXB0eSIdCg9TaW1wbGVJRE1lc3NhZ2USCgoCaWQYASABKAkiJQoJSURNZXNzYWdlEgoKAmlkGAEgASgJEgwKBHRleHQYAiABKAkiHQoNU2ltcGxlTWVzc2FnZRIMCgR0ZXh0GAEgASgJIiEKDlN1Y2Nlc3NNZXNzYWdlEg8KB3N1Y2Nlc3MYASABKAgiLQoKUGFnaW5hdGlvbhIMCgRwYWdlGAEgASgNEhEKCXBhZ2Vfc2l6ZRgCIAEoDSJICg1SZXNvdXJjZUxpbWl0EgsKA2NwdRgBIAEoDRILCgNyYW0YAiABKA0SDAoEc3dhcBgDIAEoDRIPCgdzdG9yYWdlGAQgASgNIjoKDVJlc291cmNlVXNhZ2USCwoDY3B1GAEgASgCEgsKA3JhbRgCIAEoAhIPCgdzdG9yYWdlGAMgASgCIigKDElQQWxsb2NhdGlvbhIKCgJpcBgBIAEoCRIMCgRwb3J0GAIgASgNQhdaFXBhbmVsaXVtL3Byb3RvX2dlbl9nb2IGcHJvdG8z");
 
 /**
  * @generated from message common.Empty
@@ -99,6 +99,28 @@ export const SuccessMessageSchema: GenMessage<SuccessMessage> = /*@__PURE__*/
   messageDesc(file_common, 4);
 
 /**
+ * @generated from message common.Pagination
+ */
+export type Pagination = Message<"common.Pagination"> & {
+  /**
+   * @generated from field: uint32 page = 1;
+   */
+  page: number;
+
+  /**
+   * @generated from field: uint32 page_size = 2;
+   */
+  pageSize: number;
+};
+
+/**
+ * Describes the message common.Pagination.
+ * Use `create(PaginationSchema)` to create a new message.
+ */
+export const PaginationSchema: GenMessage<Pagination> = /*@__PURE__*/
+  messageDesc(file_common, 5);
+
+/**
  * @generated from message common.ResourceLimit
  */
 export type ResourceLimit = Message<"common.ResourceLimit"> & {
@@ -136,7 +158,7 @@ export type ResourceLimit = Message<"common.ResourceLimit"> & {
  * Use `create(ResourceLimitSchema)` to create a new message.
  */
 export const ResourceLimitSchema: GenMessage<ResourceLimit> = /*@__PURE__*/
-  messageDesc(file_common, 5);
+  messageDesc(file_common, 6);
 
 /**
  * @generated from message common.ResourceUsage
@@ -169,7 +191,7 @@ export type ResourceUsage = Message<"common.ResourceUsage"> & {
  * Use `create(ResourceUsageSchema)` to create a new message.
  */
 export const ResourceUsageSchema: GenMessage<ResourceUsage> = /*@__PURE__*/
-  messageDesc(file_common, 6);
+  messageDesc(file_common, 7);
 
 /**
  * @generated from message common.IPAllocation
@@ -193,5 +215,5 @@ export type IPAllocation = Message<"common.IPAllocation"> & {
  * Use `create(IPAllocationSchema)` to create a new message.
  */
 export const IPAllocationSchema: GenMessage<IPAllocation> = /*@__PURE__*/
-  messageDesc(file_common, 7);
+  messageDesc(file_common, 8);
 

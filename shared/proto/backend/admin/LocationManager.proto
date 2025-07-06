@@ -4,3 +4,57 @@ package backend_admin;
 option go_package = "panelium/proto_gen_go/backend/admin";
 
 import "common.proto";
+
+service LocationManagerService {
+  rpc GetLocations(GetLocationsRequest) returns (GetLocationsResponse);
+  rpc GetLocation(GetLocationRequest) returns (GetLocationResponse);
+  rpc CreateLocation(CreateLocationRequest) returns (CreateLocationResponse);
+  rpc UpdateLocation(UpdateLocationRequest) returns (UpdateLocationResponse);
+  rpc DeleteLocation(DeleteLocationRequest) returns (DeleteLocationResponse);
+}
+
+message Location {
+  string lid = 1; // ignored with Create
+  string name = 2;
+}
+
+message GetLocationsRequest {
+  common.Pagination pagination = 1;
+}
+
+message GetLocationsResponse {
+  repeated Location locations = 1;
+  common.Pagination pagination = 2;
+}
+
+message GetLocationRequest {
+  string lid = 1;
+}
+
+message GetLocationResponse {
+  Location location = 1;
+}
+
+message CreateLocationRequest {
+  Location location = 1;
+}
+
+message CreateLocationResponse {
+  bool success = 1;
+}
+
+message UpdateLocationRequest {
+  Location location = 1;
+}
+
+message UpdateLocationResponse {
+  bool success = 1;
+}
+
+message DeleteLocationRequest {
+  string lid = 1;
+}
+
+message DeleteLocationResponse {
+  bool success = 1;
+}

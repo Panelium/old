@@ -22,6 +22,11 @@ message SuccessMessage {
   bool success = 1;
 }
 
+message Pagination {
+  uint32 page = 1;
+  uint32 page_size = 2;
+}
+
 message ResourceLimit {
   uint32 cpu = 1;     // CPU in percentage (100% = 1 vCore)
   uint32 ram = 2;     // RAM in MB

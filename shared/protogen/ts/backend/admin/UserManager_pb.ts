@@ -2,13 +2,281 @@
 // @generated from file backend/admin/UserManager.proto (package backend_admin, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile } from "@bufbuild/protobuf/codegenv2";
-import { fileDesc } from "@bufbuild/protobuf/codegenv2";
+import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
+import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { Pagination } from "../../common_pb";
 import { file_common } from "../../common_pb";
+import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file backend/admin/UserManager.proto.
  */
 export const file_backend_admin_UserManager: GenFile = /*@__PURE__*/
-  fileDesc("Ch9iYWNrZW5kL2FkbWluL1VzZXJNYW5hZ2VyLnByb3RvEg1iYWNrZW5kX2FkbWluQiVaI3BhbmVsaXVtL3Byb3RvX2dlbl9nby9iYWNrZW5kL2FkbWluYgZwcm90bzM", [file_common]);
+  fileDesc("Ch9iYWNrZW5kL2FkbWluL1VzZXJNYW5hZ2VyLnByb3RvEg1iYWNrZW5kX2FkbWluIoMBCgRVc2VyEgsKA3VpZBgBIAEoCRIQCgh1c2VybmFtZRgCIAEoCRINCgVlbWFpbBgDIAEoCRINCgVhZG1pbhgEIAEoCRIZCgxzZXRfcGFzc3dvcmQYBSABKAlIAIgBARISCgptZmFfbmVlZGVkGAYgASgIQg8KDV9zZXRfcGFzc3dvcmQiOQoPR2V0VXNlcnNSZXF1ZXN0EiYKCnBhZ2luYXRpb24YASABKAsyEi5jb21tb24uUGFnaW5hdGlvbiJeChBHZXRVc2Vyc1Jlc3BvbnNlEiIKBXVzZXJzGAEgAygLMhMuYmFja2VuZF9hZG1pbi5Vc2VyEiYKCnBhZ2luYXRpb24YAiABKAsyEi5jb21tb24uUGFnaW5hdGlvbiIdCg5HZXRVc2VyUmVxdWVzdBILCgN1aWQYASABKAkiNAoPR2V0VXNlclJlc3BvbnNlEiEKBHVzZXIYASABKAsyEy5iYWNrZW5kX2FkbWluLlVzZXIiNgoRQ3JlYXRlVXNlclJlcXVlc3QSIQoEdXNlchgBIAEoCzITLmJhY2tlbmRfYWRtaW4uVXNlciIlChJDcmVhdGVVc2VyUmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCCI2ChFVcGRhdGVVc2VyUmVxdWVzdBIhCgR1c2VyGAEgASgLMhMuYmFja2VuZF9hZG1pbi5Vc2VyIiUKElVwZGF0ZVVzZXJSZXNwb25zZRIPCgdzdWNjZXNzGAEgASgIIiAKEURlbGV0ZVVzZXJSZXF1ZXN0EgsKA3VpZBgBIAEoCSIlChJEZWxldGVVc2VyUmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCDKkAwoSVXNlck1hbmFnZXJTZXJ2aWNlEksKCEdldFVzZXJzEh4uYmFja2VuZF9hZG1pbi5HZXRVc2Vyc1JlcXVlc3QaHy5iYWNrZW5kX2FkbWluLkdldFVzZXJzUmVzcG9uc2USSAoHR2V0VXNlchIdLmJhY2tlbmRfYWRtaW4uR2V0VXNlclJlcXVlc3QaHi5iYWNrZW5kX2FkbWluLkdldFVzZXJSZXNwb25zZRJRCgpDcmVhdGVVc2VyEiAuYmFja2VuZF9hZG1pbi5DcmVhdGVVc2VyUmVxdWVzdBohLmJhY2tlbmRfYWRtaW4uQ3JlYXRlVXNlclJlc3BvbnNlElEKClVwZGF0ZVVzZXISIC5iYWNrZW5kX2FkbWluLlVwZGF0ZVVzZXJSZXF1ZXN0GiEuYmFja2VuZF9hZG1pbi5VcGRhdGVVc2VyUmVzcG9uc2USUQoKRGVsZXRlVXNlchIgLmJhY2tlbmRfYWRtaW4uRGVsZXRlVXNlclJlcXVlc3QaIS5iYWNrZW5kX2FkbWluLkRlbGV0ZVVzZXJSZXNwb25zZUIlWiNwYW5lbGl1bS9wcm90b19nZW5fZ28vYmFja2VuZC9hZG1pbmIGcHJvdG8z", [file_common]);
+
+/**
+ * @generated from message backend_admin.User
+ */
+export type User = Message<"backend_admin.User"> & {
+  /**
+   * ignored with Create
+   *
+   * @generated from field: string uid = 1;
+   */
+  uid: string;
+
+  /**
+   * @generated from field: string username = 2;
+   */
+  username: string;
+
+  /**
+   * @generated from field: string email = 3;
+   */
+  email: string;
+
+  /**
+   * @generated from field: string admin = 4;
+   */
+  admin: string;
+
+  /**
+   * @generated from field: optional string set_password = 5;
+   */
+  setPassword?: string;
+
+  /**
+   * @generated from field: bool mfa_needed = 6;
+   */
+  mfaNeeded: boolean;
+};
+
+/**
+ * Describes the message backend_admin.User.
+ * Use `create(UserSchema)` to create a new message.
+ */
+export const UserSchema: GenMessage<User> = /*@__PURE__*/
+  messageDesc(file_backend_admin_UserManager, 0);
+
+/**
+ * @generated from message backend_admin.GetUsersRequest
+ */
+export type GetUsersRequest = Message<"backend_admin.GetUsersRequest"> & {
+  /**
+   * @generated from field: common.Pagination pagination = 1;
+   */
+  pagination?: Pagination;
+};
+
+/**
+ * Describes the message backend_admin.GetUsersRequest.
+ * Use `create(GetUsersRequestSchema)` to create a new message.
+ */
+export const GetUsersRequestSchema: GenMessage<GetUsersRequest> = /*@__PURE__*/
+  messageDesc(file_backend_admin_UserManager, 1);
+
+/**
+ * @generated from message backend_admin.GetUsersResponse
+ */
+export type GetUsersResponse = Message<"backend_admin.GetUsersResponse"> & {
+  /**
+   * @generated from field: repeated backend_admin.User users = 1;
+   */
+  users: User[];
+
+  /**
+   * @generated from field: common.Pagination pagination = 2;
+   */
+  pagination?: Pagination;
+};
+
+/**
+ * Describes the message backend_admin.GetUsersResponse.
+ * Use `create(GetUsersResponseSchema)` to create a new message.
+ */
+export const GetUsersResponseSchema: GenMessage<GetUsersResponse> = /*@__PURE__*/
+  messageDesc(file_backend_admin_UserManager, 2);
+
+/**
+ * @generated from message backend_admin.GetUserRequest
+ */
+export type GetUserRequest = Message<"backend_admin.GetUserRequest"> & {
+  /**
+   * @generated from field: string uid = 1;
+   */
+  uid: string;
+};
+
+/**
+ * Describes the message backend_admin.GetUserRequest.
+ * Use `create(GetUserRequestSchema)` to create a new message.
+ */
+export const GetUserRequestSchema: GenMessage<GetUserRequest> = /*@__PURE__*/
+  messageDesc(file_backend_admin_UserManager, 3);
+
+/**
+ * @generated from message backend_admin.GetUserResponse
+ */
+export type GetUserResponse = Message<"backend_admin.GetUserResponse"> & {
+  /**
+   * @generated from field: backend_admin.User user = 1;
+   */
+  user?: User;
+};
+
+/**
+ * Describes the message backend_admin.GetUserResponse.
+ * Use `create(GetUserResponseSchema)` to create a new message.
+ */
+export const GetUserResponseSchema: GenMessage<GetUserResponse> = /*@__PURE__*/
+  messageDesc(file_backend_admin_UserManager, 4);
+
+/**
+ * @generated from message backend_admin.CreateUserRequest
+ */
+export type CreateUserRequest = Message<"backend_admin.CreateUserRequest"> & {
+  /**
+   * @generated from field: backend_admin.User user = 1;
+   */
+  user?: User;
+};
+
+/**
+ * Describes the message backend_admin.CreateUserRequest.
+ * Use `create(CreateUserRequestSchema)` to create a new message.
+ */
+export const CreateUserRequestSchema: GenMessage<CreateUserRequest> = /*@__PURE__*/
+  messageDesc(file_backend_admin_UserManager, 5);
+
+/**
+ * @generated from message backend_admin.CreateUserResponse
+ */
+export type CreateUserResponse = Message<"backend_admin.CreateUserResponse"> & {
+  /**
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+};
+
+/**
+ * Describes the message backend_admin.CreateUserResponse.
+ * Use `create(CreateUserResponseSchema)` to create a new message.
+ */
+export const CreateUserResponseSchema: GenMessage<CreateUserResponse> = /*@__PURE__*/
+  messageDesc(file_backend_admin_UserManager, 6);
+
+/**
+ * @generated from message backend_admin.UpdateUserRequest
+ */
+export type UpdateUserRequest = Message<"backend_admin.UpdateUserRequest"> & {
+  /**
+   * @generated from field: backend_admin.User user = 1;
+   */
+  user?: User;
+};
+
+/**
+ * Describes the message backend_admin.UpdateUserRequest.
+ * Use `create(UpdateUserRequestSchema)` to create a new message.
+ */
+export const UpdateUserRequestSchema: GenMessage<UpdateUserRequest> = /*@__PURE__*/
+  messageDesc(file_backend_admin_UserManager, 7);
+
+/**
+ * @generated from message backend_admin.UpdateUserResponse
+ */
+export type UpdateUserResponse = Message<"backend_admin.UpdateUserResponse"> & {
+  /**
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+};
+
+/**
+ * Describes the message backend_admin.UpdateUserResponse.
+ * Use `create(UpdateUserResponseSchema)` to create a new message.
+ */
+export const UpdateUserResponseSchema: GenMessage<UpdateUserResponse> = /*@__PURE__*/
+  messageDesc(file_backend_admin_UserManager, 8);
+
+/**
+ * @generated from message backend_admin.DeleteUserRequest
+ */
+export type DeleteUserRequest = Message<"backend_admin.DeleteUserRequest"> & {
+  /**
+   * @generated from field: string uid = 1;
+   */
+  uid: string;
+};
+
+/**
+ * Describes the message backend_admin.DeleteUserRequest.
+ * Use `create(DeleteUserRequestSchema)` to create a new message.
+ */
+export const DeleteUserRequestSchema: GenMessage<DeleteUserRequest> = /*@__PURE__*/
+  messageDesc(file_backend_admin_UserManager, 9);
+
+/**
+ * @generated from message backend_admin.DeleteUserResponse
+ */
+export type DeleteUserResponse = Message<"backend_admin.DeleteUserResponse"> & {
+  /**
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+};
+
+/**
+ * Describes the message backend_admin.DeleteUserResponse.
+ * Use `create(DeleteUserResponseSchema)` to create a new message.
+ */
+export const DeleteUserResponseSchema: GenMessage<DeleteUserResponse> = /*@__PURE__*/
+  messageDesc(file_backend_admin_UserManager, 10);
+
+/**
+ * @generated from service backend_admin.UserManagerService
+ */
+export const UserManagerService: GenService<{
+  /**
+   * @generated from rpc backend_admin.UserManagerService.GetUsers
+   */
+  getUsers: {
+    methodKind: "unary";
+    input: typeof GetUsersRequestSchema;
+    output: typeof GetUsersResponseSchema;
+  },
+  /**
+   * @generated from rpc backend_admin.UserManagerService.GetUser
+   */
+  getUser: {
+    methodKind: "unary";
+    input: typeof GetUserRequestSchema;
+    output: typeof GetUserResponseSchema;
+  },
+  /**
+   * @generated from rpc backend_admin.UserManagerService.CreateUser
+   */
+  createUser: {
+    methodKind: "unary";
+    input: typeof CreateUserRequestSchema;
+    output: typeof CreateUserResponseSchema;
+  },
+  /**
+   * @generated from rpc backend_admin.UserManagerService.UpdateUser
+   */
+  updateUser: {
+    methodKind: "unary";
+    input: typeof UpdateUserRequestSchema;
+    output: typeof UpdateUserResponseSchema;
+  },
+  /**
+   * @generated from rpc backend_admin.UserManagerService.DeleteUser
+   */
+  deleteUser: {
+    methodKind: "unary";
+    input: typeof DeleteUserRequestSchema;
+    output: typeof DeleteUserResponseSchema;
+  },
+}> = /*@__PURE__*/
+  serviceDesc(file_backend_admin_UserManager, 0);
 

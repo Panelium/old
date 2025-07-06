@@ -2,13 +2,412 @@
 // @generated from file backend/admin/BlueprintManager.proto (package backend_admin, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile } from "@bufbuild/protobuf/codegenv2";
-import { fileDesc } from "@bufbuild/protobuf/codegenv2";
+import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
+import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { Pagination } from "../../common_pb";
 import { file_common } from "../../common_pb";
+import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file backend/admin/BlueprintManager.proto.
  */
 export const file_backend_admin_BlueprintManager: GenFile = /*@__PURE__*/
-  fileDesc("CiRiYWNrZW5kL2FkbWluL0JsdWVwcmludE1hbmFnZXIucHJvdG8SDWJhY2tlbmRfYWRtaW5CJVojcGFuZWxpdW0vcHJvdG9fZ2VuX2dvL2JhY2tlbmQvYWRtaW5iBnByb3RvMw", [file_common]);
+  fileDesc("CiRiYWNrZW5kL2FkbWluL0JsdWVwcmludE1hbmFnZXIucHJvdG8SDWJhY2tlbmRfYWRtaW4iKgoLRG9ja2VySW1hZ2USDAoEbmFtZRgBIAEoCRINCgVpbWFnZRgCIAEoCSI+CgtCbG9ja2VkRmlsZRIMCgRmaWxlGAEgASgJEg8KB3Zpc2libGUYAiABKAgSEAoIcmVhZGFibGUYAyABKAgivAMKCUJsdWVwcmludBIWCg5mb3JtYXRfdmVyc2lvbhgBIAEoDRILCgNiaWQYAiABKAkSDwoHdmVyc2lvbhgDIAEoDRISCgp1cGRhdGVfdXJsGAQgASgJEgwKBG5hbWUYBSABKAkSEwoLZGVzY3JpcHRpb24YBiABKAkSEAoIY2F0ZWdvcnkYByABKAkSDAoEaWNvbhgIIAEoCRIOCgZiYW5uZXIYCSABKAkSDQoFZmxhZ3MYCiADKAkSMQoNZG9ja2VyX2ltYWdlcxgLIAMoCzIaLmJhY2tlbmRfYWRtaW4uRG9ja2VySW1hZ2USMQoNYmxvY2tlZF9maWxlcxgMIAMoCzIaLmJhY2tlbmRfYWRtaW4uQmxvY2tlZEZpbGUSFQoNc2VydmVyX2JpbmFyeRgNIAEoCRIVCg1zdGFydF9jb21tYW5kGA4gASgJEhQKDHN0b3BfY29tbWFuZBgPIAEoCRIbChNzZXR1cF9zY3JpcHRfYmFzZTY0GBAgASgJEhoKEnNldHVwX2RvY2tlcl9pbWFnZRgRIAEoCRIgChhzZXR1cF9zY3JpcHRfaW50ZXJwcmV0ZXIYEiABKAkiPgoUR2V0Qmx1ZXByaW50c1JlcXVlc3QSJgoKcGFnaW5hdGlvbhgBIAEoCzISLmNvbW1vbi5QYWdpbmF0aW9uIm0KFUdldEJsdWVwcmludHNSZXNwb25zZRIsCgpibHVlcHJpbnRzGAEgAygLMhguYmFja2VuZF9hZG1pbi5CbHVlcHJpbnQSJgoKcGFnaW5hdGlvbhgCIAEoCzISLmNvbW1vbi5QYWdpbmF0aW9uIiIKE0dldEJsdWVwcmludFJlcXVlc3QSCwoDYmlkGAEgASgJIkMKFEdldEJsdWVwcmludFJlc3BvbnNlEisKCWJsdWVwcmludBgBIAEoCzIYLmJhY2tlbmRfYWRtaW4uQmx1ZXByaW50InUKFkNyZWF0ZUJsdWVwcmludFJlcXVlc3QSLQoJYmx1ZXByaW50GAEgASgLMhguYmFja2VuZF9hZG1pbi5CbHVlcHJpbnRIABIXCg1ibHVlcHJpbnRKc29uGAIgASgJSABCEwoRYmx1ZXByaW50X29yX2pzb24iKgoXQ3JlYXRlQmx1ZXByaW50UmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCCJ1ChZVcGRhdGVCbHVlcHJpbnRSZXF1ZXN0Ei0KCWJsdWVwcmludBgBIAEoCzIYLmJhY2tlbmRfYWRtaW4uQmx1ZXByaW50SAASFwoNYmx1ZXByaW50SnNvbhgCIAEoCUgAQhMKEWJsdWVwcmludF9vcl9qc29uIioKF1VwZGF0ZUJsdWVwcmludFJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgiJQoWRGVsZXRlQmx1ZXByaW50UmVxdWVzdBILCgNiaWQYASABKAkiKgoXRGVsZXRlQmx1ZXByaW50UmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCDL0AwoXQmx1ZXByaW50TWFuYWdlclNlcnZpY2USWgoNR2V0Qmx1ZXByaW50cxIjLmJhY2tlbmRfYWRtaW4uR2V0Qmx1ZXByaW50c1JlcXVlc3QaJC5iYWNrZW5kX2FkbWluLkdldEJsdWVwcmludHNSZXNwb25zZRJXCgxHZXRCbHVlcHJpbnQSIi5iYWNrZW5kX2FkbWluLkdldEJsdWVwcmludFJlcXVlc3QaIy5iYWNrZW5kX2FkbWluLkdldEJsdWVwcmludFJlc3BvbnNlEmAKD0NyZWF0ZUJsdWVwcmludBIlLmJhY2tlbmRfYWRtaW4uQ3JlYXRlQmx1ZXByaW50UmVxdWVzdBomLmJhY2tlbmRfYWRtaW4uQ3JlYXRlQmx1ZXByaW50UmVzcG9uc2USYAoPVXBkYXRlQmx1ZXByaW50EiUuYmFja2VuZF9hZG1pbi5VcGRhdGVCbHVlcHJpbnRSZXF1ZXN0GiYuYmFja2VuZF9hZG1pbi5VcGRhdGVCbHVlcHJpbnRSZXNwb25zZRJgCg9EZWxldGVCbHVlcHJpbnQSJS5iYWNrZW5kX2FkbWluLkRlbGV0ZUJsdWVwcmludFJlcXVlc3QaJi5iYWNrZW5kX2FkbWluLkRlbGV0ZUJsdWVwcmludFJlc3BvbnNlQiVaI3BhbmVsaXVtL3Byb3RvX2dlbl9nby9iYWNrZW5kL2FkbWluYgZwcm90bzM", [file_common]);
+
+/**
+ * @generated from message backend_admin.DockerImage
+ */
+export type DockerImage = Message<"backend_admin.DockerImage"> & {
+  /**
+   * @generated from field: string name = 1;
+   */
+  name: string;
+
+  /**
+   * @generated from field: string image = 2;
+   */
+  image: string;
+};
+
+/**
+ * Describes the message backend_admin.DockerImage.
+ * Use `create(DockerImageSchema)` to create a new message.
+ */
+export const DockerImageSchema: GenMessage<DockerImage> = /*@__PURE__*/
+  messageDesc(file_backend_admin_BlueprintManager, 0);
+
+/**
+ * @generated from message backend_admin.BlockedFile
+ */
+export type BlockedFile = Message<"backend_admin.BlockedFile"> & {
+  /**
+   * @generated from field: string file = 1;
+   */
+  file: string;
+
+  /**
+   * @generated from field: bool visible = 2;
+   */
+  visible: boolean;
+
+  /**
+   * @generated from field: bool readable = 3;
+   */
+  readable: boolean;
+};
+
+/**
+ * Describes the message backend_admin.BlockedFile.
+ * Use `create(BlockedFileSchema)` to create a new message.
+ */
+export const BlockedFileSchema: GenMessage<BlockedFile> = /*@__PURE__*/
+  messageDesc(file_backend_admin_BlueprintManager, 1);
+
+/**
+ * @generated from message backend_admin.Blueprint
+ */
+export type Blueprint = Message<"backend_admin.Blueprint"> & {
+  /**
+   * @generated from field: uint32 format_version = 1;
+   */
+  formatVersion: number;
+
+  /**
+   * @generated from field: string bid = 2;
+   */
+  bid: string;
+
+  /**
+   * @generated from field: uint32 version = 3;
+   */
+  version: number;
+
+  /**
+   * @generated from field: string update_url = 4;
+   */
+  updateUrl: string;
+
+  /**
+   * @generated from field: string name = 5;
+   */
+  name: string;
+
+  /**
+   * @generated from field: string description = 6;
+   */
+  description: string;
+
+  /**
+   * @generated from field: string category = 7;
+   */
+  category: string;
+
+  /**
+   * @generated from field: string icon = 8;
+   */
+  icon: string;
+
+  /**
+   * @generated from field: string banner = 9;
+   */
+  banner: string;
+
+  /**
+   * @generated from field: repeated string flags = 10;
+   */
+  flags: string[];
+
+  /**
+   * @generated from field: repeated backend_admin.DockerImage docker_images = 11;
+   */
+  dockerImages: DockerImage[];
+
+  /**
+   * @generated from field: repeated backend_admin.BlockedFile blocked_files = 12;
+   */
+  blockedFiles: BlockedFile[];
+
+  /**
+   * @generated from field: string server_binary = 13;
+   */
+  serverBinary: string;
+
+  /**
+   * @generated from field: string start_command = 14;
+   */
+  startCommand: string;
+
+  /**
+   * @generated from field: string stop_command = 15;
+   */
+  stopCommand: string;
+
+  /**
+   * @generated from field: string setup_script_base64 = 16;
+   */
+  setupScriptBase64: string;
+
+  /**
+   * @generated from field: string setup_docker_image = 17;
+   */
+  setupDockerImage: string;
+
+  /**
+   * @generated from field: string setup_script_interpreter = 18;
+   */
+  setupScriptInterpreter: string;
+};
+
+/**
+ * Describes the message backend_admin.Blueprint.
+ * Use `create(BlueprintSchema)` to create a new message.
+ */
+export const BlueprintSchema: GenMessage<Blueprint> = /*@__PURE__*/
+  messageDesc(file_backend_admin_BlueprintManager, 2);
+
+/**
+ * @generated from message backend_admin.GetBlueprintsRequest
+ */
+export type GetBlueprintsRequest = Message<"backend_admin.GetBlueprintsRequest"> & {
+  /**
+   * @generated from field: common.Pagination pagination = 1;
+   */
+  pagination?: Pagination;
+};
+
+/**
+ * Describes the message backend_admin.GetBlueprintsRequest.
+ * Use `create(GetBlueprintsRequestSchema)` to create a new message.
+ */
+export const GetBlueprintsRequestSchema: GenMessage<GetBlueprintsRequest> = /*@__PURE__*/
+  messageDesc(file_backend_admin_BlueprintManager, 3);
+
+/**
+ * @generated from message backend_admin.GetBlueprintsResponse
+ */
+export type GetBlueprintsResponse = Message<"backend_admin.GetBlueprintsResponse"> & {
+  /**
+   * @generated from field: repeated backend_admin.Blueprint blueprints = 1;
+   */
+  blueprints: Blueprint[];
+
+  /**
+   * @generated from field: common.Pagination pagination = 2;
+   */
+  pagination?: Pagination;
+};
+
+/**
+ * Describes the message backend_admin.GetBlueprintsResponse.
+ * Use `create(GetBlueprintsResponseSchema)` to create a new message.
+ */
+export const GetBlueprintsResponseSchema: GenMessage<GetBlueprintsResponse> = /*@__PURE__*/
+  messageDesc(file_backend_admin_BlueprintManager, 4);
+
+/**
+ * @generated from message backend_admin.GetBlueprintRequest
+ */
+export type GetBlueprintRequest = Message<"backend_admin.GetBlueprintRequest"> & {
+  /**
+   * @generated from field: string bid = 1;
+   */
+  bid: string;
+};
+
+/**
+ * Describes the message backend_admin.GetBlueprintRequest.
+ * Use `create(GetBlueprintRequestSchema)` to create a new message.
+ */
+export const GetBlueprintRequestSchema: GenMessage<GetBlueprintRequest> = /*@__PURE__*/
+  messageDesc(file_backend_admin_BlueprintManager, 5);
+
+/**
+ * @generated from message backend_admin.GetBlueprintResponse
+ */
+export type GetBlueprintResponse = Message<"backend_admin.GetBlueprintResponse"> & {
+  /**
+   * @generated from field: backend_admin.Blueprint blueprint = 1;
+   */
+  blueprint?: Blueprint;
+};
+
+/**
+ * Describes the message backend_admin.GetBlueprintResponse.
+ * Use `create(GetBlueprintResponseSchema)` to create a new message.
+ */
+export const GetBlueprintResponseSchema: GenMessage<GetBlueprintResponse> = /*@__PURE__*/
+  messageDesc(file_backend_admin_BlueprintManager, 6);
+
+/**
+ * @generated from message backend_admin.CreateBlueprintRequest
+ */
+export type CreateBlueprintRequest = Message<"backend_admin.CreateBlueprintRequest"> & {
+  /**
+   * @generated from oneof backend_admin.CreateBlueprintRequest.blueprint_or_json
+   */
+  blueprintOrJson: {
+    /**
+     * @generated from field: backend_admin.Blueprint blueprint = 1;
+     */
+    value: Blueprint;
+    case: "blueprint";
+  } | {
+    /**
+     * @generated from field: string blueprintJson = 2;
+     */
+    value: string;
+    case: "blueprintJson";
+  } | { case: undefined; value?: undefined };
+};
+
+/**
+ * Describes the message backend_admin.CreateBlueprintRequest.
+ * Use `create(CreateBlueprintRequestSchema)` to create a new message.
+ */
+export const CreateBlueprintRequestSchema: GenMessage<CreateBlueprintRequest> = /*@__PURE__*/
+  messageDesc(file_backend_admin_BlueprintManager, 7);
+
+/**
+ * @generated from message backend_admin.CreateBlueprintResponse
+ */
+export type CreateBlueprintResponse = Message<"backend_admin.CreateBlueprintResponse"> & {
+  /**
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+};
+
+/**
+ * Describes the message backend_admin.CreateBlueprintResponse.
+ * Use `create(CreateBlueprintResponseSchema)` to create a new message.
+ */
+export const CreateBlueprintResponseSchema: GenMessage<CreateBlueprintResponse> = /*@__PURE__*/
+  messageDesc(file_backend_admin_BlueprintManager, 8);
+
+/**
+ * @generated from message backend_admin.UpdateBlueprintRequest
+ */
+export type UpdateBlueprintRequest = Message<"backend_admin.UpdateBlueprintRequest"> & {
+  /**
+   * @generated from oneof backend_admin.UpdateBlueprintRequest.blueprint_or_json
+   */
+  blueprintOrJson: {
+    /**
+     * @generated from field: backend_admin.Blueprint blueprint = 1;
+     */
+    value: Blueprint;
+    case: "blueprint";
+  } | {
+    /**
+     * @generated from field: string blueprintJson = 2;
+     */
+    value: string;
+    case: "blueprintJson";
+  } | { case: undefined; value?: undefined };
+};
+
+/**
+ * Describes the message backend_admin.UpdateBlueprintRequest.
+ * Use `create(UpdateBlueprintRequestSchema)` to create a new message.
+ */
+export const UpdateBlueprintRequestSchema: GenMessage<UpdateBlueprintRequest> = /*@__PURE__*/
+  messageDesc(file_backend_admin_BlueprintManager, 9);
+
+/**
+ * @generated from message backend_admin.UpdateBlueprintResponse
+ */
+export type UpdateBlueprintResponse = Message<"backend_admin.UpdateBlueprintResponse"> & {
+  /**
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+};
+
+/**
+ * Describes the message backend_admin.UpdateBlueprintResponse.
+ * Use `create(UpdateBlueprintResponseSchema)` to create a new message.
+ */
+export const UpdateBlueprintResponseSchema: GenMessage<UpdateBlueprintResponse> = /*@__PURE__*/
+  messageDesc(file_backend_admin_BlueprintManager, 10);
+
+/**
+ * @generated from message backend_admin.DeleteBlueprintRequest
+ */
+export type DeleteBlueprintRequest = Message<"backend_admin.DeleteBlueprintRequest"> & {
+  /**
+   * @generated from field: string bid = 1;
+   */
+  bid: string;
+};
+
+/**
+ * Describes the message backend_admin.DeleteBlueprintRequest.
+ * Use `create(DeleteBlueprintRequestSchema)` to create a new message.
+ */
+export const DeleteBlueprintRequestSchema: GenMessage<DeleteBlueprintRequest> = /*@__PURE__*/
+  messageDesc(file_backend_admin_BlueprintManager, 11);
+
+/**
+ * @generated from message backend_admin.DeleteBlueprintResponse
+ */
+export type DeleteBlueprintResponse = Message<"backend_admin.DeleteBlueprintResponse"> & {
+  /**
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+};
+
+/**
+ * Describes the message backend_admin.DeleteBlueprintResponse.
+ * Use `create(DeleteBlueprintResponseSchema)` to create a new message.
+ */
+export const DeleteBlueprintResponseSchema: GenMessage<DeleteBlueprintResponse> = /*@__PURE__*/
+  messageDesc(file_backend_admin_BlueprintManager, 12);
+
+/**
+ * @generated from service backend_admin.BlueprintManagerService
+ */
+export const BlueprintManagerService: GenService<{
+  /**
+   * @generated from rpc backend_admin.BlueprintManagerService.GetBlueprints
+   */
+  getBlueprints: {
+    methodKind: "unary";
+    input: typeof GetBlueprintsRequestSchema;
+    output: typeof GetBlueprintsResponseSchema;
+  },
+  /**
+   * @generated from rpc backend_admin.BlueprintManagerService.GetBlueprint
+   */
+  getBlueprint: {
+    methodKind: "unary";
+    input: typeof GetBlueprintRequestSchema;
+    output: typeof GetBlueprintResponseSchema;
+  },
+  /**
+   * @generated from rpc backend_admin.BlueprintManagerService.CreateBlueprint
+   */
+  createBlueprint: {
+    methodKind: "unary";
+    input: typeof CreateBlueprintRequestSchema;
+    output: typeof CreateBlueprintResponseSchema;
+  },
+  /**
+   * @generated from rpc backend_admin.BlueprintManagerService.UpdateBlueprint
+   */
+  updateBlueprint: {
+    methodKind: "unary";
+    input: typeof UpdateBlueprintRequestSchema;
+    output: typeof UpdateBlueprintResponseSchema;
+  },
+  /**
+   * @generated from rpc backend_admin.BlueprintManagerService.DeleteBlueprint
+   */
+  deleteBlueprint: {
+    methodKind: "unary";
+    input: typeof DeleteBlueprintRequestSchema;
+    output: typeof DeleteBlueprintResponseSchema;
+  },
+}> = /*@__PURE__*/
+  serviceDesc(file_backend_admin_BlueprintManager, 0);
 

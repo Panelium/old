@@ -9,8 +9,9 @@ package admin
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	_ "panelium/proto_gen_go"
+	proto_gen_go "panelium/proto_gen_go"
 	reflect "reflect"
+	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -21,19 +22,946 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type DockerImage struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Image         string                 `protobuf:"bytes,2,opt,name=image,proto3" json:"image,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DockerImage) Reset() {
+	*x = DockerImage{}
+	mi := &file_backend_admin_BlueprintManager_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DockerImage) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DockerImage) ProtoMessage() {}
+
+func (x *DockerImage) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_BlueprintManager_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DockerImage.ProtoReflect.Descriptor instead.
+func (*DockerImage) Descriptor() ([]byte, []int) {
+	return file_backend_admin_BlueprintManager_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *DockerImage) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *DockerImage) GetImage() string {
+	if x != nil {
+		return x.Image
+	}
+	return ""
+}
+
+type BlockedFile struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	File          string                 `protobuf:"bytes,1,opt,name=file,proto3" json:"file,omitempty"`
+	Visible       bool                   `protobuf:"varint,2,opt,name=visible,proto3" json:"visible,omitempty"`
+	Readable      bool                   `protobuf:"varint,3,opt,name=readable,proto3" json:"readable,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BlockedFile) Reset() {
+	*x = BlockedFile{}
+	mi := &file_backend_admin_BlueprintManager_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BlockedFile) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BlockedFile) ProtoMessage() {}
+
+func (x *BlockedFile) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_BlueprintManager_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BlockedFile.ProtoReflect.Descriptor instead.
+func (*BlockedFile) Descriptor() ([]byte, []int) {
+	return file_backend_admin_BlueprintManager_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *BlockedFile) GetFile() string {
+	if x != nil {
+		return x.File
+	}
+	return ""
+}
+
+func (x *BlockedFile) GetVisible() bool {
+	if x != nil {
+		return x.Visible
+	}
+	return false
+}
+
+func (x *BlockedFile) GetReadable() bool {
+	if x != nil {
+		return x.Readable
+	}
+	return false
+}
+
+type Blueprint struct {
+	state                  protoimpl.MessageState `protogen:"open.v1"`
+	FormatVersion          uint32                 `protobuf:"varint,1,opt,name=format_version,json=formatVersion,proto3" json:"format_version,omitempty"`
+	Bid                    string                 `protobuf:"bytes,2,opt,name=bid,proto3" json:"bid,omitempty"`
+	Version                uint32                 `protobuf:"varint,3,opt,name=version,proto3" json:"version,omitempty"`
+	UpdateUrl              string                 `protobuf:"bytes,4,opt,name=update_url,json=updateUrl,proto3" json:"update_url,omitempty"`
+	Name                   string                 `protobuf:"bytes,5,opt,name=name,proto3" json:"name,omitempty"`
+	Description            string                 `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty"`
+	Category               string                 `protobuf:"bytes,7,opt,name=category,proto3" json:"category,omitempty"`
+	Icon                   string                 `protobuf:"bytes,8,opt,name=icon,proto3" json:"icon,omitempty"`
+	Banner                 string                 `protobuf:"bytes,9,opt,name=banner,proto3" json:"banner,omitempty"`
+	Flags                  []string               `protobuf:"bytes,10,rep,name=flags,proto3" json:"flags,omitempty"`
+	DockerImages           []*DockerImage         `protobuf:"bytes,11,rep,name=docker_images,json=dockerImages,proto3" json:"docker_images,omitempty"`
+	BlockedFiles           []*BlockedFile         `protobuf:"bytes,12,rep,name=blocked_files,json=blockedFiles,proto3" json:"blocked_files,omitempty"`
+	ServerBinary           string                 `protobuf:"bytes,13,opt,name=server_binary,json=serverBinary,proto3" json:"server_binary,omitempty"`
+	StartCommand           string                 `protobuf:"bytes,14,opt,name=start_command,json=startCommand,proto3" json:"start_command,omitempty"`
+	StopCommand            string                 `protobuf:"bytes,15,opt,name=stop_command,json=stopCommand,proto3" json:"stop_command,omitempty"`
+	SetupScriptBase64      string                 `protobuf:"bytes,16,opt,name=setup_script_base64,json=setupScriptBase64,proto3" json:"setup_script_base64,omitempty"`
+	SetupDockerImage       string                 `protobuf:"bytes,17,opt,name=setup_docker_image,json=setupDockerImage,proto3" json:"setup_docker_image,omitempty"`
+	SetupScriptInterpreter string                 `protobuf:"bytes,18,opt,name=setup_script_interpreter,json=setupScriptInterpreter,proto3" json:"setup_script_interpreter,omitempty"`
+	unknownFields          protoimpl.UnknownFields
+	sizeCache              protoimpl.SizeCache
+}
+
+func (x *Blueprint) Reset() {
+	*x = Blueprint{}
+	mi := &file_backend_admin_BlueprintManager_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Blueprint) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Blueprint) ProtoMessage() {}
+
+func (x *Blueprint) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_BlueprintManager_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Blueprint.ProtoReflect.Descriptor instead.
+func (*Blueprint) Descriptor() ([]byte, []int) {
+	return file_backend_admin_BlueprintManager_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *Blueprint) GetFormatVersion() uint32 {
+	if x != nil {
+		return x.FormatVersion
+	}
+	return 0
+}
+
+func (x *Blueprint) GetBid() string {
+	if x != nil {
+		return x.Bid
+	}
+	return ""
+}
+
+func (x *Blueprint) GetVersion() uint32 {
+	if x != nil {
+		return x.Version
+	}
+	return 0
+}
+
+func (x *Blueprint) GetUpdateUrl() string {
+	if x != nil {
+		return x.UpdateUrl
+	}
+	return ""
+}
+
+func (x *Blueprint) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Blueprint) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *Blueprint) GetCategory() string {
+	if x != nil {
+		return x.Category
+	}
+	return ""
+}
+
+func (x *Blueprint) GetIcon() string {
+	if x != nil {
+		return x.Icon
+	}
+	return ""
+}
+
+func (x *Blueprint) GetBanner() string {
+	if x != nil {
+		return x.Banner
+	}
+	return ""
+}
+
+func (x *Blueprint) GetFlags() []string {
+	if x != nil {
+		return x.Flags
+	}
+	return nil
+}
+
+func (x *Blueprint) GetDockerImages() []*DockerImage {
+	if x != nil {
+		return x.DockerImages
+	}
+	return nil
+}
+
+func (x *Blueprint) GetBlockedFiles() []*BlockedFile {
+	if x != nil {
+		return x.BlockedFiles
+	}
+	return nil
+}
+
+func (x *Blueprint) GetServerBinary() string {
+	if x != nil {
+		return x.ServerBinary
+	}
+	return ""
+}
+
+func (x *Blueprint) GetStartCommand() string {
+	if x != nil {
+		return x.StartCommand
+	}
+	return ""
+}
+
+func (x *Blueprint) GetStopCommand() string {
+	if x != nil {
+		return x.StopCommand
+	}
+	return ""
+}
+
+func (x *Blueprint) GetSetupScriptBase64() string {
+	if x != nil {
+		return x.SetupScriptBase64
+	}
+	return ""
+}
+
+func (x *Blueprint) GetSetupDockerImage() string {
+	if x != nil {
+		return x.SetupDockerImage
+	}
+	return ""
+}
+
+func (x *Blueprint) GetSetupScriptInterpreter() string {
+	if x != nil {
+		return x.SetupScriptInterpreter
+	}
+	return ""
+}
+
+type GetBlueprintsRequest struct {
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Pagination    *proto_gen_go.Pagination `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetBlueprintsRequest) Reset() {
+	*x = GetBlueprintsRequest{}
+	mi := &file_backend_admin_BlueprintManager_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetBlueprintsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBlueprintsRequest) ProtoMessage() {}
+
+func (x *GetBlueprintsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_BlueprintManager_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBlueprintsRequest.ProtoReflect.Descriptor instead.
+func (*GetBlueprintsRequest) Descriptor() ([]byte, []int) {
+	return file_backend_admin_BlueprintManager_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetBlueprintsRequest) GetPagination() *proto_gen_go.Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+type GetBlueprintsResponse struct {
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Blueprints    []*Blueprint             `protobuf:"bytes,1,rep,name=blueprints,proto3" json:"blueprints,omitempty"`
+	Pagination    *proto_gen_go.Pagination `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetBlueprintsResponse) Reset() {
+	*x = GetBlueprintsResponse{}
+	mi := &file_backend_admin_BlueprintManager_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetBlueprintsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBlueprintsResponse) ProtoMessage() {}
+
+func (x *GetBlueprintsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_BlueprintManager_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBlueprintsResponse.ProtoReflect.Descriptor instead.
+func (*GetBlueprintsResponse) Descriptor() ([]byte, []int) {
+	return file_backend_admin_BlueprintManager_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetBlueprintsResponse) GetBlueprints() []*Blueprint {
+	if x != nil {
+		return x.Blueprints
+	}
+	return nil
+}
+
+func (x *GetBlueprintsResponse) GetPagination() *proto_gen_go.Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+type GetBlueprintRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Bid           string                 `protobuf:"bytes,1,opt,name=bid,proto3" json:"bid,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetBlueprintRequest) Reset() {
+	*x = GetBlueprintRequest{}
+	mi := &file_backend_admin_BlueprintManager_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetBlueprintRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBlueprintRequest) ProtoMessage() {}
+
+func (x *GetBlueprintRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_BlueprintManager_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBlueprintRequest.ProtoReflect.Descriptor instead.
+func (*GetBlueprintRequest) Descriptor() ([]byte, []int) {
+	return file_backend_admin_BlueprintManager_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *GetBlueprintRequest) GetBid() string {
+	if x != nil {
+		return x.Bid
+	}
+	return ""
+}
+
+type GetBlueprintResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Blueprint     *Blueprint             `protobuf:"bytes,1,opt,name=blueprint,proto3" json:"blueprint,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetBlueprintResponse) Reset() {
+	*x = GetBlueprintResponse{}
+	mi := &file_backend_admin_BlueprintManager_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetBlueprintResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBlueprintResponse) ProtoMessage() {}
+
+func (x *GetBlueprintResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_BlueprintManager_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBlueprintResponse.ProtoReflect.Descriptor instead.
+func (*GetBlueprintResponse) Descriptor() ([]byte, []int) {
+	return file_backend_admin_BlueprintManager_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *GetBlueprintResponse) GetBlueprint() *Blueprint {
+	if x != nil {
+		return x.Blueprint
+	}
+	return nil
+}
+
+type CreateBlueprintRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to BlueprintOrJson:
+	//
+	//	*CreateBlueprintRequest_Blueprint
+	//	*CreateBlueprintRequest_BlueprintJson
+	BlueprintOrJson isCreateBlueprintRequest_BlueprintOrJson `protobuf_oneof:"blueprint_or_json"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *CreateBlueprintRequest) Reset() {
+	*x = CreateBlueprintRequest{}
+	mi := &file_backend_admin_BlueprintManager_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateBlueprintRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateBlueprintRequest) ProtoMessage() {}
+
+func (x *CreateBlueprintRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_BlueprintManager_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateBlueprintRequest.ProtoReflect.Descriptor instead.
+func (*CreateBlueprintRequest) Descriptor() ([]byte, []int) {
+	return file_backend_admin_BlueprintManager_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *CreateBlueprintRequest) GetBlueprintOrJson() isCreateBlueprintRequest_BlueprintOrJson {
+	if x != nil {
+		return x.BlueprintOrJson
+	}
+	return nil
+}
+
+func (x *CreateBlueprintRequest) GetBlueprint() *Blueprint {
+	if x != nil {
+		if x, ok := x.BlueprintOrJson.(*CreateBlueprintRequest_Blueprint); ok {
+			return x.Blueprint
+		}
+	}
+	return nil
+}
+
+func (x *CreateBlueprintRequest) GetBlueprintJson() string {
+	if x != nil {
+		if x, ok := x.BlueprintOrJson.(*CreateBlueprintRequest_BlueprintJson); ok {
+			return x.BlueprintJson
+		}
+	}
+	return ""
+}
+
+type isCreateBlueprintRequest_BlueprintOrJson interface {
+	isCreateBlueprintRequest_BlueprintOrJson()
+}
+
+type CreateBlueprintRequest_Blueprint struct {
+	Blueprint *Blueprint `protobuf:"bytes,1,opt,name=blueprint,proto3,oneof"`
+}
+
+type CreateBlueprintRequest_BlueprintJson struct {
+	BlueprintJson string `protobuf:"bytes,2,opt,name=blueprintJson,proto3,oneof"`
+}
+
+func (*CreateBlueprintRequest_Blueprint) isCreateBlueprintRequest_BlueprintOrJson() {}
+
+func (*CreateBlueprintRequest_BlueprintJson) isCreateBlueprintRequest_BlueprintOrJson() {}
+
+type CreateBlueprintResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateBlueprintResponse) Reset() {
+	*x = CreateBlueprintResponse{}
+	mi := &file_backend_admin_BlueprintManager_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateBlueprintResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateBlueprintResponse) ProtoMessage() {}
+
+func (x *CreateBlueprintResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_BlueprintManager_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateBlueprintResponse.ProtoReflect.Descriptor instead.
+func (*CreateBlueprintResponse) Descriptor() ([]byte, []int) {
+	return file_backend_admin_BlueprintManager_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *CreateBlueprintResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+type UpdateBlueprintRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to BlueprintOrJson:
+	//
+	//	*UpdateBlueprintRequest_Blueprint
+	//	*UpdateBlueprintRequest_BlueprintJson
+	BlueprintOrJson isUpdateBlueprintRequest_BlueprintOrJson `protobuf_oneof:"blueprint_or_json"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *UpdateBlueprintRequest) Reset() {
+	*x = UpdateBlueprintRequest{}
+	mi := &file_backend_admin_BlueprintManager_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateBlueprintRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateBlueprintRequest) ProtoMessage() {}
+
+func (x *UpdateBlueprintRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_BlueprintManager_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateBlueprintRequest.ProtoReflect.Descriptor instead.
+func (*UpdateBlueprintRequest) Descriptor() ([]byte, []int) {
+	return file_backend_admin_BlueprintManager_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *UpdateBlueprintRequest) GetBlueprintOrJson() isUpdateBlueprintRequest_BlueprintOrJson {
+	if x != nil {
+		return x.BlueprintOrJson
+	}
+	return nil
+}
+
+func (x *UpdateBlueprintRequest) GetBlueprint() *Blueprint {
+	if x != nil {
+		if x, ok := x.BlueprintOrJson.(*UpdateBlueprintRequest_Blueprint); ok {
+			return x.Blueprint
+		}
+	}
+	return nil
+}
+
+func (x *UpdateBlueprintRequest) GetBlueprintJson() string {
+	if x != nil {
+		if x, ok := x.BlueprintOrJson.(*UpdateBlueprintRequest_BlueprintJson); ok {
+			return x.BlueprintJson
+		}
+	}
+	return ""
+}
+
+type isUpdateBlueprintRequest_BlueprintOrJson interface {
+	isUpdateBlueprintRequest_BlueprintOrJson()
+}
+
+type UpdateBlueprintRequest_Blueprint struct {
+	Blueprint *Blueprint `protobuf:"bytes,1,opt,name=blueprint,proto3,oneof"`
+}
+
+type UpdateBlueprintRequest_BlueprintJson struct {
+	BlueprintJson string `protobuf:"bytes,2,opt,name=blueprintJson,proto3,oneof"`
+}
+
+func (*UpdateBlueprintRequest_Blueprint) isUpdateBlueprintRequest_BlueprintOrJson() {}
+
+func (*UpdateBlueprintRequest_BlueprintJson) isUpdateBlueprintRequest_BlueprintOrJson() {}
+
+type UpdateBlueprintResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateBlueprintResponse) Reset() {
+	*x = UpdateBlueprintResponse{}
+	mi := &file_backend_admin_BlueprintManager_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateBlueprintResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateBlueprintResponse) ProtoMessage() {}
+
+func (x *UpdateBlueprintResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_BlueprintManager_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateBlueprintResponse.ProtoReflect.Descriptor instead.
+func (*UpdateBlueprintResponse) Descriptor() ([]byte, []int) {
+	return file_backend_admin_BlueprintManager_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *UpdateBlueprintResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+type DeleteBlueprintRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Bid           string                 `protobuf:"bytes,1,opt,name=bid,proto3" json:"bid,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteBlueprintRequest) Reset() {
+	*x = DeleteBlueprintRequest{}
+	mi := &file_backend_admin_BlueprintManager_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteBlueprintRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteBlueprintRequest) ProtoMessage() {}
+
+func (x *DeleteBlueprintRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_BlueprintManager_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteBlueprintRequest.ProtoReflect.Descriptor instead.
+func (*DeleteBlueprintRequest) Descriptor() ([]byte, []int) {
+	return file_backend_admin_BlueprintManager_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *DeleteBlueprintRequest) GetBid() string {
+	if x != nil {
+		return x.Bid
+	}
+	return ""
+}
+
+type DeleteBlueprintResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteBlueprintResponse) Reset() {
+	*x = DeleteBlueprintResponse{}
+	mi := &file_backend_admin_BlueprintManager_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteBlueprintResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteBlueprintResponse) ProtoMessage() {}
+
+func (x *DeleteBlueprintResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_BlueprintManager_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteBlueprintResponse.ProtoReflect.Descriptor instead.
+func (*DeleteBlueprintResponse) Descriptor() ([]byte, []int) {
+	return file_backend_admin_BlueprintManager_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *DeleteBlueprintResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
 var File_backend_admin_BlueprintManager_proto protoreflect.FileDescriptor
 
 const file_backend_admin_BlueprintManager_proto_rawDesc = "" +
 	"\n" +
-	"$backend/admin/BlueprintManager.proto\x12\rbackend_admin\x1a\fcommon.protoB%Z#panelium/proto_gen_go/backend/adminb\x06proto3"
+	"$backend/admin/BlueprintManager.proto\x12\rbackend_admin\x1a\fcommon.proto\"7\n" +
+	"\vDockerImage\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
+	"\x05image\x18\x02 \x01(\tR\x05image\"W\n" +
+	"\vBlockedFile\x12\x12\n" +
+	"\x04file\x18\x01 \x01(\tR\x04file\x12\x18\n" +
+	"\avisible\x18\x02 \x01(\bR\avisible\x12\x1a\n" +
+	"\breadable\x18\x03 \x01(\bR\breadable\"\x98\x05\n" +
+	"\tBlueprint\x12%\n" +
+	"\x0eformat_version\x18\x01 \x01(\rR\rformatVersion\x12\x10\n" +
+	"\x03bid\x18\x02 \x01(\tR\x03bid\x12\x18\n" +
+	"\aversion\x18\x03 \x01(\rR\aversion\x12\x1d\n" +
+	"\n" +
+	"update_url\x18\x04 \x01(\tR\tupdateUrl\x12\x12\n" +
+	"\x04name\x18\x05 \x01(\tR\x04name\x12 \n" +
+	"\vdescription\x18\x06 \x01(\tR\vdescription\x12\x1a\n" +
+	"\bcategory\x18\a \x01(\tR\bcategory\x12\x12\n" +
+	"\x04icon\x18\b \x01(\tR\x04icon\x12\x16\n" +
+	"\x06banner\x18\t \x01(\tR\x06banner\x12\x14\n" +
+	"\x05flags\x18\n" +
+	" \x03(\tR\x05flags\x12?\n" +
+	"\rdocker_images\x18\v \x03(\v2\x1a.backend_admin.DockerImageR\fdockerImages\x12?\n" +
+	"\rblocked_files\x18\f \x03(\v2\x1a.backend_admin.BlockedFileR\fblockedFiles\x12#\n" +
+	"\rserver_binary\x18\r \x01(\tR\fserverBinary\x12#\n" +
+	"\rstart_command\x18\x0e \x01(\tR\fstartCommand\x12!\n" +
+	"\fstop_command\x18\x0f \x01(\tR\vstopCommand\x12.\n" +
+	"\x13setup_script_base64\x18\x10 \x01(\tR\x11setupScriptBase64\x12,\n" +
+	"\x12setup_docker_image\x18\x11 \x01(\tR\x10setupDockerImage\x128\n" +
+	"\x18setup_script_interpreter\x18\x12 \x01(\tR\x16setupScriptInterpreter\"J\n" +
+	"\x14GetBlueprintsRequest\x122\n" +
+	"\n" +
+	"pagination\x18\x01 \x01(\v2\x12.common.PaginationR\n" +
+	"pagination\"\x85\x01\n" +
+	"\x15GetBlueprintsResponse\x128\n" +
+	"\n" +
+	"blueprints\x18\x01 \x03(\v2\x18.backend_admin.BlueprintR\n" +
+	"blueprints\x122\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x12.common.PaginationR\n" +
+	"pagination\"'\n" +
+	"\x13GetBlueprintRequest\x12\x10\n" +
+	"\x03bid\x18\x01 \x01(\tR\x03bid\"N\n" +
+	"\x14GetBlueprintResponse\x126\n" +
+	"\tblueprint\x18\x01 \x01(\v2\x18.backend_admin.BlueprintR\tblueprint\"\x8f\x01\n" +
+	"\x16CreateBlueprintRequest\x128\n" +
+	"\tblueprint\x18\x01 \x01(\v2\x18.backend_admin.BlueprintH\x00R\tblueprint\x12&\n" +
+	"\rblueprintJson\x18\x02 \x01(\tH\x00R\rblueprintJsonB\x13\n" +
+	"\x11blueprint_or_json\"3\n" +
+	"\x17CreateBlueprintResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"\x8f\x01\n" +
+	"\x16UpdateBlueprintRequest\x128\n" +
+	"\tblueprint\x18\x01 \x01(\v2\x18.backend_admin.BlueprintH\x00R\tblueprint\x12&\n" +
+	"\rblueprintJson\x18\x02 \x01(\tH\x00R\rblueprintJsonB\x13\n" +
+	"\x11blueprint_or_json\"3\n" +
+	"\x17UpdateBlueprintResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"*\n" +
+	"\x16DeleteBlueprintRequest\x12\x10\n" +
+	"\x03bid\x18\x01 \x01(\tR\x03bid\"3\n" +
+	"\x17DeleteBlueprintResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess2\xf4\x03\n" +
+	"\x17BlueprintManagerService\x12Z\n" +
+	"\rGetBlueprints\x12#.backend_admin.GetBlueprintsRequest\x1a$.backend_admin.GetBlueprintsResponse\x12W\n" +
+	"\fGetBlueprint\x12\".backend_admin.GetBlueprintRequest\x1a#.backend_admin.GetBlueprintResponse\x12`\n" +
+	"\x0fCreateBlueprint\x12%.backend_admin.CreateBlueprintRequest\x1a&.backend_admin.CreateBlueprintResponse\x12`\n" +
+	"\x0fUpdateBlueprint\x12%.backend_admin.UpdateBlueprintRequest\x1a&.backend_admin.UpdateBlueprintResponse\x12`\n" +
+	"\x0fDeleteBlueprint\x12%.backend_admin.DeleteBlueprintRequest\x1a&.backend_admin.DeleteBlueprintResponseB%Z#panelium/proto_gen_go/backend/adminb\x06proto3"
 
-var file_backend_admin_BlueprintManager_proto_goTypes = []any{}
+var (
+	file_backend_admin_BlueprintManager_proto_rawDescOnce sync.Once
+	file_backend_admin_BlueprintManager_proto_rawDescData []byte
+)
+
+func file_backend_admin_BlueprintManager_proto_rawDescGZIP() []byte {
+	file_backend_admin_BlueprintManager_proto_rawDescOnce.Do(func() {
+		file_backend_admin_BlueprintManager_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_backend_admin_BlueprintManager_proto_rawDesc), len(file_backend_admin_BlueprintManager_proto_rawDesc)))
+	})
+	return file_backend_admin_BlueprintManager_proto_rawDescData
+}
+
+var file_backend_admin_BlueprintManager_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
+var file_backend_admin_BlueprintManager_proto_goTypes = []any{
+	(*DockerImage)(nil),             // 0: backend_admin.DockerImage
+	(*BlockedFile)(nil),             // 1: backend_admin.BlockedFile
+	(*Blueprint)(nil),               // 2: backend_admin.Blueprint
+	(*GetBlueprintsRequest)(nil),    // 3: backend_admin.GetBlueprintsRequest
+	(*GetBlueprintsResponse)(nil),   // 4: backend_admin.GetBlueprintsResponse
+	(*GetBlueprintRequest)(nil),     // 5: backend_admin.GetBlueprintRequest
+	(*GetBlueprintResponse)(nil),    // 6: backend_admin.GetBlueprintResponse
+	(*CreateBlueprintRequest)(nil),  // 7: backend_admin.CreateBlueprintRequest
+	(*CreateBlueprintResponse)(nil), // 8: backend_admin.CreateBlueprintResponse
+	(*UpdateBlueprintRequest)(nil),  // 9: backend_admin.UpdateBlueprintRequest
+	(*UpdateBlueprintResponse)(nil), // 10: backend_admin.UpdateBlueprintResponse
+	(*DeleteBlueprintRequest)(nil),  // 11: backend_admin.DeleteBlueprintRequest
+	(*DeleteBlueprintResponse)(nil), // 12: backend_admin.DeleteBlueprintResponse
+	(*proto_gen_go.Pagination)(nil), // 13: common.Pagination
+}
 var file_backend_admin_BlueprintManager_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0,  // 0: backend_admin.Blueprint.docker_images:type_name -> backend_admin.DockerImage
+	1,  // 1: backend_admin.Blueprint.blocked_files:type_name -> backend_admin.BlockedFile
+	13, // 2: backend_admin.GetBlueprintsRequest.pagination:type_name -> common.Pagination
+	2,  // 3: backend_admin.GetBlueprintsResponse.blueprints:type_name -> backend_admin.Blueprint
+	13, // 4: backend_admin.GetBlueprintsResponse.pagination:type_name -> common.Pagination
+	2,  // 5: backend_admin.GetBlueprintResponse.blueprint:type_name -> backend_admin.Blueprint
+	2,  // 6: backend_admin.CreateBlueprintRequest.blueprint:type_name -> backend_admin.Blueprint
+	2,  // 7: backend_admin.UpdateBlueprintRequest.blueprint:type_name -> backend_admin.Blueprint
+	3,  // 8: backend_admin.BlueprintManagerService.GetBlueprints:input_type -> backend_admin.GetBlueprintsRequest
+	5,  // 9: backend_admin.BlueprintManagerService.GetBlueprint:input_type -> backend_admin.GetBlueprintRequest
+	7,  // 10: backend_admin.BlueprintManagerService.CreateBlueprint:input_type -> backend_admin.CreateBlueprintRequest
+	9,  // 11: backend_admin.BlueprintManagerService.UpdateBlueprint:input_type -> backend_admin.UpdateBlueprintRequest
+	11, // 12: backend_admin.BlueprintManagerService.DeleteBlueprint:input_type -> backend_admin.DeleteBlueprintRequest
+	4,  // 13: backend_admin.BlueprintManagerService.GetBlueprints:output_type -> backend_admin.GetBlueprintsResponse
+	6,  // 14: backend_admin.BlueprintManagerService.GetBlueprint:output_type -> backend_admin.GetBlueprintResponse
+	8,  // 15: backend_admin.BlueprintManagerService.CreateBlueprint:output_type -> backend_admin.CreateBlueprintResponse
+	10, // 16: backend_admin.BlueprintManagerService.UpdateBlueprint:output_type -> backend_admin.UpdateBlueprintResponse
+	12, // 17: backend_admin.BlueprintManagerService.DeleteBlueprint:output_type -> backend_admin.DeleteBlueprintResponse
+	13, // [13:18] is the sub-list for method output_type
+	8,  // [8:13] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_backend_admin_BlueprintManager_proto_init() }
@@ -41,18 +969,27 @@ func file_backend_admin_BlueprintManager_proto_init() {
 	if File_backend_admin_BlueprintManager_proto != nil {
 		return
 	}
+	file_backend_admin_BlueprintManager_proto_msgTypes[7].OneofWrappers = []any{
+		(*CreateBlueprintRequest_Blueprint)(nil),
+		(*CreateBlueprintRequest_BlueprintJson)(nil),
+	}
+	file_backend_admin_BlueprintManager_proto_msgTypes[9].OneofWrappers = []any{
+		(*UpdateBlueprintRequest_Blueprint)(nil),
+		(*UpdateBlueprintRequest_BlueprintJson)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_backend_admin_BlueprintManager_proto_rawDesc), len(file_backend_admin_BlueprintManager_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   0,
+			NumMessages:   13,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_backend_admin_BlueprintManager_proto_goTypes,
 		DependencyIndexes: file_backend_admin_BlueprintManager_proto_depIdxs,
+		MessageInfos:      file_backend_admin_BlueprintManager_proto_msgTypes,
 	}.Build()
 	File_backend_admin_BlueprintManager_proto = out.File
 	file_backend_admin_BlueprintManager_proto_goTypes = nil

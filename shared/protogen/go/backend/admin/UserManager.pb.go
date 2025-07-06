@@ -9,8 +9,9 @@ package admin
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	_ "panelium/proto_gen_go"
+	proto_gen_go "panelium/proto_gen_go"
 	reflect "reflect"
+	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -21,19 +22,636 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type User struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Uid           string                 `protobuf:"bytes,1,opt,name=uid,proto3" json:"uid,omitempty"` // ignored with Create
+	Username      string                 `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`
+	Email         string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
+	Admin         string                 `protobuf:"bytes,4,opt,name=admin,proto3" json:"admin,omitempty"`
+	SetPassword   *string                `protobuf:"bytes,5,opt,name=set_password,json=setPassword,proto3,oneof" json:"set_password,omitempty"`
+	MfaNeeded     bool                   `protobuf:"varint,6,opt,name=mfa_needed,json=mfaNeeded,proto3" json:"mfa_needed,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *User) Reset() {
+	*x = User{}
+	mi := &file_backend_admin_UserManager_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *User) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*User) ProtoMessage() {}
+
+func (x *User) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_UserManager_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use User.ProtoReflect.Descriptor instead.
+func (*User) Descriptor() ([]byte, []int) {
+	return file_backend_admin_UserManager_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *User) GetUid() string {
+	if x != nil {
+		return x.Uid
+	}
+	return ""
+}
+
+func (x *User) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *User) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *User) GetAdmin() string {
+	if x != nil {
+		return x.Admin
+	}
+	return ""
+}
+
+func (x *User) GetSetPassword() string {
+	if x != nil && x.SetPassword != nil {
+		return *x.SetPassword
+	}
+	return ""
+}
+
+func (x *User) GetMfaNeeded() bool {
+	if x != nil {
+		return x.MfaNeeded
+	}
+	return false
+}
+
+type GetUsersRequest struct {
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Pagination    *proto_gen_go.Pagination `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUsersRequest) Reset() {
+	*x = GetUsersRequest{}
+	mi := &file_backend_admin_UserManager_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUsersRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUsersRequest) ProtoMessage() {}
+
+func (x *GetUsersRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_UserManager_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUsersRequest.ProtoReflect.Descriptor instead.
+func (*GetUsersRequest) Descriptor() ([]byte, []int) {
+	return file_backend_admin_UserManager_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *GetUsersRequest) GetPagination() *proto_gen_go.Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+type GetUsersResponse struct {
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Users         []*User                  `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty"`
+	Pagination    *proto_gen_go.Pagination `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUsersResponse) Reset() {
+	*x = GetUsersResponse{}
+	mi := &file_backend_admin_UserManager_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUsersResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUsersResponse) ProtoMessage() {}
+
+func (x *GetUsersResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_UserManager_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUsersResponse.ProtoReflect.Descriptor instead.
+func (*GetUsersResponse) Descriptor() ([]byte, []int) {
+	return file_backend_admin_UserManager_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *GetUsersResponse) GetUsers() []*User {
+	if x != nil {
+		return x.Users
+	}
+	return nil
+}
+
+func (x *GetUsersResponse) GetPagination() *proto_gen_go.Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+type GetUserRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Uid           string                 `protobuf:"bytes,1,opt,name=uid,proto3" json:"uid,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserRequest) Reset() {
+	*x = GetUserRequest{}
+	mi := &file_backend_admin_UserManager_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserRequest) ProtoMessage() {}
+
+func (x *GetUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_UserManager_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserRequest.ProtoReflect.Descriptor instead.
+func (*GetUserRequest) Descriptor() ([]byte, []int) {
+	return file_backend_admin_UserManager_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetUserRequest) GetUid() string {
+	if x != nil {
+		return x.Uid
+	}
+	return ""
+}
+
+type GetUserResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	User          *User                  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserResponse) Reset() {
+	*x = GetUserResponse{}
+	mi := &file_backend_admin_UserManager_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserResponse) ProtoMessage() {}
+
+func (x *GetUserResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_UserManager_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserResponse.ProtoReflect.Descriptor instead.
+func (*GetUserResponse) Descriptor() ([]byte, []int) {
+	return file_backend_admin_UserManager_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetUserResponse) GetUser() *User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
+type CreateUserRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	User          *User                  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateUserRequest) Reset() {
+	*x = CreateUserRequest{}
+	mi := &file_backend_admin_UserManager_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateUserRequest) ProtoMessage() {}
+
+func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_UserManager_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateUserRequest.ProtoReflect.Descriptor instead.
+func (*CreateUserRequest) Descriptor() ([]byte, []int) {
+	return file_backend_admin_UserManager_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *CreateUserRequest) GetUser() *User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
+type CreateUserResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateUserResponse) Reset() {
+	*x = CreateUserResponse{}
+	mi := &file_backend_admin_UserManager_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateUserResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateUserResponse) ProtoMessage() {}
+
+func (x *CreateUserResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_UserManager_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateUserResponse.ProtoReflect.Descriptor instead.
+func (*CreateUserResponse) Descriptor() ([]byte, []int) {
+	return file_backend_admin_UserManager_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *CreateUserResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+type UpdateUserRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	User          *User                  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateUserRequest) Reset() {
+	*x = UpdateUserRequest{}
+	mi := &file_backend_admin_UserManager_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateUserRequest) ProtoMessage() {}
+
+func (x *UpdateUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_UserManager_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateUserRequest.ProtoReflect.Descriptor instead.
+func (*UpdateUserRequest) Descriptor() ([]byte, []int) {
+	return file_backend_admin_UserManager_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *UpdateUserRequest) GetUser() *User {
+	if x != nil {
+		return x.User
+	}
+	return nil
+}
+
+type UpdateUserResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateUserResponse) Reset() {
+	*x = UpdateUserResponse{}
+	mi := &file_backend_admin_UserManager_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateUserResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateUserResponse) ProtoMessage() {}
+
+func (x *UpdateUserResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_UserManager_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateUserResponse.ProtoReflect.Descriptor instead.
+func (*UpdateUserResponse) Descriptor() ([]byte, []int) {
+	return file_backend_admin_UserManager_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *UpdateUserResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+type DeleteUserRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Uid           string                 `protobuf:"bytes,1,opt,name=uid,proto3" json:"uid,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteUserRequest) Reset() {
+	*x = DeleteUserRequest{}
+	mi := &file_backend_admin_UserManager_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteUserRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteUserRequest) ProtoMessage() {}
+
+func (x *DeleteUserRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_UserManager_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteUserRequest.ProtoReflect.Descriptor instead.
+func (*DeleteUserRequest) Descriptor() ([]byte, []int) {
+	return file_backend_admin_UserManager_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *DeleteUserRequest) GetUid() string {
+	if x != nil {
+		return x.Uid
+	}
+	return ""
+}
+
+type DeleteUserResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteUserResponse) Reset() {
+	*x = DeleteUserResponse{}
+	mi := &file_backend_admin_UserManager_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteUserResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteUserResponse) ProtoMessage() {}
+
+func (x *DeleteUserResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_UserManager_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteUserResponse.ProtoReflect.Descriptor instead.
+func (*DeleteUserResponse) Descriptor() ([]byte, []int) {
+	return file_backend_admin_UserManager_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *DeleteUserResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
 var File_backend_admin_UserManager_proto protoreflect.FileDescriptor
 
 const file_backend_admin_UserManager_proto_rawDesc = "" +
 	"\n" +
-	"\x1fbackend/admin/UserManager.proto\x12\rbackend_admin\x1a\fcommon.protoB%Z#panelium/proto_gen_go/backend/adminb\x06proto3"
+	"\x1fbackend/admin/UserManager.proto\x12\rbackend_admin\x1a\fcommon.proto\"\xb8\x01\n" +
+	"\x04User\x12\x10\n" +
+	"\x03uid\x18\x01 \x01(\tR\x03uid\x12\x1a\n" +
+	"\busername\x18\x02 \x01(\tR\busername\x12\x14\n" +
+	"\x05email\x18\x03 \x01(\tR\x05email\x12\x14\n" +
+	"\x05admin\x18\x04 \x01(\tR\x05admin\x12&\n" +
+	"\fset_password\x18\x05 \x01(\tH\x00R\vsetPassword\x88\x01\x01\x12\x1d\n" +
+	"\n" +
+	"mfa_needed\x18\x06 \x01(\bR\tmfaNeededB\x0f\n" +
+	"\r_set_password\"E\n" +
+	"\x0fGetUsersRequest\x122\n" +
+	"\n" +
+	"pagination\x18\x01 \x01(\v2\x12.common.PaginationR\n" +
+	"pagination\"q\n" +
+	"\x10GetUsersResponse\x12)\n" +
+	"\x05users\x18\x01 \x03(\v2\x13.backend_admin.UserR\x05users\x122\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x12.common.PaginationR\n" +
+	"pagination\"\"\n" +
+	"\x0eGetUserRequest\x12\x10\n" +
+	"\x03uid\x18\x01 \x01(\tR\x03uid\":\n" +
+	"\x0fGetUserResponse\x12'\n" +
+	"\x04user\x18\x01 \x01(\v2\x13.backend_admin.UserR\x04user\"<\n" +
+	"\x11CreateUserRequest\x12'\n" +
+	"\x04user\x18\x01 \x01(\v2\x13.backend_admin.UserR\x04user\".\n" +
+	"\x12CreateUserResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"<\n" +
+	"\x11UpdateUserRequest\x12'\n" +
+	"\x04user\x18\x01 \x01(\v2\x13.backend_admin.UserR\x04user\".\n" +
+	"\x12UpdateUserResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"%\n" +
+	"\x11DeleteUserRequest\x12\x10\n" +
+	"\x03uid\x18\x01 \x01(\tR\x03uid\".\n" +
+	"\x12DeleteUserResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess2\xa4\x03\n" +
+	"\x12UserManagerService\x12K\n" +
+	"\bGetUsers\x12\x1e.backend_admin.GetUsersRequest\x1a\x1f.backend_admin.GetUsersResponse\x12H\n" +
+	"\aGetUser\x12\x1d.backend_admin.GetUserRequest\x1a\x1e.backend_admin.GetUserResponse\x12Q\n" +
+	"\n" +
+	"CreateUser\x12 .backend_admin.CreateUserRequest\x1a!.backend_admin.CreateUserResponse\x12Q\n" +
+	"\n" +
+	"UpdateUser\x12 .backend_admin.UpdateUserRequest\x1a!.backend_admin.UpdateUserResponse\x12Q\n" +
+	"\n" +
+	"DeleteUser\x12 .backend_admin.DeleteUserRequest\x1a!.backend_admin.DeleteUserResponseB%Z#panelium/proto_gen_go/backend/adminb\x06proto3"
 
-var file_backend_admin_UserManager_proto_goTypes = []any{}
+var (
+	file_backend_admin_UserManager_proto_rawDescOnce sync.Once
+	file_backend_admin_UserManager_proto_rawDescData []byte
+)
+
+func file_backend_admin_UserManager_proto_rawDescGZIP() []byte {
+	file_backend_admin_UserManager_proto_rawDescOnce.Do(func() {
+		file_backend_admin_UserManager_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_backend_admin_UserManager_proto_rawDesc), len(file_backend_admin_UserManager_proto_rawDesc)))
+	})
+	return file_backend_admin_UserManager_proto_rawDescData
+}
+
+var file_backend_admin_UserManager_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_backend_admin_UserManager_proto_goTypes = []any{
+	(*User)(nil),                    // 0: backend_admin.User
+	(*GetUsersRequest)(nil),         // 1: backend_admin.GetUsersRequest
+	(*GetUsersResponse)(nil),        // 2: backend_admin.GetUsersResponse
+	(*GetUserRequest)(nil),          // 3: backend_admin.GetUserRequest
+	(*GetUserResponse)(nil),         // 4: backend_admin.GetUserResponse
+	(*CreateUserRequest)(nil),       // 5: backend_admin.CreateUserRequest
+	(*CreateUserResponse)(nil),      // 6: backend_admin.CreateUserResponse
+	(*UpdateUserRequest)(nil),       // 7: backend_admin.UpdateUserRequest
+	(*UpdateUserResponse)(nil),      // 8: backend_admin.UpdateUserResponse
+	(*DeleteUserRequest)(nil),       // 9: backend_admin.DeleteUserRequest
+	(*DeleteUserResponse)(nil),      // 10: backend_admin.DeleteUserResponse
+	(*proto_gen_go.Pagination)(nil), // 11: common.Pagination
+}
 var file_backend_admin_UserManager_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	11, // 0: backend_admin.GetUsersRequest.pagination:type_name -> common.Pagination
+	0,  // 1: backend_admin.GetUsersResponse.users:type_name -> backend_admin.User
+	11, // 2: backend_admin.GetUsersResponse.pagination:type_name -> common.Pagination
+	0,  // 3: backend_admin.GetUserResponse.user:type_name -> backend_admin.User
+	0,  // 4: backend_admin.CreateUserRequest.user:type_name -> backend_admin.User
+	0,  // 5: backend_admin.UpdateUserRequest.user:type_name -> backend_admin.User
+	1,  // 6: backend_admin.UserManagerService.GetUsers:input_type -> backend_admin.GetUsersRequest
+	3,  // 7: backend_admin.UserManagerService.GetUser:input_type -> backend_admin.GetUserRequest
+	5,  // 8: backend_admin.UserManagerService.CreateUser:input_type -> backend_admin.CreateUserRequest
+	7,  // 9: backend_admin.UserManagerService.UpdateUser:input_type -> backend_admin.UpdateUserRequest
+	9,  // 10: backend_admin.UserManagerService.DeleteUser:input_type -> backend_admin.DeleteUserRequest
+	2,  // 11: backend_admin.UserManagerService.GetUsers:output_type -> backend_admin.GetUsersResponse
+	4,  // 12: backend_admin.UserManagerService.GetUser:output_type -> backend_admin.GetUserResponse
+	6,  // 13: backend_admin.UserManagerService.CreateUser:output_type -> backend_admin.CreateUserResponse
+	8,  // 14: backend_admin.UserManagerService.UpdateUser:output_type -> backend_admin.UpdateUserResponse
+	10, // 15: backend_admin.UserManagerService.DeleteUser:output_type -> backend_admin.DeleteUserResponse
+	11, // [11:16] is the sub-list for method output_type
+	6,  // [6:11] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_backend_admin_UserManager_proto_init() }
@@ -41,18 +659,20 @@ func file_backend_admin_UserManager_proto_init() {
 	if File_backend_admin_UserManager_proto != nil {
 		return
 	}
+	file_backend_admin_UserManager_proto_msgTypes[0].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_backend_admin_UserManager_proto_rawDesc), len(file_backend_admin_UserManager_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   0,
+			NumMessages:   11,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_backend_admin_UserManager_proto_goTypes,
 		DependencyIndexes: file_backend_admin_UserManager_proto_depIdxs,
+		MessageInfos:      file_backend_admin_UserManager_proto_msgTypes,
 	}.Build()
 	File_backend_admin_UserManager_proto = out.File
 	file_backend_admin_UserManager_proto_goTypes = nil

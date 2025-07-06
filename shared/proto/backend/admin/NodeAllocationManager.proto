@@ -4,3 +4,61 @@ package backend_admin;
 option go_package = "panelium/proto_gen_go/backend/admin";
 
 import "common.proto";
+
+service NodeAllocationManagerService {
+  rpc GetNodeAllocations(GetNodeAllocationsRequest) returns (GetNodeAllocationsResponse);
+  rpc GetNodeAllocation(GetNodeAllocationRequest) returns (GetNodeAllocationResponse);
+  rpc CreateNodeAllocation(CreateNodeAllocationRequest) returns (CreateNodeAllocationResponse);
+  rpc UpdateNodeAllocation(UpdateNodeAllocationRequest) returns (UpdateNodeAllocationResponse);
+  rpc DeleteNodeAllocation(DeleteNodeAllocationRequest) returns (DeleteNodeAllocationResponse);
+}
+
+message NodeAllocation {
+  uint32 id = 1; // ignored with Create
+  string nid = 2;
+  optional string sid = 3;
+  common.IPAllocation ip_allocation = 4;
+}
+
+message GetNodeAllocationsRequest {
+  common.Pagination pagination = 1;
+  optional string nid = 2; // filter by node ID
+  optional string sid = 3; // filter by server ID
+}
+
+message GetNodeAllocationsResponse {
+  repeated NodeAllocation node_allocations = 1;
+  common.Pagination pagination = 2;
+}
+
+message GetNodeAllocationRequest {
+  uint32 id = 1;
+}
+
+message GetNodeAllocationResponse {
+  NodeAllocation node_allocation = 1;
+}
+
+message CreateNodeAllocationRequest {
+  NodeAllocation node_allocation = 1;
+}
+
+message CreateNodeAllocationResponse {
+  bool success = 1;
+}
+
+message UpdateNodeAllocationRequest {
+  NodeAllocation node_allocation = 1;
+}
+
+message UpdateNodeAllocationResponse {
+  bool success = 1;
+}
+
+message DeleteNodeAllocationRequest {
+  uint32 id = 1;
+}
+
+message DeleteNodeAllocationResponse {
+  bool success = 1;
+}

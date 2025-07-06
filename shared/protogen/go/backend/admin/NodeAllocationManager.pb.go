@@ -9,8 +9,9 @@ package admin
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	_ "panelium/proto_gen_go"
+	proto_gen_go "panelium/proto_gen_go"
 	reflect "reflect"
+	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -21,19 +22,636 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type NodeAllocation struct {
+	state         protoimpl.MessageState     `protogen:"open.v1"`
+	Id            uint32                     `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"` // ignored with Create
+	Nid           string                     `protobuf:"bytes,2,opt,name=nid,proto3" json:"nid,omitempty"`
+	Sid           *string                    `protobuf:"bytes,3,opt,name=sid,proto3,oneof" json:"sid,omitempty"`
+	IpAllocation  *proto_gen_go.IPAllocation `protobuf:"bytes,4,opt,name=ip_allocation,json=ipAllocation,proto3" json:"ip_allocation,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *NodeAllocation) Reset() {
+	*x = NodeAllocation{}
+	mi := &file_backend_admin_NodeAllocationManager_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *NodeAllocation) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NodeAllocation) ProtoMessage() {}
+
+func (x *NodeAllocation) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_NodeAllocationManager_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NodeAllocation.ProtoReflect.Descriptor instead.
+func (*NodeAllocation) Descriptor() ([]byte, []int) {
+	return file_backend_admin_NodeAllocationManager_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *NodeAllocation) GetId() uint32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *NodeAllocation) GetNid() string {
+	if x != nil {
+		return x.Nid
+	}
+	return ""
+}
+
+func (x *NodeAllocation) GetSid() string {
+	if x != nil && x.Sid != nil {
+		return *x.Sid
+	}
+	return ""
+}
+
+func (x *NodeAllocation) GetIpAllocation() *proto_gen_go.IPAllocation {
+	if x != nil {
+		return x.IpAllocation
+	}
+	return nil
+}
+
+type GetNodeAllocationsRequest struct {
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Pagination    *proto_gen_go.Pagination `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	Nid           *string                  `protobuf:"bytes,2,opt,name=nid,proto3,oneof" json:"nid,omitempty"` // filter by node ID
+	Sid           *string                  `protobuf:"bytes,3,opt,name=sid,proto3,oneof" json:"sid,omitempty"` // filter by server ID
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetNodeAllocationsRequest) Reset() {
+	*x = GetNodeAllocationsRequest{}
+	mi := &file_backend_admin_NodeAllocationManager_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetNodeAllocationsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetNodeAllocationsRequest) ProtoMessage() {}
+
+func (x *GetNodeAllocationsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_NodeAllocationManager_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetNodeAllocationsRequest.ProtoReflect.Descriptor instead.
+func (*GetNodeAllocationsRequest) Descriptor() ([]byte, []int) {
+	return file_backend_admin_NodeAllocationManager_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *GetNodeAllocationsRequest) GetPagination() *proto_gen_go.Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+func (x *GetNodeAllocationsRequest) GetNid() string {
+	if x != nil && x.Nid != nil {
+		return *x.Nid
+	}
+	return ""
+}
+
+func (x *GetNodeAllocationsRequest) GetSid() string {
+	if x != nil && x.Sid != nil {
+		return *x.Sid
+	}
+	return ""
+}
+
+type GetNodeAllocationsResponse struct {
+	state           protoimpl.MessageState   `protogen:"open.v1"`
+	NodeAllocations []*NodeAllocation        `protobuf:"bytes,1,rep,name=node_allocations,json=nodeAllocations,proto3" json:"node_allocations,omitempty"`
+	Pagination      *proto_gen_go.Pagination `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *GetNodeAllocationsResponse) Reset() {
+	*x = GetNodeAllocationsResponse{}
+	mi := &file_backend_admin_NodeAllocationManager_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetNodeAllocationsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetNodeAllocationsResponse) ProtoMessage() {}
+
+func (x *GetNodeAllocationsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_NodeAllocationManager_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetNodeAllocationsResponse.ProtoReflect.Descriptor instead.
+func (*GetNodeAllocationsResponse) Descriptor() ([]byte, []int) {
+	return file_backend_admin_NodeAllocationManager_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *GetNodeAllocationsResponse) GetNodeAllocations() []*NodeAllocation {
+	if x != nil {
+		return x.NodeAllocations
+	}
+	return nil
+}
+
+func (x *GetNodeAllocationsResponse) GetPagination() *proto_gen_go.Pagination {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+type GetNodeAllocationRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetNodeAllocationRequest) Reset() {
+	*x = GetNodeAllocationRequest{}
+	mi := &file_backend_admin_NodeAllocationManager_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetNodeAllocationRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetNodeAllocationRequest) ProtoMessage() {}
+
+func (x *GetNodeAllocationRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_NodeAllocationManager_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetNodeAllocationRequest.ProtoReflect.Descriptor instead.
+func (*GetNodeAllocationRequest) Descriptor() ([]byte, []int) {
+	return file_backend_admin_NodeAllocationManager_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetNodeAllocationRequest) GetId() uint32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type GetNodeAllocationResponse struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	NodeAllocation *NodeAllocation        `protobuf:"bytes,1,opt,name=node_allocation,json=nodeAllocation,proto3" json:"node_allocation,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *GetNodeAllocationResponse) Reset() {
+	*x = GetNodeAllocationResponse{}
+	mi := &file_backend_admin_NodeAllocationManager_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetNodeAllocationResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetNodeAllocationResponse) ProtoMessage() {}
+
+func (x *GetNodeAllocationResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_NodeAllocationManager_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetNodeAllocationResponse.ProtoReflect.Descriptor instead.
+func (*GetNodeAllocationResponse) Descriptor() ([]byte, []int) {
+	return file_backend_admin_NodeAllocationManager_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetNodeAllocationResponse) GetNodeAllocation() *NodeAllocation {
+	if x != nil {
+		return x.NodeAllocation
+	}
+	return nil
+}
+
+type CreateNodeAllocationRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	NodeAllocation *NodeAllocation        `protobuf:"bytes,1,opt,name=node_allocation,json=nodeAllocation,proto3" json:"node_allocation,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *CreateNodeAllocationRequest) Reset() {
+	*x = CreateNodeAllocationRequest{}
+	mi := &file_backend_admin_NodeAllocationManager_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateNodeAllocationRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateNodeAllocationRequest) ProtoMessage() {}
+
+func (x *CreateNodeAllocationRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_NodeAllocationManager_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateNodeAllocationRequest.ProtoReflect.Descriptor instead.
+func (*CreateNodeAllocationRequest) Descriptor() ([]byte, []int) {
+	return file_backend_admin_NodeAllocationManager_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *CreateNodeAllocationRequest) GetNodeAllocation() *NodeAllocation {
+	if x != nil {
+		return x.NodeAllocation
+	}
+	return nil
+}
+
+type CreateNodeAllocationResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateNodeAllocationResponse) Reset() {
+	*x = CreateNodeAllocationResponse{}
+	mi := &file_backend_admin_NodeAllocationManager_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateNodeAllocationResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateNodeAllocationResponse) ProtoMessage() {}
+
+func (x *CreateNodeAllocationResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_NodeAllocationManager_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateNodeAllocationResponse.ProtoReflect.Descriptor instead.
+func (*CreateNodeAllocationResponse) Descriptor() ([]byte, []int) {
+	return file_backend_admin_NodeAllocationManager_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *CreateNodeAllocationResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+type UpdateNodeAllocationRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	NodeAllocation *NodeAllocation        `protobuf:"bytes,1,opt,name=node_allocation,json=nodeAllocation,proto3" json:"node_allocation,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *UpdateNodeAllocationRequest) Reset() {
+	*x = UpdateNodeAllocationRequest{}
+	mi := &file_backend_admin_NodeAllocationManager_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateNodeAllocationRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateNodeAllocationRequest) ProtoMessage() {}
+
+func (x *UpdateNodeAllocationRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_NodeAllocationManager_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateNodeAllocationRequest.ProtoReflect.Descriptor instead.
+func (*UpdateNodeAllocationRequest) Descriptor() ([]byte, []int) {
+	return file_backend_admin_NodeAllocationManager_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *UpdateNodeAllocationRequest) GetNodeAllocation() *NodeAllocation {
+	if x != nil {
+		return x.NodeAllocation
+	}
+	return nil
+}
+
+type UpdateNodeAllocationResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateNodeAllocationResponse) Reset() {
+	*x = UpdateNodeAllocationResponse{}
+	mi := &file_backend_admin_NodeAllocationManager_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateNodeAllocationResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateNodeAllocationResponse) ProtoMessage() {}
+
+func (x *UpdateNodeAllocationResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_NodeAllocationManager_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateNodeAllocationResponse.ProtoReflect.Descriptor instead.
+func (*UpdateNodeAllocationResponse) Descriptor() ([]byte, []int) {
+	return file_backend_admin_NodeAllocationManager_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *UpdateNodeAllocationResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+type DeleteNodeAllocationRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            uint32                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteNodeAllocationRequest) Reset() {
+	*x = DeleteNodeAllocationRequest{}
+	mi := &file_backend_admin_NodeAllocationManager_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteNodeAllocationRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteNodeAllocationRequest) ProtoMessage() {}
+
+func (x *DeleteNodeAllocationRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_NodeAllocationManager_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteNodeAllocationRequest.ProtoReflect.Descriptor instead.
+func (*DeleteNodeAllocationRequest) Descriptor() ([]byte, []int) {
+	return file_backend_admin_NodeAllocationManager_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *DeleteNodeAllocationRequest) GetId() uint32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type DeleteNodeAllocationResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteNodeAllocationResponse) Reset() {
+	*x = DeleteNodeAllocationResponse{}
+	mi := &file_backend_admin_NodeAllocationManager_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteNodeAllocationResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteNodeAllocationResponse) ProtoMessage() {}
+
+func (x *DeleteNodeAllocationResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_NodeAllocationManager_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteNodeAllocationResponse.ProtoReflect.Descriptor instead.
+func (*DeleteNodeAllocationResponse) Descriptor() ([]byte, []int) {
+	return file_backend_admin_NodeAllocationManager_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *DeleteNodeAllocationResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
 var File_backend_admin_NodeAllocationManager_proto protoreflect.FileDescriptor
 
 const file_backend_admin_NodeAllocationManager_proto_rawDesc = "" +
 	"\n" +
-	")backend/admin/NodeAllocationManager.proto\x12\rbackend_admin\x1a\fcommon.protoB%Z#panelium/proto_gen_go/backend/adminb\x06proto3"
+	")backend/admin/NodeAllocationManager.proto\x12\rbackend_admin\x1a\fcommon.proto\"\x8c\x01\n" +
+	"\x0eNodeAllocation\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\x12\x10\n" +
+	"\x03nid\x18\x02 \x01(\tR\x03nid\x12\x15\n" +
+	"\x03sid\x18\x03 \x01(\tH\x00R\x03sid\x88\x01\x01\x129\n" +
+	"\rip_allocation\x18\x04 \x01(\v2\x14.common.IPAllocationR\fipAllocationB\x06\n" +
+	"\x04_sid\"\x8d\x01\n" +
+	"\x19GetNodeAllocationsRequest\x122\n" +
+	"\n" +
+	"pagination\x18\x01 \x01(\v2\x12.common.PaginationR\n" +
+	"pagination\x12\x15\n" +
+	"\x03nid\x18\x02 \x01(\tH\x00R\x03nid\x88\x01\x01\x12\x15\n" +
+	"\x03sid\x18\x03 \x01(\tH\x01R\x03sid\x88\x01\x01B\x06\n" +
+	"\x04_nidB\x06\n" +
+	"\x04_sid\"\x9a\x01\n" +
+	"\x1aGetNodeAllocationsResponse\x12H\n" +
+	"\x10node_allocations\x18\x01 \x03(\v2\x1d.backend_admin.NodeAllocationR\x0fnodeAllocations\x122\n" +
+	"\n" +
+	"pagination\x18\x02 \x01(\v2\x12.common.PaginationR\n" +
+	"pagination\"*\n" +
+	"\x18GetNodeAllocationRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\"c\n" +
+	"\x19GetNodeAllocationResponse\x12F\n" +
+	"\x0fnode_allocation\x18\x01 \x01(\v2\x1d.backend_admin.NodeAllocationR\x0enodeAllocation\"e\n" +
+	"\x1bCreateNodeAllocationRequest\x12F\n" +
+	"\x0fnode_allocation\x18\x01 \x01(\v2\x1d.backend_admin.NodeAllocationR\x0enodeAllocation\"8\n" +
+	"\x1cCreateNodeAllocationResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"e\n" +
+	"\x1bUpdateNodeAllocationRequest\x12F\n" +
+	"\x0fnode_allocation\x18\x01 \x01(\v2\x1d.backend_admin.NodeAllocationR\x0enodeAllocation\"8\n" +
+	"\x1cUpdateNodeAllocationResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"-\n" +
+	"\x1bDeleteNodeAllocationRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\rR\x02id\"8\n" +
+	"\x1cDeleteNodeAllocationResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess2\xc4\x04\n" +
+	"\x1cNodeAllocationManagerService\x12i\n" +
+	"\x12GetNodeAllocations\x12(.backend_admin.GetNodeAllocationsRequest\x1a).backend_admin.GetNodeAllocationsResponse\x12f\n" +
+	"\x11GetNodeAllocation\x12'.backend_admin.GetNodeAllocationRequest\x1a(.backend_admin.GetNodeAllocationResponse\x12o\n" +
+	"\x14CreateNodeAllocation\x12*.backend_admin.CreateNodeAllocationRequest\x1a+.backend_admin.CreateNodeAllocationResponse\x12o\n" +
+	"\x14UpdateNodeAllocation\x12*.backend_admin.UpdateNodeAllocationRequest\x1a+.backend_admin.UpdateNodeAllocationResponse\x12o\n" +
+	"\x14DeleteNodeAllocation\x12*.backend_admin.DeleteNodeAllocationRequest\x1a+.backend_admin.DeleteNodeAllocationResponseB%Z#panelium/proto_gen_go/backend/adminb\x06proto3"
 
-var file_backend_admin_NodeAllocationManager_proto_goTypes = []any{}
+var (
+	file_backend_admin_NodeAllocationManager_proto_rawDescOnce sync.Once
+	file_backend_admin_NodeAllocationManager_proto_rawDescData []byte
+)
+
+func file_backend_admin_NodeAllocationManager_proto_rawDescGZIP() []byte {
+	file_backend_admin_NodeAllocationManager_proto_rawDescOnce.Do(func() {
+		file_backend_admin_NodeAllocationManager_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_backend_admin_NodeAllocationManager_proto_rawDesc), len(file_backend_admin_NodeAllocationManager_proto_rawDesc)))
+	})
+	return file_backend_admin_NodeAllocationManager_proto_rawDescData
+}
+
+var file_backend_admin_NodeAllocationManager_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_backend_admin_NodeAllocationManager_proto_goTypes = []any{
+	(*NodeAllocation)(nil),               // 0: backend_admin.NodeAllocation
+	(*GetNodeAllocationsRequest)(nil),    // 1: backend_admin.GetNodeAllocationsRequest
+	(*GetNodeAllocationsResponse)(nil),   // 2: backend_admin.GetNodeAllocationsResponse
+	(*GetNodeAllocationRequest)(nil),     // 3: backend_admin.GetNodeAllocationRequest
+	(*GetNodeAllocationResponse)(nil),    // 4: backend_admin.GetNodeAllocationResponse
+	(*CreateNodeAllocationRequest)(nil),  // 5: backend_admin.CreateNodeAllocationRequest
+	(*CreateNodeAllocationResponse)(nil), // 6: backend_admin.CreateNodeAllocationResponse
+	(*UpdateNodeAllocationRequest)(nil),  // 7: backend_admin.UpdateNodeAllocationRequest
+	(*UpdateNodeAllocationResponse)(nil), // 8: backend_admin.UpdateNodeAllocationResponse
+	(*DeleteNodeAllocationRequest)(nil),  // 9: backend_admin.DeleteNodeAllocationRequest
+	(*DeleteNodeAllocationResponse)(nil), // 10: backend_admin.DeleteNodeAllocationResponse
+	(*proto_gen_go.IPAllocation)(nil),    // 11: common.IPAllocation
+	(*proto_gen_go.Pagination)(nil),      // 12: common.Pagination
+}
 var file_backend_admin_NodeAllocationManager_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	11, // 0: backend_admin.NodeAllocation.ip_allocation:type_name -> common.IPAllocation
+	12, // 1: backend_admin.GetNodeAllocationsRequest.pagination:type_name -> common.Pagination
+	0,  // 2: backend_admin.GetNodeAllocationsResponse.node_allocations:type_name -> backend_admin.NodeAllocation
+	12, // 3: backend_admin.GetNodeAllocationsResponse.pagination:type_name -> common.Pagination
+	0,  // 4: backend_admin.GetNodeAllocationResponse.node_allocation:type_name -> backend_admin.NodeAllocation
+	0,  // 5: backend_admin.CreateNodeAllocationRequest.node_allocation:type_name -> backend_admin.NodeAllocation
+	0,  // 6: backend_admin.UpdateNodeAllocationRequest.node_allocation:type_name -> backend_admin.NodeAllocation
+	1,  // 7: backend_admin.NodeAllocationManagerService.GetNodeAllocations:input_type -> backend_admin.GetNodeAllocationsRequest
+	3,  // 8: backend_admin.NodeAllocationManagerService.GetNodeAllocation:input_type -> backend_admin.GetNodeAllocationRequest
+	5,  // 9: backend_admin.NodeAllocationManagerService.CreateNodeAllocation:input_type -> backend_admin.CreateNodeAllocationRequest
+	7,  // 10: backend_admin.NodeAllocationManagerService.UpdateNodeAllocation:input_type -> backend_admin.UpdateNodeAllocationRequest
+	9,  // 11: backend_admin.NodeAllocationManagerService.DeleteNodeAllocation:input_type -> backend_admin.DeleteNodeAllocationRequest
+	2,  // 12: backend_admin.NodeAllocationManagerService.GetNodeAllocations:output_type -> backend_admin.GetNodeAllocationsResponse
+	4,  // 13: backend_admin.NodeAllocationManagerService.GetNodeAllocation:output_type -> backend_admin.GetNodeAllocationResponse
+	6,  // 14: backend_admin.NodeAllocationManagerService.CreateNodeAllocation:output_type -> backend_admin.CreateNodeAllocationResponse
+	8,  // 15: backend_admin.NodeAllocationManagerService.UpdateNodeAllocation:output_type -> backend_admin.UpdateNodeAllocationResponse
+	10, // 16: backend_admin.NodeAllocationManagerService.DeleteNodeAllocation:output_type -> backend_admin.DeleteNodeAllocationResponse
+	12, // [12:17] is the sub-list for method output_type
+	7,  // [7:12] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_backend_admin_NodeAllocationManager_proto_init() }
@@ -41,18 +659,21 @@ func file_backend_admin_NodeAllocationManager_proto_init() {
 	if File_backend_admin_NodeAllocationManager_proto != nil {
 		return
 	}
+	file_backend_admin_NodeAllocationManager_proto_msgTypes[0].OneofWrappers = []any{}
+	file_backend_admin_NodeAllocationManager_proto_msgTypes[1].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_backend_admin_NodeAllocationManager_proto_rawDesc), len(file_backend_admin_NodeAllocationManager_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   0,
+			NumMessages:   11,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_backend_admin_NodeAllocationManager_proto_goTypes,
 		DependencyIndexes: file_backend_admin_NodeAllocationManager_proto_depIdxs,
+		MessageInfos:      file_backend_admin_NodeAllocationManager_proto_msgTypes,
 	}.Build()
 	File_backend_admin_NodeAllocationManager_proto = out.File
 	file_backend_admin_NodeAllocationManager_proto_goTypes = nil

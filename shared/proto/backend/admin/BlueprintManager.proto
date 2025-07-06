@@ -4,3 +4,90 @@ package backend_admin;
 option go_package = "panelium/proto_gen_go/backend/admin";
 
 import "common.proto";
+
+service BlueprintManagerService {
+  rpc GetBlueprints(GetBlueprintsRequest) returns (GetBlueprintsResponse);
+  rpc GetBlueprint(GetBlueprintRequest) returns (GetBlueprintResponse);
+  rpc CreateBlueprint(CreateBlueprintRequest) returns (CreateBlueprintResponse);
+  rpc UpdateBlueprint(UpdateBlueprintRequest) returns (UpdateBlueprintResponse);
+  rpc DeleteBlueprint(DeleteBlueprintRequest) returns (DeleteBlueprintResponse);
+}
+
+message DockerImage {
+  string name = 1;
+  string image = 2;
+}
+
+message BlockedFile {
+  string file = 1;
+  bool visible = 2;
+  bool readable = 3;
+}
+
+message Blueprint {
+  uint32 format_version = 1;
+  string bid = 2;
+  uint32 version = 3;
+  string update_url = 4;
+  string name = 5;
+  string description = 6;
+  string category = 7;
+  string icon = 8;
+  string banner = 9;
+  repeated string flags = 10;
+  repeated DockerImage docker_images = 11;
+  repeated BlockedFile blocked_files = 12;
+  string server_binary = 13;
+  string start_command = 14;
+  string stop_command = 15;
+  string setup_script_base64 = 16;
+  string setup_docker_image = 17;
+  string setup_script_interpreter = 18;
+}
+
+message GetBlueprintsRequest {
+  common.Pagination pagination = 1;
+}
+
+message GetBlueprintsResponse {
+  repeated Blueprint blueprints = 1;
+  common.Pagination pagination = 2;
+}
+
+message GetBlueprintRequest {
+  string bid = 1;
+}
+
+message GetBlueprintResponse {
+  Blueprint blueprint = 1;
+}
+
+message CreateBlueprintRequest {
+  oneof blueprint_or_json {
+    Blueprint blueprint = 1;
+    string blueprintJson = 2;
+  }
+}
+
+message CreateBlueprintResponse {
+  bool success = 1;
+}
+
+message UpdateBlueprintRequest {
+  oneof blueprint_or_json {
+    Blueprint blueprint = 1;
+    string blueprintJson = 2;
+  }
+}
+
+message UpdateBlueprintResponse {
+  bool success = 1;
+}
+
+message DeleteBlueprintRequest {
+  string bid = 1;
+}
+
+message DeleteBlueprintResponse {
+  bool success = 1;
+}
