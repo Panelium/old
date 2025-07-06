@@ -46,6 +46,16 @@ can be different) for the CORS and cookies to work properly.
 
 Blueprints are available at https://blueprints.ndmh.xyz/ ([source](https://github.com/Panelium/Blueprints))
 
+### Uninstalling Panelium
+
+To completely remove Panelium, including all configuration, data, and nginx configs, run the uninstall script:
+
+```sh
+bash <(curl -s https://raw.githubusercontent.com/panelium/panelium/main/assets/panelium-uninstall.sh)
+```
+
+You will be prompted for confirmation before any files are deleted.
+
 ### Development Environment Setup
 
 To set up a development environment for Panelium, follow these steps:
