@@ -10,6 +10,10 @@ export default [
   ...prefix("auth", [
     layout("layouts/AuthLayout.tsx", [index("routes/auth/index.tsx")]),
   ]),
+  
+  ...prefix("admin", [
+    layout("layouts/AdminLayout.tsx", [index("routes/admin/index.tsx")])
+  ]),
 
   layout("layouts/ProtectedLayout.tsx", [
     layout("layouts/UserDashboardLayout.tsx", [
