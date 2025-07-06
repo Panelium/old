@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package daemon;
+option go_package = "panelium/proto_gen_go/daemon";
+
+import "common.proto";
+
+service SetupService {
+  rpc Setup(SetupRequest) returns (common.SuccessMessage);
+}
+
+message SetupRequest {
+  string backend_token = 1;
+  string backend_host = 2;
+}
