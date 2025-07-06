@@ -7,6 +7,8 @@ type Node struct {
 	NID         string           `gorm:"uniqueIndex;not null" json:"nid"` // Node ID
 	Name        string           `gorm:"uniqueIndex;not null" json:"name"`
 	FQDN        string           `gorm:"uniqueIndex;not null" json:"fqdn"`
+	DaemonPort  uint             `gorm:"not null" json:"daemon_port"`
+	HTTPS       bool             `gorm:"not null" json:"https"` // Whether the node uses HTTPS for the daemon communication
 	LocationID  uint             `gorm:"index;not null" json:"location_id"`
 	Location    Location         `json:"location"`
 	Servers     []Server         `gorm:"foreignKey:NodeID" json:"servers"`
