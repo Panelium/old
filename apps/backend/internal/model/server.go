@@ -16,6 +16,7 @@ type Server struct {
 	ResourceLimit ResourceLimit    `gorm:"embedded" json:"resource_limit"`
 	DockerImage   string           `gorm:"not null" json:"docker_image"`
 	BID           string           `gorm:"not null" json:"bid"`
+	Blueprint     Blueprint        `gorm:"foreignKey:BID;references:BID" json:"blueprint"`
 }
 
 type ResourceLimit struct {
