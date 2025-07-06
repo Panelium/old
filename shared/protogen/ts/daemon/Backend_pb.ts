@@ -6,15 +6,14 @@ import type { GenFile, GenService } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
 import type { SimpleIDMessageSchema, SuccessMessageSchema } from "../common_pb";
 import { file_common } from "../common_pb";
-import { file_daemon_Server } from "./Server_pb";
-import type { ServerSchema } from "../backend/DaemonConnection_pb";
-import { file_backend_DaemonConnection } from "../backend/DaemonConnection_pb";
+import type { ServerSchema } from "../backend/Daemon_pb";
+import { file_backend_Daemon } from "../backend/Daemon_pb";
 
 /**
  * Describes the file daemon/Backend.proto.
  */
 export const file_daemon_Backend: GenFile = /*@__PURE__*/
-  fileDesc("ChRkYWVtb24vQmFja2VuZC5wcm90bxIGZGFlbW9uMsMBCg5CYWNrZW5kU2VydmljZRI3CgxDcmVhdGVTZXJ2ZXISDy5iYWNrZW5kLlNlcnZlchoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRI3CgxVcGRhdGVTZXJ2ZXISDy5iYWNrZW5kLlNlcnZlchoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRI/CgxEZWxldGVTZXJ2ZXISFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlQh5aHHBhbmVsaXVtL3Byb3RvX2dlbl9nby9kYWVtb25iBnByb3RvMw", [file_common, file_daemon_Server, file_backend_DaemonConnection]);
+  fileDesc("ChRkYWVtb24vQmFja2VuZC5wcm90bxIGZGFlbW9uMsMBCg5CYWNrZW5kU2VydmljZRI3CgxDcmVhdGVTZXJ2ZXISDy5iYWNrZW5kLlNlcnZlchoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRI3CgxVcGRhdGVTZXJ2ZXISDy5iYWNrZW5kLlNlcnZlchoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRI/CgxEZWxldGVTZXJ2ZXISFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlQh5aHHBhbmVsaXVtL3Byb3RvX2dlbl9nby9kYWVtb25iBnByb3RvMw", [file_common, file_backend_Daemon]);
 
 /**
  * @generated from service daemon.BackendService

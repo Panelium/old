@@ -26,7 +26,7 @@ var File_daemon_Backend_proto protoreflect.FileDescriptor
 
 const file_daemon_Backend_proto_rawDesc = "" +
 	"\n" +
-	"\x14daemon/Backend.proto\x12\x06daemon\x1a\fcommon.proto\x1a\x13daemon/Server.proto\x1a\x1ebackend/DaemonConnection.proto2\xc3\x01\n" +
+	"\x14daemon/Backend.proto\x12\x06daemon\x1a\fcommon.proto\x1a\x14backend/Daemon.proto2\xc3\x01\n" +
 	"\x0eBackendService\x127\n" +
 	"\fCreateServer\x12\x0f.backend.Server\x1a\x16.common.SuccessMessage\x127\n" +
 	"\fUpdateServer\x12\x0f.backend.Server\x1a\x16.common.SuccessMessage\x12?\n" +
@@ -56,7 +56,6 @@ func file_daemon_Backend_proto_init() {
 	if File_daemon_Backend_proto != nil {
 		return
 	}
-	file_daemon_Server_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

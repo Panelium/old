@@ -1,0 +1,369 @@
+openapi: 3.1.0
+info:
+  title: backend
+paths:
+  /backend.DaemonService/CreateBackendToken:
+    post:
+      tags:
+        - backend.DaemonService
+      summary: CreateBackendToken
+      operationId: backend.DaemonService.CreateBackendToken
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/common.SimpleIDMessage'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.CreateTokenResponse'
+  /backend.DaemonService/RegisterDaemon:
+    post:
+      tags:
+        - backend.DaemonService
+      summary: RegisterDaemon
+      operationId: backend.DaemonService.RegisterDaemon
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend.RegisterDaemonRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/common.SuccessMessage'
+  /backend.DaemonService/SyncBlueprints: {}
+  /backend.DaemonService/GetBlueprint:
+    post:
+      tags:
+        - backend.DaemonService
+      summary: GetBlueprint
+      operationId: backend.DaemonService.GetBlueprint
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/common.SimpleIDMessage'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.Blueprint'
+  /backend.DaemonService/SyncServers: {}
+  /backend.DaemonService/GetServer:
+    post:
+      tags:
+        - backend.DaemonService
+      summary: GetServer
+      operationId: backend.DaemonService.GetServer
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/common.SimpleIDMessage'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.Server'
+components:
+  schemas:
+    backend.BlockedFile:
+      type: object
+      properties:
+        file:
+          type: string
+          title: file
+        visible:
+          type: boolean
+          title: visible
+        readable:
+          type: boolean
+          title: readable
+      title: BlockedFile
+      additionalProperties: false
+    backend.Blueprint:
+      type: object
+      properties:
+        bid:
+          type: string
+          title: bid
+        version:
+          type: integer
+          title: version
+        flags:
+          type: array
+          items:
+            type: string
+          title: flags
+        dockerImages:
+          type: array
+          items:
+            type: string
+          title: docker_images
+          description: only the uri
+        blockedFiles:
+          type: array
+          items:
+            $ref: '#/components/schemas/backend.BlockedFile'
+          title: blocked_files
+        serverBinary:
+          type: string
+          title: server_binary
+        startCommand:
+          type: string
+          title: start_command
+        stopCommand:
+          type: string
+          title: stop_command
+        setupScriptBase64:
+          type: string
+          title: setup_script_base64
+        setupDockerImage:
+          type: string
+          title: setup_docker_image
+        setupScriptInterpreter:
+          type: string
+          title: setup_script_interpreter
+      title: Blueprint
+      additionalProperties: false
+    backend.CreateTokenResponse:
+      type: object
+      properties:
+        backendToken:
+          type: string
+          title: backend_token
+      title: CreateTokenResponse
+      additionalProperties: false
+    backend.RegisterDaemonRequest:
+      type: object
+      properties:
+        backendToken:
+          type: string
+          title: backend_token
+        nodeToken:
+          type: string
+          title: node_token
+      title: RegisterDaemonRequest
+      additionalProperties: false
+    backend.Server:
+      type: object
+      properties:
+        sid:
+          type: string
+          title: sid
+        ownerId:
+          type: string
+          title: owner_id
+        userIds:
+          type: array
+          items:
+            type: string
+          title: user_ids
+        allocations:
+          type: array
+          items:
+            $ref: '#/components/schemas/common.IPAllocation'
+          title: allocations
+        resourceLimit:
+          title: resource_limit
+          $ref: '#/components/schemas/common.ResourceLimit'
+        dockerImage:
+          type: string
+          title: docker_image
+        bid:
+          type: string
+          title: bid
+      title: Server
+      additionalProperties: false
+    common.Empty:
+      type: object
+      title: Empty
+      additionalProperties: false
+    common.IPAllocation:
+      type: object
+      properties:
+        ip:
+          type: string
+          title: ip
+        port:
+          type: integer
+          title: port
+          description: MUST BE 1024-65535
+      title: IPAllocation
+      additionalProperties: false
+    common.ResourceLimit:
+      type: object
+      properties:
+        cpu:
+          type: integer
+          title: cpu
+          description: CPU in percentage (100% = 1 vCore)
+        ram:
+          type: integer
+          title: ram
+          description: RAM in MB
+        swap:
+          type: integer
+          title: swap
+          description: SWAP in MB
+        storage:
+          type: integer
+          title: storage
+          description: Storage in MB
+      title: ResourceLimit
+      additionalProperties: false
+    common.SimpleIDMessage:
+      type: object
+      properties:
+        id:
+          type: string
+          title: id
+      title: SimpleIDMessage
+      additionalProperties: false
+    common.SuccessMessage:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: SuccessMessage
+      additionalProperties: false
+    connect-protocol-version:
+      type: number
+      title: Connect-Protocol-Version
+      enum:
+        - 1
+      description: Define the version of the Connect protocol
+      const: 1
+    connect-timeout-header:
+      type: number
+      title: Connect-Timeout-Ms
+      description: Define the timeout, in ms
+    connect.error:
+      type: object
+      properties:
+        code:
+          type: string
+          examples:
+            - not_found
+          enum:
+            - canceled
+            - unknown
+            - invalid_argument
+            - deadline_exceeded
+            - not_found
+            - already_exists
+            - permission_denied
+            - resource_exhausted
+            - failed_precondition
+            - aborted
+            - out_of_range
+            - unimplemented
+            - internal
+            - unavailable
+            - data_loss
+            - unauthenticated
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        detail:
+          $ref: '#/components/schemas/google.protobuf.Any'
+      title: Connect Error
+      additionalProperties: true
+      description: 'Error type returned by Connect: https://connectrpc.com/docs/go/errors/#http-representation'
+    google.protobuf.Any:
+      type: object
+      properties:
+        type:
+          type: string
+        value:
+          type: string
+          format: binary
+        debug:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+security: []
+tags:
+  - name: backend.DaemonService

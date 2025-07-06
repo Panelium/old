@@ -5,7 +5,7 @@ option go_package = "panelium/proto_gen_go/backend";
 
 import "common.proto";
 
-service DaemonConnectionService {
+service DaemonService {
   rpc CreateBackendToken(common.SimpleIDMessage) returns (CreateTokenResponse);
   rpc RegisterDaemon(RegisterDaemonRequest) returns (common.SuccessMessage);
 

@@ -4,7 +4,7 @@ package daemon;
 option go_package = "panelium/proto_gen_go/daemon";
 
 import "common.proto";
-import "backend/DaemonConnection.proto";
+import "backend/Daemon.proto";
 
 service BackendService {
   rpc CreateServer(backend.Server) returns (common.SuccessMessage);
