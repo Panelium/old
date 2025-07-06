@@ -38,6 +38,12 @@ if ! command -v certbot &>/dev/null; then
   exit 1
 fi
 
+# Check for jq
+if ! command -v jq &>/dev/null; then
+  echo "jq is not installed. Please install jq first." >&2
+  exit 1
+fi
+
 # Prompt for domains (used for both URLs and certbot/nginx)
 read -rp "Enter the Dashboard domain (e.g. dashboard.example.com): " DASHBOARD_DOMAIN
 read -rp "Enter the Backend domain (e.g. backend.example.com): " BACKEND_DOMAIN
