@@ -40,16 +40,28 @@ const (
 	// DaemonConnectionServiceRegisterDaemonProcedure is the fully-qualified name of the
 	// DaemonConnectionService's RegisterDaemon RPC.
 	DaemonConnectionServiceRegisterDaemonProcedure = "/backend.DaemonConnectionService/RegisterDaemon"
-	// DaemonConnectionServiceSyncDataProcedure is the fully-qualified name of the
-	// DaemonConnectionService's SyncData RPC.
-	DaemonConnectionServiceSyncDataProcedure = "/backend.DaemonConnectionService/SyncData"
+	// DaemonConnectionServiceSyncBlueprintsProcedure is the fully-qualified name of the
+	// DaemonConnectionService's SyncBlueprints RPC.
+	DaemonConnectionServiceSyncBlueprintsProcedure = "/backend.DaemonConnectionService/SyncBlueprints"
+	// DaemonConnectionServiceGetBlueprintProcedure is the fully-qualified name of the
+	// DaemonConnectionService's GetBlueprint RPC.
+	DaemonConnectionServiceGetBlueprintProcedure = "/backend.DaemonConnectionService/GetBlueprint"
+	// DaemonConnectionServiceSyncServersProcedure is the fully-qualified name of the
+	// DaemonConnectionService's SyncServers RPC.
+	DaemonConnectionServiceSyncServersProcedure = "/backend.DaemonConnectionService/SyncServers"
+	// DaemonConnectionServiceGetServerProcedure is the fully-qualified name of the
+	// DaemonConnectionService's GetServer RPC.
+	DaemonConnectionServiceGetServerProcedure = "/backend.DaemonConnectionService/GetServer"
 )
 
 // DaemonConnectionServiceClient is a client for the backend.DaemonConnectionService service.
 type DaemonConnectionServiceClient interface {
 	CreateBackendToken(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.CreateTokenResponse], error)
 	RegisterDaemon(context.Context, *connect.Request[backend.RegisterDaemonRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
-	SyncData(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.ServerStreamForClient[backend.SyncDataResponse], error)
+	SyncBlueprints(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.ServerStreamForClient[backend.Blueprint], error)
+	GetBlueprint(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.Blueprint], error)
+	SyncServers(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.ServerStreamForClient[backend.Server], error)
+	GetServer(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.Server], error)
 }
 
 // NewDaemonConnectionServiceClient constructs a client for the backend.DaemonConnectionService
@@ -75,10 +87,28 @@ func NewDaemonConnectionServiceClient(httpClient connect.HTTPClient, baseURL str
 			connect.WithSchema(daemonConnectionServiceMethods.ByName("RegisterDaemon")),
 			connect.WithClientOptions(opts...),
 		),
-		syncData: connect.NewClient[proto_gen_go.Empty, backend.SyncDataResponse](
+		syncBlueprints: connect.NewClient[proto_gen_go.Empty, backend.Blueprint](
 			httpClient,
-			baseURL+DaemonConnectionServiceSyncDataProcedure,
-			connect.WithSchema(daemonConnectionServiceMethods.ByName("SyncData")),
+			baseURL+DaemonConnectionServiceSyncBlueprintsProcedure,
+			connect.WithSchema(daemonConnectionServiceMethods.ByName("SyncBlueprints")),
+			connect.WithClientOptions(opts...),
+		),
+		getBlueprint: connect.NewClient[proto_gen_go.SimpleIDMessage, backend.Blueprint](
+			httpClient,
+			baseURL+DaemonConnectionServiceGetBlueprintProcedure,
+			connect.WithSchema(daemonConnectionServiceMethods.ByName("GetBlueprint")),
+			connect.WithClientOptions(opts...),
+		),
+		syncServers: connect.NewClient[proto_gen_go.Empty, backend.Server](
+			httpClient,
+			baseURL+DaemonConnectionServiceSyncServersProcedure,
+			connect.WithSchema(daemonConnectionServiceMethods.ByName("SyncServers")),
+			connect.WithClientOptions(opts...),
+		),
+		getServer: connect.NewClient[proto_gen_go.SimpleIDMessage, backend.Server](
+			httpClient,
+			baseURL+DaemonConnectionServiceGetServerProcedure,
+			connect.WithSchema(daemonConnectionServiceMethods.ByName("GetServer")),
 			connect.WithClientOptions(opts...),
 		),
 	}
@@ -88,7 +118,10 @@ func NewDaemonConnectionServiceClient(httpClient connect.HTTPClient, baseURL str
 type daemonConnectionServiceClient struct {
 	createBackendToken *connect.Client[proto_gen_go.SimpleIDMessage, backend.CreateTokenResponse]
 	registerDaemon     *connect.Client[backend.RegisterDaemonRequest, proto_gen_go.SuccessMessage]
-	syncData           *connect.Client[proto_gen_go.Empty, backend.SyncDataResponse]
+	syncBlueprints     *connect.Client[proto_gen_go.Empty, backend.Blueprint]
+	getBlueprint       *connect.Client[proto_gen_go.SimpleIDMessage, backend.Blueprint]
+	syncServers        *connect.Client[proto_gen_go.Empty, backend.Server]
+	getServer          *connect.Client[proto_gen_go.SimpleIDMessage, backend.Server]
 }
 
 // CreateBackendToken calls backend.DaemonConnectionService.CreateBackendToken.
@@ -101,9 +134,24 @@ func (c *daemonConnectionServiceClient) RegisterDaemon(ctx context.Context, req 
 	return c.registerDaemon.CallUnary(ctx, req)
 }
 
-// SyncData calls backend.DaemonConnectionService.SyncData.
-func (c *daemonConnectionServiceClient) SyncData(ctx context.Context, req *connect.Request[proto_gen_go.Empty]) (*connect.ServerStreamForClient[backend.SyncDataResponse], error) {
-	return c.syncData.CallServerStream(ctx, req)
+// SyncBlueprints calls backend.DaemonConnectionService.SyncBlueprints.
+func (c *daemonConnectionServiceClient) SyncBlueprints(ctx context.Context, req *connect.Request[proto_gen_go.Empty]) (*connect.ServerStreamForClient[backend.Blueprint], error) {
+	return c.syncBlueprints.CallServerStream(ctx, req)
+}
+
+// GetBlueprint calls backend.DaemonConnectionService.GetBlueprint.
+func (c *daemonConnectionServiceClient) GetBlueprint(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.Blueprint], error) {
+	return c.getBlueprint.CallUnary(ctx, req)
+}
+
+// SyncServers calls backend.DaemonConnectionService.SyncServers.
+func (c *daemonConnectionServiceClient) SyncServers(ctx context.Context, req *connect.Request[proto_gen_go.Empty]) (*connect.ServerStreamForClient[backend.Server], error) {
+	return c.syncServers.CallServerStream(ctx, req)
+}
+
+// GetServer calls backend.DaemonConnectionService.GetServer.
+func (c *daemonConnectionServiceClient) GetServer(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.Server], error) {
+	return c.getServer.CallUnary(ctx, req)
 }
 
 // DaemonConnectionServiceHandler is an implementation of the backend.DaemonConnectionService
@@ -111,7 +159,10 @@ func (c *daemonConnectionServiceClient) SyncData(ctx context.Context, req *conne
 type DaemonConnectionServiceHandler interface {
 	CreateBackendToken(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.CreateTokenResponse], error)
 	RegisterDaemon(context.Context, *connect.Request[backend.RegisterDaemonRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
-	SyncData(context.Context, *connect.Request[proto_gen_go.Empty], *connect.ServerStream[backend.SyncDataResponse]) error
+	SyncBlueprints(context.Context, *connect.Request[proto_gen_go.Empty], *connect.ServerStream[backend.Blueprint]) error
+	GetBlueprint(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.Blueprint], error)
+	SyncServers(context.Context, *connect.Request[proto_gen_go.Empty], *connect.ServerStream[backend.Server]) error
+	GetServer(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.Server], error)
 }
 
 // NewDaemonConnectionServiceHandler builds an HTTP handler from the service implementation. It
@@ -133,10 +184,28 @@ func NewDaemonConnectionServiceHandler(svc DaemonConnectionServiceHandler, opts 
 		connect.WithSchema(daemonConnectionServiceMethods.ByName("RegisterDaemon")),
 		connect.WithHandlerOptions(opts...),
 	)
-	daemonConnectionServiceSyncDataHandler := connect.NewServerStreamHandler(
-		DaemonConnectionServiceSyncDataProcedure,
-		svc.SyncData,
-		connect.WithSchema(daemonConnectionServiceMethods.ByName("SyncData")),
+	daemonConnectionServiceSyncBlueprintsHandler := connect.NewServerStreamHandler(
+		DaemonConnectionServiceSyncBlueprintsProcedure,
+		svc.SyncBlueprints,
+		connect.WithSchema(daemonConnectionServiceMethods.ByName("SyncBlueprints")),
+		connect.WithHandlerOptions(opts...),
+	)
+	daemonConnectionServiceGetBlueprintHandler := connect.NewUnaryHandler(
+		DaemonConnectionServiceGetBlueprintProcedure,
+		svc.GetBlueprint,
+		connect.WithSchema(daemonConnectionServiceMethods.ByName("GetBlueprint")),
+		connect.WithHandlerOptions(opts...),
+	)
+	daemonConnectionServiceSyncServersHandler := connect.NewServerStreamHandler(
+		DaemonConnectionServiceSyncServersProcedure,
+		svc.SyncServers,
+		connect.WithSchema(daemonConnectionServiceMethods.ByName("SyncServers")),
+		connect.WithHandlerOptions(opts...),
+	)
+	daemonConnectionServiceGetServerHandler := connect.NewUnaryHandler(
+		DaemonConnectionServiceGetServerProcedure,
+		svc.GetServer,
+		connect.WithSchema(daemonConnectionServiceMethods.ByName("GetServer")),
 		connect.WithHandlerOptions(opts...),
 	)
 	return "/backend.DaemonConnectionService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -145,8 +214,14 @@ func NewDaemonConnectionServiceHandler(svc DaemonConnectionServiceHandler, opts 
 			daemonConnectionServiceCreateBackendTokenHandler.ServeHTTP(w, r)
 		case DaemonConnectionServiceRegisterDaemonProcedure:
 			daemonConnectionServiceRegisterDaemonHandler.ServeHTTP(w, r)
-		case DaemonConnectionServiceSyncDataProcedure:
-			daemonConnectionServiceSyncDataHandler.ServeHTTP(w, r)
+		case DaemonConnectionServiceSyncBlueprintsProcedure:
+			daemonConnectionServiceSyncBlueprintsHandler.ServeHTTP(w, r)
+		case DaemonConnectionServiceGetBlueprintProcedure:
+			daemonConnectionServiceGetBlueprintHandler.ServeHTTP(w, r)
+		case DaemonConnectionServiceSyncServersProcedure:
+			daemonConnectionServiceSyncServersHandler.ServeHTTP(w, r)
+		case DaemonConnectionServiceGetServerProcedure:
+			daemonConnectionServiceGetServerHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -164,6 +239,18 @@ func (UnimplementedDaemonConnectionServiceHandler) RegisterDaemon(context.Contex
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.DaemonConnectionService.RegisterDaemon is not implemented"))
 }
 
-func (UnimplementedDaemonConnectionServiceHandler) SyncData(context.Context, *connect.Request[proto_gen_go.Empty], *connect.ServerStream[backend.SyncDataResponse]) error {
-	return connect.NewError(connect.CodeUnimplemented, errors.New("backend.DaemonConnectionService.SyncData is not implemented"))
+func (UnimplementedDaemonConnectionServiceHandler) SyncBlueprints(context.Context, *connect.Request[proto_gen_go.Empty], *connect.ServerStream[backend.Blueprint]) error {
+	return connect.NewError(connect.CodeUnimplemented, errors.New("backend.DaemonConnectionService.SyncBlueprints is not implemented"))
+}
+
+func (UnimplementedDaemonConnectionServiceHandler) GetBlueprint(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.Blueprint], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.DaemonConnectionService.GetBlueprint is not implemented"))
+}
+
+func (UnimplementedDaemonConnectionServiceHandler) SyncServers(context.Context, *connect.Request[proto_gen_go.Empty], *connect.ServerStream[backend.Server]) error {
+	return connect.NewError(connect.CodeUnimplemented, errors.New("backend.DaemonConnectionService.SyncServers is not implemented"))
+}
+
+func (UnimplementedDaemonConnectionServiceHandler) GetServer(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.Server], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.DaemonConnectionService.GetServer is not implemented"))
 }

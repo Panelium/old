@@ -4,7 +4,7 @@
 
 import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { EmptySchema, SimpleIDMessageSchema, SuccessMessageSchema } from "../common_pb";
+import type { EmptySchema, IPAllocation, ResourceLimit, SimpleIDMessageSchema, SuccessMessageSchema } from "../common_pb";
 import { file_common } from "../common_pb";
 import type { Message } from "@bufbuild/protobuf";
 
@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file backend/DaemonConnection.proto.
  */
 export const file_backend_DaemonConnection: GenFile = /*@__PURE__*/
-  fileDesc("Ch5iYWNrZW5kL0RhZW1vbkNvbm5lY3Rpb24ucHJvdG8SB2JhY2tlbmQiLAoTQ3JlYXRlVG9rZW5SZXNwb25zZRIVCg1iYWNrZW5kX3Rva2VuGAEgASgJIkIKFVJlZ2lzdGVyRGFlbW9uUmVxdWVzdBIVCg1iYWNrZW5kX3Rva2VuGAEgASgJEhIKCm5vZGVfdG9rZW4YAiABKAkiEgoQU3luY0RhdGFSZXNwb25zZTLoAQoXRGFlbW9uQ29ubmVjdGlvblNlcnZpY2USSwoSQ3JlYXRlQmFja2VuZFRva2VuEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRocLmJhY2tlbmQuQ3JlYXRlVG9rZW5SZXNwb25zZRJICg5SZWdpc3RlckRhZW1vbhIeLmJhY2tlbmQuUmVnaXN0ZXJEYWVtb25SZXF1ZXN0GhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlEjYKCFN5bmNEYXRhEg0uY29tbW9uLkVtcHR5GhkuYmFja2VuZC5TeW5jRGF0YVJlc3BvbnNlMAFCH1odcGFuZWxpdW0vcHJvdG9fZ2VuX2dvL2JhY2tlbmRiBnByb3RvMw", [file_common]);
+  fileDesc("Ch5iYWNrZW5kL0RhZW1vbkNvbm5lY3Rpb24ucHJvdG8SB2JhY2tlbmQiLAoTQ3JlYXRlVG9rZW5SZXNwb25zZRIVCg1iYWNrZW5kX3Rva2VuGAEgASgJIkIKFVJlZ2lzdGVyRGFlbW9uUmVxdWVzdBIVCg1iYWNrZW5kX3Rva2VuGAEgASgJEhIKCm5vZGVfdG9rZW4YAiABKAkimwIKCUJsdWVwcmludBILCgNiaWQYASABKAkSDwoHdmVyc2lvbhgCIAEoDRINCgVmbGFncxgDIAMoCRIVCg1kb2NrZXJfaW1hZ2VzGAQgAygJEisKDWJsb2NrZWRfZmlsZXMYBSADKAsyFC5iYWNrZW5kLkJsb2NrZWRGaWxlEhUKDXNlcnZlcl9iaW5hcnkYBiABKAkSFQoNc3RhcnRfY29tbWFuZBgHIAEoCRIUCgxzdG9wX2NvbW1hbmQYCCABKAkSGwoTc2V0dXBfc2NyaXB0X2Jhc2U2NBgJIAEoCRIaChJzZXR1cF9kb2NrZXJfaW1hZ2UYCiABKAkSIAoYc2V0dXBfc2NyaXB0X2ludGVycHJldGVyGAsgASgJIj4KC0Jsb2NrZWRGaWxlEgwKBGZpbGUYASABKAkSDwoHdmlzaWJsZRgCIAEoCBIQCghyZWFkYWJsZRgDIAEoCCK2AQoGU2VydmVyEgsKA3NpZBgBIAEoCRIQCghvd25lcl9pZBgCIAEoCRIQCgh1c2VyX2lkcxgDIAMoCRIpCgthbGxvY2F0aW9ucxgEIAMoCzIULmNvbW1vbi5JUEFsbG9jYXRpb24SLQoOcmVzb3VyY2VfbGltaXQYBSABKAsyFS5jb21tb24uUmVzb3VyY2VMaW1pdBIUCgxkb2NrZXJfaW1hZ2UYBiABKAkSCwoDYmlkGAcgASgJMowDChdEYWVtb25Db25uZWN0aW9uU2VydmljZRJLChJDcmVhdGVCYWNrZW5kVG9rZW4SFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGhwuYmFja2VuZC5DcmVhdGVUb2tlblJlc3BvbnNlEkgKDlJlZ2lzdGVyRGFlbW9uEh4uYmFja2VuZC5SZWdpc3RlckRhZW1vblJlcXVlc3QaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USNQoOU3luY0JsdWVwcmludHMSDS5jb21tb24uRW1wdHkaEi5iYWNrZW5kLkJsdWVwcmludDABEjsKDEdldEJsdWVwcmludBIXLmNvbW1vbi5TaW1wbGVJRE1lc3NhZ2UaEi5iYWNrZW5kLkJsdWVwcmludBIvCgtTeW5jU2VydmVycxINLmNvbW1vbi5FbXB0eRoPLmJhY2tlbmQuU2VydmVyMAESNQoJR2V0U2VydmVyEhcuY29tbW9uLlNpbXBsZUlETWVzc2FnZRoPLmJhY2tlbmQuU2VydmVyQh9aHXBhbmVsaXVtL3Byb3RvX2dlbl9nby9iYWNrZW5kYgZwcm90bzM", [file_common]);
 
 /**
  * @generated from message backend.CreateTokenResponse
@@ -54,19 +54,147 @@ export const RegisterDaemonRequestSchema: GenMessage<RegisterDaemonRequest> = /*
   messageDesc(file_backend_DaemonConnection, 1);
 
 /**
- * servers, server users, server allocations, blueprints
- *
- * @generated from message backend.SyncDataResponse
+ * @generated from message backend.Blueprint
  */
-export type SyncDataResponse = Message<"backend.SyncDataResponse"> & {
+export type Blueprint = Message<"backend.Blueprint"> & {
+  /**
+   * @generated from field: string bid = 1;
+   */
+  bid: string;
+
+  /**
+   * @generated from field: uint32 version = 2;
+   */
+  version: number;
+
+  /**
+   * @generated from field: repeated string flags = 3;
+   */
+  flags: string[];
+
+  /**
+   * only the uri
+   *
+   * @generated from field: repeated string docker_images = 4;
+   */
+  dockerImages: string[];
+
+  /**
+   * @generated from field: repeated backend.BlockedFile blocked_files = 5;
+   */
+  blockedFiles: BlockedFile[];
+
+  /**
+   * @generated from field: string server_binary = 6;
+   */
+  serverBinary: string;
+
+  /**
+   * @generated from field: string start_command = 7;
+   */
+  startCommand: string;
+
+  /**
+   * @generated from field: string stop_command = 8;
+   */
+  stopCommand: string;
+
+  /**
+   * @generated from field: string setup_script_base64 = 9;
+   */
+  setupScriptBase64: string;
+
+  /**
+   * @generated from field: string setup_docker_image = 10;
+   */
+  setupDockerImage: string;
+
+  /**
+   * @generated from field: string setup_script_interpreter = 11;
+   */
+  setupScriptInterpreter: string;
 };
 
 /**
- * Describes the message backend.SyncDataResponse.
- * Use `create(SyncDataResponseSchema)` to create a new message.
+ * Describes the message backend.Blueprint.
+ * Use `create(BlueprintSchema)` to create a new message.
  */
-export const SyncDataResponseSchema: GenMessage<SyncDataResponse> = /*@__PURE__*/
+export const BlueprintSchema: GenMessage<Blueprint> = /*@__PURE__*/
   messageDesc(file_backend_DaemonConnection, 2);
+
+/**
+ * @generated from message backend.BlockedFile
+ */
+export type BlockedFile = Message<"backend.BlockedFile"> & {
+  /**
+   * @generated from field: string file = 1;
+   */
+  file: string;
+
+  /**
+   * @generated from field: bool visible = 2;
+   */
+  visible: boolean;
+
+  /**
+   * @generated from field: bool readable = 3;
+   */
+  readable: boolean;
+};
+
+/**
+ * Describes the message backend.BlockedFile.
+ * Use `create(BlockedFileSchema)` to create a new message.
+ */
+export const BlockedFileSchema: GenMessage<BlockedFile> = /*@__PURE__*/
+  messageDesc(file_backend_DaemonConnection, 3);
+
+/**
+ * @generated from message backend.Server
+ */
+export type Server = Message<"backend.Server"> & {
+  /**
+   * @generated from field: string sid = 1;
+   */
+  sid: string;
+
+  /**
+   * @generated from field: string owner_id = 2;
+   */
+  ownerId: string;
+
+  /**
+   * @generated from field: repeated string user_ids = 3;
+   */
+  userIds: string[];
+
+  /**
+   * @generated from field: repeated common.IPAllocation allocations = 4;
+   */
+  allocations: IPAllocation[];
+
+  /**
+   * @generated from field: common.ResourceLimit resource_limit = 5;
+   */
+  resourceLimit?: ResourceLimit;
+
+  /**
+   * @generated from field: string docker_image = 6;
+   */
+  dockerImage: string;
+
+  /**
+   * @generated from field: string bid = 7;
+   */
+  bid: string;
+};
+
+/**
+ * Describes the message backend.Server.
+ * Use `create(ServerSchema)` to create a new message.
+ */
+export const ServerSchema: GenMessage<Server> = /*@__PURE__*/
+  messageDesc(file_backend_DaemonConnection, 4);
 
 /**
  * @generated from service backend.DaemonConnectionService
@@ -89,12 +217,36 @@ export const DaemonConnectionService: GenService<{
     output: typeof SuccessMessageSchema;
   },
   /**
-   * @generated from rpc backend.DaemonConnectionService.SyncData
+   * @generated from rpc backend.DaemonConnectionService.SyncBlueprints
    */
-  syncData: {
+  syncBlueprints: {
     methodKind: "server_streaming";
     input: typeof EmptySchema;
-    output: typeof SyncDataResponseSchema;
+    output: typeof BlueprintSchema;
+  },
+  /**
+   * @generated from rpc backend.DaemonConnectionService.GetBlueprint
+   */
+  getBlueprint: {
+    methodKind: "unary";
+    input: typeof SimpleIDMessageSchema;
+    output: typeof BlueprintSchema;
+  },
+  /**
+   * @generated from rpc backend.DaemonConnectionService.SyncServers
+   */
+  syncServers: {
+    methodKind: "server_streaming";
+    input: typeof EmptySchema;
+    output: typeof ServerSchema;
+  },
+  /**
+   * @generated from rpc backend.DaemonConnectionService.GetServer
+   */
+  getServer: {
+    methodKind: "unary";
+    input: typeof SimpleIDMessageSchema;
+    output: typeof ServerSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_backend_DaemonConnection, 0);
