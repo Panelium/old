@@ -13,11 +13,17 @@ import (
 )
 
 func Handle(host string) error {
-	backendAuthInterceptors := connect.WithInterceptors(middleware.NewBackendAuthInterceptor())
-	userAuthInterceptors := connect.WithInterceptors(middleware.NewUserAuthInterceptor())
+	backendAuthInterceptors := connect.WithInterceptors(
+		middleware.NewBackendAuthInterceptor(),
+	)
+
+	userAuthInterceptors := connect.WithInterceptors(
+		middleware.NewUserAuthInterceptor(),
+	)
 
 	mux := http.NewServeMux()
 	mux.Handle(daemonconnect.NewBackendServiceHandler(&backend.BackendServiceHandler{}, backendAuthInterceptors))
+
 	mux.Handle(daemonconnect.NewServerServiceHandler(&server.ServerServiceHandler{}, userAuthInterceptors))
 	mux.Handle(daemonconnect.NewServerFilesServiceHandler(&server_files.ServerFilesServiceHandler{}, userAuthInterceptors))
 
