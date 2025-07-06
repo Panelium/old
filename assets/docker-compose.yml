@@ -1,32 +1,23 @@
-# Panelium Development Docker Compose File
-# Not intended for production use.
-
 services:
   backend:
-    build:
-      context: .
-      target: backend
+    image: ghcr.io/panelium/backend:latest
     ports:
-      - "9090:9090"
+      - "127.0.0.1:35460:9090"
     volumes:
       - /var/lib/docker/volumes:/var/lib/docker/volumes
       - /etc/panelium/backend:/etc/panelium/backend
   daemon:
-    build:
-      context: .
-      target: daemon
+    image: ghcr.io/panelium/daemon:latest
     privileged: true
     ports:
-      - "9000:9000"
+      - "127.0.0.1:35461:9000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/docker/volumes:/var/lib/docker/volumes
       - /etc/panelium/daemon:/etc/panelium/daemon
   dashboard:
-    build:
-      context: .
-      target: dashboard
+    image: ghcr.io/panelium/dashboard:latest
     ports:
-      - "80:80"
+      - "127.0.0.1:35462:80"
     volumes:
       - /etc/panelium/dashboard/config.json:/usr/share/nginx/html/config.json

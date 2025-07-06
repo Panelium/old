@@ -2,18 +2,64 @@
 // @generated from file daemon/Backend.proto (package daemon, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile, GenService } from "@bufbuild/protobuf/codegenv2";
-import { fileDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { SimpleIDMessageSchema, SuccessMessageSchema } from "../common_pb";
+import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
+import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { IPAllocation, ResourceLimit, SimpleIDMessageSchema, SuccessMessageSchema } from "../common_pb";
 import { file_common } from "../common_pb";
-import type { ServerSchema } from "../backend/Daemon_pb";
-import { file_backend_Daemon } from "../backend/Daemon_pb";
+import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file daemon/Backend.proto.
  */
 export const file_daemon_Backend: GenFile = /*@__PURE__*/
-  fileDesc("ChRkYWVtb24vQmFja2VuZC5wcm90bxIGZGFlbW9uMsMBCg5CYWNrZW5kU2VydmljZRI3CgxDcmVhdGVTZXJ2ZXISDy5iYWNrZW5kLlNlcnZlchoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRI3CgxVcGRhdGVTZXJ2ZXISDy5iYWNrZW5kLlNlcnZlchoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRI/CgxEZWxldGVTZXJ2ZXISFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlQh5aHHBhbmVsaXVtL3Byb3RvX2dlbl9nby9kYWVtb25iBnByb3RvMw", [file_common, file_backend_Daemon]);
+  fileDesc("ChRkYWVtb24vQmFja2VuZC5wcm90bxIGZGFlbW9uIrYBCgZTZXJ2ZXISCwoDc2lkGAEgASgJEhAKCG93bmVyX2lkGAIgASgJEhAKCHVzZXJfaWRzGAMgAygJEikKC2FsbG9jYXRpb25zGAQgAygLMhQuY29tbW9uLklQQWxsb2NhdGlvbhItCg5yZXNvdXJjZV9saW1pdBgFIAEoCzIVLmNvbW1vbi5SZXNvdXJjZUxpbWl0EhQKDGRvY2tlcl9pbWFnZRgGIAEoCRILCgNiaWQYByABKAkywQEKDkJhY2tlbmRTZXJ2aWNlEjYKDENyZWF0ZVNlcnZlchIOLmRhZW1vbi5TZXJ2ZXIaFi5jb21tb24uU3VjY2Vzc01lc3NhZ2USNgoMVXBkYXRlU2VydmVyEg4uZGFlbW9uLlNlcnZlchoWLmNvbW1vbi5TdWNjZXNzTWVzc2FnZRI/CgxEZWxldGVTZXJ2ZXISFy5jb21tb24uU2ltcGxlSURNZXNzYWdlGhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlQh5aHHBhbmVsaXVtL3Byb3RvX2dlbl9nby9kYWVtb25iBnByb3RvMw", [file_common]);
+
+/**
+ * @generated from message daemon.Server
+ */
+export type Server = Message<"daemon.Server"> & {
+  /**
+   * @generated from field: string sid = 1;
+   */
+  sid: string;
+
+  /**
+   * @generated from field: string owner_id = 2;
+   */
+  ownerId: string;
+
+  /**
+   * @generated from field: repeated string user_ids = 3;
+   */
+  userIds: string[];
+
+  /**
+   * @generated from field: repeated common.IPAllocation allocations = 4;
+   */
+  allocations: IPAllocation[];
+
+  /**
+   * @generated from field: common.ResourceLimit resource_limit = 5;
+   */
+  resourceLimit?: ResourceLimit;
+
+  /**
+   * @generated from field: string docker_image = 6;
+   */
+  dockerImage: string;
+
+  /**
+   * @generated from field: string bid = 7;
+   */
+  bid: string;
+};
+
+/**
+ * Describes the message daemon.Server.
+ * Use `create(ServerSchema)` to create a new message.
+ */
+export const ServerSchema: GenMessage<Server> = /*@__PURE__*/
+  messageDesc(file_daemon_Backend, 0);
 
 /**
  * @generated from service daemon.BackendService

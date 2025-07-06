@@ -4,10 +4,19 @@ package daemon;
 option go_package = "panelium/proto_gen_go/daemon";
 
 import "common.proto";
-import "backend/Daemon.proto";
 
 service BackendService {
-  rpc CreateServer(backend.Server) returns (common.SuccessMessage);
-  rpc UpdateServer(backend.Server) returns (common.SuccessMessage);
+  rpc CreateServer(Server) returns (common.SuccessMessage);
+  rpc UpdateServer(Server) returns (common.SuccessMessage);
   rpc DeleteServer(common.SimpleIDMessage) returns (common.SuccessMessage);
+}
+
+message Server {
+  string sid = 1;
+  string owner_id = 2;
+  repeated string user_ids = 3;
+  repeated common.IPAllocation allocations = 4;
+  common.ResourceLimit resource_limit = 5;
+  string docker_image = 6;
+  string bid = 7;
 }

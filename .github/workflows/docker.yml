@@ -31,7 +31,7 @@ jobs:
           file: ./Dockerfile
           target: backend
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/backend:latest
+          tags: ghcr.io/panelium/backend:latest
 
       - name: Build and push daemon
         uses: docker/build-push-action@v6
@@ -40,7 +40,7 @@ jobs:
           file: ./Dockerfile
           target: daemon
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/daemon:latest
+          tags: ghcr.io/panelium/daemon:latest
 
       - name: Build and push dashboard
         uses: docker/build-push-action@v6
@@ -49,4 +49,4 @@ jobs:
           file: ./Dockerfile
           target: dashboard
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/dashboard:latest
+          tags: ghcr.io/panelium/dashboard:latest

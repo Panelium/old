@@ -9,10 +9,10 @@ import (
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
 	"io"
-	"net"
 	"panelium/daemon/internal/docker"
 	"panelium/proto_gen_go"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -24,6 +24,14 @@ func Console(
 	if err != nil {
 		return connect.NewError(connect.CodeInternal, fmt.Errorf("failed to attach to container console"))
 	}
+
+	defer func(c *types.HijackedResponse) {
+		if c == nil {
+			return
+		}
+
+		c.Close()
+	}(c)
 
 	logs, err := ConsoleLogs(sid)
 	if err == nil {
@@ -52,9 +60,15 @@ func Terminal(
 		return connect.NewError(connect.CodeInternal, fmt.Errorf("failed to create container terminal"))
 	}
 
-	defer func(Conn net.Conn, b []byte) {
-		_, _ = Conn.Write(b)
-	}(t.Conn, []byte("\x03")) // send Ctrl+C to terminate the terminal session
+	defer func(t *types.HijackedResponse) {
+		if t == nil {
+			return
+		}
+
+		_, _ = t.Conn.Write([]byte("\x03"))
+		t.Close()
+		terminals.Delete(sid)
+	}(t)
 
 	err = attach(t, stm)
 	if err != nil {
@@ -68,8 +82,6 @@ func attach(
 	attachStream *types.HijackedResponse,
 	stm *connect.ServerStream[proto_gen_go.SimpleMessage],
 ) error {
-	defer attachStream.Close()
-
 	attachStmCh := make(chan string)
 	errCh := make(chan error, 2)
 
@@ -84,11 +96,15 @@ func attach(
 			errCh <- connect.NewError(connect.CodeInternal, err)
 			return
 		}
+		close(attachStmCh)
 	}()
 
 	for {
 		select {
-		case data := <-attachStmCh:
+		case data, ok := <-attachStmCh:
+			if !ok {
+				return nil // Channel closed, exit the loop
+			}
 			response := &proto_gen_go.SimpleMessage{Text: data}
 			if err := stm.Send(response); err != nil {
 				return err
@@ -139,6 +155,24 @@ func ConsoleLogs(sid string) ([]string, error) {
 	return logs, nil
 }
 
+func ConsoleCommand(sid string, command string) error {
+	if command == "" {
+		return connect.NewError(connect.CodeInvalidArgument, errors.New("command cannot be empty"))
+	}
+
+	c, err := console(sid)
+	if err != nil {
+		return connect.NewError(connect.CodeInternal, fmt.Errorf("failed to attach to container console"))
+	}
+
+	_, err = c.Conn.Write([]byte(command + "\n"))
+	if err != nil {
+		return connect.NewError(connect.CodeInternal, fmt.Errorf("failed to write command to container console"))
+	}
+
+	return nil
+}
+
 func console(sid string) (*types.HijackedResponse, error) {
 	c, err := docker.Instance().ContainerAttach(context.Background(), sid, container.AttachOptions{
 		Stream: true,
@@ -153,7 +187,50 @@ func console(sid string) (*types.HijackedResponse, error) {
 	return &c, nil
 }
 
+func TerminalCommand(sid string, command string) error {
+	if command == "" {
+		return connect.NewError(connect.CodeInvalidArgument, errors.New("command cannot be empty"))
+	}
+
+	var t *types.HijackedResponse
+
+	tm, ok := terminals.Load(sid)
+	if !ok {
+		var err error
+		t, err = terminal(sid)
+		if err != nil {
+			return connect.NewError(connect.CodeInternal, fmt.Errorf("failed to create container terminal"))
+		}
+	} else {
+		var ok bool
+		t, ok = tm.(*types.HijackedResponse)
+		if !ok {
+			return connect.NewError(connect.CodeInternal, errors.New("invalid terminal instance"))
+		}
+	}
+
+	if t == nil {
+		return connect.NewError(connect.CodeInternal, errors.New("terminal not found"))
+	}
+
+	_, err := t.Conn.Write([]byte(command + "\n"))
+	if err != nil {
+		return connect.NewError(connect.CodeInternal, fmt.Errorf("failed to write command to container terminal"))
+	}
+
+	return nil
+}
+
+var terminals sync.Map
+
 func terminal(sid string) (*types.HijackedResponse, error) {
+	if val, ok := terminals.Load(sid); ok {
+		if t, ok := val.(*types.HijackedResponse); ok {
+			return t, nil
+		}
+		return nil, connect.NewError(connect.CodeInternal, errors.New("invalid terminal instance"))
+	}
+
 	eid, err := docker.Instance().ContainerExecCreate(context.Background(), sid, container.ExecOptions{
 		User:         "root",
 		Privileged:   true,
@@ -182,5 +259,8 @@ func terminal(sid string) (*types.HijackedResponse, error) {
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, errors.New("failed to attach to container terminal"))
 	}
+
+	terminals.Store(sid, &t)
+
 	return &t, nil
 }

@@ -13,7 +13,7 @@ import (
 
 func (s *BackendServiceHandler) UpdateServer(
 	ctx context.Context,
-	req *connect.Request[daemon.UpdateServerRequest],
+	req *connect.Request[daemon.Server],
 ) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	var allocations *[]model.ServerAllocation = nil
 	if req.Msg.Allocations != nil {
@@ -47,7 +47,7 @@ func (s *BackendServiceHandler) UpdateServer(
 		}
 	}
 
-	err := server.UpdateServer(req.Msg.ServerId, userIds, allocations, resourceLimit, req.Msg.DockerImage, req.Msg.BlueprintId)
+	err := server.UpdateServer(req.Msg.Sid, userIds, allocations, resourceLimit, &req.Msg.DockerImage, &req.Msg.Bid)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, errors.New("failed to create server"))
 	}
