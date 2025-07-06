@@ -24,11 +24,19 @@ import { useSession } from "~/providers/SessionProvider";
 import { getAuthClient } from "~/lib/api-clients";
 
 const signupFormSchema = z.object({
-  username: z.string(),
-  email: z.string().email({ message: "Please enter a valid email address" }),
-  password: z.string().min(8, {
-    message: "Password must be at least 8 characters",
+  username: z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9_.-]{1,30}[a-zA-Z0-9]$/, {
+    message:
+      "Username must be 3-32 characters long, start and end with an alphanumeric character, and can contain letters, numbers, underscores, hyphens, and periods.",
   }),
+  email: z.string().email({ message: "Please enter a valid email address" }),
+  password: z
+    .string()
+    .min(16, {
+      message: "Password must be at least 16 characters",
+    })
+    .max(384, {
+      message: "Password must be at most 384 characters",
+    }),
 });
 
 type SignupFormValues = z.infer<typeof signupFormSchema>;

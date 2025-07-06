@@ -25,10 +25,22 @@ import { useSession } from "~/providers/SessionProvider";
 import { getAuthClient } from "~/lib/api-clients";
 
 const loginFormSchema = z.object({
-  email: z.string().email({ message: "Please enter a valid email address" }),
-  password: z.string().min(8, {
-    message: "Password must be at least 8 characters",
-  }),
+  email: z
+    .string()
+    .email({ message: "Please enter a valid username or email address" })
+    .or(
+      z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9_.-]{1,30}[a-zA-Z0-9]$/, {
+        message: "Please enter a valid username or email address",
+      })
+    ),
+  password: z
+    .string()
+    .min(16, {
+      message: "Please enter a valid password",
+    })
+    .max(384, {
+      message: "Please enter a valid password",
+    }),
   rememberMe: z.boolean(),
 });
 
@@ -90,7 +102,7 @@ export default function LoginPage({ onSignUp }: { onSignUp?: () => void }) {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Email or Username</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="email@example.com"
