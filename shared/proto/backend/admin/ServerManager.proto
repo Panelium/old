@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+package backend_admin;
+option go_package = "panelium/proto_gen_go/backend/admin";
+
+import "common.proto";
