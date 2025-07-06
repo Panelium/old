@@ -245,6 +245,7 @@ type Pagination struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Page          uint32                 `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
 	PageSize      uint32                 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	Total         *uint32                `protobuf:"varint,3,opt,name=total,proto3,oneof" json:"total,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -289,6 +290,13 @@ func (x *Pagination) GetPage() uint32 {
 func (x *Pagination) GetPageSize() uint32 {
 	if x != nil {
 		return x.PageSize
+	}
+	return 0
+}
+
+func (x *Pagination) GetTotal() uint32 {
+	if x != nil && x.Total != nil {
+		return *x.Total
 	}
 	return 0
 }
@@ -487,11 +495,13 @@ const file_common_proto_rawDesc = "" +
 	"\rSimpleMessage\x12\x12\n" +
 	"\x04text\x18\x01 \x01(\tR\x04text\"*\n" +
 	"\x0eSuccessMessage\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"=\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"b\n" +
 	"\n" +
 	"Pagination\x12\x12\n" +
 	"\x04page\x18\x01 \x01(\rR\x04page\x12\x1b\n" +
-	"\tpage_size\x18\x02 \x01(\rR\bpageSize\"a\n" +
+	"\tpage_size\x18\x02 \x01(\rR\bpageSize\x12\x19\n" +
+	"\x05total\x18\x03 \x01(\rH\x00R\x05total\x88\x01\x01B\b\n" +
+	"\x06_total\"a\n" +
 	"\rResourceLimit\x12\x10\n" +
 	"\x03cpu\x18\x01 \x01(\rR\x03cpu\x12\x10\n" +
 	"\x03ram\x18\x02 \x01(\rR\x03ram\x12\x12\n" +
@@ -542,6 +552,7 @@ func file_common_proto_init() {
 	if File_common_proto != nil {
 		return
 	}
+	file_common_proto_msgTypes[5].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

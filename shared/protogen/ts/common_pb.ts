@@ -10,7 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file common.proto.
  */
 export const file_common: GenFile = /*@__PURE__*/
-  fileDesc("Cgxjb21tb24ucHJvdG8SBmNvbW1vbiIHCgVFbXB0eSIdCg9TaW1wbGVJRE1lc3NhZ2USCgoCaWQYASABKAkiJQoJSURNZXNzYWdlEgoKAmlkGAEgASgJEgwKBHRleHQYAiABKAkiHQoNU2ltcGxlTWVzc2FnZRIMCgR0ZXh0GAEgASgJIiEKDlN1Y2Nlc3NNZXNzYWdlEg8KB3N1Y2Nlc3MYASABKAgiLQoKUGFnaW5hdGlvbhIMCgRwYWdlGAEgASgNEhEKCXBhZ2Vfc2l6ZRgCIAEoDSJICg1SZXNvdXJjZUxpbWl0EgsKA2NwdRgBIAEoDRILCgNyYW0YAiABKA0SDAoEc3dhcBgDIAEoDRIPCgdzdG9yYWdlGAQgASgNIjoKDVJlc291cmNlVXNhZ2USCwoDY3B1GAEgASgCEgsKA3JhbRgCIAEoAhIPCgdzdG9yYWdlGAMgASgCIigKDElQQWxsb2NhdGlvbhIKCgJpcBgBIAEoCRIMCgRwb3J0GAIgASgNQhdaFXBhbmVsaXVtL3Byb3RvX2dlbl9nb2IGcHJvdG8z");
+  fileDesc("Cgxjb21tb24ucHJvdG8SBmNvbW1vbiIHCgVFbXB0eSIdCg9TaW1wbGVJRE1lc3NhZ2USCgoCaWQYASABKAkiJQoJSURNZXNzYWdlEgoKAmlkGAEgASgJEgwKBHRleHQYAiABKAkiHQoNU2ltcGxlTWVzc2FnZRIMCgR0ZXh0GAEgASgJIiEKDlN1Y2Nlc3NNZXNzYWdlEg8KB3N1Y2Nlc3MYASABKAgiSwoKUGFnaW5hdGlvbhIMCgRwYWdlGAEgASgNEhEKCXBhZ2Vfc2l6ZRgCIAEoDRISCgV0b3RhbBgDIAEoDUgAiAEBQggKBl90b3RhbCJICg1SZXNvdXJjZUxpbWl0EgsKA2NwdRgBIAEoDRILCgNyYW0YAiABKA0SDAoEc3dhcBgDIAEoDRIPCgdzdG9yYWdlGAQgASgNIjoKDVJlc291cmNlVXNhZ2USCwoDY3B1GAEgASgCEgsKA3JhbRgCIAEoAhIPCgdzdG9yYWdlGAMgASgCIigKDElQQWxsb2NhdGlvbhIKCgJpcBgBIAEoCRIMCgRwb3J0GAIgASgNQhdaFXBhbmVsaXVtL3Byb3RvX2dlbl9nb2IGcHJvdG8z");
 
 /**
  * @generated from message common.Empty
@@ -111,6 +111,11 @@ export type Pagination = Message<"common.Pagination"> & {
    * @generated from field: uint32 page_size = 2;
    */
   pageSize: number;
+
+  /**
+   * @generated from field: optional uint32 total = 3;
+   */
+  total?: number;
 };
 
 /**

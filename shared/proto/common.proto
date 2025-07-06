@@ -25,6 +25,7 @@ message SuccessMessage {
 message Pagination {
   uint32 page = 1;
   uint32 page_size = 2;
+  optional uint32 total = 3;
 }
 
 message ResourceLimit {

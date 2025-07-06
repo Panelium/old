@@ -314,6 +314,10 @@ components:
         pageSize:
           type: integer
           title: page_size
+        total:
+          type: integer
+          title: total
+          nullable: true
       title: Pagination
       additionalProperties: false
     connect-protocol-version:
