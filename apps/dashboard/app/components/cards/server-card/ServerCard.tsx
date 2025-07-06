@@ -6,7 +6,6 @@ import {
   Settings,
   Square,
   Terminal,
-  Users,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { ServerStatusType } from "proto-gen-ts/daemon/Server_pb";
@@ -47,7 +46,7 @@ export interface Server {
   port?: number; //TODO: ip and port will be merged into networkAllocation
   location?: string;
   node?: string;
-  console: {time: string, content: string}[]
+  console: { time: string; content: string }[];
 }
 
 interface ServerCardProps {
@@ -80,23 +79,25 @@ const ServerCardButton: React.FC<ServerCardLinkProps> = ({
   const IconComponent = icon;
   return (
     <div>
-    <div className={cn(
-      "scale-20 group-hover:scale-100 w-10 h-10 bg-card rounded-full absolute",
-      serverCardTransition
-    )}/>
-    <button
-      className={cn(
-        "flex items-center justify-center h-10 w-10 rounded-full shadow-sm",
-        "scale-20 group-hover:scale-100",
-        "cursor-pointer",
-        serverCardTransition,
-        className
-      )}
-      style={{ color: color, backgroundColor: bgColor }}
-      onClick={onClick}
-    >
-      <IconComponent className="w-5 h-5" />
-    </button>
+      <div
+        className={cn(
+          "scale-20 group-hover:scale-100 w-10 h-10 bg-card rounded-full absolute",
+          serverCardTransition
+        )}
+      />
+      <button
+        className={cn(
+          "flex items-center justify-center h-10 w-10 rounded-full shadow-sm",
+          "scale-20 group-hover:scale-100",
+          "cursor-pointer",
+          serverCardTransition,
+          className
+        )}
+        style={{ color: color, backgroundColor: bgColor }}
+        onClick={onClick}
+      >
+        <IconComponent className="w-5 h-5" />
+      </button>
     </div>
   );
 };
@@ -124,22 +125,40 @@ const ServerCardHeader: React.FC<{ server: Server }> = ({ server }) => {
 const ServerCardContent: React.FC<{ server: Server }> = ({ server }) => {
   return (
     <CardContent className="space-y-3">
-      <ServerBar
-        title="CPU"
-        uiValue={server.cpuUsage.toFixed(1) + "%"}
-        value={server.cpuUsage}
-        max={100}
-      />
-      <ServerBar
-        title="Memory"
-        uiValue={
-          formatMemory(server.memoryUsage.used) +
-          " / " +
-          formatMemory(server.memoryUsage.total)
-        }
-        value={server.memoryUsage.used}
-        max={server.memoryUsage.total}
-      />
+      <div className="flex flex-row gap-3">
+        <div className="flex-1">
+          <ServerBar
+            title="CPU"
+            uiValue={server.cpuUsage.toFixed(1) + "%"}
+            value={server.cpuUsage}
+            max={100}
+          />
+        </div>
+        <div className="flex-1">
+          <ServerBar
+            title="Memory"
+            uiValue={
+              formatMemory(server.memoryUsage.used) +
+              " / " +
+              formatMemory(server.memoryUsage.total)
+            }
+            value={server.memoryUsage.used}
+            max={server.memoryUsage.total}
+          />
+        </div>
+      </div>
+      <div>
+        <ServerBar
+          title="Storage"
+          uiValue={
+            formatMemory(server.diskUsage.used) +
+            " / " +
+            formatMemory(server.diskUsage.total)
+          }
+          value={server.diskUsage.used}
+          max={server.diskUsage.total}
+        />
+      </div>
     </CardContent>
   );
 };
@@ -156,14 +175,15 @@ const ServerCardFooter: React.FC<{ server: Server }> = ({ server }) => {
         )}
 
         <div className="flex flex-row gap-1">
-          {server.players && (
-            <>
-              <Users className="h-4 w-4 text-card-muted-foreground" />
-              <span>
-                {server.players.online} / {server.players.max} Players
-              </span>
-            </>
-          )}
+          {/*TODO: readd this*/}
+          {/*{server.players && (*/}
+          {/*  <>*/}
+          {/*    <Users className="h-4 w-4 text-card-muted-foreground" />*/}
+          {/*    <span>*/}
+          {/*      {server.players.online} / {server.players.max} Players*/}
+          {/*    </span>*/}
+          {/*  </>*/}
+          {/*)}*/}
         </div>
       </div>
     </CardFooter>
