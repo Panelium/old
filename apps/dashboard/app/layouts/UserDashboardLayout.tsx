@@ -10,7 +10,6 @@ import {
   type LucideProps,
   Moon,
   PanelLeftIcon,
-  ServerIcon,
   Settings,
   Sun,
   Terminal,
@@ -30,11 +29,7 @@ import {
 import { Button } from "~/components/ui/button";
 import EntityAvatar from "~/components/avatars/EntityAvatar";
 import { Sidebar, SidebarProvider, useSidebar } from "~/components/ui/sidebar";
-import useDashboard from "~/routes/dashboard/useDashboard";
-import {
-  PagePressedEvent,
-  pagesEventBus,
-} from "~/components/dashboard/server/Pages";
+import { PagePressedEvent, pagesEventBus } from "~/components/dashboard/server/Pages";
 import FilesPage from "~/components/dashboard/server/pages/FilesPage";
 import { getClientClient } from "~/lib/api-clients";
 import { ScrollArea } from "~/components/ui/scroll-area";
@@ -62,40 +57,29 @@ const NAVIGATION_ITEMS: NavigationItemProps[] = [
   },
 ];
 
-// Adds the mockup servers to NAVIGATION_ITEMS
-useDashboard().mockServers.forEach((server) => {
-  NAVIGATION_ITEMS.push({
-    title: server.name,
-    icon: ServerIcon,
-    href: "/server/" + server.id,
-    type: "server",
-  });
-});
+// TODO: do this differently
+// // Adds the mockup servers to NAVIGATION_ITEMS
+// useDashboard().mockServers.forEach((server) => {
+//   NAVIGATION_ITEMS.push({
+//     title: server.name,
+//     icon: ServerIcon,
+//     href: "/server/" + server.id,
+//     type: "server",
+//   });
+// });
 
 const SidebarHeader: React.FC = () => {
   return (
-    <div
-      className={cn(
-        "flex items-center gap-0 p-6 pl-4 h-16 no-select",
-        "border-b border-sidebar-border"
-      )}
-    >
+    <div className={cn("flex items-center gap-0 p-6 pl-4 h-16 no-select", "border-b border-sidebar-border")}>
       <div className="bg-tag-purple text-transparent h-12 min-w-2 m-0"></div>
-      <img
-        src="/logo/full-logo.svg"
-        className="dark:filter-[invert()] mr-4 ml-2"
-      />
+      <img src="/logo/full-logo.svg" className="dark:filter-[invert()] mr-4 ml-2" />
     </div>
   );
 };
 
-const SidebarNavigationItem: React.FC<{ item: NavigationItemProps }> = ({
-  item,
-}) => {
+const SidebarNavigationItem: React.FC<{ item: NavigationItemProps }> = ({ item }) => {
   function isActive(href: string | undefined): boolean {
-    return (
-      location.pathname === href || location.pathname.startsWith(href + "/")
-    );
+    return location.pathname === href || location.pathname.startsWith(href + "/");
   }
 
   const IconComponent = item.icon;
@@ -109,8 +93,7 @@ const SidebarNavigationItem: React.FC<{ item: NavigationItemProps }> = ({
         "text-sm font-medium no-select",
         "hover:bg-slate-100 dark:hover:bg-slate-700",
         "transition-all duration-200 ease",
-        isActive(item.href) &&
-          "bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300"
+        isActive(item.href) && "bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300"
       )}
       onClick={() => {
         if (item.href === undefined) {
@@ -121,9 +104,7 @@ const SidebarNavigationItem: React.FC<{ item: NavigationItemProps }> = ({
           pagesEventBus.dispatchEvent(new PagePressedEvent(FilesPage.id));
           return;
         }
-        pagesEventBus.dispatchEvent(
-          new PagePressedEvent(splitHref[splitHref.length - 1])
-        );
+        pagesEventBus.dispatchEvent(new PagePressedEvent(splitHref[splitHref.length - 1]));
       }}
     >
       {item.type === "server-tab" ? <div className="w-4" /> : <></>}
@@ -172,11 +153,7 @@ const SidebarNavigation: React.FC = () => {
                         setIsDroppedDown(!isDroppedDown);
                       }}
                     >
-                      {isDroppedDown ? (
-                        <ChevronDown className="w-4 h-4" />
-                      ) : (
-                        <ChevronRight className="w-4 h-4" />
-                      )}
+                      {isDroppedDown ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
                     </button>
                   </div>
                   <div className={isDroppedDown ? "" : "hidden"}>
@@ -262,25 +239,13 @@ const SidebarDropdownMenu: React.FC = () => {
     <div className="border-t border-sidebar-border p-4">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button
-            variant="ghost"
-            className="group/button w-full justify-start p-2 h-14 no-select"
-          >
-            <EntityAvatar
-              src=""
-              alt="Avatar"
-              title={username}
-              subTitle={email}
-            />
+          <Button variant="ghost" className="group/button w-full justify-start p-2 h-14 no-select">
+            <EntityAvatar src="" alt="Avatar" title={username} subTitle={email} />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56 no-select">
           <DropdownMenuItem className="bg-transparent focus:bg-transparent text-red-500 focus:text-red-500">
-            <Button
-              variant="ghost"
-              className="w-full justify-start"
-              onClick={() => performLogout()}
-            >
+            <Button variant="ghost" className="w-full justify-start" onClick={() => performLogout()}>
               <LogOut className="mr-2 h-4 w-4" />
               <span>Logout</span>
             </Button>
@@ -307,9 +272,7 @@ const SidebarTrigger: React.FC = () => {
         <PanelLeftIcon className="h-6 w-6" />
       </Button>
       <Button {...buttonProps} className="hidden md:flex no-select">
-        <ChevronLeft
-          className={cn("h-5 w-5", state === "collapsed" && "rotate-180")}
-        />
+        <ChevronLeft className={cn("h-5 w-5", state === "collapsed" && "rotate-180")} />
       </Button>
     </>
   );
@@ -331,12 +294,7 @@ const TopBar: React.FC = () => {
       )}
     >
       <SidebarTrigger />
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={toggleTheme}
-        aria-label="Toggle theme"
-      >
+      <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
         <ThemeIcon className="h-5 w-5" />
       </Button>
     </header>
@@ -347,15 +305,8 @@ const UserDashboardLayout: React.FC = () => {
   return (
     <SidebarProvider defaultOpen={true}>
       <div className="background-gradient" />
-      <div
-        className={cn("flex min-h-screen w-full", "background text-foreground")}
-      >
-        <Sidebar
-          className={cn(
-            "flex flex-col h-full max-h-screen border-r",
-            "border-sidebar-border b-white"
-          )}
-        >
+      <div className={cn("flex min-h-screen w-full", "background text-foreground")}>
+        <Sidebar className={cn("flex flex-col h-full max-h-screen border-r", "border-sidebar-border b-white")}>
           <SidebarHeader />
           <SidebarNavigation />
           <SidebarDropdownMenu />

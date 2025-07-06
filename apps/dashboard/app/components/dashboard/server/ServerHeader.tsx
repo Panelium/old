@@ -27,16 +27,20 @@ const ServerHeader: React.FC<{ server: ServerData }> = ({ server }) => {
           </Link>
         </Button>
         <div className="flex gap-0 flex-col">
-          <h1 className="text-2xl font-bold text-foreground">{server.name}</h1>
+          <h1 className="text-2xl font-bold text-foreground">{server.serverInfo.name}</h1>
           <div className="flex items-center gap-3 mt-1">
             <StatusBadge status={server.status} />
-            <SoftwareText software={server.game} /> {/* TODO: CHANGE ME */}
-            <DurationText startDate={new Date(1747096311000)} />{" "}
-            <IconText text={`${server.ip}:${server.port}`} icon={WifiIcon} />
-            <IconText text={`${server.location}/${server.node}`} icon={FlagIcon} />
-            {/* TODO: CHANGE ME */}
+            <SoftwareText software={server.serverInfo.software} />
+            <DurationText startDate={server.onlineSince} />
+            {server.serverInfo.mainAllocation && (
+              <IconText
+                text={`${server.serverInfo.mainAllocation.ip}:${server.serverInfo.mainAllocation.port}`}
+                icon={WifiIcon}
+              />
+            )}
+            <IconText text={server.serverInfo.location} icon={FlagIcon} />
           </div>
-          <span className="mt-2 text-muted-foreground">{server.description}</span>
+          <span className="mt-2 text-muted-foreground">{server.serverInfo.description}</span>
         </div>
       </div>
       <div className="flex gap-2">

@@ -14,6 +14,7 @@ import { ResourceUsage, ResourceUsageSchema } from "proto-gen-ts/common_pb";
 export interface ServerData {
   serverInfo: ServerInfo;
   status: ServerStatusType;
+  onlineSince: Date;
   resourceUsage: ResourceUsage;
 }
 
@@ -207,6 +208,7 @@ const ServerCard: React.FC<ServerCardProps> = ({ serverInfo, className }) => {
   const serverData: ServerData = {
     serverInfo,
     status: ServerStatusType.UNKNOWN,
+    onlineSince: new Date(),
     resourceUsage: {
       $typeName: ResourceUsageSchema.typeName,
       cpu: 0,

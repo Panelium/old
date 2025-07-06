@@ -30,17 +30,25 @@ const ResourceStats: React.FC<{ server: ServerData }> = ({ server }) => {
   const ConnectionMainComponent = () => {
     return (
       <div className="flex flex-1 flex-col space-y-2">
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-slate-500 dark:text-slate-400">IP Address</span>
-          <span className="text-xs font-medium text-slate-900 dark:text-slate-50">{server.ip}</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-slate-500 dark:text-slate-400">Port</span>
-          <span className="text-xs font-medium text-slate-900 dark:text-slate-50">{server.port}</span>
-        </div>
+        {server.serverInfo.mainAllocation && (
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-slate-500 dark:text-slate-400">IP Address</span>
+            <span className="text-xs font-medium text-slate-900 dark:text-slate-50">
+              {server.serverInfo.mainAllocation?.ip}
+            </span>
+          </div>
+        )}
+        {server.serverInfo.mainAllocation && (
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-slate-500 dark:text-slate-400">Port</span>
+            <span className="text-xs font-medium text-slate-900 dark:text-slate-50">
+              {server.serverInfo.mainAllocation?.port}
+            </span>
+          </div>
+        )}
         <div className="flex items-center justify-between">
           <span className="text-xs text-slate-500 dark:text-slate-400">Location</span>
-          <span className="text-xs font-medium text-slate-900 dark:text-slate-50">{server.location}</span>
+          <span className="text-xs font-medium text-slate-900 dark:text-slate-50">{server.serverInfo.location}</span>
         </div>
       </div>
     );
