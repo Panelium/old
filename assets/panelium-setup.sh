@@ -180,3 +180,22 @@ else
   systemctl restart panelium.service paneliumb.service paneliumd.service
   echo "Panelium configuration and setup complete!"
 fi
+
+# Copy backend JWT public key to daemon config dir
+BACKEND_JWT_PUBLIC_KEY="/etc/panelium/backend/jwt_public_key.pem"
+DAEMON_JWT_PUBLIC_KEY="/etc/panelium/daemon/backend_jwt_public_key.pem"
+if [[ -f "$BACKEND_JWT_PUBLIC_KEY" ]]; then
+  cp "$BACKEND_JWT_PUBLIC_KEY" "$DAEMON_JWT_PUBLIC_KEY"
+  echo "Copied backend JWT public key to daemon config directory."
+  # Restart daemon service or container
+  OS_TYPE=$(uname)
+  if [[ "$OS_TYPE" == "Darwin" ]]; then
+    echo "Restarting daemon container via docker compose..."
+    docker compose -f /var/lib/panelium/docker-compose.yml restart daemon
+  else
+    echo "Restarting paneliumd.service via systemctl..."
+    systemctl restart paneliumd.service
+  fi
+else
+  echo "Warning: Backend JWT public key not found at $BACKEND_JWT_PUBLIC_KEY. Daemon may not be able to verify backend tokens."
+fi
