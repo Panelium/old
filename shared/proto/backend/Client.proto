@@ -27,8 +27,8 @@ message ServerInfo {
   string name = 2;
   string description = 3;
   string software = 4;
-  optional common.IPAllocation mainAllocation = 5;
-  string daemon_host = 6;
+  string software_icon = 5;
+  optional common.IPAllocation main_allocation = 6;
+  string daemon_host = 7;
+  common.ResourceLimit resource_limit = 8;
 }
-
-//status and resource usage are handled by the daemon

@@ -313,7 +313,7 @@ func (x *PowerActionMessage) GetAction() PowerAction {
 
 type ResourceUsageMessage struct {
 	state         protoimpl.MessageState      `protogen:"open.v1"`
-	Usage         *proto_gen_go.ResourceUsage `protobuf:"bytes,2,opt,name=usage,proto3" json:"usage,omitempty"`
+	Usage         *proto_gen_go.ResourceUsage `protobuf:"bytes,1,opt,name=usage,proto3" json:"usage,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -372,7 +372,7 @@ const file_daemon_Server_proto_rawDesc = "" +
 	"\bserverId\x18\x01 \x01(\tR\bserverId\x12+\n" +
 	"\x06action\x18\x02 \x01(\x0e2\x13.daemon.PowerActionR\x06action\"C\n" +
 	"\x14ResourceUsageMessage\x12+\n" +
-	"\x05usage\x18\x02 \x01(\v2\x15.common.ResourceUsageR\x05usage*\xd6\x01\n" +
+	"\x05usage\x18\x01 \x01(\v2\x15.common.ResourceUsageR\x05usage*\xd6\x01\n" +
 	"\x10ServerStatusType\x12\x1e\n" +
 	"\x1aSERVER_STATUS_TYPE_UNKNOWN\x10\x00\x12\x1f\n" +
 	"\x1bSERVER_STATUS_TYPE_STARTING\x10\x01\x12\x1d\n" +

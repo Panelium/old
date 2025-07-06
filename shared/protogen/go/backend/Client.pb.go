@@ -136,13 +136,15 @@ func (x *ServerList) GetServers() []*ServerInfo {
 }
 
 type ServerInfo struct {
-	state          protoimpl.MessageState     `protogen:"open.v1"`
-	Sid            string                     `protobuf:"bytes,1,opt,name=sid,proto3" json:"sid,omitempty"`
-	Name           string                     `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Description    string                     `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	Software       string                     `protobuf:"bytes,4,opt,name=software,proto3" json:"software,omitempty"`
-	MainAllocation *proto_gen_go.IPAllocation `protobuf:"bytes,5,opt,name=mainAllocation,proto3,oneof" json:"mainAllocation,omitempty"`
-	DaemonHost     string                     `protobuf:"bytes,6,opt,name=daemon_host,json=daemonHost,proto3" json:"daemon_host,omitempty"`
+	state          protoimpl.MessageState      `protogen:"open.v1"`
+	Sid            string                      `protobuf:"bytes,1,opt,name=sid,proto3" json:"sid,omitempty"`
+	Name           string                      `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description    string                      `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	Software       string                      `protobuf:"bytes,4,opt,name=software,proto3" json:"software,omitempty"`
+	SoftwareIcon   string                      `protobuf:"bytes,5,opt,name=software_icon,json=softwareIcon,proto3" json:"software_icon,omitempty"`
+	MainAllocation *proto_gen_go.IPAllocation  `protobuf:"bytes,6,opt,name=main_allocation,json=mainAllocation,proto3,oneof" json:"main_allocation,omitempty"`
+	DaemonHost     string                      `protobuf:"bytes,7,opt,name=daemon_host,json=daemonHost,proto3" json:"daemon_host,omitempty"`
+	ResourceLimit  *proto_gen_go.ResourceLimit `protobuf:"bytes,8,opt,name=resource_limit,json=resourceLimit,proto3" json:"resource_limit,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -205,6 +207,13 @@ func (x *ServerInfo) GetSoftware() string {
 	return ""
 }
 
+func (x *ServerInfo) GetSoftwareIcon() string {
+	if x != nil {
+		return x.SoftwareIcon
+	}
+	return ""
+}
+
 func (x *ServerInfo) GetMainAllocation() *proto_gen_go.IPAllocation {
 	if x != nil {
 		return x.MainAllocation
@@ -217,6 +226,13 @@ func (x *ServerInfo) GetDaemonHost() string {
 		return x.DaemonHost
 	}
 	return ""
+}
+
+func (x *ServerInfo) GetResourceLimit() *proto_gen_go.ResourceLimit {
+	if x != nil {
+		return x.ResourceLimit
+	}
+	return nil
 }
 
 var File_backend_Client_proto protoreflect.FileDescriptor
@@ -232,17 +248,19 @@ const file_backend_Client_proto_rawDesc = "" +
 	"\x05admin\x18\x04 \x01(\bR\x05admin\";\n" +
 	"\n" +
 	"ServerList\x12-\n" +
-	"\aservers\x18\x01 \x03(\v2\x13.backend.ServerInfoR\aservers\"\xe7\x01\n" +
+	"\aservers\x18\x01 \x03(\v2\x13.backend.ServerInfoR\aservers\"\xcc\x02\n" +
 	"\n" +
 	"ServerInfo\x12\x10\n" +
 	"\x03sid\x18\x01 \x01(\tR\x03sid\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1a\n" +
-	"\bsoftware\x18\x04 \x01(\tR\bsoftware\x12A\n" +
-	"\x0emainAllocation\x18\x05 \x01(\v2\x14.common.IPAllocationH\x00R\x0emainAllocation\x88\x01\x01\x12\x1f\n" +
-	"\vdaemon_host\x18\x06 \x01(\tR\n" +
-	"daemonHostB\x11\n" +
-	"\x0f_mainAllocation2s\n" +
+	"\bsoftware\x18\x04 \x01(\tR\bsoftware\x12#\n" +
+	"\rsoftware_icon\x18\x05 \x01(\tR\fsoftwareIcon\x12B\n" +
+	"\x0fmain_allocation\x18\x06 \x01(\v2\x14.common.IPAllocationH\x00R\x0emainAllocation\x88\x01\x01\x12\x1f\n" +
+	"\vdaemon_host\x18\a \x01(\tR\n" +
+	"daemonHost\x12<\n" +
+	"\x0eresource_limit\x18\b \x01(\v2\x15.common.ResourceLimitR\rresourceLimitB\x12\n" +
+	"\x10_main_allocation2s\n" +
 	"\rClientService\x12-\n" +
 	"\aGetInfo\x12\r.common.Empty\x1a\x13.backend.ClientInfo\x123\n" +
 	"\rGetServerList\x12\r.common.Empty\x1a\x13.backend.ServerListB\x1fZ\x1dpanelium/proto_gen_go/backendb\x06proto3"
@@ -261,24 +279,26 @@ func file_backend_Client_proto_rawDescGZIP() []byte {
 
 var file_backend_Client_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_backend_Client_proto_goTypes = []any{
-	(*ClientInfo)(nil),                // 0: backend.ClientInfo
-	(*ServerList)(nil),                // 1: backend.ServerList
-	(*ServerInfo)(nil),                // 2: backend.ServerInfo
-	(*proto_gen_go.IPAllocation)(nil), // 3: common.IPAllocation
-	(*proto_gen_go.Empty)(nil),        // 4: common.Empty
+	(*ClientInfo)(nil),                 // 0: backend.ClientInfo
+	(*ServerList)(nil),                 // 1: backend.ServerList
+	(*ServerInfo)(nil),                 // 2: backend.ServerInfo
+	(*proto_gen_go.IPAllocation)(nil),  // 3: common.IPAllocation
+	(*proto_gen_go.ResourceLimit)(nil), // 4: common.ResourceLimit
+	(*proto_gen_go.Empty)(nil),         // 5: common.Empty
 }
 var file_backend_Client_proto_depIdxs = []int32{
 	2, // 0: backend.ServerList.servers:type_name -> backend.ServerInfo
-	3, // 1: backend.ServerInfo.mainAllocation:type_name -> common.IPAllocation
-	4, // 2: backend.ClientService.GetInfo:input_type -> common.Empty
-	4, // 3: backend.ClientService.GetServerList:input_type -> common.Empty
-	0, // 4: backend.ClientService.GetInfo:output_type -> backend.ClientInfo
-	1, // 5: backend.ClientService.GetServerList:output_type -> backend.ServerList
-	4, // [4:6] is the sub-list for method output_type
-	2, // [2:4] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	3, // 1: backend.ServerInfo.main_allocation:type_name -> common.IPAllocation
+	4, // 2: backend.ServerInfo.resource_limit:type_name -> common.ResourceLimit
+	5, // 3: backend.ClientService.GetInfo:input_type -> common.Empty
+	5, // 4: backend.ClientService.GetServerList:input_type -> common.Empty
+	0, // 5: backend.ClientService.GetInfo:output_type -> backend.ClientInfo
+	1, // 6: backend.ClientService.GetServerList:output_type -> backend.ServerList
+	5, // [5:7] is the sub-list for method output_type
+	3, // [3:5] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_backend_Client_proto_init() }

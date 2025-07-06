@@ -4,7 +4,7 @@
 
 import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { EmptySchema, IPAllocation } from "../common_pb";
+import type { EmptySchema, IPAllocation, ResourceLimit } from "../common_pb";
 import { file_common } from "../common_pb";
 import { file_daemon_Server } from "../daemon/Server_pb";
 import type { Message } from "@bufbuild/protobuf";
@@ -13,7 +13,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file backend/Client.proto.
  */
 export const file_backend_Client: GenFile = /*@__PURE__*/
-  fileDesc("ChRiYWNrZW5kL0NsaWVudC5wcm90bxIHYmFja2VuZCJJCgpDbGllbnRJbmZvEgsKA3VpZBgBIAEoCRIQCgh1c2VybmFtZRgCIAEoCRINCgVlbWFpbBgDIAEoCRINCgVhZG1pbhgEIAEoCCIyCgpTZXJ2ZXJMaXN0EiQKB3NlcnZlcnMYASADKAsyEy5iYWNrZW5kLlNlcnZlckluZm8iqQEKClNlcnZlckluZm8SCwoDc2lkGAEgASgJEgwKBG5hbWUYAiABKAkSEwoLZGVzY3JpcHRpb24YAyABKAkSEAoIc29mdHdhcmUYBCABKAkSMQoObWFpbkFsbG9jYXRpb24YBSABKAsyFC5jb21tb24uSVBBbGxvY2F0aW9uSACIAQESEwoLZGFlbW9uX2hvc3QYBiABKAlCEQoPX21haW5BbGxvY2F0aW9uMnMKDUNsaWVudFNlcnZpY2USLQoHR2V0SW5mbxINLmNvbW1vbi5FbXB0eRoTLmJhY2tlbmQuQ2xpZW50SW5mbxIzCg1HZXRTZXJ2ZXJMaXN0Eg0uY29tbW9uLkVtcHR5GhMuYmFja2VuZC5TZXJ2ZXJMaXN0Qh9aHXBhbmVsaXVtL3Byb3RvX2dlbl9nby9iYWNrZW5kYgZwcm90bzM", [file_common, file_daemon_Server]);
+  fileDesc("ChRiYWNrZW5kL0NsaWVudC5wcm90bxIHYmFja2VuZCJJCgpDbGllbnRJbmZvEgsKA3VpZBgBIAEoCRIQCgh1c2VybmFtZRgCIAEoCRINCgVlbWFpbBgDIAEoCRINCgVhZG1pbhgEIAEoCCIyCgpTZXJ2ZXJMaXN0EiQKB3NlcnZlcnMYASADKAsyEy5iYWNrZW5kLlNlcnZlckluZm8i8QEKClNlcnZlckluZm8SCwoDc2lkGAEgASgJEgwKBG5hbWUYAiABKAkSEwoLZGVzY3JpcHRpb24YAyABKAkSEAoIc29mdHdhcmUYBCABKAkSFQoNc29mdHdhcmVfaWNvbhgFIAEoCRIyCg9tYWluX2FsbG9jYXRpb24YBiABKAsyFC5jb21tb24uSVBBbGxvY2F0aW9uSACIAQESEwoLZGFlbW9uX2hvc3QYByABKAkSLQoOcmVzb3VyY2VfbGltaXQYCCABKAsyFS5jb21tb24uUmVzb3VyY2VMaW1pdEISChBfbWFpbl9hbGxvY2F0aW9uMnMKDUNsaWVudFNlcnZpY2USLQoHR2V0SW5mbxINLmNvbW1vbi5FbXB0eRoTLmJhY2tlbmQuQ2xpZW50SW5mbxIzCg1HZXRTZXJ2ZXJMaXN0Eg0uY29tbW9uLkVtcHR5GhMuYmFja2VuZC5TZXJ2ZXJMaXN0Qh9aHXBhbmVsaXVtL3Byb3RvX2dlbl9nby9iYWNrZW5kYgZwcm90bzM", [file_common, file_daemon_Server]);
 
 /**
  * @generated from message backend.ClientInfo
@@ -89,14 +89,24 @@ export type ServerInfo = Message<"backend.ServerInfo"> & {
   software: string;
 
   /**
-   * @generated from field: optional common.IPAllocation mainAllocation = 5;
+   * @generated from field: string software_icon = 5;
+   */
+  softwareIcon: string;
+
+  /**
+   * @generated from field: optional common.IPAllocation main_allocation = 6;
    */
   mainAllocation?: IPAllocation;
 
   /**
-   * @generated from field: string daemon_host = 6;
+   * @generated from field: string daemon_host = 7;
    */
   daemonHost: string;
+
+  /**
+   * @generated from field: common.ResourceLimit resource_limit = 8;
+   */
+  resourceLimit?: ResourceLimit;
 };
 
 /**

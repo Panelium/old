@@ -56,5 +56,5 @@ message PowerActionMessage {
 }
 
 message ResourceUsageMessage {
-  common.ResourceUsage usage = 2;
+  common.ResourceUsage usage = 1;
 }

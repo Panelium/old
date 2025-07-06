@@ -53,10 +53,11 @@ func (s *ClientServiceHandler) GetServerList(ctx context.Context, req *connect.R
 	serverInfos := make([]*backend.ServerInfo, 0, len(servers))
 	for _, server := range servers {
 		serverInfo := &backend.ServerInfo{
-			Sid:         server.SID,
-			Name:        server.Name,
-			Description: server.Description,
-			Software:    server.Blueprint.Name,
+			Sid:          server.SID,
+			Name:         server.Name,
+			Description:  server.Description,
+			Software:     server.Blueprint.Name,
+			SoftwareIcon: server.Blueprint.Icon,
 			MainAllocation: util.IfElse(len(server.Allocations) > 0,
 				&proto_gen_go.IPAllocation{
 					Ip:   server.Allocations[0].IP,
@@ -64,6 +65,12 @@ func (s *ClientServiceHandler) GetServerList(ctx context.Context, req *connect.R
 				},
 				nil),
 			DaemonHost: util.IfElse(server.Node.HTTPS, "https://", "http://") + server.Node.FQDN + ":" + fmt.Sprint(server.Node.DaemonPort),
+			ResourceLimit: &proto_gen_go.ResourceLimit{
+				Cpu:     uint32(server.ResourceLimit.CPU),
+				Ram:     uint32(server.ResourceLimit.RAM),
+				Swap:    uint32(server.ResourceLimit.SWAP),
+				Storage: uint32(server.ResourceLimit.Storage),
+			},
 		}
 		serverInfos = append(serverInfos, serverInfo)
 	}

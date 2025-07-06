@@ -106,13 +106,19 @@ components:
         software:
           type: string
           title: software
+        softwareIcon:
+          type: string
+          title: software_icon
         mainAllocation:
-          title: mainAllocation
+          title: main_allocation
           nullable: true
           $ref: '#/components/schemas/common.IPAllocation'
         daemonHost:
           type: string
           title: daemon_host
+        resourceLimit:
+          title: resource_limit
+          $ref: '#/components/schemas/common.ResourceLimit'
       title: ServerInfo
       additionalProperties: false
     backend.ServerList:
@@ -140,6 +146,27 @@ components:
           title: port
           description: MUST BE 1024-65535
       title: IPAllocation
+      additionalProperties: false
+    common.ResourceLimit:
+      type: object
+      properties:
+        cpu:
+          type: integer
+          title: cpu
+          description: CPU in percentage (100% = 1 vCore)
+        ram:
+          type: integer
+          title: ram
+          description: RAM in MB
+        swap:
+          type: integer
+          title: swap
+          description: SWAP in MB
+        storage:
+          type: integer
+          title: storage
+          description: Storage in MB
+      title: ResourceLimit
       additionalProperties: false
     connect-protocol-version:
       type: number
