@@ -104,7 +104,7 @@ func (s *ServerServiceHandler) ResourceUsage(
 		memNowMB := float32(stat.MemoryStats.Usage) / (1024 * 1024)
 
 		msg := &daemon.ResourceUsageMessage{
-			Usage: &daemon.ResourceUsage{
+			Usage: &proto_gen_go.ResourceUsage{
 				Cpu:     cpuUsage,
 				Ram:     memNowMB,
 				Storage: lastStorageMB,
