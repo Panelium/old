@@ -14,7 +14,7 @@ import (
 func Handle(host string) error {
 	authInterceptors := connect.WithInterceptors(
 		middleware.NewTokensInterceptor(),
-		middleware.NewAuthInterceptor(),
+		middleware.NewUserAuthInterceptor(),
 	)
 
 	mux := http.NewServeMux()

@@ -29,7 +29,7 @@ var ignoredProcedures = []string{
 	backendconnect.AuthServiceVerifyMFAProcedure,
 }
 
-func NewAuthInterceptor() connect.UnaryInterceptorFunc {
+func NewUserAuthInterceptor() connect.UnaryInterceptorFunc {
 	interceptor := func(next connect.UnaryFunc) connect.UnaryFunc {
 		return func(
 			ctx context.Context,
