@@ -171,7 +171,7 @@ function TableHead<T>({
                 <DialogContent>
                   <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-4">
                     {/* Blueprint JSON upload (only for blueprints) */}
-                    {columns === BLUEPRINTS_COLUMNS && (
+                    {columns === BLUEPRINTS_COLUMNS ? (
                       <div>
                         <Label className="block mb-1">Upload Blueprint (.bp)</Label>
                         <div className="flex items-center gap-2">
@@ -212,8 +212,7 @@ function TableHead<T>({
                           </span>
                         </div>
                       </div>
-                    )}
-                    {typeof form === "object" &&
+                    ) : (
                       Object.keys(form)
                         .filter(
                           (key) =>
@@ -230,7 +229,8 @@ function TableHead<T>({
                             <label className="block mb-1 capitalize">{key}</label>
                             <Input name={key} value={form[key] || ""} onChange={handleInputChange} required />
                           </div>
-                        ))}
+                        ))
+                    )}
                     <div className="flex gap-2 justify-end">
                       <DialogClose asChild>
                         <Button type="button" variant="secondary">
