@@ -6,12 +6,17 @@ import (
 	"fmt"
 	"panelium/backend/internal/db"
 	"panelium/backend/internal/model"
+	"panelium/backend/internal/security/session"
 	"panelium/common/id"
 	"panelium/proto_gen_go"
 	"panelium/proto_gen_go/backend/admin"
+	"panelium/proto_gen_go/backend/admin/adminconnect"
+	"time"
 )
 
-type NodeManagerServiceHandler struct{}
+type NodeManagerServiceHandler struct {
+	adminconnect.NodeManagerServiceHandler
+}
 
 func NewNodeManagerServiceHandler() *NodeManagerServiceHandler {
 	return &NodeManagerServiceHandler{}
@@ -107,4 +112,33 @@ func (h *NodeManagerServiceHandler) DeleteNode(ctx context.Context, req *connect
 		return nil, err
 	}
 	return connect.NewResponse(&admin.DeleteNodeResponse{Success: true}), nil
+}
+
+func GenerateBackendToken(ctx context.Context, req *connect.Request[admin.GenerateBackendTokenRequest]) (*connect.Response[admin.GenerateBackendTokenResponse], error) {
+	dbInst := db.Instance()
+	var node model.Node
+	if err := dbInst.Where("nid = ?", req.Msg.Nid).First(&node).Error; err != nil {
+		return nil, connect.NewError(connect.CodeNotFound, fmt.Errorf("node not found"))
+	}
+
+	if node.BackendJTI != nil && *node.BackendJTI != "" && !req.Msg.Regenerate {
+		return connect.NewResponse(&admin.GenerateBackendTokenResponse{Success: false}), nil
+	}
+
+	backendToken, backendJTI, _, err := session.CreateBackendToken(time.Now())
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to create backend token"))
+	}
+
+	node.BackendJTI = &backendJTI
+	if err := dbInst.Save(&node).Error; err != nil {
+		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to save backend JTI"))
+	}
+
+	res := &admin.GenerateBackendTokenResponse{
+		Success:      true,
+		BackendToken: &backendToken,
+	}
+
+	return connect.NewResponse(res), nil
 }

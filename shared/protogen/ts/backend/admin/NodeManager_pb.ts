@@ -12,7 +12,55 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file backend/admin/NodeManager.proto.
  */
 export const file_backend_admin_NodeManager: GenFile = /*@__PURE__*/
-  fileDesc("Ch9iYWNrZW5kL2FkbWluL05vZGVNYW5hZ2VyLnByb3RvEg1iYWNrZW5kX2FkbWluIqkBCgROb2RlEgsKA25pZBgBIAEoCRIMCgRuYW1lGAIgASgJEgwKBGZxZG4YAyABKAkSEwoLZGFlbW9uX3BvcnQYBCABKA0SDQoFaHR0cHMYBSABKAgSCwoDbGlkGAYgASgJEg8KB21heF9jcHUYByABKA0SDwoHbWF4X3JhbRgIIAEoDRIQCghtYXhfc3dhcBgJIAEoDRITCgttYXhfc3RvcmFnZRgKIAEoDSJTCg9HZXROb2Rlc1JlcXVlc3QSJgoKcGFnaW5hdGlvbhgBIAEoCzISLmNvbW1vbi5QYWdpbmF0aW9uEhAKA2xpZBgCIAEoCUgAiAEBQgYKBF9saWQiXgoQR2V0Tm9kZXNSZXNwb25zZRIiCgVub2RlcxgBIAMoCzITLmJhY2tlbmRfYWRtaW4uTm9kZRImCgpwYWdpbmF0aW9uGAIgASgLMhIuY29tbW9uLlBhZ2luYXRpb24iHQoOR2V0Tm9kZVJlcXVlc3QSCwoDbmlkGAEgASgJIjQKD0dldE5vZGVSZXNwb25zZRIhCgRub2RlGAEgASgLMhMuYmFja2VuZF9hZG1pbi5Ob2RlIjYKEUNyZWF0ZU5vZGVSZXF1ZXN0EiEKBG5vZGUYASABKAsyEy5iYWNrZW5kX2FkbWluLk5vZGUiJQoSQ3JlYXRlTm9kZVJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgiNgoRVXBkYXRlTm9kZVJlcXVlc3QSIQoEbm9kZRgBIAEoCzITLmJhY2tlbmRfYWRtaW4uTm9kZSIlChJVcGRhdGVOb2RlUmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCCIgChFEZWxldGVOb2RlUmVxdWVzdBILCgNuaWQYASABKAkiJQoSRGVsZXRlTm9kZVJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgypAMKEk5vZGVNYW5hZ2VyU2VydmljZRJLCghHZXROb2RlcxIeLmJhY2tlbmRfYWRtaW4uR2V0Tm9kZXNSZXF1ZXN0Gh8uYmFja2VuZF9hZG1pbi5HZXROb2Rlc1Jlc3BvbnNlEkgKB0dldE5vZGUSHS5iYWNrZW5kX2FkbWluLkdldE5vZGVSZXF1ZXN0Gh4uYmFja2VuZF9hZG1pbi5HZXROb2RlUmVzcG9uc2USUQoKQ3JlYXRlTm9kZRIgLmJhY2tlbmRfYWRtaW4uQ3JlYXRlTm9kZVJlcXVlc3QaIS5iYWNrZW5kX2FkbWluLkNyZWF0ZU5vZGVSZXNwb25zZRJRCgpVcGRhdGVOb2RlEiAuYmFja2VuZF9hZG1pbi5VcGRhdGVOb2RlUmVxdWVzdBohLmJhY2tlbmRfYWRtaW4uVXBkYXRlTm9kZVJlc3BvbnNlElEKCkRlbGV0ZU5vZGUSIC5iYWNrZW5kX2FkbWluLkRlbGV0ZU5vZGVSZXF1ZXN0GiEuYmFja2VuZF9hZG1pbi5EZWxldGVOb2RlUmVzcG9uc2VCJVojcGFuZWxpdW0vcHJvdG9fZ2VuX2dvL2JhY2tlbmQvYWRtaW5iBnByb3RvMw", [file_common]);
+  fileDesc("Ch9iYWNrZW5kL2FkbWluL05vZGVNYW5hZ2VyLnByb3RvEg1iYWNrZW5kX2FkbWluIj4KG0dlbmVyYXRlQmFja2VuZFRva2VuUmVxdWVzdBILCgNuaWQYASABKAkSEgoKcmVnZW5lcmF0ZRgCIAEoCCJdChxHZW5lcmF0ZUJhY2tlbmRUb2tlblJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgSGgoNYmFja2VuZF90b2tlbhgCIAEoCUgAiAEBQhAKDl9iYWNrZW5kX3Rva2VuIqkBCgROb2RlEgsKA25pZBgBIAEoCRIMCgRuYW1lGAIgASgJEgwKBGZxZG4YAyABKAkSEwoLZGFlbW9uX3BvcnQYBCABKA0SDQoFaHR0cHMYBSABKAgSCwoDbGlkGAYgASgJEg8KB21heF9jcHUYByABKA0SDwoHbWF4X3JhbRgIIAEoDRIQCghtYXhfc3dhcBgJIAEoDRITCgttYXhfc3RvcmFnZRgKIAEoDSJTCg9HZXROb2Rlc1JlcXVlc3QSJgoKcGFnaW5hdGlvbhgBIAEoCzISLmNvbW1vbi5QYWdpbmF0aW9uEhAKA2xpZBgCIAEoCUgAiAEBQgYKBF9saWQiXgoQR2V0Tm9kZXNSZXNwb25zZRIiCgVub2RlcxgBIAMoCzITLmJhY2tlbmRfYWRtaW4uTm9kZRImCgpwYWdpbmF0aW9uGAIgASgLMhIuY29tbW9uLlBhZ2luYXRpb24iHQoOR2V0Tm9kZVJlcXVlc3QSCwoDbmlkGAEgASgJIjQKD0dldE5vZGVSZXNwb25zZRIhCgRub2RlGAEgASgLMhMuYmFja2VuZF9hZG1pbi5Ob2RlIjYKEUNyZWF0ZU5vZGVSZXF1ZXN0EiEKBG5vZGUYASABKAsyEy5iYWNrZW5kX2FkbWluLk5vZGUiJQoSQ3JlYXRlTm9kZVJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgiNgoRVXBkYXRlTm9kZVJlcXVlc3QSIQoEbm9kZRgBIAEoCzITLmJhY2tlbmRfYWRtaW4uTm9kZSIlChJVcGRhdGVOb2RlUmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCCIgChFEZWxldGVOb2RlUmVxdWVzdBILCgNuaWQYASABKAkiJQoSRGVsZXRlTm9kZVJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgylQQKEk5vZGVNYW5hZ2VyU2VydmljZRJLCghHZXROb2RlcxIeLmJhY2tlbmRfYWRtaW4uR2V0Tm9kZXNSZXF1ZXN0Gh8uYmFja2VuZF9hZG1pbi5HZXROb2Rlc1Jlc3BvbnNlEkgKB0dldE5vZGUSHS5iYWNrZW5kX2FkbWluLkdldE5vZGVSZXF1ZXN0Gh4uYmFja2VuZF9hZG1pbi5HZXROb2RlUmVzcG9uc2USUQoKQ3JlYXRlTm9kZRIgLmJhY2tlbmRfYWRtaW4uQ3JlYXRlTm9kZVJlcXVlc3QaIS5iYWNrZW5kX2FkbWluLkNyZWF0ZU5vZGVSZXNwb25zZRJRCgpVcGRhdGVOb2RlEiAuYmFja2VuZF9hZG1pbi5VcGRhdGVOb2RlUmVxdWVzdBohLmJhY2tlbmRfYWRtaW4uVXBkYXRlTm9kZVJlc3BvbnNlElEKCkRlbGV0ZU5vZGUSIC5iYWNrZW5kX2FkbWluLkRlbGV0ZU5vZGVSZXF1ZXN0GiEuYmFja2VuZF9hZG1pbi5EZWxldGVOb2RlUmVzcG9uc2USbwoUR2VuZXJhdGVCYWNrZW5kVG9rZW4SKi5iYWNrZW5kX2FkbWluLkdlbmVyYXRlQmFja2VuZFRva2VuUmVxdWVzdBorLmJhY2tlbmRfYWRtaW4uR2VuZXJhdGVCYWNrZW5kVG9rZW5SZXNwb25zZUIlWiNwYW5lbGl1bS9wcm90b19nZW5fZ28vYmFja2VuZC9hZG1pbmIGcHJvdG8z", [file_common]);
+
+/**
+ * @generated from message backend_admin.GenerateBackendTokenRequest
+ */
+export type GenerateBackendTokenRequest = Message<"backend_admin.GenerateBackendTokenRequest"> & {
+  /**
+   * @generated from field: string nid = 1;
+   */
+  nid: string;
+
+  /**
+   * if true, will generate a new token even if one already exists
+   *
+   * @generated from field: bool regenerate = 2;
+   */
+  regenerate: boolean;
+};
+
+/**
+ * Describes the message backend_admin.GenerateBackendTokenRequest.
+ * Use `create(GenerateBackendTokenRequestSchema)` to create a new message.
+ */
+export const GenerateBackendTokenRequestSchema: GenMessage<GenerateBackendTokenRequest> = /*@__PURE__*/
+  messageDesc(file_backend_admin_NodeManager, 0);
+
+/**
+ * @generated from message backend_admin.GenerateBackendTokenResponse
+ */
+export type GenerateBackendTokenResponse = Message<"backend_admin.GenerateBackendTokenResponse"> & {
+  /**
+   * if not success, probably already registered
+   *
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+
+  /**
+   * @generated from field: optional string backend_token = 2;
+   */
+  backendToken?: string;
+};
+
+/**
+ * Describes the message backend_admin.GenerateBackendTokenResponse.
+ * Use `create(GenerateBackendTokenResponseSchema)` to create a new message.
+ */
+export const GenerateBackendTokenResponseSchema: GenMessage<GenerateBackendTokenResponse> = /*@__PURE__*/
+  messageDesc(file_backend_admin_NodeManager, 1);
 
 /**
  * @generated from message backend_admin.Node
@@ -76,7 +124,7 @@ export type Node = Message<"backend_admin.Node"> & {
  * Use `create(NodeSchema)` to create a new message.
  */
 export const NodeSchema: GenMessage<Node> = /*@__PURE__*/
-  messageDesc(file_backend_admin_NodeManager, 0);
+  messageDesc(file_backend_admin_NodeManager, 2);
 
 /**
  * @generated from message backend_admin.GetNodesRequest
@@ -100,7 +148,7 @@ export type GetNodesRequest = Message<"backend_admin.GetNodesRequest"> & {
  * Use `create(GetNodesRequestSchema)` to create a new message.
  */
 export const GetNodesRequestSchema: GenMessage<GetNodesRequest> = /*@__PURE__*/
-  messageDesc(file_backend_admin_NodeManager, 1);
+  messageDesc(file_backend_admin_NodeManager, 3);
 
 /**
  * @generated from message backend_admin.GetNodesResponse
@@ -122,7 +170,7 @@ export type GetNodesResponse = Message<"backend_admin.GetNodesResponse"> & {
  * Use `create(GetNodesResponseSchema)` to create a new message.
  */
 export const GetNodesResponseSchema: GenMessage<GetNodesResponse> = /*@__PURE__*/
-  messageDesc(file_backend_admin_NodeManager, 2);
+  messageDesc(file_backend_admin_NodeManager, 4);
 
 /**
  * @generated from message backend_admin.GetNodeRequest
@@ -139,7 +187,7 @@ export type GetNodeRequest = Message<"backend_admin.GetNodeRequest"> & {
  * Use `create(GetNodeRequestSchema)` to create a new message.
  */
 export const GetNodeRequestSchema: GenMessage<GetNodeRequest> = /*@__PURE__*/
-  messageDesc(file_backend_admin_NodeManager, 3);
+  messageDesc(file_backend_admin_NodeManager, 5);
 
 /**
  * @generated from message backend_admin.GetNodeResponse
@@ -156,7 +204,7 @@ export type GetNodeResponse = Message<"backend_admin.GetNodeResponse"> & {
  * Use `create(GetNodeResponseSchema)` to create a new message.
  */
 export const GetNodeResponseSchema: GenMessage<GetNodeResponse> = /*@__PURE__*/
-  messageDesc(file_backend_admin_NodeManager, 4);
+  messageDesc(file_backend_admin_NodeManager, 6);
 
 /**
  * @generated from message backend_admin.CreateNodeRequest
@@ -173,7 +221,7 @@ export type CreateNodeRequest = Message<"backend_admin.CreateNodeRequest"> & {
  * Use `create(CreateNodeRequestSchema)` to create a new message.
  */
 export const CreateNodeRequestSchema: GenMessage<CreateNodeRequest> = /*@__PURE__*/
-  messageDesc(file_backend_admin_NodeManager, 5);
+  messageDesc(file_backend_admin_NodeManager, 7);
 
 /**
  * @generated from message backend_admin.CreateNodeResponse
@@ -190,7 +238,7 @@ export type CreateNodeResponse = Message<"backend_admin.CreateNodeResponse"> & {
  * Use `create(CreateNodeResponseSchema)` to create a new message.
  */
 export const CreateNodeResponseSchema: GenMessage<CreateNodeResponse> = /*@__PURE__*/
-  messageDesc(file_backend_admin_NodeManager, 6);
+  messageDesc(file_backend_admin_NodeManager, 8);
 
 /**
  * @generated from message backend_admin.UpdateNodeRequest
@@ -207,7 +255,7 @@ export type UpdateNodeRequest = Message<"backend_admin.UpdateNodeRequest"> & {
  * Use `create(UpdateNodeRequestSchema)` to create a new message.
  */
 export const UpdateNodeRequestSchema: GenMessage<UpdateNodeRequest> = /*@__PURE__*/
-  messageDesc(file_backend_admin_NodeManager, 7);
+  messageDesc(file_backend_admin_NodeManager, 9);
 
 /**
  * @generated from message backend_admin.UpdateNodeResponse
@@ -224,7 +272,7 @@ export type UpdateNodeResponse = Message<"backend_admin.UpdateNodeResponse"> & {
  * Use `create(UpdateNodeResponseSchema)` to create a new message.
  */
 export const UpdateNodeResponseSchema: GenMessage<UpdateNodeResponse> = /*@__PURE__*/
-  messageDesc(file_backend_admin_NodeManager, 8);
+  messageDesc(file_backend_admin_NodeManager, 10);
 
 /**
  * @generated from message backend_admin.DeleteNodeRequest
@@ -241,7 +289,7 @@ export type DeleteNodeRequest = Message<"backend_admin.DeleteNodeRequest"> & {
  * Use `create(DeleteNodeRequestSchema)` to create a new message.
  */
 export const DeleteNodeRequestSchema: GenMessage<DeleteNodeRequest> = /*@__PURE__*/
-  messageDesc(file_backend_admin_NodeManager, 9);
+  messageDesc(file_backend_admin_NodeManager, 11);
 
 /**
  * @generated from message backend_admin.DeleteNodeResponse
@@ -258,7 +306,7 @@ export type DeleteNodeResponse = Message<"backend_admin.DeleteNodeResponse"> & {
  * Use `create(DeleteNodeResponseSchema)` to create a new message.
  */
 export const DeleteNodeResponseSchema: GenMessage<DeleteNodeResponse> = /*@__PURE__*/
-  messageDesc(file_backend_admin_NodeManager, 10);
+  messageDesc(file_backend_admin_NodeManager, 12);
 
 /**
  * @generated from service backend_admin.NodeManagerService
@@ -303,6 +351,16 @@ export const NodeManagerService: GenService<{
     methodKind: "unary";
     input: typeof DeleteNodeRequestSchema;
     output: typeof DeleteNodeResponseSchema;
+  },
+  /**
+   * daemon connection thingy
+   *
+   * @generated from rpc backend_admin.NodeManagerService.GenerateBackendToken
+   */
+  generateBackendToken: {
+    methodKind: "unary";
+    input: typeof GenerateBackendTokenRequestSchema;
+    output: typeof GenerateBackendTokenResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_backend_admin_NodeManager, 0);

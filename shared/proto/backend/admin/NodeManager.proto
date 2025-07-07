@@ -13,6 +13,17 @@ service NodeManagerService {
   rpc DeleteNode(DeleteNodeRequest) returns (DeleteNodeResponse);
 
   // daemon connection thingy
+  rpc GenerateBackendToken(GenerateBackendTokenRequest) returns (GenerateBackendTokenResponse);
+}
+
+message GenerateBackendTokenRequest {
+  string nid = 1;
+  bool regenerate = 2; // if true, will generate a new token even if one already exists
+}
+
+message GenerateBackendTokenResponse {
+  bool success = 1; // if not success, probably already registered
+  optional string backend_token = 2;
 }
 
 message Node {

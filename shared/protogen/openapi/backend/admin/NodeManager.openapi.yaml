@@ -177,6 +177,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/backend_admin.DeleteNodeResponse'
+  /backend_admin.NodeManagerService/GenerateBackendToken:
+    post:
+      tags:
+        - backend_admin.NodeManagerService
+      summary: GenerateBackendToken
+      description: daemon connection thingy
+      operationId: backend_admin.NodeManagerService.GenerateBackendToken
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend_admin.GenerateBackendTokenRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend_admin.GenerateBackendTokenResponse'
 components:
   schemas:
     backend_admin.CreateNodeRequest:
@@ -210,6 +246,31 @@ components:
           type: boolean
           title: success
       title: DeleteNodeResponse
+      additionalProperties: false
+    backend_admin.GenerateBackendTokenRequest:
+      type: object
+      properties:
+        nid:
+          type: string
+          title: nid
+        regenerate:
+          type: boolean
+          title: regenerate
+          description: if true, will generate a new token even if one already exists
+      title: GenerateBackendTokenRequest
+      additionalProperties: false
+    backend_admin.GenerateBackendTokenResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+          description: if not success, probably already registered
+        backendToken:
+          type: string
+          title: backend_token
+          nullable: true
+      title: GenerateBackendTokenResponse
       additionalProperties: false
     backend_admin.GetNodeRequest:
       type: object

@@ -48,6 +48,9 @@ const (
 	// NodeManagerServiceDeleteNodeProcedure is the fully-qualified name of the NodeManagerService's
 	// DeleteNode RPC.
 	NodeManagerServiceDeleteNodeProcedure = "/backend_admin.NodeManagerService/DeleteNode"
+	// NodeManagerServiceGenerateBackendTokenProcedure is the fully-qualified name of the
+	// NodeManagerService's GenerateBackendToken RPC.
+	NodeManagerServiceGenerateBackendTokenProcedure = "/backend_admin.NodeManagerService/GenerateBackendToken"
 )
 
 // NodeManagerServiceClient is a client for the backend_admin.NodeManagerService service.
@@ -57,6 +60,8 @@ type NodeManagerServiceClient interface {
 	CreateNode(context.Context, *connect.Request[admin.CreateNodeRequest]) (*connect.Response[admin.CreateNodeResponse], error)
 	UpdateNode(context.Context, *connect.Request[admin.UpdateNodeRequest]) (*connect.Response[admin.UpdateNodeResponse], error)
 	DeleteNode(context.Context, *connect.Request[admin.DeleteNodeRequest]) (*connect.Response[admin.DeleteNodeResponse], error)
+	// daemon connection thingy
+	GenerateBackendToken(context.Context, *connect.Request[admin.GenerateBackendTokenRequest]) (*connect.Response[admin.GenerateBackendTokenResponse], error)
 }
 
 // NewNodeManagerServiceClient constructs a client for the backend_admin.NodeManagerService service.
@@ -100,16 +105,23 @@ func NewNodeManagerServiceClient(httpClient connect.HTTPClient, baseURL string, 
 			connect.WithSchema(nodeManagerServiceMethods.ByName("DeleteNode")),
 			connect.WithClientOptions(opts...),
 		),
+		generateBackendToken: connect.NewClient[admin.GenerateBackendTokenRequest, admin.GenerateBackendTokenResponse](
+			httpClient,
+			baseURL+NodeManagerServiceGenerateBackendTokenProcedure,
+			connect.WithSchema(nodeManagerServiceMethods.ByName("GenerateBackendToken")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // nodeManagerServiceClient implements NodeManagerServiceClient.
 type nodeManagerServiceClient struct {
-	getNodes   *connect.Client[admin.GetNodesRequest, admin.GetNodesResponse]
-	getNode    *connect.Client[admin.GetNodeRequest, admin.GetNodeResponse]
-	createNode *connect.Client[admin.CreateNodeRequest, admin.CreateNodeResponse]
-	updateNode *connect.Client[admin.UpdateNodeRequest, admin.UpdateNodeResponse]
-	deleteNode *connect.Client[admin.DeleteNodeRequest, admin.DeleteNodeResponse]
+	getNodes             *connect.Client[admin.GetNodesRequest, admin.GetNodesResponse]
+	getNode              *connect.Client[admin.GetNodeRequest, admin.GetNodeResponse]
+	createNode           *connect.Client[admin.CreateNodeRequest, admin.CreateNodeResponse]
+	updateNode           *connect.Client[admin.UpdateNodeRequest, admin.UpdateNodeResponse]
+	deleteNode           *connect.Client[admin.DeleteNodeRequest, admin.DeleteNodeResponse]
+	generateBackendToken *connect.Client[admin.GenerateBackendTokenRequest, admin.GenerateBackendTokenResponse]
 }
 
 // GetNodes calls backend_admin.NodeManagerService.GetNodes.
@@ -137,6 +149,11 @@ func (c *nodeManagerServiceClient) DeleteNode(ctx context.Context, req *connect.
 	return c.deleteNode.CallUnary(ctx, req)
 }
 
+// GenerateBackendToken calls backend_admin.NodeManagerService.GenerateBackendToken.
+func (c *nodeManagerServiceClient) GenerateBackendToken(ctx context.Context, req *connect.Request[admin.GenerateBackendTokenRequest]) (*connect.Response[admin.GenerateBackendTokenResponse], error) {
+	return c.generateBackendToken.CallUnary(ctx, req)
+}
+
 // NodeManagerServiceHandler is an implementation of the backend_admin.NodeManagerService service.
 type NodeManagerServiceHandler interface {
 	GetNodes(context.Context, *connect.Request[admin.GetNodesRequest]) (*connect.Response[admin.GetNodesResponse], error)
@@ -144,6 +161,8 @@ type NodeManagerServiceHandler interface {
 	CreateNode(context.Context, *connect.Request[admin.CreateNodeRequest]) (*connect.Response[admin.CreateNodeResponse], error)
 	UpdateNode(context.Context, *connect.Request[admin.UpdateNodeRequest]) (*connect.Response[admin.UpdateNodeResponse], error)
 	DeleteNode(context.Context, *connect.Request[admin.DeleteNodeRequest]) (*connect.Response[admin.DeleteNodeResponse], error)
+	// daemon connection thingy
+	GenerateBackendToken(context.Context, *connect.Request[admin.GenerateBackendTokenRequest]) (*connect.Response[admin.GenerateBackendTokenResponse], error)
 }
 
 // NewNodeManagerServiceHandler builds an HTTP handler from the service implementation. It returns
@@ -183,6 +202,12 @@ func NewNodeManagerServiceHandler(svc NodeManagerServiceHandler, opts ...connect
 		connect.WithSchema(nodeManagerServiceMethods.ByName("DeleteNode")),
 		connect.WithHandlerOptions(opts...),
 	)
+	nodeManagerServiceGenerateBackendTokenHandler := connect.NewUnaryHandler(
+		NodeManagerServiceGenerateBackendTokenProcedure,
+		svc.GenerateBackendToken,
+		connect.WithSchema(nodeManagerServiceMethods.ByName("GenerateBackendToken")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/backend_admin.NodeManagerService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case NodeManagerServiceGetNodesProcedure:
@@ -195,6 +220,8 @@ func NewNodeManagerServiceHandler(svc NodeManagerServiceHandler, opts ...connect
 			nodeManagerServiceUpdateNodeHandler.ServeHTTP(w, r)
 		case NodeManagerServiceDeleteNodeProcedure:
 			nodeManagerServiceDeleteNodeHandler.ServeHTTP(w, r)
+		case NodeManagerServiceGenerateBackendTokenProcedure:
+			nodeManagerServiceGenerateBackendTokenHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -222,4 +249,8 @@ func (UnimplementedNodeManagerServiceHandler) UpdateNode(context.Context, *conne
 
 func (UnimplementedNodeManagerServiceHandler) DeleteNode(context.Context, *connect.Request[admin.DeleteNodeRequest]) (*connect.Response[admin.DeleteNodeResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend_admin.NodeManagerService.DeleteNode is not implemented"))
+}
+
+func (UnimplementedNodeManagerServiceHandler) GenerateBackendToken(context.Context, *connect.Request[admin.GenerateBackendTokenRequest]) (*connect.Response[admin.GenerateBackendTokenResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend_admin.NodeManagerService.GenerateBackendToken is not implemented"))
 }

@@ -22,6 +22,110 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type GenerateBackendTokenRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Nid           string                 `protobuf:"bytes,1,opt,name=nid,proto3" json:"nid,omitempty"`
+	Regenerate    bool                   `protobuf:"varint,2,opt,name=regenerate,proto3" json:"regenerate,omitempty"` // if true, will generate a new token even if one already exists
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GenerateBackendTokenRequest) Reset() {
+	*x = GenerateBackendTokenRequest{}
+	mi := &file_backend_admin_NodeManager_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GenerateBackendTokenRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GenerateBackendTokenRequest) ProtoMessage() {}
+
+func (x *GenerateBackendTokenRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_NodeManager_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GenerateBackendTokenRequest.ProtoReflect.Descriptor instead.
+func (*GenerateBackendTokenRequest) Descriptor() ([]byte, []int) {
+	return file_backend_admin_NodeManager_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *GenerateBackendTokenRequest) GetNid() string {
+	if x != nil {
+		return x.Nid
+	}
+	return ""
+}
+
+func (x *GenerateBackendTokenRequest) GetRegenerate() bool {
+	if x != nil {
+		return x.Regenerate
+	}
+	return false
+}
+
+type GenerateBackendTokenResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"` // if not success, probably already registered
+	BackendToken  *string                `protobuf:"bytes,2,opt,name=backend_token,json=backendToken,proto3,oneof" json:"backend_token,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GenerateBackendTokenResponse) Reset() {
+	*x = GenerateBackendTokenResponse{}
+	mi := &file_backend_admin_NodeManager_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GenerateBackendTokenResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GenerateBackendTokenResponse) ProtoMessage() {}
+
+func (x *GenerateBackendTokenResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_admin_NodeManager_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GenerateBackendTokenResponse.ProtoReflect.Descriptor instead.
+func (*GenerateBackendTokenResponse) Descriptor() ([]byte, []int) {
+	return file_backend_admin_NodeManager_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *GenerateBackendTokenResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *GenerateBackendTokenResponse) GetBackendToken() string {
+	if x != nil && x.BackendToken != nil {
+		return *x.BackendToken
+	}
+	return ""
+}
+
 type Node struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Nid           string                 `protobuf:"bytes,1,opt,name=nid,proto3" json:"nid,omitempty"` // ignored with Create
@@ -40,7 +144,7 @@ type Node struct {
 
 func (x *Node) Reset() {
 	*x = Node{}
-	mi := &file_backend_admin_NodeManager_proto_msgTypes[0]
+	mi := &file_backend_admin_NodeManager_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -52,7 +156,7 @@ func (x *Node) String() string {
 func (*Node) ProtoMessage() {}
 
 func (x *Node) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_admin_NodeManager_proto_msgTypes[0]
+	mi := &file_backend_admin_NodeManager_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -65,7 +169,7 @@ func (x *Node) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Node.ProtoReflect.Descriptor instead.
 func (*Node) Descriptor() ([]byte, []int) {
-	return file_backend_admin_NodeManager_proto_rawDescGZIP(), []int{0}
+	return file_backend_admin_NodeManager_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *Node) GetNid() string {
@@ -148,7 +252,7 @@ type GetNodesRequest struct {
 
 func (x *GetNodesRequest) Reset() {
 	*x = GetNodesRequest{}
-	mi := &file_backend_admin_NodeManager_proto_msgTypes[1]
+	mi := &file_backend_admin_NodeManager_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -160,7 +264,7 @@ func (x *GetNodesRequest) String() string {
 func (*GetNodesRequest) ProtoMessage() {}
 
 func (x *GetNodesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_admin_NodeManager_proto_msgTypes[1]
+	mi := &file_backend_admin_NodeManager_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -173,7 +277,7 @@ func (x *GetNodesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetNodesRequest.ProtoReflect.Descriptor instead.
 func (*GetNodesRequest) Descriptor() ([]byte, []int) {
-	return file_backend_admin_NodeManager_proto_rawDescGZIP(), []int{1}
+	return file_backend_admin_NodeManager_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *GetNodesRequest) GetPagination() *proto_gen_go.Pagination {
@@ -200,7 +304,7 @@ type GetNodesResponse struct {
 
 func (x *GetNodesResponse) Reset() {
 	*x = GetNodesResponse{}
-	mi := &file_backend_admin_NodeManager_proto_msgTypes[2]
+	mi := &file_backend_admin_NodeManager_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -212,7 +316,7 @@ func (x *GetNodesResponse) String() string {
 func (*GetNodesResponse) ProtoMessage() {}
 
 func (x *GetNodesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_admin_NodeManager_proto_msgTypes[2]
+	mi := &file_backend_admin_NodeManager_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -225,7 +329,7 @@ func (x *GetNodesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetNodesResponse.ProtoReflect.Descriptor instead.
 func (*GetNodesResponse) Descriptor() ([]byte, []int) {
-	return file_backend_admin_NodeManager_proto_rawDescGZIP(), []int{2}
+	return file_backend_admin_NodeManager_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetNodesResponse) GetNodes() []*Node {
@@ -251,7 +355,7 @@ type GetNodeRequest struct {
 
 func (x *GetNodeRequest) Reset() {
 	*x = GetNodeRequest{}
-	mi := &file_backend_admin_NodeManager_proto_msgTypes[3]
+	mi := &file_backend_admin_NodeManager_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -263,7 +367,7 @@ func (x *GetNodeRequest) String() string {
 func (*GetNodeRequest) ProtoMessage() {}
 
 func (x *GetNodeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_admin_NodeManager_proto_msgTypes[3]
+	mi := &file_backend_admin_NodeManager_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -276,7 +380,7 @@ func (x *GetNodeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetNodeRequest.ProtoReflect.Descriptor instead.
 func (*GetNodeRequest) Descriptor() ([]byte, []int) {
-	return file_backend_admin_NodeManager_proto_rawDescGZIP(), []int{3}
+	return file_backend_admin_NodeManager_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *GetNodeRequest) GetNid() string {
@@ -295,7 +399,7 @@ type GetNodeResponse struct {
 
 func (x *GetNodeResponse) Reset() {
 	*x = GetNodeResponse{}
-	mi := &file_backend_admin_NodeManager_proto_msgTypes[4]
+	mi := &file_backend_admin_NodeManager_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -307,7 +411,7 @@ func (x *GetNodeResponse) String() string {
 func (*GetNodeResponse) ProtoMessage() {}
 
 func (x *GetNodeResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_admin_NodeManager_proto_msgTypes[4]
+	mi := &file_backend_admin_NodeManager_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -320,7 +424,7 @@ func (x *GetNodeResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetNodeResponse.ProtoReflect.Descriptor instead.
 func (*GetNodeResponse) Descriptor() ([]byte, []int) {
-	return file_backend_admin_NodeManager_proto_rawDescGZIP(), []int{4}
+	return file_backend_admin_NodeManager_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *GetNodeResponse) GetNode() *Node {
@@ -339,7 +443,7 @@ type CreateNodeRequest struct {
 
 func (x *CreateNodeRequest) Reset() {
 	*x = CreateNodeRequest{}
-	mi := &file_backend_admin_NodeManager_proto_msgTypes[5]
+	mi := &file_backend_admin_NodeManager_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -351,7 +455,7 @@ func (x *CreateNodeRequest) String() string {
 func (*CreateNodeRequest) ProtoMessage() {}
 
 func (x *CreateNodeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_admin_NodeManager_proto_msgTypes[5]
+	mi := &file_backend_admin_NodeManager_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -364,7 +468,7 @@ func (x *CreateNodeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateNodeRequest.ProtoReflect.Descriptor instead.
 func (*CreateNodeRequest) Descriptor() ([]byte, []int) {
-	return file_backend_admin_NodeManager_proto_rawDescGZIP(), []int{5}
+	return file_backend_admin_NodeManager_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *CreateNodeRequest) GetNode() *Node {
@@ -383,7 +487,7 @@ type CreateNodeResponse struct {
 
 func (x *CreateNodeResponse) Reset() {
 	*x = CreateNodeResponse{}
-	mi := &file_backend_admin_NodeManager_proto_msgTypes[6]
+	mi := &file_backend_admin_NodeManager_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -395,7 +499,7 @@ func (x *CreateNodeResponse) String() string {
 func (*CreateNodeResponse) ProtoMessage() {}
 
 func (x *CreateNodeResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_admin_NodeManager_proto_msgTypes[6]
+	mi := &file_backend_admin_NodeManager_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -408,7 +512,7 @@ func (x *CreateNodeResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateNodeResponse.ProtoReflect.Descriptor instead.
 func (*CreateNodeResponse) Descriptor() ([]byte, []int) {
-	return file_backend_admin_NodeManager_proto_rawDescGZIP(), []int{6}
+	return file_backend_admin_NodeManager_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *CreateNodeResponse) GetSuccess() bool {
@@ -427,7 +531,7 @@ type UpdateNodeRequest struct {
 
 func (x *UpdateNodeRequest) Reset() {
 	*x = UpdateNodeRequest{}
-	mi := &file_backend_admin_NodeManager_proto_msgTypes[7]
+	mi := &file_backend_admin_NodeManager_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -439,7 +543,7 @@ func (x *UpdateNodeRequest) String() string {
 func (*UpdateNodeRequest) ProtoMessage() {}
 
 func (x *UpdateNodeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_admin_NodeManager_proto_msgTypes[7]
+	mi := &file_backend_admin_NodeManager_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -452,7 +556,7 @@ func (x *UpdateNodeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateNodeRequest.ProtoReflect.Descriptor instead.
 func (*UpdateNodeRequest) Descriptor() ([]byte, []int) {
-	return file_backend_admin_NodeManager_proto_rawDescGZIP(), []int{7}
+	return file_backend_admin_NodeManager_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *UpdateNodeRequest) GetNode() *Node {
@@ -471,7 +575,7 @@ type UpdateNodeResponse struct {
 
 func (x *UpdateNodeResponse) Reset() {
 	*x = UpdateNodeResponse{}
-	mi := &file_backend_admin_NodeManager_proto_msgTypes[8]
+	mi := &file_backend_admin_NodeManager_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -483,7 +587,7 @@ func (x *UpdateNodeResponse) String() string {
 func (*UpdateNodeResponse) ProtoMessage() {}
 
 func (x *UpdateNodeResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_admin_NodeManager_proto_msgTypes[8]
+	mi := &file_backend_admin_NodeManager_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -496,7 +600,7 @@ func (x *UpdateNodeResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateNodeResponse.ProtoReflect.Descriptor instead.
 func (*UpdateNodeResponse) Descriptor() ([]byte, []int) {
-	return file_backend_admin_NodeManager_proto_rawDescGZIP(), []int{8}
+	return file_backend_admin_NodeManager_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *UpdateNodeResponse) GetSuccess() bool {
@@ -515,7 +619,7 @@ type DeleteNodeRequest struct {
 
 func (x *DeleteNodeRequest) Reset() {
 	*x = DeleteNodeRequest{}
-	mi := &file_backend_admin_NodeManager_proto_msgTypes[9]
+	mi := &file_backend_admin_NodeManager_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -527,7 +631,7 @@ func (x *DeleteNodeRequest) String() string {
 func (*DeleteNodeRequest) ProtoMessage() {}
 
 func (x *DeleteNodeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_admin_NodeManager_proto_msgTypes[9]
+	mi := &file_backend_admin_NodeManager_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -540,7 +644,7 @@ func (x *DeleteNodeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteNodeRequest.ProtoReflect.Descriptor instead.
 func (*DeleteNodeRequest) Descriptor() ([]byte, []int) {
-	return file_backend_admin_NodeManager_proto_rawDescGZIP(), []int{9}
+	return file_backend_admin_NodeManager_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *DeleteNodeRequest) GetNid() string {
@@ -559,7 +663,7 @@ type DeleteNodeResponse struct {
 
 func (x *DeleteNodeResponse) Reset() {
 	*x = DeleteNodeResponse{}
-	mi := &file_backend_admin_NodeManager_proto_msgTypes[10]
+	mi := &file_backend_admin_NodeManager_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -571,7 +675,7 @@ func (x *DeleteNodeResponse) String() string {
 func (*DeleteNodeResponse) ProtoMessage() {}
 
 func (x *DeleteNodeResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_admin_NodeManager_proto_msgTypes[10]
+	mi := &file_backend_admin_NodeManager_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -584,7 +688,7 @@ func (x *DeleteNodeResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteNodeResponse.ProtoReflect.Descriptor instead.
 func (*DeleteNodeResponse) Descriptor() ([]byte, []int) {
-	return file_backend_admin_NodeManager_proto_rawDescGZIP(), []int{10}
+	return file_backend_admin_NodeManager_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *DeleteNodeResponse) GetSuccess() bool {
@@ -598,7 +702,16 @@ var File_backend_admin_NodeManager_proto protoreflect.FileDescriptor
 
 const file_backend_admin_NodeManager_proto_rawDesc = "" +
 	"\n" +
-	"\x1fbackend/admin/NodeManager.proto\x12\rbackend_admin\x1a\fcommon.proto\"\xf7\x01\n" +
+	"\x1fbackend/admin/NodeManager.proto\x12\rbackend_admin\x1a\fcommon.proto\"O\n" +
+	"\x1bGenerateBackendTokenRequest\x12\x10\n" +
+	"\x03nid\x18\x01 \x01(\tR\x03nid\x12\x1e\n" +
+	"\n" +
+	"regenerate\x18\x02 \x01(\bR\n" +
+	"regenerate\"t\n" +
+	"\x1cGenerateBackendTokenResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12(\n" +
+	"\rbackend_token\x18\x02 \x01(\tH\x00R\fbackendToken\x88\x01\x01B\x10\n" +
+	"\x0e_backend_token\"\xf7\x01\n" +
 	"\x04Node\x12\x10\n" +
 	"\x03nid\x18\x01 \x01(\tR\x03nid\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x12\n" +
@@ -639,7 +752,7 @@ const file_backend_admin_NodeManager_proto_rawDesc = "" +
 	"\x11DeleteNodeRequest\x12\x10\n" +
 	"\x03nid\x18\x01 \x01(\tR\x03nid\".\n" +
 	"\x12DeleteNodeResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess2\xa4\x03\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess2\x95\x04\n" +
 	"\x12NodeManagerService\x12K\n" +
 	"\bGetNodes\x12\x1e.backend_admin.GetNodesRequest\x1a\x1f.backend_admin.GetNodesResponse\x12H\n" +
 	"\aGetNode\x12\x1d.backend_admin.GetNodeRequest\x1a\x1e.backend_admin.GetNodeResponse\x12Q\n" +
@@ -648,7 +761,8 @@ const file_backend_admin_NodeManager_proto_rawDesc = "" +
 	"\n" +
 	"UpdateNode\x12 .backend_admin.UpdateNodeRequest\x1a!.backend_admin.UpdateNodeResponse\x12Q\n" +
 	"\n" +
-	"DeleteNode\x12 .backend_admin.DeleteNodeRequest\x1a!.backend_admin.DeleteNodeResponseB%Z#panelium/proto_gen_go/backend/adminb\x06proto3"
+	"DeleteNode\x12 .backend_admin.DeleteNodeRequest\x1a!.backend_admin.DeleteNodeResponse\x12o\n" +
+	"\x14GenerateBackendToken\x12*.backend_admin.GenerateBackendTokenRequest\x1a+.backend_admin.GenerateBackendTokenResponseB%Z#panelium/proto_gen_go/backend/adminb\x06proto3"
 
 var (
 	file_backend_admin_NodeManager_proto_rawDescOnce sync.Once
@@ -662,40 +776,44 @@ func file_backend_admin_NodeManager_proto_rawDescGZIP() []byte {
 	return file_backend_admin_NodeManager_proto_rawDescData
 }
 
-var file_backend_admin_NodeManager_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_backend_admin_NodeManager_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_backend_admin_NodeManager_proto_goTypes = []any{
-	(*Node)(nil),                    // 0: backend_admin.Node
-	(*GetNodesRequest)(nil),         // 1: backend_admin.GetNodesRequest
-	(*GetNodesResponse)(nil),        // 2: backend_admin.GetNodesResponse
-	(*GetNodeRequest)(nil),          // 3: backend_admin.GetNodeRequest
-	(*GetNodeResponse)(nil),         // 4: backend_admin.GetNodeResponse
-	(*CreateNodeRequest)(nil),       // 5: backend_admin.CreateNodeRequest
-	(*CreateNodeResponse)(nil),      // 6: backend_admin.CreateNodeResponse
-	(*UpdateNodeRequest)(nil),       // 7: backend_admin.UpdateNodeRequest
-	(*UpdateNodeResponse)(nil),      // 8: backend_admin.UpdateNodeResponse
-	(*DeleteNodeRequest)(nil),       // 9: backend_admin.DeleteNodeRequest
-	(*DeleteNodeResponse)(nil),      // 10: backend_admin.DeleteNodeResponse
-	(*proto_gen_go.Pagination)(nil), // 11: common.Pagination
+	(*GenerateBackendTokenRequest)(nil),  // 0: backend_admin.GenerateBackendTokenRequest
+	(*GenerateBackendTokenResponse)(nil), // 1: backend_admin.GenerateBackendTokenResponse
+	(*Node)(nil),                         // 2: backend_admin.Node
+	(*GetNodesRequest)(nil),              // 3: backend_admin.GetNodesRequest
+	(*GetNodesResponse)(nil),             // 4: backend_admin.GetNodesResponse
+	(*GetNodeRequest)(nil),               // 5: backend_admin.GetNodeRequest
+	(*GetNodeResponse)(nil),              // 6: backend_admin.GetNodeResponse
+	(*CreateNodeRequest)(nil),            // 7: backend_admin.CreateNodeRequest
+	(*CreateNodeResponse)(nil),           // 8: backend_admin.CreateNodeResponse
+	(*UpdateNodeRequest)(nil),            // 9: backend_admin.UpdateNodeRequest
+	(*UpdateNodeResponse)(nil),           // 10: backend_admin.UpdateNodeResponse
+	(*DeleteNodeRequest)(nil),            // 11: backend_admin.DeleteNodeRequest
+	(*DeleteNodeResponse)(nil),           // 12: backend_admin.DeleteNodeResponse
+	(*proto_gen_go.Pagination)(nil),      // 13: common.Pagination
 }
 var file_backend_admin_NodeManager_proto_depIdxs = []int32{
-	11, // 0: backend_admin.GetNodesRequest.pagination:type_name -> common.Pagination
-	0,  // 1: backend_admin.GetNodesResponse.nodes:type_name -> backend_admin.Node
-	11, // 2: backend_admin.GetNodesResponse.pagination:type_name -> common.Pagination
-	0,  // 3: backend_admin.GetNodeResponse.node:type_name -> backend_admin.Node
-	0,  // 4: backend_admin.CreateNodeRequest.node:type_name -> backend_admin.Node
-	0,  // 5: backend_admin.UpdateNodeRequest.node:type_name -> backend_admin.Node
-	1,  // 6: backend_admin.NodeManagerService.GetNodes:input_type -> backend_admin.GetNodesRequest
-	3,  // 7: backend_admin.NodeManagerService.GetNode:input_type -> backend_admin.GetNodeRequest
-	5,  // 8: backend_admin.NodeManagerService.CreateNode:input_type -> backend_admin.CreateNodeRequest
-	7,  // 9: backend_admin.NodeManagerService.UpdateNode:input_type -> backend_admin.UpdateNodeRequest
-	9,  // 10: backend_admin.NodeManagerService.DeleteNode:input_type -> backend_admin.DeleteNodeRequest
-	2,  // 11: backend_admin.NodeManagerService.GetNodes:output_type -> backend_admin.GetNodesResponse
-	4,  // 12: backend_admin.NodeManagerService.GetNode:output_type -> backend_admin.GetNodeResponse
-	6,  // 13: backend_admin.NodeManagerService.CreateNode:output_type -> backend_admin.CreateNodeResponse
-	8,  // 14: backend_admin.NodeManagerService.UpdateNode:output_type -> backend_admin.UpdateNodeResponse
-	10, // 15: backend_admin.NodeManagerService.DeleteNode:output_type -> backend_admin.DeleteNodeResponse
-	11, // [11:16] is the sub-list for method output_type
-	6,  // [6:11] is the sub-list for method input_type
+	13, // 0: backend_admin.GetNodesRequest.pagination:type_name -> common.Pagination
+	2,  // 1: backend_admin.GetNodesResponse.nodes:type_name -> backend_admin.Node
+	13, // 2: backend_admin.GetNodesResponse.pagination:type_name -> common.Pagination
+	2,  // 3: backend_admin.GetNodeResponse.node:type_name -> backend_admin.Node
+	2,  // 4: backend_admin.CreateNodeRequest.node:type_name -> backend_admin.Node
+	2,  // 5: backend_admin.UpdateNodeRequest.node:type_name -> backend_admin.Node
+	3,  // 6: backend_admin.NodeManagerService.GetNodes:input_type -> backend_admin.GetNodesRequest
+	5,  // 7: backend_admin.NodeManagerService.GetNode:input_type -> backend_admin.GetNodeRequest
+	7,  // 8: backend_admin.NodeManagerService.CreateNode:input_type -> backend_admin.CreateNodeRequest
+	9,  // 9: backend_admin.NodeManagerService.UpdateNode:input_type -> backend_admin.UpdateNodeRequest
+	11, // 10: backend_admin.NodeManagerService.DeleteNode:input_type -> backend_admin.DeleteNodeRequest
+	0,  // 11: backend_admin.NodeManagerService.GenerateBackendToken:input_type -> backend_admin.GenerateBackendTokenRequest
+	4,  // 12: backend_admin.NodeManagerService.GetNodes:output_type -> backend_admin.GetNodesResponse
+	6,  // 13: backend_admin.NodeManagerService.GetNode:output_type -> backend_admin.GetNodeResponse
+	8,  // 14: backend_admin.NodeManagerService.CreateNode:output_type -> backend_admin.CreateNodeResponse
+	10, // 15: backend_admin.NodeManagerService.UpdateNode:output_type -> backend_admin.UpdateNodeResponse
+	12, // 16: backend_admin.NodeManagerService.DeleteNode:output_type -> backend_admin.DeleteNodeResponse
+	1,  // 17: backend_admin.NodeManagerService.GenerateBackendToken:output_type -> backend_admin.GenerateBackendTokenResponse
+	12, // [12:18] is the sub-list for method output_type
+	6,  // [6:12] is the sub-list for method input_type
 	6,  // [6:6] is the sub-list for extension type_name
 	6,  // [6:6] is the sub-list for extension extendee
 	0,  // [0:6] is the sub-list for field type_name
@@ -707,13 +825,14 @@ func file_backend_admin_NodeManager_proto_init() {
 		return
 	}
 	file_backend_admin_NodeManager_proto_msgTypes[1].OneofWrappers = []any{}
+	file_backend_admin_NodeManager_proto_msgTypes[3].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_backend_admin_NodeManager_proto_rawDesc), len(file_backend_admin_NodeManager_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   11,
+			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
