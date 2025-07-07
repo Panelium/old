@@ -5,10 +5,16 @@ import (
 	"log"
 	"panelium/daemon/internal/db"
 	"panelium/daemon/internal/model"
+	"panelium/daemon/internal/sync"
 	"slices"
 )
 
 func UpdateServer(sid string, userIds *[]string, allocations *[]model.ServerAllocation, resourceLimit *model.ResourceLimit, dockerImage *string, bid *string) error {
+	err := sync.SyncBlueprints()
+	if err != nil {
+		log.Printf("failed to sync blueprints: %v", err)
+	}
+
 	if userIds != nil {
 		tx := db.Instance().Delete(&model.ServerUser{}, "sid = ?", sid)
 		if tx.Error != nil {

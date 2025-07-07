@@ -5,6 +5,7 @@ import (
 	"log"
 	"panelium/daemon/internal/db"
 	"panelium/daemon/internal/model"
+	"panelium/daemon/internal/sync"
 	"panelium/proto_gen_go/daemon"
 	"slices"
 )
@@ -26,6 +27,11 @@ func yeetDbServer(sid string) error {
 }
 
 func CreateServer(sid string, ownerId string, userIds []string, allocations []model.ServerAllocation, resourceLimit model.ResourceLimit, dockerImage string, bid string) (*model.Server, error) {
+	err := sync.SyncBlueprints()
+	if err != nil {
+		log.Printf("failed to sync blueprints: %v", err)
+	}
+
 	blueprint := model.Blueprint{}
 	tx := db.Instance().First(&blueprint, "s.BID = ?", bid)
 	if tx.Error != nil || tx.RowsAffected == 0 {
@@ -33,7 +39,7 @@ func CreateServer(sid string, ownerId string, userIds []string, allocations []mo
 	}
 
 	var dockerImages []string
-	err := blueprint.DockerImages.Scan(&dockerImages)
+	err = blueprint.DockerImages.Scan(&dockerImages)
 	if err != nil {
 		return nil, fmt.Errorf("failed to scan docker images from blueprint: %w", err)
 	}
