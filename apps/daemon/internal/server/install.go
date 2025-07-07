@@ -20,6 +20,7 @@ import (
 	"panelium/daemon/internal/model"
 	"panelium/proto_gen_go/daemon"
 	"path"
+	"strings"
 )
 
 // TODO: implement storage limiting
@@ -210,6 +211,25 @@ func Install(s *model.Server) error {
 		ports[nat.Port(fmt.Sprintf("%d/udp", alloc.Port))] = struct{}{}
 	}
 
+	//replace {{$env::xx}} with the actual environment variables in the start command
+	for i, cmd := range strings.Split(blueprint.StartCommand, " ") {
+		if strings.HasPrefix(cmd, "{{$env::") && strings.HasSuffix(cmd, "}}") {
+			envVar := cmd[8 : len(cmd)-2] // strip {{$env:: and }}
+			value, exists := func(envVar string) (string, bool) {
+				if envVar == "SERVER_BINARY" {
+					return blueprint.ServerBinary, true
+				}
+				return "", false
+			}(envVar)
+			if !exists {
+				log.Printf("err: environment variable %s not found\n", envVar)
+				return fmt.Errorf("environment variable %s not found", envVar)
+			}
+			// replace the command with the actual value
+			strings.Split(blueprint.StartCommand, " ")[i] = value
+		}
+	}
+
 	// create the server container
 	_, err = docker.Instance().ContainerCreate(context.Background(), &container.Config{
 		AttachStdin:  true,
@@ -219,7 +239,7 @@ func Install(s *model.Server) error {
 		Tty:          true,
 		Image:        s.DockerImage,
 		WorkingDir:   "/data",
-		Cmd:          []string{blueprint.ServerBinary},
+		Cmd:          strings.Split(blueprint.StartCommand, " "),
 		Env:          []string{"SERVER_BINARY=" + blueprint.ServerBinary},
 		ExposedPorts: ports,
 	}, &container.HostConfig{

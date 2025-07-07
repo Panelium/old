@@ -36,7 +36,7 @@ func UpdateServer(sid string, userIds *[]string, allocations *[]model.ServerAllo
 		}
 	}
 	if allocations != nil {
-		tx := db.Instance().Delete(&model.ServerAllocation{}, "sid = ?", sid)
+		tx := db.Instance().Unscoped().Delete(&model.ServerAllocation{}, "sid = ?", sid)
 		if tx.Error != nil {
 			return fmt.Errorf("failed to delete existing server allocations: %w", tx.Error)
 		}
