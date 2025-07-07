@@ -1,12 +1,20 @@
 package main
 
 import (
+	"connectrpc.com/connect"
+	"context"
+	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"panelium/daemon/internal/config"
 	"panelium/daemon/internal/db"
 	"panelium/daemon/internal/docker"
 	"panelium/daemon/internal/handler"
+	"panelium/daemon/internal/security"
+	"panelium/proto_gen_go/backend"
+	"panelium/proto_gen_go/backend/backendconnect"
+	"time"
 )
 
 func main() {
@@ -22,7 +30,13 @@ func main() {
 		log.Println("Backend token is not set. Please set it in the configuration file.")
 		return
 	}
-	// TODO: check for NodeJTI and if not found try to register with backend
+	if config.SecretsInstance.GetNodeJTI() == "" {
+		err = tryRegisterWithBackend()
+		if err != nil {
+			log.Printf("Failed to register with backend: %v", err)
+			return
+		}
+	}
 
 	err = db.Init()
 	if err != nil {
@@ -52,4 +66,30 @@ func main() {
 	log.Printf("Panelium Daemon started on port %s", port)
 
 	select {}
+}
+
+func tryRegisterWithBackend() error {
+	client := backendconnect.NewDaemonServiceClient(http.DefaultClient, config.ConfigInstance.GetBackendHost(), connect.WithGRPC())
+
+	nodeToken, nodeJTI, _, err := security.CreateNodeToken(time.Now())
+	if err != nil {
+		return err
+	}
+
+	req := connect.NewRequest(&backend.RegisterDaemonRequest{
+		NodeToken: nodeToken,
+	})
+	req.Header().Add("Authorization", config.SecretsInstance.BackendToken)
+
+	res, err := client.RegisterDaemon(context.Background(), req)
+	if err != nil {
+		return err
+	}
+
+	if res == nil || res.Msg.Success != true {
+		return fmt.Errorf("something went wrong")
+	}
+
+	config.SecretsInstance.SetNodeJTI(nodeJTI)
+	return nil
 }
