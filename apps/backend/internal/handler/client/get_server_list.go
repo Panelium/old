@@ -58,12 +58,15 @@ func (s *ClientServiceHandler) GetServerList(ctx context.Context, req *connect.R
 			Description:  server.Description,
 			Software:     server.Blueprint.Name,
 			SoftwareIcon: server.Blueprint.Icon,
-			MainAllocation: util.IfElse(len(server.Allocations) > 0,
-				&proto_gen_go.IPAllocation{
-					Ip:   server.Allocations[0].IP,
-					Port: uint32(server.Allocations[0].Port),
-				},
-				nil),
+			MainAllocation: func() *proto_gen_go.IPAllocation {
+				if len(server.Allocations) > 0 {
+					return &proto_gen_go.IPAllocation{
+						Ip:   server.Allocations[0].IP,
+						Port: uint32(server.Allocations[0].Port),
+					}
+				}
+				return nil
+			}(),
 			DaemonHost: util.IfElse(server.Node.HTTPS, "https://", "http://") + server.Node.FQDN + ":" + fmt.Sprint(server.Node.DaemonPort),
 			ResourceLimit: &proto_gen_go.ResourceLimit{
 				Cpu:     uint32(server.ResourceLimit.CPU),
