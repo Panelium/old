@@ -4,6 +4,7 @@ import (
 	"connectrpc.com/connect"
 	"context"
 	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"panelium/backend/internal/db"
@@ -161,7 +162,7 @@ func (s *ClientServiceHandler) NewServer(
 		Name  string `json:"name"`
 		Image string `json:"image"`
 	}
-	err := blueprint.DockerImages.Scan(&availableDockerImages)
+	err := json.Unmarshal(blueprint.DockerImages, &availableDockerImages)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to parse docker images for blueprint"))
 	}
@@ -200,7 +201,7 @@ func (s *ClientServiceHandler) NewServer(
 		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to find available node allocation for node %s", node.NID))
 	}
 
-	allocation.ServerID = server.ID
+	allocation.ServerID = &server.ID
 	if err := db.Instance().Save(&allocation).Error; err != nil {
 		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to update node allocation with server ID"))
 	}
