@@ -176,7 +176,7 @@ function TableHead<T extends ColumnType>({
                                 name={column.id.toString()}
                                 value={form[column.id] ?? ""}
                                 onChange={(e) => setForm({ ...form, [column.id]: e.target.value })}
-                                required
+                                required={!column.optional}
                                 className="block w-full border rounded px-2 py-1"
                               >
                                 <option value="" disabled>
