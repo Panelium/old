@@ -25,19 +25,32 @@ const initialState = {
   },
 };
 
-const SessionProviderContext =
-  createContext<SessionProviderState>(initialState);
+const SessionProviderContext = createContext<SessionProviderState>(initialState);
 
-export default function SessionProvider({
-  children,
-  storageKey = "authenticated",
-}: SessionProviderProps) {
+let externalSetAuthenticated: ((authenticated: boolean) => void) | null = null;
+
+export function setSessionAuthenticated(authenticated: boolean) {
+  if (externalSetAuthenticated) {
+    externalSetAuthenticated(authenticated);
+  } else {
+    throw new Error("SessionProvider is not mounted");
+  }
+}
+
+export default function SessionProvider({ children, storageKey = "authenticated" }: SessionProviderProps) {
   let isAuthenticated = false;
 
   if (typeof window !== "undefined") {
     isAuthenticated = sessionStorage.getItem(storageKey) === "true";
   }
   const [authenticated, setAuthenticated] = useState<boolean>(isAuthenticated);
+
+  useEffect(() => {
+    externalSetAuthenticated = setAuthenticated;
+    return () => {
+      externalSetAuthenticated = null;
+    };
+  }, [setAuthenticated]);
 
   useEffect(() => {
     if (authenticated) {
