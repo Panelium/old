@@ -1,5 +1,6 @@
 export interface Config {
   BACKEND_HOST: string;
+  TURNSTILE_SITE_KEY: string;
 }
 
 let configCache: Config;

@@ -4,6 +4,7 @@ import (
 	"connectrpc.com/connect"
 	"context"
 	"fmt"
+	"panelium/backend/internal/config"
 	"panelium/backend/internal/db"
 	"panelium/backend/internal/model"
 	"panelium/backend/internal/rate_limit"
@@ -11,6 +12,7 @@ import (
 	"panelium/backend/internal/security/cookies"
 	"panelium/backend/internal/security/session"
 	"panelium/common/errors"
+	"panelium/common/turnstile"
 	"panelium/proto_gen_go/backend"
 	"time"
 )
@@ -23,6 +25,14 @@ func (s *AuthServiceHandler) Login(
 ) (*connect.Response[backend.LoginResponse], error) {
 	if !loginLimiter.Allow(req.Peer().Addr) {
 		return nil, connect.NewError(connect.CodeResourceExhausted, fmt.Errorf("too many login attempts, please try again later"))
+	}
+
+	turnstileOk, err := turnstile.VerifyTurnstileToken(req.Msg.TurnstileToken, config.SecretsInstance.GetTurnstileSecretKey())
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInvalidArgument, fmt.Errorf("failed to verify turnstile token: %w", err))
+	}
+	if !turnstileOk {
+		return nil, connect.NewError(connect.CodePermissionDenied, fmt.Errorf("turnstile verification failed, please try again"))
 	}
 
 	user := &model.User{}

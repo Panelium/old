@@ -75,12 +75,13 @@ func (MFAType) EnumDescriptor() ([]byte, []int) {
 }
 
 type RegisterRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
-	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
-	Password      string                 `protobuf:"bytes,3,opt,name=password,proto3" json:"password,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Username       string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
+	Email          string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
+	Password       string                 `protobuf:"bytes,3,opt,name=password,proto3" json:"password,omitempty"`
+	TurnstileToken string                 `protobuf:"bytes,4,opt,name=turnstile_token,json=turnstileToken,proto3" json:"turnstile_token,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *RegisterRequest) Reset() {
@@ -134,12 +135,20 @@ func (x *RegisterRequest) GetPassword() string {
 	return ""
 }
 
+func (x *RegisterRequest) GetTurnstileToken() string {
+	if x != nil {
+		return x.TurnstileToken
+	}
+	return ""
+}
+
 type LoginRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
-	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Username       string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
+	Password       string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	TurnstileToken string                 `protobuf:"bytes,3,opt,name=turnstile_token,json=turnstileToken,proto3" json:"turnstile_token,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *LoginRequest) Reset() {
@@ -182,6 +191,13 @@ func (x *LoginRequest) GetUsername() string {
 func (x *LoginRequest) GetPassword() string {
 	if x != nil {
 		return x.Password
+	}
+	return ""
+}
+
+func (x *LoginRequest) GetTurnstileToken() string {
+	if x != nil {
+		return x.TurnstileToken
 	}
 	return ""
 }
@@ -691,14 +707,16 @@ var File_backend_Auth_proto protoreflect.FileDescriptor
 
 const file_backend_Auth_proto_rawDesc = "" +
 	"\n" +
-	"\x12backend/Auth.proto\x12\abackend\x1a\fcommon.proto\"_\n" +
+	"\x12backend/Auth.proto\x12\abackend\x1a\fcommon.proto\"\x88\x01\n" +
 	"\x0fRegisterRequest\x12\x1a\n" +
 	"\busername\x18\x01 \x01(\tR\busername\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12\x1a\n" +
-	"\bpassword\x18\x03 \x01(\tR\bpassword\"F\n" +
+	"\bpassword\x18\x03 \x01(\tR\bpassword\x12'\n" +
+	"\x0fturnstile_token\x18\x04 \x01(\tR\x0eturnstileToken\"o\n" +
 	"\fLoginRequest\x12\x1a\n" +
 	"\busername\x18\x01 \x01(\tR\busername\x12\x1a\n" +
-	"\bpassword\x18\x02 \x01(\tR\bpassword\"\x8e\x01\n" +
+	"\bpassword\x18\x02 \x01(\tR\bpassword\x12'\n" +
+	"\x0fturnstile_token\x18\x03 \x01(\tR\x0eturnstileToken\"\x8e\x01\n" +
 	"\rLoginResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12!\n" +
 	"\frequires_mfa\x18\x02 \x01(\bR\vrequiresMfa\x12@\n" +

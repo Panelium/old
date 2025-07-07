@@ -312,9 +312,10 @@ func (c *Config) GetMFATokenDuration() time.Duration {
 
 // Secrets values should never be accessed or modified directly as that could lead to race conditions.
 type Secrets struct {
-	lock          sync.RWMutex
-	Pepper        string `json:"pepper"`
-	EncryptionKey string `json:"encryption_key"` // AES-256 key for encrypting sensitive data
+	lock               sync.RWMutex
+	Pepper             string `json:"pepper"`
+	EncryptionKey      string `json:"encryption_key"` // AES-256 key for encrypting sensitive data
+	TurnstileSecretKey string `json:"turnstile_secret_key"`
 }
 
 func newSecrets() (*Secrets, error) {
@@ -331,9 +332,10 @@ func newSecrets() (*Secrets, error) {
 	keyString := hex.EncodeToString(encryptionKey)
 
 	return &Secrets{
-		lock:          sync.RWMutex{},
-		Pepper:        pepper,
-		EncryptionKey: keyString,
+		lock:               sync.RWMutex{},
+		Pepper:             pepper,
+		EncryptionKey:      keyString,
+		TurnstileSecretKey: "1x0000000000000000000000000000000AA",
 	}, nil
 }
 
@@ -384,6 +386,10 @@ func (s *Secrets) Migrate() error {
 		s.EncryptionKey = hex.EncodeToString(encryptionKey)
 	}
 
+	if s.TurnstileSecretKey == "" {
+		s.TurnstileSecretKey = "1x0000000000000000000000000000000AA"
+	}
+
 	s.lock.Unlock()
 
 	if err := s.Save(); err != nil {
@@ -429,6 +435,12 @@ func (s *Secrets) GetEncryptionKey() ([]byte, error) {
 	}
 
 	return val, nil
+}
+
+func (s *Secrets) GetTurnstileSecretKey() string {
+	s.lock.RLock()
+	defer s.lock.RUnlock()
+	return s.TurnstileSecretKey
 }
 
 func loadJWTPrivateKey() (*rsa.PrivateKey, error) {
