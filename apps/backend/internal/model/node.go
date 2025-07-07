@@ -4,7 +4,7 @@ import "gorm.io/gorm"
 
 type Node struct {
 	gorm.Model
-	NID                      string           `gorm:"uniqueIndex;not null" json:"nid"` // Node ID
+	NID                      string           `gorm:"uniqueIndex;not null;column:nid" json:"nid"` // Node ID
 	Name                     string           `gorm:"uniqueIndex;not null" json:"name"`
 	FQDN                     string           `gorm:"uniqueIndex;not null" json:"fqdn"`
 	DaemonPort               uint             `gorm:"not null" json:"daemon_port"`

@@ -6,7 +6,7 @@ import (
 )
 
 type Server struct {
-	SID             string                     `gorm:"uniqueIndex;not null" json:"sid"`
+	SID             string                     `gorm:"uniqueIndex;not null;column:sid" json:"sid"`
 	OwnerID         string                     `gorm:"index;not null" json:"owner_id"`
 	Users           []ServerUser               `gorm:"foreignKey:SID;references:SID" json:"users"`
 	Status          daemon.ServerStatusType    `gorm:"not null" json:"status"`
@@ -16,7 +16,7 @@ type Server struct {
 	Allocations     []ServerAllocation         `gorm:"foreignKey:SID;references:SID" json:"allocations"`
 	ResourceLimit   ResourceLimit              `gorm:"embedded" json:"resource_limit"`
 	DockerImage     string                     `gorm:"not null" json:"docker_image"`
-	BID             string                     `gorm:"not null" json:"bid"` // Blueprint ID
+	BID             string                     `gorm:"not null;column:bid" json:"bid"` // Blueprint ID
 	Blueprint       Blueprint                  `gorm:"foreignKey:BID;references:BID" json:"blueprint"`
 	ContainerExists bool                       `gorm:"default:false" json:"container_exists"` // Indicates if the server container currently exists in Docker
 }

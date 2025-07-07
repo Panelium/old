@@ -7,8 +7,8 @@ import (
 
 type Blueprint struct {
 	gorm.Model             `json:"-"`
-	FormatVersion          uint           `gorm:"not null" json:"format_version"`  // Version of the blueprint format, used for compatibility checks
-	BID                    string         `gorm:"uniqueIndex;not null" json:"bid"` // Unique (ideally globally) identifier for the blueprint
+	FormatVersion          uint           `gorm:"not null" json:"format_version"`             // Version of the blueprint format, used for compatibility checks
+	BID                    string         `gorm:"uniqueIndex;not null;column:bid" json:"bid"` // Unique (ideally globally) identifier for the blueprint
 	Version                uint           `gorm:"not null" json:"version"`
 	UpdateURL              string         `json:"update_url"` // Empty if not imported from a URL -> auto update not possible
 	Name                   string         `gorm:"not null" json:"name"`
