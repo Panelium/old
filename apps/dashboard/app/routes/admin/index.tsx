@@ -414,6 +414,8 @@ function Tab<T extends ColumnType>({
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.type === "file") return;
+
     const { name, value, type, checked } = e.target;
     const column = columns.find((col) => col.id === name);
     let parsedValue: any = value;
@@ -434,13 +436,17 @@ function Tab<T extends ColumnType>({
     e.preventDefault();
     if (!onCreate) return;
     setLoading(true);
-    let submitForm = { ...form };
-    columns.forEach((column) => {
-      if (column.setFunction && submitForm[column.id] !== undefined) {
-        submitForm = column.setFunction(submitForm, submitForm[column.id]);
-      }
-    });
-    await onCreate(submitForm);
+    let f = form;
+    if (typeof form !== "string") {
+      let submitForm = { ...form };
+      columns.forEach((column) => {
+        if (column.setFunction && submitForm[column.id] !== undefined) {
+          submitForm = column.setFunction(submitForm, submitForm[column.id]);
+        }
+      });
+      f = submitForm;
+    }
+    await onCreate(f);
     setLoading(false);
     setForm({});
     setOpen(false);
