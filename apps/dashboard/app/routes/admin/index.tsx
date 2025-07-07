@@ -111,7 +111,7 @@ function TableHead<T extends ColumnType>({
                 </div>
               ))}
             </div>
-            <div className="flex items-center justify-end gap-2 p-2 min-w-[192px]">
+            <div className="flex items-center justify-end gap-2 p-2 min-w-[220px]">
               <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
                   <Button className="w-fit min-w-[80px]" onClick={() => setOpen(true)}>
@@ -284,16 +284,65 @@ function TableBody<T extends ColumnType>({
                       td = tData !== undefined && tData !== null ? String(tData) : "";
                     }
                     return (
-                      <div className="text-left flex-1 min-w-0 px-2 py-1" key={index}>
+                      <div
+                        className="text-left flex-1 min-w-0 px-2 py-1 truncate"
+                        key={index}
+                        title={typeof td === "string" ? td : undefined}
+                      >
                         {td}
                       </div>
                     );
                   })}
                 </div>
-                <div className="flex items-center justify-end gap-2 p-2 min-w-[192px]">
-                  <Button className="min-w-[80px]">Edit</Button>
+                <div className="flex items-center justify-end gap-2 p-2 min-w-[220px]">
+                  {columns[0].label === "Node ID" && (
+                    <Button
+                      variant="secondary"
+                      onClick={async () => {
+                        const nodeManagerClient = await getAdminNodeManagerClient();
+                        if (!nodeManagerClient) {
+                          alert("Failed to send request to generate token");
+                          return;
+                        }
+                        let res = await nodeManagerClient.generateBackendToken({
+                          nid: id,
+                        });
+                        if (!res) {
+                          alert("Failed to generate token");
+                          return;
+                        }
+                        if (!res.success) {
+                          const regenerate = confirm(
+                            "Backend token for this node seems to already exist. Do you want to regenerate it?"
+                          );
+                          if (!regenerate) {
+                            return;
+                          }
+                          res = await nodeManagerClient.generateBackendToken({
+                            nid: id,
+                            regenerate: true,
+                          });
+                          if (!res || !res.success) {
+                            alert("Failed to regenerate token");
+                            return;
+                          }
+                        }
+
+                        const token = res.backendToken;
+                        if (!token) {
+                          alert("Failed to generate token");
+                          return;
+                        }
+
+                        await navigator.clipboard.writeText(token);
+                        alert("Backend token successfully generated and copied to clipboard.");
+                      }}
+                    >
+                      T
+                    </Button>
+                  )}
+                  <Button>Edit</Button>
                   <Button
-                    className="min-w-[80px]"
                     variant="destructive"
                     onClick={() => {
                       onDelete(d[idKey] as never); // fuck typescript
