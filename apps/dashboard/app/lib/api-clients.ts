@@ -16,6 +16,12 @@ import { ClientService } from "proto-gen-ts/backend/Client_pb";
 import { ServerService } from "proto-gen-ts/daemon/Server_pb";
 import { DescMessage } from "@bufbuild/protobuf";
 import { setSessionAuthenticated } from "~/providers/SessionProvider";
+import { BlueprintManagerService } from "proto-gen-ts/backend/admin/BlueprintManager_pb";
+import { LocationManagerService } from "proto-gen-ts/backend/admin/LocationManager_pb";
+import { NodeAllocationManagerService } from "proto-gen-ts/backend/admin/NodeAllocationManager_pb";
+import { NodeManagerService } from "proto-gen-ts/backend/admin/NodeManager_pb";
+import { ServerManagerService } from "proto-gen-ts/backend/admin/ServerManager_pb";
+import { UserManagerService } from "proto-gen-ts/backend/admin/UserManager_pb";
 
 const clientCache = new Map<string, Client<any>>();
 
@@ -77,3 +83,10 @@ export async function getClient<T extends GenService<any>>(service: T, baseUrl?:
 export const getAuthClient = () => getClient(AuthService);
 export const getClientClient = () => getClient(ClientService);
 export const getDaemonServerClient = (baseUrl: string) => getClient(ServerService, baseUrl);
+
+export const getAdminBlueprintManagerClient = () => getClient(BlueprintManagerService);
+export const getAdminLocationManagerClient = () => getClient(LocationManagerService);
+export const getAdminNodeAllocationManagerClient = () => getClient(NodeAllocationManagerService);
+export const getAdminNodeManagerClient = () => getClient(NodeManagerService);
+export const getAdminServerManagerClient = () => getClient(ServerManagerService);
+export const getAdminUserManagerClient = () => getClient(UserManagerService);
