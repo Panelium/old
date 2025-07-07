@@ -32,7 +32,7 @@ func NewDaemonAuthInterceptor() connect.UnaryInterceptorFunc {
 
 			nodeToken := req.Header().Get("Authorization")
 			if nodeToken == "" {
-				return next(ctx, req)
+				return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("missing node token"))
 			}
 
 			claims, err := jwt.VerifyJWT(nodeToken, &config.JWTPrivateKeyInstance.PublicKey, jwt.BackendIssuer, jwt.BackendTokenType)
@@ -43,7 +43,7 @@ func NewDaemonAuthInterceptor() connect.UnaryInterceptorFunc {
 			var node *model.Node
 			tx := db.Instance().First(node, "backend_jti = ?", claims.JTI)
 			if tx.Error != nil || tx.RowsAffected == 0 {
-				return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("invalid node token"))
+				return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("node token not found"))
 			}
 
 			ctx = context.WithValue(ctx, "panelium_daemon_info", &DaemonInfo{
