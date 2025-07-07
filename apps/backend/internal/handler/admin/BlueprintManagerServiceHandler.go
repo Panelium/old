@@ -4,8 +4,10 @@ import (
 	"connectrpc.com/connect"
 	"context"
 	"encoding/json"
+	"fmt"
 	"panelium/backend/internal/db"
 	"panelium/backend/internal/model"
+	"panelium/common/id"
 	"panelium/proto_gen_go"
 	"panelium/proto_gen_go/backend/admin"
 )
@@ -74,6 +76,15 @@ func (h *BlueprintManagerServiceHandler) CreateBlueprint(ctx context.Context, re
 	} else {
 		return connect.NewResponse(&admin.CreateBlueprintResponse{Success: false}), nil
 	}
+
+	if blueprint.BID == "" {
+		var err error
+		blueprint.BID, err = id.New()
+		if err != nil {
+			return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to create blueprint ID"))
+		}
+	}
+
 	if err := dbInst.Create(blueprint).Error; err != nil {
 		return nil, err
 	}

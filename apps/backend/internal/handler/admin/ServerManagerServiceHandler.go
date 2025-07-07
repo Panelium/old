@@ -3,8 +3,10 @@ package admin
 import (
 	"connectrpc.com/connect"
 	"context"
+	"fmt"
 	"panelium/backend/internal/db"
 	"panelium/backend/internal/model"
+	"panelium/common/id"
 	"panelium/proto_gen_go"
 	"panelium/proto_gen_go/backend/admin"
 )
@@ -76,9 +78,12 @@ func (h *ServerManagerServiceHandler) GetServer(ctx context.Context, req *connec
 }
 
 func (h *ServerManagerServiceHandler) CreateServer(ctx context.Context, req *connect.Request[admin.CreateServerRequest]) (*connect.Response[admin.CreateServerResponse], error) {
-	if req.Msg.Server.Sid != "" {
-		req.Msg.Server.Sid = ""
+	var err error
+	req.Msg.Server.Sid, err = id.New()
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to create server"))
 	}
+
 	dbInst := db.Instance()
 	server := ServerProtoToModel(req.Msg.Server)
 	// Find owner by UID

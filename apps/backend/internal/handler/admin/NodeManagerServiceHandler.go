@@ -3,8 +3,10 @@ package admin
 import (
 	"connectrpc.com/connect"
 	"context"
+	"fmt"
 	"panelium/backend/internal/db"
 	"panelium/backend/internal/model"
+	"panelium/common/id"
 	"panelium/proto_gen_go"
 	"panelium/proto_gen_go/backend/admin"
 )
@@ -64,9 +66,12 @@ func (h *NodeManagerServiceHandler) GetNode(ctx context.Context, req *connect.Re
 }
 
 func (h *NodeManagerServiceHandler) CreateNode(ctx context.Context, req *connect.Request[admin.CreateNodeRequest]) (*connect.Response[admin.CreateNodeResponse], error) {
-	if req.Msg.Node.Nid != "" {
-		req.Msg.Node.Nid = ""
+	var err error
+	req.Msg.Node.Nid, err = id.New()
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to create node"))
 	}
+
 	dbInst := db.Instance()
 	node := NodeProtoToModel(req.Msg.Node)
 	// Find location by LID to set LocationID

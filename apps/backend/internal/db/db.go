@@ -15,6 +15,8 @@ var (
 	db       *gorm.DB
 )
 
+// TODO: dont allow data creation without ID
+
 func Init() error {
 	var err error
 	initOnce.Do(func() {

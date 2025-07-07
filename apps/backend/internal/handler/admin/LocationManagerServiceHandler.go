@@ -3,8 +3,10 @@ package admin
 import (
 	"connectrpc.com/connect"
 	"context"
+	"fmt"
 	"panelium/backend/internal/db"
 	"panelium/backend/internal/model"
+	"panelium/common/id"
 	"panelium/proto_gen_go"
 	"panelium/proto_gen_go/backend/admin"
 )
@@ -60,9 +62,12 @@ func (h *LocationManagerServiceHandler) GetLocation(ctx context.Context, req *co
 }
 
 func (h *LocationManagerServiceHandler) CreateLocation(ctx context.Context, req *connect.Request[admin.CreateLocationRequest]) (*connect.Response[admin.CreateLocationResponse], error) {
-	if req.Msg.Location.Lid != "" {
-		req.Msg.Location.Lid = ""
+	var err error
+	req.Msg.Location.Lid, err = id.New()
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to create location"))
 	}
+
 	dbInst := db.Instance()
 	location := LocationProtoToModel(req.Msg.Location)
 	if err := dbInst.Create(location).Error; err != nil {

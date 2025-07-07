@@ -3,8 +3,10 @@ package admin
 import (
 	"connectrpc.com/connect"
 	"context"
+	"fmt"
 	"panelium/backend/internal/db"
 	"panelium/backend/internal/model"
+	"panelium/common/id"
 	"panelium/proto_gen_go"
 	"panelium/proto_gen_go/backend/admin"
 )
@@ -60,9 +62,12 @@ func (h *UserManagerServiceHandler) GetUser(ctx context.Context, req *connect.Re
 }
 
 func (h *UserManagerServiceHandler) CreateUser(ctx context.Context, req *connect.Request[admin.CreateUserRequest]) (*connect.Response[admin.CreateUserResponse], error) {
-	if req.Msg.User.Uid != "" {
-		req.Msg.User.Uid = ""
+	var err error
+	req.Msg.User.Uid, err = id.New()
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to create user"))
 	}
+
 	dbInst := db.Instance()
 	user := UserProtoToModel(req.Msg.User)
 	if err := dbInst.Create(user).Error; err != nil {
