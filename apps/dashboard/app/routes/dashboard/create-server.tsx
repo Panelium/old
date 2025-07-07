@@ -207,10 +207,13 @@ export default function ServerCreatePage() {
                           <>
                             <SelectItem value="__any__">Any</SelectItem>
                             {availableNodes
-                              .filter((node) =>
-                                form.getValues().bid && form.getValues().bid != ""
-                                  ? form.getValues().bid === node.lid
-                                  : true
+                              .filter(
+                                (node) =>
+                                  node.nid !== "__none__" &&
+                                  node.nid !== "__any__" &&
+                                  (form.getValues().bid && form.getValues().bid != ""
+                                    ? form.getValues().bid === node.lid
+                                    : true)
                               )
                               .map((node) => (
                                 <SelectItem key={node.nid} value={node.nid}>
