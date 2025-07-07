@@ -7,6 +7,7 @@ import (
 	"panelium/backend/internal/config"
 	"panelium/backend/internal/model"
 	"sync"
+	"time"
 )
 
 var (
@@ -57,4 +58,9 @@ func Instance() *gorm.DB {
 		panic("database not initialized, call Init() first")
 	}
 	return db
+}
+
+func DeleteExpiredSessions() error {
+	db := Instance()
+	return db.Where("expiration < ?", time.Now()).Delete(&model.UserSession{}).Error
 }

@@ -66,6 +66,19 @@ func main() {
 		}
 	}()
 
+	// cron job to delete expired sessions
+	go func() {
+		ticker := time.NewTicker(time.Hour)
+		defer ticker.Stop()
+		for {
+			err := db.DeleteExpiredSessions()
+			if err != nil {
+				log.Printf("Failed to delete expired sessions: %v", err)
+			}
+			<-ticker.C
+		}
+	}()
+
 	log.Printf("Panelium Backend started on port %s", port)
 
 	select {}
