@@ -50,7 +50,7 @@ Blueprints are available at https://blueprints.ndmh.xyz/ ([source](https://githu
 
 - **Make a user an admin**:
   ```sh
-  docker compose -f /var/lib/panelium/docker-compose.yml exec backend /apps/backend --make-admin <username/email>
+  docker compose -f /var/lib/panelium/docker-compose.yml exec backend /app/backend --make-admin <username/email>
   ```
 
 ### Uninstalling Panelium
