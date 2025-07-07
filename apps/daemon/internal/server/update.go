@@ -65,7 +65,7 @@ func UpdateServer(sid string, userIds *[]string, allocations *[]model.ServerAllo
 		}
 
 		var dockerImages []string
-		err := blueprint.DockerImages.Scan(dockerImages)
+		err := blueprint.DockerImages.Scan(&dockerImages)
 		if err != nil {
 			return fmt.Errorf("failed to scan docker images from blueprint: %w", err)
 		}

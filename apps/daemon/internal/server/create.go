@@ -33,7 +33,7 @@ func CreateServer(sid string, ownerId string, userIds []string, allocations []mo
 	}
 
 	var dockerImages []string
-	err := blueprint.DockerImages.Scan(dockerImages)
+	err := blueprint.DockerImages.Scan(&dockerImages)
 	if err != nil {
 		return nil, fmt.Errorf("failed to scan docker images from blueprint: %w", err)
 	}
