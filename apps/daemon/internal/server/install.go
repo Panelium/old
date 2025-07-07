@@ -241,7 +241,7 @@ func Install(s *model.Server) error {
 
 	s.ContainerExists = true
 	s.OfflineReason = daemon.ServerOfflineReason_SERVER_OFFLINE_REASON_CREATED
-	if err := db.Instance().Save(s).Error; err != nil {
+	if err := db.Instance().Create(s).Error; err != nil {
 		log.Printf("err: %v\n", err)
 		return err
 	}
