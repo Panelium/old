@@ -18,16 +18,18 @@ import { Node, NodeManagerService } from "proto-gen-ts/backend/admin/NodeManager
 import { Server, ServerManagerService } from "proto-gen-ts/backend/admin/ServerManager_pb";
 import { Pagination } from "proto-gen-ts/common_pb";
 import { Client } from "@connectrpc/connect";
-import { Dialog, DialogClose, DialogContent, DialogTrigger } from "~/components/ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogTitle, DialogTrigger } from "~/components/ui/dialog";
 import { Input } from "~/components/ui/input";
 import { AnimatePresence, motion } from "framer-motion";
 import { NodeAllocation, NodeAllocationManagerService } from "proto-gen-ts/backend/admin/NodeAllocationManager_pb";
 import { Blueprint, BlueprintManagerService } from "proto-gen-ts/backend/admin/BlueprintManager_pb";
 import { Label } from "~/components/ui/label";
 
-interface Column<T> {
+type ColumnType = User | Location | Node | NodeAllocation | Server | Blueprint;
+
+interface Column<T extends ColumnType> {
   label: string;
-  id: keyof T;
+  id: Extract<keyof T, string>;
   type?: "string" | "number" | "boolean" | "percent" | "memory";
   sortable?: boolean;
   sortFunction?: (a: T, b: T, ascending: boolean) => number;
@@ -90,7 +92,7 @@ const BLUEPRINTS_COLUMNS: Column<Blueprint>[] = [
   { label: "Version", id: "version" },
 ];
 
-function TableHead<T>({
+function TableHead<T extends ColumnType>({
   columns,
   handleSort,
   form,
@@ -169,6 +171,7 @@ function TableHead<T>({
                   </Button>
                 </DialogTrigger>
                 <DialogContent>
+                  <DialogTitle className="text-lg font-semibold mb-4">Create</DialogTitle>
                   <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-4">
                     {/* Blueprint JSON upload (only for blueprints) */}
                     {columns === BLUEPRINTS_COLUMNS ? (
@@ -213,21 +216,26 @@ function TableHead<T>({
                         </div>
                       </div>
                     ) : (
-                      Object.keys(form)
+                      columns
                         .filter(
-                          (key) =>
-                            key !== "id" &&
-                            key !== "uid" &&
-                            key !== "lid" &&
-                            key !== "nid" &&
-                            key !== "sid" &&
-                            key !== "bid" &&
-                            key !== "ownerUid"
+                          ({ id }) =>
+                            id !== "id" &&
+                            id !== "uid" &&
+                            id !== "lid" &&
+                            id !== "nid" &&
+                            id !== "sid" &&
+                            id !== "bid" &&
+                            id !== "ownerUid"
                         )
-                        .map((key) => (
-                          <div key={key}>
-                            <label className="block mb-1 capitalize">{key}</label>
-                            <Input name={key} value={form[key] || ""} onChange={handleInputChange} required />
+                        .map((column, index) => (
+                          <div key={index}>
+                            <label className="block mb-1 capitalize">{column.label}</label>
+                            <Input
+                              name={column.id}
+                              value={form[column.id] || ""}
+                              onChange={handleInputChange}
+                              required
+                            />
                           </div>
                         ))
                     )}
@@ -252,7 +260,7 @@ function TableHead<T>({
   );
 }
 
-function TableBody<T>({
+function TableBody<T extends ColumnType>({
   columns,
   data,
   onDelete,
@@ -324,7 +332,7 @@ function TableBody<T>({
   );
 }
 
-function Tab<T>({
+function Tab<T extends ColumnType>({
   data,
   columns,
   onCreate,
