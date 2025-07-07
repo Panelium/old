@@ -9,6 +9,46 @@ import "daemon/Server.proto";
 service ClientService {
   rpc GetInfo(common.Empty) returns (ClientInfo);
   rpc GetServerList(common.Empty) returns (ServerList);
+  rpc GetAvailableBlueprints(common.Empty) returns (AvailableBlueprints);
+  rpc GetAvailableLocations(common.Empty) returns (AvailableLocations);
+  rpc GetAvailableNodes(common.Empty) returns (AvailableNodes);
+  rpc NewServer(NewServerRequest) returns (common.SuccessMessage);
+}
+
+message AvailableBlueprint {
+  string bid = 1;
+  string name = 2;
+}
+
+message AvailableBlueprints {
+  repeated AvailableBlueprint blueprints = 1;
+}
+
+message AvailableLocation {
+  string lid = 1;
+  string name = 2;
+}
+
+message AvailableLocations {
+  repeated AvailableLocation locations = 1;
+}
+
+message AvailableNode {
+  string nid = 1;
+  string lid = 2;
+  string name = 3;
+}
+
+message AvailableNodes {
+  repeated AvailableNode nodes = 1;
+}
+
+message NewServerRequest {
+  string name = 1;
+  string description = 2;
+  string bid = 3;
+  optional string lid = 4;
+  optional string nid = 5;
 }
 
 message ClientInfo {
