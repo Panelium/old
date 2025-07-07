@@ -225,24 +225,26 @@ function Tab<T>({
         </DialogTrigger>
         <DialogContent>
           <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-4">
-            // TODO: filters
-            {columns
-              .filter(
-                (col) =>
-                  col.id !== "id" &&
-                  col.id !== "uid" &&
-                  col.id !== "lid" &&
-                  col.id !== "nid" &&
-                  col.id !== "sid" &&
-                  col.id !== "bid" &&
-                  col.id !== "ownerUid"
-              )
-              .map((col) => (
-                <div key={col.id as string}>
-                  <label className="block mb-1 capitalize">{col.label}</label>
-                  <Input name={col.id as string} value={form[col.id] || ""} onChange={handleInputChange} required />
-                </div>
-              ))}
+            {
+              // TODO: filters
+              columns
+                .filter(
+                  (col) =>
+                    col.id !== "id" &&
+                    col.id !== "uid" &&
+                    col.id !== "lid" &&
+                    col.id !== "nid" &&
+                    col.id !== "sid" &&
+                    col.id !== "bid" &&
+                    col.id !== "ownerUid"
+                )
+                .map((col) => (
+                  <div key={col.id as string}>
+                    <label className="block mb-1 capitalize">{col.label}</label>
+                    <Input name={col.id as string} value={form[col.id] || ""} onChange={handleInputChange} required />
+                  </div>
+                ))
+            }
             <div className="flex gap-2 justify-end">
               <DialogClose asChild>
                 <Button type="button" variant="secondary">
