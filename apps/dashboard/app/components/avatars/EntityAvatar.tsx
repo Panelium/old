@@ -10,21 +10,11 @@ interface EntityAvatarProps {
   className?: string;
 }
 
-const EntityAvatar: React.FC<EntityAvatarProps> = ({
-  src,
-  alt,
-  title,
-  subTitle,
-  className,
-}) => {
+const EntityAvatar: React.FC<EntityAvatarProps> = ({ src, alt, title, subTitle, className }) => {
   return (
-    <div className="max-w-[100%] flex items-center text-left gap-3 truncate">
+    <div className="max-w-[100%] flex items-center text-left gap-3 truncate group/entity-avatar">
       <Avatar>
-        <AvatarImage
-          src={src}
-          alt={alt}
-          className="h-full w-full object-cover"
-        />
+        <AvatarImage src={src} alt={alt} className="h-full w-full object-cover" />
         <AvatarFallback>{title.charAt(0).toUpperCase()}</AvatarFallback>
       </Avatar>
       <div className="w-1/2 flex flex-col flex-1">
@@ -32,7 +22,7 @@ const EntityAvatar: React.FC<EntityAvatarProps> = ({
           className={cn(
             "font-medium truncate",
             "text-foreground",
-            "group-hover:text-indigo-600 dark:group-hover:text-indigo-400",
+            "group-hover/entity-avatar:text-indigo-600 dark:group-hover/entity-avatar:text-indigo-400",
             className
           )}
         >
