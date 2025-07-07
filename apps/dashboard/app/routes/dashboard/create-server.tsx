@@ -74,8 +74,8 @@ export default function ServerCreatePage() {
       description: data.description,
       bid: data.bid,
     };
-    if (data.lid) payload.lid = data.lid;
-    if (data.nid) payload.nid = data.nid;
+    if (data.lid && data.lid !== "__none__" && data.lid !== "__any__") payload.lid = data.lid;
+    if (data.nid && data.nid !== "__none__" && data.nid !== "__any__") payload.nid = data.nid;
 
     const res = await clientClient?.newServer(payload);
     if (!res || !res.sid) {
@@ -172,7 +172,7 @@ export default function ServerCreatePage() {
                           </SelectItem>
                         ) : (
                           <>
-                            <SelectItem value="">Any</SelectItem>
+                            <SelectItem value="__any__">Any</SelectItem>
                             {availableLocations.map((loc) => (
                               <SelectItem key={loc.lid} value={loc.lid}>
                                 {loc.name}
@@ -205,7 +205,7 @@ export default function ServerCreatePage() {
                           </SelectItem>
                         ) : (
                           <>
-                            <SelectItem value="">Any</SelectItem>
+                            <SelectItem value="__any__">Any</SelectItem>
                             {availableNodes
                               .filter((node) =>
                                 form.getValues().bid && form.getValues().bid != ""
