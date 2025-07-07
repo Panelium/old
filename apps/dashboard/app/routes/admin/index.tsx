@@ -23,6 +23,7 @@ import { Input } from "~/components/ui/input";
 import { AnimatePresence, motion } from "framer-motion";
 import { NodeAllocation, NodeAllocationManagerService } from "proto-gen-ts/backend/admin/NodeAllocationManager_pb";
 import { Blueprint, BlueprintManagerService } from "proto-gen-ts/backend/admin/BlueprintManager_pb";
+import { Label } from "~/components/ui/label";
 
 interface Column<T> {
   label: string;
@@ -129,6 +130,8 @@ function TableHead<T>({
     }
   };
 
+  const [fileName, setFileName] = useState("");
+
   return (
     <thead>
       <tr>
@@ -167,23 +170,67 @@ function TableHead<T>({
                 </DialogTrigger>
                 <DialogContent>
                   <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-4">
-                    {Object.keys(form)
-                      .filter(
-                        (key) =>
-                          key !== "id" &&
-                          key !== "uid" &&
-                          key !== "lid" &&
-                          key !== "nid" &&
-                          key !== "sid" &&
-                          key !== "bid" &&
-                          key !== "ownerUid"
-                      )
-                      .map((key) => (
-                        <div key={key}>
-                          <label className="block mb-1 capitalize">{key}</label>
-                          <Input name={key} value={form[key] || ""} onChange={handleInputChange} required />
+                    {/* Blueprint JSON upload (only for blueprints) */}
+                    {columns === BLUEPRINTS_COLUMNS && (
+                      <div>
+                        <Label className="block mb-1">Upload Blueprint (.bp)</Label>
+                        <div className="flex items-center gap-2">
+                          <Button asChild type="button" variant="outline">
+                            <label htmlFor="bp-upload" className="cursor-pointer">
+                              Choose File
+                              <Input
+                                id="bp-upload"
+                                type="file"
+                                accept=".bp,application/json"
+                                className="hidden"
+                                onChange={async (e) => {
+                                  const file = e.target.files?.[0];
+                                  if (!file) return;
+                                  if (!file.name.endsWith(".bp")) {
+                                    alert("Please select a .bp file.");
+                                    return;
+                                  }
+
+                                  const text = await file.text();
+                                  let validJson = true;
+                                  try {
+                                    JSON.parse(text);
+                                  } catch (err) {
+                                    alert("Invalid JSON in .bp file.");
+                                    validJson = false;
+                                  }
+                                  if (!validJson) return;
+
+                                  setFileName(file.name);
+                                  setForm(text);
+                                }}
+                              />
+                            </label>
+                          </Button>
+                          <span className="text-gray-500 text-sm" id="bp-upload-filename">
+                            {fileName || "No file chosen"}
+                          </span>
                         </div>
-                      ))}
+                      </div>
+                    )}
+                    {typeof form === "object" &&
+                      Object.keys(form)
+                        .filter(
+                          (key) =>
+                            key !== "id" &&
+                            key !== "uid" &&
+                            key !== "lid" &&
+                            key !== "nid" &&
+                            key !== "sid" &&
+                            key !== "bid" &&
+                            key !== "ownerUid"
+                        )
+                        .map((key) => (
+                          <div key={key}>
+                            <label className="block mb-1 capitalize">{key}</label>
+                            <Input name={key} value={form[key] || ""} onChange={handleInputChange} required />
+                          </div>
+                        ))}
                     <div className="flex gap-2 justify-end">
                       <DialogClose asChild>
                         <Button type="button" variant="secondary">
@@ -285,7 +332,7 @@ function Tab<T>({
 }: {
   data: T[];
   columns: Column<T>[];
-  onCreate: (values: T) => Promise<void>;
+  onCreate: ((values: T) => Promise<void>) | ((json: string) => Promise<void>);
   onDelete: (id: string) => void;
 }) {
   const [sortField, setSortField] = useState<keyof T | null>(null);
@@ -551,8 +598,15 @@ export default function AdminPage() {
     await tryRefreshServers();
   };
 
-  const handleCreateBlueprint = async (blueprint: Blueprint) => {
-    throw new Error("Not implemented yet");
+  const handleCreateBlueprint = async (json: string) => {
+    const res = await blueprintManagerClient?.createBlueprint({
+      blueprintOrJson: { value: json, case: "blueprintJson" },
+    });
+    if (!res || !res.success) {
+      console.error("Failed to create blueprint");
+      return;
+    }
+    await tryRefreshBlueprints();
   };
 
   const handleDeleteUser = async (uid: string) => {
