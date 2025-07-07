@@ -14,7 +14,7 @@ import {
   Sun,
   Terminal,
 } from "lucide-react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { cn } from "~/lib/utils";
 
 import { useTheme } from "~/providers/ThemeProvider";
@@ -208,6 +208,7 @@ const SidebarNavigation: React.FC = () => {
 
 const SidebarDropdownMenu: React.FC = () => {
   const performLogout = useLogout();
+  const navigate = useNavigate();
 
   const [userInfo, setUserInfo] = useState<{
     uid: string;
@@ -245,13 +246,11 @@ const SidebarDropdownMenu: React.FC = () => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56 no-select">
           {admin && (
-            <DropdownMenuItem asChild>
-              <Link to="/admin" className="w-full">
-                <Button variant="ghost" className="w-full justify-start">
-                  <Settings className="mr-2 h-4 w-4" />
-                  <span>Admin Panel</span>
-                </Button>
-              </Link>
+            <DropdownMenuItem className="bg-transparent focus:bg-transparent">
+              <Button variant="ghost" className="w-full justify-start" onClick={() => navigate("/admin")}>
+                <Settings className="mr-2 h-4 w-4" />
+                <span>Admin Panel</span>
+              </Button>
             </DropdownMenuItem>
           )}
           <DropdownMenuItem className="bg-transparent focus:bg-transparent text-red-500 focus:text-red-500">
