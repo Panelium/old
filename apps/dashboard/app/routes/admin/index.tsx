@@ -195,43 +195,68 @@ function TableBody<T>({
   onDelete,
 }: {
   columns: Column<T>[];
-  data: any;
+  data: T[];
   onDelete: (id: string) => void;
 }) {
-  const idKey = columns[0]?.id as string;
+  const idKey = columns[0]?.id;
   return (
     <tbody>
-      {data.map((d: any) => (
-        <tr className="nth-[odd]:bg-white/5" key={d[idKey] || d.id}>
-          <td colSpan={columns.length + 1} className="p-0">
-            <div className="flex w-full items-center justify-between">
-              <div className="flex flex-1">
-                {columns.map(({ id, type }, index) => {
-                  let tData = d[id];
-                  if (type === "boolean") {
-                    tData = tData === true ? "Yes" : tData === false ? "No" : "";
-                  } else if (type === "number") {
-                    tData = typeof tData === "number" ? tData : tData ? Number(tData) : "";
-                  } else {
-                    tData = tData ?? "";
-                  }
-                  return (
-                    <div className="text-left flex-1 min-w-0 px-2 py-1" key={index}>
-                      {tData}
-                    </div>
-                  );
-                })}
+      {data.map((d: T, index) => {
+        const idData = d[idKey];
+        const id = typeof idData === "string" ? idData : String(idData);
+        return (
+          <tr className="nth-[odd]:bg-white/5" key={index}>
+            <td colSpan={columns.length + 1} className="p-0">
+              <div className="flex w-full items-center justify-between">
+                <div className="flex flex-1">
+                  {columns.map(({ id, type }, index) => {
+                    let tData = d[id];
+                    let td: string | number | boolean = "";
+                    if (type === "boolean") {
+                      td = tData === true ? "Yes" : tData === false ? "No" : "";
+                    } else if (type === "number") {
+                      td = typeof tData === "number" ? tData : tData ? Number(tData) : "";
+                    } else if (type === "string") {
+                      td = typeof tData === "string" ? tData : tData ? String(tData) : "";
+                    } else if (type === "percent") {
+                      td = typeof tData === "number" ? `${tData}%` : tData ? `${Number(tData)}%` : "";
+                    } else if (type === "memory") {
+                      if (typeof tData === "number") {
+                        td = `${(tData / 1024).toFixed(2)} GB`;
+                      } else if (typeof tData === "string") {
+                        const num = parseFloat(tData);
+                        td = isNaN(num) ? "" : `${(num / 1024).toFixed(2)} GB`;
+                      } else {
+                        td = "Error";
+                      }
+                    } else {
+                      td = tData !== undefined && tData !== null ? String(tData) : "";
+                    }
+                    return (
+                      <div className="text-left flex-1 min-w-0 px-2 py-1" key={index}>
+                        {td}
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="flex items-center justify-end gap-2 p-2 min-w-[192px]">
+                  <Button className="min-w-[80px]">Edit</Button>
+                  <Button
+                    className="min-w-[80px]"
+                    variant="destructive"
+                    onClick={() => {
+                      if (typeof d[idKey] === "string") onDelete(d[idKey]);
+                      else console.error("ID is not a string", d[idKey]);
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </div>
               </div>
-              <div className="flex items-center justify-end gap-2 p-2 min-w-[192px]">
-                <Button className="min-w-[80px]">Edit</Button>
-                <Button className="min-w-[80px]" variant="destructive" onClick={() => onDelete(d[idKey])}>
-                  Delete
-                </Button>
-              </div>
-            </div>
-          </td>
-        </tr>
-      ))}
+            </td>
+          </tr>
+        );
+      })}
     </tbody>
   );
 }
@@ -244,7 +269,7 @@ function Tab<T>({
 }: {
   data: T[];
   columns: Column<T>[];
-  onCreate?: (values: any) => Promise<void>;
+  onCreate: (values: T) => Promise<void>;
   onDelete: (id: string) => void;
 }) {
   const [sortField, setSortField] = useState<keyof T | null>(null);
