@@ -5,7 +5,9 @@ import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/card";
 import { cn } from "~/lib/utils";
 import {
+  getAdminBlueprintManagerClient,
   getAdminLocationManagerClient,
+  getAdminNodeAllocationManagerClient,
   getAdminNodeManagerClient,
   getAdminServerManagerClient,
   getAdminUserManagerClient,
@@ -19,6 +21,8 @@ import { Client } from "@connectrpc/connect";
 import { Dialog, DialogClose, DialogContent, DialogTrigger } from "~/components/ui/dialog";
 import { Input } from "~/components/ui/input";
 import { AnimatePresence, motion } from "framer-motion";
+import { NodeAllocation, NodeAllocationManagerService } from "proto-gen-ts/backend/admin/NodeAllocationManager_pb";
+import { Blueprint, BlueprintManagerService } from "proto-gen-ts/backend/admin/BlueprintManager_pb";
 
 interface Column<T> {
   label: string;
@@ -56,6 +60,18 @@ const NODES_COLUMNS: Column<Node>[] = [
   { label: "Max Swap", id: "maxSwap", type: "number" },
 ];
 
+const NODE_ALLOCATIONS_COLUMNS: Column<NodeAllocation>[] = [
+  { label: "ID", id: "id", sortable: true, type: "number" },
+  { label: "Node ID", id: "nid", sortable: false },
+  {
+    label: "Allocation",
+    id: "ipAllocation",
+    sortable: false,
+    fetchFunction: ({ ipAllocation: a }) => (a ? `${a.ip}:${a.port}` : "Error"),
+  },
+  { label: "Server ID", id: "sid", sortable: false },
+];
+
 const SERVERS_COLUMNS: Column<Server>[] = [
   { label: "Server ID", id: "sid", sortable: false },
   { label: "Name", id: "name" },
@@ -63,6 +79,14 @@ const SERVERS_COLUMNS: Column<Server>[] = [
   { label: "Node ID", id: "nid" },
   { label: "Blueprint ID", id: "bid" },
   { label: "Docker Image", id: "dockerImage" },
+];
+
+const BLUEPRINTS_COLUMNS: Column<Blueprint>[] = [
+  { label: "Blueprint ID", id: "bid", sortable: false },
+  { label: "Name", id: "name" },
+  { label: "Category", id: "category" },
+  { label: "Description", id: "description" },
+  { label: "Version", id: "version" },
 ];
 
 function TableHead<T>({
@@ -353,7 +377,7 @@ function TabButton({ id, currentId, setTab }: any) {
         setTab(id);
       }}
     >
-      <span className="capitalize">{id}</span>
+      <span className="capitalize">{id.replaceAll("_", " ")}</span>
     </button>
   );
 }
@@ -370,12 +394,17 @@ export default function AdminPage() {
   const [userManagerClient, setUserManagerClient] = useState<Client<typeof UserManagerService>>();
   const [locationManagerClient, setLocationManagerClient] = useState<Client<typeof LocationManagerService>>();
   const [nodeManagerClient, setNodeManagerClient] = useState<Client<typeof NodeManagerService>>();
+  const [nodeAllocationManagerClient, setNodeAllocationManagerClient] =
+    useState<Client<typeof NodeAllocationManagerService>>();
   const [serverManagerClient, setServerManagerClient] = useState<Client<typeof ServerManagerService>>();
+  const [blueprintManagerClient, setBlueprintManagerClient] = useState<Client<typeof BlueprintManagerService>>();
 
   const [usersData, setUsersData] = useState<User[]>([]);
   const [locationsData, setLocationsData] = useState<Location[]>([]);
   const [nodesData, setNodesData] = useState<Node[]>([]);
+  const [nodeAllocationsData, setNodeAllocationsData] = useState<NodeAllocation[]>([]);
   const [serversData, setServersData] = useState<Server[]>([]);
+  const [blueprintsData, setBlueprintsData] = useState<Blueprint[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -394,10 +423,20 @@ export default function AdminPage() {
       const nodes = await nodeManagerServiceClient.getNodes({ pagination });
       setNodesData(nodes.nodes);
 
+      const nodeAllocationManagerServiceClient = await getAdminNodeAllocationManagerClient();
+      setNodeAllocationManagerClient(nodeAllocationManagerServiceClient);
+      const nodeAllocations = await nodeAllocationManagerServiceClient.getNodeAllocations({ pagination });
+      setNodeAllocationsData(nodeAllocations.nodeAllocations);
+
       const serverManagerServiceClient = await getAdminServerManagerClient();
       setServerManagerClient(serverManagerServiceClient);
       const servers = await serverManagerServiceClient.getServers({ pagination });
       setServersData(servers.servers);
+
+      const blueprintManagerServiceClient = await getAdminBlueprintManagerClient();
+      setBlueprintManagerClient(blueprintManagerServiceClient);
+      const blueprints = await blueprintManagerServiceClient.getBlueprints({ pagination });
+      setBlueprintsData(blueprints.blueprints);
     })();
   }, []);
 
@@ -434,6 +473,17 @@ export default function AdminPage() {
     setNodesData(nodes.nodes);
   };
 
+  const tryRefreshNodeAllocations = async () => {
+    const nodeAllocations = await nodeAllocationManagerClient?.getNodeAllocations({ pagination });
+
+    if (!nodeAllocations) {
+      console.error("Failed to fetch node allocations");
+      return;
+    }
+
+    setNodeAllocationsData(nodeAllocations.nodeAllocations);
+  };
+
   const tryRefreshServers = async () => {
     const servers = await serverManagerClient?.getServers({ pagination });
 
@@ -443,6 +493,17 @@ export default function AdminPage() {
     }
 
     setServersData(servers.servers);
+  };
+
+  const tryRefreshBlueprints = async () => {
+    const blueprints = await blueprintManagerClient?.getBlueprints({ pagination });
+
+    if (!blueprints) {
+      console.error("Failed to fetch blueprints");
+      return;
+    }
+
+    setBlueprintsData(blueprints.blueprints);
   };
 
   const handleCreateUser = async (user: User) => {
@@ -472,6 +533,15 @@ export default function AdminPage() {
     await tryRefreshNodes();
   };
 
+  const handleCreateNodeAllocation = async (nodeAllocation: NodeAllocation) => {
+    const res = await nodeAllocationManagerClient?.createNodeAllocation({ nodeAllocation });
+    if (!res || !res.success) {
+      console.error("Failed to create node allocation");
+      return;
+    }
+    await tryRefreshNodeAllocations();
+  };
+
   const handleCreateServer = async (server: Server) => {
     const res = await serverManagerClient?.createServer({ server });
     if (!res || !res.success) {
@@ -479,6 +549,10 @@ export default function AdminPage() {
       return;
     }
     await tryRefreshServers();
+  };
+
+  const handleCreateBlueprint = async (blueprint: Blueprint) => {
+    throw new Error("Not implemented yet");
   };
 
   const handleDeleteUser = async (uid: string) => {
@@ -496,10 +570,20 @@ export default function AdminPage() {
     await nodeManagerClient.deleteNode({ nid });
     await tryRefreshNodes();
   };
+  const handleDeleteNodeAllocation = async (id: string) => {
+    if (!nodeAllocationManagerClient) return;
+    await nodeAllocationManagerClient.deleteNodeAllocation({ id: Number(id) });
+    await tryRefreshNodeAllocations();
+  };
   const handleDeleteServer = async (sid: string) => {
     if (!serverManagerClient) return;
     await serverManagerClient.deleteServer({ sid });
     await tryRefreshServers();
+  };
+  const handleDeleteBlueprint = async (bid: string) => {
+    if (!blueprintManagerClient) return;
+    await blueprintManagerClient.deleteBlueprint({ bid });
+    await tryRefreshBlueprints();
   };
 
   return (
@@ -515,7 +599,9 @@ export default function AdminPage() {
             <TabButton id="users" currentId={currentTab} setTab={setCurrentTab}></TabButton>
             <TabButton id="locations" currentId={currentTab} setTab={setCurrentTab}></TabButton>
             <TabButton id="nodes" currentId={currentTab} setTab={setCurrentTab}></TabButton>
+            <TabButton id="node_allocations" currentId={currentTab} setTab={setCurrentTab}></TabButton>
             <TabButton id="servers" currentId={currentTab} setTab={setCurrentTab}></TabButton>
+            <TabButton id="blueprints" currentId={currentTab} setTab={setCurrentTab}></TabButton>
           </div>
 
           <AnimatePresence mode="wait" initial={false}>
@@ -560,6 +646,23 @@ export default function AdminPage() {
                 <Tab data={nodesData} columns={NODES_COLUMNS} onCreate={handleCreateNode} onDelete={handleDeleteNode} />
               </motion.div>
             )}
+            {currentTab === "node_allocations" && (
+              <motion.div
+                key="node_allocations"
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -40 }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+                className="w-full h-full"
+              >
+                <Tab
+                  data={nodeAllocationsData}
+                  columns={NODE_ALLOCATIONS_COLUMNS}
+                  onCreate={handleCreateNodeAllocation}
+                  onDelete={handleDeleteNodeAllocation}
+                />
+              </motion.div>
+            )}
             {currentTab === "servers" && (
               <motion.div
                 key="servers"
@@ -574,6 +677,23 @@ export default function AdminPage() {
                   columns={SERVERS_COLUMNS}
                   onCreate={handleCreateServer}
                   onDelete={handleDeleteServer}
+                />
+              </motion.div>
+            )}
+            {currentTab === "blueprints" && (
+              <motion.div
+                key="blueprints"
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -40 }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+                className="w-full h-full"
+              >
+                <Tab
+                  data={blueprintsData}
+                  columns={BLUEPRINTS_COLUMNS}
+                  onCreate={handleCreateBlueprint}
+                  onDelete={handleDeleteBlueprint}
                 />
               </motion.div>
             )}
