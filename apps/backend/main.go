@@ -36,6 +36,12 @@ func main() {
 		return
 	}
 
+	err = db.Init()
+	if err != nil {
+		log.Printf("Failed to initialize database: %v", err)
+		return
+	}
+
 	if len(os.Args) > 1 && os.Args[1] == "--test-idgen" {
 		idGen()
 		return
@@ -54,12 +60,6 @@ func main() {
 			return
 		}
 		makeAdmin(os.Args[2])
-		return
-	}
-
-	err = db.Init()
-	if err != nil {
-		log.Printf("Failed to initialize database: %v", err)
 		return
 	}
 
