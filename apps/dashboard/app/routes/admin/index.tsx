@@ -29,7 +29,7 @@ type ColumnType = User | Location | Node | NodeAllocation | Server | Blueprint;
 
 interface Column<T extends ColumnType> {
   label: string;
-  id: Extract<keyof T, string>;
+  id: keyof T;
   type?: "string" | "number" | "boolean" | "percent" | "memory";
   optional?: boolean; // if true, the field is optional in the create form
   sortable?: boolean;
@@ -173,7 +173,7 @@ function TableHead<T extends ColumnType>({
                             <label className="block mb-1 capitalize">{column.label}</label>
                             {column.linksTo ? (
                               <select
-                                name={column.id}
+                                name={column.id.toString()}
                                 value={form[column.id] ?? ""}
                                 onChange={(e) => setForm({ ...form, [column.id]: e.target.value })}
                                 required
@@ -190,14 +190,14 @@ function TableHead<T extends ColumnType>({
                               </select>
                             ) : column.type === "boolean" ? (
                               <Input
-                                name={column.id}
+                                name={column.id.toString()}
                                 type="checkbox"
                                 checked={!!form[column.id]}
                                 onChange={handleInputChange}
                               />
                             ) : (
                               <Input
-                                name={column.id}
+                                name={column.id.toString()}
                                 type={column.type === "number" ? "number" : "text"}
                                 value={
                                   column.type === "number"
@@ -241,7 +241,7 @@ function TableBody<T extends ColumnType>({
 }: {
   columns: Column<T>[];
   data: T[];
-  onDelete: (id: string) => void;
+  onDelete: ((id: string) => void) | ((id: number) => void);
 }) {
   const idKey = columns[0]?.id;
   return (
@@ -296,8 +296,7 @@ function TableBody<T extends ColumnType>({
                     className="min-w-[80px]"
                     variant="destructive"
                     onClick={() => {
-                      if (typeof d[idKey] === "string") onDelete(d[idKey]);
-                      else console.error("ID is not a string", d[idKey]);
+                      onDelete(d[idKey] as never); // fuck typescript
                     }}
                   >
                     Delete
@@ -321,7 +320,7 @@ function Tab<T extends ColumnType>({
   data: T[];
   columns: Column<T>[];
   onCreate: ((values: T) => Promise<void>) | ((json: string) => Promise<void>);
-  onDelete: (id: string) => void;
+  onDelete: ((id: string) => void) | ((id: number) => void);
 }) {
   const [sortField, setSortField] = useState<keyof T | null>(null);
   const [ascending, setAscending] = useState(true);
@@ -528,7 +527,7 @@ export default function AdminPage() {
     ];
   }
 
-  function NODE_ALLOCATIONS_COLUMNS(nodesData: Node[]): Column<NodeAllocation>[] {
+  function NODE_ALLOCATIONS_COLUMNS(nodesData: Node[], serversData: Server[]): Column<NodeAllocation>[] {
     return [
       { label: "ID", id: "id", sortable: true, type: "number" },
       {
@@ -554,7 +553,13 @@ export default function AdminPage() {
           };
         },
       },
-      { label: "Server ID", id: "sid", sortable: false, optional: true },
+      {
+        label: "Server ID",
+        id: "sid",
+        sortable: false,
+        optional: true,
+        linksTo: () => (serversData ? serversData.map((s) => ({ value: s.sid, label: s.name })) : []),
+      },
     ];
   }
 
@@ -728,9 +733,9 @@ export default function AdminPage() {
     await nodeManagerClient.deleteNode({ nid });
     await tryRefreshNodes();
   };
-  const handleDeleteNodeAllocation = async (id: string) => {
+  const handleDeleteNodeAllocation = async (id: number) => {
     if (!nodeAllocationManagerClient) return;
-    await nodeAllocationManagerClient.deleteNodeAllocation({ id: Number(id) });
+    await nodeAllocationManagerClient.deleteNodeAllocation({ id });
     await tryRefreshNodeAllocations();
   };
   const handleDeleteServer = async (sid: string) => {
@@ -824,7 +829,7 @@ export default function AdminPage() {
               >
                 <Tab
                   data={nodeAllocationsData}
-                  columns={NODE_ALLOCATIONS_COLUMNS(nodesData)}
+                  columns={NODE_ALLOCATIONS_COLUMNS(nodesData, serversData)}
                   onCreate={handleCreateNodeAllocation}
                   onDelete={handleDeleteNodeAllocation}
                 />
