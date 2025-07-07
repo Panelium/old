@@ -2,7 +2,7 @@
   <configuration default="false" name="test jwt creation" type="GoApplicationRunConfiguration" factoryName="Go Application">
     <module name="backend" />
     <working_directory value="$PROJECT_DIR$/apps/backend" />
-    <parameters value="jwtTest" />
+    <parameters value="--test-jwt" />
     <kind value="FILE" />
     <package value="panelium/backend" />
     <directory value="$PROJECT_DIR$" />

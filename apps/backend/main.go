@@ -11,6 +11,8 @@ import (
 	"panelium/common/id"
 	"panelium/common/jwt"
 	"time"
+
+	"panelium/backend/internal/model"
 )
 
 func main() {
@@ -34,16 +36,24 @@ func main() {
 		return
 	}
 
-	if len(os.Args) > 1 && os.Args[1] == "idGen" {
+	if len(os.Args) > 1 && os.Args[1] == "--test-idgen" {
 		idGen()
 		return
 	}
-	if len(os.Args) > 1 && os.Args[1] == "passwordHashTest" {
+	if len(os.Args) > 1 && os.Args[1] == "--test-password-hash" {
 		passwordHashTest()
 		return
 	}
-	if len(os.Args) > 1 && os.Args[1] == "jwtTest" {
+	if len(os.Args) > 1 && os.Args[1] == "--test-jwt" {
 		jwtTest()
+		return
+	}
+	if len(os.Args) > 1 && os.Args[1] == "--make-admin" {
+		if len(os.Args) < 3 {
+			log.Println("Usage: backend --make-admin <username or email>")
+			return
+		}
+		makeAdmin(os.Args[2])
 		return
 	}
 
@@ -135,4 +145,23 @@ func jwtTest() {
 		return
 	}
 	log.Printf("Generated JWT: %s\n", token)
+}
+
+func makeAdmin(arg string) {
+	var user model.User
+	tx := db.Instance().Where("username = ?", arg).Or("email = ?", arg).First(&user)
+	if tx.Error != nil || tx.RowsAffected == 0 {
+		log.Printf("User '%s' not found.", arg)
+		return
+	}
+	if user.Admin {
+		log.Printf("User '%s' is already an admin.", arg)
+		return
+	}
+	user.Admin = true
+	if err := db.Instance().Save(&user).Error; err != nil {
+		log.Printf("Failed to update user: %v", err)
+		return
+	}
+	log.Printf("User '%s' promoted to admin.", arg)
 }
