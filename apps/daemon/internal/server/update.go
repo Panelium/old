@@ -1,6 +1,7 @@
 package server
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"panelium/daemon/internal/db"
@@ -65,13 +66,13 @@ func UpdateServer(sid string, userIds *[]string, allocations *[]model.ServerAllo
 	}
 	if bid != nil {
 		blueprint := model.Blueprint{}
-		tx := db.Instance().First(&blueprint, "s.BID = ?", bid)
+		tx := db.Instance().First(&blueprint, "bid = ?", bid)
 		if tx.Error != nil || tx.RowsAffected == 0 {
 			return fmt.Errorf("failed to find blueprint with ID %s: %w", bid, tx.Error)
 		}
 
 		var dockerImages []string
-		err := blueprint.DockerImages.Scan(&dockerImages)
+		err := json.Unmarshal(blueprint.DockerImages, &dockerImages)
 		if err != nil {
 			return fmt.Errorf("failed to scan docker images from blueprint: %w", err)
 		}
@@ -96,13 +97,13 @@ func UpdateServer(sid string, userIds *[]string, allocations *[]model.ServerAllo
 		}
 
 		blueprint := model.Blueprint{}
-		tx = db.Instance().First(&blueprint, "s.BID = ?", server.BID)
+		tx = db.Instance().First(&blueprint, "bid = ?", server.BID)
 		if tx.Error != nil || tx.RowsAffected == 0 {
 			return fmt.Errorf("failed to find blueprint with ID %s: %w", server.BID, tx.Error)
 		}
 
 		var dockerImages []string
-		err := blueprint.DockerImages.Scan(&dockerImages)
+		err := json.Unmarshal(blueprint.DockerImages, &dockerImages)
 		if err != nil {
 			return fmt.Errorf("failed to scan docker images from blueprint: %w", err)
 		}

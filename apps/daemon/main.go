@@ -91,5 +91,12 @@ func tryRegisterWithBackend() error {
 	}
 
 	config.SecretsInstance.SetNodeJTI(nodeJTI)
+	err = config.SecretsInstance.Save()
+	if err != nil {
+		return err
+	}
+
+	log.Printf("Successfully registered with backend. Node JTI: %s", nodeJTI)
+
 	return nil
 }

@@ -51,6 +51,7 @@ export default function DashboardOverviewPage() {
         const client = await getClientClient();
         const servers = await client.getServerList({});
         setServerInfos(servers.servers);
+        console.log(servers);
       } catch (error) {
         console.error("Failed to fetch server data:", error);
       }

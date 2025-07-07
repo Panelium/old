@@ -4,6 +4,7 @@ import (
 	"crypto/rsa"
 	stdErrors "errors"
 	"github.com/golang-jwt/jwt/v5"
+	"log"
 	"panelium/common/errors"
 	"time"
 )
@@ -71,6 +72,7 @@ func VerifyJWT(token string, key *rsa.PublicKey, expectedIssuer Issuer, expected
 
 	parsedToken, err := parser.ParseWithClaims(token, &mapClaims, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodRSA); !ok {
+			log.Printf("unexpected signing method: %v", token.Header["alg"])
 			return nil, errors.InvalidCredentials
 		}
 		return key, nil
@@ -81,6 +83,7 @@ func VerifyJWT(token string, key *rsa.PublicKey, expectedIssuer Issuer, expected
 	}
 
 	if !parsedToken.Valid {
+		log.Printf("token is not valid")
 		return nil, errors.InvalidCredentials
 	}
 
@@ -126,20 +129,24 @@ func VerifyJWT(token string, key *rsa.PublicKey, expectedIssuer Issuer, expected
 	}
 
 	if claims.Issuer != expectedIssuer {
+		log.Printf("unexpected issuer: %s, expected: %s", claims.Issuer, expectedIssuer)
 		return nil, errors.InvalidCredentials
 	}
 
 	if claims.TokenType != expectedTokenType {
+		log.Printf("unexpected token type: %s, expected: %s", claims.TokenType, expectedTokenType)
 		return nil, errors.InvalidCredentials
 	}
 
 	// TODO: check if audience is required for the expected token type
 
-	if (claims.Subject == nil || *claims.Subject == "") && expectedTokenType != MFATokenType {
+	if (claims.Subject == nil || *claims.Subject == "") && expectedTokenType != MFATokenType && expectedTokenType != NodeTokenType && expectedTokenType != BackendTokenType {
+		log.Printf("missing subject (sub) claim for token type:", expectedTokenType)
 		return nil, errors.InvalidCredentials
 	}
 
 	if claims.IssuedAt <= 0 || claims.Expiration <= 0 || claims.Expiration <= claims.IssuedAt {
+		log.Printf("invalid issued at (iat) or expiration (exp) claim")
 		return nil, errors.InvalidCredentials
 	}
 

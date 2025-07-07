@@ -15,7 +15,7 @@ import (
 func (s *ServerFilesServiceHandler) ListDirectory(ctx context.Context, req *connect.Request[daemon.ListDirectoryRequest]) (*connect.Response[daemon.ListDirectoryResponse], error) {
 	err := security.CheckServerAccess(ctx, req.Msg.ServerId)
 	if err != nil {
-		return nil, connect.NewError(connect.CodePermissionDenied, err)
+		return nil, connect.NewError(connect.CodeFailedPrecondition, err)
 	}
 
 	root, err := server.GetRoot(req.Msg.ServerId)
@@ -63,7 +63,7 @@ func (s *ServerFilesServiceHandler) ListDirectory(ctx context.Context, req *conn
 func (s *ServerFilesServiceHandler) CreateDirectory(ctx context.Context, req *connect.Request[daemon.CreateDirectoryRequest]) (*connect.Response[daemon.CreateDirectoryResponse], error) {
 	err := security.CheckServerAccess(ctx, req.Msg.ServerId)
 	if err != nil {
-		return nil, connect.NewError(connect.CodePermissionDenied, err)
+		return nil, connect.NewError(connect.CodeFailedPrecondition, err)
 	}
 
 	root, err := server.GetRoot(req.Msg.ServerId)
@@ -88,7 +88,7 @@ func (s *ServerFilesServiceHandler) CreateDirectory(ctx context.Context, req *co
 func (s *ServerFilesServiceHandler) GetDirectorySize(ctx context.Context, req *connect.Request[daemon.GetDirectorySizeRequest]) (*connect.Response[daemon.GetDirectorySizeResponse], error) {
 	err := security.CheckServerAccess(ctx, req.Msg.ServerId)
 	if err != nil {
-		return nil, connect.NewError(connect.CodePermissionDenied, err)
+		return nil, connect.NewError(connect.CodeFailedPrecondition, err)
 	}
 
 	root, err := server.GetRoot(req.Msg.ServerId)

@@ -42,7 +42,7 @@ func (s *ClientServiceHandler) GetServer(ctx context.Context, req *connect.Reque
 			}
 		}
 		if !found {
-			return nil, connect.NewError(connect.CodePermissionDenied, fmt.Errorf("user does not have access to this server"))
+			return nil, connect.NewError(connect.CodeFailedPrecondition, fmt.Errorf("user does not have access to this server"))
 		}
 	}
 

@@ -15,7 +15,7 @@ func (s *ServerServiceHandler) Terminal(
 ) error {
 	err := security.CheckServerAccess(ctx, req.Msg.Id)
 	if err != nil {
-		return connect.NewError(connect.CodePermissionDenied, err)
+		return connect.NewError(connect.CodeFailedPrecondition, err)
 	}
 
 	err = server.Terminal(req.Msg.Id, stm)

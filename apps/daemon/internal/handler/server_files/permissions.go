@@ -12,7 +12,7 @@ import (
 func (s *ServerFilesServiceHandler) ChangeFilePermissions(ctx context.Context, req *connect.Request[daemon.ChangeFilePermissionsRequest]) (*connect.Response[daemon.ChangeFilePermissionsResponse], error) {
 	err := security.CheckServerAccess(ctx, req.Msg.ServerId)
 	if err != nil {
-		return nil, connect.NewError(connect.CodePermissionDenied, err)
+		return nil, connect.NewError(connect.CodeFailedPrecondition, err)
 	}
 
 	root, err := server.GetRoot(req.Msg.ServerId)
@@ -46,7 +46,7 @@ func (s *ServerFilesServiceHandler) ChangeFilePermissions(ctx context.Context, r
 func (s *ServerFilesServiceHandler) GetFilePermissions(ctx context.Context, req *connect.Request[daemon.GetFilePermissionsRequest]) (*connect.Response[daemon.GetFilePermissionsResponse], error) {
 	err := security.CheckServerAccess(ctx, req.Msg.ServerId)
 	if err != nil {
-		return nil, connect.NewError(connect.CodePermissionDenied, err)
+		return nil, connect.NewError(connect.CodeFailedPrecondition, err)
 	}
 
 	root, err := server.GetRoot(req.Msg.ServerId)

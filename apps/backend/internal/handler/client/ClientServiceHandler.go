@@ -3,16 +3,16 @@ package client
 import (
 	"connectrpc.com/connect"
 	"context"
-	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"panelium/backend/internal/db"
-	"panelium/backend/internal/global"
 	"panelium/backend/internal/middleware"
 	"panelium/backend/internal/model"
 	"panelium/common/errors"
 	"panelium/common/id"
+	"panelium/common/util"
 	"panelium/proto_gen_go"
 	"panelium/proto_gen_go/backend"
 	"panelium/proto_gen_go/backend/backendconnect"
@@ -216,9 +216,7 @@ func (s *ClientServiceHandler) NewServer(
 		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to update node allocation with server ID"))
 	}
 
-	// Use dbInstance for read-only operations after this point if needed
-
-	daemonClient := daemonconnect.NewBackendServiceClient(http.DefaultClient, fmt.Sprintf("https://%s:%d", node.FQDN, node.DaemonPort), connect.WithGRPC())
+	daemonClient := daemonconnect.NewBackendServiceClient(http.DefaultClient, fmt.Sprintf("%s://%s:%d", util.IfElse(node.HTTPS, "https", "http"), node.FQDN, node.DaemonPort), connect.WithGRPC())
 	if daemonClient == nil {
 		tx.Rollback()
 		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to create daemon client"))
@@ -248,21 +246,24 @@ func (s *ClientServiceHandler) NewServer(
 		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("node %s not properly set up", node.NID))
 	}
 
-	encryption := *global.EncryptionInstance()
-	encryptedNodeTokenBytes, err := base64.StdEncoding.DecodeString(*node.EncryptedNodeTokenBase64)
-	if err != nil {
-		tx.Rollback()
-		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to decode encrypted node token"))
-	}
-	decryptedNodeTokenBytes := make([]byte, len(encryptedNodeTokenBytes))
-	encryption.Decrypt(decryptedNodeTokenBytes, encryptedNodeTokenBytes)
-	decryptedNodeToken := string(decryptedNodeTokenBytes)
+	//encryption := *global.EncryptionInstance()
+	//encryptedNodeTokenBytes, err := base64.StdEncoding.DecodeString(*node.EncryptedNodeTokenBase64)
+	//if err != nil {
+	//	tx.Rollback()
+	//	return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to decode encrypted node token"))
+	//}
+	//decryptedNodeTokenBytes := make([]byte, len(encryptedNodeTokenBytes))
+	//encryption.Decrypt(decryptedNodeTokenBytes, encryptedNodeTokenBytes)
+	//decryptedNodeToken := string(decryptedNodeTokenBytes)
 
-	createServerReq.Header().Add("Authorization", decryptedNodeToken)
+	decryptedNodeToken := node.EncryptedNodeTokenBase64
+
+	createServerReq.Header().Add("Authorization", *decryptedNodeToken)
 
 	createServerRes, err := daemonClient.CreateServer(context.Background(), createServerReq)
 	if err != nil {
 		tx.Rollback()
+		log.Printf("Failed to create server on daemon: %v", err)
 		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to create server on daemon"))
 	}
 

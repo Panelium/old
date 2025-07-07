@@ -13,7 +13,7 @@ import (
 func (s *ServerFilesServiceHandler) ReadFile(ctx context.Context, req *connect.Request[daemon.ReadFileRequest]) (*connect.Response[daemon.ReadFileResponse], error) {
 	err := security.CheckServerAccess(ctx, req.Msg.ServerId)
 	if err != nil {
-		return nil, connect.NewError(connect.CodePermissionDenied, err)
+		return nil, connect.NewError(connect.CodeFailedPrecondition, err)
 	}
 
 	root, err := server.GetRoot(req.Msg.ServerId)
@@ -64,7 +64,7 @@ func (s *ServerFilesServiceHandler) ReadFile(ctx context.Context, req *connect.R
 func (s *ServerFilesServiceHandler) WriteFile(ctx context.Context, req *connect.Request[daemon.WriteFileRequest]) (*connect.Response[daemon.WriteFileResponse], error) {
 	err := security.CheckServerAccess(ctx, req.Msg.ServerId)
 	if err != nil {
-		return nil, connect.NewError(connect.CodePermissionDenied, err)
+		return nil, connect.NewError(connect.CodeFailedPrecondition, err)
 	}
 
 	root, err := server.GetRoot(req.Msg.ServerId)
@@ -98,7 +98,7 @@ func (s *ServerFilesServiceHandler) WriteFile(ctx context.Context, req *connect.
 func (s *ServerFilesServiceHandler) DeleteFile(ctx context.Context, req *connect.Request[daemon.DeleteFileRequest]) (*connect.Response[daemon.DeleteFileResponse], error) {
 	err := security.CheckServerAccess(ctx, req.Msg.ServerId)
 	if err != nil {
-		return nil, connect.NewError(connect.CodePermissionDenied, err)
+		return nil, connect.NewError(connect.CodeFailedPrecondition, err)
 	}
 
 	root, err := server.GetRoot(req.Msg.ServerId)

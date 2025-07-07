@@ -18,7 +18,7 @@ func (s *ServerServiceHandler) Status(
 ) (*connect.Response[daemon.ServerStatus], error) {
 	err := security.CheckServerAccess(ctx, req.Msg.Id)
 	if err != nil {
-		return nil, connect.NewError(connect.CodePermissionDenied, err)
+		return nil, connect.NewError(connect.CodeFailedPrecondition, err)
 	}
 
 	var srv *model.Server

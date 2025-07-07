@@ -32,7 +32,7 @@ func (s *AuthServiceHandler) Login(
 		return nil, connect.NewError(connect.CodeInvalidArgument, fmt.Errorf("failed to verify turnstile token: %w", err))
 	}
 	if !turnstileOk {
-		return nil, connect.NewError(connect.CodePermissionDenied, fmt.Errorf("turnstile verification failed, please try again"))
+		return nil, connect.NewError(connect.CodeFailedPrecondition, fmt.Errorf("turnstile verification failed, please try again"))
 	}
 
 	user := &model.User{}

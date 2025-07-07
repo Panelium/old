@@ -34,7 +34,7 @@ func NewAdminAuthInterceptor() connect.UnaryInterceptorFunc {
 			}
 
 			if !user.Admin {
-				return nil, connect.NewError(connect.CodePermissionDenied, fmt.Errorf("user is not an admin"))
+				return nil, connect.NewError(connect.CodeFailedPrecondition, fmt.Errorf("user is not an admin"))
 			}
 
 			return next(ctx, req)

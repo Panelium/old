@@ -14,7 +14,7 @@ func (s *ServerServiceHandler) ConsoleCommand(
 ) (*connect.Response[proto_gen_go.Empty], error) {
 	err := security.CheckServerAccess(ctx, req.Msg.Id)
 	if err != nil {
-		return nil, connect.NewError(connect.CodePermissionDenied, err)
+		return nil, connect.NewError(connect.CodeFailedPrecondition, err)
 	}
 
 	err = server.ConsoleCommand(req.Msg.Id, req.Msg.Text)

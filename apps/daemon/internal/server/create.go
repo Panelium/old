@@ -1,6 +1,7 @@
 package server
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"panelium/daemon/internal/db"
@@ -33,18 +34,18 @@ func CreateServer(sid string, ownerId string, userIds []string, allocations []mo
 	}
 
 	blueprint := model.Blueprint{}
-	tx := db.Instance().First(&blueprint, "s.BID = ?", bid)
+	tx := db.Instance().First(&blueprint, "bid = ?", bid)
 	if tx.Error != nil || tx.RowsAffected == 0 {
 		return nil, fmt.Errorf("failed to find blueprint with ID %s: %w", bid, tx.Error)
 	}
 
 	var dockerImages []string
-	err = blueprint.DockerImages.Scan(&dockerImages)
+	err = json.Unmarshal(blueprint.DockerImages, &dockerImages)
 	if err != nil {
 		return nil, fmt.Errorf("failed to scan docker images from blueprint: %w", err)
 	}
 
-	if slices.Contains(dockerImages, dockerImage) {
+	if !slices.Contains(dockerImages, dockerImage) {
 		return nil, fmt.Errorf("docker image %s is not allowed by the blueprint %s", dockerImage, bid)
 	}
 

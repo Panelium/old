@@ -14,7 +14,7 @@ import (
 func (s *ServerFilesServiceHandler) SearchFiles(ctx context.Context, req *connect.Request[daemon.SearchFilesRequest]) (*connect.Response[daemon.SearchFilesResponse], error) {
 	err := security.CheckServerAccess(ctx, req.Msg.ServerId)
 	if err != nil {
-		return nil, connect.NewError(connect.CodePermissionDenied, err)
+		return nil, connect.NewError(connect.CodeFailedPrecondition, err)
 	}
 
 	root, err := server.GetRoot(req.Msg.ServerId)
