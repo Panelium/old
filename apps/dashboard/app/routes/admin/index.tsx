@@ -1,4 +1,3 @@
-import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "~/components/ui/button";
@@ -18,6 +17,7 @@ import { Pagination } from "proto-gen-ts/common_pb";
 import { Client } from "@connectrpc/connect";
 import { Dialog, DialogClose, DialogContent, DialogTrigger } from "~/components/ui/dialog";
 import { Input } from "~/components/ui/input";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface Column<T> {
   label: string;
@@ -188,11 +188,20 @@ function TableHead<T>({
   );
 }
 
-function TableBody<T>({ columns, data }: { columns: Column<T>[]; data: any }) {
+function TableBody<T>({
+  columns,
+  data,
+  onDelete,
+}: {
+  columns: Column<T>[];
+  data: any;
+  onDelete: (id: string) => void;
+}) {
+  const idKey = columns[0]?.id as string;
   return (
     <tbody>
       {data.map((d: any) => (
-        <tr className="nth-[odd]:bg-white/5" key={d.id}>
+        <tr className="nth-[odd]:bg-white/5" key={d[idKey] || d.id}>
           <td colSpan={columns.length + 1} className="p-0">
             <div className="flex w-full items-center justify-between">
               <div className="flex flex-1">
@@ -214,7 +223,7 @@ function TableBody<T>({ columns, data }: { columns: Column<T>[]; data: any }) {
               </div>
               <div className="flex items-center justify-end gap-2 p-2 min-w-[192px]">
                 <Button className="min-w-[80px]">Edit</Button>
-                <Button className="min-w-[80px]" variant="destructive">
+                <Button className="min-w-[80px]" variant="destructive" onClick={() => onDelete(d[idKey])}>
                   Delete
                 </Button>
               </div>
@@ -230,10 +239,12 @@ function Tab<T>({
   data,
   columns,
   onCreate,
+  onDelete,
 }: {
   data: T[];
   columns: Column<T>[];
   onCreate?: (values: any) => Promise<void>;
+  onDelete: (id: string) => void;
 }) {
   const [sortField, setSortField] = useState<keyof T | null>(null);
   const [ascending, setAscending] = useState(true);
@@ -308,7 +319,7 @@ function Tab<T>({
         handleInputChange={handleInputChange}
         handleSubmit={handleSubmit}
       />
-      <TableBody columns={columns} data={sortedData} />
+      <TableBody columns={columns} data={sortedData} onDelete={onDelete} />
     </table>
   );
 }
@@ -452,6 +463,27 @@ export default function AdminPage() {
     await tryRefreshServers();
   };
 
+  const handleDeleteUser = async (uid: string) => {
+    if (!userManagerClient) return;
+    await userManagerClient.deleteUser({ uid });
+    await tryRefreshUsers();
+  };
+  const handleDeleteLocation = async (lid: string) => {
+    if (!locationManagerClient) return;
+    await locationManagerClient.deleteLocation({ lid });
+    await tryRefreshLocations();
+  };
+  const handleDeleteNode = async (nid: string) => {
+    if (!nodeManagerClient) return;
+    await nodeManagerClient.deleteNode({ nid });
+    await tryRefreshNodes();
+  };
+  const handleDeleteServer = async (sid: string) => {
+    if (!serverManagerClient) return;
+    await serverManagerClient.deleteServer({ sid });
+    await tryRefreshServers();
+  };
+
   return (
     <div className="min-h-screen min-w-screen flex items-center justify-center">
       <div className="w-[calc(100vw-4rem)] h-[calc(100vh-4rem)] max-w-[1800px] max-h-[1000px] m-8 flex">
@@ -473,7 +505,7 @@ export default function AdminPage() {
                 transition={{ duration: 0.35, ease: "easeInOut" }}
                 className="w-full h-full"
               >
-                <Tab data={usersData} columns={USERS_COLUMNS}></Tab>
+                <Tab data={usersData} columns={USERS_COLUMNS} onCreate={handleCreateUser} onDelete={handleDeleteUser} />
               </motion.div>
             )}
             {currentTab === "locations" && (
@@ -485,7 +517,12 @@ export default function AdminPage() {
                 transition={{ duration: 0.35, ease: "easeInOut" }}
                 className="w-full h-full"
               >
-                <Tab data={locationsData} columns={LOCATIONS_COLUMNS} onCreate={handleCreateLocation}></Tab>
+                <Tab
+                  data={locationsData}
+                  columns={LOCATIONS_COLUMNS}
+                  onCreate={handleCreateLocation}
+                  onDelete={handleDeleteLocation}
+                />
               </motion.div>
             )}
             {currentTab === "nodes" && (
@@ -497,7 +534,7 @@ export default function AdminPage() {
                 transition={{ duration: 0.35, ease: "easeInOut" }}
                 className="w-full h-full"
               >
-                <Tab data={nodesData} columns={NODES_COLUMNS}></Tab>
+                <Tab data={nodesData} columns={NODES_COLUMNS} onCreate={handleCreateNode} onDelete={handleDeleteNode} />
               </motion.div>
             )}
             {currentTab === "servers" && (
@@ -509,7 +546,12 @@ export default function AdminPage() {
                 transition={{ duration: 0.35, ease: "easeInOut" }}
                 className="w-full h-full"
               >
-                <Tab data={serversData} columns={SERVERS_COLUMNS}></Tab>
+                <Tab
+                  data={serversData}
+                  columns={SERVERS_COLUMNS}
+                  onCreate={handleCreateServer}
+                  onDelete={handleDeleteServer}
+                />
               </motion.div>
             )}
           </AnimatePresence>
