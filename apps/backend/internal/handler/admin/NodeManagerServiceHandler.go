@@ -114,7 +114,7 @@ func (h *NodeManagerServiceHandler) DeleteNode(ctx context.Context, req *connect
 	return connect.NewResponse(&admin.DeleteNodeResponse{Success: true}), nil
 }
 
-func GenerateBackendToken(ctx context.Context, req *connect.Request[admin.GenerateBackendTokenRequest]) (*connect.Response[admin.GenerateBackendTokenResponse], error) {
+func (h *NodeManagerServiceHandler) GenerateBackendToken(ctx context.Context, req *connect.Request[admin.GenerateBackendTokenRequest]) (*connect.Response[admin.GenerateBackendTokenResponse], error) {
 	dbInst := db.Instance()
 	var node model.Node
 	if err := dbInst.Where("nid = ?", req.Msg.Nid).First(&node).Error; err != nil {
