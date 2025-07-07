@@ -12,6 +12,7 @@ import (
 	"panelium/backend/internal/middleware"
 	"panelium/backend/internal/model"
 	"panelium/common/errors"
+	"panelium/common/id"
 	"panelium/proto_gen_go"
 	"panelium/proto_gen_go/backend"
 	"panelium/proto_gen_go/backend/backendconnect"
@@ -180,7 +181,13 @@ func (s *ClientServiceHandler) NewServer(
 		Storage: 4096, // 4 GB
 	}
 
+	sid, err := id.New()
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to create server (ID)"))
+	}
+
 	server := &model.Server{
+		SID:           sid,
 		Name:          req.Msg.Name,
 		Description:   req.Msg.Description,
 		OwnerID:       user.ID,
