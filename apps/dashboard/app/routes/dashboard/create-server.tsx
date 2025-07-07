@@ -210,12 +210,17 @@ export default function ServerCreatePage() {
                           <>
                             <SelectItem value="__any__">Any</SelectItem>
                             {availableNodes
-                              .filter(
-                                (node) =>
-                                  node.nid !== "__none__" &&
-                                  node.nid !== "__any__" &&
-                                  (watchedLid && watchedLid !== "" ? watchedLid === node.lid : true)
-                              )
+                              .filter((node) => {
+                                if (node.nid === "__none__" || node.nid === "__any__") return false;
+                                if (
+                                  !watchedLid ||
+                                  watchedLid === "__any__" ||
+                                  watchedLid === "__none__" ||
+                                  watchedLid === ""
+                                )
+                                  return true;
+                                return node.lid === watchedLid;
+                              })
                               .map((node) => (
                                 <SelectItem key={node.nid} value={node.nid}>
                                   {node.name}
