@@ -72,6 +72,41 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/backend.ServerList'
+  /backend.ClientService/GetServer:
+    post:
+      tags:
+        - backend.ClientService
+      summary: GetServer
+      operationId: backend.ClientService.GetServer
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/common.SimpleIDMessage'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.ServerInfo'
   /backend.ClientService/GetAvailableBlueprints:
     post:
       tags:
@@ -406,6 +441,14 @@ components:
           title: storage
           description: Storage in MB
       title: ResourceLimit
+      additionalProperties: false
+    common.SimpleIDMessage:
+      type: object
+      properties:
+        id:
+          type: string
+          title: id
+      title: SimpleIDMessage
       additionalProperties: false
     connect-protocol-version:
       type: number

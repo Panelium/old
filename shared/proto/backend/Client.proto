@@ -9,6 +9,7 @@ import "daemon/Server.proto";
 service ClientService {
   rpc GetInfo(common.Empty) returns (ClientInfo);
   rpc GetServerList(common.Empty) returns (ServerList);
+  rpc GetServer(common.SimpleIDMessage) returns (ServerInfo);
   rpc GetAvailableBlueprints(common.Empty) returns (AvailableBlueprints);
   rpc GetAvailableLocations(common.Empty) returns (AvailableLocations);
   rpc GetAvailableNodes(common.Empty) returns (AvailableNodes);

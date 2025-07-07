@@ -713,10 +713,11 @@ const file_backend_Client_proto_rawDesc = "" +
 	"daemonHost\x12<\n" +
 	"\x0eresource_limit\x18\b \x01(\v2\x15.common.ResourceLimitR\rresourceLimit\x12\x1a\n" +
 	"\blocation\x18\t \x01(\tR\blocationB\x12\n" +
-	"\x10_main_allocation2\x80\x03\n" +
+	"\x10_main_allocation2\xbb\x03\n" +
 	"\rClientService\x12-\n" +
 	"\aGetInfo\x12\r.common.Empty\x1a\x13.backend.ClientInfo\x123\n" +
-	"\rGetServerList\x12\r.common.Empty\x1a\x13.backend.ServerList\x12E\n" +
+	"\rGetServerList\x12\r.common.Empty\x1a\x13.backend.ServerList\x129\n" +
+	"\tGetServer\x12\x17.common.SimpleIDMessage\x1a\x13.backend.ServerInfo\x12E\n" +
 	"\x16GetAvailableBlueprints\x12\r.common.Empty\x1a\x1c.backend.AvailableBlueprints\x12C\n" +
 	"\x15GetAvailableLocations\x12\r.common.Empty\x1a\x1b.backend.AvailableLocations\x12;\n" +
 	"\x11GetAvailableNodes\x12\r.common.Empty\x1a\x17.backend.AvailableNodes\x12B\n" +
@@ -736,20 +737,21 @@ func file_backend_Client_proto_rawDescGZIP() []byte {
 
 var file_backend_Client_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_backend_Client_proto_goTypes = []any{
-	(*AvailableBlueprint)(nil),         // 0: backend.AvailableBlueprint
-	(*AvailableBlueprints)(nil),        // 1: backend.AvailableBlueprints
-	(*AvailableLocation)(nil),          // 2: backend.AvailableLocation
-	(*AvailableLocations)(nil),         // 3: backend.AvailableLocations
-	(*AvailableNode)(nil),              // 4: backend.AvailableNode
-	(*AvailableNodes)(nil),             // 5: backend.AvailableNodes
-	(*NewServerRequest)(nil),           // 6: backend.NewServerRequest
-	(*NewServerResponse)(nil),          // 7: backend.NewServerResponse
-	(*ClientInfo)(nil),                 // 8: backend.ClientInfo
-	(*ServerList)(nil),                 // 9: backend.ServerList
-	(*ServerInfo)(nil),                 // 10: backend.ServerInfo
-	(*proto_gen_go.IPAllocation)(nil),  // 11: common.IPAllocation
-	(*proto_gen_go.ResourceLimit)(nil), // 12: common.ResourceLimit
-	(*proto_gen_go.Empty)(nil),         // 13: common.Empty
+	(*AvailableBlueprint)(nil),           // 0: backend.AvailableBlueprint
+	(*AvailableBlueprints)(nil),          // 1: backend.AvailableBlueprints
+	(*AvailableLocation)(nil),            // 2: backend.AvailableLocation
+	(*AvailableLocations)(nil),           // 3: backend.AvailableLocations
+	(*AvailableNode)(nil),                // 4: backend.AvailableNode
+	(*AvailableNodes)(nil),               // 5: backend.AvailableNodes
+	(*NewServerRequest)(nil),             // 6: backend.NewServerRequest
+	(*NewServerResponse)(nil),            // 7: backend.NewServerResponse
+	(*ClientInfo)(nil),                   // 8: backend.ClientInfo
+	(*ServerList)(nil),                   // 9: backend.ServerList
+	(*ServerInfo)(nil),                   // 10: backend.ServerInfo
+	(*proto_gen_go.IPAllocation)(nil),    // 11: common.IPAllocation
+	(*proto_gen_go.ResourceLimit)(nil),   // 12: common.ResourceLimit
+	(*proto_gen_go.Empty)(nil),           // 13: common.Empty
+	(*proto_gen_go.SimpleIDMessage)(nil), // 14: common.SimpleIDMessage
 }
 var file_backend_Client_proto_depIdxs = []int32{
 	0,  // 0: backend.AvailableBlueprints.blueprints:type_name -> backend.AvailableBlueprint
@@ -760,18 +762,20 @@ var file_backend_Client_proto_depIdxs = []int32{
 	12, // 5: backend.ServerInfo.resource_limit:type_name -> common.ResourceLimit
 	13, // 6: backend.ClientService.GetInfo:input_type -> common.Empty
 	13, // 7: backend.ClientService.GetServerList:input_type -> common.Empty
-	13, // 8: backend.ClientService.GetAvailableBlueprints:input_type -> common.Empty
-	13, // 9: backend.ClientService.GetAvailableLocations:input_type -> common.Empty
-	13, // 10: backend.ClientService.GetAvailableNodes:input_type -> common.Empty
-	6,  // 11: backend.ClientService.NewServer:input_type -> backend.NewServerRequest
-	8,  // 12: backend.ClientService.GetInfo:output_type -> backend.ClientInfo
-	9,  // 13: backend.ClientService.GetServerList:output_type -> backend.ServerList
-	1,  // 14: backend.ClientService.GetAvailableBlueprints:output_type -> backend.AvailableBlueprints
-	3,  // 15: backend.ClientService.GetAvailableLocations:output_type -> backend.AvailableLocations
-	5,  // 16: backend.ClientService.GetAvailableNodes:output_type -> backend.AvailableNodes
-	7,  // 17: backend.ClientService.NewServer:output_type -> backend.NewServerResponse
-	12, // [12:18] is the sub-list for method output_type
-	6,  // [6:12] is the sub-list for method input_type
+	14, // 8: backend.ClientService.GetServer:input_type -> common.SimpleIDMessage
+	13, // 9: backend.ClientService.GetAvailableBlueprints:input_type -> common.Empty
+	13, // 10: backend.ClientService.GetAvailableLocations:input_type -> common.Empty
+	13, // 11: backend.ClientService.GetAvailableNodes:input_type -> common.Empty
+	6,  // 12: backend.ClientService.NewServer:input_type -> backend.NewServerRequest
+	8,  // 13: backend.ClientService.GetInfo:output_type -> backend.ClientInfo
+	9,  // 14: backend.ClientService.GetServerList:output_type -> backend.ServerList
+	10, // 15: backend.ClientService.GetServer:output_type -> backend.ServerInfo
+	1,  // 16: backend.ClientService.GetAvailableBlueprints:output_type -> backend.AvailableBlueprints
+	3,  // 17: backend.ClientService.GetAvailableLocations:output_type -> backend.AvailableLocations
+	5,  // 18: backend.ClientService.GetAvailableNodes:output_type -> backend.AvailableNodes
+	7,  // 19: backend.ClientService.NewServer:output_type -> backend.NewServerResponse
+	13, // [13:20] is the sub-list for method output_type
+	6,  // [6:13] is the sub-list for method input_type
 	6,  // [6:6] is the sub-list for extension type_name
 	6,  // [6:6] is the sub-list for extension extendee
 	0,  // [0:6] is the sub-list for field type_name
