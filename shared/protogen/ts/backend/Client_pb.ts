@@ -4,7 +4,7 @@
 
 import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { EmptySchema, IPAllocation, ResourceLimit, SuccessMessageSchema } from "../common_pb";
+import type { EmptySchema, IPAllocation, ResourceLimit } from "../common_pb";
 import { file_common } from "../common_pb";
 import { file_daemon_Server } from "../daemon/Server_pb";
 import type { Message } from "@bufbuild/protobuf";
@@ -13,7 +13,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file backend/Client.proto.
  */
 export const file_backend_Client: GenFile = /*@__PURE__*/
-  fileDesc("ChRiYWNrZW5kL0NsaWVudC5wcm90bxIHYmFja2VuZCIvChJBdmFpbGFibGVCbHVlcHJpbnQSCwoDYmlkGAEgASgJEgwKBG5hbWUYAiABKAkiRgoTQXZhaWxhYmxlQmx1ZXByaW50cxIvCgpibHVlcHJpbnRzGAEgAygLMhsuYmFja2VuZC5BdmFpbGFibGVCbHVlcHJpbnQiLgoRQXZhaWxhYmxlTG9jYXRpb24SCwoDbGlkGAEgASgJEgwKBG5hbWUYAiABKAkiQwoSQXZhaWxhYmxlTG9jYXRpb25zEi0KCWxvY2F0aW9ucxgBIAMoCzIaLmJhY2tlbmQuQXZhaWxhYmxlTG9jYXRpb24iNwoNQXZhaWxhYmxlTm9kZRILCgNuaWQYASABKAkSCwoDbGlkGAIgASgJEgwKBG5hbWUYAyABKAkiNwoOQXZhaWxhYmxlTm9kZXMSJQoFbm9kZXMYASADKAsyFi5iYWNrZW5kLkF2YWlsYWJsZU5vZGUidgoQTmV3U2VydmVyUmVxdWVzdBIMCgRuYW1lGAEgASgJEhMKC2Rlc2NyaXB0aW9uGAIgASgJEgsKA2JpZBgDIAEoCRIQCgNsaWQYBCABKAlIAIgBARIQCgNuaWQYBSABKAlIAYgBAUIGCgRfbGlkQgYKBF9uaWQiSQoKQ2xpZW50SW5mbxILCgN1aWQYASABKAkSEAoIdXNlcm5hbWUYAiABKAkSDQoFZW1haWwYAyABKAkSDQoFYWRtaW4YBCABKAgiMgoKU2VydmVyTGlzdBIkCgdzZXJ2ZXJzGAEgAygLMhMuYmFja2VuZC5TZXJ2ZXJJbmZvIoMCCgpTZXJ2ZXJJbmZvEgsKA3NpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhMKC2Rlc2NyaXB0aW9uGAMgASgJEhAKCHNvZnR3YXJlGAQgASgJEhUKDXNvZnR3YXJlX2ljb24YBSABKAkSMgoPbWFpbl9hbGxvY2F0aW9uGAYgASgLMhQuY29tbW9uLklQQWxsb2NhdGlvbkgAiAEBEhMKC2RhZW1vbl9ob3N0GAcgASgJEi0KDnJlc291cmNlX2xpbWl0GAggASgLMhUuY29tbW9uLlJlc291cmNlTGltaXQSEAoIbG9jYXRpb24YCSABKAlCEgoQX21haW5fYWxsb2NhdGlvbjL8AgoNQ2xpZW50U2VydmljZRItCgdHZXRJbmZvEg0uY29tbW9uLkVtcHR5GhMuYmFja2VuZC5DbGllbnRJbmZvEjMKDUdldFNlcnZlckxpc3QSDS5jb21tb24uRW1wdHkaEy5iYWNrZW5kLlNlcnZlckxpc3QSRQoWR2V0QXZhaWxhYmxlQmx1ZXByaW50cxINLmNvbW1vbi5FbXB0eRocLmJhY2tlbmQuQXZhaWxhYmxlQmx1ZXByaW50cxJDChVHZXRBdmFpbGFibGVMb2NhdGlvbnMSDS5jb21tb24uRW1wdHkaGy5iYWNrZW5kLkF2YWlsYWJsZUxvY2F0aW9ucxI7ChFHZXRBdmFpbGFibGVOb2RlcxINLmNvbW1vbi5FbXB0eRoXLmJhY2tlbmQuQXZhaWxhYmxlTm9kZXMSPgoJTmV3U2VydmVyEhkuYmFja2VuZC5OZXdTZXJ2ZXJSZXF1ZXN0GhYuY29tbW9uLlN1Y2Nlc3NNZXNzYWdlQh9aHXBhbmVsaXVtL3Byb3RvX2dlbl9nby9iYWNrZW5kYgZwcm90bzM", [file_common, file_daemon_Server]);
+  fileDesc("ChRiYWNrZW5kL0NsaWVudC5wcm90bxIHYmFja2VuZCIvChJBdmFpbGFibGVCbHVlcHJpbnQSCwoDYmlkGAEgASgJEgwKBG5hbWUYAiABKAkiRgoTQXZhaWxhYmxlQmx1ZXByaW50cxIvCgpibHVlcHJpbnRzGAEgAygLMhsuYmFja2VuZC5BdmFpbGFibGVCbHVlcHJpbnQiLgoRQXZhaWxhYmxlTG9jYXRpb24SCwoDbGlkGAEgASgJEgwKBG5hbWUYAiABKAkiQwoSQXZhaWxhYmxlTG9jYXRpb25zEi0KCWxvY2F0aW9ucxgBIAMoCzIaLmJhY2tlbmQuQXZhaWxhYmxlTG9jYXRpb24iNwoNQXZhaWxhYmxlTm9kZRILCgNuaWQYASABKAkSCwoDbGlkGAIgASgJEgwKBG5hbWUYAyABKAkiNwoOQXZhaWxhYmxlTm9kZXMSJQoFbm9kZXMYASADKAsyFi5iYWNrZW5kLkF2YWlsYWJsZU5vZGUidgoQTmV3U2VydmVyUmVxdWVzdBIMCgRuYW1lGAEgASgJEhMKC2Rlc2NyaXB0aW9uGAIgASgJEgsKA2JpZBgDIAEoCRIQCgNsaWQYBCABKAlIAIgBARIQCgNuaWQYBSABKAlIAYgBAUIGCgRfbGlkQgYKBF9uaWQiIAoRTmV3U2VydmVyUmVzcG9uc2USCwoDc2lkGAEgASgJIkkKCkNsaWVudEluZm8SCwoDdWlkGAEgASgJEhAKCHVzZXJuYW1lGAIgASgJEg0KBWVtYWlsGAMgASgJEg0KBWFkbWluGAQgASgIIjIKClNlcnZlckxpc3QSJAoHc2VydmVycxgBIAMoCzITLmJhY2tlbmQuU2VydmVySW5mbyKDAgoKU2VydmVySW5mbxILCgNzaWQYASABKAkSDAoEbmFtZRgCIAEoCRITCgtkZXNjcmlwdGlvbhgDIAEoCRIQCghzb2Z0d2FyZRgEIAEoCRIVCg1zb2Z0d2FyZV9pY29uGAUgASgJEjIKD21haW5fYWxsb2NhdGlvbhgGIAEoCzIULmNvbW1vbi5JUEFsbG9jYXRpb25IAIgBARITCgtkYWVtb25faG9zdBgHIAEoCRItCg5yZXNvdXJjZV9saW1pdBgIIAEoCzIVLmNvbW1vbi5SZXNvdXJjZUxpbWl0EhAKCGxvY2F0aW9uGAkgASgJQhIKEF9tYWluX2FsbG9jYXRpb24ygAMKDUNsaWVudFNlcnZpY2USLQoHR2V0SW5mbxINLmNvbW1vbi5FbXB0eRoTLmJhY2tlbmQuQ2xpZW50SW5mbxIzCg1HZXRTZXJ2ZXJMaXN0Eg0uY29tbW9uLkVtcHR5GhMuYmFja2VuZC5TZXJ2ZXJMaXN0EkUKFkdldEF2YWlsYWJsZUJsdWVwcmludHMSDS5jb21tb24uRW1wdHkaHC5iYWNrZW5kLkF2YWlsYWJsZUJsdWVwcmludHMSQwoVR2V0QXZhaWxhYmxlTG9jYXRpb25zEg0uY29tbW9uLkVtcHR5GhsuYmFja2VuZC5BdmFpbGFibGVMb2NhdGlvbnMSOwoRR2V0QXZhaWxhYmxlTm9kZXMSDS5jb21tb24uRW1wdHkaFy5iYWNrZW5kLkF2YWlsYWJsZU5vZGVzEkIKCU5ld1NlcnZlchIZLmJhY2tlbmQuTmV3U2VydmVyUmVxdWVzdBoaLmJhY2tlbmQuTmV3U2VydmVyUmVzcG9uc2VCH1odcGFuZWxpdW0vcHJvdG9fZ2VuX2dvL2JhY2tlbmRiBnByb3RvMw", [file_common, file_daemon_Server]);
 
 /**
  * @generated from message backend.AvailableBlueprint
@@ -175,6 +175,23 @@ export const NewServerRequestSchema: GenMessage<NewServerRequest> = /*@__PURE__*
   messageDesc(file_backend_Client, 6);
 
 /**
+ * @generated from message backend.NewServerResponse
+ */
+export type NewServerResponse = Message<"backend.NewServerResponse"> & {
+  /**
+   * @generated from field: string sid = 1;
+   */
+  sid: string;
+};
+
+/**
+ * Describes the message backend.NewServerResponse.
+ * Use `create(NewServerResponseSchema)` to create a new message.
+ */
+export const NewServerResponseSchema: GenMessage<NewServerResponse> = /*@__PURE__*/
+  messageDesc(file_backend_Client, 7);
+
+/**
  * @generated from message backend.ClientInfo
  */
 export type ClientInfo = Message<"backend.ClientInfo"> & {
@@ -204,7 +221,7 @@ export type ClientInfo = Message<"backend.ClientInfo"> & {
  * Use `create(ClientInfoSchema)` to create a new message.
  */
 export const ClientInfoSchema: GenMessage<ClientInfo> = /*@__PURE__*/
-  messageDesc(file_backend_Client, 7);
+  messageDesc(file_backend_Client, 8);
 
 /**
  * @generated from message backend.ServerList
@@ -221,7 +238,7 @@ export type ServerList = Message<"backend.ServerList"> & {
  * Use `create(ServerListSchema)` to create a new message.
  */
 export const ServerListSchema: GenMessage<ServerList> = /*@__PURE__*/
-  messageDesc(file_backend_Client, 8);
+  messageDesc(file_backend_Client, 9);
 
 /**
  * @generated from message backend.ServerInfo
@@ -278,7 +295,7 @@ export type ServerInfo = Message<"backend.ServerInfo"> & {
  * Use `create(ServerInfoSchema)` to create a new message.
  */
 export const ServerInfoSchema: GenMessage<ServerInfo> = /*@__PURE__*/
-  messageDesc(file_backend_Client, 9);
+  messageDesc(file_backend_Client, 10);
 
 /**
  * @generated from service backend.ClientService
@@ -330,7 +347,7 @@ export const ClientService: GenService<{
   newServer: {
     methodKind: "unary";
     input: typeof NewServerRequestSchema;
-    output: typeof SuccessMessageSchema;
+    output: typeof NewServerResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_backend_Client, 0);

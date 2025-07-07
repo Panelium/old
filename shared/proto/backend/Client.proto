@@ -12,7 +12,7 @@ service ClientService {
   rpc GetAvailableBlueprints(common.Empty) returns (AvailableBlueprints);
   rpc GetAvailableLocations(common.Empty) returns (AvailableLocations);
   rpc GetAvailableNodes(common.Empty) returns (AvailableNodes);
-  rpc NewServer(NewServerRequest) returns (common.SuccessMessage);
+  rpc NewServer(NewServerRequest) returns (NewServerResponse);
 }
 
 message AvailableBlueprint {
@@ -49,6 +49,10 @@ message NewServerRequest {
   string bid = 3;
   optional string lid = 4;
   optional string nid = 5;
+}
+
+message NewServerResponse {
+  string sid = 1;
 }
 
 message ClientInfo {

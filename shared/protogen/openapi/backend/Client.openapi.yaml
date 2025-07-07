@@ -211,7 +211,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/common.SuccessMessage'
+                $ref: '#/components/schemas/backend.NewServerResponse'
 components:
   schemas:
     backend.AvailableBlueprint:
@@ -319,6 +319,14 @@ components:
           nullable: true
       title: NewServerRequest
       additionalProperties: false
+    backend.NewServerResponse:
+      type: object
+      properties:
+        sid:
+          type: string
+          title: sid
+      title: NewServerResponse
+      additionalProperties: false
     backend.ServerInfo:
       type: object
       properties:
@@ -398,14 +406,6 @@ components:
           title: storage
           description: Storage in MB
       title: ResourceLimit
-      additionalProperties: false
-    common.SuccessMessage:
-      type: object
-      properties:
-        success:
-          type: boolean
-          title: success
-      title: SuccessMessage
       additionalProperties: false
     connect-protocol-version:
       type: number

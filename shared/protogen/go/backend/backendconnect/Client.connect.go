@@ -59,7 +59,7 @@ type ClientServiceClient interface {
 	GetAvailableBlueprints(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.AvailableBlueprints], error)
 	GetAvailableLocations(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.AvailableLocations], error)
 	GetAvailableNodes(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.AvailableNodes], error)
-	NewServer(context.Context, *connect.Request[backend.NewServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	NewServer(context.Context, *connect.Request[backend.NewServerRequest]) (*connect.Response[backend.NewServerResponse], error)
 }
 
 // NewClientServiceClient constructs a client for the backend.ClientService service. By default, it
@@ -103,7 +103,7 @@ func NewClientServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 			connect.WithSchema(clientServiceMethods.ByName("GetAvailableNodes")),
 			connect.WithClientOptions(opts...),
 		),
-		newServer: connect.NewClient[backend.NewServerRequest, proto_gen_go.SuccessMessage](
+		newServer: connect.NewClient[backend.NewServerRequest, backend.NewServerResponse](
 			httpClient,
 			baseURL+ClientServiceNewServerProcedure,
 			connect.WithSchema(clientServiceMethods.ByName("NewServer")),
@@ -119,7 +119,7 @@ type clientServiceClient struct {
 	getAvailableBlueprints *connect.Client[proto_gen_go.Empty, backend.AvailableBlueprints]
 	getAvailableLocations  *connect.Client[proto_gen_go.Empty, backend.AvailableLocations]
 	getAvailableNodes      *connect.Client[proto_gen_go.Empty, backend.AvailableNodes]
-	newServer              *connect.Client[backend.NewServerRequest, proto_gen_go.SuccessMessage]
+	newServer              *connect.Client[backend.NewServerRequest, backend.NewServerResponse]
 }
 
 // GetInfo calls backend.ClientService.GetInfo.
@@ -148,7 +148,7 @@ func (c *clientServiceClient) GetAvailableNodes(ctx context.Context, req *connec
 }
 
 // NewServer calls backend.ClientService.NewServer.
-func (c *clientServiceClient) NewServer(ctx context.Context, req *connect.Request[backend.NewServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+func (c *clientServiceClient) NewServer(ctx context.Context, req *connect.Request[backend.NewServerRequest]) (*connect.Response[backend.NewServerResponse], error) {
 	return c.newServer.CallUnary(ctx, req)
 }
 
@@ -159,7 +159,7 @@ type ClientServiceHandler interface {
 	GetAvailableBlueprints(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.AvailableBlueprints], error)
 	GetAvailableLocations(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.AvailableLocations], error)
 	GetAvailableNodes(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.AvailableNodes], error)
-	NewServer(context.Context, *connect.Request[backend.NewServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error)
+	NewServer(context.Context, *connect.Request[backend.NewServerRequest]) (*connect.Response[backend.NewServerResponse], error)
 }
 
 // NewClientServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -248,6 +248,6 @@ func (UnimplementedClientServiceHandler) GetAvailableNodes(context.Context, *con
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.ClientService.GetAvailableNodes is not implemented"))
 }
 
-func (UnimplementedClientServiceHandler) NewServer(context.Context, *connect.Request[backend.NewServerRequest]) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+func (UnimplementedClientServiceHandler) NewServer(context.Context, *connect.Request[backend.NewServerRequest]) (*connect.Response[backend.NewServerResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.ClientService.NewServer is not implemented"))
 }

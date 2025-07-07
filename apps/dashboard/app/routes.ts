@@ -6,6 +6,7 @@ export default [
   layout("layouts/ProtectedLayout.tsx", [
     layout("layouts/UserDashboardLayout.tsx", [
       index("routes/dashboard/index.tsx"),
+      route("create-server", "routes/dashboard/create-server.tsx"),
       route("server/*", "routes/dashboard/server/[id].tsx"),
     ]),
     ...prefix("admin", [layout("layouts/AdminLayout.tsx", [index("routes/admin/index.tsx")])]),

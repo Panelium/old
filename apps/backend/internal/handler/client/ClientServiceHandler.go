@@ -104,7 +104,7 @@ func (s *ClientServiceHandler) GetAvailableNodes(
 func (s *ClientServiceHandler) NewServer(
 	ctx context.Context,
 	req *connect.Request[backend.NewServerRequest],
-) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+) (*connect.Response[backend.NewServerResponse], error) {
 	sessionInfoData := ctx.Value("panelium_session_info")
 	sessionInfo, ok := sessionInfoData.(*middleware.SessionInfo)
 	if !ok || sessionInfo == nil || sessionInfo.SessionID == "" || sessionInfo.UserID == "" {
@@ -253,8 +253,8 @@ func (s *ClientServiceHandler) NewServer(
 		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to create server on daemon"))
 	}
 
-	res := &proto_gen_go.SuccessMessage{
-		Success: true,
+	res := &backend.NewServerResponse{
+		Sid: server.SID,
 	}
 
 	return connect.NewResponse(res), nil

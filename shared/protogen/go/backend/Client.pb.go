@@ -395,6 +395,50 @@ func (x *NewServerRequest) GetNid() string {
 	return ""
 }
 
+type NewServerResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Sid           string                 `protobuf:"bytes,1,opt,name=sid,proto3" json:"sid,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *NewServerResponse) Reset() {
+	*x = NewServerResponse{}
+	mi := &file_backend_Client_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *NewServerResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NewServerResponse) ProtoMessage() {}
+
+func (x *NewServerResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_Client_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NewServerResponse.ProtoReflect.Descriptor instead.
+func (*NewServerResponse) Descriptor() ([]byte, []int) {
+	return file_backend_Client_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *NewServerResponse) GetSid() string {
+	if x != nil {
+		return x.Sid
+	}
+	return ""
+}
+
 type ClientInfo struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Uid           string                 `protobuf:"bytes,1,opt,name=uid,proto3" json:"uid,omitempty"`
@@ -407,7 +451,7 @@ type ClientInfo struct {
 
 func (x *ClientInfo) Reset() {
 	*x = ClientInfo{}
-	mi := &file_backend_Client_proto_msgTypes[7]
+	mi := &file_backend_Client_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -419,7 +463,7 @@ func (x *ClientInfo) String() string {
 func (*ClientInfo) ProtoMessage() {}
 
 func (x *ClientInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_Client_proto_msgTypes[7]
+	mi := &file_backend_Client_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -432,7 +476,7 @@ func (x *ClientInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ClientInfo.ProtoReflect.Descriptor instead.
 func (*ClientInfo) Descriptor() ([]byte, []int) {
-	return file_backend_Client_proto_rawDescGZIP(), []int{7}
+	return file_backend_Client_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *ClientInfo) GetUid() string {
@@ -472,7 +516,7 @@ type ServerList struct {
 
 func (x *ServerList) Reset() {
 	*x = ServerList{}
-	mi := &file_backend_Client_proto_msgTypes[8]
+	mi := &file_backend_Client_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -484,7 +528,7 @@ func (x *ServerList) String() string {
 func (*ServerList) ProtoMessage() {}
 
 func (x *ServerList) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_Client_proto_msgTypes[8]
+	mi := &file_backend_Client_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -497,7 +541,7 @@ func (x *ServerList) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ServerList.ProtoReflect.Descriptor instead.
 func (*ServerList) Descriptor() ([]byte, []int) {
-	return file_backend_Client_proto_rawDescGZIP(), []int{8}
+	return file_backend_Client_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *ServerList) GetServers() []*ServerInfo {
@@ -524,7 +568,7 @@ type ServerInfo struct {
 
 func (x *ServerInfo) Reset() {
 	*x = ServerInfo{}
-	mi := &file_backend_Client_proto_msgTypes[9]
+	mi := &file_backend_Client_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -536,7 +580,7 @@ func (x *ServerInfo) String() string {
 func (*ServerInfo) ProtoMessage() {}
 
 func (x *ServerInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_Client_proto_msgTypes[9]
+	mi := &file_backend_Client_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -549,7 +593,7 @@ func (x *ServerInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ServerInfo.ProtoReflect.Descriptor instead.
 func (*ServerInfo) Descriptor() ([]byte, []int) {
-	return file_backend_Client_proto_rawDescGZIP(), []int{9}
+	return file_backend_Client_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *ServerInfo) GetSid() string {
@@ -645,7 +689,9 @@ const file_backend_Client_proto_rawDesc = "" +
 	"\x03lid\x18\x04 \x01(\tH\x00R\x03lid\x88\x01\x01\x12\x15\n" +
 	"\x03nid\x18\x05 \x01(\tH\x01R\x03nid\x88\x01\x01B\x06\n" +
 	"\x04_lidB\x06\n" +
-	"\x04_nid\"f\n" +
+	"\x04_nid\"%\n" +
+	"\x11NewServerResponse\x12\x10\n" +
+	"\x03sid\x18\x01 \x01(\tR\x03sid\"f\n" +
 	"\n" +
 	"ClientInfo\x12\x10\n" +
 	"\x03uid\x18\x01 \x01(\tR\x03uid\x12\x1a\n" +
@@ -667,14 +713,14 @@ const file_backend_Client_proto_rawDesc = "" +
 	"daemonHost\x12<\n" +
 	"\x0eresource_limit\x18\b \x01(\v2\x15.common.ResourceLimitR\rresourceLimit\x12\x1a\n" +
 	"\blocation\x18\t \x01(\tR\blocationB\x12\n" +
-	"\x10_main_allocation2\xfc\x02\n" +
+	"\x10_main_allocation2\x80\x03\n" +
 	"\rClientService\x12-\n" +
 	"\aGetInfo\x12\r.common.Empty\x1a\x13.backend.ClientInfo\x123\n" +
 	"\rGetServerList\x12\r.common.Empty\x1a\x13.backend.ServerList\x12E\n" +
 	"\x16GetAvailableBlueprints\x12\r.common.Empty\x1a\x1c.backend.AvailableBlueprints\x12C\n" +
 	"\x15GetAvailableLocations\x12\r.common.Empty\x1a\x1b.backend.AvailableLocations\x12;\n" +
-	"\x11GetAvailableNodes\x12\r.common.Empty\x1a\x17.backend.AvailableNodes\x12>\n" +
-	"\tNewServer\x12\x19.backend.NewServerRequest\x1a\x16.common.SuccessMessageB\x1fZ\x1dpanelium/proto_gen_go/backendb\x06proto3"
+	"\x11GetAvailableNodes\x12\r.common.Empty\x1a\x17.backend.AvailableNodes\x12B\n" +
+	"\tNewServer\x12\x19.backend.NewServerRequest\x1a\x1a.backend.NewServerResponseB\x1fZ\x1dpanelium/proto_gen_go/backendb\x06proto3"
 
 var (
 	file_backend_Client_proto_rawDescOnce sync.Once
@@ -688,42 +734,42 @@ func file_backend_Client_proto_rawDescGZIP() []byte {
 	return file_backend_Client_proto_rawDescData
 }
 
-var file_backend_Client_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_backend_Client_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_backend_Client_proto_goTypes = []any{
-	(*AvailableBlueprint)(nil),          // 0: backend.AvailableBlueprint
-	(*AvailableBlueprints)(nil),         // 1: backend.AvailableBlueprints
-	(*AvailableLocation)(nil),           // 2: backend.AvailableLocation
-	(*AvailableLocations)(nil),          // 3: backend.AvailableLocations
-	(*AvailableNode)(nil),               // 4: backend.AvailableNode
-	(*AvailableNodes)(nil),              // 5: backend.AvailableNodes
-	(*NewServerRequest)(nil),            // 6: backend.NewServerRequest
-	(*ClientInfo)(nil),                  // 7: backend.ClientInfo
-	(*ServerList)(nil),                  // 8: backend.ServerList
-	(*ServerInfo)(nil),                  // 9: backend.ServerInfo
-	(*proto_gen_go.IPAllocation)(nil),   // 10: common.IPAllocation
-	(*proto_gen_go.ResourceLimit)(nil),  // 11: common.ResourceLimit
-	(*proto_gen_go.Empty)(nil),          // 12: common.Empty
-	(*proto_gen_go.SuccessMessage)(nil), // 13: common.SuccessMessage
+	(*AvailableBlueprint)(nil),         // 0: backend.AvailableBlueprint
+	(*AvailableBlueprints)(nil),        // 1: backend.AvailableBlueprints
+	(*AvailableLocation)(nil),          // 2: backend.AvailableLocation
+	(*AvailableLocations)(nil),         // 3: backend.AvailableLocations
+	(*AvailableNode)(nil),              // 4: backend.AvailableNode
+	(*AvailableNodes)(nil),             // 5: backend.AvailableNodes
+	(*NewServerRequest)(nil),           // 6: backend.NewServerRequest
+	(*NewServerResponse)(nil),          // 7: backend.NewServerResponse
+	(*ClientInfo)(nil),                 // 8: backend.ClientInfo
+	(*ServerList)(nil),                 // 9: backend.ServerList
+	(*ServerInfo)(nil),                 // 10: backend.ServerInfo
+	(*proto_gen_go.IPAllocation)(nil),  // 11: common.IPAllocation
+	(*proto_gen_go.ResourceLimit)(nil), // 12: common.ResourceLimit
+	(*proto_gen_go.Empty)(nil),         // 13: common.Empty
 }
 var file_backend_Client_proto_depIdxs = []int32{
 	0,  // 0: backend.AvailableBlueprints.blueprints:type_name -> backend.AvailableBlueprint
 	2,  // 1: backend.AvailableLocations.locations:type_name -> backend.AvailableLocation
 	4,  // 2: backend.AvailableNodes.nodes:type_name -> backend.AvailableNode
-	9,  // 3: backend.ServerList.servers:type_name -> backend.ServerInfo
-	10, // 4: backend.ServerInfo.main_allocation:type_name -> common.IPAllocation
-	11, // 5: backend.ServerInfo.resource_limit:type_name -> common.ResourceLimit
-	12, // 6: backend.ClientService.GetInfo:input_type -> common.Empty
-	12, // 7: backend.ClientService.GetServerList:input_type -> common.Empty
-	12, // 8: backend.ClientService.GetAvailableBlueprints:input_type -> common.Empty
-	12, // 9: backend.ClientService.GetAvailableLocations:input_type -> common.Empty
-	12, // 10: backend.ClientService.GetAvailableNodes:input_type -> common.Empty
+	10, // 3: backend.ServerList.servers:type_name -> backend.ServerInfo
+	11, // 4: backend.ServerInfo.main_allocation:type_name -> common.IPAllocation
+	12, // 5: backend.ServerInfo.resource_limit:type_name -> common.ResourceLimit
+	13, // 6: backend.ClientService.GetInfo:input_type -> common.Empty
+	13, // 7: backend.ClientService.GetServerList:input_type -> common.Empty
+	13, // 8: backend.ClientService.GetAvailableBlueprints:input_type -> common.Empty
+	13, // 9: backend.ClientService.GetAvailableLocations:input_type -> common.Empty
+	13, // 10: backend.ClientService.GetAvailableNodes:input_type -> common.Empty
 	6,  // 11: backend.ClientService.NewServer:input_type -> backend.NewServerRequest
-	7,  // 12: backend.ClientService.GetInfo:output_type -> backend.ClientInfo
-	8,  // 13: backend.ClientService.GetServerList:output_type -> backend.ServerList
+	8,  // 12: backend.ClientService.GetInfo:output_type -> backend.ClientInfo
+	9,  // 13: backend.ClientService.GetServerList:output_type -> backend.ServerList
 	1,  // 14: backend.ClientService.GetAvailableBlueprints:output_type -> backend.AvailableBlueprints
 	3,  // 15: backend.ClientService.GetAvailableLocations:output_type -> backend.AvailableLocations
 	5,  // 16: backend.ClientService.GetAvailableNodes:output_type -> backend.AvailableNodes
-	13, // 17: backend.ClientService.NewServer:output_type -> common.SuccessMessage
+	7,  // 17: backend.ClientService.NewServer:output_type -> backend.NewServerResponse
 	12, // [12:18] is the sub-list for method output_type
 	6,  // [6:12] is the sub-list for method input_type
 	6,  // [6:6] is the sub-list for extension type_name
@@ -737,14 +783,14 @@ func file_backend_Client_proto_init() {
 		return
 	}
 	file_backend_Client_proto_msgTypes[6].OneofWrappers = []any{}
-	file_backend_Client_proto_msgTypes[9].OneofWrappers = []any{}
+	file_backend_Client_proto_msgTypes[10].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_backend_Client_proto_rawDesc), len(file_backend_Client_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
