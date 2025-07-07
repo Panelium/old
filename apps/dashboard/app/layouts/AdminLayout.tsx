@@ -1,15 +1,29 @@
 import { Moon, Sun } from "lucide-react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 import { useTheme } from "~/providers/ThemeProvider";
+import { useEffect } from "react";
+import { getClientClient } from "~/lib/api-clients";
 
 const TopBar: React.FC = () => {
   const { theme, setTheme } = useTheme();
+  const navigate = useNavigate();
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
   };
   const ThemeIcon = theme === "light" ? Moon : Sun;
+
+  useEffect(() => {
+    (async () => {
+      const client = await getClientClient();
+      const userInfo = await client.getInfo({});
+
+      if (!userInfo.admin) {
+        navigate("/auth", { replace: true });
+      }
+    })();
+  }, []);
 
   return (
     <header
@@ -20,13 +34,7 @@ const TopBar: React.FC = () => {
       )}
     >
       <div></div>
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={toggleTheme}
-        aria-label="Toggle theme"
-        className="bg-transparent"
-      >
+      <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme" className="bg-transparent">
         <ThemeIcon className="h-5 w-5" />
       </Button>
     </header>
