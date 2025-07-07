@@ -3,21 +3,30 @@ package auth
 import (
 	"connectrpc.com/connect"
 	"context"
+	"fmt"
 	"panelium/backend/internal/config"
 	"panelium/backend/internal/db"
 	"panelium/backend/internal/middleware"
 	"panelium/backend/internal/model"
+	"panelium/backend/internal/rate_limit"
 	"panelium/backend/internal/security/cookies"
 	"panelium/backend/internal/security/session"
 	"panelium/common/errors"
 	"panelium/common/jwt"
 	"panelium/proto_gen_go"
+	"time"
 )
+
+var refreshLimiter = rate_limit.NewRateLimiter(20, time.Minute) // 20 requests/minute per IP
 
 func (s *AuthServiceHandler) RefreshToken(
 	ctx context.Context,
 	req *connect.Request[proto_gen_go.Empty],
 ) (*connect.Response[proto_gen_go.SuccessMessage], error) {
+	if !refreshLimiter.Allow(req.Peer().Addr) {
+		return nil, connect.NewError(connect.CodeResourceExhausted, fmt.Errorf("too many refresh attempts, please try again later"))
+	}
+
 	tokensData := ctx.Value("panelium_tokens")
 	tokens, ok := tokensData.(middleware.Tokens)
 	if !ok || tokens == nil || len(tokens) == 0 {
