@@ -1,6 +1,8 @@
 import React, { createContext, useCallback, useEffect, useState } from "react";
 import { getAuthClient } from "~/lib/api-clients";
 
+// TODO: don't use sessionStorage, else user has to re-login after closing the browser
+
 interface SessionProviderProps {
   children?: React.ReactNode;
   storageKey?: string;
