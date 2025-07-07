@@ -24,6 +24,7 @@ export default function ServerCreatePage() {
   const [availableBlueprints, setAvailableBlueprints] = useState<AvailableBlueprint[]>([]);
   const [availableLocations, setAvailableLocations] = useState<AvailableLocation[]>([]);
   const [availableNodes, setAvailableNodes] = useState<AvailableNode[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const form = useForm({
     defaultValues: {
@@ -71,6 +72,7 @@ export default function ServerCreatePage() {
   };
 
   const handleSubmit = form.handleSubmit(async (data) => {
+    setErrorMessage(null); // Clear previous errors
     const payload: NewServerRequest = {
       $typeName: "backend.NewServerRequest",
       name: data.name,
@@ -80,19 +82,23 @@ export default function ServerCreatePage() {
     if (data.lid && data.lid !== "__none__" && data.lid !== "__any__") payload.lid = data.lid;
     if (data.nid && data.nid !== "__none__" && data.nid !== "__any__") payload.nid = data.nid;
 
-    const res = await clientClient?.newServer(payload);
-    if (!res || !res.sid) {
-      console.error("Failed to create server");
-      return;
+    try {
+      const res = await clientClient?.newServer(payload);
+      if (!res || !res.sid) {
+        setErrorMessage("Failed to create server. Please try again.");
+        return;
+      }
+      navigate(`/server/${res.sid}`, { replace: true });
+    } catch (error: any) {
+      setErrorMessage(error?.message || "Failed to create server. Please try again.");
     }
-
-    navigate(`/server/${res.sid}`, { replace: true });
   });
 
   return (
     <div className="flex justify-center items-center min-h-[60vh]">
       <Card className="w-full max-w-md p-8">
         <h2 className="text-2xl font-bold mb-4">Create New Server</h2>
+        {errorMessage && <div className="mb-4 text-red-500">{errorMessage}</div>}
         <FormProvider {...form}>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <FormField

@@ -10,9 +10,6 @@ import { ClientService, ServerInfo } from "proto-gen-ts/backend/Client_pb";
 
 export default function ServerDetailsPage() {
   const { id } = useParams<{ id: string }>();
-  if (!id) {
-    return <div className="p-6">Server ID is required.</div>;
-  }
 
   const [clientClient, setClientClient] = React.useState<Client<typeof ClientService>>();
   const [serverInfo, setServerInfo] = React.useState<ServerInfo>();
