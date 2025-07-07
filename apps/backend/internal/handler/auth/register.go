@@ -20,8 +20,6 @@ import (
 
 var registerLimiter = rate_limit.NewRateLimiter(5, time.Minute) // 5 requests/minute per IP
 
-var registerLimiter = rate_limit.NewRateLimiter(5, time.Minute) // 5 requests/minute per IP
-
 func (s *AuthServiceHandler) Register(
 	ctx context.Context,
 	req *connect.Request[backend.RegisterRequest],
