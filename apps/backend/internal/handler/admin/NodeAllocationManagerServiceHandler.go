@@ -84,7 +84,7 @@ func (h *NodeAllocationManagerServiceHandler) CreateNodeAllocation(ctx context.C
 		if err := dbInst.Where("sid = ?", *req.Msg.NodeAllocation.Sid).First(&server).Error; err != nil {
 			return nil, err
 		}
-		na.ServerID = server.ID
+		na.ServerID = &server.ID
 	}
 	if err := dbInst.Create(na).Error; err != nil {
 		return nil, err
@@ -107,7 +107,7 @@ func (h *NodeAllocationManagerServiceHandler) UpdateNodeAllocation(ctx context.C
 		if err := dbInst.Where("sid = ?", *req.Msg.NodeAllocation.Sid).First(&server).Error; err != nil {
 			return nil, err
 		}
-		na.ServerID = server.ID
+		na.ServerID = &server.ID
 	}
 	if err := dbInst.Model(&model.NodeAllocation{}).Where("id = ?", req.Msg.NodeAllocation.Id).Updates(na).Error; err != nil {
 		return nil, err
