@@ -1,4 +1,5 @@
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/card";
@@ -486,7 +487,12 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen min-w-screen flex items-center justify-center">
-      <div className="w-[calc(100vw-4rem)] h-[calc(100vh-4rem)] max-w-[1800px] max-h-[1000px] m-8 flex">
+      <div className="w-[calc(100vw-4rem)] h-[calc(100vh-4rem)] max-w-[1800px] max-h-[1000px] m-8 flex flex-col">
+        <div className="mb-4">
+          <Link to="/" className="text-tag-purple hover:underline font-semibold">
+            ← Back to Dashboard
+          </Link>
+        </div>
         <Card className="overflow-hidden w-full h-full flex flex-col bg-server-card">
           <div className="flex">
             <TabButton id="users" currentId={currentTab} setTab={setCurrentTab}></TabButton>

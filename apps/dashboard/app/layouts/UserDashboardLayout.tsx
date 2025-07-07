@@ -244,6 +244,16 @@ const SidebarDropdownMenu: React.FC = () => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56 no-select">
+          {admin && (
+            <DropdownMenuItem asChild>
+              <Link to="/admin" className="w-full">
+                <Button variant="ghost" className="w-full justify-start">
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Admin Panel</span>
+                </Button>
+              </Link>
+            </DropdownMenuItem>
+          )}
           <DropdownMenuItem className="bg-transparent focus:bg-transparent text-red-500 focus:text-red-500">
             <Button variant="ghost" className="w-full justify-start" onClick={() => performLogout()}>
               <LogOut className="mr-2 h-4 w-4" />
