@@ -220,7 +220,7 @@ func Install(s *model.Server) error {
 		Tty:          true,
 		Image:        s.DockerImage,
 		WorkingDir:   "/data",
-		Cmd:          strings.Split(strings.ReplaceAll(blueprint.StartCommand, "{{$env::SERVER_BINARY}}", blueprint.ServerBinary), " "),
+		Cmd:          strings.Split(strings.ReplaceAll(strings.ReplaceAll(blueprint.StartCommand, "{{$env::SERVER_BINARY}}", blueprint.ServerBinary), "{{$env::SERVER_MEMORY}}", fmt.Sprint(s.ResourceLimit.RAM)), " "),
 		Env:          []string{"SERVER_BINARY=" + blueprint.ServerBinary},
 		ExposedPorts: ports,
 	}, &container.HostConfig{
