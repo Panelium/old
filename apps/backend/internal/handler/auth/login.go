@@ -17,6 +17,8 @@ import (
 
 var loginLimiter = rate_limit.NewRateLimiter(10, time.Minute) // 10 requests/minute per IP
 
+var loginLimiter = rate_limit.NewRateLimiter(10, time.Minute) // 10 requests/minute per IP
+
 func (s *AuthServiceHandler) Login(
 	ctx context.Context,
 	req *connect.Request[backend.LoginRequest],
