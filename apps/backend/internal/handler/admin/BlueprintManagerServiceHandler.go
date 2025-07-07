@@ -113,7 +113,7 @@ func (h *BlueprintManagerServiceHandler) UpdateBlueprint(ctx context.Context, re
 
 func (h *BlueprintManagerServiceHandler) DeleteBlueprint(ctx context.Context, req *connect.Request[admin.DeleteBlueprintRequest]) (*connect.Response[admin.DeleteBlueprintResponse], error) {
 	dbInst := db.Instance()
-	if err := dbInst.Where("bid = ?", req.Msg.Bid).Delete(&model.Blueprint{}).Error; err != nil {
+	if err := dbInst.Unscoped().Where("bid = ?", req.Msg.Bid).Delete(&model.Blueprint{}).Error; err != nil {
 		return nil, err
 	}
 	return connect.NewResponse(&admin.DeleteBlueprintResponse{Success: true}), nil
