@@ -35,6 +35,9 @@ export default function ServerCreatePage() {
     },
   });
 
+  // Watch for changes in lid to make node select reactive
+  const watchedLid = form.watch("lid");
+
   useEffect(() => {
     (async () => {
       const clientClient = await getClientClient();
@@ -211,9 +214,7 @@ export default function ServerCreatePage() {
                                 (node) =>
                                   node.nid !== "__none__" &&
                                   node.nid !== "__any__" &&
-                                  (form.getValues().bid && form.getValues().bid != ""
-                                    ? form.getValues().bid === node.lid
-                                    : true)
+                                  (watchedLid && watchedLid !== "" ? watchedLid === node.lid : true)
                               )
                               .map((node) => (
                                 <SelectItem key={node.nid} value={node.nid}>
