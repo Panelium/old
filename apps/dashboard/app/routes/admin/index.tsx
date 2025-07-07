@@ -133,7 +133,7 @@ function TableHead<T>({
                 </div>
               ))}
             </div>
-            <div className="flex items-center justify-end gap-2 p-2 min-w-[176px]">
+            <div className="flex items-center justify-end gap-2 p-2 min-w-[192px]">
               <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
                   <Button className="w-fit min-w-[80px]" onClick={() => setOpen(true)}>
@@ -212,7 +212,7 @@ function TableBody<T>({ columns, data }: { columns: Column<T>[]; data: any }) {
                   );
                 })}
               </div>
-              <div className="flex items-center justify-end gap-2 p-2 min-w-[176px]">
+              <div className="flex items-center justify-end gap-2 p-2 min-w-[192px]">
                 <Button className="min-w-[80px]">Edit</Button>
                 <Button className="min-w-[80px]" variant="destructive">
                   Delete
