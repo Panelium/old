@@ -15,9 +15,9 @@ import { Location, LocationManagerService } from "proto-gen-ts/backend/admin/Loc
 import { Node, NodeManagerService } from "proto-gen-ts/backend/admin/NodeManager_pb";
 import { Server, ServerManagerService } from "proto-gen-ts/backend/admin/ServerManager_pb";
 import { Pagination } from "proto-gen-ts/common_pb";
+import { Client } from "@connectrpc/connect";
 import { Dialog, DialogClose, DialogContent, DialogTrigger } from "~/components/ui/dialog";
 import { Input } from "~/components/ui/input";
-import { Client } from "@connectrpc/connect";
 
 interface Column<T> {
   label: string;
@@ -26,6 +26,7 @@ interface Column<T> {
   sortable?: boolean;
   sortFunction?: (a: T, b: T, ascending: boolean) => number;
   fetchFunction?: (a: T) => string | number | boolean;
+  hidden?: boolean; // only show in create form
 }
 
 const USERS_COLUMNS: Column<User>[] = [
@@ -66,9 +67,27 @@ const SERVERS_COLUMNS: Column<Server>[] = [
 function TableHead<T>({
   columns,
   handleSort,
+  form,
+  setForm,
+  loading,
+  setLoading,
+  open,
+  setOpen,
+  formRef,
+  handleInputChange,
+  handleSubmit,
 }: {
   columns: Column<T>[];
   handleSort: (id: string, ascending: boolean) => void;
+  form: any;
+  setForm: React.Dispatch<React.SetStateAction<any>>;
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  formRef: React.RefObject<HTMLFormElement | null>;
+  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: (e: React.FormEvent) => void;
 }) {
   const [sortField, setSortField] = useState("");
   const [ascending, setAscending] = useState(false);
@@ -88,29 +107,82 @@ function TableHead<T>({
   return (
     <thead>
       <tr>
-        {columns.map(({ label, id, sortable = true }, index) => {
-          return (
-            <th
-              onClick={() => handleSortChanged(id as string, sortable)}
-              className={`p-2 text-left ${sortable ? "cursor-pointer" : "cursor-default"} no-select`}
-              key={index}
-            >
-              <div className="flex">
-                {label}
-                {sortable && sortField === id ? (
-                  ascending ? (
-                    <ChevronUp className="w-4" />
-                  ) : (
-                    <ChevronDown className="w-4" />
-                  )
-                ) : (
-                  <div className="w-4" />
-                )}
-              </div>
-            </th>
-          );
-        })}
-        <th className="p-2 text-left no-select">Actions</th>
+        <th colSpan={columns.length + 1} className="p-0">
+          <div className="flex w-full items-center justify-between">
+            <div className="flex flex-1">
+              {columns.map(({ label, id, sortable = true }, index) => (
+                <div
+                  key={index}
+                  onClick={() => handleSortChanged(id as string, sortable)}
+                  className={`text-left ${
+                    sortable ? "cursor-pointer" : "cursor-default"
+                  } no-select flex-1 min-w-0 px-2 py-1`}
+                >
+                  <div className="flex items-center">
+                    {label}
+                    {sortable && sortField === id ? (
+                      ascending ? (
+                        <ChevronUp className="w-4" />
+                      ) : (
+                        <ChevronDown className="w-4" />
+                      )
+                    ) : (
+                      <div className="w-4" />
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="flex items-center justify-end gap-2 p-2 min-w-[176px]">
+              <Dialog open={open} onOpenChange={setOpen}>
+                <DialogTrigger asChild>
+                  <Button className="w-fit min-w-[80px]" onClick={() => setOpen(true)}>
+                    Create
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-4">
+                    {
+                      // TODO: filters
+                      columns
+                        .filter(
+                          (col) =>
+                            col.id !== "id" &&
+                            col.id !== "uid" &&
+                            col.id !== "lid" &&
+                            col.id !== "nid" &&
+                            col.id !== "sid" &&
+                            col.id !== "bid" &&
+                            col.id !== "ownerUid"
+                        )
+                        .map((col) => (
+                          <div key={col.id as string}>
+                            <label className="block mb-1 capitalize">{col.label}</label>
+                            <Input
+                              name={col.id as string}
+                              value={form[col.id] || ""}
+                              onChange={handleInputChange}
+                              required
+                            />
+                          </div>
+                        ))
+                    }
+                    <div className="flex gap-2 justify-end">
+                      <DialogClose asChild>
+                        <Button type="button" variant="secondary">
+                          Cancel
+                        </Button>
+                      </DialogClose>
+                      <Button type="submit" disabled={loading}>
+                        {loading ? "Creating..." : "Create"}
+                      </Button>
+                    </div>
+                  </form>
+                </DialogContent>
+              </Dialog>
+            </div>
+          </div>
+        </th>
       </tr>
     </thead>
   );
@@ -119,31 +191,37 @@ function TableHead<T>({
 function TableBody<T>({ columns, data }: { columns: Column<T>[]; data: any }) {
   return (
     <tbody>
-      {data.map((d: any) => {
-        return (
-          <tr className="nth-[odd]:bg-white/5" key={d.id}>
-            {columns.map(({ id, type }, index) => {
-              let tData = d[id];
-              if (type === "boolean") {
-                tData = tData === true ? "Yes" : tData === false ? "No" : "";
-              } else if (type === "number") {
-                tData = typeof tData === "number" ? tData : tData ? Number(tData) : "";
-              } else {
-                tData = tData ?? "";
-              }
-              return (
-                <td className="p-2 text-left" key={index}>
-                  {tData}
-                </td>
-              );
-            })}
-            <th className="flex gap-2 p-2">
-              <Button>Edit</Button>
-              <Button variant="destructive">Delete</Button>
-            </th>
-          </tr>
-        );
-      })}
+      {data.map((d: any) => (
+        <tr className="nth-[odd]:bg-white/5" key={d.id}>
+          <td colSpan={columns.length + 1} className="p-0">
+            <div className="flex w-full items-center justify-between">
+              <div className="flex flex-1">
+                {columns.map(({ id, type }, index) => {
+                  let tData = d[id];
+                  if (type === "boolean") {
+                    tData = tData === true ? "Yes" : tData === false ? "No" : "";
+                  } else if (type === "number") {
+                    tData = typeof tData === "number" ? tData : tData ? Number(tData) : "";
+                  } else {
+                    tData = tData ?? "";
+                  }
+                  return (
+                    <div className="text-left flex-1 min-w-0 px-2 py-1" key={index}>
+                      {tData}
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="flex items-center justify-end gap-2 p-2 min-w-[176px]">
+                <Button className="min-w-[80px]">Edit</Button>
+                <Button className="min-w-[80px]" variant="destructive">
+                  Delete
+                </Button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      ))}
     </tbody>
   );
 }
@@ -216,53 +294,22 @@ function Tab<T>({
   };
 
   return (
-    <div>
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <Button className="w-fit" onClick={() => setOpen(true)}>
-            Add New
-          </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-4">
-            {
-              // TODO: filters
-              columns
-                .filter(
-                  (col) =>
-                    col.id !== "id" &&
-                    col.id !== "uid" &&
-                    col.id !== "lid" &&
-                    col.id !== "nid" &&
-                    col.id !== "sid" &&
-                    col.id !== "bid" &&
-                    col.id !== "ownerUid"
-                )
-                .map((col) => (
-                  <div key={col.id as string}>
-                    <label className="block mb-1 capitalize">{col.label}</label>
-                    <Input name={col.id as string} value={form[col.id] || ""} onChange={handleInputChange} required />
-                  </div>
-                ))
-            }
-            <div className="flex gap-2 justify-end">
-              <DialogClose asChild>
-                <Button type="button" variant="secondary">
-                  Cancel
-                </Button>
-              </DialogClose>
-              <Button type="submit" disabled={loading}>
-                {loading ? "Creating..." : "Create"}
-              </Button>
-            </div>
-          </form>
-        </DialogContent>
-      </Dialog>
-      <table>
-        <TableHead columns={columns} handleSort={handleSort} />
-        <TableBody columns={columns} data={sortedData} />
-      </table>
-    </div>
+    <table className="w-full">
+      <TableHead
+        columns={columns}
+        handleSort={handleSort}
+        form={form}
+        setForm={setForm}
+        loading={loading}
+        setLoading={setLoading}
+        open={open}
+        setOpen={setOpen}
+        formRef={formRef}
+        handleInputChange={handleInputChange}
+        handleSubmit={handleSubmit}
+      />
+      <TableBody columns={columns} data={sortedData} />
+    </table>
   );
 }
 
@@ -282,7 +329,7 @@ function TabButton({ id, currentId, setTab }: any) {
   );
 }
 
-export default function Admin() {
+export default function AdminPage() {
   const [currentTab, setCurrentTab] = useState("users");
 
   const pagination: Pagination = {
@@ -406,66 +453,68 @@ export default function Admin() {
   };
 
   return (
-    <div className="flex">
-      <Card className="overflow-hidden">
-        <div className="flex">
-          <TabButton id="users" currentId={currentTab} setTab={setCurrentTab}></TabButton>
-          <TabButton id="locations" currentId={currentTab} setTab={setCurrentTab}></TabButton>
-          <TabButton id="nodes" currentId={currentTab} setTab={setCurrentTab}></TabButton>
-          <TabButton id="servers" currentId={currentTab} setTab={setCurrentTab}></TabButton>
-        </div>
+    <div className="min-h-screen min-w-screen flex items-center justify-center">
+      <div className="w-[calc(100vw-4rem)] h-[calc(100vh-4rem)] max-w-[1800px] max-h-[1000px] m-8 flex">
+        <Card className="overflow-hidden w-full h-full flex flex-col bg-server-card">
+          <div className="flex">
+            <TabButton id="users" currentId={currentTab} setTab={setCurrentTab}></TabButton>
+            <TabButton id="locations" currentId={currentTab} setTab={setCurrentTab}></TabButton>
+            <TabButton id="nodes" currentId={currentTab} setTab={setCurrentTab}></TabButton>
+            <TabButton id="servers" currentId={currentTab} setTab={setCurrentTab}></TabButton>
+          </div>
 
-        <AnimatePresence mode="wait" initial={false}>
-          {currentTab === "users" && (
-            <motion.div
-              key="users"
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -40 }}
-              transition={{ duration: 0.35, ease: "easeInOut" }}
-              className="w-full h-full flex items-center justify-center"
-            >
-              <Tab data={usersData} columns={USERS_COLUMNS}></Tab>
-            </motion.div>
-          )}
-          {currentTab === "locations" && (
-            <motion.div
-              key="locations"
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -40 }}
-              transition={{ duration: 0.35, ease: "easeInOut" }}
-              className="w-full h-full flex items-center justify-center"
-            >
-              <Tab data={locationsData} columns={LOCATIONS_COLUMNS} onCreate={handleCreateLocation}></Tab>
-            </motion.div>
-          )}
-          {currentTab === "nodes" && (
-            <motion.div
-              key="nodes"
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -40 }}
-              transition={{ duration: 0.35, ease: "easeInOut" }}
-              className="w-full h-full flex items-center justify-center"
-            >
-              <Tab data={nodesData} columns={NODES_COLUMNS}></Tab>
-            </motion.div>
-          )}
-          {currentTab === "servers" && (
-            <motion.div
-              key="servers"
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -40 }}
-              transition={{ duration: 0.35, ease: "easeInOut" }}
-              className="w-full h-full flex items-center justify-center"
-            >
-              <Tab data={serversData} columns={SERVERS_COLUMNS}></Tab>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </Card>
+          <AnimatePresence mode="wait" initial={false}>
+            {currentTab === "users" && (
+              <motion.div
+                key="users"
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -40 }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+                className="w-full h-full"
+              >
+                <Tab data={usersData} columns={USERS_COLUMNS}></Tab>
+              </motion.div>
+            )}
+            {currentTab === "locations" && (
+              <motion.div
+                key="locations"
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -40 }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+                className="w-full h-full"
+              >
+                <Tab data={locationsData} columns={LOCATIONS_COLUMNS} onCreate={handleCreateLocation}></Tab>
+              </motion.div>
+            )}
+            {currentTab === "nodes" && (
+              <motion.div
+                key="nodes"
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -40 }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+                className="w-full h-full"
+              >
+                <Tab data={nodesData} columns={NODES_COLUMNS}></Tab>
+              </motion.div>
+            )}
+            {currentTab === "servers" && (
+              <motion.div
+                key="servers"
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -40 }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+                className="w-full h-full"
+              >
+                <Tab data={serversData} columns={SERVERS_COLUMNS}></Tab>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </Card>
+      </div>
     </div>
   );
 }
