@@ -20,7 +20,7 @@ func NewBackendAuthInterceptor() connect.UnaryInterceptorFunc {
 
 			nodeToken := req.Header().Get("Authorization")
 			if nodeToken == "" {
-				return next(ctx, req)
+				return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("invalid node token"))
 			}
 
 			claims, err := jwt.VerifyJWT(nodeToken, &config.JWTPrivateKeyInstance.PublicKey, jwt.DaemonIssuer, jwt.NodeTokenType)
