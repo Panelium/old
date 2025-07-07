@@ -113,49 +113,50 @@ func (s *ClientServiceHandler) NewServer(
 		return nil, errors.ConnectInvalidCredentials
 	}
 
+	dbInstance := db.Instance()
+	tx := dbInstance.Begin()
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}()
+
 	var user model.User
-	tx := db.Instance().First(&user, "uid = ?", sessionInfo.UserID)
-	if tx.Error != nil || tx.RowsAffected == 0 {
+	if err := tx.First(&user, "uid = ?", sessionInfo.UserID).Error; err != nil {
+		tx.Rollback()
 		return nil, connect.NewError(connect.CodeNotFound, errors.UserNotFound)
 	}
 
 	var node model.Node
 
 	if req.Msg.Nid != nil && *req.Msg.Nid != "" {
-		tx = db.Instance().First(&node, "nid = ?", *req.Msg.Nid)
-		if tx.Error != nil || tx.RowsAffected == 0 {
+		if err := tx.First(&node, "nid = ?", *req.Msg.Nid).Error; err != nil {
+			tx.Rollback()
 			return nil, connect.NewError(connect.CodeNotFound, fmt.Errorf("node with ID %s not found", *req.Msg.Nid))
 		}
 	} else if req.Msg.Lid != nil && *req.Msg.Lid != "" {
 		var location model.Location
-		tx = db.Instance().First(&location, "lid = ?", *req.Msg.Lid)
-		if tx.Error != nil || tx.RowsAffected == 0 {
+		if err := tx.First(&location, "lid = ?", *req.Msg.Lid).Error; err != nil {
+			tx.Rollback()
 			return nil, connect.NewError(connect.CodeNotFound, fmt.Errorf("location with ID %s not found", *req.Msg.Lid))
 		}
 
 		var nodes []model.Node
-		tx = db.Instance().Find(&nodes, "location_id = ?", location.ID)
-		if tx.Error != nil || tx.RowsAffected == 0 {
-			return nil, connect.NewError(connect.CodeNotFound, fmt.Errorf("node with location ID %s not found", *req.Msg.Lid))
-		}
-
-		// for now just select the first node in the location
-		if len(nodes) == 0 {
+		if err := tx.Find(&nodes, "location_id = ?", location.ID).Error; err != nil || len(nodes) == 0 {
+			tx.Rollback()
 			return nil, connect.NewError(connect.CodeNotFound, fmt.Errorf("no nodes found in location with ID %s", *req.Msg.Lid))
 		}
-
 		node = nodes[0]
 	} else {
-		// first available node
-		tx = db.Instance().First(&node)
-		if tx.Error != nil || tx.RowsAffected == 0 {
+		if err := tx.First(&node).Error; err != nil {
+			tx.Rollback()
 			return nil, connect.NewError(connect.CodeNotFound, fmt.Errorf("no nodes available"))
 		}
 	}
 
 	var blueprint model.Blueprint
-	tx = db.Instance().First(&blueprint, "bid = ?", req.Msg.Bid)
-	if tx.Error != nil || tx.RowsAffected == 0 {
+	if err := tx.First(&blueprint, "bid = ?", req.Msg.Bid).Error; err != nil {
+		tx.Rollback()
 		return nil, connect.NewError(connect.CodeNotFound, fmt.Errorf("blueprint with ID %s not found", req.Msg.Bid))
 	}
 
@@ -163,12 +164,13 @@ func (s *ClientServiceHandler) NewServer(
 		Name  string `json:"name"`
 		Image string `json:"image"`
 	}
-	err := json.Unmarshal(blueprint.DockerImages, &availableDockerImages)
-	if err != nil {
+	if err := json.Unmarshal(blueprint.DockerImages, &availableDockerImages); err != nil {
+		tx.Rollback()
 		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to parse docker images for blueprint"))
 	}
 
 	if len(availableDockerImages) == 0 {
+		tx.Rollback()
 		return nil, connect.NewError(connect.CodeNotFound, fmt.Errorf("no docker images available for blueprint %s", req.Msg.Bid))
 	}
 
@@ -183,6 +185,7 @@ func (s *ClientServiceHandler) NewServer(
 
 	sid, err := id.New()
 	if err != nil {
+		tx.Rollback()
 		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to create server (ID)"))
 	}
 
@@ -196,25 +199,28 @@ func (s *ClientServiceHandler) NewServer(
 		DockerImage:   dockerImage,
 		BID:           req.Msg.Bid,
 	}
-	tx = db.Instance().Create(server)
-	if tx.Error != nil {
+	if err := tx.Create(server).Error; err != nil {
+		tx.Rollback()
 		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to create server"))
 	}
 
-	//find first available (server id is null) NodeAllocation for the node
 	var allocation model.NodeAllocation
-	tx = db.Instance().Where("node_id = ? AND server_id IS NULL", node.ID).First(&allocation)
-	if tx.Error != nil {
+	if err := tx.Where("node_id = ? AND server_id IS NULL", node.ID).First(&allocation).Error; err != nil {
+		tx.Rollback()
 		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to find available node allocation for node %s", node.NID))
 	}
 
 	allocation.ServerID = &server.ID
-	if err := db.Instance().Save(&allocation).Error; err != nil {
+	if err := tx.Save(&allocation).Error; err != nil {
+		tx.Rollback()
 		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to update node allocation with server ID"))
 	}
 
+	// Use dbInstance for read-only operations after this point if needed
+
 	daemonClient := daemonconnect.NewBackendServiceClient(http.DefaultClient, fmt.Sprintf("https://%s:%d", node.FQDN, node.DaemonPort), connect.WithGRPC())
 	if daemonClient == nil {
+		tx.Rollback()
 		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to create daemon client"))
 	}
 
@@ -238,12 +244,14 @@ func (s *ClientServiceHandler) NewServer(
 	})
 
 	if node.EncryptedNodeTokenBase64 == nil || *node.EncryptedNodeTokenBase64 == "" {
+		tx.Rollback()
 		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("node %s not properly set up", node.NID))
 	}
 
 	encryption := *global.EncryptionInstance()
 	encryptedNodeTokenBytes, err := base64.StdEncoding.DecodeString(*node.EncryptedNodeTokenBase64)
 	if err != nil {
+		tx.Rollback()
 		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to decode encrypted node token"))
 	}
 	decryptedNodeTokenBytes := make([]byte, len(encryptedNodeTokenBytes))
@@ -254,11 +262,18 @@ func (s *ClientServiceHandler) NewServer(
 
 	createServerRes, err := daemonClient.CreateServer(context.Background(), createServerReq)
 	if err != nil {
+		tx.Rollback()
 		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to create server on daemon"))
 	}
 
 	if createServerRes.Msg == nil || !createServerRes.Msg.Success {
+		tx.Rollback()
 		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to create server on daemon"))
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		tx.Rollback()
+		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to commit transaction"))
 	}
 
 	res := &backend.NewServerResponse{
