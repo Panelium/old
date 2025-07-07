@@ -31,66 +31,14 @@ interface Column<T extends ColumnType> {
   label: string;
   id: Extract<keyof T, string>;
   type?: "string" | "number" | "boolean" | "percent" | "memory";
+  optional?: boolean; // if true, the field is optional in the create form
   sortable?: boolean;
   sortFunction?: (a: T, b: T, ascending: boolean) => number;
   fetchFunction?: (a: T) => string | number | boolean;
+  setFunction?: (a: T, value: any) => T;
   hidden?: boolean; // only show in create form
+  linksTo?: () => { value: string | number; label: string }[];
 }
-
-const USERS_COLUMNS: Column<User>[] = [
-  { label: "User ID", id: "uid", sortable: false },
-  { label: "Username", id: "username" },
-  { label: "Email", id: "email" },
-  { label: "Admin", id: "admin", type: "boolean" },
-  { label: "MFA Needed", id: "mfaNeeded", type: "boolean" },
-];
-
-const LOCATIONS_COLUMNS: Column<Location>[] = [
-  { label: "Location ID", id: "lid", sortable: false },
-  { label: "Name", id: "name" },
-];
-
-const NODES_COLUMNS: Column<Node>[] = [
-  { label: "Node ID", id: "nid", sortable: false },
-  { label: "Name", id: "name" },
-  { label: "Location ID", id: "lid" },
-  { label: "FQDN", id: "fqdn" },
-  { label: "Daemon Port", id: "daemonPort" },
-  { label: "HTTPS", id: "https" },
-  { label: "Max CPU", id: "maxCpu", type: "number" },
-  { label: "Max RAM", id: "maxRam", type: "number" },
-  { label: "Max Storage", id: "maxStorage", type: "number" },
-  { label: "Max Swap", id: "maxSwap", type: "number" },
-];
-
-const NODE_ALLOCATIONS_COLUMNS: Column<NodeAllocation>[] = [
-  { label: "ID", id: "id", sortable: true, type: "number" },
-  { label: "Node ID", id: "nid", sortable: false },
-  {
-    label: "Allocation",
-    id: "ipAllocation",
-    sortable: false,
-    fetchFunction: ({ ipAllocation: a }) => (a ? `${a.ip}:${a.port}` : "Error"),
-  },
-  { label: "Server ID", id: "sid", sortable: false },
-];
-
-const SERVERS_COLUMNS: Column<Server>[] = [
-  { label: "Server ID", id: "sid", sortable: false },
-  { label: "Name", id: "name" },
-  { label: "Owner UID", id: "ownerUid" },
-  { label: "Node ID", id: "nid" },
-  { label: "Blueprint ID", id: "bid" },
-  { label: "Docker Image", id: "dockerImage" },
-];
-
-const BLUEPRINTS_COLUMNS: Column<Blueprint>[] = [
-  { label: "Blueprint ID", id: "bid", sortable: false },
-  { label: "Name", id: "name" },
-  { label: "Category", id: "category" },
-  { label: "Description", id: "description" },
-  { label: "Version", id: "version" },
-];
 
 function TableHead<T extends ColumnType>({
   columns,
@@ -174,7 +122,7 @@ function TableHead<T extends ColumnType>({
                   <DialogTitle className="text-lg font-semibold mb-4">Create</DialogTitle>
                   <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-4">
                     {/* Blueprint JSON upload (only for blueprints) */}
-                    {columns === BLUEPRINTS_COLUMNS ? (
+                    {columns[0].label === "Blueprint ID" ? (
                       <div>
                         <Label className="block mb-1">Upload Blueprint (.bp)</Label>
                         <div className="flex items-center gap-2">
@@ -218,24 +166,50 @@ function TableHead<T extends ColumnType>({
                     ) : (
                       columns
                         .filter(
-                          ({ id }) =>
-                            id !== "id" &&
-                            id !== "uid" &&
-                            id !== "lid" &&
-                            id !== "nid" &&
-                            id !== "sid" &&
-                            id !== "bid" &&
-                            id !== "ownerUid"
+                          (col, index) => index > 0 // Skip the first column (ID)
                         )
                         .map((column, index) => (
                           <div key={index}>
                             <label className="block mb-1 capitalize">{column.label}</label>
-                            <Input
-                              name={column.id}
-                              value={form[column.id] || ""}
-                              onChange={handleInputChange}
-                              required
-                            />
+                            {column.linksTo ? (
+                              <select
+                                name={column.id}
+                                value={form[column.id] ?? ""}
+                                onChange={(e) => setForm({ ...form, [column.id]: e.target.value })}
+                                required
+                                className="block w-full border rounded px-2 py-1"
+                              >
+                                <option value="" disabled>
+                                  Select {column.label}
+                                </option>
+                                {column.linksTo().map((opt) => (
+                                  <option key={opt.value} value={opt.value}>
+                                    {opt.label}
+                                  </option>
+                                ))}
+                              </select>
+                            ) : column.type === "boolean" ? (
+                              <Input
+                                name={column.id}
+                                type="checkbox"
+                                checked={!!form[column.id]}
+                                onChange={handleInputChange}
+                              />
+                            ) : (
+                              <Input
+                                name={column.id}
+                                type={column.type === "number" ? "number" : "text"}
+                                value={
+                                  column.type === "number"
+                                    ? form[column.id] !== undefined && form[column.id] !== ""
+                                      ? form[column.id].toString()
+                                      : ""
+                                    : form[column.id] || ""
+                                }
+                                onChange={handleInputChange}
+                                required={!column.optional}
+                              />
+                            )}
                           </div>
                         ))
                     )}
@@ -280,10 +254,16 @@ function TableBody<T extends ColumnType>({
             <td colSpan={columns.length + 1} className="p-0">
               <div className="flex w-full items-center justify-between">
                 <div className="flex flex-1">
-                  {columns.map(({ id, type }, index) => {
+                  {columns.map(({ id, type, linksTo, fetchFunction }, index) => {
                     let tData = d[id];
                     let td: string | number | boolean = "";
-                    if (type === "boolean") {
+                    if (fetchFunction) {
+                      td = fetchFunction(d);
+                    } else if (linksTo) {
+                      const opts = linksTo();
+                      const found = opts.find((opt) => String(opt.value) === String(tData));
+                      td = found ? found.label : String(tData ?? "");
+                    } else if (type === "boolean") {
                       td = tData === true ? "Yes" : tData === false ? "No" : "";
                     } else if (type === "number") {
                       td = typeof tData === "number" ? tData : tData ? Number(tData) : "";
@@ -373,12 +353,10 @@ function Tab<T extends ColumnType>({
       if (aVal == null) return 1;
       if (bVal == null) return -1;
       if (aVal == null && bVal == null) return 0;
-      // Handle booleans
       if (typeof aVal === "boolean" && typeof bVal === "boolean") {
         if (aVal === bVal) return 0;
         return (aVal ? 1 : -1) * (ascending ? 1 : -1);
       }
-      // Fallback to string compare
       return (
         aVal.toString().localeCompare(bVal.toString(), "en", {
           numeric: true,
@@ -388,14 +366,33 @@ function Tab<T extends ColumnType>({
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value, type, checked } = e.target;
+    const column = columns.find((col) => col.id === name);
+    let parsedValue: any = value;
+    if (column?.type === "number") {
+      parsedValue = value === "" ? "" : Number(value);
+    } else if (column?.type === "boolean") {
+      parsedValue = type === "checkbox" ? checked : value === "true";
+    }
+    // setFunction applies on submit, not on change
+    if (column?.setFunction) {
+      setForm({ ...form, [name]: value });
+    } else {
+      setForm({ ...form, [name]: parsedValue });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!onCreate) return;
     setLoading(true);
-    await onCreate(form);
+    let submitForm = { ...form };
+    columns.forEach((column) => {
+      if (column.setFunction && submitForm[column.id] !== undefined) {
+        submitForm = column.setFunction(submitForm, submitForm[column.id]);
+      }
+    });
+    await onCreate(submitForm);
     setLoading(false);
     setForm({});
     setOpen(false);
@@ -494,6 +491,105 @@ export default function AdminPage() {
       setBlueprintsData(blueprints.blueprints);
     })();
   }, []);
+
+  function USERS_COLUMNS(): Column<User>[] {
+    return [
+      { label: "User ID", id: "uid", sortable: false },
+      { label: "Username", id: "username" },
+      { label: "Email", id: "email" },
+      { label: "Admin", id: "admin", type: "boolean" },
+      { label: "MFA Needed", id: "mfaNeeded", type: "boolean" },
+    ];
+  }
+
+  function LOCATIONS_COLUMNS(): Column<Location>[] {
+    return [
+      { label: "Location ID", id: "lid", sortable: false },
+      { label: "Name", id: "name" },
+    ];
+  }
+
+  function NODES_COLUMNS(locationsData: Location[]): Column<Node>[] {
+    return [
+      { label: "Node ID", id: "nid", sortable: false },
+      { label: "Name", id: "name" },
+      {
+        label: "Location",
+        id: "lid",
+        linksTo: () => (locationsData ? locationsData.map((l) => ({ value: l.lid, label: l.name })) : []),
+      },
+      { label: "FQDN", id: "fqdn" },
+      { label: "Daemon Port", id: "daemonPort", type: "number" },
+      { label: "HTTPS", id: "https", type: "boolean" },
+      { label: "Max CPU", id: "maxCpu", type: "number" },
+      { label: "Max RAM", id: "maxRam", type: "number" },
+      { label: "Max Storage", id: "maxStorage", type: "number" },
+      { label: "Max Swap", id: "maxSwap", type: "number" },
+    ];
+  }
+
+  function NODE_ALLOCATIONS_COLUMNS(nodesData: Node[]): Column<NodeAllocation>[] {
+    return [
+      { label: "ID", id: "id", sortable: true, type: "number" },
+      {
+        label: "Node",
+        id: "nid",
+        linksTo: () => (nodesData ? nodesData.map((n) => ({ value: n.nid, label: n.name })) : []),
+      },
+      {
+        label: "Allocation",
+        id: "ipAllocation",
+        sortable: false,
+        fetchFunction: ({ ipAllocation: a }) => (a ? `${a.ip}:${a.port}` : "Error"),
+        setFunction: (na, value): NodeAllocation => {
+          const [ip, port] = value.split(":");
+          return {
+            ...na,
+            ipAllocation: {
+              ...na.ipAllocation,
+              $typeName: "common.IPAllocation",
+              ip,
+              port: parseInt(port, 10),
+            },
+          };
+        },
+      },
+      { label: "Server ID", id: "sid", sortable: false, optional: true },
+    ];
+  }
+
+  function SERVERS_COLUMNS(nodesData: Node[], blueprintsData: Blueprint[], usersData: User[]): Column<Server>[] {
+    return [
+      { label: "Server ID", id: "sid", sortable: false },
+      { label: "Name", id: "name" },
+      {
+        label: "Owner",
+        id: "ownerUid",
+        linksTo: () => (usersData ? usersData.map((u) => ({ value: u.uid, label: u.username })) : []),
+      },
+      {
+        label: "Node",
+        id: "nid",
+        linksTo: () => (nodesData ? nodesData.map((n) => ({ value: n.nid, label: n.name })) : []),
+      },
+      {
+        label: "Blueprint",
+        id: "bid",
+        linksTo: () => (blueprintsData ? blueprintsData.map((b) => ({ value: b.bid, label: b.name })) : []),
+      },
+      { label: "Docker Image", id: "dockerImage" },
+    ];
+  }
+
+  function BLUEPRINTS_COLUMNS(): Column<Blueprint>[] {
+    return [
+      { label: "Blueprint ID", id: "bid", sortable: false },
+      { label: "Name", id: "name" },
+      { label: "Category", id: "category" },
+      { label: "Description", id: "description" },
+      { label: "Version", id: "version" },
+    ];
+  }
 
   const tryRefreshUsers = async () => {
     const users = await userManagerClient?.getUsers({ pagination });
@@ -676,7 +772,12 @@ export default function AdminPage() {
                 transition={{ duration: 0.35, ease: "easeInOut" }}
                 className="w-full h-full"
               >
-                <Tab data={usersData} columns={USERS_COLUMNS} onCreate={handleCreateUser} onDelete={handleDeleteUser} />
+                <Tab
+                  data={usersData}
+                  columns={USERS_COLUMNS()}
+                  onCreate={handleCreateUser}
+                  onDelete={handleDeleteUser}
+                />
               </motion.div>
             )}
             {currentTab === "locations" && (
@@ -690,7 +791,7 @@ export default function AdminPage() {
               >
                 <Tab
                   data={locationsData}
-                  columns={LOCATIONS_COLUMNS}
+                  columns={LOCATIONS_COLUMNS()}
                   onCreate={handleCreateLocation}
                   onDelete={handleDeleteLocation}
                 />
@@ -701,11 +802,15 @@ export default function AdminPage() {
                 key="nodes"
                 initial={{ opacity: 0, x: 40 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -40 }}
                 transition={{ duration: 0.35, ease: "easeInOut" }}
                 className="w-full h-full"
               >
-                <Tab data={nodesData} columns={NODES_COLUMNS} onCreate={handleCreateNode} onDelete={handleDeleteNode} />
+                <Tab
+                  data={nodesData}
+                  columns={NODES_COLUMNS(locationsData)}
+                  onCreate={handleCreateNode}
+                  onDelete={handleDeleteNode}
+                />
               </motion.div>
             )}
             {currentTab === "node_allocations" && (
@@ -719,7 +824,7 @@ export default function AdminPage() {
               >
                 <Tab
                   data={nodeAllocationsData}
-                  columns={NODE_ALLOCATIONS_COLUMNS}
+                  columns={NODE_ALLOCATIONS_COLUMNS(nodesData)}
                   onCreate={handleCreateNodeAllocation}
                   onDelete={handleDeleteNodeAllocation}
                 />
@@ -736,7 +841,7 @@ export default function AdminPage() {
               >
                 <Tab
                   data={serversData}
-                  columns={SERVERS_COLUMNS}
+                  columns={SERVERS_COLUMNS(nodesData, blueprintsData, usersData)}
                   onCreate={handleCreateServer}
                   onDelete={handleDeleteServer}
                 />
@@ -753,7 +858,7 @@ export default function AdminPage() {
               >
                 <Tab
                   data={blueprintsData}
-                  columns={BLUEPRINTS_COLUMNS}
+                  columns={BLUEPRINTS_COLUMNS()}
                   onCreate={handleCreateBlueprint}
                   onDelete={handleDeleteBlueprint}
                 />
