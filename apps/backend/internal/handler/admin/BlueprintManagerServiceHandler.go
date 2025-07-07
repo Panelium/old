@@ -10,9 +10,12 @@ import (
 	"panelium/common/id"
 	"panelium/proto_gen_go"
 	"panelium/proto_gen_go/backend/admin"
+	"panelium/proto_gen_go/backend/admin/adminconnect"
 )
 
-type BlueprintManagerServiceHandler struct{}
+type BlueprintManagerServiceHandler struct {
+	adminconnect.BlueprintManagerServiceHandler
+}
 
 func NewBlueprintManagerServiceHandler() *BlueprintManagerServiceHandler {
 	return &BlueprintManagerServiceHandler{}

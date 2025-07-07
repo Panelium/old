@@ -7,9 +7,12 @@ import (
 	"panelium/backend/internal/model"
 	"panelium/proto_gen_go"
 	"panelium/proto_gen_go/backend/admin"
+	"panelium/proto_gen_go/backend/admin/adminconnect"
 )
 
-type NodeAllocationManagerServiceHandler struct{}
+type NodeAllocationManagerServiceHandler struct {
+	adminconnect.NodeAllocationManagerServiceHandler
+}
 
 func NewNodeAllocationManagerServiceHandler() *NodeAllocationManagerServiceHandler {
 	return &NodeAllocationManagerServiceHandler{}

@@ -9,9 +9,12 @@ import (
 	"panelium/common/id"
 	"panelium/proto_gen_go"
 	"panelium/proto_gen_go/backend/admin"
+	"panelium/proto_gen_go/backend/admin/adminconnect"
 )
 
-type LocationManagerServiceHandler struct{}
+type LocationManagerServiceHandler struct {
+	adminconnect.LocationManagerServiceHandler
+}
 
 func NewLocationManagerServiceHandler() *LocationManagerServiceHandler {
 	return &LocationManagerServiceHandler{}

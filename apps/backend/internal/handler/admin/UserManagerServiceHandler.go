@@ -9,9 +9,12 @@ import (
 	"panelium/common/id"
 	"panelium/proto_gen_go"
 	"panelium/proto_gen_go/backend/admin"
+	"panelium/proto_gen_go/backend/admin/adminconnect"
 )
 
-type UserManagerServiceHandler struct{}
+type UserManagerServiceHandler struct {
+	adminconnect.UserManagerServiceHandler
+}
 
 func NewUserManagerServiceHandler() *UserManagerServiceHandler {
 	return &UserManagerServiceHandler{}
