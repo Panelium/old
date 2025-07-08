@@ -20,6 +20,7 @@ import (
 	"panelium/daemon/internal/model"
 	"panelium/proto_gen_go/daemon"
 	"path"
+	"slices"
 	"strings"
 )
 
@@ -92,7 +93,7 @@ func Install(sid string) error {
 		return fmt.Errorf("failed to decode setup script: %w", err)
 	}
 
-	err = os.WriteFile(path.Join(vol.Mountpoint, "install"), setupScript, 0777)
+	err = os.WriteFile(path.Join(vol.Mountpoint, "install"), slices.Concat(setupScript, []byte("\necho \"DOWNLOAD FINISHED\"")), 0777)
 	if err != nil {
 		log.Printf("err: %v\n", err)
 		return fmt.Errorf("failed to write setup script to volume: %w", err)

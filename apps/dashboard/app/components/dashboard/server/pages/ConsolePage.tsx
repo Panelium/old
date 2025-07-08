@@ -21,6 +21,12 @@ const ConsolePage: Page = new Page("console", () => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (consoleLines[consoleLines.length - 1].includes("DOWNLOAD FINISHED")) {
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+      return;
+    }
     // Auto-scroll to bottom when new lines are added
     if (scrollAreaRef.current) {
       scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
