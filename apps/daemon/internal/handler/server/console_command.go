@@ -22,5 +22,5 @@ func (s *ServerServiceHandler) ConsoleCommand(
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}
 
-	return nil, nil
+	return connect.NewResponse(&proto_gen_go.Empty{}), nil
 }
