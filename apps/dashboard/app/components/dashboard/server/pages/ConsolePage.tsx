@@ -26,8 +26,12 @@ const ConsolePage: Page = new Page("console", () => {
       consoleLines.length !== 0 &&
       consoleLines[consoleLines.length - 1].includes("DOWNLOAD FINISHED")
     ) {
-      setTimeout(() => {
-        window.location.reload();
+      if (!serverInfo) return;
+      setTimeout(async () => {
+        console.log("Reconnecting to console stream after download finished...");
+
+        const srvClient = await getDaemonServerClient(serverInfo.daemonHost);
+        setServerClient(srvClient);
       }, 3000);
       return;
     }
@@ -68,7 +72,16 @@ const ConsolePage: Page = new Page("console", () => {
         }
       } catch (error) {
         console.error("Error receiving console messages:", error);
-        window.location.reload(); // terrible
+
+        if (!serverInfo) return;
+
+        // try again after 5 seconds
+        setTimeout(async () => {
+          console.log("Reconnecting to console stream...");
+
+          const srvClient = await getDaemonServerClient(serverInfo.daemonHost);
+          setServerClient(srvClient);
+        }, 5000);
       }
     })();
   }, [serverClient]);
