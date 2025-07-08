@@ -46,13 +46,13 @@ const NAVIGATION_ITEMS: NavigationItemProps[] = [
     icon: LayoutGrid,
     href: "/",
   },
-  {
-    type: "seperator",
-  },
-  {
-    text: "Your Servers",
-    type: "header",
-  },
+  // {
+  //   type: "seperator",
+  // },
+  // {
+  //   text: "Your Servers",
+  //   type: "header",
+  // },
 ];
 
 // TODO: do this differently
