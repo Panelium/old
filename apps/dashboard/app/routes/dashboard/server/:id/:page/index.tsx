@@ -2,10 +2,8 @@ import React from "react";
 import ServerHeader from "~/components/dashboard/server/ServerHeader";
 import Pages from "~/components/dashboard/server/Pages";
 import { useParams } from "react-router";
-import { ServerData } from "~/components/cards/server-card/ServerCard";
 import { Client } from "@connectrpc/connect";
-import { getClientClient, getDaemonServerClient } from "~/lib/api-clients";
-import { ServerService } from "proto-gen-ts/daemon/Server_pb";
+import { getClientClient } from "~/lib/api-clients";
 import { ClientService, ServerInfo } from "proto-gen-ts/backend/Client_pb";
 
 export default function ServerDetailsPage() {
@@ -13,7 +11,6 @@ export default function ServerDetailsPage() {
 
   const [clientClient, setClientClient] = React.useState<Client<typeof ClientService>>();
   const [serverInfo, setServerInfo] = React.useState<ServerInfo>();
-  const [serverClient, setServerClient] = React.useState<Client<typeof ServerService>>();
 
   React.useEffect(() => {
     (async () => {
@@ -35,32 +32,13 @@ export default function ServerDetailsPage() {
     })();
   }, [clientClient, id]);
 
-  const [serverData, setServerData] = React.useState<ServerData>();
-
-  React.useEffect(() => {
-    (async () => {
-      if (!serverInfo) return;
-      const client = await getDaemonServerClient(serverInfo?.daemonHost);
-      setServerClient(client);
-    })();
-  }, [serverInfo]);
-
-  React.useEffect(() => {
-    (async () => {
-      if (!serverClient || !id || !serverInfo) return;
-
-      const serverResourceUsageResponse = await serverClient.resourceUsage({ id });
-      const serverStatusResponse = await serverClient.status({ id });
-    })();
-  }, [serverClient, id, serverInfo]);
-
   return (
     <div className="p-6 pb-16">
       <div className="max-w-7xl mx-auto space-y-4">
-        {serverData ? (
+        {serverInfo ? (
           <>
-            <ServerHeader server={serverData} />
-            <Pages server={serverData} />
+            <ServerHeader server={serverInfo} />
+            <Pages server={serverInfo} />
           </>
         ) : (
           <div className="text-center text-gray-500">Loading server details...</div>

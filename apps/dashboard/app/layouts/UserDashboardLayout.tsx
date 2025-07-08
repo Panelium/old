@@ -29,8 +29,6 @@ import {
 import { Button } from "~/components/ui/button";
 import EntityAvatar from "~/components/avatars/EntityAvatar";
 import { Sidebar, SidebarProvider, useSidebar } from "~/components/ui/sidebar";
-import { PagePressedEvent, pagesEventBus } from "~/components/dashboard/server/Pages";
-import FilesPage from "~/components/dashboard/server/pages/FilesPage";
 import { getClientClient } from "~/lib/api-clients";
 import { ScrollArea } from "~/components/ui/scroll-area";
 
@@ -100,11 +98,6 @@ const SidebarNavigationItem: React.FC<{ item: NavigationItemProps }> = ({ item }
           return;
         }
         const splitHref = item.href.split("/");
-        if (item.type !== "server-tab") {
-          pagesEventBus.dispatchEvent(new PagePressedEvent(FilesPage.id));
-          return;
-        }
-        pagesEventBus.dispatchEvent(new PagePressedEvent(splitHref[splitHref.length - 1]));
       }}
     >
       {item.type === "server-tab" ? <div className="w-4" /> : <></>}

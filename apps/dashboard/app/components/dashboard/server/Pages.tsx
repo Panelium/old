@@ -1,37 +1,24 @@
-import { Activity, HardDrive, type LucideProps, Settings, Terminal } from "lucide-react";
+import { type LucideProps, Terminal } from "lucide-react";
 import type React from "react";
 import { cn } from "~/lib/utils";
 import ConsolePage from "./pages/ConsolePage";
-import ActivityPage from "./pages/ActivityPage";
-import FilesPage from "./pages/FilesPage";
-import SettingsPage from "./pages/SettingsPage";
-import { ServerData } from "~/components/cards/server-card/ServerCard";
-
-export const pagesEventBus = new Comment("event-bus");
-
-export class PagePressedEvent extends Event {
-  #id;
-
-  constructor(id: string) {
-    super("pagePressed");
-    this.#id = id;
-  }
-
-  get id() {
-    return this.#id;
-  }
-}
+import { ServerInfo } from "proto-gen-ts/backend/Client_pb";
+import { useParams } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const transition = "transition-all";
 
 interface PageProps {
   icon: React.ForwardRefExoticComponent<Omit<LucideProps, "ref">>;
+  serverId: string;
   id: string;
   currentId: string;
   color?: string;
 }
 
-const Page: React.FC<PageProps> = ({ icon, id, currentId, color }) => {
+const Page: React.FC<PageProps> = ({ icon, serverId, id, currentId, color }) => {
+  const navigate = useNavigate();
+
   const IconComponent = icon;
 
   // Weird workaround to get tailwind generating
@@ -61,7 +48,9 @@ const Page: React.FC<PageProps> = ({ icon, id, currentId, color }) => {
     <button
       className={cn("flex items-center h-14 w-14 cursor-pointer group/page", currentId === id ? bg20 : "")}
       onClick={() => {
-        pagesEventBus.dispatchEvent(new PagePressedEvent(id));
+        if (currentId !== id) {
+          navigate(`/dashboard/server/${serverId}/${id}`);
+        }
       }}
     >
       <div
@@ -83,28 +72,29 @@ const Page: React.FC<PageProps> = ({ icon, id, currentId, color }) => {
   );
 };
 
-export default function Pages({ server }: { server: ServerData }) {
-  const id = server.serverInfo.sid;
+export default function Pages({ server }: { server: ServerInfo }) {
+  const params = useParams<{ id: string; page: string }>() ?? { page: "console" };
+  const { id, page }: { id: string; page: string } = params as any;
 
-  const FilesPageComponent = FilesPage.component(id);
-  const ConsolePageComponent = ConsolePage.component(id);
-  const ActivityPageComponent = ActivityPage.component(id);
-  const SettingsPageComponent = SettingsPage.component(id);
+  // const FilesPageComponent = FilesPage.component(page);
+  const ConsolePageComponent = ConsolePage.component(page);
+  // const ActivityPageComponent = ActivityPage.component(page);
+  // const SettingsPageComponent = SettingsPage.component(page);
 
   return (
     <div className="flex felx-row bg-server-card border-border shadow-lg shadow-black/20 rounded-xl overflow-hidden">
       <div className="flex flex-col items-center w-14 group/holder bg-card overflow-hidden shadow-md shadow-black/10">
-        <Page icon={HardDrive} id={FilesPage.id} currentId={id} color="orange" />
-        <Page icon={Terminal} id={ConsolePage.id} currentId={id} color="purple" />
-        <Page icon={Activity} id={ActivityPage.id} currentId={id} color="green" />
-        <div className="mt-auto">
-          <Page icon={Settings} id={SettingsPage.id} currentId={id} color="gray" />
-        </div>
+        {/*<Page icon={HardDrive} serverId={id} id={FilesPage.id} currentId={page} color="orange" />*/}
+        <Page icon={Terminal} serverId={id} id={ConsolePage.id} currentId={page} color="purple" />
+        {/*<Page icon={Activity} serverId={id} id={ActivityPage.id} currentId={page} color="green" />*/}
+        {/*<div className="mt-auto">*/}
+        {/*  <Page icon={Settings} serverId={id} id={SettingsPage.id} currentId={page} color="gray" />*/}
+        {/*</div>*/}
       </div>
-      <FilesPageComponent />
+      {/*<FilesPageComponent />*/}
       <ConsolePageComponent />
-      <ActivityPageComponent />
-      <SettingsPageComponent />
+      {/*<ActivityPageComponent />*/}
+      {/*<SettingsPageComponent />*/}
     </div>
   );
 }

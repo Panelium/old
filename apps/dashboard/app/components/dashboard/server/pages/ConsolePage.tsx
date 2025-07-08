@@ -1,11 +1,67 @@
+import { useEffect, useState } from "react";
 import Page from "./Page";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { cn } from "~/lib/utils";
+import { ServerService } from "proto-gen-ts/daemon/Server_pb";
+import { Client } from "@connectrpc/connect";
+import { useParams } from "react-router";
+import { getClientClient, getDaemonServerClient } from "~/lib/api-clients";
+import { ClientService, ServerInfo } from "proto-gen-ts/backend/Client_pb";
 
 const ConsolePage: Page = new Page("console", () => {
-  const { activeTab, setActiveTab, server, handleCommandSubmit, command, setCommand } = {} as any; // TODO: Replace with actual data
+  const params = useParams<{ id: string }>();
+  const { id }: { id: string } = params as any;
+
+  const [command, setCommand] = useState("");
+  const [clientClient, setClientClient] = useState<Client<typeof ClientService>>();
+  const [serverInfo, setServerInfo] = useState<ServerInfo>();
+  const [serverClient, setServerClient] = useState<Client<typeof ServerService>>();
+  const [consoleLines, setConsoleLines] = useState<string[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const clientClient = await getClientClient();
+      setClientClient(clientClient);
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (!clientClient) return;
+
+    (async () => {
+      const serverInfoResponse = await clientClient.getServer({ id });
+      setServerInfo(serverInfoResponse);
+
+      const serverClient = await getDaemonServerClient(serverInfoResponse.daemonHost);
+      setServerClient(serverClient);
+    })();
+  }, [clientClient, id]);
+
+  useEffect(() => {
+    if (!serverClient) return;
+
+    (async () => {
+      const stream = serverClient.console({ id });
+
+      for await (const message of stream) {
+        setConsoleLines((prev) => [...prev, message.text]);
+      }
+    })();
+  }, [serverClient]);
+
+  const handleCommandSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!serverClient || !command.trim()) return;
+
+    try {
+      await serverClient.consoleCommand({ id, text: command.trim() });
+      setCommand("");
+    } catch (error) {
+      console.error("Error sending command:", error);
+    }
+  };
+
   return (
-    // TODO: cleanup console
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between mb-4 no-select">
         <div>
@@ -52,24 +108,10 @@ const ConsolePage: Page = new Page("console", () => {
             <div className="pb-1 text-xs text-slate-500 no-select">
               --- Server started on {new Date().toLocaleString()} ---
             </div>
-            {[{ time: "", content: "" }].map((line, i) => {
-              // Apply styling based on content type
-              const isError =
-                line.content.toLowerCase().includes("error") || line.content.toLowerCase().includes("exception");
-              const isWarning = line.content.toLowerCase().includes("warn");
-              const isInfo = line.content.toLowerCase().includes("info");
-
+            {consoleLines.map((line, i) => {
               return (
-                <div
-                  key={i}
-                  className={cn(
-                    "pb-1",
-                    isError && "text-red-400",
-                    isWarning && "text-amber-400",
-                    isInfo && "text-blue-400"
-                  )}
-                >
-                  <span className="text-slate-500">[{line.time}]</span> {line.content}
+                <div key={i} className={cn("pb-1")}>
+                  {line}
                 </div>
               );
             })}

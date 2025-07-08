@@ -27,7 +27,7 @@ func (s *ClientServiceHandler) GetServer(ctx context.Context, req *connect.Reque
 	}
 
 	var server model.Server
-	tx = db.Instance().Where("sid = ?", req.Msg.Id).First(&server)
+	tx = db.Instance().Preload("Blueprint").Preload("Allocations").Preload("Node").Preload("Node.Location").Where("sid = ?", req.Msg.Id).First(&server)
 	if tx.Error != nil || tx.RowsAffected == 0 {
 		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to fetch server"))
 	}
