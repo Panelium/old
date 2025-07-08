@@ -98,6 +98,8 @@ func Install(sid string) error {
 		return fmt.Errorf("failed to write setup script to volume: %w", err)
 	}
 
+	_ = os.WriteFile(path.Join(vol.Mountpoint, "eula.txt"), []byte("eula=true"), 0777) // TODO: remove in prod
+
 	if s.ContainerExists {
 		err = docker.Instance().ContainerRemove(context.Background(), s.SID, container.RemoveOptions{
 			Force: true,
