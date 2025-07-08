@@ -12,7 +12,7 @@ service ServerService {
   rpc Terminal(common.SimpleIDMessage) returns (stream common.SimpleMessage);
   rpc TerminalCommand(common.IDMessage) returns (common.Empty);
 
-  rpc Status(common.SimpleIDMessage) returns (ServerStatus);
+  rpc Status(common.SimpleIDMessage) returns (ServerStatus); // TODO: turn this into a stream
   rpc ResourceUsage(common.SimpleIDMessage) returns (stream ResourceUsageMessage);
 
   rpc PowerAction(PowerActionMessage) returns (common.SuccessMessage);
