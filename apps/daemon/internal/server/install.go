@@ -29,7 +29,7 @@ import (
 
 func Install(sid string) error {
 	var s model.Server
-	tx := db.Instance().First(&s, "sid = ?", sid)
+	tx := db.Instance().Preload("Allocations").First(&s, "sid = ?", sid)
 	if tx.Error != nil || tx.RowsAffected == 0 {
 		log.Printf("err: %v\n", tx.Error)
 		return fmt.Errorf("failed to find server with ID %s: %w", sid, tx.Error)
