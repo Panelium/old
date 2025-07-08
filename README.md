@@ -38,13 +38,34 @@ The script will handle the rest.
 
 ### Configuration
 
-Configuration files are created automatically in `/etc/panelium/` for each service. You can adjust these files as
-needed after installation.
+After installation, you can register your account at the dashboard URL you provided during setup and make yourself an
+admin with this command:
+
+```sh
+docker compose -f /var/lib/panelium/docker-compose.yml exec backend /app/backend --make-admin <your-username/email>
+```
+
+To set up a daemon, you will have to go to the admin panel and create a Location and a Node. After that, you can click
+the T button in the Nodes table to generate a backend token for the daemon (it will be copied to your clipboard).
+You will then have to put this token into the daemon's secrets file, which is located at
+`/etc/panelium/daemon/secrets.json`.
+You can then start the daemon with the command:
+
+```sh
+systemctl restart paneliumd
+```
+
+You should now be able to create Node Allocations and Servers in the dashboard, and they will be managed by the daemon
+you just started.
+
+All of the Panelium configuration files are located in `/etc/panelium/` with sub-directories for each service.
+You can adjust these files as needed after installation.
 
 Note: backend and daemon(s) have to be on the same second-level domain (third- and lower level domains, aka subdomains,
 can be different) for the CORS and cookies to work properly.
 
-Blueprints are available at https://blueprints.ndmh.xyz/ ([source](https://github.com/Panelium/Blueprints))
+Blueprints are available at https://github.com/Panelium/Blueprints (a website with a list of blueprints is currently in
+the works and will be available at https://blueprints.ndmh.xyz/).
 
 ### Useful Commands
 
