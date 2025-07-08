@@ -242,7 +242,12 @@ func Install(sid string) error {
 				ReadOnly: false,
 			},
 		},
-		Resources: resources,
+		Resources:   resources,
+		NetworkMode: network.NetworkBridge,
+		PortBindings: nat.PortMap{
+			nat.Port("25565/tcp"): []nat.PortBinding{{HostIP: "127.0.0.1", HostPort: fmt.Sprint(s.Allocations[0].Port)}},
+			nat.Port("25565/udp"): []nat.PortBinding{{HostIP: "127.0.0.1", HostPort: fmt.Sprint(s.Allocations[0].Port)}},
+		},
 	}, &network.NetworkingConfig{}, &v1.Platform{}, s.SID)
 	if err != nil {
 		log.Printf("err: %v\n", err)
