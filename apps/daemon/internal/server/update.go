@@ -11,6 +11,12 @@ import (
 )
 
 func UpdateServer(sid string, userIds *[]string, allocations *[]model.ServerAllocation, resourceLimit *model.ResourceLimit, dockerImage *string, bid *string) error {
+	server := model.Server{}
+	tx := db.Instance().First(&server, "s.SID = ?", sid)
+	if tx.Error != nil || tx.RowsAffected == 0 {
+		return fmt.Errorf("failed to find server with ID %s: %w", sid, tx.Error)
+	}
+
 	err := sync.SyncBlueprints()
 	if err != nil {
 		log.Printf("failed to sync blueprints: %v", err)
@@ -117,14 +123,8 @@ func UpdateServer(sid string, userIds *[]string, allocations *[]model.ServerAllo
 		}
 	}
 
-	server := model.Server{}
-	tx := db.Instance().First(&server, "s.SID = ?", sid)
-	if tx.Error != nil || tx.RowsAffected == 0 {
-		return fmt.Errorf("failed to find server with ID %s: %w", sid, tx.Error)
-	}
-
 	go func() {
-		err := Install(&server)
+		err := Install(server.SID)
 		if err != nil {
 			log.Printf("failed to install server %s: %v\n", server.SID, err)
 			return

@@ -25,9 +25,16 @@ import (
 
 // TODO: implement storage limiting
 
-func Install(s *model.Server) error {
+func Install(sid string) error {
+	var s model.Server
+	tx := db.Instance().First(&s, "sid = ?", sid)
+	if tx.Error != nil || tx.RowsAffected == 0 {
+		log.Printf("err: %v\n", tx.Error)
+		return fmt.Errorf("failed to find server with ID %s: %w", sid, tx.Error)
+	}
+
 	blueprint := model.Blueprint{}
-	tx := db.Instance().First(&blueprint, "bid = ?", s.BID)
+	tx = db.Instance().First(&blueprint, "bid = ?", s.BID)
 	if tx.Error != nil || tx.RowsAffected == 0 {
 		log.Printf("err: %v\n", tx.Error)
 		return fmt.Errorf("failed to find blueprint with ID %s: %w", s.BID, tx.Error)

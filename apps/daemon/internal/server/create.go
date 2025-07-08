@@ -41,8 +41,10 @@ func CreateServer(sid string, ownerId string, userIds []string, allocations []mo
 		DockerImage:   dockerImage,
 		BID:           bid,
 	}
-	if err := db.Instance().Create(&server).Error; err != nil {
-		return nil, err
+	tx = db.Instance().Create(&server)
+	if tx.Error != nil || tx.RowsAffected == 0 {
+		log.Printf("failed to create server: %v\n", tx.Error)
+		return nil, fmt.Errorf("failed to create server: %w", tx.Error)
 	}
 
 	if len(userIds) > 0 {
@@ -73,7 +75,7 @@ func CreateServer(sid string, ownerId string, userIds []string, allocations []mo
 	}
 
 	go func() {
-		err := Install(&server)
+		err := Install(server.SID)
 		if err != nil {
 			log.Printf("failed to install server %s: %v\n", server.SID, err)
 			return
