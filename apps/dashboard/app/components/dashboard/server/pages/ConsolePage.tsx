@@ -102,7 +102,7 @@ const ConsolePage: Page = new Page("console", () => {
         >
           <div
             ref={scrollAreaRef}
-            className="console-content flex flex-col h-full pb-16" // Added pb-16 for bottom padding
+            className="console-content flex flex-col h-full pb-8" // Added pb-16 for bottom padding
             style={{ userSelect: "none", overflowY: "auto" }}
             onKeyDown={(e) => {
               // Prevent Ctrl+A selection in the console
