@@ -21,7 +21,11 @@ const ConsolePage: Page = new Page("console", () => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (consoleLines[consoleLines.length - 1].includes("DOWNLOAD FINISHED")) {
+    if (
+      consoleLines &&
+      consoleLines.length !== 0 &&
+      consoleLines[consoleLines.length - 1].includes("DOWNLOAD FINISHED")
+    ) {
       setTimeout(() => {
         window.location.reload();
       }, 3000);
