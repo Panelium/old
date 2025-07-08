@@ -6,6 +6,7 @@ import (
 )
 
 type Server struct {
+	ID              uint                       `gorm:"primaryKey" json:"id"`
 	SID             string                     `gorm:"uniqueIndex;not null;column:sid" json:"sid"`
 	OwnerID         string                     `gorm:"index;not null" json:"owner_id"`
 	Users           []ServerUser               `gorm:"foreignKey:SID;references:SID" json:"users"`
