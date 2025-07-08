@@ -70,7 +70,7 @@ const ServerHeader: React.FC<{ server: ServerInfo }> = ({ server }) => {
             <SoftwareText software={server.software} />
             {onlineSince && <DurationText startDate={onlineSince} />}
             {server.mainAllocation && (
-              <IconText text={`${server.mainAllocation.ip}:${server.mainAllocation.port}`} icon={WifiIcon} />
+              <IconText text={`${server.mainAllocation.ip}:${server.mainAllocation.port}`} icon={WifiIcon} copy />
             )}
             <IconText text={server.location} icon={FlagIcon} />
           </div>
