@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Page from "./Page";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { cn } from "~/lib/utils";
@@ -17,6 +17,15 @@ const ConsolePage: Page = new Page("console", () => {
   const [serverInfo, setServerInfo] = useState<ServerInfo>();
   const [serverClient, setServerClient] = useState<Client<typeof ServerService>>();
   const [consoleLines, setConsoleLines] = useState<string[]>([]);
+
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Auto-scroll to bottom when new lines are added
+    if (scrollAreaRef.current) {
+      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+    }
+  }, [consoleLines]);
 
   useEffect(() => {
     (async () => {
@@ -51,12 +60,16 @@ const ConsolePage: Page = new Page("console", () => {
 
   const handleCommandSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!serverClient || !command.trim()) return;
+    if (!serverClient || !command.trim()) {
+      setCommand(""); // Clear input even if command is empty or client is missing
+      return;
+    }
 
     try {
       await serverClient.consoleCommand({ id, text: command.trim() });
       setCommand("");
     } catch (error) {
+      setCommand(""); // Clear input on error as well
       console.error("Error sending command:", error);
     }
   };
@@ -88,7 +101,9 @@ const ConsolePage: Page = new Page("console", () => {
           tabIndex={0} // Make the ScrollArea focusable
         >
           <div
-            className="console-content"
+            ref={scrollAreaRef}
+            className="console-content flex flex-col h-full"
+            style={{ userSelect: "none", overflowY: "auto" }}
             onKeyDown={(e) => {
               // Prevent Ctrl+A selection in the console
               if ((e.ctrlKey || e.metaKey) && e.key === "a") {
