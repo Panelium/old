@@ -15,7 +15,6 @@ import (
 	"io"
 	"log"
 	"os"
-	"panelium/common/util"
 	"panelium/daemon/internal/db"
 	"panelium/daemon/internal/docker"
 	"panelium/daemon/internal/model"
@@ -223,6 +222,20 @@ func Install(sid string) error {
 		ports[nat.Port(fmt.Sprintf("%d/udp", alloc.Port))] = struct{}{}
 	}
 
+	portBindings := nat.PortMap{}
+	for _, alloc := range s.Allocations {
+		if alloc.Port < 1024 || alloc.Port > 65535 {
+			log.Printf("err: port %d is out of range (1024-65535)\n", alloc.Port)
+			return fmt.Errorf("port %d is out of range (1024-65535)", alloc.Port)
+		}
+		portBindings[nat.Port(fmt.Sprint("25565/tcp"))] = []nat.PortBinding{
+			{HostIP: alloc.IP, HostPort: fmt.Sprint(alloc.Port)},
+		}
+		portBindings[nat.Port(fmt.Sprint("25565/udp"))] = []nat.PortBinding{
+			{HostIP: alloc.IP, HostPort: fmt.Sprint(alloc.Port)},
+		}
+	}
+
 	// create the server container
 	_, err = docker.Instance().ContainerCreate(context.Background(), &container.Config{
 		AttachStdin:  true,
@@ -244,12 +257,8 @@ func Install(sid string) error {
 				ReadOnly: false,
 			},
 		},
-		Resources:   resources,
-		NetworkMode: network.NetworkBridge,
-		PortBindings: nat.PortMap{
-			nat.Port("25565/udp"): []nat.PortBinding{{HostIP: "127.0.0.1", HostPort: fmt.Sprint(util.LazyIfElse(len(s.Allocations) != 0, func() int { return int(s.Allocations[0].Port) }, func() int { return 1000 }))}},
-			nat.Port("25565/tcp"): []nat.PortBinding{{HostIP: "127.0.0.1", HostPort: fmt.Sprint(util.LazyIfElse(len(s.Allocations) != 0, func() int { return int(s.Allocations[0].Port) }, func() int { return 1000 }))}},
-		},
+		Resources:    resources,
+		PortBindings: portBindings,
 	}, &network.NetworkingConfig{}, &v1.Platform{}, s.SID)
 	if err != nil {
 		log.Printf("err: %v\n", err)
