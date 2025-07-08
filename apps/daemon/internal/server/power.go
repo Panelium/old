@@ -37,10 +37,14 @@ func Start(sid string) error {
 	if err != nil {
 		log.Printf("failed to start server container %s: %v\n", s.SID, err)
 	}
-	s.Status = daemon.ServerStatusType_SERVER_STATUS_TYPE_STARTING
-	s.TimestampStart = time.Now()
-	if err := db.Instance().Save(s).Error; err != nil {
-		return err
+
+	tx = db.Instance().Model(&model.Server{}).Where("sid = ?", sid).Updates(model.Server{
+		Status:         daemon.ServerStatusType_SERVER_STATUS_TYPE_ONLINE, // TODO: set to starting
+		TimestampStart: time.Now(),
+	})
+	if tx.Error != nil || tx.RowsAffected == 0 {
+		log.Printf("failed to update server status to starting: %v\n", tx.Error)
+		return fmt.Errorf("failed to update server status to starting: %w", tx.Error)
 	}
 
 	// TODO: start a goroutine to wait for the server to be fully started and update the status
@@ -71,9 +75,13 @@ func Stop(sid string, kill bool) error {
 		log.Printf("failed to stop server container %s: %v\n", s.SID, err)
 		return err
 	}
-	s.Status = daemon.ServerStatusType_SERVER_STATUS_TYPE_STOPPING
-	if err := db.Instance().Save(s).Error; err != nil {
-		return err
+
+	tx = db.Instance().Model(&model.Server{}).Where("sid = ?", sid).Updates(model.Server{
+		Status: daemon.ServerStatusType_SERVER_STATUS_TYPE_STOPPING,
+	})
+	if tx.Error != nil || tx.RowsAffected == 0 {
+		log.Printf("failed to update server status to stopping: %v\n", tx.Error)
+		return fmt.Errorf("failed to update server status to stopping: %w", tx.Error)
 	}
 
 	go func() {
@@ -88,11 +96,13 @@ func Stop(sid string, kill bool) error {
 				log.Printf("server container %s stopped with non-zero status code: %d\n", s.SID, status.StatusCode)
 			}
 
-			s.Status = daemon.ServerStatusType_SERVER_STATUS_TYPE_OFFLINE
-			s.OfflineReason = util.IfElse(kill, daemon.ServerOfflineReason_SERVER_OFFLINE_REASON_KILLED, daemon.ServerOfflineReason_SERVER_OFFLINE_REASON_STOPPED)
-			s.TimestampEnd = time.Now()
-			if err := db.Instance().Save(s).Error; err != nil {
-				log.Printf("failed to update server status after stop: %v\n", err)
+			tx = db.Instance().Model(&model.Server{}).Where("sid = ?", sid).Updates(model.Server{
+				Status:        daemon.ServerStatusType_SERVER_STATUS_TYPE_OFFLINE,
+				OfflineReason: util.IfElse(kill, daemon.ServerOfflineReason_SERVER_OFFLINE_REASON_KILLED, daemon.ServerOfflineReason_SERVER_OFFLINE_REASON_STOPPED),
+				TimestampEnd:  time.Now(),
+			})
+			if tx.Error != nil || tx.RowsAffected == 0 {
+				log.Printf("failed to update server status to offline: %v\n", tx.Error)
 			}
 		}
 	}()
@@ -119,10 +129,14 @@ func Restart(sid string) error {
 		log.Printf("failed to restart server container %s: %v\n", s.SID, err)
 		return err
 	}
-	s.Status = daemon.ServerStatusType_SERVER_STATUS_TYPE_STOPPING
-	s.TimestampEnd = time.Now()
-	if err := db.Instance().Save(s).Error; err != nil {
-		return err
+
+	tx = db.Instance().Model(&model.Server{}).Where("sid = ?", sid).Updates(model.Server{
+		Status:       daemon.ServerStatusType_SERVER_STATUS_TYPE_STOPPING,
+		TimestampEnd: time.Now(),
+	})
+	if tx.Error != nil || tx.RowsAffected == 0 {
+		log.Printf("failed to update server status to stopping: %v\n", tx.Error)
+		return fmt.Errorf("failed to update server status to stopping: %w", tx.Error)
 	}
 
 	go func() {
@@ -132,25 +146,31 @@ func Restart(sid string) error {
 			if err != nil {
 				log.Printf("error waiting for server container %s to stop: %v\n", s.SID, err)
 
-				s.OfflineReason = daemon.ServerOfflineReason_SERVER_OFFLINE_REASON_ERROR
-				if err := db.Instance().Save(s).Error; err != nil {
-					log.Printf("failed to update server status after restart error: %v\n", err)
+				tx = db.Instance().Model(&model.Server{}).Where("sid = ?", sid).Updates(model.Server{
+					OfflineReason: daemon.ServerOfflineReason_SERVER_OFFLINE_REASON_ERROR,
+				})
+				if tx.Error != nil || tx.RowsAffected == 0 {
+					log.Printf("failed to update server status after restart error: %v\n", tx.Error)
 				}
 			}
 		case status := <-statusCh:
 			if status.StatusCode != 0 {
 				log.Printf("server container %s stopped with non-zero status code: %d\n", s.SID, status.StatusCode)
 
-				s.OfflineReason = daemon.ServerOfflineReason_SERVER_OFFLINE_REASON_ERROR
-				if err := db.Instance().Save(s).Error; err != nil {
-					log.Printf("failed to update server status after restart error: %v\n", err)
+				tx = db.Instance().Model(&model.Server{}).Where("sid = ?", sid).Updates(model.Server{
+					OfflineReason: daemon.ServerOfflineReason_SERVER_OFFLINE_REASON_ERROR,
+				})
+				if tx.Error != nil || tx.RowsAffected == 0 {
+					log.Printf("failed to update server status after restart error: %v\n", tx.Error)
 				}
 			}
 
-			s.Status = daemon.ServerStatusType_SERVER_STATUS_TYPE_STARTING
-			s.TimestampStart = time.Now()
-			if err := db.Instance().Save(s).Error; err != nil {
-				log.Printf("failed to update server status after stop: %v\n", err)
+			tx = db.Instance().Model(&model.Server{}).Where("sid = ?", sid).Updates(model.Server{
+				Status:         daemon.ServerStatusType_SERVER_STATUS_TYPE_STARTING,
+				TimestampStart: time.Now(),
+			})
+			if tx.Error != nil || tx.RowsAffected == 0 {
+				log.Printf("failed to update server status to starting after restart: %v\n", tx.Error)
 			}
 		}
 	}()
