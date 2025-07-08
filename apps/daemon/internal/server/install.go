@@ -106,10 +106,11 @@ func Install(sid string) error {
 			log.Printf("err: %v\n", err)
 			return fmt.Errorf("failed to remove existing container for server %s: %w", s.SID, err)
 		}
-		s.ContainerExists = false
-		if err := db.Instance().Save(s).Error; err != nil {
-			log.Printf("err: %v\n", err)
-			return err
+
+		tx := db.Instance().Where(&model.Server{}, "sid = ?", s.SID).Update("container_exists", false)
+		if tx.Error != nil || tx.RowsAffected == 0 {
+			log.Printf("err: %v\n", tx.Error)
+			return fmt.Errorf("failed to update server %s: %w", s.SID, tx.Error)
 		}
 	}
 
@@ -246,11 +247,13 @@ func Install(sid string) error {
 		return fmt.Errorf("failed to create server container: %w", err)
 	}
 
-	s.ContainerExists = true
-	s.OfflineReason = daemon.ServerOfflineReason_SERVER_OFFLINE_REASON_CREATED
-	if err := db.Instance().Save(s).Error; err != nil {
-		log.Printf("err: %v\n", err)
-		return err
+	tx = db.Instance().Model(&model.Server{}).Where("sid = ?", s.SID).Updates(model.Server{
+		ContainerExists: true,
+		OfflineReason:   daemon.ServerOfflineReason_SERVER_OFFLINE_REASON_CREATED,
+	})
+	if tx.Error != nil || tx.RowsAffected == 0 {
+		log.Printf("err: %v\n", tx.Error)
+		return fmt.Errorf("failed to update server %s: %w", s.SID, tx.Error)
 	}
 
 	return nil

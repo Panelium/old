@@ -216,7 +216,7 @@ func (s *ClientServiceHandler) NewServer(
 		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to update node allocation with server ID"))
 	}
 
-	daemonClient := daemonconnect.NewBackendServiceClient(http.DefaultClient, fmt.Sprintf("%s://%s:%d", util.IfElse(node.HTTPS, "https", "http"), node.FQDN, node.DaemonPort), connect.WithGRPC())
+	daemonClient := daemonconnect.NewBackendServiceClient(http.DefaultClient, fmt.Sprintf("%s://%s:%d", util.IfElse(node.HTTPS, "https", "http"), node.FQDN, node.DaemonPort))
 	if daemonClient == nil {
 		tx.Rollback()
 		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to create daemon client"))

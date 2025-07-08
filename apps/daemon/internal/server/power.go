@@ -13,7 +13,14 @@ import (
 	"time"
 )
 
-func Start(s *model.Server) error {
+func Start(sid string) error {
+	var s model.Server
+	tx := db.Instance().First(&s, "sid = ?", sid)
+	if tx.Error != nil || tx.RowsAffected == 0 {
+		log.Printf("err: %v\n", tx.Error)
+		return fmt.Errorf("failed to find server with ID %s: %w", sid, tx.Error)
+	}
+
 	if !s.ContainerExists {
 		return fmt.Errorf("server %s does not have a container", s.SID)
 	}
@@ -44,7 +51,14 @@ func Start(s *model.Server) error {
 var stopTimeout = -1
 var killTimeout = 0
 
-func Stop(s *model.Server, kill bool) error {
+func Stop(sid string, kill bool) error {
+	var s model.Server
+	tx := db.Instance().First(&s, "sid = ?", sid)
+	if tx.Error != nil || tx.RowsAffected == 0 {
+		log.Printf("err: %v\n", tx.Error)
+		return fmt.Errorf("failed to find server with ID %s: %w", sid, tx.Error)
+	}
+
 	if !s.ContainerExists {
 		return fmt.Errorf("server %s does not have a container", s.SID)
 	}
@@ -86,7 +100,14 @@ func Stop(s *model.Server, kill bool) error {
 	return nil
 }
 
-func Restart(s *model.Server) error {
+func Restart(sid string) error {
+	var s model.Server
+	tx := db.Instance().First(&s, "sid = ?", sid)
+	if tx.Error != nil || tx.RowsAffected == 0 {
+		log.Printf("err: %v\n", tx.Error)
+		return fmt.Errorf("failed to find server with ID %s: %w", sid, tx.Error)
+	}
+
 	if !s.ContainerExists {
 		return fmt.Errorf("server %s does not have a container", s.SID)
 	}

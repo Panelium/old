@@ -29,13 +29,13 @@ func (s *ServerServiceHandler) PowerAction(
 
 	switch req.Msg.Action {
 	case daemon.PowerAction_POWER_ACTION_START:
-		err = server.Start(srv)
+		err = server.Start(srv.SID)
 	case daemon.PowerAction_POWER_ACTION_RESTART:
-		err = server.Restart(srv)
+		err = server.Restart(srv.SID)
 	case daemon.PowerAction_POWER_ACTION_STOP:
-		err = server.Stop(srv, false)
+		err = server.Stop(srv.SID, false)
 	case daemon.PowerAction_POWER_ACTION_KILL:
-		err = server.Stop(srv, true)
+		err = server.Stop(srv.SID, true)
 
 	case daemon.PowerAction_POWER_ACTION_UNSPECIFIED:
 	default:

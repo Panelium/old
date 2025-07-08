@@ -130,7 +130,7 @@ func UpdateServer(sid string, userIds *[]string, allocations *[]model.ServerAllo
 			return
 		}
 
-		err = Start(&server) // TODO: maybe move to install?
+		err = Start(server.SID) // TODO: maybe move to install?
 		if err != nil {
 			log.Printf("failed to start server %s: %v\n", server.SID, err)
 			return
