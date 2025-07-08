@@ -210,8 +210,7 @@ func Install(sid string) error {
 		return fmt.Errorf("failed to close image pull response: %w", err)
 	}
 
-	var ports nat.PortSet
-
+	ports := make(nat.PortSet)
 	for _, alloc := range s.Allocations {
 		if alloc.Port < 1024 || alloc.Port > 65535 {
 			log.Printf("err: port %d is out of range (1024-65535)\n", alloc.Port)
@@ -222,7 +221,7 @@ func Install(sid string) error {
 		ports[nat.Port(fmt.Sprintf("%d/udp", alloc.Port))] = struct{}{}
 	}
 
-	portBindings := nat.PortMap{}
+	portBindings := make(nat.PortMap)
 	for _, alloc := range s.Allocations {
 		if alloc.Port < 1024 || alloc.Port > 65535 {
 			log.Printf("err: port %d is out of range (1024-65535)\n", alloc.Port)
