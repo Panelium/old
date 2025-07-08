@@ -26,7 +26,7 @@ func (s *ServerServiceHandler) Install(
 		return nil, connect.NewError(connect.CodeNotFound, errors.New("server not found"))
 	}
 
-	err = server.Install(srv)
+	err = server.Install(srv.SID)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, errors.New("failed to install server"))
 	}
