@@ -85,7 +85,7 @@ const ConsolePage: Page = new Page("console", () => {
 
       <div className="relative flex-1 border border-slate-200/40 dark:border-slate-700/30 rounded-lg overflow-hidden bg-slate-950">
         <ScrollArea
-          className="h-[352px] w-full text-emerald-400 p-4 font-mono text-sm"
+          className="flex h-full w-full text-emerald-400 p-4 font-mono text-sm"
           style={{
             userSelect: "none",
             WebkitTouchCallout: "none",
@@ -102,7 +102,7 @@ const ConsolePage: Page = new Page("console", () => {
         >
           <div
             ref={scrollAreaRef}
-            className="console-content flex flex-col h-full"
+            className="console-content flex flex-col h-full pb-16" // Added pb-16 for bottom padding
             style={{ userSelect: "none", overflowY: "auto" }}
             onKeyDown={(e) => {
               // Prevent Ctrl+A selection in the console
