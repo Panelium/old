@@ -60,10 +60,15 @@ const ConsolePage: Page = new Page("console", () => {
     if (!serverClient) return;
 
     (async () => {
-      const stream = serverClient.console({ id });
+      try {
+        const stream = serverClient.console({ id });
 
-      for await (const message of stream) {
-        setConsoleLines((prev) => [...prev, message.text]);
+        for await (const message of stream) {
+          setConsoleLines((prev) => [...prev, message.text]);
+        }
+      } catch (error) {
+        console.error("Error receiving console messages:", error);
+        window.location.reload(); // terrible
       }
     })();
   }, [serverClient]);
