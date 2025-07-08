@@ -15,6 +15,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"panelium/common/util"
 	"panelium/daemon/internal/db"
 	"panelium/daemon/internal/docker"
 	"panelium/daemon/internal/model"
@@ -246,8 +247,8 @@ func Install(sid string) error {
 		Resources:   resources,
 		NetworkMode: network.NetworkBridge,
 		PortBindings: nat.PortMap{
-			nat.Port("25565/tcp"): []nat.PortBinding{{HostIP: "127.0.0.1", HostPort: fmt.Sprint(s.Allocations[0].Port)}},
-			nat.Port("25565/udp"): []nat.PortBinding{{HostIP: "127.0.0.1", HostPort: fmt.Sprint(s.Allocations[0].Port)}},
+			nat.Port("25565/udp"): []nat.PortBinding{{HostIP: "127.0.0.1", HostPort: fmt.Sprint(util.LazyIfElse(len(s.Allocations) != 0, func() int { return int(s.Allocations[0].Port) }, func() int { return 1000 }))}},
+			nat.Port("25565/tcp"): []nat.PortBinding{{HostIP: "127.0.0.1", HostPort: fmt.Sprint(util.LazyIfElse(len(s.Allocations) != 0, func() int { return int(s.Allocations[0].Port) }, func() int { return 1000 }))}},
 		},
 	}, &network.NetworkingConfig{}, &v1.Platform{}, s.SID)
 	if err != nil {
