@@ -100,7 +100,7 @@ func Install(s *model.Server) error {
 			return fmt.Errorf("failed to remove existing container for server %s: %w", s.SID, err)
 		}
 		s.ContainerExists = false
-		if err := db.Instance().Create(s).Error; err != nil {
+		if err := db.Instance().Save(s).Error; err != nil {
 			log.Printf("err: %v\n", err)
 			return err
 		}
@@ -241,7 +241,7 @@ func Install(s *model.Server) error {
 
 	s.ContainerExists = true
 	s.OfflineReason = daemon.ServerOfflineReason_SERVER_OFFLINE_REASON_CREATED
-	if err := db.Instance().Create(s).Error; err != nil {
+	if err := db.Instance().Save(s).Error; err != nil {
 		log.Printf("err: %v\n", err)
 		return err
 	}
