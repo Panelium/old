@@ -4,25 +4,42 @@ import (
 	"connectrpc.com/connect"
 	"context"
 	"errors"
+	"fmt"
 	"gorm.io/gorm"
+	"panelium/backend/internal/config"
 	"panelium/backend/internal/db"
 	"panelium/backend/internal/global"
 	"panelium/backend/internal/model"
+	"panelium/backend/internal/rate_limit"
 	"panelium/backend/internal/security"
 	"panelium/backend/internal/security/cookies"
 	"panelium/backend/internal/security/session"
 	"panelium/common/id"
+	"panelium/common/turnstile"
 	"panelium/proto_gen_go"
 	"panelium/proto_gen_go/backend"
+	"time"
 )
 
-// TODO: need to add rate limiting
+var registerLimiter = rate_limit.NewRateLimiter(5, time.Minute) // 5 requests/minute per IP
 
 func (s *AuthServiceHandler) Register(
 	ctx context.Context,
 	req *connect.Request[backend.RegisterRequest],
 ) (*connect.Response[proto_gen_go.SuccessMessage], error) {
-	err := global.ValidatorInstance().Var(req.Msg.Email, "required,email")
+	if !registerLimiter.Allow(req.Peer().Addr) {
+		return nil, connect.NewError(connect.CodeResourceExhausted, errors.New("too many register attempts, please try again later"))
+	}
+
+	turnstileOk, err := turnstile.VerifyTurnstileToken(req.Msg.TurnstileToken, config.SecretsInstance.GetTurnstileSecretKey())
+	if err != nil {
+		return nil, connect.NewError(connect.CodeInvalidArgument, fmt.Errorf("failed to verify turnstile token: %w", err))
+	}
+	if !turnstileOk {
+		return nil, connect.NewError(connect.CodeFailedPrecondition, fmt.Errorf("turnstile verification failed, please try again"))
+	}
+
+	err = global.ValidatorInstance().Var(req.Msg.Email, "required,email")
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInvalidArgument, errors.New("email is missing or invalid"))
 	}

@@ -1,0 +1,453 @@
+openapi: 3.1.0
+info:
+  title: backend_admin
+paths:
+  /backend_admin.BlueprintManagerService/GetBlueprints:
+    post:
+      tags:
+        - backend_admin.BlueprintManagerService
+      summary: GetBlueprints
+      operationId: backend_admin.BlueprintManagerService.GetBlueprints
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend_admin.GetBlueprintsRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend_admin.GetBlueprintsResponse'
+  /backend_admin.BlueprintManagerService/GetBlueprint:
+    post:
+      tags:
+        - backend_admin.BlueprintManagerService
+      summary: GetBlueprint
+      operationId: backend_admin.BlueprintManagerService.GetBlueprint
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend_admin.GetBlueprintRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend_admin.GetBlueprintResponse'
+  /backend_admin.BlueprintManagerService/CreateBlueprint:
+    post:
+      tags:
+        - backend_admin.BlueprintManagerService
+      summary: CreateBlueprint
+      operationId: backend_admin.BlueprintManagerService.CreateBlueprint
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend_admin.CreateBlueprintRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend_admin.CreateBlueprintResponse'
+  /backend_admin.BlueprintManagerService/UpdateBlueprint:
+    post:
+      tags:
+        - backend_admin.BlueprintManagerService
+      summary: UpdateBlueprint
+      operationId: backend_admin.BlueprintManagerService.UpdateBlueprint
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend_admin.UpdateBlueprintRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend_admin.UpdateBlueprintResponse'
+  /backend_admin.BlueprintManagerService/DeleteBlueprint:
+    post:
+      tags:
+        - backend_admin.BlueprintManagerService
+      summary: DeleteBlueprint
+      operationId: backend_admin.BlueprintManagerService.DeleteBlueprint
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend_admin.DeleteBlueprintRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend_admin.DeleteBlueprintResponse'
+components:
+  schemas:
+    backend_admin.BlockedFile:
+      type: object
+      properties:
+        file:
+          type: string
+          title: file
+        visible:
+          type: boolean
+          title: visible
+        readable:
+          type: boolean
+          title: readable
+      title: BlockedFile
+      additionalProperties: false
+    backend_admin.Blueprint:
+      type: object
+      properties:
+        formatVersion:
+          type: integer
+          title: format_version
+        bid:
+          type: string
+          title: bid
+        version:
+          type: integer
+          title: version
+        updateUrl:
+          type: string
+          title: update_url
+        name:
+          type: string
+          title: name
+        description:
+          type: string
+          title: description
+        category:
+          type: string
+          title: category
+        icon:
+          type: string
+          title: icon
+        banner:
+          type: string
+          title: banner
+        flags:
+          type: array
+          items:
+            type: string
+          title: flags
+        dockerImages:
+          type: array
+          items:
+            $ref: '#/components/schemas/backend_admin.DockerImage'
+          title: docker_images
+        blockedFiles:
+          type: array
+          items:
+            $ref: '#/components/schemas/backend_admin.BlockedFile'
+          title: blocked_files
+        serverBinary:
+          type: string
+          title: server_binary
+        startCommand:
+          type: string
+          title: start_command
+        stopCommand:
+          type: string
+          title: stop_command
+        setupScriptBase64:
+          type: string
+          title: setup_script_base64
+        setupDockerImage:
+          type: string
+          title: setup_docker_image
+        setupScriptInterpreter:
+          type: string
+          title: setup_script_interpreter
+      title: Blueprint
+      additionalProperties: false
+    backend_admin.CreateBlueprintRequest:
+      type: object
+      oneOf:
+        - properties:
+            blueprint:
+              title: blueprint
+              $ref: '#/components/schemas/backend_admin.Blueprint'
+          title: blueprint
+          required:
+            - blueprint
+        - properties:
+            blueprintJson:
+              type: string
+              title: blueprintJson
+          title: blueprintJson
+          required:
+            - blueprintJson
+      title: CreateBlueprintRequest
+      additionalProperties: false
+    backend_admin.CreateBlueprintResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: CreateBlueprintResponse
+      additionalProperties: false
+    backend_admin.DeleteBlueprintRequest:
+      type: object
+      properties:
+        bid:
+          type: string
+          title: bid
+      title: DeleteBlueprintRequest
+      additionalProperties: false
+    backend_admin.DeleteBlueprintResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: DeleteBlueprintResponse
+      additionalProperties: false
+    backend_admin.DockerImage:
+      type: object
+      properties:
+        name:
+          type: string
+          title: name
+        image:
+          type: string
+          title: image
+      title: DockerImage
+      additionalProperties: false
+    backend_admin.GetBlueprintRequest:
+      type: object
+      properties:
+        bid:
+          type: string
+          title: bid
+      title: GetBlueprintRequest
+      additionalProperties: false
+    backend_admin.GetBlueprintResponse:
+      type: object
+      properties:
+        blueprint:
+          title: blueprint
+          $ref: '#/components/schemas/backend_admin.Blueprint'
+      title: GetBlueprintResponse
+      additionalProperties: false
+    backend_admin.GetBlueprintsRequest:
+      type: object
+      properties:
+        pagination:
+          title: pagination
+          $ref: '#/components/schemas/common.Pagination'
+      title: GetBlueprintsRequest
+      additionalProperties: false
+    backend_admin.GetBlueprintsResponse:
+      type: object
+      properties:
+        blueprints:
+          type: array
+          items:
+            $ref: '#/components/schemas/backend_admin.Blueprint'
+          title: blueprints
+        pagination:
+          title: pagination
+          $ref: '#/components/schemas/common.Pagination'
+      title: GetBlueprintsResponse
+      additionalProperties: false
+    backend_admin.UpdateBlueprintRequest:
+      type: object
+      oneOf:
+        - properties:
+            blueprint:
+              title: blueprint
+              $ref: '#/components/schemas/backend_admin.Blueprint'
+          title: blueprint
+          required:
+            - blueprint
+        - properties:
+            blueprintJson:
+              type: string
+              title: blueprintJson
+          title: blueprintJson
+          required:
+            - blueprintJson
+      title: UpdateBlueprintRequest
+      additionalProperties: false
+    backend_admin.UpdateBlueprintResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: UpdateBlueprintResponse
+      additionalProperties: false
+    common.Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+          title: page
+        pageSize:
+          type: integer
+          title: page_size
+        total:
+          type: integer
+          title: total
+          nullable: true
+      title: Pagination
+      additionalProperties: false
+    connect-protocol-version:
+      type: number
+      title: Connect-Protocol-Version
+      enum:
+        - 1
+      description: Define the version of the Connect protocol
+      const: 1
+    connect-timeout-header:
+      type: number
+      title: Connect-Timeout-Ms
+      description: Define the timeout, in ms
+    connect.error:
+      type: object
+      properties:
+        code:
+          type: string
+          examples:
+            - not_found
+          enum:
+            - canceled
+            - unknown
+            - invalid_argument
+            - deadline_exceeded
+            - not_found
+            - already_exists
+            - permission_denied
+            - resource_exhausted
+            - failed_precondition
+            - aborted
+            - out_of_range
+            - unimplemented
+            - internal
+            - unavailable
+            - data_loss
+            - unauthenticated
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        detail:
+          $ref: '#/components/schemas/google.protobuf.Any'
+      title: Connect Error
+      additionalProperties: true
+      description: 'Error type returned by Connect: https://connectrpc.com/docs/go/errors/#http-representation'
+    google.protobuf.Any:
+      type: object
+      properties:
+        type:
+          type: string
+        value:
+          type: string
+          format: binary
+        debug:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+security: []
+tags:
+  - name: backend_admin.BlueprintManagerService

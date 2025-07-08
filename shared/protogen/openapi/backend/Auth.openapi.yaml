@@ -514,6 +514,9 @@ components:
         password:
           type: string
           title: password
+        turnstileToken:
+          type: string
+          title: turnstile_token
       title: LoginRequest
       additionalProperties: false
     backend.LoginResponse:
@@ -551,6 +554,9 @@ components:
         password:
           type: string
           title: password
+        turnstileToken:
+          type: string
+          title: turnstile_token
       title: RegisterRequest
       additionalProperties: false
     backend.RequestMFACodeRequest:

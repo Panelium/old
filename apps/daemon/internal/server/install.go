@@ -20,29 +20,34 @@ import (
 	"panelium/daemon/internal/model"
 	"panelium/proto_gen_go/daemon"
 	"path"
+	"strings"
 )
 
 // TODO: implement storage limiting
 
 func Install(s *model.Server) error {
 	blueprint := model.Blueprint{}
-	tx := db.Instance().First(&blueprint, "s.BID = ?", s.BID)
+	tx := db.Instance().First(&blueprint, "bid = ?", s.BID)
 	if tx.Error != nil || tx.RowsAffected == 0 {
+		log.Printf("err: %v\n", tx.Error)
 		return fmt.Errorf("failed to find blueprint with ID %s: %w", s.BID, tx.Error)
 	}
 
 	// pull setup script docker image
 	rc, err := docker.Instance().ImagePull(context.Background(), blueprint.SetupDockerImage, image.PullOptions{})
 	if err != nil {
+		log.Printf("err: %v\n", err)
 		return fmt.Errorf("failed to pull setup script docker image %s: %w", blueprint.SetupDockerImage, err)
 	}
 
 	_, err = io.Copy(io.Discard, rc) // we could get the progress of the image pull here
 	if err != nil {
+		log.Printf("err: %v\n", err)
 		return fmt.Errorf("failed to read image pull response: %w", err)
 	}
 	err = rc.Close()
 	if err != nil {
+		log.Printf("err: %v\n", err)
 		return fmt.Errorf("failed to close image pull response: %w", err)
 	}
 
@@ -50,6 +55,7 @@ func Install(s *model.Server) error {
 		Filters: filters.NewArgs(filters.Arg("name", s.SID)),
 	})
 	if err != nil {
+		log.Printf("err: %v\n", err)
 		return fmt.Errorf("failed to list volumes: %w", err)
 	}
 
@@ -61,10 +67,12 @@ func Install(s *model.Server) error {
 			Driver: "local",
 		})
 		if err != nil {
+			log.Printf("err: %v\n", err)
 			return fmt.Errorf("failed to create volume for server %s: %w", s.SID, err)
 		}
 		vol = &v
 	} else if len(vl.Volumes) > 1 {
+		log.Printf("err: found multiple volumes with name %s, expected only one\n", s.SID)
 		return fmt.Errorf("found multiple volumes with name %s, expected only one", s.SID)
 	} else if len(vl.Volumes) == 1 {
 		vol = vl.Volumes[0]
@@ -73,11 +81,13 @@ func Install(s *model.Server) error {
 
 	setupScript, err := base64.StdEncoding.DecodeString(blueprint.SetupScriptBase64)
 	if err != nil {
+		log.Printf("err: %v\n", err)
 		return fmt.Errorf("failed to decode setup script: %w", err)
 	}
 
 	err = os.WriteFile(path.Join(vol.Mountpoint, "install"), setupScript, 0777)
 	if err != nil {
+		log.Printf("err: %v\n", err)
 		return fmt.Errorf("failed to write setup script to volume: %w", err)
 	}
 
@@ -86,10 +96,12 @@ func Install(s *model.Server) error {
 			Force: true,
 		})
 		if err != nil {
+			log.Printf("err: %v\n", err)
 			return fmt.Errorf("failed to remove existing container for server %s: %w", s.SID, err)
 		}
 		s.ContainerExists = false
-		if err := db.Instance().Save(s).Error; err != nil {
+		if err := db.Instance().Create(s).Error; err != nil {
+			log.Printf("err: %v\n", err)
 			return err
 		}
 	}
@@ -135,10 +147,12 @@ func Install(s *model.Server) error {
 		Resources: resources,
 	}, &network.NetworkingConfig{}, &v1.Platform{}, s.SID)
 	if err != nil {
+		log.Printf("err: %v\n", err)
 		return fmt.Errorf("failed to create setup script container: %w", err)
 	}
 
 	if err := docker.Instance().ContainerStart(context.Background(), scr.ID, container.StartOptions{}); err != nil {
+		log.Printf("err: %v\n", err)
 		return fmt.Errorf("failed to start setup script container: %w", err)
 	}
 
@@ -149,10 +163,12 @@ func Install(s *model.Server) error {
 	select {
 	case err := <-errCh:
 		if err != nil {
+			log.Printf("err: %v\n", err)
 			return err
 		}
 	case status := <-statusCh:
 		if status.StatusCode != 0 {
+			log.Printf("setup script container exited with status code %d\n", status.StatusCode)
 			return fmt.Errorf("setup script container exited with status code %d", status.StatusCode)
 		}
 		log.Printf("setup script container finished with status code %d\n", status.StatusCode)
@@ -161,14 +177,33 @@ func Install(s *model.Server) error {
 		if err := docker.Instance().ContainerRemove(context.Background(), scr.ID, container.RemoveOptions{
 			Force: true,
 		}); err != nil {
+			log.Printf("err: %v\n", err)
 			return fmt.Errorf("failed to remove setup script container: %w", err)
 		}
+	}
+
+	rc, err = docker.Instance().ImagePull(context.Background(), s.DockerImage, image.PullOptions{})
+	if err != nil {
+		log.Printf("err: %v\n", err)
+		return fmt.Errorf("failed to pull setup script docker image %s: %w", s.DockerImage, err)
+	}
+
+	_, err = io.Copy(io.Discard, rc) // we could get the progress of the image pull here
+	if err != nil {
+		log.Printf("err: %v\n", err)
+		return fmt.Errorf("failed to read image pull response: %w", err)
+	}
+	err = rc.Close()
+	if err != nil {
+		log.Printf("err: %v\n", err)
+		return fmt.Errorf("failed to close image pull response: %w", err)
 	}
 
 	var ports nat.PortSet
 
 	for _, alloc := range s.Allocations {
 		if alloc.Port < 1024 || alloc.Port > 65535 {
+			log.Printf("err: port %d is out of range (1024-65535)\n", alloc.Port)
 			return fmt.Errorf("port %d is out of range (1024-65535)", alloc.Port)
 		}
 		//open both tcp and udp ports
@@ -185,7 +220,7 @@ func Install(s *model.Server) error {
 		Tty:          true,
 		Image:        s.DockerImage,
 		WorkingDir:   "/data",
-		Cmd:          []string{blueprint.ServerBinary},
+		Cmd:          strings.Split(strings.ReplaceAll(strings.ReplaceAll(blueprint.StartCommand, "{{$env::SERVER_BINARY}}", blueprint.ServerBinary), "{{$env::SERVER_MEMORY}}", fmt.Sprint(s.ResourceLimit.RAM)), " "),
 		Env:          []string{"SERVER_BINARY=" + blueprint.ServerBinary},
 		ExposedPorts: ports,
 	}, &container.HostConfig{
@@ -200,12 +235,14 @@ func Install(s *model.Server) error {
 		Resources: resources,
 	}, &network.NetworkingConfig{}, &v1.Platform{}, s.SID)
 	if err != nil {
+		log.Printf("err: %v\n", err)
 		return fmt.Errorf("failed to create server container: %w", err)
 	}
 
 	s.ContainerExists = true
 	s.OfflineReason = daemon.ServerOfflineReason_SERVER_OFFLINE_REASON_CREATED
-	if err := db.Instance().Save(s).Error; err != nil {
+	if err := db.Instance().Create(s).Error; err != nil {
+		log.Printf("err: %v\n", err)
 		return err
 	}
 

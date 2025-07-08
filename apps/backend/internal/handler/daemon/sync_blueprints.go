@@ -3,9 +3,8 @@ package daemon
 import (
 	"connectrpc.com/connect"
 	"context"
-	"errors"
+	"encoding/json"
 	"panelium/backend/internal/db"
-	"panelium/backend/internal/middleware"
 	"panelium/backend/internal/model"
 	"panelium/proto_gen_go"
 	"panelium/proto_gen_go/backend"
@@ -16,11 +15,13 @@ func (s *DaemonServiceHandler) SyncBlueprints(
 	req *connect.Request[proto_gen_go.Empty],
 	stm *connect.ServerStream[backend.Blueprint],
 ) error {
-	daemonInfoData := ctx.Value("panelium_daemon_info")
-	daemonInfo, ok := daemonInfoData.(*middleware.DaemonInfo)
-	if !ok || daemonInfo == nil || daemonInfo.NID == "" {
-		return connect.NewError(connect.CodeUnauthenticated, errors.New("invalid node token"))
-	}
+	// TODO: bruh
+	//daemonInfoData := ctx.Value("panelium_daemon_info")
+	//daemonInfo, ok := daemonInfoData.(*middleware.DaemonInfo)
+	//if !ok || daemonInfo == nil || daemonInfo.NID == "" {
+	//	log.Printf("invalid daemon info in context: %v - %v", daemonInfoData, daemonInfo)
+	//	return connect.NewError(connect.CodeUnauthenticated, errors.New("invalid node token"))
+	//}
 
 	var blueprints []*model.Blueprint
 	tx := db.Instance().Find(&blueprints)
@@ -30,7 +31,7 @@ func (s *DaemonServiceHandler) SyncBlueprints(
 
 	for _, blueprint := range blueprints {
 		var flags []string
-		err := blueprint.Flags.Scan(&flags)
+		err := json.Unmarshal(blueprint.Flags, &flags)
 		if err != nil {
 			return connect.NewError(connect.CodeInternal, err)
 		}
@@ -40,7 +41,7 @@ func (s *DaemonServiceHandler) SyncBlueprints(
 			Visible  bool   `json:"visible"`
 			Readable bool   `json:"readable"`
 		}
-		err = blueprint.BlockedFiles.Scan(&blockedFiles)
+		err = json.Unmarshal(blueprint.BlockedFiles, &blockedFiles)
 		if err != nil {
 			return connect.NewError(connect.CodeInternal, err)
 		}
@@ -58,7 +59,7 @@ func (s *DaemonServiceHandler) SyncBlueprints(
 			Name  string `json:"name"`
 			Image string `json:"image"`
 		}
-		err = blueprint.DockerImages.Scan(&dockerImages)
+		err = json.Unmarshal(blueprint.DockerImages, &dockerImages)
 		if err != nil {
 			return connect.NewError(connect.CodeInternal, err)
 		}

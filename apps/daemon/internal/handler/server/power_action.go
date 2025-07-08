@@ -18,7 +18,7 @@ func (s *ServerServiceHandler) PowerAction(
 ) (*connect.Response[proto_gen_go.SuccessMessage], error) {
 	err := security.CheckServerAccess(ctx, req.Msg.ServerId)
 	if err != nil {
-		return nil, connect.NewError(connect.CodePermissionDenied, err)
+		return nil, connect.NewError(connect.CodeFailedPrecondition, err)
 	}
 
 	var srv *model.Server

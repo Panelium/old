@@ -14,7 +14,7 @@ func (s *ServerServiceHandler) TerminalCommand(
 ) (*connect.Response[proto_gen_go.Empty], error) {
 	err := security.CheckServerAccess(ctx, req.Msg.Id)
 	if err != nil {
-		return nil, connect.NewError(connect.CodePermissionDenied, err)
+		return nil, connect.NewError(connect.CodeFailedPrecondition, err)
 	}
 
 	err = server.TerminalCommand(req.Msg.Id, req.Msg.Text)

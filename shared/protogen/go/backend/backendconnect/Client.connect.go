@@ -39,12 +39,30 @@ const (
 	// ClientServiceGetServerListProcedure is the fully-qualified name of the ClientService's
 	// GetServerList RPC.
 	ClientServiceGetServerListProcedure = "/backend.ClientService/GetServerList"
+	// ClientServiceGetServerProcedure is the fully-qualified name of the ClientService's GetServer RPC.
+	ClientServiceGetServerProcedure = "/backend.ClientService/GetServer"
+	// ClientServiceGetAvailableBlueprintsProcedure is the fully-qualified name of the ClientService's
+	// GetAvailableBlueprints RPC.
+	ClientServiceGetAvailableBlueprintsProcedure = "/backend.ClientService/GetAvailableBlueprints"
+	// ClientServiceGetAvailableLocationsProcedure is the fully-qualified name of the ClientService's
+	// GetAvailableLocations RPC.
+	ClientServiceGetAvailableLocationsProcedure = "/backend.ClientService/GetAvailableLocations"
+	// ClientServiceGetAvailableNodesProcedure is the fully-qualified name of the ClientService's
+	// GetAvailableNodes RPC.
+	ClientServiceGetAvailableNodesProcedure = "/backend.ClientService/GetAvailableNodes"
+	// ClientServiceNewServerProcedure is the fully-qualified name of the ClientService's NewServer RPC.
+	ClientServiceNewServerProcedure = "/backend.ClientService/NewServer"
 )
 
 // ClientServiceClient is a client for the backend.ClientService service.
 type ClientServiceClient interface {
 	GetInfo(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.ClientInfo], error)
 	GetServerList(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.ServerList], error)
+	GetServer(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.ServerInfo], error)
+	GetAvailableBlueprints(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.AvailableBlueprints], error)
+	GetAvailableLocations(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.AvailableLocations], error)
+	GetAvailableNodes(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.AvailableNodes], error)
+	NewServer(context.Context, *connect.Request[backend.NewServerRequest]) (*connect.Response[backend.NewServerResponse], error)
 }
 
 // NewClientServiceClient constructs a client for the backend.ClientService service. By default, it
@@ -70,13 +88,48 @@ func NewClientServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 			connect.WithSchema(clientServiceMethods.ByName("GetServerList")),
 			connect.WithClientOptions(opts...),
 		),
+		getServer: connect.NewClient[proto_gen_go.SimpleIDMessage, backend.ServerInfo](
+			httpClient,
+			baseURL+ClientServiceGetServerProcedure,
+			connect.WithSchema(clientServiceMethods.ByName("GetServer")),
+			connect.WithClientOptions(opts...),
+		),
+		getAvailableBlueprints: connect.NewClient[proto_gen_go.Empty, backend.AvailableBlueprints](
+			httpClient,
+			baseURL+ClientServiceGetAvailableBlueprintsProcedure,
+			connect.WithSchema(clientServiceMethods.ByName("GetAvailableBlueprints")),
+			connect.WithClientOptions(opts...),
+		),
+		getAvailableLocations: connect.NewClient[proto_gen_go.Empty, backend.AvailableLocations](
+			httpClient,
+			baseURL+ClientServiceGetAvailableLocationsProcedure,
+			connect.WithSchema(clientServiceMethods.ByName("GetAvailableLocations")),
+			connect.WithClientOptions(opts...),
+		),
+		getAvailableNodes: connect.NewClient[proto_gen_go.Empty, backend.AvailableNodes](
+			httpClient,
+			baseURL+ClientServiceGetAvailableNodesProcedure,
+			connect.WithSchema(clientServiceMethods.ByName("GetAvailableNodes")),
+			connect.WithClientOptions(opts...),
+		),
+		newServer: connect.NewClient[backend.NewServerRequest, backend.NewServerResponse](
+			httpClient,
+			baseURL+ClientServiceNewServerProcedure,
+			connect.WithSchema(clientServiceMethods.ByName("NewServer")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // clientServiceClient implements ClientServiceClient.
 type clientServiceClient struct {
-	getInfo       *connect.Client[proto_gen_go.Empty, backend.ClientInfo]
-	getServerList *connect.Client[proto_gen_go.Empty, backend.ServerList]
+	getInfo                *connect.Client[proto_gen_go.Empty, backend.ClientInfo]
+	getServerList          *connect.Client[proto_gen_go.Empty, backend.ServerList]
+	getServer              *connect.Client[proto_gen_go.SimpleIDMessage, backend.ServerInfo]
+	getAvailableBlueprints *connect.Client[proto_gen_go.Empty, backend.AvailableBlueprints]
+	getAvailableLocations  *connect.Client[proto_gen_go.Empty, backend.AvailableLocations]
+	getAvailableNodes      *connect.Client[proto_gen_go.Empty, backend.AvailableNodes]
+	newServer              *connect.Client[backend.NewServerRequest, backend.NewServerResponse]
 }
 
 // GetInfo calls backend.ClientService.GetInfo.
@@ -89,10 +142,40 @@ func (c *clientServiceClient) GetServerList(ctx context.Context, req *connect.Re
 	return c.getServerList.CallUnary(ctx, req)
 }
 
+// GetServer calls backend.ClientService.GetServer.
+func (c *clientServiceClient) GetServer(ctx context.Context, req *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.ServerInfo], error) {
+	return c.getServer.CallUnary(ctx, req)
+}
+
+// GetAvailableBlueprints calls backend.ClientService.GetAvailableBlueprints.
+func (c *clientServiceClient) GetAvailableBlueprints(ctx context.Context, req *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.AvailableBlueprints], error) {
+	return c.getAvailableBlueprints.CallUnary(ctx, req)
+}
+
+// GetAvailableLocations calls backend.ClientService.GetAvailableLocations.
+func (c *clientServiceClient) GetAvailableLocations(ctx context.Context, req *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.AvailableLocations], error) {
+	return c.getAvailableLocations.CallUnary(ctx, req)
+}
+
+// GetAvailableNodes calls backend.ClientService.GetAvailableNodes.
+func (c *clientServiceClient) GetAvailableNodes(ctx context.Context, req *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.AvailableNodes], error) {
+	return c.getAvailableNodes.CallUnary(ctx, req)
+}
+
+// NewServer calls backend.ClientService.NewServer.
+func (c *clientServiceClient) NewServer(ctx context.Context, req *connect.Request[backend.NewServerRequest]) (*connect.Response[backend.NewServerResponse], error) {
+	return c.newServer.CallUnary(ctx, req)
+}
+
 // ClientServiceHandler is an implementation of the backend.ClientService service.
 type ClientServiceHandler interface {
 	GetInfo(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.ClientInfo], error)
 	GetServerList(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.ServerList], error)
+	GetServer(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.ServerInfo], error)
+	GetAvailableBlueprints(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.AvailableBlueprints], error)
+	GetAvailableLocations(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.AvailableLocations], error)
+	GetAvailableNodes(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.AvailableNodes], error)
+	NewServer(context.Context, *connect.Request[backend.NewServerRequest]) (*connect.Response[backend.NewServerResponse], error)
 }
 
 // NewClientServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -114,12 +197,52 @@ func NewClientServiceHandler(svc ClientServiceHandler, opts ...connect.HandlerOp
 		connect.WithSchema(clientServiceMethods.ByName("GetServerList")),
 		connect.WithHandlerOptions(opts...),
 	)
+	clientServiceGetServerHandler := connect.NewUnaryHandler(
+		ClientServiceGetServerProcedure,
+		svc.GetServer,
+		connect.WithSchema(clientServiceMethods.ByName("GetServer")),
+		connect.WithHandlerOptions(opts...),
+	)
+	clientServiceGetAvailableBlueprintsHandler := connect.NewUnaryHandler(
+		ClientServiceGetAvailableBlueprintsProcedure,
+		svc.GetAvailableBlueprints,
+		connect.WithSchema(clientServiceMethods.ByName("GetAvailableBlueprints")),
+		connect.WithHandlerOptions(opts...),
+	)
+	clientServiceGetAvailableLocationsHandler := connect.NewUnaryHandler(
+		ClientServiceGetAvailableLocationsProcedure,
+		svc.GetAvailableLocations,
+		connect.WithSchema(clientServiceMethods.ByName("GetAvailableLocations")),
+		connect.WithHandlerOptions(opts...),
+	)
+	clientServiceGetAvailableNodesHandler := connect.NewUnaryHandler(
+		ClientServiceGetAvailableNodesProcedure,
+		svc.GetAvailableNodes,
+		connect.WithSchema(clientServiceMethods.ByName("GetAvailableNodes")),
+		connect.WithHandlerOptions(opts...),
+	)
+	clientServiceNewServerHandler := connect.NewUnaryHandler(
+		ClientServiceNewServerProcedure,
+		svc.NewServer,
+		connect.WithSchema(clientServiceMethods.ByName("NewServer")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/backend.ClientService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case ClientServiceGetInfoProcedure:
 			clientServiceGetInfoHandler.ServeHTTP(w, r)
 		case ClientServiceGetServerListProcedure:
 			clientServiceGetServerListHandler.ServeHTTP(w, r)
+		case ClientServiceGetServerProcedure:
+			clientServiceGetServerHandler.ServeHTTP(w, r)
+		case ClientServiceGetAvailableBlueprintsProcedure:
+			clientServiceGetAvailableBlueprintsHandler.ServeHTTP(w, r)
+		case ClientServiceGetAvailableLocationsProcedure:
+			clientServiceGetAvailableLocationsHandler.ServeHTTP(w, r)
+		case ClientServiceGetAvailableNodesProcedure:
+			clientServiceGetAvailableNodesHandler.ServeHTTP(w, r)
+		case ClientServiceNewServerProcedure:
+			clientServiceNewServerHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -135,4 +258,24 @@ func (UnimplementedClientServiceHandler) GetInfo(context.Context, *connect.Reque
 
 func (UnimplementedClientServiceHandler) GetServerList(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.ServerList], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.ClientService.GetServerList is not implemented"))
+}
+
+func (UnimplementedClientServiceHandler) GetServer(context.Context, *connect.Request[proto_gen_go.SimpleIDMessage]) (*connect.Response[backend.ServerInfo], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.ClientService.GetServer is not implemented"))
+}
+
+func (UnimplementedClientServiceHandler) GetAvailableBlueprints(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.AvailableBlueprints], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.ClientService.GetAvailableBlueprints is not implemented"))
+}
+
+func (UnimplementedClientServiceHandler) GetAvailableLocations(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.AvailableLocations], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.ClientService.GetAvailableLocations is not implemented"))
+}
+
+func (UnimplementedClientServiceHandler) GetAvailableNodes(context.Context, *connect.Request[proto_gen_go.Empty]) (*connect.Response[backend.AvailableNodes], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.ClientService.GetAvailableNodes is not implemented"))
+}
+
+func (UnimplementedClientServiceHandler) NewServer(context.Context, *connect.Request[backend.NewServerRequest]) (*connect.Response[backend.NewServerResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("backend.ClientService.NewServer is not implemented"))
 }

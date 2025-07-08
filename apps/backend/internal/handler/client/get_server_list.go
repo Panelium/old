@@ -27,7 +27,7 @@ func (s *ClientServiceHandler) GetServerList(ctx context.Context, req *connect.R
 	}
 
 	var servers []model.Server
-	tx = db.Instance().Where("owner_id = ?", user.ID).Find(&servers)
+	tx = db.Instance().Preload("Blueprint").Preload("Node").Preload("Node.Location").Preload("Allocations").Where("owner_id = ?", user.ID).Find(&servers)
 	if tx.Error != nil {
 		return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to fetch servers"))
 	}
@@ -41,7 +41,7 @@ func (s *ClientServiceHandler) GetServerList(ctx context.Context, req *connect.R
 	var accessibleServers []model.Server
 	for _, serverUser := range accessibleServerUsers {
 		var server model.Server
-		tx = db.Instance().First(&server, "id = ?", serverUser.ServerID)
+		tx = db.Instance().Preload("Blueprint").Preload("Node").Preload("Node.Location").Preload("Allocations").First(&server, "id = ?", serverUser.ServerID)
 		if tx.Error != nil {
 			return nil, connect.NewError(connect.CodeInternal, fmt.Errorf("failed to fetch accessible server"))
 		}
@@ -58,12 +58,15 @@ func (s *ClientServiceHandler) GetServerList(ctx context.Context, req *connect.R
 			Description:  server.Description,
 			Software:     server.Blueprint.Name,
 			SoftwareIcon: server.Blueprint.Icon,
-			MainAllocation: util.IfElse(len(server.Allocations) > 0,
-				&proto_gen_go.IPAllocation{
-					Ip:   server.Allocations[0].IP,
-					Port: uint32(server.Allocations[0].Port),
-				},
-				nil),
+			MainAllocation: func() *proto_gen_go.IPAllocation {
+				if len(server.Allocations) > 0 {
+					return &proto_gen_go.IPAllocation{
+						Ip:   server.Allocations[0].IP,
+						Port: uint32(server.Allocations[0].Port),
+					}
+				}
+				return nil
+			}(),
 			DaemonHost: util.IfElse(server.Node.HTTPS, "https://", "http://") + server.Node.FQDN + ":" + fmt.Sprint(server.Node.DaemonPort),
 			ResourceLimit: &proto_gen_go.ResourceLimit{
 				Cpu:     uint32(server.ResourceLimit.CPU),

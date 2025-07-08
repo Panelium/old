@@ -7,12 +7,15 @@ import (
 	"panelium/backend/internal/config"
 	"panelium/backend/internal/model"
 	"sync"
+	"time"
 )
 
 var (
 	initOnce sync.Once
 	db       *gorm.DB
 )
+
+// TODO: dont allow data creation without ID
 
 func Init() error {
 	var err error
@@ -57,4 +60,9 @@ func Instance() *gorm.DB {
 		panic("database not initialized, call Init() first")
 	}
 	return db
+}
+
+func DeleteExpiredSessions() error {
+	db := Instance()
+	return db.Where("expiration < ?", time.Now()).Delete(&model.UserSession{}).Error
 }

@@ -46,6 +46,13 @@ can be different) for the CORS and cookies to work properly.
 
 Blueprints are available at https://blueprints.ndmh.xyz/ ([source](https://github.com/Panelium/Blueprints))
 
+### Useful Commands
+
+- **Make a user an admin**:
+  ```sh
+  docker compose -f /var/lib/panelium/docker-compose.yml exec backend /app/backend --make-admin <username/email>
+  ```
+
 ### Uninstalling Panelium
 
 To completely remove Panelium, including all configuration, data, and nginx configs, run the uninstall script:

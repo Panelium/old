@@ -14,7 +14,7 @@ import {
   Sun,
   Terminal,
 } from "lucide-react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { cn } from "~/lib/utils";
 
 import { useTheme } from "~/providers/ThemeProvider";
@@ -29,8 +29,6 @@ import {
 import { Button } from "~/components/ui/button";
 import EntityAvatar from "~/components/avatars/EntityAvatar";
 import { Sidebar, SidebarProvider, useSidebar } from "~/components/ui/sidebar";
-import { PagePressedEvent, pagesEventBus } from "~/components/dashboard/server/Pages";
-import FilesPage from "~/components/dashboard/server/pages/FilesPage";
 import { getClientClient } from "~/lib/api-clients";
 import { ScrollArea } from "~/components/ui/scroll-area";
 
@@ -100,11 +98,6 @@ const SidebarNavigationItem: React.FC<{ item: NavigationItemProps }> = ({ item }
           return;
         }
         const splitHref = item.href.split("/");
-        if (item.type !== "server-tab") {
-          pagesEventBus.dispatchEvent(new PagePressedEvent(FilesPage.id));
-          return;
-        }
-        pagesEventBus.dispatchEvent(new PagePressedEvent(splitHref[splitHref.length - 1]));
       }}
     >
       {item.type === "server-tab" ? <div className="w-4" /> : <></>}
@@ -208,6 +201,7 @@ const SidebarNavigation: React.FC = () => {
 
 const SidebarDropdownMenu: React.FC = () => {
   const performLogout = useLogout();
+  const navigate = useNavigate();
 
   const [userInfo, setUserInfo] = useState<{
     uid: string;
@@ -244,6 +238,14 @@ const SidebarDropdownMenu: React.FC = () => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56 no-select">
+          {admin && (
+            <DropdownMenuItem className="bg-transparent focus:bg-transparent">
+              <Button variant="ghost" className="w-full justify-start" onClick={() => navigate("/admin")}>
+                <Settings className="mr-2 h-4 w-4" />
+                <span>Admin Panel</span>
+              </Button>
+            </DropdownMenuItem>
+          )}
           <DropdownMenuItem className="bg-transparent focus:bg-transparent text-red-500 focus:text-red-500">
             <Button variant="ghost" className="w-full justify-start" onClick={() => performLogout()}>
               <LogOut className="mr-2 h-4 w-4" />

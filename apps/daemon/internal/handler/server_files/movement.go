@@ -13,7 +13,7 @@ import (
 func (s *ServerFilesServiceHandler) MoveFile(ctx context.Context, req *connect.Request[daemon.MoveFileRequest]) (*connect.Response[daemon.MoveFileResponse], error) {
 	err := security.CheckServerAccess(ctx, req.Msg.ServerId)
 	if err != nil {
-		return nil, connect.NewError(connect.CodePermissionDenied, err)
+		return nil, connect.NewError(connect.CodeFailedPrecondition, err)
 	}
 
 	root, err := server.GetRoot(req.Msg.ServerId)
@@ -50,7 +50,7 @@ func (s *ServerFilesServiceHandler) MoveFile(ctx context.Context, req *connect.R
 func (s *ServerFilesServiceHandler) CopyFile(ctx context.Context, req *connect.Request[daemon.CopyFileRequest]) (*connect.Response[daemon.CopyFileResponse], error) {
 	err := security.CheckServerAccess(ctx, req.Msg.ServerId)
 	if err != nil {
-		return nil, connect.NewError(connect.CodePermissionDenied, err)
+		return nil, connect.NewError(connect.CodeFailedPrecondition, err)
 	}
 
 	root, err := server.GetRoot(req.Msg.ServerId)

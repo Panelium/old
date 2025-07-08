@@ -25,7 +25,7 @@ func (s *ServerServiceHandler) ResourceUsage(
 ) error {
 	err := security.CheckServerAccess(ctx, req.Msg.Id)
 	if err != nil {
-		return connect.NewError(connect.CodePermissionDenied, err)
+		return connect.NewError(connect.CodeFailedPrecondition, err)
 	}
 
 	var srv *model.Server

@@ -23,6 +23,422 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type AvailableBlueprint struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Bid           string                 `protobuf:"bytes,1,opt,name=bid,proto3" json:"bid,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AvailableBlueprint) Reset() {
+	*x = AvailableBlueprint{}
+	mi := &file_backend_Client_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AvailableBlueprint) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AvailableBlueprint) ProtoMessage() {}
+
+func (x *AvailableBlueprint) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_Client_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AvailableBlueprint.ProtoReflect.Descriptor instead.
+func (*AvailableBlueprint) Descriptor() ([]byte, []int) {
+	return file_backend_Client_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *AvailableBlueprint) GetBid() string {
+	if x != nil {
+		return x.Bid
+	}
+	return ""
+}
+
+func (x *AvailableBlueprint) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+type AvailableBlueprints struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Blueprints    []*AvailableBlueprint  `protobuf:"bytes,1,rep,name=blueprints,proto3" json:"blueprints,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AvailableBlueprints) Reset() {
+	*x = AvailableBlueprints{}
+	mi := &file_backend_Client_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AvailableBlueprints) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AvailableBlueprints) ProtoMessage() {}
+
+func (x *AvailableBlueprints) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_Client_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AvailableBlueprints.ProtoReflect.Descriptor instead.
+func (*AvailableBlueprints) Descriptor() ([]byte, []int) {
+	return file_backend_Client_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *AvailableBlueprints) GetBlueprints() []*AvailableBlueprint {
+	if x != nil {
+		return x.Blueprints
+	}
+	return nil
+}
+
+type AvailableLocation struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Lid           string                 `protobuf:"bytes,1,opt,name=lid,proto3" json:"lid,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AvailableLocation) Reset() {
+	*x = AvailableLocation{}
+	mi := &file_backend_Client_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AvailableLocation) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AvailableLocation) ProtoMessage() {}
+
+func (x *AvailableLocation) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_Client_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AvailableLocation.ProtoReflect.Descriptor instead.
+func (*AvailableLocation) Descriptor() ([]byte, []int) {
+	return file_backend_Client_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *AvailableLocation) GetLid() string {
+	if x != nil {
+		return x.Lid
+	}
+	return ""
+}
+
+func (x *AvailableLocation) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+type AvailableLocations struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Locations     []*AvailableLocation   `protobuf:"bytes,1,rep,name=locations,proto3" json:"locations,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AvailableLocations) Reset() {
+	*x = AvailableLocations{}
+	mi := &file_backend_Client_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AvailableLocations) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AvailableLocations) ProtoMessage() {}
+
+func (x *AvailableLocations) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_Client_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AvailableLocations.ProtoReflect.Descriptor instead.
+func (*AvailableLocations) Descriptor() ([]byte, []int) {
+	return file_backend_Client_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *AvailableLocations) GetLocations() []*AvailableLocation {
+	if x != nil {
+		return x.Locations
+	}
+	return nil
+}
+
+type AvailableNode struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Nid           string                 `protobuf:"bytes,1,opt,name=nid,proto3" json:"nid,omitempty"`
+	Lid           string                 `protobuf:"bytes,2,opt,name=lid,proto3" json:"lid,omitempty"`
+	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AvailableNode) Reset() {
+	*x = AvailableNode{}
+	mi := &file_backend_Client_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AvailableNode) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AvailableNode) ProtoMessage() {}
+
+func (x *AvailableNode) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_Client_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AvailableNode.ProtoReflect.Descriptor instead.
+func (*AvailableNode) Descriptor() ([]byte, []int) {
+	return file_backend_Client_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *AvailableNode) GetNid() string {
+	if x != nil {
+		return x.Nid
+	}
+	return ""
+}
+
+func (x *AvailableNode) GetLid() string {
+	if x != nil {
+		return x.Lid
+	}
+	return ""
+}
+
+func (x *AvailableNode) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+type AvailableNodes struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Nodes         []*AvailableNode       `protobuf:"bytes,1,rep,name=nodes,proto3" json:"nodes,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AvailableNodes) Reset() {
+	*x = AvailableNodes{}
+	mi := &file_backend_Client_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AvailableNodes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AvailableNodes) ProtoMessage() {}
+
+func (x *AvailableNodes) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_Client_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AvailableNodes.ProtoReflect.Descriptor instead.
+func (*AvailableNodes) Descriptor() ([]byte, []int) {
+	return file_backend_Client_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *AvailableNodes) GetNodes() []*AvailableNode {
+	if x != nil {
+		return x.Nodes
+	}
+	return nil
+}
+
+type NewServerRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	Bid           string                 `protobuf:"bytes,3,opt,name=bid,proto3" json:"bid,omitempty"`
+	Lid           *string                `protobuf:"bytes,4,opt,name=lid,proto3,oneof" json:"lid,omitempty"`
+	Nid           *string                `protobuf:"bytes,5,opt,name=nid,proto3,oneof" json:"nid,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *NewServerRequest) Reset() {
+	*x = NewServerRequest{}
+	mi := &file_backend_Client_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *NewServerRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NewServerRequest) ProtoMessage() {}
+
+func (x *NewServerRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_Client_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NewServerRequest.ProtoReflect.Descriptor instead.
+func (*NewServerRequest) Descriptor() ([]byte, []int) {
+	return file_backend_Client_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *NewServerRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *NewServerRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *NewServerRequest) GetBid() string {
+	if x != nil {
+		return x.Bid
+	}
+	return ""
+}
+
+func (x *NewServerRequest) GetLid() string {
+	if x != nil && x.Lid != nil {
+		return *x.Lid
+	}
+	return ""
+}
+
+func (x *NewServerRequest) GetNid() string {
+	if x != nil && x.Nid != nil {
+		return *x.Nid
+	}
+	return ""
+}
+
+type NewServerResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Sid           string                 `protobuf:"bytes,1,opt,name=sid,proto3" json:"sid,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *NewServerResponse) Reset() {
+	*x = NewServerResponse{}
+	mi := &file_backend_Client_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *NewServerResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NewServerResponse) ProtoMessage() {}
+
+func (x *NewServerResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_backend_Client_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NewServerResponse.ProtoReflect.Descriptor instead.
+func (*NewServerResponse) Descriptor() ([]byte, []int) {
+	return file_backend_Client_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *NewServerResponse) GetSid() string {
+	if x != nil {
+		return x.Sid
+	}
+	return ""
+}
+
 type ClientInfo struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Uid           string                 `protobuf:"bytes,1,opt,name=uid,proto3" json:"uid,omitempty"`
@@ -35,7 +451,7 @@ type ClientInfo struct {
 
 func (x *ClientInfo) Reset() {
 	*x = ClientInfo{}
-	mi := &file_backend_Client_proto_msgTypes[0]
+	mi := &file_backend_Client_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -47,7 +463,7 @@ func (x *ClientInfo) String() string {
 func (*ClientInfo) ProtoMessage() {}
 
 func (x *ClientInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_Client_proto_msgTypes[0]
+	mi := &file_backend_Client_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -60,7 +476,7 @@ func (x *ClientInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ClientInfo.ProtoReflect.Descriptor instead.
 func (*ClientInfo) Descriptor() ([]byte, []int) {
-	return file_backend_Client_proto_rawDescGZIP(), []int{0}
+	return file_backend_Client_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *ClientInfo) GetUid() string {
@@ -100,7 +516,7 @@ type ServerList struct {
 
 func (x *ServerList) Reset() {
 	*x = ServerList{}
-	mi := &file_backend_Client_proto_msgTypes[1]
+	mi := &file_backend_Client_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -112,7 +528,7 @@ func (x *ServerList) String() string {
 func (*ServerList) ProtoMessage() {}
 
 func (x *ServerList) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_Client_proto_msgTypes[1]
+	mi := &file_backend_Client_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -125,7 +541,7 @@ func (x *ServerList) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ServerList.ProtoReflect.Descriptor instead.
 func (*ServerList) Descriptor() ([]byte, []int) {
-	return file_backend_Client_proto_rawDescGZIP(), []int{1}
+	return file_backend_Client_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *ServerList) GetServers() []*ServerInfo {
@@ -152,7 +568,7 @@ type ServerInfo struct {
 
 func (x *ServerInfo) Reset() {
 	*x = ServerInfo{}
-	mi := &file_backend_Client_proto_msgTypes[2]
+	mi := &file_backend_Client_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -164,7 +580,7 @@ func (x *ServerInfo) String() string {
 func (*ServerInfo) ProtoMessage() {}
 
 func (x *ServerInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_backend_Client_proto_msgTypes[2]
+	mi := &file_backend_Client_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -177,7 +593,7 @@ func (x *ServerInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ServerInfo.ProtoReflect.Descriptor instead.
 func (*ServerInfo) Descriptor() ([]byte, []int) {
-	return file_backend_Client_proto_rawDescGZIP(), []int{2}
+	return file_backend_Client_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *ServerInfo) GetSid() string {
@@ -247,7 +663,35 @@ var File_backend_Client_proto protoreflect.FileDescriptor
 
 const file_backend_Client_proto_rawDesc = "" +
 	"\n" +
-	"\x14backend/Client.proto\x12\abackend\x1a\fcommon.proto\x1a\x13daemon/Server.proto\"f\n" +
+	"\x14backend/Client.proto\x12\abackend\x1a\fcommon.proto\x1a\x13daemon/Server.proto\":\n" +
+	"\x12AvailableBlueprint\x12\x10\n" +
+	"\x03bid\x18\x01 \x01(\tR\x03bid\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\"R\n" +
+	"\x13AvailableBlueprints\x12;\n" +
+	"\n" +
+	"blueprints\x18\x01 \x03(\v2\x1b.backend.AvailableBlueprintR\n" +
+	"blueprints\"9\n" +
+	"\x11AvailableLocation\x12\x10\n" +
+	"\x03lid\x18\x01 \x01(\tR\x03lid\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\"N\n" +
+	"\x12AvailableLocations\x128\n" +
+	"\tlocations\x18\x01 \x03(\v2\x1a.backend.AvailableLocationR\tlocations\"G\n" +
+	"\rAvailableNode\x12\x10\n" +
+	"\x03nid\x18\x01 \x01(\tR\x03nid\x12\x10\n" +
+	"\x03lid\x18\x02 \x01(\tR\x03lid\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\">\n" +
+	"\x0eAvailableNodes\x12,\n" +
+	"\x05nodes\x18\x01 \x03(\v2\x16.backend.AvailableNodeR\x05nodes\"\x98\x01\n" +
+	"\x10NewServerRequest\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
+	"\vdescription\x18\x02 \x01(\tR\vdescription\x12\x10\n" +
+	"\x03bid\x18\x03 \x01(\tR\x03bid\x12\x15\n" +
+	"\x03lid\x18\x04 \x01(\tH\x00R\x03lid\x88\x01\x01\x12\x15\n" +
+	"\x03nid\x18\x05 \x01(\tH\x01R\x03nid\x88\x01\x01B\x06\n" +
+	"\x04_lidB\x06\n" +
+	"\x04_nid\"%\n" +
+	"\x11NewServerResponse\x12\x10\n" +
+	"\x03sid\x18\x01 \x01(\tR\x03sid\"f\n" +
 	"\n" +
 	"ClientInfo\x12\x10\n" +
 	"\x03uid\x18\x01 \x01(\tR\x03uid\x12\x1a\n" +
@@ -269,10 +713,15 @@ const file_backend_Client_proto_rawDesc = "" +
 	"daemonHost\x12<\n" +
 	"\x0eresource_limit\x18\b \x01(\v2\x15.common.ResourceLimitR\rresourceLimit\x12\x1a\n" +
 	"\blocation\x18\t \x01(\tR\blocationB\x12\n" +
-	"\x10_main_allocation2s\n" +
+	"\x10_main_allocation2\xbb\x03\n" +
 	"\rClientService\x12-\n" +
 	"\aGetInfo\x12\r.common.Empty\x1a\x13.backend.ClientInfo\x123\n" +
-	"\rGetServerList\x12\r.common.Empty\x1a\x13.backend.ServerListB\x1fZ\x1dpanelium/proto_gen_go/backendb\x06proto3"
+	"\rGetServerList\x12\r.common.Empty\x1a\x13.backend.ServerList\x129\n" +
+	"\tGetServer\x12\x17.common.SimpleIDMessage\x1a\x13.backend.ServerInfo\x12E\n" +
+	"\x16GetAvailableBlueprints\x12\r.common.Empty\x1a\x1c.backend.AvailableBlueprints\x12C\n" +
+	"\x15GetAvailableLocations\x12\r.common.Empty\x1a\x1b.backend.AvailableLocations\x12;\n" +
+	"\x11GetAvailableNodes\x12\r.common.Empty\x1a\x17.backend.AvailableNodes\x12B\n" +
+	"\tNewServer\x12\x19.backend.NewServerRequest\x1a\x1a.backend.NewServerResponseB\x1fZ\x1dpanelium/proto_gen_go/backendb\x06proto3"
 
 var (
 	file_backend_Client_proto_rawDescOnce sync.Once
@@ -286,28 +735,50 @@ func file_backend_Client_proto_rawDescGZIP() []byte {
 	return file_backend_Client_proto_rawDescData
 }
 
-var file_backend_Client_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_backend_Client_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_backend_Client_proto_goTypes = []any{
-	(*ClientInfo)(nil),                 // 0: backend.ClientInfo
-	(*ServerList)(nil),                 // 1: backend.ServerList
-	(*ServerInfo)(nil),                 // 2: backend.ServerInfo
-	(*proto_gen_go.IPAllocation)(nil),  // 3: common.IPAllocation
-	(*proto_gen_go.ResourceLimit)(nil), // 4: common.ResourceLimit
-	(*proto_gen_go.Empty)(nil),         // 5: common.Empty
+	(*AvailableBlueprint)(nil),           // 0: backend.AvailableBlueprint
+	(*AvailableBlueprints)(nil),          // 1: backend.AvailableBlueprints
+	(*AvailableLocation)(nil),            // 2: backend.AvailableLocation
+	(*AvailableLocations)(nil),           // 3: backend.AvailableLocations
+	(*AvailableNode)(nil),                // 4: backend.AvailableNode
+	(*AvailableNodes)(nil),               // 5: backend.AvailableNodes
+	(*NewServerRequest)(nil),             // 6: backend.NewServerRequest
+	(*NewServerResponse)(nil),            // 7: backend.NewServerResponse
+	(*ClientInfo)(nil),                   // 8: backend.ClientInfo
+	(*ServerList)(nil),                   // 9: backend.ServerList
+	(*ServerInfo)(nil),                   // 10: backend.ServerInfo
+	(*proto_gen_go.IPAllocation)(nil),    // 11: common.IPAllocation
+	(*proto_gen_go.ResourceLimit)(nil),   // 12: common.ResourceLimit
+	(*proto_gen_go.Empty)(nil),           // 13: common.Empty
+	(*proto_gen_go.SimpleIDMessage)(nil), // 14: common.SimpleIDMessage
 }
 var file_backend_Client_proto_depIdxs = []int32{
-	2, // 0: backend.ServerList.servers:type_name -> backend.ServerInfo
-	3, // 1: backend.ServerInfo.main_allocation:type_name -> common.IPAllocation
-	4, // 2: backend.ServerInfo.resource_limit:type_name -> common.ResourceLimit
-	5, // 3: backend.ClientService.GetInfo:input_type -> common.Empty
-	5, // 4: backend.ClientService.GetServerList:input_type -> common.Empty
-	0, // 5: backend.ClientService.GetInfo:output_type -> backend.ClientInfo
-	1, // 6: backend.ClientService.GetServerList:output_type -> backend.ServerList
-	5, // [5:7] is the sub-list for method output_type
-	3, // [3:5] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	0,  // 0: backend.AvailableBlueprints.blueprints:type_name -> backend.AvailableBlueprint
+	2,  // 1: backend.AvailableLocations.locations:type_name -> backend.AvailableLocation
+	4,  // 2: backend.AvailableNodes.nodes:type_name -> backend.AvailableNode
+	10, // 3: backend.ServerList.servers:type_name -> backend.ServerInfo
+	11, // 4: backend.ServerInfo.main_allocation:type_name -> common.IPAllocation
+	12, // 5: backend.ServerInfo.resource_limit:type_name -> common.ResourceLimit
+	13, // 6: backend.ClientService.GetInfo:input_type -> common.Empty
+	13, // 7: backend.ClientService.GetServerList:input_type -> common.Empty
+	14, // 8: backend.ClientService.GetServer:input_type -> common.SimpleIDMessage
+	13, // 9: backend.ClientService.GetAvailableBlueprints:input_type -> common.Empty
+	13, // 10: backend.ClientService.GetAvailableLocations:input_type -> common.Empty
+	13, // 11: backend.ClientService.GetAvailableNodes:input_type -> common.Empty
+	6,  // 12: backend.ClientService.NewServer:input_type -> backend.NewServerRequest
+	8,  // 13: backend.ClientService.GetInfo:output_type -> backend.ClientInfo
+	9,  // 14: backend.ClientService.GetServerList:output_type -> backend.ServerList
+	10, // 15: backend.ClientService.GetServer:output_type -> backend.ServerInfo
+	1,  // 16: backend.ClientService.GetAvailableBlueprints:output_type -> backend.AvailableBlueprints
+	3,  // 17: backend.ClientService.GetAvailableLocations:output_type -> backend.AvailableLocations
+	5,  // 18: backend.ClientService.GetAvailableNodes:output_type -> backend.AvailableNodes
+	7,  // 19: backend.ClientService.NewServer:output_type -> backend.NewServerResponse
+	13, // [13:20] is the sub-list for method output_type
+	6,  // [6:13] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_backend_Client_proto_init() }
@@ -315,14 +786,15 @@ func file_backend_Client_proto_init() {
 	if File_backend_Client_proto != nil {
 		return
 	}
-	file_backend_Client_proto_msgTypes[2].OneofWrappers = []any{}
+	file_backend_Client_proto_msgTypes[6].OneofWrappers = []any{}
+	file_backend_Client_proto_msgTypes[10].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_backend_Client_proto_rawDesc), len(file_backend_Client_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

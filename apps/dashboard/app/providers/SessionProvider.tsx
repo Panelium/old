@@ -1,17 +1,12 @@
 import React, { createContext, useCallback, useEffect, useState } from "react";
 import { getAuthClient } from "~/lib/api-clients";
 
+// TODO: don't use sessionStorage, else user has to re-login after closing the browser
+
 interface SessionProviderProps {
   children?: React.ReactNode;
   storageKey?: string;
 }
-
-/*
-Cookies: (All cookies are http-only and secure, set by the backend)
-- `refresh_token`: Used to obtain a new JWT when the current one expires. This is stored in a secure, http-only PERSISTENT cookie. TODO-INFO: 24 Hours - 30 days expiration, might be user configurable.
-- `session_id`: Used to identify the session on the backend. This is also stored in a secure, http-only SESSION cookie. TODO-INFO: 5-30 minutes expiration
-- `jwt`: Used to authenticate requests to the backend. This is stored in a secure, http-only SESSION cookie. TODO-INFO: 5-30 minutes expiration
- */
 
 export interface SessionProviderState {
   authenticated: boolean;
@@ -25,19 +20,32 @@ const initialState = {
   },
 };
 
-const SessionProviderContext =
-  createContext<SessionProviderState>(initialState);
+const SessionProviderContext = createContext<SessionProviderState>(initialState);
 
-export default function SessionProvider({
-  children,
-  storageKey = "authenticated",
-}: SessionProviderProps) {
+let externalSetAuthenticated: ((authenticated: boolean) => void) | null = null;
+
+export function setSessionAuthenticated(authenticated: boolean) {
+  if (externalSetAuthenticated) {
+    externalSetAuthenticated(authenticated);
+  } else {
+    throw new Error("SessionProvider is not mounted");
+  }
+}
+
+export default function SessionProvider({ children, storageKey = "authenticated" }: SessionProviderProps) {
   let isAuthenticated = false;
 
   if (typeof window !== "undefined") {
     isAuthenticated = sessionStorage.getItem(storageKey) === "true";
   }
   const [authenticated, setAuthenticated] = useState<boolean>(isAuthenticated);
+
+  useEffect(() => {
+    externalSetAuthenticated = setAuthenticated;
+    return () => {
+      externalSetAuthenticated = null;
+    };
+  }, [setAuthenticated]);
 
   useEffect(() => {
     if (authenticated) {

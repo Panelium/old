@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package backend_admin;
+option go_package = "panelium/proto_gen_go/backend/admin";
+
+import "common.proto";
+
+service ServerManagerService {
+  rpc GetServers(GetServersRequest) returns (GetServersResponse);
+  rpc GetServer(GetServerRequest) returns (GetServerResponse);
+  rpc CreateServer(CreateServerRequest) returns (CreateServerResponse);
+  rpc UpdateServer(UpdateServerRequest) returns (UpdateServerResponse);
+  rpc DeleteServer(DeleteServerRequest) returns (DeleteServerResponse);
+}
+
+message Server {
+  string sid = 1; // ignored with Create
+  string name = 2;
+  string description = 3;
+  string owner_uid = 4;
+  string nid = 5;
+  repeated string uids = 6;
+  common.ResourceLimit resource_limit = 7;
+  string docker_image = 8;
+  string bid = 9;
+}
+
+message GetServersRequest {
+  common.Pagination pagination = 1;
+  optional string nid = 2; // filter by node ID
+  optional string owner_uid = 3; // filter by owner user ID
+  optional string bid = 4; // filter by blueprint ID
+  optional string access_uid = 5; // filter by user ID with access
+  optional string uid = 6; // filter by user ID (either owner or with access)
+}
+
+message GetServersResponse {
+  repeated Server servers = 1;
+  common.Pagination pagination = 2;
+}
+
+message GetServerRequest {
+  string sid = 1;
+}
+
+message GetServerResponse {
+  Server server = 1;
+}
+
+message CreateServerRequest {
+  Server server = 1;
+}
+
+message CreateServerResponse {
+  bool success = 1;
+}
+
+message UpdateServerRequest {
+  Server server = 1;
+}
+
+message UpdateServerResponse {
+  bool success = 1;
+}
+
+message DeleteServerRequest {
+  string sid = 1;
+}
+
+message DeleteServerResponse {
+  bool success = 1;
+}

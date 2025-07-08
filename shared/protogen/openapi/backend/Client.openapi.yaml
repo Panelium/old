@@ -72,8 +72,249 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/backend.ServerList'
+  /backend.ClientService/GetServer:
+    post:
+      tags:
+        - backend.ClientService
+      summary: GetServer
+      operationId: backend.ClientService.GetServer
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/common.SimpleIDMessage'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.ServerInfo'
+  /backend.ClientService/GetAvailableBlueprints:
+    post:
+      tags:
+        - backend.ClientService
+      summary: GetAvailableBlueprints
+      operationId: backend.ClientService.GetAvailableBlueprints
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/common.Empty'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.AvailableBlueprints'
+  /backend.ClientService/GetAvailableLocations:
+    post:
+      tags:
+        - backend.ClientService
+      summary: GetAvailableLocations
+      operationId: backend.ClientService.GetAvailableLocations
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/common.Empty'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.AvailableLocations'
+  /backend.ClientService/GetAvailableNodes:
+    post:
+      tags:
+        - backend.ClientService
+      summary: GetAvailableNodes
+      operationId: backend.ClientService.GetAvailableNodes
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/common.Empty'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.AvailableNodes'
+  /backend.ClientService/NewServer:
+    post:
+      tags:
+        - backend.ClientService
+      summary: NewServer
+      operationId: backend.ClientService.NewServer
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend.NewServerRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend.NewServerResponse'
 components:
   schemas:
+    backend.AvailableBlueprint:
+      type: object
+      properties:
+        bid:
+          type: string
+          title: bid
+        name:
+          type: string
+          title: name
+      title: AvailableBlueprint
+      additionalProperties: false
+    backend.AvailableBlueprints:
+      type: object
+      properties:
+        blueprints:
+          type: array
+          items:
+            $ref: '#/components/schemas/backend.AvailableBlueprint'
+          title: blueprints
+      title: AvailableBlueprints
+      additionalProperties: false
+    backend.AvailableLocation:
+      type: object
+      properties:
+        lid:
+          type: string
+          title: lid
+        name:
+          type: string
+          title: name
+      title: AvailableLocation
+      additionalProperties: false
+    backend.AvailableLocations:
+      type: object
+      properties:
+        locations:
+          type: array
+          items:
+            $ref: '#/components/schemas/backend.AvailableLocation'
+          title: locations
+      title: AvailableLocations
+      additionalProperties: false
+    backend.AvailableNode:
+      type: object
+      properties:
+        nid:
+          type: string
+          title: nid
+        lid:
+          type: string
+          title: lid
+        name:
+          type: string
+          title: name
+      title: AvailableNode
+      additionalProperties: false
+    backend.AvailableNodes:
+      type: object
+      properties:
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/backend.AvailableNode'
+          title: nodes
+      title: AvailableNodes
+      additionalProperties: false
     backend.ClientInfo:
       type: object
       properties:
@@ -90,6 +331,36 @@ components:
           type: boolean
           title: admin
       title: ClientInfo
+      additionalProperties: false
+    backend.NewServerRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          title: name
+        description:
+          type: string
+          title: description
+        bid:
+          type: string
+          title: bid
+        lid:
+          type: string
+          title: lid
+          nullable: true
+        nid:
+          type: string
+          title: nid
+          nullable: true
+      title: NewServerRequest
+      additionalProperties: false
+    backend.NewServerResponse:
+      type: object
+      properties:
+        sid:
+          type: string
+          title: sid
+      title: NewServerResponse
       additionalProperties: false
     backend.ServerInfo:
       type: object
@@ -170,6 +441,14 @@ components:
           title: storage
           description: Storage in MB
       title: ResourceLimit
+      additionalProperties: false
+    common.SimpleIDMessage:
+      type: object
+      properties:
+        id:
+          type: string
+          title: id
+      title: SimpleIDMessage
       additionalProperties: false
     connect-protocol-version:
       type: number

@@ -12,7 +12,7 @@ import (
 func (s *ServerFilesServiceHandler) CompressFile(ctx context.Context, req *connect.Request[daemon.CompressFileRequest]) (*connect.Response[daemon.CompressFileResponse], error) {
 	err := security.CheckServerAccess(ctx, req.Msg.ServerId)
 	if err != nil {
-		return nil, connect.NewError(connect.CodePermissionDenied, err)
+		return nil, connect.NewError(connect.CodeFailedPrecondition, err)
 	}
 
 	root, err := server.GetRoot(req.Msg.ServerId)
@@ -30,7 +30,7 @@ func (s *ServerFilesServiceHandler) CompressFile(ctx context.Context, req *conne
 func (s *ServerFilesServiceHandler) DecompressFile(ctx context.Context, req *connect.Request[daemon.DecompressFileRequest]) (*connect.Response[daemon.DecompressFileResponse], error) {
 	err := security.CheckServerAccess(ctx, req.Msg.ServerId)
 	if err != nil {
-		return nil, connect.NewError(connect.CodePermissionDenied, err)
+		return nil, connect.NewError(connect.CodeFailedPrecondition, err)
 	}
 
 	root, err := server.GetRoot(req.Msg.ServerId)

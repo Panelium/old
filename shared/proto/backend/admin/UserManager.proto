@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package backend_admin;
+option go_package = "panelium/proto_gen_go/backend/admin";
+
+import "common.proto";
+
+service UserManagerService {
+  rpc GetUsers(GetUsersRequest) returns (GetUsersResponse);
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
+}
+
+message User {
+  string uid = 1; // ignored with Create
+  string username = 2;
+  string email = 3;
+  bool admin = 4;
+  optional string set_password = 5;
+  bool mfa_needed = 6;
+}
+
+message GetUsersRequest {
+  common.Pagination pagination = 1;
+}
+
+message GetUsersResponse {
+  repeated User users = 1;
+  common.Pagination pagination = 2;
+}
+
+message GetUserRequest {
+  string uid = 1;
+}
+
+message GetUserResponse {
+  User user = 1;
+}
+
+message CreateUserRequest {
+  User user = 1;
+}
+
+message CreateUserResponse {
+  bool success = 1;
+}
+
+message UpdateUserRequest {
+  User user = 1;
+}
+
+message UpdateUserResponse {
+  bool success = 1;
+}
+
+message DeleteUserRequest {
+  string uid = 1;
+}
+
+message DeleteUserResponse {
+  bool success = 1;
+}

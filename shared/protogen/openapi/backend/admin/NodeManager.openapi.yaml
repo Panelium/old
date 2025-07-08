@@ -1,0 +1,443 @@
+openapi: 3.1.0
+info:
+  title: backend_admin
+paths:
+  /backend_admin.NodeManagerService/GetNodes:
+    post:
+      tags:
+        - backend_admin.NodeManagerService
+      summary: GetNodes
+      operationId: backend_admin.NodeManagerService.GetNodes
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend_admin.GetNodesRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend_admin.GetNodesResponse'
+  /backend_admin.NodeManagerService/GetNode:
+    post:
+      tags:
+        - backend_admin.NodeManagerService
+      summary: GetNode
+      operationId: backend_admin.NodeManagerService.GetNode
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend_admin.GetNodeRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend_admin.GetNodeResponse'
+  /backend_admin.NodeManagerService/CreateNode:
+    post:
+      tags:
+        - backend_admin.NodeManagerService
+      summary: CreateNode
+      operationId: backend_admin.NodeManagerService.CreateNode
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend_admin.CreateNodeRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend_admin.CreateNodeResponse'
+  /backend_admin.NodeManagerService/UpdateNode:
+    post:
+      tags:
+        - backend_admin.NodeManagerService
+      summary: UpdateNode
+      operationId: backend_admin.NodeManagerService.UpdateNode
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend_admin.UpdateNodeRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend_admin.UpdateNodeResponse'
+  /backend_admin.NodeManagerService/DeleteNode:
+    post:
+      tags:
+        - backend_admin.NodeManagerService
+      summary: DeleteNode
+      operationId: backend_admin.NodeManagerService.DeleteNode
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend_admin.DeleteNodeRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend_admin.DeleteNodeResponse'
+  /backend_admin.NodeManagerService/GenerateBackendToken:
+    post:
+      tags:
+        - backend_admin.NodeManagerService
+      summary: GenerateBackendToken
+      description: daemon connection thingy
+      operationId: backend_admin.NodeManagerService.GenerateBackendToken
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend_admin.GenerateBackendTokenRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend_admin.GenerateBackendTokenResponse'
+components:
+  schemas:
+    backend_admin.CreateNodeRequest:
+      type: object
+      properties:
+        node:
+          title: node
+          $ref: '#/components/schemas/backend_admin.Node'
+      title: CreateNodeRequest
+      additionalProperties: false
+    backend_admin.CreateNodeResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: CreateNodeResponse
+      additionalProperties: false
+    backend_admin.DeleteNodeRequest:
+      type: object
+      properties:
+        nid:
+          type: string
+          title: nid
+      title: DeleteNodeRequest
+      additionalProperties: false
+    backend_admin.DeleteNodeResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: DeleteNodeResponse
+      additionalProperties: false
+    backend_admin.GenerateBackendTokenRequest:
+      type: object
+      properties:
+        nid:
+          type: string
+          title: nid
+        regenerate:
+          type: boolean
+          title: regenerate
+          description: if true, will generate a new token even if one already exists
+      title: GenerateBackendTokenRequest
+      additionalProperties: false
+    backend_admin.GenerateBackendTokenResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+          description: if not success, probably already registered
+        backendToken:
+          type: string
+          title: backend_token
+          nullable: true
+      title: GenerateBackendTokenResponse
+      additionalProperties: false
+    backend_admin.GetNodeRequest:
+      type: object
+      properties:
+        nid:
+          type: string
+          title: nid
+      title: GetNodeRequest
+      additionalProperties: false
+    backend_admin.GetNodeResponse:
+      type: object
+      properties:
+        node:
+          title: node
+          $ref: '#/components/schemas/backend_admin.Node'
+      title: GetNodeResponse
+      additionalProperties: false
+    backend_admin.GetNodesRequest:
+      type: object
+      properties:
+        pagination:
+          title: pagination
+          $ref: '#/components/schemas/common.Pagination'
+        lid:
+          type: string
+          title: lid
+          description: filter by location ID
+          nullable: true
+      title: GetNodesRequest
+      additionalProperties: false
+    backend_admin.GetNodesResponse:
+      type: object
+      properties:
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/backend_admin.Node'
+          title: nodes
+        pagination:
+          title: pagination
+          $ref: '#/components/schemas/common.Pagination'
+      title: GetNodesResponse
+      additionalProperties: false
+    backend_admin.Node:
+      type: object
+      properties:
+        nid:
+          type: string
+          title: nid
+          description: ignored with Create
+        name:
+          type: string
+          title: name
+        fqdn:
+          type: string
+          title: fqdn
+        daemonPort:
+          type: integer
+          title: daemon_port
+        https:
+          type: boolean
+          title: https
+        lid:
+          type: string
+          title: lid
+        maxCpu:
+          type: integer
+          title: max_cpu
+        maxRam:
+          type: integer
+          title: max_ram
+        maxSwap:
+          type: integer
+          title: max_swap
+        maxStorage:
+          type: integer
+          title: max_storage
+      title: Node
+      additionalProperties: false
+    backend_admin.UpdateNodeRequest:
+      type: object
+      properties:
+        node:
+          title: node
+          $ref: '#/components/schemas/backend_admin.Node'
+      title: UpdateNodeRequest
+      additionalProperties: false
+    backend_admin.UpdateNodeResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: UpdateNodeResponse
+      additionalProperties: false
+    common.Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+          title: page
+        pageSize:
+          type: integer
+          title: page_size
+        total:
+          type: integer
+          title: total
+          nullable: true
+      title: Pagination
+      additionalProperties: false
+    connect-protocol-version:
+      type: number
+      title: Connect-Protocol-Version
+      enum:
+        - 1
+      description: Define the version of the Connect protocol
+      const: 1
+    connect-timeout-header:
+      type: number
+      title: Connect-Timeout-Ms
+      description: Define the timeout, in ms
+    connect.error:
+      type: object
+      properties:
+        code:
+          type: string
+          examples:
+            - not_found
+          enum:
+            - canceled
+            - unknown
+            - invalid_argument
+            - deadline_exceeded
+            - not_found
+            - already_exists
+            - permission_denied
+            - resource_exhausted
+            - failed_precondition
+            - aborted
+            - out_of_range
+            - unimplemented
+            - internal
+            - unavailable
+            - data_loss
+            - unauthenticated
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        detail:
+          $ref: '#/components/schemas/google.protobuf.Any'
+      title: Connect Error
+      additionalProperties: true
+      description: 'Error type returned by Connect: https://connectrpc.com/docs/go/errors/#http-representation'
+    google.protobuf.Any:
+      type: object
+      properties:
+        type:
+          type: string
+        value:
+          type: string
+          format: binary
+        debug:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+security: []
+tags:
+  - name: backend_admin.NodeManagerService

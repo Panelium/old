@@ -3,6 +3,7 @@ package daemon
 import (
 	"connectrpc.com/connect"
 	"context"
+	"encoding/json"
 	"errors"
 	"panelium/backend/internal/db"
 	"panelium/backend/internal/middleware"
@@ -28,7 +29,7 @@ func (s *DaemonServiceHandler) GetBlueprint(
 	}
 
 	var flags []string
-	err := blueprint.Flags.Scan(&flags)
+	err := json.Unmarshal(blueprint.Flags, &flags)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}
@@ -38,7 +39,7 @@ func (s *DaemonServiceHandler) GetBlueprint(
 		Visible  bool   `json:"visible"`
 		Readable bool   `json:"readable"`
 	}
-	err = blueprint.BlockedFiles.Scan(&blockedFiles)
+	err = json.Unmarshal(blueprint.BlockedFiles, &blockedFiles)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}
@@ -56,7 +57,7 @@ func (s *DaemonServiceHandler) GetBlueprint(
 		Name  string `json:"name"`
 		Image string `json:"image"`
 	}
-	err = blueprint.DockerImages.Scan(&dockerImages)
+	err = json.Unmarshal(blueprint.DockerImages, &dockerImages)
 	if err != nil {
 		return nil, connect.NewError(connect.CodeInternal, err)
 	}

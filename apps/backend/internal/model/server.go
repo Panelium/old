@@ -4,7 +4,7 @@ import "gorm.io/gorm"
 
 type Server struct {
 	gorm.Model
-	SID           string           `gorm:"uniqueIndex;not null" json:"sid"`
+	SID           string           `gorm:"uniqueIndex;not null;column:sid" json:"sid"`
 	Name          string           `gorm:"not null" json:"name"`
 	Description   string           `gorm:"not null" json:"description"`
 	OwnerID       uint             `gorm:"index;not null" json:"owner_id"`
@@ -15,7 +15,7 @@ type Server struct {
 	Allocations   []NodeAllocation `gorm:"foreignKey:ServerID" json:"allocations"`
 	ResourceLimit ResourceLimit    `gorm:"embedded" json:"resource_limit"`
 	DockerImage   string           `gorm:"not null" json:"docker_image"`
-	BID           string           `gorm:"not null" json:"bid"`
+	BID           string           `gorm:"not null;column:bid" json:"bid"`
 	Blueprint     Blueprint        `gorm:"foreignKey:BID;references:BID" json:"blueprint"`
 }
 

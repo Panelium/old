@@ -5,14 +5,19 @@ import (
 	"errors"
 	"github.com/docker/docker/api/types/container"
 	"log"
+	"panelium/daemon/internal/db"
 	"panelium/daemon/internal/docker"
+	"panelium/daemon/internal/model"
 )
 
 func DeleteServer(sid string, force bool) error {
-	dbErr := yeetDbServer(sid)
-	if dbErr != nil {
-		log.Printf("failed to delete server %s from database: %v\n", sid, dbErr)
+	var dbErr error
+	tx := db.Instance().Delete(&model.Server{}, "sid = ?", sid)
+	if tx.Error != nil {
+		log.Printf("failed to delete server %s from database: %v\n", sid, tx.Error)
+		dbErr = tx.Error
 	}
+
 	crErr := docker.Instance().ContainerRemove(context.Background(), sid, container.RemoveOptions{
 		Force: force,
 	})

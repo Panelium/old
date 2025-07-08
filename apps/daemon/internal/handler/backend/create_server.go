@@ -5,6 +5,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
 	"panelium/daemon/internal/model"
 	"panelium/daemon/internal/server"
 	"panelium/proto_gen_go"
@@ -36,6 +37,7 @@ func (s *BackendServiceHandler) CreateServer(
 
 	_, err := server.CreateServer(req.Msg.Sid, req.Msg.OwnerId, req.Msg.UserIds, allocations, resourceLimit, req.Msg.DockerImage, req.Msg.Bid)
 	if err != nil {
+		log.Printf("Failed to create server: %v", err)
 		return nil, connect.NewError(connect.CodeInternal, errors.New("failed to create server"))
 	}
 

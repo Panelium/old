@@ -5,8 +5,11 @@ import { cn } from "~/lib/utils";
 import { Card } from "~/components/ui/card";
 import ServerCard from "~/components/cards/server-card/ServerCard";
 import { ServerInfo } from "proto-gen-ts/backend/Client_pb";
+import { useNavigate } from "react-router-dom";
 
 const AddServerCard: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <Card
       className={cn(
@@ -14,6 +17,7 @@ const AddServerCard: React.FC = () => {
         "border-border bg-server-card/50 hover:border-border-hover/50 hover:bg-server-card",
         "transition-all cursor-pointer backdrop-blur-[3px]"
       )}
+      onClick={() => navigate("/create-server")}
     >
       <div className="rounded-full bg-tag-gray-background p-3">
         <Plus className="h-6 w-6 text-tag-gray" />

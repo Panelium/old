@@ -27,6 +27,7 @@ var userAuthIgnoredProcedures = []string{
 	backendconnect.AuthServiceResetPasswordRequestMFACodeProcedure,
 	backendconnect.AuthServiceResetPasswordVerifyMFAProcedure,
 	backendconnect.AuthServiceVerifyMFAProcedure,
+	backendconnect.AuthServiceRefreshTokenProcedure,
 }
 
 func NewUserAuthInterceptor() connect.UnaryInterceptorFunc {

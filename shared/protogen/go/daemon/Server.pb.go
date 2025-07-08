@@ -194,9 +194,9 @@ func (PowerAction) EnumDescriptor() ([]byte, []int) {
 type ServerStatus struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	Status         ServerStatusType       `protobuf:"varint,1,opt,name=status,proto3,enum=daemon.ServerStatusType" json:"status,omitempty"`
-	TimestampStart *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=timestampStart,proto3,oneof" json:"timestampStart,omitempty"`
-	TimestampEnd   *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=timestampEnd,proto3,oneof" json:"timestampEnd,omitempty"`
-	OfflineReason  *ServerOfflineReason   `protobuf:"varint,4,opt,name=offlineReason,proto3,enum=daemon.ServerOfflineReason,oneof" json:"offlineReason,omitempty"`
+	TimestampStart *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=timestamp_start,json=timestampStart,proto3,oneof" json:"timestamp_start,omitempty"`
+	TimestampEnd   *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=timestamp_end,json=timestampEnd,proto3,oneof" json:"timestamp_end,omitempty"`
+	OfflineReason  *ServerOfflineReason   `protobuf:"varint,4,opt,name=offline_reason,json=offlineReason,proto3,enum=daemon.ServerOfflineReason,oneof" json:"offline_reason,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -261,7 +261,7 @@ func (x *ServerStatus) GetOfflineReason() ServerOfflineReason {
 
 type PowerActionMessage struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ServerId      string                 `protobuf:"bytes,1,opt,name=serverId,proto3" json:"serverId,omitempty"`
+	ServerId      string                 `protobuf:"bytes,1,opt,name=server_id,json=serverId,proto3" json:"server_id,omitempty"`
 	Action        PowerAction            `protobuf:"varint,2,opt,name=action,proto3,enum=daemon.PowerAction" json:"action,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -359,17 +359,17 @@ var File_daemon_Server_proto protoreflect.FileDescriptor
 
 const file_daemon_Server_proto_rawDesc = "" +
 	"\n" +
-	"\x13daemon/Server.proto\x12\x06daemon\x1a\fcommon.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xcc\x02\n" +
+	"\x13daemon/Server.proto\x12\x06daemon\x1a\fcommon.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd2\x02\n" +
 	"\fServerStatus\x120\n" +
-	"\x06status\x18\x01 \x01(\x0e2\x18.daemon.ServerStatusTypeR\x06status\x12G\n" +
-	"\x0etimestampStart\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampH\x00R\x0etimestampStart\x88\x01\x01\x12C\n" +
-	"\ftimestampEnd\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampH\x01R\ftimestampEnd\x88\x01\x01\x12F\n" +
-	"\rofflineReason\x18\x04 \x01(\x0e2\x1b.daemon.ServerOfflineReasonH\x02R\rofflineReason\x88\x01\x01B\x11\n" +
-	"\x0f_timestampStartB\x0f\n" +
-	"\r_timestampEndB\x10\n" +
-	"\x0e_offlineReason\"]\n" +
-	"\x12PowerActionMessage\x12\x1a\n" +
-	"\bserverId\x18\x01 \x01(\tR\bserverId\x12+\n" +
+	"\x06status\x18\x01 \x01(\x0e2\x18.daemon.ServerStatusTypeR\x06status\x12H\n" +
+	"\x0ftimestamp_start\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampH\x00R\x0etimestampStart\x88\x01\x01\x12D\n" +
+	"\rtimestamp_end\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampH\x01R\ftimestampEnd\x88\x01\x01\x12G\n" +
+	"\x0eoffline_reason\x18\x04 \x01(\x0e2\x1b.daemon.ServerOfflineReasonH\x02R\rofflineReason\x88\x01\x01B\x12\n" +
+	"\x10_timestamp_startB\x10\n" +
+	"\x0e_timestamp_endB\x11\n" +
+	"\x0f_offline_reason\"^\n" +
+	"\x12PowerActionMessage\x12\x1b\n" +
+	"\tserver_id\x18\x01 \x01(\tR\bserverId\x12+\n" +
 	"\x06action\x18\x02 \x01(\x0e2\x13.daemon.PowerActionR\x06action\"C\n" +
 	"\x14ResourceUsageMessage\x12+\n" +
 	"\x05usage\x18\x01 \x01(\v2\x15.common.ResourceUsageR\x05usage*\xd6\x01\n" +
@@ -433,9 +433,9 @@ var file_daemon_Server_proto_goTypes = []any{
 }
 var file_daemon_Server_proto_depIdxs = []int32{
 	0,  // 0: daemon.ServerStatus.status:type_name -> daemon.ServerStatusType
-	6,  // 1: daemon.ServerStatus.timestampStart:type_name -> google.protobuf.Timestamp
-	6,  // 2: daemon.ServerStatus.timestampEnd:type_name -> google.protobuf.Timestamp
-	1,  // 3: daemon.ServerStatus.offlineReason:type_name -> daemon.ServerOfflineReason
+	6,  // 1: daemon.ServerStatus.timestamp_start:type_name -> google.protobuf.Timestamp
+	6,  // 2: daemon.ServerStatus.timestamp_end:type_name -> google.protobuf.Timestamp
+	1,  // 3: daemon.ServerStatus.offline_reason:type_name -> daemon.ServerOfflineReason
 	2,  // 4: daemon.PowerActionMessage.action:type_name -> daemon.PowerAction
 	7,  // 5: daemon.ResourceUsageMessage.usage:type_name -> common.ResourceUsage
 	8,  // 6: daemon.ServerService.Console:input_type -> common.SimpleIDMessage

@@ -4,7 +4,7 @@
 
 import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { EmptySchema, IPAllocation, ResourceLimit } from "../common_pb";
+import type { EmptySchema, IPAllocation, ResourceLimit, SimpleIDMessageSchema } from "../common_pb";
 import { file_common } from "../common_pb";
 import { file_daemon_Server } from "../daemon/Server_pb";
 import type { Message } from "@bufbuild/protobuf";
@@ -13,7 +13,183 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file backend/Client.proto.
  */
 export const file_backend_Client: GenFile = /*@__PURE__*/
-  fileDesc("ChRiYWNrZW5kL0NsaWVudC5wcm90bxIHYmFja2VuZCJJCgpDbGllbnRJbmZvEgsKA3VpZBgBIAEoCRIQCgh1c2VybmFtZRgCIAEoCRINCgVlbWFpbBgDIAEoCRINCgVhZG1pbhgEIAEoCCIyCgpTZXJ2ZXJMaXN0EiQKB3NlcnZlcnMYASADKAsyEy5iYWNrZW5kLlNlcnZlckluZm8igwIKClNlcnZlckluZm8SCwoDc2lkGAEgASgJEgwKBG5hbWUYAiABKAkSEwoLZGVzY3JpcHRpb24YAyABKAkSEAoIc29mdHdhcmUYBCABKAkSFQoNc29mdHdhcmVfaWNvbhgFIAEoCRIyCg9tYWluX2FsbG9jYXRpb24YBiABKAsyFC5jb21tb24uSVBBbGxvY2F0aW9uSACIAQESEwoLZGFlbW9uX2hvc3QYByABKAkSLQoOcmVzb3VyY2VfbGltaXQYCCABKAsyFS5jb21tb24uUmVzb3VyY2VMaW1pdBIQCghsb2NhdGlvbhgJIAEoCUISChBfbWFpbl9hbGxvY2F0aW9uMnMKDUNsaWVudFNlcnZpY2USLQoHR2V0SW5mbxINLmNvbW1vbi5FbXB0eRoTLmJhY2tlbmQuQ2xpZW50SW5mbxIzCg1HZXRTZXJ2ZXJMaXN0Eg0uY29tbW9uLkVtcHR5GhMuYmFja2VuZC5TZXJ2ZXJMaXN0Qh9aHXBhbmVsaXVtL3Byb3RvX2dlbl9nby9iYWNrZW5kYgZwcm90bzM", [file_common, file_daemon_Server]);
+  fileDesc("ChRiYWNrZW5kL0NsaWVudC5wcm90bxIHYmFja2VuZCIvChJBdmFpbGFibGVCbHVlcHJpbnQSCwoDYmlkGAEgASgJEgwKBG5hbWUYAiABKAkiRgoTQXZhaWxhYmxlQmx1ZXByaW50cxIvCgpibHVlcHJpbnRzGAEgAygLMhsuYmFja2VuZC5BdmFpbGFibGVCbHVlcHJpbnQiLgoRQXZhaWxhYmxlTG9jYXRpb24SCwoDbGlkGAEgASgJEgwKBG5hbWUYAiABKAkiQwoSQXZhaWxhYmxlTG9jYXRpb25zEi0KCWxvY2F0aW9ucxgBIAMoCzIaLmJhY2tlbmQuQXZhaWxhYmxlTG9jYXRpb24iNwoNQXZhaWxhYmxlTm9kZRILCgNuaWQYASABKAkSCwoDbGlkGAIgASgJEgwKBG5hbWUYAyABKAkiNwoOQXZhaWxhYmxlTm9kZXMSJQoFbm9kZXMYASADKAsyFi5iYWNrZW5kLkF2YWlsYWJsZU5vZGUidgoQTmV3U2VydmVyUmVxdWVzdBIMCgRuYW1lGAEgASgJEhMKC2Rlc2NyaXB0aW9uGAIgASgJEgsKA2JpZBgDIAEoCRIQCgNsaWQYBCABKAlIAIgBARIQCgNuaWQYBSABKAlIAYgBAUIGCgRfbGlkQgYKBF9uaWQiIAoRTmV3U2VydmVyUmVzcG9uc2USCwoDc2lkGAEgASgJIkkKCkNsaWVudEluZm8SCwoDdWlkGAEgASgJEhAKCHVzZXJuYW1lGAIgASgJEg0KBWVtYWlsGAMgASgJEg0KBWFkbWluGAQgASgIIjIKClNlcnZlckxpc3QSJAoHc2VydmVycxgBIAMoCzITLmJhY2tlbmQuU2VydmVySW5mbyKDAgoKU2VydmVySW5mbxILCgNzaWQYASABKAkSDAoEbmFtZRgCIAEoCRITCgtkZXNjcmlwdGlvbhgDIAEoCRIQCghzb2Z0d2FyZRgEIAEoCRIVCg1zb2Z0d2FyZV9pY29uGAUgASgJEjIKD21haW5fYWxsb2NhdGlvbhgGIAEoCzIULmNvbW1vbi5JUEFsbG9jYXRpb25IAIgBARITCgtkYWVtb25faG9zdBgHIAEoCRItCg5yZXNvdXJjZV9saW1pdBgIIAEoCzIVLmNvbW1vbi5SZXNvdXJjZUxpbWl0EhAKCGxvY2F0aW9uGAkgASgJQhIKEF9tYWluX2FsbG9jYXRpb24yuwMKDUNsaWVudFNlcnZpY2USLQoHR2V0SW5mbxINLmNvbW1vbi5FbXB0eRoTLmJhY2tlbmQuQ2xpZW50SW5mbxIzCg1HZXRTZXJ2ZXJMaXN0Eg0uY29tbW9uLkVtcHR5GhMuYmFja2VuZC5TZXJ2ZXJMaXN0EjkKCUdldFNlcnZlchIXLmNvbW1vbi5TaW1wbGVJRE1lc3NhZ2UaEy5iYWNrZW5kLlNlcnZlckluZm8SRQoWR2V0QXZhaWxhYmxlQmx1ZXByaW50cxINLmNvbW1vbi5FbXB0eRocLmJhY2tlbmQuQXZhaWxhYmxlQmx1ZXByaW50cxJDChVHZXRBdmFpbGFibGVMb2NhdGlvbnMSDS5jb21tb24uRW1wdHkaGy5iYWNrZW5kLkF2YWlsYWJsZUxvY2F0aW9ucxI7ChFHZXRBdmFpbGFibGVOb2RlcxINLmNvbW1vbi5FbXB0eRoXLmJhY2tlbmQuQXZhaWxhYmxlTm9kZXMSQgoJTmV3U2VydmVyEhkuYmFja2VuZC5OZXdTZXJ2ZXJSZXF1ZXN0GhouYmFja2VuZC5OZXdTZXJ2ZXJSZXNwb25zZUIfWh1wYW5lbGl1bS9wcm90b19nZW5fZ28vYmFja2VuZGIGcHJvdG8z", [file_common, file_daemon_Server]);
+
+/**
+ * @generated from message backend.AvailableBlueprint
+ */
+export type AvailableBlueprint = Message<"backend.AvailableBlueprint"> & {
+  /**
+   * @generated from field: string bid = 1;
+   */
+  bid: string;
+
+  /**
+   * @generated from field: string name = 2;
+   */
+  name: string;
+};
+
+/**
+ * Describes the message backend.AvailableBlueprint.
+ * Use `create(AvailableBlueprintSchema)` to create a new message.
+ */
+export const AvailableBlueprintSchema: GenMessage<AvailableBlueprint> = /*@__PURE__*/
+  messageDesc(file_backend_Client, 0);
+
+/**
+ * @generated from message backend.AvailableBlueprints
+ */
+export type AvailableBlueprints = Message<"backend.AvailableBlueprints"> & {
+  /**
+   * @generated from field: repeated backend.AvailableBlueprint blueprints = 1;
+   */
+  blueprints: AvailableBlueprint[];
+};
+
+/**
+ * Describes the message backend.AvailableBlueprints.
+ * Use `create(AvailableBlueprintsSchema)` to create a new message.
+ */
+export const AvailableBlueprintsSchema: GenMessage<AvailableBlueprints> = /*@__PURE__*/
+  messageDesc(file_backend_Client, 1);
+
+/**
+ * @generated from message backend.AvailableLocation
+ */
+export type AvailableLocation = Message<"backend.AvailableLocation"> & {
+  /**
+   * @generated from field: string lid = 1;
+   */
+  lid: string;
+
+  /**
+   * @generated from field: string name = 2;
+   */
+  name: string;
+};
+
+/**
+ * Describes the message backend.AvailableLocation.
+ * Use `create(AvailableLocationSchema)` to create a new message.
+ */
+export const AvailableLocationSchema: GenMessage<AvailableLocation> = /*@__PURE__*/
+  messageDesc(file_backend_Client, 2);
+
+/**
+ * @generated from message backend.AvailableLocations
+ */
+export type AvailableLocations = Message<"backend.AvailableLocations"> & {
+  /**
+   * @generated from field: repeated backend.AvailableLocation locations = 1;
+   */
+  locations: AvailableLocation[];
+};
+
+/**
+ * Describes the message backend.AvailableLocations.
+ * Use `create(AvailableLocationsSchema)` to create a new message.
+ */
+export const AvailableLocationsSchema: GenMessage<AvailableLocations> = /*@__PURE__*/
+  messageDesc(file_backend_Client, 3);
+
+/**
+ * @generated from message backend.AvailableNode
+ */
+export type AvailableNode = Message<"backend.AvailableNode"> & {
+  /**
+   * @generated from field: string nid = 1;
+   */
+  nid: string;
+
+  /**
+   * @generated from field: string lid = 2;
+   */
+  lid: string;
+
+  /**
+   * @generated from field: string name = 3;
+   */
+  name: string;
+};
+
+/**
+ * Describes the message backend.AvailableNode.
+ * Use `create(AvailableNodeSchema)` to create a new message.
+ */
+export const AvailableNodeSchema: GenMessage<AvailableNode> = /*@__PURE__*/
+  messageDesc(file_backend_Client, 4);
+
+/**
+ * @generated from message backend.AvailableNodes
+ */
+export type AvailableNodes = Message<"backend.AvailableNodes"> & {
+  /**
+   * @generated from field: repeated backend.AvailableNode nodes = 1;
+   */
+  nodes: AvailableNode[];
+};
+
+/**
+ * Describes the message backend.AvailableNodes.
+ * Use `create(AvailableNodesSchema)` to create a new message.
+ */
+export const AvailableNodesSchema: GenMessage<AvailableNodes> = /*@__PURE__*/
+  messageDesc(file_backend_Client, 5);
+
+/**
+ * @generated from message backend.NewServerRequest
+ */
+export type NewServerRequest = Message<"backend.NewServerRequest"> & {
+  /**
+   * @generated from field: string name = 1;
+   */
+  name: string;
+
+  /**
+   * @generated from field: string description = 2;
+   */
+  description: string;
+
+  /**
+   * @generated from field: string bid = 3;
+   */
+  bid: string;
+
+  /**
+   * @generated from field: optional string lid = 4;
+   */
+  lid?: string;
+
+  /**
+   * @generated from field: optional string nid = 5;
+   */
+  nid?: string;
+};
+
+/**
+ * Describes the message backend.NewServerRequest.
+ * Use `create(NewServerRequestSchema)` to create a new message.
+ */
+export const NewServerRequestSchema: GenMessage<NewServerRequest> = /*@__PURE__*/
+  messageDesc(file_backend_Client, 6);
+
+/**
+ * @generated from message backend.NewServerResponse
+ */
+export type NewServerResponse = Message<"backend.NewServerResponse"> & {
+  /**
+   * @generated from field: string sid = 1;
+   */
+  sid: string;
+};
+
+/**
+ * Describes the message backend.NewServerResponse.
+ * Use `create(NewServerResponseSchema)` to create a new message.
+ */
+export const NewServerResponseSchema: GenMessage<NewServerResponse> = /*@__PURE__*/
+  messageDesc(file_backend_Client, 7);
 
 /**
  * @generated from message backend.ClientInfo
@@ -45,7 +221,7 @@ export type ClientInfo = Message<"backend.ClientInfo"> & {
  * Use `create(ClientInfoSchema)` to create a new message.
  */
 export const ClientInfoSchema: GenMessage<ClientInfo> = /*@__PURE__*/
-  messageDesc(file_backend_Client, 0);
+  messageDesc(file_backend_Client, 8);
 
 /**
  * @generated from message backend.ServerList
@@ -62,7 +238,7 @@ export type ServerList = Message<"backend.ServerList"> & {
  * Use `create(ServerListSchema)` to create a new message.
  */
 export const ServerListSchema: GenMessage<ServerList> = /*@__PURE__*/
-  messageDesc(file_backend_Client, 1);
+  messageDesc(file_backend_Client, 9);
 
 /**
  * @generated from message backend.ServerInfo
@@ -119,7 +295,7 @@ export type ServerInfo = Message<"backend.ServerInfo"> & {
  * Use `create(ServerInfoSchema)` to create a new message.
  */
 export const ServerInfoSchema: GenMessage<ServerInfo> = /*@__PURE__*/
-  messageDesc(file_backend_Client, 2);
+  messageDesc(file_backend_Client, 10);
 
 /**
  * @generated from service backend.ClientService
@@ -140,6 +316,46 @@ export const ClientService: GenService<{
     methodKind: "unary";
     input: typeof EmptySchema;
     output: typeof ServerListSchema;
+  },
+  /**
+   * @generated from rpc backend.ClientService.GetServer
+   */
+  getServer: {
+    methodKind: "unary";
+    input: typeof SimpleIDMessageSchema;
+    output: typeof ServerInfoSchema;
+  },
+  /**
+   * @generated from rpc backend.ClientService.GetAvailableBlueprints
+   */
+  getAvailableBlueprints: {
+    methodKind: "unary";
+    input: typeof EmptySchema;
+    output: typeof AvailableBlueprintsSchema;
+  },
+  /**
+   * @generated from rpc backend.ClientService.GetAvailableLocations
+   */
+  getAvailableLocations: {
+    methodKind: "unary";
+    input: typeof EmptySchema;
+    output: typeof AvailableLocationsSchema;
+  },
+  /**
+   * @generated from rpc backend.ClientService.GetAvailableNodes
+   */
+  getAvailableNodes: {
+    methodKind: "unary";
+    input: typeof EmptySchema;
+    output: typeof AvailableNodesSchema;
+  },
+  /**
+   * @generated from rpc backend.ClientService.NewServer
+   */
+  newServer: {
+    methodKind: "unary";
+    input: typeof NewServerRequestSchema;
+    output: typeof NewServerResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_backend_Client, 0);

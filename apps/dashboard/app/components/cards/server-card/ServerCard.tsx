@@ -125,8 +125,7 @@ const ServerCardFooter: React.FC<{ serverData: ServerData }> = ({ serverData }) 
       <div className="flex flex-1 items-center justify-between text-xs text-card-muted-foreground">
         {serverData.serverInfo.mainAllocation && (
           <div className="font-mono">
-            {serverData.serverInfo.mainAllocation.ip}
-            {serverData.serverInfo.mainAllocation.port}
+            {serverData.serverInfo.mainAllocation.ip}:{serverData.serverInfo.mainAllocation.port}
           </div>
         )}
 
@@ -234,6 +233,10 @@ const ServerCard: React.FC<ServerCardProps> = ({ serverInfo, className }) => {
   useEffect(() => {
     const fetchServerStatus = async () => {
       try {
+        if (!serverInfo || !serverInfo.daemonHost || !serverInfo.sid) {
+          console.error("Server info is incomplete:", serverInfo);
+          return;
+        }
         const client = await getDaemonServerClient(serverInfo.daemonHost);
 
         const statusResponse = await client.status({ id: serverInfo.sid });

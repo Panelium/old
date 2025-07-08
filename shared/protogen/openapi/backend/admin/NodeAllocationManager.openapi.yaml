@@ -1,0 +1,382 @@
+openapi: 3.1.0
+info:
+  title: backend_admin
+paths:
+  /backend_admin.NodeAllocationManagerService/GetNodeAllocations:
+    post:
+      tags:
+        - backend_admin.NodeAllocationManagerService
+      summary: GetNodeAllocations
+      operationId: backend_admin.NodeAllocationManagerService.GetNodeAllocations
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend_admin.GetNodeAllocationsRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend_admin.GetNodeAllocationsResponse'
+  /backend_admin.NodeAllocationManagerService/GetNodeAllocation:
+    post:
+      tags:
+        - backend_admin.NodeAllocationManagerService
+      summary: GetNodeAllocation
+      operationId: backend_admin.NodeAllocationManagerService.GetNodeAllocation
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend_admin.GetNodeAllocationRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend_admin.GetNodeAllocationResponse'
+  /backend_admin.NodeAllocationManagerService/CreateNodeAllocation:
+    post:
+      tags:
+        - backend_admin.NodeAllocationManagerService
+      summary: CreateNodeAllocation
+      operationId: backend_admin.NodeAllocationManagerService.CreateNodeAllocation
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend_admin.CreateNodeAllocationRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend_admin.CreateNodeAllocationResponse'
+  /backend_admin.NodeAllocationManagerService/UpdateNodeAllocation:
+    post:
+      tags:
+        - backend_admin.NodeAllocationManagerService
+      summary: UpdateNodeAllocation
+      operationId: backend_admin.NodeAllocationManagerService.UpdateNodeAllocation
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend_admin.UpdateNodeAllocationRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend_admin.UpdateNodeAllocationResponse'
+  /backend_admin.NodeAllocationManagerService/DeleteNodeAllocation:
+    post:
+      tags:
+        - backend_admin.NodeAllocationManagerService
+      summary: DeleteNodeAllocation
+      operationId: backend_admin.NodeAllocationManagerService.DeleteNodeAllocation
+      parameters:
+        - name: Connect-Protocol-Version
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/connect-protocol-version'
+        - name: Connect-Timeout-Ms
+          in: header
+          schema:
+            $ref: '#/components/schemas/connect-timeout-header'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/backend_admin.DeleteNodeAllocationRequest'
+        required: true
+      responses:
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connect.error'
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backend_admin.DeleteNodeAllocationResponse'
+components:
+  schemas:
+    backend_admin.CreateNodeAllocationRequest:
+      type: object
+      properties:
+        nodeAllocation:
+          title: node_allocation
+          $ref: '#/components/schemas/backend_admin.NodeAllocation'
+      title: CreateNodeAllocationRequest
+      additionalProperties: false
+    backend_admin.CreateNodeAllocationResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: CreateNodeAllocationResponse
+      additionalProperties: false
+    backend_admin.DeleteNodeAllocationRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+          title: id
+      title: DeleteNodeAllocationRequest
+      additionalProperties: false
+    backend_admin.DeleteNodeAllocationResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: DeleteNodeAllocationResponse
+      additionalProperties: false
+    backend_admin.GetNodeAllocationRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+          title: id
+      title: GetNodeAllocationRequest
+      additionalProperties: false
+    backend_admin.GetNodeAllocationResponse:
+      type: object
+      properties:
+        nodeAllocation:
+          title: node_allocation
+          $ref: '#/components/schemas/backend_admin.NodeAllocation'
+      title: GetNodeAllocationResponse
+      additionalProperties: false
+    backend_admin.GetNodeAllocationsRequest:
+      type: object
+      properties:
+        pagination:
+          title: pagination
+          $ref: '#/components/schemas/common.Pagination'
+        nid:
+          type: string
+          title: nid
+          description: filter by node ID
+          nullable: true
+        sid:
+          type: string
+          title: sid
+          description: filter by server ID
+          nullable: true
+      title: GetNodeAllocationsRequest
+      additionalProperties: false
+    backend_admin.GetNodeAllocationsResponse:
+      type: object
+      properties:
+        nodeAllocations:
+          type: array
+          items:
+            $ref: '#/components/schemas/backend_admin.NodeAllocation'
+          title: node_allocations
+        pagination:
+          title: pagination
+          $ref: '#/components/schemas/common.Pagination'
+      title: GetNodeAllocationsResponse
+      additionalProperties: false
+    backend_admin.NodeAllocation:
+      type: object
+      properties:
+        id:
+          type: integer
+          title: id
+          description: ignored with Create
+        nid:
+          type: string
+          title: nid
+        sid:
+          type: string
+          title: sid
+          nullable: true
+        ipAllocation:
+          title: ip_allocation
+          $ref: '#/components/schemas/common.IPAllocation'
+      title: NodeAllocation
+      additionalProperties: false
+    backend_admin.UpdateNodeAllocationRequest:
+      type: object
+      properties:
+        nodeAllocation:
+          title: node_allocation
+          $ref: '#/components/schemas/backend_admin.NodeAllocation'
+      title: UpdateNodeAllocationRequest
+      additionalProperties: false
+    backend_admin.UpdateNodeAllocationResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          title: success
+      title: UpdateNodeAllocationResponse
+      additionalProperties: false
+    common.IPAllocation:
+      type: object
+      properties:
+        ip:
+          type: string
+          title: ip
+        port:
+          type: integer
+          title: port
+          description: MUST BE 1024-65535
+      title: IPAllocation
+      additionalProperties: false
+    common.Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+          title: page
+        pageSize:
+          type: integer
+          title: page_size
+        total:
+          type: integer
+          title: total
+          nullable: true
+      title: Pagination
+      additionalProperties: false
+    connect-protocol-version:
+      type: number
+      title: Connect-Protocol-Version
+      enum:
+        - 1
+      description: Define the version of the Connect protocol
+      const: 1
+    connect-timeout-header:
+      type: number
+      title: Connect-Timeout-Ms
+      description: Define the timeout, in ms
+    connect.error:
+      type: object
+      properties:
+        code:
+          type: string
+          examples:
+            - not_found
+          enum:
+            - canceled
+            - unknown
+            - invalid_argument
+            - deadline_exceeded
+            - not_found
+            - already_exists
+            - permission_denied
+            - resource_exhausted
+            - failed_precondition
+            - aborted
+            - out_of_range
+            - unimplemented
+            - internal
+            - unavailable
+            - data_loss
+            - unauthenticated
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+        detail:
+          $ref: '#/components/schemas/google.protobuf.Any'
+      title: Connect Error
+      additionalProperties: true
+      description: 'Error type returned by Connect: https://connectrpc.com/docs/go/errors/#http-representation'
+    google.protobuf.Any:
+      type: object
+      properties:
+        type:
+          type: string
+        value:
+          type: string
+          format: binary
+        debug:
+          type: object
+          additionalProperties: true
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+security: []
+tags:
+  - name: backend_admin.NodeAllocationManagerService

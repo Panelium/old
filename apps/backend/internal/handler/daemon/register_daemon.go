@@ -3,10 +3,8 @@ package daemon
 import (
 	"connectrpc.com/connect"
 	"context"
-	"encoding/base64"
 	"errors"
 	"panelium/backend/internal/db"
-	"panelium/backend/internal/global"
 	"panelium/backend/internal/middleware"
 	"panelium/backend/internal/model"
 	"panelium/proto_gen_go"
@@ -33,10 +31,14 @@ func (s *DaemonServiceHandler) RegisterDaemon(
 		return nil, connect.NewError(connect.CodeAlreadyExists, errors.New("node already registered"))
 	}
 
-	nodeTokenBytes := []byte(req.Msg.NodeToken)
-	encryptedNodeTokenBytes := make([]byte, len(nodeTokenBytes))
-	(*global.EncryptionInstance()).Encrypt(encryptedNodeTokenBytes, nodeTokenBytes)
-	encryptedNodeTokenBase64 := base64.StdEncoding.EncodeToString(encryptedNodeTokenBytes)
+	//nodeTokenBytes := []byte(req.Msg.NodeToken)
+	//log.Printf("nodeTokenBytes: %v", nodeTokenBytes)
+	//encryptedNodeTokenBytes := make([]byte, len(nodeTokenBytes))
+	//(*global.EncryptionInstance()).Encrypt(encryptedNodeTokenBytes, nodeTokenBytes)
+	//log.Printf("encryptedNodeTokenBytes: %v", encryptedNodeTokenBytes)
+	//encryptedNodeTokenBase64 := base64.StdEncoding.EncodeToString(encryptedNodeTokenBytes)
+	//log.Printf("encryptedNodeTokenBase64: %s", encryptedNodeTokenBase64)
+	encryptedNodeTokenBase64 := req.Msg.NodeToken
 
 	node.EncryptedNodeTokenBase64 = &encryptedNodeTokenBase64
 	if err := db.Instance().Save(node).Error; err != nil {

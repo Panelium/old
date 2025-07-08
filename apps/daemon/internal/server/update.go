@@ -1,14 +1,21 @@
 package server
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"panelium/daemon/internal/db"
 	"panelium/daemon/internal/model"
+	"panelium/daemon/internal/sync"
 	"slices"
 )
 
 func UpdateServer(sid string, userIds *[]string, allocations *[]model.ServerAllocation, resourceLimit *model.ResourceLimit, dockerImage *string, bid *string) error {
+	err := sync.SyncBlueprints()
+	if err != nil {
+		log.Printf("failed to sync blueprints: %v", err)
+	}
+
 	if userIds != nil {
 		tx := db.Instance().Delete(&model.ServerUser{}, "sid = ?", sid)
 		if tx.Error != nil {
@@ -29,7 +36,7 @@ func UpdateServer(sid string, userIds *[]string, allocations *[]model.ServerAllo
 		}
 	}
 	if allocations != nil {
-		tx := db.Instance().Delete(&model.ServerAllocation{}, "sid = ?", sid)
+		tx := db.Instance().Unscoped().Delete(&model.ServerAllocation{}, "sid = ?", sid)
 		if tx.Error != nil {
 			return fmt.Errorf("failed to delete existing server allocations: %w", tx.Error)
 		}
@@ -59,13 +66,13 @@ func UpdateServer(sid string, userIds *[]string, allocations *[]model.ServerAllo
 	}
 	if bid != nil {
 		blueprint := model.Blueprint{}
-		tx := db.Instance().First(&blueprint, "s.BID = ?", bid)
+		tx := db.Instance().First(&blueprint, "bid = ?", bid)
 		if tx.Error != nil || tx.RowsAffected == 0 {
 			return fmt.Errorf("failed to find blueprint with ID %s: %w", bid, tx.Error)
 		}
 
 		var dockerImages []string
-		err := blueprint.DockerImages.Scan(dockerImages)
+		err := json.Unmarshal(blueprint.DockerImages, &dockerImages)
 		if err != nil {
 			return fmt.Errorf("failed to scan docker images from blueprint: %w", err)
 		}
@@ -90,13 +97,13 @@ func UpdateServer(sid string, userIds *[]string, allocations *[]model.ServerAllo
 		}
 
 		blueprint := model.Blueprint{}
-		tx = db.Instance().First(&blueprint, "s.BID = ?", server.BID)
+		tx = db.Instance().First(&blueprint, "bid = ?", server.BID)
 		if tx.Error != nil || tx.RowsAffected == 0 {
 			return fmt.Errorf("failed to find blueprint with ID %s: %w", server.BID, tx.Error)
 		}
 
 		var dockerImages []string
-		err := blueprint.DockerImages.Scan(&dockerImages)
+		err := json.Unmarshal(blueprint.DockerImages, &dockerImages)
 		if err != nil {
 			return fmt.Errorf("failed to scan docker images from blueprint: %w", err)
 		}

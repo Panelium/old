@@ -4,7 +4,7 @@ import "gorm.io/datatypes"
 
 type Blueprint struct {
 	ID                     uint           `gorm:"primaryKey" json:"id"`
-	BID                    string         `gorm:"uniqueIndex;not null" json:"bid"` // Unique identifier for the blueprint
+	BID                    string         `gorm:"uniqueIndex;not null;column:bid" json:"bid"` // Unique identifier for the blueprint
 	Version                uint           `gorm:"not null" json:"version"`
 	Flags                  datatypes.JSON `gorm:"type:json;not null" json:"flags"`         // JSON array of flags that modify the behavior of the blueprint, e.g., eula accept needed for start, server config ui, plugin manager, modpack installer, etc.
 	DockerImages           datatypes.JSON `gorm:"type:json;not null" json:"docker_images"` // JSON array of Docker images that can be used with this blueprint
