@@ -69,7 +69,7 @@ func main() {
 }
 
 func tryRegisterWithBackend() error {
-	client := backendconnect.NewDaemonServiceClient(http.DefaultClient, config.ConfigInstance.GetBackendHost(), connect.WithGRPC())
+	client := backendconnect.NewDaemonServiceClient(http.DefaultClient, config.ConfigInstance.GetBackendHost())
 
 	nodeToken, nodeJTI, _, err := security.CreateNodeToken(time.Now())
 	if err != nil {

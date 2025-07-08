@@ -17,7 +17,7 @@ import (
 )
 
 func SyncBlueprints() error {
-	client := backendconnect.NewDaemonServiceClient(http.DefaultClient, config.ConfigInstance.GetBackendHost(), connect.WithGRPC())
+	client := backendconnect.NewDaemonServiceClient(http.DefaultClient, config.ConfigInstance.GetBackendHost())
 
 	req := connect.NewRequest(&proto_gen_go.Empty{})
 	req.Header().Add("Authorization", config.SecretsInstance.BackendToken)
