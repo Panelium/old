@@ -341,7 +341,7 @@ function TableBody<T extends ColumnType>({
                       T
                     </Button>
                   )}
-                  <Button>Edit</Button>
+                  {/*<Button>Edit</Button>*/}
                   <Button
                     variant="destructive"
                     onClick={() => {
