@@ -157,6 +157,9 @@ const ConsolePage: Page = new Page("console", () => {
           >
             <div className="pb-1 text-xs text-slate-500 no-select">
               --- Server started on {new Date().toLocaleString()} ---
+              <br />
+              --- NOTE: Minecraft reobf and world generation may take up to around 5 minutes, because the server I'm
+              hosting this demo on is realy slow. ---
             </div>
             {consoleLines.map((line, i) => {
               return (
