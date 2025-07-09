@@ -210,17 +210,6 @@ func Install(sid string) error {
 		return fmt.Errorf("failed to close image pull response: %w", err)
 	}
 
-	ports := make(nat.PortSet)
-	for _, alloc := range s.Allocations {
-		if alloc.Port < 1024 || alloc.Port > 65535 {
-			log.Printf("err: port %d is out of range (1024-65535)\n", alloc.Port)
-			return fmt.Errorf("port %d is out of range (1024-65535)", alloc.Port)
-		}
-		//open both tcp and udp ports
-		ports[nat.Port(fmt.Sprintf("%d/tcp", alloc.Port))] = struct{}{}
-		ports[nat.Port(fmt.Sprintf("%d/udp", alloc.Port))] = struct{}{}
-	}
-
 	portBindings := make(nat.PortMap)
 	for _, alloc := range s.Allocations {
 		if alloc.Port < 1024 || alloc.Port > 65535 {
@@ -247,7 +236,6 @@ func Install(sid string) error {
 		WorkingDir:   "/data",
 		Cmd:          strings.Split(strings.ReplaceAll(strings.ReplaceAll(blueprint.StartCommand, "{{$env::SERVER_BINARY}}", blueprint.ServerBinary), "{{$env::SERVER_MEMORY}}", fmt.Sprint(s.ResourceLimit.RAM)), " "),
 		Env:          []string{"SERVER_BINARY=" + blueprint.ServerBinary},
-		ExposedPorts: ports,
 	}, &container.HostConfig{
 		Mounts: []mount.Mount{
 			{
@@ -257,10 +245,9 @@ func Install(sid string) error {
 				ReadOnly: false,
 			},
 		},
-		Resources:       resources,
-		PortBindings:    portBindings,
-		NetworkMode:     network.NetworkBridge,
-		PublishAllPorts: true,
+		Resources:    resources,
+		PortBindings: portBindings,
+		NetworkMode:  network.NetworkBridge,
 	}, &network.NetworkingConfig{}, &v1.Platform{}, s.SID)
 	if err != nil {
 		log.Printf("err: %v\n", err)
