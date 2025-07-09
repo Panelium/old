@@ -65,29 +65,16 @@ const ConsolePage: Page = new Page("console", () => {
           setConsoleLines((prev) => [...prev, message.text]);
         }
 
-        // Stream finished
-        setConsoleLines(["Server is starting... You might need to refresh the page to see the latest output."]);
-
-        if (!serverInfo) {
-          setConsoleLines([...consoleLines, "Ran into an issue retrieving server info. Please refresh the page."]);
-          return;
-        }
-
         setTimeout(async () => {
-          const srvClient = await getDaemonServerClient(serverInfo.daemonHost);
-          setServerClient(srvClient);
+          window.location.reload();
         }, 3000);
       } catch (error) {
         console.error("Error receiving console messages:", error);
 
         if (!serverInfo) return;
 
-        // try again after 5 seconds
         setTimeout(async () => {
-          console.log("Reconnecting to console stream...");
-
-          const srvClient = await getDaemonServerClient(serverInfo.daemonHost);
-          setServerClient(srvClient);
+          window.location.reload();
         }, 5000);
       }
     })();
