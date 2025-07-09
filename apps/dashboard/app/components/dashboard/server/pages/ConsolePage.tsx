@@ -17,22 +17,26 @@ const ConsolePage: Page = new Page("console", () => {
   const [serverInfo, setServerInfo] = useState<ServerInfo>();
   const [serverClient, setServerClient] = useState<Client<typeof ServerService>>();
   const [consoleLines, setConsoleLines] = useState<string[]>([]);
+  const [scrolledToBottom, setScrolledToBottom] = useState(false);
 
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Auto-scroll to bottom when new lines are added
     if (scrollAreaRef.current) {
-      const scrollHeight = scrollAreaRef.current.scrollHeight;
-      const clientHeight = scrollAreaRef.current.clientHeight;
-      const scrollTop = scrollAreaRef.current.scrollTop;
-
-      // If user is near the bottom (within 100px), auto-scroll. Otherwise, do not scroll.
-      if (scrollHeight - clientHeight - scrollTop < 100) {
-        scrollAreaRef.current.scrollTop = scrollHeight;
-      }
+      const { scrollTop, scrollHeight, clientHeight } = scrollAreaRef.current;
+      // Only autoscroll if user is already near the bottom (within 100px)
+      // if (scrollHeight - clientHeight - scrollTop < 100) {
+      scrollAreaRef.current.scrollTop = scrollHeight;
+      // }
     }
   }, [consoleLines]);
+
+  useEffect(() => {
+    if (scrollAreaRef.current && !scrolledToBottom && consoleLines.length > 0) {
+      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+      setScrolledToBottom(true);
+    }
+  }, [scrollAreaRef, consoleLines, scrolledToBottom]);
 
   useEffect(() => {
     (async () => {
@@ -82,6 +86,7 @@ const ConsolePage: Page = new Page("console", () => {
 
   const handleCommandSubmit = async (e: React.FormEvent) => {
     setCommand("");
+    setScrolledToBottom(false);
 
     e.preventDefault();
     if (!serverClient || !command.trim()) {
@@ -106,6 +111,7 @@ const ConsolePage: Page = new Page("console", () => {
 
       <div className="relative flex-1 border border-slate-200/40 dark:border-slate-700/30 rounded-lg overflow-hidden bg-slate-950">
         <ScrollArea
+          ref={scrollAreaRef}
           className="flex h-full w-full text-emerald-400 p-4 font-mono text-sm"
           style={{
             userSelect: "none",
@@ -122,8 +128,7 @@ const ConsolePage: Page = new Page("console", () => {
           tabIndex={0} // Make the ScrollArea focusable
         >
           <div
-            ref={scrollAreaRef}
-            className="console-content flex flex-col h-full pb-8" // Added pb-16 for bottom padding
+            className="console-content flex flex-col h-full pb-8"
             style={{ userSelect: "none", overflowY: "auto" }}
             onKeyDown={(e) => {
               // Prevent Ctrl+A selection in the console
@@ -150,7 +155,8 @@ const ConsolePage: Page = new Page("console", () => {
             {consoleLines.map((line, i) => {
               return (
                 <div key={i} className={cn("pb-1")}>
-                  {line}
+                  {" "}
+                  {line}{" "}
                 </div>
               );
             })}
