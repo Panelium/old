@@ -228,10 +228,10 @@ func Install(sid string) error {
 			return fmt.Errorf("port %d is out of range (1024-65535)", alloc.Port)
 		}
 		portBindings[nat.Port(fmt.Sprint("25565/tcp"))] = []nat.PortBinding{
-			{HostIP: "172.17.0.1", HostPort: fmt.Sprint(alloc.Port, "/tcp")},
+			{HostIP: "0.0.0.0", HostPort: fmt.Sprint(alloc.Port, "/tcp")},
 		}
 		portBindings[nat.Port(fmt.Sprint("25565/udp"))] = []nat.PortBinding{
-			{HostIP: "172.17.0.1", HostPort: fmt.Sprint(alloc.Port, "/udp")},
+			{HostIP: "0.0.0.0", HostPort: fmt.Sprint(alloc.Port, "/udp")},
 		}
 		break // only use first allocation
 	}
