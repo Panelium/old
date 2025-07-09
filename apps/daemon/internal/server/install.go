@@ -228,11 +228,12 @@ func Install(sid string) error {
 			return fmt.Errorf("port %d is out of range (1024-65535)", alloc.Port)
 		}
 		portBindings[nat.Port(fmt.Sprint("25565/tcp"))] = []nat.PortBinding{
-			{HostIP: alloc.IP, HostPort: fmt.Sprint(alloc.Port)},
+			{HostIP: "172.17.0.1", HostPort: fmt.Sprint(alloc.Port, "/tcp")},
 		}
 		portBindings[nat.Port(fmt.Sprint("25565/udp"))] = []nat.PortBinding{
-			{HostIP: alloc.IP, HostPort: fmt.Sprint(alloc.Port)},
+			{HostIP: "172.17.0.1", HostPort: fmt.Sprint(alloc.Port, "/udp")},
 		}
+		break // only use first allocation
 	}
 
 	// create the server container
@@ -258,6 +259,7 @@ func Install(sid string) error {
 		},
 		Resources:    resources,
 		PortBindings: portBindings,
+		NetworkMode:  network.NetworkBridge,
 	}, &network.NetworkingConfig{}, &v1.Platform{}, s.SID)
 	if err != nil {
 		log.Printf("err: %v\n", err)

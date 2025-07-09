@@ -61,6 +61,7 @@ const ConsolePage: Page = new Page("console", () => {
         const stream = serverClient.console({ id });
 
         for await (const message of stream) {
+          if (!message.text && message.text.includes("DOWNLOAD FINISHED")) break;
           setConsoleLines((prev) => [...prev, message.text]);
         }
 
