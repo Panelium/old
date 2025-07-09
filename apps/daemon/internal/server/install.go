@@ -156,7 +156,7 @@ func Install(sid string) error {
 			},
 		},
 		Resources: resources,
-	}, &network.NetworkingConfig{}, &v1.Platform{}, fmt.Sprint("server_installer_", s.SID))
+	}, &network.NetworkingConfig{}, &v1.Platform{}, fmt.Sprint("server_", s.SID))
 	if err != nil {
 		log.Printf("err: %v\n", err)
 		return fmt.Errorf("failed to create setup script container: %w", err)
