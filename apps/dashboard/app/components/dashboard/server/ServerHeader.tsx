@@ -87,12 +87,12 @@ const ServerHeader: React.FC<{ server: ServerInfo }> = ({ server }) => {
       <div className="flex gap-2">
         {status === ServerStatusType.ONLINE ? (
           <>
-            <PowerButton
-              action={PowerAction.RESTART}
-              onClick={() => {
-                handlePowerAction(PowerAction.RESTART);
-              }}
-            />
+            {/*<PowerButton*/}
+            {/*  action={PowerAction.RESTART}*/}
+            {/*  onClick={() => {*/}
+            {/*    handlePowerAction(PowerAction.RESTART);*/}
+            {/*  }}*/}
+            {/*/>*/}
             <PowerButton
               action={PowerAction.STOP}
               onClick={() => {
