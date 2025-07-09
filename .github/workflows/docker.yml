@@ -14,9 +14,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -27,29 +24,11 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push backend
+      - name: Build and push ${{ matrix.target }}
         uses: useblacksmith/build-push-action@v1
         with:
           context: .
           file: ./Dockerfile
-          target: backend
+          target: ${{ matrix.target }}
           push: true
-          tags: ghcr.io/panelium/backend:latest
-
-      - name: Build and push daemon
-        uses: useblacksmith/build-push-action@v1
-        with:
-          context: .
-          file: ./Dockerfile
-          target: daemon
-          push: true
-          tags: ghcr.io/panelium/daemon:latest
-
-      - name: Build and push dashboard
-        uses: useblacksmith/build-push-action@v1
-        with:
-          context: .
-          file: ./Dockerfile
-          target: dashboard
-          push: true
-          tags: ghcr.io/panelium/dashboard:latest
+          tags: ghcr.io/panelium/${{ matrix.target }}:latest
