@@ -177,8 +177,8 @@ func (s *ClientServiceHandler) NewServer(
 	dockerImage := availableDockerImages[0].Image // For now, just use the first available image
 
 	resourceLimit := model.ResourceLimit{
-		CPU:     50,   // 50% CPU
-		RAM:     1024, // 1 GB
+		CPU:     150,  // 50% CPU
+		RAM:     3072, // 1 GB
 		SWAP:    0,
 		Storage: 4096, // 4 GB
 	}
