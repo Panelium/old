@@ -7,6 +7,9 @@ on:
 jobs:
   build:
     runs-on: blacksmith-8vcpu-ubuntu-2404
+    strategy:
+      matrix:
+        target: [backend, daemon, dashboard]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -25,7 +28,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push backend
-        uses: docker/build-push-action@v6
+        uses: useblacksmith/build-push-action@v1
         with:
           context: .
           file: ./Dockerfile
@@ -34,7 +37,7 @@ jobs:
           tags: ghcr.io/panelium/backend:latest
 
       - name: Build and push daemon
-        uses: docker/build-push-action@v6
+        uses: useblacksmith/build-push-action@v1
         with:
           context: .
           file: ./Dockerfile
@@ -43,7 +46,7 @@ jobs:
           tags: ghcr.io/panelium/daemon:latest
 
       - name: Build and push dashboard
-        uses: docker/build-push-action@v6
+        uses: useblacksmith/build-push-action@v1
         with:
           context: .
           file: ./Dockerfile
