@@ -212,6 +212,7 @@ func Install(sid string) error {
 
 	ports := make(nat.PortSet)
 	ports[nat.Port("25565/udp")] = struct{}{}
+	ports[nat.Port("25565/tcp")] = struct{}{}
 
 	portBindings := make(nat.PortMap)
 	for _, alloc := range s.Allocations {
@@ -220,6 +221,9 @@ func Install(sid string) error {
 			return fmt.Errorf("port %d is out of range (1024-65535)", alloc.Port)
 		}
 		portBindings[nat.Port("25565/udp")] = []nat.PortBinding{
+			{HostIP: "0.0.0.0", HostPort: fmt.Sprint(alloc.Port)},
+		}
+		portBindings[nat.Port("25565/tcp")] = []nat.PortBinding{
 			{HostIP: "0.0.0.0", HostPort: fmt.Sprint(alloc.Port)},
 		}
 		break // only use first allocation
