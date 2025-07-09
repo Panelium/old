@@ -81,17 +81,16 @@ const ConsolePage: Page = new Page("console", () => {
   }, [serverClient]);
 
   const handleCommandSubmit = async (e: React.FormEvent) => {
+    setCommand("");
+
     e.preventDefault();
     if (!serverClient || !command.trim()) {
-      setCommand(""); // Clear input even if command is empty or client is missing
       return;
     }
 
     try {
       await serverClient.consoleCommand({ id, text: command.trim() });
-      setCommand("");
     } catch (error) {
-      setCommand(""); // Clear input on error as well
       console.error("Error sending command:", error);
     }
   };
