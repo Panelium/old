@@ -27,8 +27,8 @@ const ConsolePage: Page = new Page("console", () => {
       const clientHeight = scrollAreaRef.current.clientHeight;
       const scrollTop = scrollAreaRef.current.scrollTop;
 
-      // Scroll to bottom only if we're already at the bottom
-      if (scrollHeight - clientHeight <= scrollTop + 1) {
+      // If user is near the bottom (within 100px), auto-scroll. Otherwise, do not scroll.
+      if (scrollHeight - clientHeight - scrollTop < 100) {
         scrollAreaRef.current.scrollTop = scrollHeight;
       }
     }
