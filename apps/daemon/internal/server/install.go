@@ -257,9 +257,10 @@ func Install(sid string) error {
 				ReadOnly: false,
 			},
 		},
-		Resources:    resources,
-		PortBindings: portBindings,
-		NetworkMode:  network.NetworkBridge,
+		Resources:       resources,
+		PortBindings:    portBindings,
+		NetworkMode:     network.NetworkBridge,
+		PublishAllPorts: true,
 	}, &network.NetworkingConfig{}, &v1.Platform{}, s.SID)
 	if err != nil {
 		log.Printf("err: %v\n", err)
