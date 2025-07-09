@@ -116,7 +116,7 @@ func attach(
 }
 
 func ConsoleLogs(sid string) ([]string, error) {
-	rc, err := docker.Instance().ContainerLogs(context.Background(), sid, container.LogsOptions{
+	rc, err := docker.Instance().ContainerLogs(context.Background(), fmt.Sprint("server_", sid), container.LogsOptions{
 		ShowStdout: true,
 		ShowStderr: true,
 		Timestamps: true,
@@ -174,7 +174,7 @@ func ConsoleCommand(sid string, command string) error {
 }
 
 func console(sid string) (*types.HijackedResponse, error) {
-	c, err := docker.Instance().ContainerAttach(context.Background(), sid, container.AttachOptions{
+	c, err := docker.Instance().ContainerAttach(context.Background(), fmt.Sprint("server_", sid), container.AttachOptions{
 		Stream: true,
 		Stdin:  true,
 		Stdout: true,

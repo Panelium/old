@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/docker/docker/api/types/container"
 	"io"
 	"log"
@@ -38,12 +39,12 @@ func (s *ServerServiceHandler) ResourceUsage(
 		return connect.NewError(connect.CodeFailedPrecondition, errors.New("server does not have a container"))
 	}
 
-	vol, err := docker.Instance().VolumeInspect(context.Background(), req.Msg.Id)
+	vol, err := docker.Instance().VolumeInspect(context.Background(), fmt.Sprint("server_", req.Msg.Id))
 	if err != nil {
 		return connect.NewError(connect.CodeInternal, errors.New("failed to inspect volume"))
 	}
 
-	csr, err := docker.Instance().ContainerStats(context.Background(), req.Msg.Id, true)
+	csr, err := docker.Instance().ContainerStats(context.Background(), fmt.Sprint("server_", req.Msg.Id), true)
 	if err != nil {
 		return connect.NewError(connect.CodeInternal, errors.New("failed to get container stats"))
 	}

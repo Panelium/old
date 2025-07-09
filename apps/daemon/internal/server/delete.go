@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"errors"
+	"fmt"
 	"github.com/docker/docker/api/types/container"
 	"log"
 	"panelium/daemon/internal/db"
@@ -18,17 +19,17 @@ func DeleteServer(sid string, force bool) error {
 		dbErr = tx.Error
 	}
 
-	crErr := docker.Instance().ContainerRemove(context.Background(), sid, container.RemoveOptions{
+	crErr := docker.Instance().ContainerRemove(context.Background(), fmt.Sprint("server_", sid), container.RemoveOptions{
 		Force: force,
 	})
 	if crErr != nil {
 		log.Printf("failed to remove server container %s: %v\n", sid, crErr)
 	}
-	volErr := docker.Instance().VolumeRemove(context.Background(), sid, force)
+	volErr := docker.Instance().VolumeRemove(context.Background(), fmt.Sprint("server_", sid), force)
 	if volErr != nil {
 		log.Printf("failed to remove server volume %s: %v\n", sid, volErr)
 	}
-	netErr := docker.Instance().NetworkRemove(context.Background(), sid)
+	netErr := docker.Instance().NetworkRemove(context.Background(), fmt.Sprint("server_", sid))
 	if netErr != nil {
 		log.Printf("failed to remove server network %s: %v\n", sid, netErr)
 	}

@@ -25,7 +25,7 @@ func Start(sid string) error {
 		return fmt.Errorf("server %s does not have a container", s.SID)
 	}
 
-	ci, err := docker.Instance().ContainerInspect(context.Background(), s.SID)
+	ci, err := docker.Instance().ContainerInspect(context.Background(), fmt.Sprint("server_", s.SID))
 	if err != nil {
 		return fmt.Errorf("failed to inspect server container %s: %v", s.SID, err)
 	}
@@ -33,7 +33,7 @@ func Start(sid string) error {
 		return nil
 	}
 
-	err = docker.Instance().ContainerStart(context.Background(), s.SID, container.StartOptions{})
+	err = docker.Instance().ContainerStart(context.Background(), fmt.Sprint("server_", s.SID), container.StartOptions{})
 	if err != nil {
 		log.Printf("failed to start server container %s: %v\n", s.SID, err)
 	}
@@ -68,7 +68,7 @@ func Stop(sid string, kill bool) error {
 	}
 
 	// might split into Stop and Kill functions later with kill using ContainerKill
-	err := docker.Instance().ContainerStop(context.Background(), s.SID, container.StopOptions{
+	err := docker.Instance().ContainerStop(context.Background(), fmt.Sprint("server_", s.SID), container.StopOptions{
 		Timeout: util.IfElse(kill, &stopTimeout, &killTimeout),
 	})
 	if err != nil {
@@ -85,7 +85,7 @@ func Stop(sid string, kill bool) error {
 	}
 
 	go func() {
-		statusCh, errCh := docker.Instance().ContainerWait(context.Background(), s.SID, container.WaitConditionNotRunning)
+		statusCh, errCh := docker.Instance().ContainerWait(context.Background(), fmt.Sprint("server_", s.SID), container.WaitConditionNotRunning)
 		select {
 		case err := <-errCh:
 			if err != nil {

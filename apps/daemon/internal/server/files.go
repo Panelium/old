@@ -16,7 +16,7 @@ func rootDirectory(sid string) (string, error) {
 		return "", fmt.Errorf("server not found")
 	}
 
-	vol, err := docker.Instance().VolumeInspect(context.Background(), sid)
+	vol, err := docker.Instance().VolumeInspect(context.Background(), fmt.Sprint("server_", sid))
 	if err != nil {
 		return "", fmt.Errorf("failed to inspect volume for server")
 	}

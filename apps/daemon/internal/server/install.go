@@ -60,7 +60,7 @@ func Install(sid string) error {
 	}
 
 	vl, err := docker.Instance().VolumeList(context.Background(), volume.ListOptions{
-		Filters: filters.NewArgs(filters.Arg("name", s.SID)),
+		Filters: filters.NewArgs(filters.Arg("name", fmt.Sprint("server_", s.SID))),
 	})
 	if err != nil {
 		log.Printf("err: %v\n", err)
@@ -71,7 +71,7 @@ func Install(sid string) error {
 
 	if len(vl.Volumes) == 0 {
 		v, err := docker.Instance().VolumeCreate(context.Background(), volume.CreateOptions{
-			Name:   s.SID,
+			Name:   fmt.Sprint("server_", s.SID),
 			Driver: "local",
 		})
 		if err != nil {
