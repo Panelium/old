@@ -33,14 +33,21 @@ const ServerHeader: React.FC<{ server: ServerInfo }> = ({ server }) => {
   useEffect(() => {
     if (!serverClient) return;
 
-    (async () => {
+    let interval: NodeJS.Timeout;
+
+    const fetchStatus = async () => {
       const serverStatusResponse = await serverClient.status({ id: server.sid });
       setStatus(serverStatusResponse.status);
       serverStatusResponse.timestampStart &&
         serverStatusResponse.timestampStart.seconds > BigInt(0) &&
         setOnlineSince(new Date(Number(serverStatusResponse.timestampStart.seconds * BigInt(1000))));
-    })();
-  }, [serverClient]);
+    };
+
+    fetchStatus();
+    interval = setInterval(fetchStatus, 5000); // Poll every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [serverClient, server.sid]);
 
   const handlePowerAction = async (e: PowerAction) => {
     if (!serverClient) return;
