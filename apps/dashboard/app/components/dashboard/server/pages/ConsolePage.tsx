@@ -21,24 +21,16 @@ const ConsolePage: Page = new Page("console", () => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (
-      consoleLines &&
-      consoleLines.length !== 0 &&
-      consoleLines[consoleLines.length - 1].includes("DOWNLOAD FINISHED")
-    ) {
-      setConsoleLines(["Server is starting..."]);
-      setTimeout(async () => {
-        const cltClient = await getClientClient();
-        const srvInfo = await cltClient.getServer({ id });
-
-        const srvClient = await getDaemonServerClient(srvInfo.daemonHost);
-        setServerClient(srvClient);
-      }, 3000);
-      return;
-    }
     // Auto-scroll to bottom when new lines are added
     if (scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+      const scrollHeight = scrollAreaRef.current.scrollHeight;
+      const clientHeight = scrollAreaRef.current.clientHeight;
+      const scrollTop = scrollAreaRef.current.scrollTop;
+
+      // Scroll to bottom only if we're already at the bottom
+      if (scrollHeight - clientHeight <= scrollTop + 1) {
+        scrollAreaRef.current.scrollTop = scrollHeight;
+      }
     }
   }, [consoleLines]);
 
@@ -71,6 +63,17 @@ const ConsolePage: Page = new Page("console", () => {
         for await (const message of stream) {
           setConsoleLines((prev) => [...prev, message.text]);
         }
+
+        // Stream finished
+        setConsoleLines(["Server is starting..."]);
+
+        if (!serverInfo) {
+          setConsoleLines([...consoleLines, "Ran into an issue retrieving server info. Please refresh the page."]);
+          return;
+        }
+
+        const srvClient = await getDaemonServerClient(serverInfo.daemonHost);
+        setServerClient(srvClient);
       } catch (error) {
         console.error("Error receiving console messages:", error);
 
