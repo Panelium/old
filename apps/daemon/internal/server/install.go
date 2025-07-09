@@ -102,7 +102,7 @@ func Install(sid string) error {
 	_ = os.WriteFile(path.Join(vol.Mountpoint, "eula.txt"), []byte("eula=true"), 0777) // TODO: remove in prod
 
 	if s.ContainerExists {
-		err = docker.Instance().ContainerRemove(context.Background(), s.SID, container.RemoveOptions{
+		err = docker.Instance().ContainerRemove(context.Background(), fmt.Sprint("server_", s.SID), container.RemoveOptions{
 			Force: true,
 		})
 		if err != nil {
@@ -156,7 +156,7 @@ func Install(sid string) error {
 			},
 		},
 		Resources: resources,
-	}, &network.NetworkingConfig{}, &v1.Platform{}, s.SID)
+	}, &network.NetworkingConfig{}, &v1.Platform{}, fmt.Sprint("server_installer_", s.SID))
 	if err != nil {
 		log.Printf("err: %v\n", err)
 		return fmt.Errorf("failed to create setup script container: %w", err)
@@ -253,7 +253,7 @@ func Install(sid string) error {
 		Resources:    resources,
 		PortBindings: portBindings,
 		NetworkMode:  network.NetworkBridge,
-	}, &network.NetworkingConfig{}, &v1.Platform{}, s.SID)
+	}, &network.NetworkingConfig{}, &v1.Platform{}, fmt.Sprint("server_", s.SID))
 	if err != nil {
 		log.Printf("err: %v\n", err)
 		return fmt.Errorf("failed to create server container: %w", err)
