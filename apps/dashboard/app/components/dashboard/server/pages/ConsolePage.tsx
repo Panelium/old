@@ -26,11 +26,12 @@ const ConsolePage: Page = new Page("console", () => {
       consoleLines.length !== 0 &&
       consoleLines[consoleLines.length - 1].includes("DOWNLOAD FINISHED")
     ) {
-      if (!serverInfo) return;
+      setConsoleLines(["Server is starting..."]);
       setTimeout(async () => {
-        console.log("Reconnecting to console stream after download finished...");
+        const cltClient = await getClientClient();
+        const srvInfo = await cltClient.getServer({ id });
 
-        const srvClient = await getDaemonServerClient(serverInfo.daemonHost);
+        const srvClient = await getDaemonServerClient(srvInfo.daemonHost);
         setServerClient(srvClient);
       }, 3000);
       return;
