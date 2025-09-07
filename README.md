@@ -1,4 +1,4 @@
-# This codebase has now been archived and will soon be deleted as we start working on a complete rewrite of the project.
+# This codebase has now been archived and will soon be deleted as we start working on a complete rewrite of the project. https://github.com/Panelium/new
 
 # This software has not yet been extensively tested for security and is therefore not recommended for production use.
 
