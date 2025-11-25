@@ -1,4 +1,4 @@
-# This codebase has now been archived and will soon be deleted as we start working on a complete rewrite of the project. https://github.com/Panelium/new
+# This codebase has now been archived and will soon be deleted as we start working on a complete rewrite of the project. https://github.com/Panelium/Panelium
 
 # This software has not yet been extensively tested for security and is therefore not recommended for production use.
 
@@ -7,7 +7,7 @@
 Panelium is an all-in-one server hosting solution that provides a web-based control panel for managing games, servers,
 applications, and services.
 
-![Demo Screenshot](https://raw.githubusercontent.com/Panelium/Panelium/7556f9dcc11fa9e80b5dbd065d6c8363fffb7832/assets/panelium-screenshot.png)
+![Demo Screenshot](https://raw.githubusercontent.com/Panelium/old/7556f9dcc11fa9e80b5dbd065d6c8363fffb7832/assets/panelium-screenshot.png)
 
 ## Installation
 
